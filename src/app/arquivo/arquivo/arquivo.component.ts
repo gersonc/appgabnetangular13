@@ -41,15 +41,11 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   public fuClearArquivos = false;
   public fuBtnUplDisabled = false;
   public fuEnviarArquivos = false;
-  // public topo = 'arquivoNull';
   private sub: Subscription[] = [];
   private msg: string = null;
   public mostraView = false;
   public modo: string = null;
   private incluir = false;
-  // public stiloClasse: string = null;
-  // dt: string;
-  // public arquivos: ArquivoInterface[]
   public disabled = true;
 
   constructor(

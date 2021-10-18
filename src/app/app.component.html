@@ -11,9 +11,9 @@
 
   <div #main id="main" class="main">
     <div class="{{cs.menuClasses}}">
-      <ng-container *ngIf="cs.mostra">
-        <app-panelmenu></app-panelmenu>
-      </ng-container>
+
+        <app-panelmenu [mostra]="cs.mostra"></app-panelmenu>
+
     </div>
     <div style="padding-top: .1em;"  #principal id="principal">
       <router-outlet></router-outlet>
