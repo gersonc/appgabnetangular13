@@ -1,0 +1,62 @@
+
+.input-secundario {
+}
+
+.input-secundario.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--surface-b);
+}
+.input-secundario.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background: var(--surface-b);
+}
+.input-secundario.p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+  background: var(--surface-b);
+}
+
+.menu .p-inputswitch .p-inputswitch-slider {
+  background: var(--surface-a);
+  border: 1px solid var(--surface-a);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  border-radius: 4px;
+}
+
+.menu .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--bt-secundario-bg);
+  border: 1px solid var(--bt-secundario-bg);
+}
+
+.menu .p-inputswitch .p-inputswitch-slider:hover {
+  background: var(--border-elementos-input-forms);
+  border: 1px solid var(--border-elementos-input-forms);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  border-radius: 4px;
+}
+
+.menu .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:hover {
+  background: var(--border-elementos-input-forms);
+  border: 1px solid var(--border-elementos-input-forms);
+}
+
+.menu .p-inputswitch .p-inputswitch-slider:before {
+  background: var(--bt-secundario-bg);
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.25rem;
+  margin-top: -0.625rem;
+  border-radius: 4px;
+  transition-duration: 0.15s;
+}
+
+.menu .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background: var(--surface-a);
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.25rem;
+  margin-top: -0.625rem;
+  border-radius: 4px;
+  transition-duration: 0.15s;
+}
+
+
+
+
+

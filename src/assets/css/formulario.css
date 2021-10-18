@@ -1,0 +1,576 @@
+
+
+/*
+*** desiger ***********************************************************************
+*/
+
+:root {
+  --input-filled: var(--surface-b);
+  --filled-icons-color: var(--surface-700);
+  --border-elementos-input-forms: var(--surface-400);
+  --borda-formulario-background-color:var(--surface-500);
+  --formulario-field-label-font-weight: 500;
+  --formulario-field-input-font-weight: 500;
+  --formularios-bg: var(--surface-d);
+  --formulario-bg-interno-color: var(--primary-color-text);
+  --formulario-bg-externo-color: var(--formularios-bg);
+  --formulario-input-font-size: 1rem;
+  --formulario-label-font-size: .9rem;
+}
+
+.formulario {
+  padding: 1px 1px !important;
+  /*font-size: 8px !important;*/
+}
+
+.formulario h5 {
+  color: inherit !important;
+  font-size: var(--formulario-label-font-size);
+  font-weight: var(--formulario-field-label-font-weight) !important;
+  display: block !important;
+  top: 50%;
+  margin-top: 0;
+  margin-bottom: 0.3rem !important;
+}
+.formulario-titulo {
+  padding: .3em .5em 0 .5em;
+  margin: 0;
+  color: var(--text-color);
+  background-color: var(--formulario-bg-interno-color);
+  border-radius: 1em 1em 0 0;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 600;
+}
+.formulario .p-field {
+  margin-bottom: .5rem;
+  padding-bottom: 0;
+}
+.formulario .p-field > label {
+  font-weight: var(--formulario-field-label-font-weight) !important;
+}
+.formulario .p-field > label {
+  margin-bottom: 0.1rem;
+}
+.formulario .p-field > h5 {
+  font-weight: var(--formulario-field-label-font-weight) !important;
+}
+.formulario .p-field > h5 {
+  margin-bottom: .1rem !important;
+}
+
+.p-sm-12.p-md-6.p-lg-6.p-xl-4.formulario,
+.p-sm-12.p-md-12.p-lg-12.p-xl-4.formulario,
+.p-col-12.formulario {
+  padding-bottom: 0;
+}
+.p-col-12.formulario {
+  padding-top: 0;
+}
+
+
+
+.formulario .p-col-1,
+.formulario .p-col-2,
+.formulario .p-col-3,
+.formulario .p-col-4,
+.formulario .p-col-5,
+.formulario .p-col-6,
+.formulario .p-col-7,
+.formulario .p-col-8,
+.formulario .p-col-9,
+.formulario .p-col-10,
+.formulario .p-col-11,
+.formulario .p-col-12 {
+  flex: 0 0 auto;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+
+
+.formulario.externo {
+  height: calc(100vh - 50px);
+  background-color: var(--formulario-bg-externo-color);
+}
+
+.formulario .p-inputswitch {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.formulario .p-float-label textarea:focus ~ label, .formulario .p-float-label textarea.p-filled ~ label {
+  font-size: var(--formulario-label-font-size);
+}
+.formulario-borda {
+  background-color: var(--formularios-bg);
+}
+.formulario-bg-interno {
+  background-color: var(--formulario-bg-interno-color);
+  border-radius: 1em;
+}
+.formulario-bg-externo {
+  background-color: var(--formularios-bg);
+}
+.formulario .p-scrollpanel {
+  width: 100%;
+  height: calc(100vh - 50px);
+}
+
+/*
+*** p-dialog ***********************************************************************
+*/
+
+.formulario.p-dialog {
+  max-height: calc(100vh - 3.1rem) !important;
+  min-width: 400px;
+  background: var(--formulario-bg-externo-color);
+  top: var(--topo) !important;
+  margin-top: 0 !important;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  margin-left: 0.75rem;
+}
+
+.formulario.p-dialog .p-dialog-header {
+  border-bottom: 1px solid var(--formulario-bg-externo-color);
+  background: var(--formulario-bg-externo-color);
+  color: var(--text-color);
+  padding: .5rem 1rem 0;
+}
+.formulario.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--text-color);
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: box-shadow 0.15s;
+  margin-right: 0.5rem;
+}
+.formulario .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+  color: var(--text-color-secondary);
+  border-color: transparent;
+  background: transparent;
+}
+.formulario.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+.formulario.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+}
+.formulario.p-dialog .p-dialog-content {
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--formulario-bg-interno-color);
+  border-radius: 1em;
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+  font-size: initial;
+}
+
+/*
+*** p-timepicker ***********************************************************************
+*/
+
+.formulario .p-datepicker .p-timepicker {
+  border-top: 1px solid var(--border-elementos-input-forms);
+  padding: 0;
+}
+.formulario .p-datepicker .p-timepicker button {
+  width: 2rem;
+  height: 2rem;
+  color: var(--bt-secundario-color);
+  border: 0 none;
+  background: var(--bt-secundario-bg);
+  border-radius: 50%;
+  transition: box-shadow 0.15s;
+}
+.formulario .p-datepicker .p-timepicker button:enabled:hover {
+  color: var(--bt-secundario-color-hover);
+  border-color: var(--bt-secundario-border-hover);
+  background: var(--bt-secundario-bg-hover);
+}
+.formulario .p-datepicker.p-datepicker-timeonly {
+  min-width: unset !important;
+}
+.formulario .p-datepicker .p-timepicker button:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+.formulario .p-datepicker .p-timepicker button:last-child {
+  margin-top: 0.2em;
+}
+.formulario .p-datepicker .p-timepicker span {
+  font-size: 1.25rem;
+}
+.formulario .p-datepicker .p-timepicker > div {
+  padding: 0 0.5rem;
+}
+.formulario .p-datepicker.p-datepicker-timeonly .p-timepicker {
+  border-top: 0 none;
+}
+.formulario .p-datepicker table th {
+  padding: 0.3rem;
+}
+.formulario .p-datepicker table th > span {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.formulario .p-datepicker table td {
+  padding: 0.3rem;
+}
+.formulario .p-datepicker table td > span {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/*
+*** p-multiselect ***********************************************************************
+*/
+
+.formulario > .p-multiselect.p-multiselect-chip .p-multiselect-token {
+  padding: 0.25rem 0.75rem;
+  margin-right: 0.5rem;
+  background: var(--secondary-bg);
+  color: var(--secondary-color-text);
+  border-radius: 4px;
+  font-size: .5rem !important;
+}
+
+/*
+*** p-radiobutton ***********************************************************************
+*/
+
+.formulario .p-radiobutton {
+  width: 1.5em;
+  height: 1.3em;
+}
+.formulario .p-radiobutton .p-radiobutton-box {
+  width: 1.5em;
+  height: 1.3em;
+  border-color: var(--border-elementos-input-forms);
+  background: var(--primary-color-text);
+  color: var(--bt-secundario-bg);
+}
+.formulario .p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
+  width: 1em;
+  height: 1em;
+  background: var(--bt-secundario-bg);
+}
+.formulario .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+  border-color: var(--bt-secundario-border-active);
+}
+.formulario .p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+  border-color: var(--bt-secundario-border-active);
+}
+.formulario .p-radiobutton .p-radiobutton-box.p-highlight {
+  box-shadow: var(--bt-secundario-border-active);
+  border-color: var(--bt-secundario-border-active);
+  color: var(--secondary-bg);
+}
+.formulario .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+  border-color: var(--secondary-bg);
+  background: var(--secondary-bg);
+  color: var(--text-color);
+}
+.formulario .p-input-filled .p-radiobutton .p-radiobutton-box {
+  background-color: var(--input-filled);
+}
+.formulario .p-input-filled .p-radiobutton .p-radiobutton-box:not(.p-disabled):hover {
+  background-color: var(--input-filled);
+}
+.formulario .p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight {
+  background: var(--bt-secundario-border-active);
+}
+.formulario .p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+  background: var(--bt-secundario-bg-hover);
+}
+.formulario .p-highlight .p-radiobutton .p-radiobutton-box {
+  background: var(--primary-color-text);
+}
+
+/*
+*** p-dropdown ***********************************************************************
+*/
+
+.formulario .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
+  margin: 0;
+  padding: 0.3rem 1rem;
+  font-weight: 600;
+}
+
+.formulario .p-dropdown-panel .p-dropdown-items {
+  padding: 0.3rem 0;
+}
+.formulario .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  margin: 0;
+  font-size: .8em;
+  font-weight: 400;
+  padding: 0.3rem 2rem;
+  border-bottom: 1px solid;
+  border-bottom-color: var(--border-elementos-input-forms);
+}
+
+.formulario .p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--bt-secundario-border-active);
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+.formulario .p-dropdown .p-button.p-button-icon-only {
+  padding: 0.2rem 0;
+}
+.formulario .p-dropdown-label, .formulario input[type=text], .formulario input[type=email], .formulario textarea {
+  font-size: var(--formulario-input-font-size);
+  font-weight: var(--formulario-field-input-font-weight);
+}
+
+/*
+*** p-inputtext ***********************************************************************
+*/
+
+.formulario .p-inputtext:enabled:focus {
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+  border-color: var(--bt-secundario-border-active);
+}
+
+.formulario .p-input-filled .p-inputtext {
+  background-color: var(--input-filled);
+}
+
+/*
+*** p-multiselect ***********************************************************************
+*/
+
+.formulario .p-multiselect:not(.p-disabled):hover {
+  border-color: var(--bt-secundario-border-active);
+}
+.formulario .p-multiselect:not(.p-disabled).p-focus {
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+  border-color: var(--bt-secundario-border-active);
+}
+
+/*
+*** p-inputswitch ***********************************************************************
+*/
+
+.formulario .p-inputswitch {
+  width: 3.5rem;
+  height: 2.16rem;
+}
+.formulario .p-inputswitch .p-inputswitch-slider {
+  background: var(--input-filled);
+  border: 1px solid var(--border-elementos-input-forms);
+}
+.formulario .p-inputswitch .p-inputswitch-slider:before {
+  background: var(--primary-color-text);
+}
+.formulario .p-inputswitch.p-focus .p-inputswitch-slider {
+  border-color: var(--bt-secundario-border-active);
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+.formulario .p-inputswitch:not(.p-disabled):hover .p-inputswitch-slider {
+  background: var(--input-filled);
+}
+.formulario .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--bt-secundario-bg);
+}
+.formulario .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background: var(--primary-color-text);
+}
+.formulario .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+  background: var(--bt-secundario-bg);
+}
+
+.formulario .formulario-switch.p-field {
+  margin-bottom: .1em;
+  padding-bottom: 0;
+}
+
+/*
+*** p-inputgroup ***********************************************************************
+*/
+
+.formulario .p-inputgroup p-dropdown {
+  width: 100% !important;
+}
+.formulario .p-inputgroup button:last-child {
+  padding: 0.2rem 0;
+  background: var(--input-filled);
+  border: 1px solid var(--border-elementos-input-forms);
+  color: var(--filled-icons-color);
+}
+.formulario .p-inputgroup button:last-child:hover {
+  background: var(--bt-secundario-bg-hover);
+  border: 1px solid var(--bt-secundario-border-hover);
+  color: var(--bt-secundario-color-hover);
+}
+
+/*
+*** p-inputnumber ***********************************************************************
+*/
+
+.formulario .p-inputnumber-button:hover {
+  background: var(--bt-secundario-bg);
+  color: var(--bt-secundario-color);
+  border-color: var(--bt-secundario-border);
+}
+
+/*
+*** p-fileupload ***********************************************************************
+*/
+
+.formulario p-fileupload .p-fileupload-buttonbar .p-button {
+  font-size: var(--formulario-input-font-size);
+}
+app-arquivo.formulario > h5 {
+  font-weight: var(--formulario-field-label-font-weight) !important;
+}
+
+/*
+*** button ***********************************************************************
+*/
+
+.formulario p-inputNumber button[type="button"] {
+  font-size: 1em !important;
+  background: var(--input-filled);
+  color: var(--text-color);
+  border-left: 0;
+  border-right: 1px solid var(--border-elementos-input-forms);
+  border-bottom: 1px solid var(--border-elementos-input-forms);
+  border-top: 1px solid var(--border-elementos-input-forms);
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.formulario p-inputNumber button[type="button"]:hover {
+  background: var(--bt-secundario-bg);
+  color: var(--bt-secundario-color);
+  border-color: var(--bt-secundario-border);
+}
+.formulario .p-inputnumber-input.p-inputtext {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.formulario .p-inputtext {
+  font-weight: var(--formulario-field-input-font-weight);
+  padding: 0.3rem 0.75rem;
+}
+
+/*
+*** QUILL ************************************************
+*/
+
+div.formulario-quill {
+  max-width: 1200px;
+}
+
+.formulario .formulario-quill .p-editor-container {
+  max-width: 1200px;
+  padding: 0 .5rem .5rem .5rem;
+  background-color: var(--input-filled);
+  border: 1px solid var(--border-elementos-input-forms);
+}
+
+.formulario .ql-toolbar.ql-snow {
+  border: 0;
+}
+
+.formulario .oficio .p-editor-content {
+  border-bottom: 2cm solid var(--surface-500);
+  border-top: 0;
+  border-left: 3cm solid var(--surface-500);
+  border-right: 1.5cm solid var(--surface-500);
+  width: 17cm;
+  height: 25.2cm;
+}
+
+.formulario .formulario-quill.oficio .ql-editor {
+  font-size: 12pt;
+  line-height: 16pt;
+  padding: 0;
+}
+
+.oficio .ql-editor {
+  font-size: 12pt;
+  line-height: 1.2em;
+  padding: 0;
+  tab-size: 2.5cm;
+  -moz-tab-size: 2.5cm;
+
+}
+
+.formulario .formulario-quill .oficio .p-editor-containe, .oficio .ql-container,r {
+  font-size: 12pt;
+  line-height: 1.2em;
+  padding: 0;
+  tab-size: 2.5cm;
+  -moz-tab-size: 2.5cm;
+}
+
+/*
+*** p-accordion *************************************
+*/
+
+.formulario .p-accordion .p-accordion-content {
+  padding: 0;
+  border-bottom-right-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+}
+
+.formulario .formulariotexto {
+  font-size: 1em !important;
+  border-radius: 5px;
+  background: var(--input-filled);
+  color: var(--text-color);
+  font-weight: 600;
+  border: 1px solid var(--border-elementos-input-forms);
+  padding: 0.3rem 0.75rem;
+}
+
+
+/*
+*** CHECKBOX ******************************************
+*/
+
+
+
+.formulario .p-input-filled .p-checkbox .p-checkbox-box.p-highlight {
+  background: var(--bt-secundario-bg);
+}
+.formulario .p-input-filled .p-checkbox .p-checkbox-box {
+  background-color: var(--input-filled);
+}
+.formulario .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--bt-secundario-border-active);
+  background: var(--bt-secundario-bg);
+}
+
+.formulario .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+  border-color: var(--bt-secundario-border-active);
+}
+.formulario .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+  box-shadow: var(--bt-secundario-box-shadow-focus);;
+  border-color: var(--bt-secundario-border-active);
+}
+.formulario .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--bt-secundario-border-active);
+  background: var(--surface-500);
+  color: var(--primary-color-text);
+}
+
+.formulario .p-input-filled .p-checkbox .p-checkbox-box {
+  background-color: var(--input-filled);
+}
+.formulario .p-input-filled .p-checkbox .p-checkbox-box.p-highlight {
+  background: var(--bt-secundario-bg);
+}
+.formulario .p-input-filled .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+  background-color: var(--input-filled);
+}
+.formulario .p-input-filled .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  background: var(--bt-secundario-bg);
+}

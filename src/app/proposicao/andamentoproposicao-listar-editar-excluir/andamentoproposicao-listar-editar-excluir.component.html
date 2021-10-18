@@ -1,0 +1,235 @@
+
+  <!--*** INICIO ****************************************************************************************************-->
+  <p-table #dtap
+           id="dtap"
+           [value]="andamento_proposicao"
+           dataKey="andamento_proposicao_id"
+           [scrollable]="true"
+           [style]="{width:'100%'}"
+           scrollHeight="50vh"
+           [autoLayout]="true"
+           columnResizeMode="expand"
+           [rowHover]="true"
+           [responsive]="false"
+           [sortOrder]="1"
+           [editMode]="'row'"
+           [tableStyle]="{'font-size':'12px'}"
+           [resizableColumns]="true"
+  >
+<!--
+
+    [scrollHeight]="altura"
+
+-->
+
+    <!--*** TOPO ****************************************************************************************************-->
+    <ng-template pTemplate="caption">
+      <div style="text-align: center;">
+        ANDAMENTOS DA PROPOSIÇÃO
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+        <col [style.width]="150">
+        <col [style.width]="250">
+        <col [style.width]="250">
+        <col [style.width]="350">
+        <col [style.width]="350">
+        <col [style.width]="450">
+      </colgroup>
+    </ng-template>
+
+    <!--*** TITULOS *************************************************************************************************-->
+
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width:150px"></th>
+        <th style="width:250px" pResizableColumn>DATA</th>
+        <th style="width:250px" pResizableColumn>RELATOR ATUAL</th>
+        <th style="width:350px" pResizableColumn>ORGÃO</th>
+        <th style="width:350px" pResizableColumn>SITUAÇÃO</th>
+        <th style="width:450px" pResizableColumn>ANDAMENTO</th>
+      </tr>
+    </ng-template>
+
+    <!--*** DADOS ***************************************************************************************************-->
+    <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="rowData">
+
+        <td style="width:150px;text-align:center;">
+          <button *ngIf="!editing && aut.andamentoproposicao_alterar && !botaoEnviarVF" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="p-button-info" (click)="onRowEditInit(rowData)"></button>
+          <button *ngIf="editing && aut.andamentoproposicao_alterar && !botaoEnviarVF" pButton type="button" pSaveEditableRow icon="pi pi-check" class="p-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData, ri)"></button>
+          <button *ngIf="editing && aut.andamentoproposicao_alterar && !botaoEnviarVF" pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+          <button *ngIf="!editing && aut.andamentoproposicao_apagar && !botaoEnviarVF" pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="onDelete(rowData, ri)"></button>
+        </td>
+
+        <td style="width:250px;" class="ui-resizable-column">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
+              <p-calendar
+                [(ngModel)]="rowData.andamento_proposicao_data"
+                dateFormat="dd/mm/yy"
+                placeholder="dd/mm/aaaa"
+                dataType="string"
+              ></p-calendar>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.andamento_proposicao_data}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td style="width:250px;" class="ui-resizable-column">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
+              <input
+                [(ngModel)]="rowData.andamento_proposicao_relator_atual"
+                type="text"
+                maxlength="50"
+                pInputText
+              />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.andamento_proposicao_relator_atual}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td style="width:350px" class="ui-resizable-column">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
+              <p-dropdown
+                [style]="{'width':'95%'}"
+                [(ngModel)]="rowData.andamento_proposicao_orgao_id"
+                placeholder="Selecione"
+                [options]="ddProposicao_orgao_id"
+                [showClear]="true"
+                scrollHeight="200px"
+              ></p-dropdown>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.andamento_proposicao_orgao_nome}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td style="width:350px" class="ui-resizable-column">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
+              <p-dropdown
+                [(ngModel)]="rowData.andamento_proposicao_situacao_id"
+                [style]="{'width':'95%'}"
+                placeholder="Selecione"
+                [options]="ddProposicao_situacao_id"
+                [showClear]="true"
+                scrollHeight="200px"
+              ></p-dropdown>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.andamento_proposicao_situacao_nome}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+
+        <td style="width:450px" class="ui-resizable-column">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
+              <quill-editor
+                [(ngModel)]="rowData.andamento_proposicao_texto"
+                [preserveWhitespace]="true"
+                [sanitize]="true"
+                placeholder=""
+                (onFocus)="focus($event)"
+              >
+                <div quill-editor-toolbar [ngStyle]="{'display': mostraModulo}">
+                       <span class="ql-formats">
+                         <select class="ql-font">
+                           <option selected></option>
+                           <option value="serif"></option>
+                           <option value="monospace"></option>
+                         </select>
+                         <select class="ql-size">
+                           <option value="small"></option>
+                           <option selected></option>
+                           <option value="large"></option>
+                           <option value="huge"></option>
+                         </select>
+                       </span>
+                  <span class="ql-formats">
+                         <button class="ql-bold" [title]="'Bold'"></button>
+                         <button class="ql-italic" [title]="'Italico'"></button>
+                         <button class="ql-underline" [title]="'Underline'"></button>
+                         <button class="ql-strike" [title]="'Strike'"></button>
+                       </span>
+                  <span class="ql-formats">
+                         <select class="ql-color" [title]="'Cor do texto'"></select>
+                         <select class="ql-background" [title]="'Cor de fundo'"></select>
+                       </span>
+                  <span class="ql-formats">
+                         <button class="ql-indent" value="+1" [title]="'Identaçao +1'"></button>
+                         <button class="ql-indent" value="-1" [title]="'Identaçao -1'"></button>
+                         <select class="ql-align">
+                           <option selected></option>
+                           <option value="center"></option>
+                           <option value="right"></option>
+                           <option value="justify"></option>
+                         </select>
+                         <button class="ql-list" value="ordered"></button>
+                         <button class="ql-list" value="bullet"></button>
+                       </span>
+                </div>
+              </quill-editor>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.andamento_proposicao_texto}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+
+      </tr>
+    </ng-template>
+
+    <!--*** TABELA VAZIA *********************************************************************************************-->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="6" align="center">
+          <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
+            NENHUM REGISTRO
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <!--*** MENU *****************************************************************************************************-->
+  </p-table>
+  <!--*** FIM ********************************************************************************************************-->
+
+<br>
+<div class="botoesdetalhe">
+  <p-button [disabled]="botaoEnviarVF" type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></p-button>
+</div>
+<p-toast key="andamentoProposicaoToast" [style]="{marginTop: '80px'}"></p-toast>
+  <p-confirmDialog
+    [style]="{width: '50vw'}"
+    [baseZIndex]="10000"
+    [autoZIndex]="false"
+    acceptLabel="Sim"
+    rejectLabel="Não"
+  ></p-confirmDialog>
+
+
+
+
+

@@ -1,0 +1,82 @@
+
+<div class="container-fluid">
+<br>
+      <form [formGroup]="formEmendaAtualizar" (ngSubmit)="onSubmit()">
+        <div class="p-grid formDiv">
+
+              <!--*** his_data ***-->
+              <div class="p-col-12 campoLabel">
+                <h6> Data</h6>
+                <p-calendar
+                  formControlName="his_data"
+                  dateFormat="dd/mm/yy"
+                  placeholder="dd/mm/aaaa"
+                  dataType="string"
+                ></p-calendar>
+              </div>
+              <!--*** emenda_situacao ***-->
+              <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('emenda_situacao')">
+                <h6><span style="color: var(--ativo)">*</span> Situação</h6>
+                <p-dropdown
+                  formControlName="emenda_situacao"
+                  placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                  [options]="ddEmenda_situacao"
+                  [required]="true"
+                  [style]="{'width':'100%', 'max-width': '313px'}"
+                ></p-dropdown>
+                <app-campo-control-erro msgErro="Situação é obrigatório."></app-campo-control-erro>
+              </div>
+              <!--*** emenda_porcentagem ***-->
+              <div class="p-col-12 campoLabel">
+                <h6>% Concluida</h6>
+                <p-inputNumber
+                  formControlName="emenda_porcentagem"
+                  mode="decimal"
+                  [showButtons]="true"
+                  inputId="emenda_porcentagem"
+                  [min]="0"
+                  [max]="100">
+                </p-inputNumber>
+              </div>
+
+
+              <!--*** his_texto ***-->
+              <div class="p-col-12 campoLabel">
+                <h6>Andamento</h6>
+                <textarea
+                  [rows]="4"
+                  [cols]="50"
+                  formControlName="his_texto"
+                  pInputTextarea
+                >
+              </textarea>
+              </div>
+          <ng-container *ngIf="authenticationService.arquivos">
+            <app-arquivo
+              [modulo]="'emenda'"
+              [modelo]="'alterar'"
+              [registro_id]="emenda_id"
+              [uploadDisabled]="arquivoDesativado || !formEmendaAtualizar.valid"
+              [stiloClass]="'p-col-12 campoLabel'"
+              (onBlockSubmit)="onBlockSubmit($event)"
+              (onPossuiArquivos)="onPossuiArquivos($event)"
+            ></app-arquivo>
+          </ng-container>
+          <div class="p-col-12"></div>
+        </div>
+      </form>
+
+  <div class="botoesdetalhe">
+    <button
+      pButton
+      type="button"
+      class="p-button-rounded"
+      [disabled]="!formEmendaAtualizar.valid || !mostraForm"
+      (click)="onSubmit()"
+      label="Alterar"
+    ></button>
+    &nbsp;&nbsp;
+    <button pButton type="button" label="FECHAR" class="p-button-rounded p-button-secondary" (click)="fechar()"></button>
+  </div>
+</div>
+

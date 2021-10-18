@@ -1,0 +1,199 @@
+<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheProposicao">
+  <table class="detalhefull">
+    <tr>
+      <td>
+        <table class="table-hover tabela" #tabproposicao id="tabproposicao">
+          <caption>PROPOSIÇÃO</caption>
+          <tr *ngIf="proposicao.proposicao_tipo_nome">
+            <th>
+              Tipo:
+            </th>
+            <td>
+              {{proposicao.proposicao_numero}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_numero">
+            <th>
+              Número:
+            </th>
+            <td>
+              {{proposicao.proposicao_numero}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.andamento_proposicao_situacao_nome">
+            <th>
+              Situação:
+            </th>
+            <td>
+              {{proposicao.andamento_proposicao_situacao_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_autor">
+            <th>
+              Autor:
+            </th>
+            <td>
+              {{proposicao.proposicao_autor}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_relator">
+            <th>
+              Relator:
+            </th>
+            <td>
+              {{proposicao.proposicao_relator}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_origem_nome">
+            <th>
+              Orgão de origem:
+            </th>
+            <td>
+              {{proposicao.proposicao_origem_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_data_apresentacao">
+            <th>
+              Data de apresentação:
+            </th>
+            <td>
+              {{proposicao.proposicao_data_apresentacao}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_area_interesse_nome">
+            <th>
+              Área de interesse:
+            </th>
+            <td>
+              {{proposicao.proposicao_area_interesse_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_area_interesse_nome">
+            <th>
+              Área de interesse:
+            </th>
+            <td>
+              {{proposicao.proposicao_area_interesse_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_parecer">
+            <th>
+              Parecer:
+            </th>
+            <td>
+              {{proposicao.proposicao_parecer}}
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_orgao_nome">
+            <th>
+              Orgão Atual:
+            </th>
+            <td>
+              {{proposicao.proposicao_orgao_nome}}
+            </td>
+          </tr>
+
+          <tr *ngIf="proposicao.proposicao_ementa" class="novaPagina">
+            <th colspan="2" class="tituloEditor">
+              Ementa:
+            </th>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_ementa">
+            <td colspan="2">
+              <div style="padding: 5px">
+                <table>
+                  <tr>
+                    <td class="edi">
+                      <span #ementa id="ementa" [innerHTML]="proposicao.proposicao_ementa"></span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_texto" class="novaPagina">
+            <th colspan="2" class="tituloEditor">
+              Texto:
+            </th>
+          </tr>
+          <tr *ngIf="proposicao.proposicao_texto">
+            <td colspan="2">
+              <div style="padding: 5px">
+                <table>
+                  <tr>
+                    <td class="edi">
+                      <span id="texto" #texto [innerHTML]="proposicao.proposicao_texto"></span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <app-arquivo
+          [modulo]="'proposicao'"
+          [modelo]="'detalhe'"
+          [registro_id]="proposicao.proposicao_id"
+        ></app-arquivo>
+      </td>
+    </tr>
+  </table>
+  <br><br>
+  <table class="detalhefull">
+    <tr>
+      <td>
+        <table *ngIf="andamento_proposicao" class="table-hover tabelasimples" #tabandamento id="tabandamento">
+          <caption>ANDAMENTO</caption>
+          <tr>
+            <th>
+              Data:
+            </th>
+            <th>
+              Redator:
+            </th>
+            <th>
+              Orgão:
+            </th>
+            <th>
+              Situação:
+            </th>
+          </tr>
+          <ng-container  *ngFor="let and of andamento_proposicao">
+          <tr>
+            <td>
+              {{and.andamento_proposicao_data}}
+            </td>
+            <td>
+              {{and.andamento_proposicao_relator_atual}}
+            </td>
+            <td>
+              {{and.andamento_proposicao_orgao_nome}}
+            </td>
+            <td>
+              {{and.andamento_proposicao_situacao_nome}}
+            </td>
+          </tr>
+            <tr>
+              <td colspan="4">
+                <span [innerHTML]="and.andamento_proposicao_texto"></span>
+              </td>
+            </tr>
+          </ng-container>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <br>
+</p-scrollPanel>
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  &nbsp;&nbsp;
+  <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+          class="p-button-rounded p-button-secondary"
+          (click)="getPdf(false)"></button>
+  &nbsp;&nbsp;
+  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
+          class="p-button-rounded p-button-secondary"
+          (click)="getPdf(true)"></button>
+</div>
+

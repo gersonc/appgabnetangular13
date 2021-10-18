@@ -1,0 +1,12 @@
+<ng-container *ngIf="historico">
+  <table class="tabeladt">
+    <tr>
+      <th style="width: 100px">Data</th>
+      <th>Andamento</th>
+    </tr>
+    <tr *ngFor="let his of historico">
+      <td style="width: 100px">{{his.historico_data}}</td>
+      <td><span [innerHTML]="his.historico_andamento"></span></td>
+    </tr>
+  </table>
+</ng-container>

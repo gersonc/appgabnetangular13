@@ -1,0 +1,312 @@
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dttf
+         id="tabelatelefone"
+         [value]="telefone"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="telefone_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="ofContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         stateStorage="session"
+         stateKey="telefone-listagem"
+         selectionMode="multiple"
+>
+
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div style="overflow: auto;text-align: center;">TELEFONE
+      <div style="overflow:auto;text-align:right;float:left;">
+        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
+        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
+        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
+        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+        <span *ngIf="authenticationService.telefone_incluir" class="linkTopo" (click)="telefoneIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+      </div>
+      <div style="float:right;">
+        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
+          - Num. Registros: {{totalRecords}}</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 50px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          [style.width]="col.largura"
+          pReorderableColumn
+          pResizableColumn
+          style="padding-bottom: .3em; padding-top: .3em;"
+      >
+        {{col.header}}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+  <ng-template pTemplate="body" let-tel let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="tel" [pContextMenuRow]="tel">
+      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <a *ngIf="!expanded" [pRowToggler]="tel" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
+        <a *ngIf="expanded" [pRowToggler]="tel" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+      </td>
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura" style="padding-bottom: 0; padding-top: .3em;">
+        {{tel[col.field]}}
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-tel let-indice="rowIndex" let-columns="columns">
+    <tr style="background-color: var(--secondary-bg)">
+      <td [attr.colspan]="columns.length + 1">
+        <div class="rowSpanCorpo">
+          <div class="rowSpanTabelas">
+            <div class="rowSpanBotoes">
+              <div class="botaoexp">
+                <p-button
+                  (click)="getPdf(tel)"
+                  type="button"
+                  icon="fas fa-lg fa-file-pdf"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="PDF"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div class="botaoexp">
+                <p-button
+                  (click)="getPdf(tel, true)"
+                  type="button"
+                  icon="fas fa-lg fa-print"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="Imprimir"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.telefone_alterar" class="botaoexp">
+                <p-button
+                  (click)="telefoneAlterar(tel)"
+                  type="button"
+                  icon="fas fa-lg fa-pen-fancy"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.telefone_apagar" class="botaoexp">
+                <p-button
+                  (click)="telefoneApagar(tel)"
+                  type="button"
+                  icon="far fa-lg fa-trash-alt"
+                  styleClass="p-button-raised p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+            </div>
+
+            <div class="container-fluid">
+              <div class="p-grid" id="contx">
+
+
+
+
+                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                    <div class="p-grid">
+
+                      <div class="p-col-12">
+                        <div class="tabrolexpclaro">
+                          <h6>ID</h6>
+                          {{tel.telefone_id}}
+                        </div>
+                      </div>
+
+                      <div class="p-col-12">
+                        <div class="tabrolexpclaro">
+                          <h6>DATA E HORA</h6>
+                          {{tel.telefone_data}}
+                        </div>
+                      </div>
+
+                      <div class="p-col-12">
+                        <div class="tabrolexpclaro">
+                          <h6>PARA</h6>
+                        {{tel.telefone_para}}
+                        </div>
+                      </div>
+
+                      <div class="p-col-12">
+                        <div class="tabrolexpclaro">
+                          <h6>DE</h6>
+                        {{tel.telefone_de}}
+                        </div>
+                      </div>
+
+                      <div class="p-col-12">
+                        <div class="tabrolexpclaro">
+                          <h6>ASSUNTO</h6>
+                        {{tel.telefone_assunto}}
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+
+                    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                      <div class="p-grid">
+
+                        <div class="p-col-12">
+                          <div class="tabrolexpclaro">
+                            <h6>DDD</h6>
+                          {{tel.telefone_ddd}}
+                          </div>
+                        </div>
+
+                        <div class="p-col-12">
+                          <div class="tabrolexpclaro">
+                            <h6>TELEFONE</h6>
+                          {{tel.telefone_telefone}}
+                          </div>
+                        </div>
+
+                        <div class="p-col-12">
+                          <div class="tabrolexpclaro">
+                            <h6>NÚCLEO</h6>
+                          {{tel.telefone_local_nome}}
+                          </div>
+                        </div>
+
+                        <div class="p-col-12">
+                          <div class="tabrolexpclaro">
+                            <h6>RESOLVIDO</h6>
+                          {{tel.telefone_resolvido}}
+                          </div>
+                        </div>
+
+                        <div class="p-col-12">
+                          <div class="tabrolexpclaro">
+                            <h6>ATENDENTE</h6>
+                          {{tel.telefone_usuario_nome}}
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                    <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                      <div class="p-grid">
+                          <div class="p-col-12">
+                            <div class="tabrolexpclaro">
+                          <h6>OBSERVAÇÃO</h6>
+                          {{tel.telefone_observacao}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+1">
+        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura" class="p-text-center">
+          NENHUM REGISTRO
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '300px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    [filter]="true"
+    optionLabel="header"
+    [style]="{width: '270px'}"
+    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+    (onChange)="onChangeSeletorColunas($event)"
+  ></p-listbox>
+</p-dialog>
+<p-confirmDialog
+  [style]="{width: '50vw'}"
+  [baseZIndex]="10000"
+  [autoZIndex]="true"
+  acceptLabel="Sim"
+  rejectLabel="Não"
+></p-confirmDialog>
+<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
+<p-toast key="telefoneToast" position="center"></p-toast>
+

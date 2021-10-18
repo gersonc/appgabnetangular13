@@ -1,0 +1,60 @@
+
+<p-fileUpload
+  #fileUpload
+  name="arquivo[]"
+  (onUpload)="onEnviado($event)"
+  (onSelect)="onSelect($event)"
+  (onClear)="onClear()"
+  (onRemove)="onRemove($event)"
+  (onBeforeUpload)="onBeforeUpload($event)"
+  (onProgress)="onProgress($event)"
+  [chooseLabel]="chooseLabel"
+  [uploadLabel]="uploadLabel"
+  [cancelLabel]="cancelLabel"
+  [showCancelButton]="showCancelButton"
+  [showUploadButton]="mostraBtnUpload"
+  [multiple]="multiple"
+  [accept]="accept"
+  [maxFileSize]="maxFileSize"
+  [disabled]="disabled"
+  [fileLimit]="fileLimit"
+  [styleClass]="stiloClasse"
+  [auto]="auto"
+  [method]="'post'"
+>
+
+
+  <ng-template let-file pTemplate="file">
+
+
+    <div class="fileclass p-d-flex p-flex-row p-ai-center p-jc-between p-mx-1 p-my-2 p-p-1 p-shadow-1">
+      <div class="p-d-flex p-flex-column p-jc-start p-m-0 p-p-0">
+          <div class="p-px-1 p-jc-start filename">
+            {{file.name}}
+          </div>
+          <div class="p-px-1 p-jc-start filesize">
+            {{formatSize(file.size)}}
+          </div>
+      </div>
+      <div class="p-d-flex p-flex-row p-jc-end p-ai-center p-m-0 p-p-0">
+      <div class="p-mr-1-0 p-p-1">
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-secondary p-button-text" (click)="meuRemove($event, file)" [disabled]="uploading"></button>
+      </div>
+
+      <div class="p-m-0 p-p-0">
+        <img [src]="file.objectURL" *ngIf="fileUpload.isImage(file)" [width]="previewWidth" /><img [src]="getIcone(file.name)" *ngIf="!fileUpload.isImage(file)" [width]="previewWidth" />
+      </div>
+      </div>
+   </div>
+
+
+
+
+  </ng-template>
+
+</p-fileUpload>
+<!--<p-dialog [(visible)]="mostraProgresso" [showHeader]="false" [closable]="false" [dismissableMask]="false" [closeOnEscape]="false" [modal]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw', height: '3rem'}">
+  <p-progressBar [value]="progresso"></p-progressBar>
+</p-dialog>-->
+
+

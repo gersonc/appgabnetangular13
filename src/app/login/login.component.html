@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="p-grid">
+    <div class="p-md-1 p-lg-1 p-xl-1"></div>
+    <div class="p-col-12 p-sm-12 p-md-10 p-lg-10 p-xl-10 divform">
+      <div class="login">
+
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="on">
+        <div class="box">
+
+          <div class="p-grid">
+            <div class="p-col-12 p-sm-12 p-md-8 p-md-offset-2 p-lg-4 p-lg-offset-4 p-xl-4 p-xl-offset-4">
+              <div class="p-grid formDiv">
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('username')">
+                  <h6>Login</h6>
+                  <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    formControlName="username"
+                    id="username"
+                    autocomplete="username"
+                    placeholder="Login"
+                    autofocus
+                  >
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
+                                          msgErro="Login é obrigatório.">
+                  </app-campo-control-erro>
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
+                                          msgErro="Login menor que 7 caracteres.">
+                  </app-campo-control-erro>
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
+                                          msgErro="Login maior que 50 caracteres.">
+                  </app-campo-control-erro>
+                </div>
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('password')">
+                  <h6>Senha</h6>
+                  <input
+                    pInputText
+                    type="password"
+                    formControlName="password"
+                    autocomplete="current-password"
+                    id="password"
+                    placeholder="Senha"
+                  >
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
+                                          msgErro="Senha é obrigatória.">
+                  </app-campo-control-erro>
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
+                                          msgErro="Senha menor que 7 caracteres.">
+                  </app-campo-control-erro>
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
+                                          msgErro="Senha maior que 50 caracteres.">
+                  </app-campo-control-erro>
+                </div>
+              </div>
+              <div class="p-col-12"></div>
+              <div class="p-grid formDiv">
+                <div class="p-col-12 campoLabel" style="text-align: center">
+                  <button
+                    pButton
+                    type="submit"
+                    class="p-button-rounded"
+                    [disabled]="mostraForm"
+                    label="Enviar"
+                  ></button>
+                  &nbsp;&nbsp;
+                  <button
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-secondary"
+                    (click)="resetar()"
+                    label="Cancelar"
+                  ></button>
+                </div>
+              </div>
+              <div class="p-col-12"></div>
+
+            </div>
+            <div class="p-md-2 p-lg-4 p-xl-4"></div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+    <div class="p-md-1 p-lg-1 p-xl-1"></div>
+  </div>
+</div>
+<!--<app-form-debug [form]="loginForm"></app-form-debug>-->

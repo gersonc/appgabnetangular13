@@ -1,0 +1,328 @@
+<div class="container" style="text-align:center">
+  <h4>OFÍCIO - ANALISAR</h4>
+</div>
+<div class="container-fluid">
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-md-1 p-xl-1"></div>
+    <div class="p-col-12 p-sm-12 p-md-10 p-xl-10">
+
+      <div class="p-grid formDiv">
+        <div class="p-col-12"></div>
+        <div class="p-col-12">
+
+
+          <table class="detalhefull">
+            <tr>
+              <td>
+                <table class="table-hover tabela">
+                  <caption>OFÍCIO</caption>
+                  <tr *ngIf="oficio.oficio_status">
+                    <th>
+                      Situação:
+                    </th>
+                    <td>
+                      {{oficio.oficio_status}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_processo_numero">
+                    <th>
+                      Número do processo:
+                    </th>
+                    <td>
+                      {{oficio.oficio_processo_numero}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_numero">
+                    <th>
+                      Número do ofício:
+                    </th>
+                    <td>
+                      {{oficio.oficio_numero}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_codigo">
+                    <th>
+                      Código:
+                    </th>
+                    <td>
+                      {{oficio.oficio_codigo}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_tipo_solicitante_nome">
+                    <th>
+                      Tipo de solicitante:
+                    </th>
+                    <td>
+                      {{oficio.oficio_tipo_solicitante_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_cadastro_nome">
+                    <th>
+                      Solicitante:
+                    </th>
+                    <td>
+                      {{oficio.oficio_cadastro_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_municipio_nome">
+                    <th>
+                      Município:
+                    </th>
+                    <td>
+                      {{oficio.oficio_municipio_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_assunto_nome">
+                    <th>
+                      Assunto:
+                    </th>
+                    <td>
+                      {{oficio.oficio_assunto_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_area_interesse_nome">
+                    <th>
+                      Área de interesse:
+                    </th>
+                    <td>
+                      {{oficio.oficio_area_interesse_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_data_emissao">
+                    <th>
+                      Data da emissão:
+                    </th>
+                    <td>
+                      {{oficio.oficio_data_emissao}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.solicitacao_local_nome">
+                    <th>
+                      Núcleo:
+                    </th>
+                    <td>
+                      {{oficio.solicitacao_local_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_prioridade_nome">
+                    <th>
+                      Prioridade:
+                    </th>
+                    <td>
+                      {{oficio.oficio_prioridade_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_protocolo_numero">
+                    <th>
+                      Número do protocolo:
+                    </th>
+                    <td>
+                      {{oficio.oficio_protocolo_numero}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_data_protocolo">
+                    <th>
+                      Data do protocolo:
+                    </th>
+                    <td>
+                      {{oficio.oficio_data_protocolo}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_orgao_solicitado_nome">
+                    <th>
+                      Orgão solicitado:
+                    </th>
+                    <td>
+                      {{oficio.oficio_orgao_solicitado_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_orgao_protocolante_nome">
+                    <th>
+                      Orgão protocolante:
+                    </th>
+                    <td>
+                      {{oficio.oficio_orgao_protocolante_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_protocolante_funcionario">
+                    <th>
+                      Funcionário do orgão:
+                    </th>
+                    <td>
+                      {{oficio.oficio_protocolante_funcionario}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_tipo_andamento_nome">
+                    <th>
+                      Tipo de andamento:
+                    </th>
+                    <td>
+                      {{oficio.oficio_tipo_andamento_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_tipo_recebimento_nome">
+                    <th>
+                      Tipo de recebimento:
+                    </th>
+                    <td>
+                      {{oficio.oficio_tipo_recebimento_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_data_recebimento">
+                    <th>
+                      Data recebimeento:
+                    </th>
+                    <td>
+                      {{oficio.oficio_data_recebimento}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.solicitacao_reponsavel_analize_nome">
+                    <th>
+                      Responsável pela analise:
+                    </th>
+                    <td>
+                      {{oficio.solicitacao_reponsavel_analize_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_convenio">
+                    <th>
+                      Concênio:
+                    </th>
+                    <td>
+                      {{oficio.oficio_convenio}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_valor_solicitado">
+                    <th>
+                      Valor solicitado:
+                    </th>
+                    <td>
+                      {{oficio.oficio_valor_solicitado}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_valor_recebido">
+                    <th>
+                      Valor recebido:
+                    </th>
+                    <td>
+                      {{oficio.oficio_valor_recebido}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_data_pagamento">
+                    <th>
+                      Data do pagamento:
+                    </th>
+                    <td>
+                      {{oficio.oficio_data_pagamento}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_data_empenho">
+                    <th>
+                      Data do empenho:
+                    </th>
+                    <td>
+                      {{oficio.oficio_cadastro_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_prazo">
+                    <th>
+                      Prazo:
+                    </th>
+                    <td>
+                      {{oficio.oficio_prazo}}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="oficio.oficio_solicitacao_descricao" class="novaPagina">
+                    <th colspan="2" class="tituloEditor">
+                      Descrição da solicitação:
+                    </th>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_solicitacao_descricao">
+                    <td colspan="2">
+                      <div style="padding: 5px">
+                        <table>
+                          <tr>
+                            <td class="edi">
+                              <span [innerHTML]="oficio.oficio_solicitacao_descricao"></span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_descricao_acao" class="novaPagina">
+                    <th colspan="2" class="tituloEditor">
+                      Descrição da ação:
+                    </th>
+                  </tr>
+                  <tr *ngIf="oficio.oficio_descricao_acao">
+                    <td colspan="2">
+                      <div style="padding: 5px">
+                        <table>
+                          <tr>
+                            <td class="edi">
+                              <span [innerHTML]="oficio.oficio_descricao_acao"></span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <app-arquivo style="background-color: var(--fundotabela)"
+                  [modulo]="'oficio'"
+                  [modelo]="'analisar'"
+                  [registro_id]="oficio.oficio_id"
+                  [uploadDisabled]="botaoEnviarInativo"
+                  (onBlockSubmit)="onBlockSubmit($event)"
+                ></app-arquivo>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+        <div class="p-col-12">&nbsp;</div>
+      </div>
+
+      <div class="p-grid formDiv">
+        <div class="p-col-12 campoLabel" style="text-align: center">
+          <button
+            pButton
+            [disabled]="def || botaoEnviarInativo"
+            type="button"
+            class="p-button-rounded p-button-success"
+            (click)="deferirOficio()"
+            label="DEFERIR"
+          ></button>
+          &nbsp;&nbsp;
+          <button
+            pButton
+            [disabled]="indef || botaoEnviarInativo"
+            type="button"
+            class="p-button-rounded p-button-danger"
+            (click)="indeferirOficio()"
+            label="INDEFERIR"
+          ></button>
+          &nbsp;&nbsp;
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="voltarListar()"
+            [disabled]="botoesDesativados"
+            label="Voltar"
+          ></button>
+        </div>
+        <div class="p-col-12">&nbsp;</div>
+      </div>
+
+
+    </div>
+    <div class="p-md-1 p-xl-1"></div>
+    <div class="p-col-12"></div>
+  </div>
+</div>
+<p-toast key="oficioToast" [style]="{marginTop: '80px'}" (onClose)="voltarListar()"></p-toast>
+<p-toast key="oficioErro" [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,214 @@
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label=" Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton *ngIf="authenticationService.telefone_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+</div>
+<form [formGroup]="formMenuTelefone" (keyup)="onKey($event)">
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-col-12"></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+
+      <!-- proposicao_ementa -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Tipo</h6>
+          <p-selectButton [options]="ddTelefone_tipo" formControlName="telefone_tipo"></p-selectButton>
+        </div>
+      </div>
+
+      <!-- telefone_data1 -->
+      <div class="p-grid">
+
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+          <h6>De</h6>
+          <p-calendar
+            formControlName="telefone_data1"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+
+            [showTime]="true"
+            dataType="string"
+          ></p-calendar>
+        </div>
+
+        <!-- telefone_data2 -->
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+          <h6>até</h6>
+          <p-calendar
+            formControlName="telefone_data2"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+
+            [showTime]="true"
+            dataType="string"
+          ></p-calendar>
+        </div>
+
+      </div>
+
+      <!-- telefone_usuario_nome -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Atendente</h6>
+          <p-dropdown
+            [options]="ddTelefone_usuario_nome"
+            [style]="{'width':'90%'}"
+            formControlName="telefone_usuario_nome"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- telefone_assunto1 -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Assunto começa com</h6>
+          <p-autoComplete
+            formControlName="telefone_assunto1"
+            [maxlength]="50"
+            [minLength]="3"
+            [delay]="500"
+            [suggestions]="sgt"
+            dropdownMode="current"
+            (completeMethod)="autoComp($event,'telefone_assunto')"
+            [inputStyle]="{'padding-right':'0'}"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <!-- telefone_assunto2 -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Assunto contém</h6>
+          <p-chips
+            formControlName="telefone_assunto2"
+            [addOnTab]="true"
+            [addOnBlur]="true"
+          ></p-chips>
+        </div>
+      </div>
+
+    </div>
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+
+      <!-- telefone_de -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>De</h6>
+          <p-autoComplete
+            formControlName="telefone_de"
+            [maxlength]="50"
+            [minLength]="3"
+            [delay]="500"
+            [suggestions]="sgt"
+            (completeMethod)="autoComp($event,'telefone_de')"
+            [inputStyle]="{'padding-right':'0'}"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <!-- telefone_para -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Para</h6>
+          <p-autoComplete
+            formControlName="telefone_para"
+            [maxlength]="50"
+            [minLength]="3"
+            [delay]="500"
+            [suggestions]="sgt"
+            (completeMethod)="autoComp($event,'telefone_para')"
+            [inputStyle]="{'padding-right':'0'}"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <!-- telefone_ddd -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>DDD</h6>
+          <input
+            type="text"
+            pInputText
+            formControlName="telefone_ddd"
+            [size]="5"
+          >
+        </div>
+      </div>
+
+      <!-- telefone_telefone -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Telefone</h6>
+          <p-autoComplete
+            formControlName="telefone_telefone"
+            [maxlength]="50"
+            [size]="20"
+            [minLength]="3"
+            [delay]="500"
+            [suggestions]="sgt"
+            (completeMethod)="autoComp($event,'telefone_telefone')"
+            [inputStyle]="{'padding-right':'0'}"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <!-- telefone_local_id -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Núcleo</h6>
+          <p-dropdown
+            [options]="ddTelefone_local_id"
+            [style]="{'width':'90%'}"
+            formControlName="telefone_local_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- telefone_resolvido -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Situação</h6>
+          <p-selectButton [options]="ddTelefone_resolvido" formControlName="telefone_resolvido"></p-selectButton>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</form>
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label="Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton *ngIf="authenticationService.telefone_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+</div>

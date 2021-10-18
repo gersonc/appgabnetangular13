@@ -1,0 +1,15 @@
+<p-sidebar
+  [visible]="mm.mostra"
+  appendTo="body"
+  [blockScroll]="false"
+  [dismissible]="true"
+  (onHide)="onHide()"
+  styleClass="menu-lateral"
+>
+  <div style="padding-top: 1.8rem">
+    <p-scrollPanel [styleClass]="'menu-lateral'" >
+        <app-oficio-menu-listar></app-oficio-menu-listar>
+    </p-scrollPanel>
+  </div>
+</p-sidebar>
+<router-outlet></router-outlet>

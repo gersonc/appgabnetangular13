@@ -1,0 +1,217 @@
+
+p-fileupload .p-fileupload-buttonbar .p-button {
+  color: var(--bt-secundario-color);
+  background: var(--bt-secundario-bg);
+  border: var(--bt-secundario-border);
+}
+
+p-fileupload .p-fileupload-buttonbar .p-button:hover {
+  background: var(--bt-secundario-bg-hover);
+  color: var(--bt-secundario-color-hover);
+  border-color: var(--bt-secundario-border-hover);
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+
+p-fileupload .p-fileupload-buttonbar .p-button:focus {
+  background: var(--bt-secundario-bg-hover);
+  color: var(--bt-secundario-color-hover);
+  border-color: var(--bt-secundario-border-hover);
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+
+p-fileupload .p-fileupload-content {
+  background: var(--input-filled)!important;
+  padding: 2rem 1rem;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.p-fileupload .fileclass {
+  background-color: var(--surface-a);
+}
+
+.p-fileupload .filename {
+  font-size:.9rem;
+  font-weight: bold;
+}
+
+.p-fileupload .filesize {
+  font-size: .8rem;
+}
+
+.p-fileupload .fileclass.p-d-flex.p-flex-row.p-ai-center.p-jc-between.p-mx-1.p-my-2.p-p-1.p-shadow-1 {
+  border-radius: 3px;
+}
+
+
+
+.arquivolistadetalhe {
+  font-size: small;
+  color: #333333;
+  width: 100%;
+  background: var(--claro);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.arquivolistalinhadetalhe {
+  background-color: var(--claro);
+  display: block;
+  width: auto;
+  padding-right: 1rem;
+  border-radius: 3px;
+}
+
+.arquivolink {
+  font-size: .8rem
+}
+
+
+
+.arquivolink-ativo {
+  cursor: pointer;
+}
+
+.arquivolink-ativo:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
+
+.arquivolinkexcluir {
+  float: right;
+  background-color: transparent;
+  margin-left: 5px;
+  color: var(--primario);
+  vertical-align: center;
+  border-left: 2px var(--claro);
+  border-bottom: 2px var(--claro);
+  display: inline;
+}
+
+div.arquivoNaolinkview {
+  font-size: .8rem;
+  display: inline;
+}
+
+div.arquivolinkview {
+  font-size: .8rem;
+  cursor: pointer;
+  display: inline;
+}
+
+div.arquivolinkview:hover {
+  font-size: .8rem;
+  cursor: pointer;
+  opacity: .7;
+  display: inline;
+}
+
+div.arquivolistahorizontal {
+  background-color: var(--formularios-bg);
+  padding: .5rem;
+  border: 1px solid var(--formularios-bg);
+  border-radius: .5rem;
+  margin-bottom: .5rem;
+}
+
+
+p-panel.arquivolistahorizontal .p-panel-header {
+  border: 1px solid var(--fundotabela) !important;
+  padding: .5rem .75rem !important;
+  background: var(--fundotabela) !important;
+}
+
+p-panel.arquivolistahorizontal .p-panel-content {
+  padding: .5rem !important;
+}
+
+
+
+
+
+
+
+
+
+.fileclassView {
+  background-color: var(--surface-a) !important;
+}
+
+.fileclassView .filename {
+  font-size:.9rem;
+  font-weight: bold;
+}
+
+.fileclassView .filesize {
+  font-size: .8rem;
+}
+
+.fileclassView.p-d-flex.p-flex-row.p-ai-center.p-jc-between.p-mx-1.p-my-2.p-p-1.p-shadow-1 {
+  background-color: var(--surface-a) !important;
+  border-radius: 5px;
+}
+
+.fileclassView.p-ai-center.p-mx-1.p-my-2.p-p-1.p-shadow-1 {
+  background-color: var(--surface-a) !important;
+  border-radius: 5px;
+}
+
+.arquivolista {
+  font-size: small;
+  background-color: var(--input-filled);
+  width: 100%;
+  border: 1px solid var(--border-elementos-input-forms);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.arquivolistalinha {
+  display: inline-block;
+  width: 100%;
+  padding: 3px;
+  background-color: var(--surface-a);
+}
+
+.arquivolistalinha:hover {
+  background-color: var(--ativo);
+  color: var(--claro);
+}
+
+:host ::ng-deep .arquivo-spinner .p-progress-spinner-circle {
+  animation: arquivo-progress-spinner-dash 1.5s ease-in-out infinite, arquivo-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes arquivo-progress-spinner-color {
+  100%,
+  0% {
+    stroke: var(--primary-color-text);
+  }
+  40% {
+    stroke: var(--text-color-secondary);
+  }
+  66% {
+    stroke: var( --text-color);
+  }
+  80%,
+  90% {
+    stroke: var(--primary-color);
+  }
+}
+
+@keyframes arquivo-progress-spinner-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}

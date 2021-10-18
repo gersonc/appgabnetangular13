@@ -1,0 +1,62 @@
+<div id="home" class="container bg-container">
+  <div class="aaa">
+  <br>
+  <h1>Home</h1>
+  <p>You're logged in with Angular 7 & JWT!!</p>
+  <p>This page can be accessed by all authenticated users.</p>
+  <div>
+   <!-- 
+    Current user from secure api end point:
+    <ul>
+      <li *ngFor="let rule of currentUser.rule">
+        <span class="badge">{{rule}}</span>
+      </li>
+    </ul>
+    
+    -->
+
+    <ul>
+      <li>
+        <span class="badge">Element: {{coorApp.elem}}</span>
+      </li>
+      <li>
+        <span class="badge">x: {{coorApp.x}}</span>
+      </li>
+      <li>
+        <span class="badge">y: {{coorApp.y}}</span>
+      </li>
+      <li>
+        <span class="badge">Element: {{coorTopo.elem}}</span>
+      </li>
+      <li>
+        <span class="badge">x: {{coorTopo.x}}</span>
+      </li>
+      <li>
+        <span class="badge">y: {{coorTopo.y}}</span>
+      </li>
+      <li>
+        <span class="badge">Element: {{coorMain.elem}}</span>
+      </li>
+      <li>
+        <span class="badge">x: {{coorMain.x}}</span>
+      </li>
+      <li>
+        <span class="badge">y: {{coorMain.y}}</span>
+      </li>
+      <li>
+        <span class="badge">Element: {{coorRodape.elem}}</span>
+      </li>
+      <li>
+        <span class="badge">x: {{coorRodape.x}}</span>
+      </li>
+      <li>
+        <span class="badge">y: {{coorRodape.y}}</span>
+      </li>
+    </ul>
+    
+  </div>
+    <button type="button" (click)="mostraMenu()">Menu</button>
+    <button type="button" (click)="mostraCarregador()">Mostra</button>
+    <button type="button" (click)="escondeCarregador()">Esconde</button>
+  </div>
+</div>

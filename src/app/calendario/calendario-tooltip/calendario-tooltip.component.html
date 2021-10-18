@@ -1,0 +1,10 @@
+
+  <div #ctt [ngStyle]="currentStyles" class="p-shadow-4 calendariottip">
+    <div [ngStyle]="currentEstilo">
+      <div [ngStyle]="tituloEstilo">&nbsp;{{ev.title}}</div>
+      <div *ngIf="ev.description" class="calendariottip-description">
+        {{ev.description}}
+      </div>
+    </div>
+  </div>
+

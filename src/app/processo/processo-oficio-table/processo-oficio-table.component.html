@@ -1,0 +1,44 @@
+<ng-container *ngIf="oficio">
+<table class="tabeladt">
+  <tr>
+    <th>Código</th>
+    <th>Situação</th>
+    <th>Número</th>
+    <th>Dt. Emissão</th>
+    <th>Prazo</th>
+    <th>Org. Solicitado</th>
+    <th>Org. Protocolante</th>
+    <th>Nº Protocolo</th>
+    <th>Dt. Protocolo</th>
+    <th>Org. Prot. Funcionário</th>
+    <th>Convênio</th>
+    <th>Vl. Solicitado</th>
+    <th>Vl. Recebido</th>
+    <th>Dt. Pgto.</th>
+    <th>Dt. Recebimento</th>
+    <th>Dt. Empenho</th>
+    <th>Prioridade</th>
+    <th>Tp. Andamento</th>
+  </tr>
+  <tr *ngFor="let ofi of oficio">
+    <td>{{ofi.oficio_codigo}}</td>
+    <td>{{ofi.oficio_status}}</td>
+    <td>{{ofi.oficio_numero}}</td>
+    <td>{{ofi.oficio_data_emissao}}</td>
+    <td>{{ofi.oficio_prazo}}</td>
+    <td>{{ofi.oficio_orgao_solicitado_nome}}</td>
+    <td>{{ofi.oficio_orgao_protocolante_nome}}</td>
+    <td>{{ofi.oficio_protocolo_numero}}</td>
+    <td>{{ofi.oficio_data_protocolo}}</td>
+    <td>{{ofi.oficio_protocolante_funcionario}}</td>
+    <td>{{ofi.oficio_convenio}}</td>
+    <td>{{ofi.oficio_valor_solicitado}}</td>
+    <td>{{ofi.oficio_valor_recebido}}</td>
+    <td>{{ofi.oficio_data_pagamento}}</td>
+    <td>{{ofi.oficio_data_recebimento}}</td>
+    <td>{{ofi.oficio_data_empenho}}</td>
+    <td>{{ofi.oficio_prioridade_nome}}</td>
+    <td>{{ofi.oficio_tipo_andamento_nome}}</td>
+  </tr>
+</table>
+</ng-container>

@@ -1,0 +1,8 @@
+.etiqueta {
+  color: #20c997;
+}
+
+.etiqueta td {
+  padding-left: 5px;
+  border-right: 1px solid var(--fundo);
+}

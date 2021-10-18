@@ -1,0 +1,47 @@
+import { CadastroBuscaCampoInterface } from './cadastro-busca-campo.interface';
+
+export interface CadastroBuscaInterface {
+  cadastro_tipo?: number;
+  cadastro_nome?: string;
+  cadastro_sigla?: string;
+  cadastro_apelido?: string;
+  cadastro_responsavel?: string;
+  cadastro_cargo?: string;
+  cadastro_estado_id?: number;
+  cadastro_bairro?: string;
+  cadastro_municipio_id?: number;
+  cadastro_municipio_nome?: string;
+  cadastro_regiao_id?: number;
+  cadastro_regiao_nome?: string;
+  cadastro_grupo_id?: number;
+  aniversario?: string;
+  anidia?: string;
+  quinzena?: string;
+  data1?: string;
+  data2?: string;
+  cadastro_usuario?: string;
+  cadastro_estado_civil_id?: number;
+  cadastro_escolaridade_id?: number;
+  cadastro_profissao?: string;
+  cadastro_sexo?: string;
+  cadastro_zona?: string;
+  cadastro_data_cadastramento?: string;
+  cadastro_jornal?: number;
+  cadastro_mala?: number;
+  cadastro_agenda?: number;
+  cadastro_sigilo?: number;
+  cadastro_cpfcnpj?: string;
+  telefone?: string;
+  cadastro_campo1?: string;
+  cadastro_campo2?: string;
+  cadastro_campo3?: string;
+  cadastro_campo4_id?: number;
+  numlinhas?: string;
+  inicio?: string;
+  sortorder?: string;
+  sortcampo?: string;
+  todos?: boolean;
+  campos?: CadastroBuscaCampoInterface[];
+  ids?: any[];
+  sms?: boolean;
+}

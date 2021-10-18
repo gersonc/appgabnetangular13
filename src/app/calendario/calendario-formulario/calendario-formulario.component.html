@@ -1,0 +1,532 @@
+<div class="calexibir">
+  <form (ngSubmit)="onSubmit()" name="calForm" #calForm="ngForm">
+
+    <div class="p-fluid p-grid p-input-filled">
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+        <div class="p-fluid p-formgrid p-grid formulario">
+          <div class="p-field p-col-6 p-md-5 formulario">
+            <label for="start"><span style="color: var(--primary-color-text);">*</span>Data</label>
+            <p-calendar
+              id="start"
+              [(ngModel)]="start"
+              name="start"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              dataType="date"
+              dateFormat="dd/mm/yy"
+              placeholder="dd/mm/aaaa"
+              yearRange="2020:2040"
+              [required]="true"
+              [readonlyInput]="true"
+              (onBlur)="mudaAte($event)"
+            ></p-calendar>
+          </div>
+
+          <div class="p-field p-col-2">
+            <h5>Dia inteiro</h5>
+                <p-checkbox
+                  id="allDay"
+                  name="allDay"
+                  [binary]="true"
+                  [(ngModel)]="allDay"
+                  [name]="'allDay'"
+                  (onChange)="vfAllDay($event)"
+                ></p-checkbox>
+          </div>
+          <div class="p-field p-col-2">
+                <!--<label for="recorrente">Recorrente</label>-->
+            <h5>Recorrente</h5>
+                <p-checkbox
+                  id="recorrente"
+                  name="recorrente"
+                  [binary]="true"
+                  [name]="'recorrente'"
+                  [(ngModel)]="recorrente"
+                  (onChange)="recorrenteOnChange($event)"
+                ></p-checkbox>
+          </div>
+          <div class="p-field p-col-3">
+            <!--<label for="recorrente">Recorrente</label>-->
+            <h5>Todos usuários</h5>
+            <p-checkbox
+              id="todos_usuarios_sn"
+              name="todos_usuarios_sn"
+              [binary]="true"
+              [name]="'todos_usuarios_sn'"
+              [(ngModel)]="todos_usuarios_sn"
+              (onChange)="todosUsuariosOnChange($event)"
+            ></p-checkbox>
+          </div>
+          <div class="p-field p-col-3 p-md-3">
+            <label for="start2">De</label>
+            <p-calendar
+              id="start2"
+              [(ngModel)]="start"
+              name="start"
+              [timeOnly]="true"
+              [styleClass]="'estreito2'"
+              [inputStyle]="{'max-width':'78px'}"
+              [readonlyInput]="true"
+              (onBlur)="mudaAte($event)"
+            ></p-calendar>
+          </div>
+          <div class="p-field p-col-3 p-md-3">
+            <label for="end">Até</label>
+            <p-calendar
+              id="end"
+              [(ngModel)]="end"
+              name="end"
+              [timeOnly]="true"
+              [styleClass]="'estreito2'"
+              [inputStyle]="{'max-width':'78px'}"
+              [readonlyInput]="true"
+            ></p-calendar>
+          </div>
+          <div class="p-field p-col-6 p-md-6">
+            <label for="end2">&nbsp;</label>
+            <p-calendar
+              id="end2"
+              [(ngModel)]="end"
+              name="end"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              dataType="date"
+              dateFormat="dd/mm/yy"
+              placeholder="dd/mm/aaaa"
+              yearRange="2020:2040"
+              [required]="true"
+              [readonlyInput]="true"
+              [inputStyle]="{'max-width':'140px'}"
+            ></p-calendar>
+          </div>
+          <div class="p-field p-col-12" [ngClass]="aplicaCssErro('title')">
+            <label for="title"><span style="color: var(--ativo);">*</span> Título</label>
+            <input
+              id="title"
+              [(ngModel)]="title"
+              name="title"
+              [maxlength]="50"
+              pInputText
+              [size]="40"
+              type="text"
+              [required]="true"
+            />
+            <app-campo-control-erro msgErro="Título é obrigatório.">
+            </app-campo-control-erro>
+          </div>
+          <div class="p-field p-col-12">
+            <label for="url">Url</label>
+            <input
+              id="url"
+              [(ngModel)]="url"
+              name="url"
+              [maxlength]="300"
+              pInputText
+              [size]="40"
+              type="text"
+            />
+          </div>
+          <div class="p-field p-col-12">
+            <label for="description">Observações</label>
+            <textarea
+              id="description"
+              [rows]="5"
+              [cols]="40"
+              [autoResize]="true"
+              [(ngModel)]="description"
+              name="description"
+              pInputTextarea
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+        <div class="p-fluid p-formgrid p-grid">
+          <div *ngIf="!todos_usuarios_sn" class="p-field p-col-7">
+            <label for="usuario_id">Usuarios</label>
+            <p-listbox
+              id="usuario_id"
+              name="usuario_id"
+              [options]="ddusuario"
+              [(ngModel)]="usuario_id"
+              [checkbox]="true"
+              [multiple]="true"
+              [listStyle]="{'max-height':'250px'}"
+              (onChange)="onUsuarioIdChange($event)"
+              [required]="true"
+            ></p-listbox>
+
+            <!--
+            <p-multiSelect
+              id="usuario_id"
+              [options]="ddusuario"
+              [(ngModel)]="usuario_id"
+              name="usuario_id"
+              [defaultLabel]="'Selecione'"
+              selectedItemsLabel="{0} usuários"
+              [filter]="false"
+              style="z-index: 2000"
+              [displaySelectedLabel]="true"
+            >
+            </p-multiSelect>
+            -->
+          </div>
+          <div *ngIf="!recorrente" class="p-col-5"> </div>
+          <!-- FREQUENCIA ******************************************************************* -->
+          <div *ngIf="recorrente" class="p-field p-col-5">
+            <label for="frequencia">Frequência</label>
+            <p-dropdown
+              id="frequencia"
+              [(ngModel)]="frequencia"
+              name="frequencia"
+              [options]="ddFrequencia"
+              [showClear]="true"
+              (onChange)="frequenciaChange($event)"
+            ></p-dropdown>
+          </div>
+          <div *ngIf="todos_usuarios_sn" class="p-col-7"> </div>
+          <!-- SEMANAL ********************************************************************** -->
+          <!-- weekdaySelect -->
+          <div *ngIf="semanaDiasLiteral" class="p-field p-col-12  p-flex-wrap" [ngClass]="aplicaCssErro('semanaDiasLiteral')">
+            <label><span style="color: var(--ativo)">*</span> Dias da semana para ocorrência(s)</label>
+
+            <p-selectButton
+              id="semanaDiasLiteral"
+              [options]="ddday1"
+              [(ngModel)]="semanaDiasLiteral"
+              name="semanaDiasLiteral"
+              [multiple]="true"
+              [required]="true"
+              (onChange)="semanaDiasLiteralChange($event)"
+            ></p-selectButton>
+
+            <p-selectButton
+              id="semanaDiasLiteral2"
+              [options]="ddday2"
+              [(ngModel)]="semanaDiasLiteral"
+              name="semanaDiasLiteral2"
+              [multiple]="true"
+              [required]="true"
+              (onChange)="semanaDiasLiteralChange($event)"
+            ></p-selectButton>
+
+
+            <app-campo-control-erro msgErro="Dias da semana é obrigatório.">
+            </app-campo-control-erro>
+          </div>
+          <!-- MENSAL *********************************************************************** -->
+          <!-- monthdaySelect -->
+          <ng-container *ngIf="frequencia==1">
+            <div class="p-field p-col-6">
+              <h5><span style="color: var(--ativo)">*</span> Dia(s) do mês para ocorrência(s)</h5>
+                <p-radioButton
+                  id="rmesDia"
+                  value="mesDia"
+                  (onClick)="rdMensalClick($event)"
+                  [(ngModel)]="rdMensal"
+                  name="rmesDia"
+                ></p-radioButton>
+            </div>
+            <div class="p-field p-col-6">
+              <h5>Posição</h5>
+                  <p-radioButton
+                    id="rmesPosicao"
+                    value="mesPosicao"
+                    (onClick)="rdMensalClick($event)"
+                    [(ngModel)]="rdMensal"
+                    name="rmesPosicao"
+                  ></p-radioButton>
+            </div>
+            <ng-container *ngIf="mesDias">
+              <div *ngFor="let di of ddmonthday" class="p-field p-col-3 p-xl-1 p-lg-2 p-md-3 p-sm-4 p-field-checkbox" [ngClass]="aplicaCssErro('mesDias')">
+                <p-checkbox name="dia{{di.label}}" [value]="di.value" [(ngModel)]="mesDias" [inputId]="'dia' + di.label"></p-checkbox>
+                <label [for]="'dia' + di.label">{{di.label}}</label>
+              </div>
+            </ng-container>
+
+            <!-- monthdaySelect -->
+            <div *ngIf="!vfMes" class="p-field p-col-6">
+              <p-dropdown
+                [(ngModel)]="mesPosicao"
+                name="mesPosicao"
+                [options]="ddnth"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <div *ngIf="!vfMes" class="p-field p-col-6">
+              <p-dropdown
+                [(ngModel)]="mesDiasLiteral"
+                name="mesDiasLiteral"
+                [options]="ddias"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+          </ng-container>
+          <!-- ANUAL *********************************************************************** -->
+          <ng-container *ngIf="frequencia==0">
+            <div class="p-field p-col-12">
+              <div class="p-formgroup-inline">
+                <div class="p-field-radiobutton">
+                  <label for="rdAnual1">Dia do ano</label>
+                  <p-radioButton
+                    id="rdAnual1"
+                    value="1"
+                    [(ngModel)]="rdAnual"
+                    name="rdAnual"
+                    (onClick)="rdAnualClick($event)"
+                  ></p-radioButton>
+                </div>
+                <div class="p-field-radiobutton">
+                  <label for="rdAnual2">Posição</label>
+                  <p-radioButton
+                    id="rdAnual2"
+                    value="2"
+                    [(ngModel)]="rdAnual"
+                    name="rdAnual"
+                    (onClick)="rdAnualClick($event)"
+                  ></p-radioButton>
+                </div>
+              </div>
+            </div>
+            <!-- yearly-options -->
+            <div *ngIf="vfAno" class="p-field p-col-6">
+              <p-inputNumber
+                name="anoDiaMes"
+                [(ngModel)]="anoDiaMes"
+                mode="decimal"
+                [showButtons]="true"
+                [min]="1"
+                [max]="31"
+                [size]="3"
+                [maxlength]="2"
+                [format]="false"
+                buttonLayout="horizontal"
+                spinnerMode="horizontal"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+              ></p-inputNumber>
+            </div>
+            <div *ngIf="vfAno" class="p-field p-col-6">
+              <p-dropdown
+                [(ngModel)]="anoMes"
+                name="anoMes"
+                [options]="ddmonths"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- yearly-options -->
+            <div *ngIf="!vfAno" class="p-field p-col-6">
+              <p-dropdown
+                [(ngModel)]="anoPosicao"
+                name="anoPosicao"
+                [options]="ddnth"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <div *ngIf="!vfAno" class="p-field p-col-6">
+              <p-dropdown
+                [(ngModel)]="anoDiasLiteral"
+                name="anoDiasLiteral"
+                [options]="ddias"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <div *ngIf="!vfAno" class="p-field p-col-12">
+              <p-selectButton
+                id="anoMeses1"
+                name="anoMeses1"
+                [options]="ddymonthbt1"
+                [(ngModel)]="anoMeses"
+                [required]="true"
+              ></p-selectButton>
+              <p-selectButton
+                id="anoMeses2"
+                name="anoMeses2"
+                [options]="ddymonthbt2"
+                [(ngModel)]="anoMeses"
+                [required]="true"
+              ></p-selectButton>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="recorrente">
+            <div class="p-field p-col-6">
+              <h5>Número de ocorrências</h5>
+                  <p-radioButton
+                    id="rdCountUntil"
+                    value="count"
+                    (onClick)="rdCountClick($event)"
+                    [(ngModel)]="rdCountUntil"
+                    name="rdCountUntil"
+                  ></p-radioButton>
+            </div>
+            <div class="p-field p-col-6">
+              <!--<label for="rdCountUntil2">Data de término</label>-->
+              <h5>Data de término</h5>
+                  <p-radioButton
+                    id="rdCountUntil2"
+                    value="until"
+                    (onClick)="rdUntilClick($event)"
+                    [(ngModel)]="rdCountUntil"
+                    name="rdCountUntil2"
+                  ></p-radioButton>
+            </div>
+            <!-- opcoes.count -->
+            <div *ngIf="recorrenciaFim" class="p-field p-col-6" [ngClass]="aplicaCssErro('fimNumOcorrencias')">
+              <p-inputNumber name="fimNumOcorrencias" [(ngModel)]="fimNumOcorrencias" mode="decimal" [showButtons]="true"  [min]="1" [max]="800" [size]="4" [maxlength]="3" [format]="false" buttonLayout="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber>
+              <app-campo-control-erro msgErro="Número de ocorrências é obrigatório.">
+              </app-campo-control-erro>
+            </div>
+            <div *ngIf="recorrenciaFim" class="p-field p-col-6"></div>
+            <!-- opcoes.until -->
+            <div *ngIf="!recorrenciaFim" class="p-field p-col-6">
+              <p-calendar
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                dataType="date"
+                dateFormat="dd/mm/yy"
+                [(ngModel)]="fimAte"
+                name="fimAte"
+                placeholder="dd/mm/aaaa"
+                yearRange="2020:2040"
+                [showTime]="!allDay"
+                [readonlyInput]="true"
+                [required]="true"
+                styleClass="calform"
+              ></p-calendar>
+            </div>
+            <div *ngIf="!recorrenciaFim" class="p-field p-col-6"> </div>
+            <!-- exdate ******************************************************************* -->
+            <div *ngIf="exdate" class="p-field p-col-12">
+              <!-- frequency -->
+              <label for="exdate">Data(s) excluidas</label>
+              <p-chips id="exdate" [(ngModel)]="exdate" name="exdate"></p-chips>
+            </div>
+          </ng-container>
+          <!-- *** ddlocal *** -->
+          <div *ngIf="ddlocal.length > 0" class="p-field p-col-6">
+            <label for="local_id">Núcleo</label>
+            <p-dropdown
+              id="local_id"
+              placeholder="Selecione"
+              [options]="ddlocal"
+              [(ngModel)]="local_id"
+              name="local_id"
+              [showClear]="true"
+              [baseZIndex]="10001"
+            >
+            </p-dropdown>
+          </div>
+          <!--*** prioridade_id***-->
+          <div *ngIf="trocaCor == 0 || trocaCor == 1" class="p-field p-col-6">
+            <label for="prioridade_id">Prioridade</label>
+            <p-dropdown
+              id="prioridade_id"
+              [(ngModel)]="prioridade_id"
+              name="prioridade_id"
+              placeholder="Selecione"
+              [options]="ddprioridade"
+              [showClear]="true"
+              (onChange)="onTrocaProridade($event)"
+            >
+            </p-dropdown>
+          </div>
+          <!--*** calendario_status_id***-->
+          <div *ngIf="trocaCor == 0 || trocaCor == 2" class="p-field p-col-6">
+            <label for="calendario_status_id">Status</label>
+            <p-dropdown
+              id="calendario_status_id"
+              [(ngModel)]="calendario_status_id"
+              name="calendario_status_id"
+              placeholder="Selecione"
+              [options]="ddcalendario_status"
+              [showClear]="true"
+              [baseZIndex]="10001"
+              (onChange)="onTrocaStatus($event)"
+            >
+            </p-dropdown>
+          </div>
+          <!--*** type_id***-->
+          <div *ngIf="trocaCor == 4" class="p-field p-col-6">
+            <p-button
+              label="Limpa Cores"
+              class="p-button-rounded p-button-secondary"
+              (onClick)="onTrocaColor2($event)"
+            >
+            </p-button>
+          </div>
+          <!--*** type_id***-->
+          <div *ngIf="trocaCor == 0 || trocaCor == 4" class="p-field p-col-6">
+            <h5>Cor</h5>
+            <p-colorPicker
+              id="backgroundColor"
+              [(ngModel)]="backgroundColor"
+              name="backgroundColor"
+              (onChange)="onTrocaColor()"
+            ></p-colorPicker>
+          </div>
+          <!--*** type_id***-->
+          <div *ngIf="trocaCor == 0 || trocaCor == 3" class="p-field p-col-6">
+            <label for="type_id">Categoria</label>
+            <p-dropdown
+              id="type_id"
+              [(ngModel)]="type_id"
+              name="type_id"
+              placeholder="Selecione"
+              [options]="ddtypes"
+              [showClear]="true"
+              [baseZIndex]="10001"
+              (onChange)="onTrocaCategoria($event)"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="p-grid">
+    <div class="p-col-12">
+      <div style="float: right">
+        <p-fileUpload
+          name="ics[]"
+          chooseLabel="Importar"
+          mode="basic"
+          accept=".ics"
+          styleClass="icsupload"
+          [multiple]="true"
+          [url]="urlUpload"
+          [auto]="true"
+          (onUpload)="onBasicUpload($event)"
+        >
+        </p-fileUpload>
+        &nbsp;&nbsp;
+      </div>
+      <button
+        [disabled]="!calForm.valid && !mostraForm"
+        class="p-button-rounded"
+        label="Enviar"
+        pButton
+        type="submit"
+      ></button>
+      &nbsp;&nbsp;
+      <button
+        (click)="resetForm()"
+        [disabled]="botaoEnviarVF"
+        class="p-button-rounded p-button-secondary"
+        label="Limpar"
+        pButton
+        type="button"
+      ></button>
+      &nbsp;&nbsp;
+      <button
+        (click)="voltarListar()"
+        [disabled]="botaoEnviarVF"
+        class="p-button-rounded p-button-secondary"
+        label="Fechar"
+        pButton
+        type="button"
+      ></button>
+    </div>
+  </div>
+
+  </form>
+</div>
+<p-toast key="calFormToast" [style]="{marginTop: '80px'}"></p-toast>

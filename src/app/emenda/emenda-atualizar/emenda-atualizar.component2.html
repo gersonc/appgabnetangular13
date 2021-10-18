@@ -1,0 +1,152 @@
+
+<p-scrollPanel [styleClass]="'scrollPanel55'" #atualizaEmenda id="atualizaEmenda">
+  <table class="detalhefull">
+    <tr>
+      <td>
+        <table class="table-hover tabela" #tabemenda id="tabemenda">
+          <caption>EMENDA</caption>
+          <ng-container *ngFor="let em of emenda; let i=index">
+            <tr *ngIf="em[1]">
+              <th>
+                {{em[0]}}
+              </th>
+              <td>
+                {{em[1]}}
+              </td>
+            </tr>
+          </ng-container>
+
+          <tr *ngIf="dados.emenda.emenda_justificativa" class="novaPagina">
+            <td colspan="2" class="tituloEditor">
+              {{emenda_titulo['emenda_justificativa']}}
+            </td>
+          </tr>
+          <tr *ngIf="dados.emenda.emenda_justificativa">
+            <td colspan="2" class="edi" #justificativa id="justificativa" >
+              <div style="padding: 5px">
+                <span [innerHTML]="dados.emenda.emenda_justificativa"></span>
+              </div>
+            </td>
+          </tr>
+          <app-arquivo
+            [modulo]="'emenda'"
+            [modelo]="'detalhe'"
+            [registro_id]="dados.emenda.emenda_id"
+          ></app-arquivo>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr *ngIf="dados.emenda.historico_emenda">
+      <td>
+        <table class="table-hover tabelasimples" #tabhistorico id="tabhistorico">
+          <caption>HISTÓRICO</caption>
+          <tr>
+            <th>
+              {{historico_emenda_titulo['his_data']}}
+            </th>
+            <th>
+              {{historico_emenda_titulo['his_usuario']}}
+            </th>
+            <th>
+              {{historico_emenda_titulo['his_texto']}}
+            </th>
+          </tr>
+          <tr *ngFor="let hi of dados.emenda.historico_emenda">
+            <td>{{hi.his_data}}</td>
+            <td>{{hi.his_usuario}}</td>
+            <td>{{hi.his_texto}}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr *ngIf="dados.emenda.historico_emenda">
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+        <app-arquivo
+          [modulo]="'emenda'"
+          [modelo]="'detalhe'"
+          [registro_id]="dados.emenda.emenda_id"
+        ></app-arquivo>
+      </td>
+    </tr>
+  </table>
+  <div class="p-grid">
+    <div class="p-md-1 p-xl-1"></div>
+    <div class="p-col-12 p-sm-12 p-md-10 p-xl-10 divform">
+      <form [formGroup]="formEmendaAtualizar" (ngSubmit)="onSubmit()">
+        <div class="p-grid formDiv">
+          <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+            <div class="p-grid">
+              <!--*** his_data ***-->
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-3 p-xl-3 campoLabel">
+                <h6> Data da solicitação</h6>
+                <p-calendar
+                  formControlName="his_data"
+                  dateFormat="dd/mm/yy"
+                  placeholder="dd/mm/aaaa"
+
+                  dataType="string"
+                ></p-calendar>
+              </div>
+              <!--*** emenda_situacao ***-->
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-3 p-xl-3 campoLabel" [ngClass]="aplicaCssErro('emenda_situacao')">
+                <h6><span style="color: var(--ativo)">*</span> Situação</h6>
+                <p-dropdown
+                  formControlName="emenda_situacao"
+                  placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                  [options]="ddEmenda_situacao"
+                  [required]="true"
+                  [style]="{'width':'100%', 'max-width': '313px'}"
+                ></p-dropdown>
+                <app-campo-control-erro msgErro="Situação é obrigatório."></app-campo-control-erro>
+              </div>
+              <!--*** emenda_porcentagem ***-->
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-3 p-xl-3 campoLabel">
+                <h6>% Concluida</h6>
+                <p-inputNumber
+                  formControlName="emenda_porcentagem"
+                  mode="decimal"
+                  [showButtons]="true"
+                  inputId="emenda_porcentagem"
+                  [min]="0"
+                  [max]="100">
+                </p-inputNumber>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+            <div class="p-grid">
+              <!--*** his_texto ***-->
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 campoLabel">
+                <h6>Andamento</h6>
+                <textarea
+                  [rows]="4"
+                  [cols]="80"
+                  formControlName="his_texto"
+                  autoResize="true"
+                  pInputTextarea
+                >
+              </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="p-md-1 p-xl-1"></div>
+    <div class="p-col-12"></div>
+    <div class="p-col-12"></div>
+  </div>
+</p-scrollPanel>
+
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  &nbsp;&nbsp;
+
+</div>
+

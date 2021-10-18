@@ -1,0 +1,90 @@
+
+<div class="card">
+  <div style="text-align:center; background-color: var(--primary-color); height: 48px;">
+    <div style="color: var(--claro); padding-top: .8em"><h5>ETIQUETAS</h5></div>
+  </div>
+  <p-table [value]="etiquetas" dataKey="etq_id">
+    <ng-template pTemplate="header">
+      <tr style="font-size: small">
+        <th nowrap="nowrap">Marca</th>
+        <th nowrap="nowrap">Modelo</th>
+        <th nowrap="nowrap">Linhas</th>
+        <th nowrap="nowrap">Colunas</th>
+        <th nowrap="nowrap">Largura</th>
+        <th nowrap="nowrap">Altura</th>
+        <th>Marg. Lat.</th>
+        <th>Marg. Sup.</th>
+        <th>Dist. Vert.</th>
+        <th>Dist. Horz.</th>
+        <th>Folha Horz.</th>
+        <th>Folha Vert.</th>
+        <th colspan="2" style="text-align:center">
+          <button *ngIf="perIncluir" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="p-button-raised p-button-rounded"></button>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-etiqueta let-ri="rowIndex">
+      <tr style="font-size: small">
+        <td>
+          {{etiqueta.etq_marca}}
+        </td>
+        <td>
+          {{etiqueta.etq_modelo}}
+        </td>
+        <td>
+          {{etiqueta.etq_linhas}}
+        </td>
+        <td>
+          {{etiqueta.etq_colunas}}
+        </td>
+        <td>
+          {{etiqueta.etq_largura}}
+        </td>
+        <td>
+          {{etiqueta.etq_altura}}
+        </td>
+        <td>
+          {{etiqueta.etq_margem_lateral}}
+        </td>
+        <td>
+          {{etiqueta.etq_margem_superior}}
+        </td>
+        <td>
+          {{etiqueta.etq_distancia_vertical}}
+        </td>
+        <td>
+          {{etiqueta.etq_distancia_horizontal}}
+        </td>
+        <td>
+          {{etiqueta.etq_folha_horz}}
+        </td>
+        <td>
+          {{etiqueta.etq_folha_vert}}
+        </td>
+        <td style="text-align:center">
+          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(etiqueta)" class="p-button-raised p-button-rounded" [disabled]="!perAltarar"></button>
+        </td>
+        <td style="text-align:center">
+          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="!perDeletar"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast key="msg2"></p-toast>
+
+<p-toast key="msgExcluir" position="center"></p-toast>
+<p-dialog
+  header="{{acao}}"
+  [(visible)]="ecs.formDisplay"
+  [modal]="true"
+  [closable]="true"
+  [blockScroll]="true"
+  [style]="{ width: '800px' }"
+  (onHide)="fechaDialog()"
+>
+  <app-etiqueta-form></app-etiqueta-form>
+</p-dialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
+

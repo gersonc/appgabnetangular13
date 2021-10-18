@@ -1,0 +1,171 @@
+<div class="container-fluid">
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+
+    <div class="p-col-12">
+      <table class="table-hover tabela">
+        <caption>TAREFA</caption>
+        <tr>
+          <th width="1%" nowrap>
+            Título:
+          </th>
+          <td>
+            {{tf.tarefa_titulo}}
+          </td>
+        </tr>
+        <tr>
+          <th width="1%" nowrap>
+            Prazo:
+          </th>
+          <td>
+            {{tf.tarefa_data}} <span *ngIf="tf.tarefa_hora && tf.tarefa_hora !== '00:00'">{{tf.tarefa_hora?.toString()}}</span>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Autor:
+          </th>
+          <td>
+            {{tf.tarefa_usuario_autor_nome}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Data:
+          </th>
+          <td>
+            {{tf.tarefa_datahora}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Demandados:
+          </th>
+          <td>
+
+            <table>
+              <tr *ngFor="let us of tf.usuario_situacao">
+                <td [style.backgroundColor]="fcor(us.tus_situacao_id)" style="padding-left: 5px; padding-right: 5px;">{{us.tu_usuario_nome}}</td>
+                <td [style.backgroundColor]="fcor(us.tus_situacao_id)" style="padding-left: 5px; padding-right: 5px;">{{us.tus_situacao_nome}}</td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+        <tr *ngIf="tf.tarefa_tarefa">
+          <th>
+            Tarefa:
+          </th>
+          <td>
+            {{tf.tarefa_tarefa}}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <ng-container *ngIf="authenticationService.arquivos">
+      <div class="p-col-12 campoLabelMenu">
+        <app-arquivo
+          [modulo]="'tarefa'"
+          [uploadDisabled]="!mostraForm"
+          [registro_id]="tf.tarefa_id"
+          (onPossuiArquivos)="onPossuiArquivos($event)"
+          [modelo]="'alterar'"
+          [stiloClass]="'p-col-12 campoLabel'"
+        ></app-arquivo>
+      </div>
+    </ng-container>
+
+    <form [formGroup]="formTarefa">
+
+      <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('th_historico')">
+        <h6><span style="color: var(--ativo);">*</span>Andamento</h6>
+        <textarea
+          formControlName="th_historico"
+          [rows]="5"
+          [cols]="80"
+          pInputTextarea
+          [autoResize]="true"
+        >
+          </textarea>
+        <app-campo-control-erro msgErro="Andamento é obrigatório."></app-campo-control-erro>
+      </div>
+
+      <!-- tarefa_sms -->
+      <div *ngIf="authenticationService.sms_incluir && authenticationService.sms" class="p-col-4 campoLabelMenu">
+        <h6> SMS</h6>
+        <p-inputSwitch formControlName="tarefa_sms" (onChange)="smsVF($event)"></p-inputSwitch>
+      </div>
+
+      <!-- mensagem_sms -->
+      <div *ngIf="vfSms" class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('mensagem_sms')">
+        <h6><span style="color: var(--ativo);">*</span>Mensagem SMS</h6>
+        <input
+          formControlName="mensagem_sms"
+          type="text"
+          [size]="80"
+          [maxlength]="160"
+          pInputText
+          required
+        />
+        <app-campo-control-erro msgErro="Menssagem é obrigatória."></app-campo-control-erro>
+      </div>
+
+      <div *ngIf="aviso_sn > 0" class="p-col-12 campoLabelMenu">
+        <p-message severity="warn" [text]="tx"></p-message>
+      </div>
+
+      <div class="p-col-12 campoLabelMenu" *ngIf="aviso_sn === 2">
+        <h6> Escopo da situação</h6>
+        <p-selectButton [options]="ddAutorusuario" formControlName="autorusuario" (onChange)="mudaScopo($event)"></p-selectButton>
+      </div>
+
+      <div class="p-col-12 campoLabelMenu">
+        <h6>Situação</h6>
+        <p-listbox [options]="ddSituacao_id" formControlName="tarefa_situacao_id"></p-listbox>
+      </div>
+
+
+
+    </form>
+
+  </div>
+
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-col-12">
+      <div class="botoesmenu">
+        <button
+          pButton
+          type="button"
+          class="p-button-rounded"
+          [disabled]="!formTarefa.valid || !mostraForm"
+          (click)="atualizarTarefa()"
+          label="Atualizar"
+        ></button>
+        &nbsp;&nbsp;
+        <button
+          pButton
+          type="button"
+          class="p-button-rounded p-button-secondary"
+          (click)="resetForm()"
+          label="Limpar"
+          [disabled]="botaoEnviarVF"
+        ></button>
+        &nbsp;&nbsp;
+        <button
+          pButton
+          type="button"
+          class="p-button-rounded p-button-secondary"
+          (click)="voltarListar()"
+          label="Fechar"
+          [disabled]="botaoEnviarVF"
+        ></button>
+      </div>
+    </div>
+    <div class="p-col-12"></div>
+  </div>
+</div>
+<p-toast key="tarefaToast" [style]="{marginTop: '80px'}"></p-toast>

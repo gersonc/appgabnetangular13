@@ -1,0 +1,522 @@
+<div class="p-fluid formulario-bg-externo">
+  <form [formGroup]="formlistarcadastro" (keyup)="onKey($event)">
+    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+      <div class="p-d-inline-flex">
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2 formulario">
+          <h5>SMS</h5>
+        </div>
+        <div class="p-mr-2">
+          <p-inputSwitch
+            *ngIf="authenticationService.sms_incluir"
+            formControlName="sms"
+            (onChange)="onSMSChange($event)"
+            class="menu"
+          >
+          </p-inputSwitch>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-d-flex p-ml-1 p-pl-2">
+
+      <div class="p-fluid p-grid">
+
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <!-- cadastro_tipo -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_tipo">Tipo de Cadastro</label>
+              <p-dropdown
+                id="cadastro_tipo"
+                formControlName="cadastro_tipo"
+                placeholder="TODOS"
+                [options]="ddTipoCadastroId"
+                [group]="true"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- cadastro_nome -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_nome">Nome/Razão Social</label>
+              <p-autoComplete
+                id="cadastro_nome"
+                formControlName="cadastro_nome"
+                placeholder="Nome/Razão Social"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="500"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_nome')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+            <!-- cadastro_responsavel -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_responsavel">Empresa/Responsável</label>
+              <p-autoComplete
+                id="cadastro_responsavel"
+                formControlName="cadastro_responsavel"
+                placeholder="Empresa/Responsável"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="500"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event, 'cadastro_responsavel')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+            <!-- cadastro_sigla -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_sigla">Sigla</label>
+              <p-autoComplete
+                id="cadastro_sigla"
+                formControlName="cadastro_sigla"
+                placeholder="Sigla"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="500"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_sigla')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+            <!-- cadastro_apelido -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_apelido">Apelido</label>
+              <p-autoComplete
+                id="cadastro_apelido"
+                formControlName="cadastro_apelido"
+                placeholder="Apelido"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="500"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_apelido')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+            <!-- cadastro_bairro -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_bairro">Bairro</label>
+              <p-autoComplete
+                id="cadastro_bairro"
+                formControlName="cadastro_bairro"
+                placeholder="Bairro"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="300"
+                [suggestions]="sgt"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+            <!-- cadastro_municipio_id -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_municipio_id">Município</label>
+              <p-dropdown
+                id="cadastro_municipio_id"
+                [options]="ddMunicipioId"
+                optionLabel="label"
+                placeholder="TODOS"
+                formControlName="cadastro_municipio_id"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <div class="p-field p-col-12">
+              <label for="cadastro_estado_id">Estado</label>
+              <p-dropdown
+                id="cadastro_estado_id"
+                [options]="ddEstadoId"
+                optionLabel="label"
+                formControlName="cadastro_estado_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- cadastro_municipio_regiao -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_regiao_id">Região</label>
+              <p-dropdown
+                id="cadastro_regiao_id"
+                [options]="ddRegiaoId"
+                optionLabel="label"
+                formControlName="cadastro_regiao_id"
+                placeholder="TODAS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- cadastro_grupo_id -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_grupo_id">Grupo</label>
+              <p-dropdown
+                id="cadastro_grupo_id"
+                [options]="ddGrupoId"
+                optionLabel="label"
+                formControlName="cadastro_grupo_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- aniversario -->
+            <div class="p-field p-col-12">
+              <label for="aniversario">Mês de Aniversário</label>
+              <p-dropdown
+                id="aniversario"
+                [options]="ddAniversario"
+                optionLabel="label"
+                formControlName="aniversario"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- anidia -->
+            <div class="p-field p-col-12">
+              <label for="anidia">Dia do Aniversário</label>
+              <p-dropdown
+                id="anidia"
+                [options]="ddAnidia"
+                optionLabel="label"
+                formControlName="anidia"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- quinzena -->
+            <div class="p-field p-col-12">
+              <label for="quinzena">Quinzena de Aniversário</label>
+              <p-dropdown
+                id="quinzena"
+                [options]="ddQuinzena"
+                optionLabel="label"
+                formControlName="quinzena"
+                placeholder="TODAS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- dt aniversario intervalo1 -->
+            <div class="p-field p-col-6 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+              <!-- aniversario intervalo1 -->
+              <label for="data1">Dt Nasc. / Fundação</label>
+              <p-calendar
+                id="data1"
+                formControlName="data1"
+                placeholder="De"
+                dateFormat="dd/mm/yy"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="1900:2030"
+              ></p-calendar>
+            </div>
+            <div class="p-field p-col-6 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+              <!-- aniversario intervalo1 -->
+              <label for="data2">Até</label>
+              <p-calendar
+                id="data2"
+                formControlName="data2"
+                placeholder="Até"
+                dateFormat="dd/mm/yy"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="1900:2030"
+              ></p-calendar>
+            </div>
+            <!-- cadastro_usuario -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_usuario">Cadastrante</label>
+              <p-dropdown
+                id="cadastro_usuario"
+                [options]="ddUsuario"
+                optionLabel="label"
+                formControlName="cadastro_usuario"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+            <!-- cadastro_profissao -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_profissao">Profissão</label>
+              <p-autoComplete
+                id="cadastro_profissao"
+                formControlName="cadastro_profissao"
+                placeholder="Profissão"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="300"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_profissao')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <!-- cadastro_estado_civil_id -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_estado_civil_id">Estado Civil</label>
+              <p-dropdown
+                id="cadastro_estado_civil_id"
+                [options]="ddEstadoCivilId"
+                optionLabel="label"
+                formControlName="cadastro_estado_civil_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_sexo -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_sexo">Gênero</label>
+              <p-dropdown
+                id="cadastro_sexo"
+                [options]="ddSexo"
+                optionLabel="label"
+                formControlName="cadastro_sexo"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_zona -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_zona">Partido</label>
+              <p-dropdown
+                id="cadastro_zona"
+                [options]="ddZona"
+                optionLabel="label"
+                formControlName="cadastro_zona"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_cargo -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_cargo">Cargo</label>
+              <p-autoComplete
+                id="cadastro_cargo"
+                formControlName="cadastro_cargo"
+                placeholder="Cargo"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="300"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_cargo')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+
+            <!-- cadastro_escolaridade_id -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_escolaridade_id">Escolaridade</label>
+              <p-dropdown
+                id="cadastro_escolaridade_id"
+                [options]="ddEscolaridadeId"
+                optionLabel="label"
+                formControlName="cadastro_escolaridade_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_jornal -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_jornal">Boletim</label>
+              <p-dropdown
+                id="cadastro_jornal"
+                [options]="ddSn"
+                optionLabel="label"
+                formControlName="cadastro_jornal"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_mala -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_mala">Mala Direta</label>
+              <p-dropdown
+                id="cadastro_mala"
+                [options]="ddSn"
+                optionLabel="label"
+                formControlName="cadastro_mala"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_agenda -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_agenda">Contato</label>
+              <p-dropdown
+                id="cadastro_agenda"
+                [options]="ddSn"
+                optionLabel="label"
+                formControlName="cadastro_agenda"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_sigilo -->
+            <div *ngIf="authenticationService.cadastrosigilo_listar" class="p-field p-col-12">
+              <label for="cadastro_sigilo">Sigilo</label>
+              <p-dropdown
+                id="cadastro_sigilo"
+                [options]="ddSn"
+                optionLabel="label"
+                formControlName="cadastro_sigilo"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- cadastro_cpfcnpj -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_cpfcnpj">CPF/CNPJ</label>
+              <input
+                id="cadastro_cpfcnpj"
+                formControlName="cadastro_cpfcnpj"
+                type="text"
+                [size]="40"
+                [maxlength]="50"
+                placeholder="CPF/CNPJ"
+                pInputText
+              />
+            </div>
+
+            <!-- telefone -->
+            <div class="p-field p-col-12">
+              <label for="telefone">Telefone</label>
+              <input
+                id="telefone"
+                formControlName="telefone"
+                type="text"
+                [size]="40"
+                [maxlength]="20"
+                placeholder="Telefone"
+                pInputText
+              />
+            </div>
+
+            <!-- cadastro_data_cadastramento -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_data_cadastramento">Dt. Cadastramento</label>
+              <p-calendar
+                id="cadastro_data_cadastramento"
+                formControlName="cadastro_data_cadastramento"
+                placeholder="Dt. Cadastramento"
+                dateFormat="dd/mm/yy"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="1900:2030"
+              ></p-calendar>
+            </div>
+
+            <!-- cadastro_campo1 -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_campo1">Campo1</label>
+              <p-autoComplete
+                id="cadastro_campo1"
+                formControlName="cadastro_campo1"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="300"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_campo1')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+
+            <!-- cadastro_campo2 -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_campo2">Campo2</label>
+              <p-autoComplete
+                id="cadastro_campo2"
+                formControlName="cadastro_campo2"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="300"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp($event,'cadastro_campo2')"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+
+            <!-- cadastro_campo3 -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_campo3">Campo3</label>
+              <input
+                id="cadastro_campo3"
+                formControlName="cadastro_campo3"
+                type="text"
+                [size]="40"
+                [maxlength]="50"
+                placeholder="Campo3"
+                pInputText
+              />
+            </div>
+
+            <!-- cadastro_campo4_id -->
+            <div class="p-field p-col-12">
+              <label for="cadastro_campo4_id">Campo4</label>
+              <p-dropdown
+                id="cadastro_campo4_id"
+                [options]="ddCampo4Id"
+                optionLabel="label"
+                formControlName="cadastro_campo4_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+      <div class="p-d-inline-flex">
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2 formulario">
+          <h5>SMS</h5>
+        </div>
+        <div class="p-mr-2">
+          <p-inputSwitch
+            *ngIf="authenticationService.sms_incluir"
+            formControlName="sms"
+            (onChange)="onSMSChange($event)"
+            class="menu"
+          >
+          </p-inputSwitch>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

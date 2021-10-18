@@ -1,0 +1,169 @@
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label=" Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+</div>
+<form [formGroup]="formMenuTarefa" (keyup)="onKey($event)">
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-col-12"></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+      <div class="p-grid">
+
+
+        <!-- tipo_listagem -->
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Tipo de listagem</h6>
+          <p-selectButton [options]="ddTipo_listagem" formControlName="tipo_listagem" (onChange)="mudaTipoListagem($event)"></p-selectButton>
+        </div>
+
+        <!-- tarefa_usuario_autor_id -->
+        <div *ngIf="tpListagem=='recebidas'" class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+          <h6>De (Autor)</h6>
+          <p-dropdown
+            [options]="ddTarefa_autor_id1"
+            [style]="{'width':'90%'}"
+            formControlName="tarefa_usuario_autor_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <!-- tarefa_usuario_id -->
+        <div *ngIf="tpListagem=='enviadas'" class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+          <h6>Para (Demandados)</h6>
+          <p-dropdown
+            [options]="ddTarefa_autor_id2"
+            [style]="{'width':'90%'}"
+            formControlName="tarefa_usuario_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+
+        <!-- tarefa_titulo -->
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Titulo Contém</h6>
+          <input
+            type="text"
+            pInputText
+            formControlName="tarefa_titulo"
+            size="40"
+          >
+        </div>
+
+        <!-- tarefa_situacao_id -->
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Situação</h6>
+          <p-dropdown
+            [options]="ddTarefa_situacao_id"
+            [style]="{'width':'90%'}"
+            formControlName="tarefa_situacao_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <!-- tarefa_datahora1 -->
+
+
+          <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+            <h6> De (Pedido)</h6>
+            <p-calendar
+              formControlName="tarefa_datahora1"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+
+              [showTime]="false"
+              dataType="string"
+            ></p-calendar>
+          </div>
+
+          <!-- tarefa_datahora2 -->
+          <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+            <h6>até</h6>
+            <p-calendar
+              formControlName="tarefa_datahora2"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+
+              [showTime]="false"
+              dataType="string"
+            ></p-calendar>
+          </div>
+
+
+
+        <!-- tarefa_data1 -->
+
+
+          <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+            <h6> De (Execução)</h6>
+            <p-calendar
+              formControlName="tarefa_data1"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+
+              [showTime]="false"
+              dataType="string"
+            ></p-calendar>
+          </div>
+
+          <!-- tarefa_data2 -->
+          <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+            <h6>até</h6>
+            <p-calendar
+              formControlName="tarefa_data2"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+
+              [showTime]="false"
+              dataType="string"
+            ></p-calendar>
+          </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</form>
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label="Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+</div>

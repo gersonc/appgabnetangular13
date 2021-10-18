@@ -1,0 +1,57 @@
+<!--<div class="p-fileupload {{topo}} " style="width: 100%">-->
+<div [class]="stiloClass" style="width: 100%">
+  <h5 *ngIf="mostraH6">Arquivos</h5>
+  <ng-container *ngIf="mostraView">
+    <app-arquivo-view
+      *ngIf="listaArquivos"
+      [modelo]="modeloView"
+      [modulo]="modulo"
+      [registro_id]="registro_id"
+      (onBlockSubmit)="blockSubmit($event)"
+    ></app-arquivo-view>
+  </ng-container>
+
+
+    <p-progressSpinner *ngIf="mostraSpinner" [style]="{width: '50px', height: '50px'}" styleClass="arquivo-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+
+<!--
+
+  @Input() modo = 'basic'; // basic: Upload feito pelo fileupload, advanced: Upload feito via form da página.
+  @Input() btnUplDisabledFilho = false; // Botao upload desativado?
+  @Input() url?: string;
+  @Input() id?: number = null;
+  @Input() classe = 'arquivoNull';
+
+-->
+
+  <ng-container *ngIf="uploadAtivo">
+    <app-upload-arquivo
+      [enviarArquivos]="fuEnviarArquivos"
+      [modulo]="modulo"
+      [registro_id]="registro_id"
+      [disabled]="disabled"
+      [style]="null"
+      [class]="stiloClass"
+      [mode]="modo"
+      [clearArquivos]="fuClearArquivos"
+      [showUploadButton]="showUploadButton"
+      [showCancelButton]="showCancelButton"
+      (onEnvioInicio)="onEnvioInicio($event)"
+      (onProgresso)="onProgresso($event)"
+      (onAddArquivo)="onAddArquivo($event)"
+      (onBlockSubmit)="blockSubmit($event)"
+      (onUpload)="OnUpload($event)"
+    ></app-upload-arquivo>
+  </ng-container>
+
+
+
+</div>
+
+
+  <!--<p-progressSpinner *ngIf="mostraSpinner" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>-->
+
+
+<!--
+(onClearArquivos) = "onClearArquivos($event)"
+-->

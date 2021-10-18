@@ -1,0 +1,91 @@
+body {
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.grid-dias {
+  display: grid;
+  grid-template-columns: 20mm 169mm;
+  grid-gap: 0;
+}
+
+.grid-dias > div {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: none;
+}
+
+.grid-dias:last-child > div {
+  border-bottom: 1px solid black;
+}
+
+.grid-evento {
+  display: grid;
+  grid-template-columns: 15mm auto;
+  grid-gap: 0;
+  padding: 0;
+  border: 0;
+}
+
+.grid-evento > div {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  border-left: none;
+  border-bottom: 1px solid black;
+}
+
+.grid-evento:last-child > div {
+  border-bottom: none;
+}
+
+.item3 {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.item4 {
+  border-right: 1px solid black;
+}
+
+.grid-dados {
+  display: grid;
+  grid-template-columns: auto;
+  grid-gap: 0;
+  padding: 5px;
+}
+
+.grid-dados > div {
+  text-align: left;
+  font-size: 11px;
+  font-weight: normal;
+  border-bottom: 1px solid black;
+}
+
+.grid-dados:last-child > div {
+  border-bottom: none;
+}
+
+.calTitulo {
+  font-weight: bold;
+}
+
+.grid-ano-mes {
+  display: grid;
+  grid-template-columns: 189mm;
+  grid-gap: 0;
+  padding: 0;
+  border: 0;
+}
+
+.grid-ano-mes > div {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  page-break-before: auto;
+}

@@ -1,0 +1,129 @@
+<div
+  style="
+  padding: 10px;
+  border-width: 2px 0 2px 2px;
+  border-radius: 5px;
+  outline: 0 none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: white;
+  align-content: center;
+  "
+>
+  <div *ngIf="!cfs.configuracao" class="container" style="text-align:center">
+    <h4>ESCOLHA UMA DAS OPÇÕES</h4>
+  </div>
+  <table *ngIf="cfs.configuracao" class="tabelasimples" style="width: 100%;">
+    <caption *ngIf="cfs.configuracao.titulo">{{cfs.configuracao.titulo}}</caption>
+    <thead *ngIf="perIncluir && !idx">
+    <tr>
+      <td [attr.colspan]="colsp">
+        <p-messages key="msgIncluirErro" [(value)]="msgErroIncluir"></p-messages>
+        <input type="text" pInputText [(ngModel)]="nomeIncluir" size="60" maxlength="80" />&nbsp;&nbsp;
+        <button pButton type="button" class="p-button-rounded p-button" label="INCLUIR" (click)="onIncluir()"></button>&nbsp;&nbsp;
+        <button pButton type="button" class="p-button-rounded p-button-secondary" label="CANCELAR" (click)="onCancela()" ></button>
+      </td>
+    </tr>
+    </thead>
+    <tr *ngFor="let cf of listagem; let i=index">
+      <td>
+        {{cf.campo_nome}}
+
+        <div *ngIf="i===idx">
+          <ng-container *ngIf="acao=='editar' && perAltarar">
+            <p-messages key="msgEditarErro" *ngIf="msgErroEditar" [(value)]="msgErroEditar"></p-messages>
+            <input
+              *ngIf="mostraAlterar !== 0"
+              type="text"
+              pInputText
+              [(ngModel)]="nome"
+              size="60"
+              maxlength="80"
+            />
+            &nbsp;&nbsp;
+            <button *ngIf="!confirmaAlterar && mostraAlterar !== 0"
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-warning"
+                    label="ALTERAR"
+                    (click)="onAlterar()"
+            ></button>
+            &nbsp;&nbsp;
+            <button *ngIf="confirmaAlterar && mostraAlterar !== 0"
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-danger"
+                    label="CONFIRMAR"
+                    (click)="onAlterarConfirma()"
+            ></button>
+            &nbsp;&nbsp;
+          </ng-container>
+          <ng-container *ngIf="acao=='deletar'">
+            <p-messages key="msg1" *ngIf="msgs" [(value)]="msgs"></p-messages>
+            <div *ngIf="mostraDropDown"><b>Escolha o valor a ser vinculado</b></div>
+
+            <p-dropdown
+              *ngIf="mostraDropDown"
+              [(ngModel)]="drop"
+              placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+              [options]="dropDown"
+              [required]="true"
+              [autofocus]="true"
+              [style]="{'width':'100%', 'max-width': '313px'}"
+            ></p-dropdown>
+
+            &nbsp;&nbsp;
+            <button *ngIf="mostraDropDown && perDeletar && confirmaApagar && mostraApagar !== 0"
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-danger"
+                    label="CONFIRMAR"
+                    (click)="onApagarConfirma()"
+            ></button>
+            &nbsp;&nbsp;
+            <button *ngIf="!mostraDropDown && perDeletar && confirmaApagar && mostraApagar !== 0"
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-danger"
+                    label="CONFIRMAR2"
+                    (click)="onApagar()"
+            ></button>
+            &nbsp;&nbsp;
+          </ng-container>
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            label="CANCELAR"
+            (click)="onCancela()"
+          ></button>
+          <!--
+          &nbsp;&nbsp;
+          <button *ngIf="perDeletar"
+            pButton
+            type="button"
+            class="p-button-rounded p-button-danger"
+            label="APAGAR"
+          ></button>
+          -->
+        </div>
+      </td>
+      <ng-container *ngIf="mostraAlterar == 0 && mostraApagar == 0">
+        <td *ngIf="perAltarar" class="confalterar" (click)="onEditar(cf.campo_id, cf.campo_nome, i)">
+          <span>ALTERAR</span>
+        </td>
+        <td *ngIf="perDeletar" class="confapagar" (click)="onDeletar(cf.campo_id, cf.campo_nome, i)">
+          <span>APAGAR</span>
+        </td>
+      </ng-container>
+    </tr>
+  </table>
+</div>
+
+<br>
+<br>
+<br>
+<p-toast key="msg2"></p-toast>
+<p-toast key="msgIncluir" position="center"></p-toast>
+<p-toast key="msgExcluir" position="center"></p-toast>

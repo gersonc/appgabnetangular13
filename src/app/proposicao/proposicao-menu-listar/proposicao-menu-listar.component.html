@@ -1,0 +1,281 @@
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label=" Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton type="submit" icon="fas fa-lg fa-eraser" label="Limpar" class="p-button-rounded p-button-secondary"
+              (click)="onLimparForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton *ngIf="authenticationService.proposicao_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+</div>
+<form [formGroup]="formMenuProposicao" (keyup)="onKey($event)">
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-col-12"></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+
+      <!-- proposicao_tipo_id -->
+      <div *ngIf="ddProposicao_tipo_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Tipo</h6>
+          <p-dropdown
+            [options]="ddProposicao_tipo_id"
+            [style]="estilo1"
+            placeholder="TODOS"
+            formControlName="proposicao_tipo_id"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_numero -->
+      <div *ngIf="ddProposicao_numero" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Número</h6>
+          <p-dropdown
+            [options]="ddProposicao_numero"
+            [style]="estilo1"
+            optionLabel="label"
+            formControlName="proposicao_numero"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_autor -->
+      <div *ngIf="ddProposicao_autor" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Autor</h6>
+          <p-dropdown
+            [options]="ddProposicao_autor"
+            [style]="estilo1"
+            optionLabel="label"
+            formControlName="proposicao_autor"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_relator -->
+      <div *ngIf="ddProposicao_relator" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Relator</h6>
+          <p-dropdown
+            [options]="ddProposicao_relator"
+            [style]="estilo1"
+            optionLabel="label"
+            formControlName="proposicao_relator"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_area_interesse_id -->
+      <div *ngIf="ddProposicao_area_interesse_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Área de Interesse</h6>
+          <p-dropdown
+            [options]="ddProposicao_area_interesse_id"
+            [style]="estilo1"
+            optionLabel="label"
+            formControlName="proposicao_area_interesse_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_parecer -->
+      <div *ngIf="ddProposicao_parecer" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Parecer</h6>
+          <p-dropdown
+            [options]="ddProposicao_parecer"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_parecer"
+            formControlName="proposicao_parecer"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_origem_id -->
+      <div *ngIf="ddProposicao_origem_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Orgão de origem</h6>
+          <p-dropdown
+            [options]="ddProposicao_origem_id"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_origem_id"
+            formControlName="proposicao_origem_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+
+
+    </div>
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+
+      <!-- proposicao_emenda_tipo_id -->
+      <div *ngIf="ddProposicao_emenda_tipo_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Tipo de emenda</h6>
+          <p-dropdown
+            [options]="ddProposicao_emenda_tipo_id"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_emenda_tipo_id"
+            formControlName="proposicao_emenda_tipo_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_situacao_id -->
+      <div *ngIf="ddProposicao_situacao_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Situação</h6>
+          <p-dropdown
+            [options]="ddProposicao_situacao_id"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_situacao_id"
+            formControlName="proposicao_situacao_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_relator_atual -->
+      <div *ngIf="ddProposicao_relator_atual" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Relator atual</h6>
+          <p-dropdown
+            [options]="ddProposicao_relator_atual"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_relator_atual"
+            formControlName="proposicao_relator_atual"
+            placeholder="TODAS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_orgao_id -->
+      <div *ngIf="ddProposicao_orgao_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Orgão atual</h6>
+          <p-dropdown
+            [options]="ddProposicao_orgao_id"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_orgao_id"
+            formControlName="proposicao_orgao_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- proposicao_data1 -->
+      <div *ngIf="ddProposicao_data1 && ddProposicao_data2" class="p-grid">
+
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+          <h6>Data apresentação</h6>
+          <p-dropdown
+            [options]="ddProposicao_data1"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_data1"
+            formControlName="proposicao_data1"
+            placeholder="TODAS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <!-- proposicao_data2 -->
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 campoLabelMenu">
+          <h6>até</h6>
+          <p-dropdown
+            [options]="ddProposicao_data2"
+            [style]="estilo1"
+            optionLabel="label"
+            inputId="proposicao_data2"
+            formControlName="proposicao_data2"
+            placeholder="TODAS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+      </div>
+
+      <!-- proposicao_ementa -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Ementa Contém</h6>
+          <input
+            type="text"
+            pInputText
+            formControlName="proposicao_ementa"
+            [size]="40"
+          >
+        </div>
+      </div>
+
+      <!-- proposicao_texto -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Texto Contém</h6>
+          <input
+            type="text"
+            pInputText
+            formControlName="proposicao_texto"
+            [size]="40"
+          >
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</form>
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label="Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton type="submit" icon="fas fa-lg fa-eraser" label="Limpar" class="p-button-rounded p-button-secondary"
+              (click)="onLimparForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton *ngIf="authenticationService.proposicao_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+</div>

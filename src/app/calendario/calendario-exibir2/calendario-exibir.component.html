@@ -1,0 +1,155 @@
+<div class="calexibir2">
+
+  <table class="caldetalhefull">
+    <tr>
+      <td>
+
+        <table class="caltabela" #tabcalendario>
+          <tr>
+            <td colspan="2" [style]="tituloEstilo">
+              {{ev.title}}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" [style]="subTituloStyle">
+              {{ev.start}}
+            </td>
+          </tr>
+          <tr *ngIf="ev.inicio">
+            <td [style]="subTituloStyle">
+              Inicio:
+            </td>
+            <td [style]="subTituloStyle">
+              {{ev.inicio}}
+            </td>
+          </tr>
+          <tr *ngIf="ev.endHora">
+            <td [style]="subTituloStyle">
+              Término:
+            </td>
+            <td [style]="subTituloStyle">
+              {{ev.endHora}}
+            </td>
+          </tr>
+          <tr *ngIf="ev.tempo">
+            <td [style]="subTituloStyle">
+              Duração:
+            </td>
+            <td [style]="subTituloStyle">
+              {{ev.tempo}}
+            </td>
+          </tr>
+          <tr *ngIf="ev.recorrente && ev.fim">
+            <td [style]="subTituloStyle">
+              Repetir até:
+            </td>
+            <td [style]="subTituloStyle">
+              {{ev.fim}}
+            </td>
+          </tr>
+          <tr *ngIf="prioridade">
+            <td [style]="prioridadeStyle">
+              Prioridade:
+            </td>
+            <td [style]="prioridadeStyle">
+              {{prioridade}}
+            </td>
+          </tr>
+          <tr *ngIf="calendarioStatus">
+            <td [style]="calendarioStatusStyle">
+              Situação:
+            </td>
+            <td [style]="calendarioStatusStyle">
+              {{calendarioStatus}}
+            </td>
+          </tr>
+          <tr *ngIf="tipo">
+            <td colspan="2" [style]="tipoStyle">
+              {{tipo}}
+            </td>
+          </tr>
+          <tr *ngIf="ev.local_id">
+            <td [style]="subTituloStyle">
+              Núcleo:
+            </td>
+            <td [style]="subTituloStyle">
+              {{ev.local_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="ev.description">
+            <td colspan="2">
+              <div class="caltabelaobs">
+                {{ev.description}}
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="ev.observacao">
+            <td colspan="2">
+              <div class="caltabelaobs">
+                {{ev.observacao}}
+              </div>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+
+
+<br *ngIf="mostra">
+<div *ngIf="mostra"style="text-align: center">
+  <p>Este evento é recorrente. Voce gostaria de exportar todas as datas ou apenas a atual?</p>
+  <br>
+  <p-selectButton
+    [options]="ddunico"
+    [(ngModel)]="unico"
+    (onChange)="mudaUnico($event)"
+  ></p-selectButton>
+</div>
+
+
+<div class="p-grid"  style="margin-top: 5px">
+  <div class="p-col-12">
+    <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+    &nbsp;&nbsp;
+    <ng-container *ngIf="mostrabts">
+    <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+            class="p-button-rounded p-button-secondary"
+            (click)="getPdf(false)"></button>
+    &nbsp;&nbsp;
+    <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
+            class="p-button-rounded p-button-secondary"
+            (click)="getPdf(true)"></button>
+    &nbsp;&nbsp;
+      <button pButton type="button" icon="fas fa-print" label="EXPORTAR"
+              class="p-button-rounded p-button-secondary"
+              (click)="exportar()"></button>
+      &nbsp;&nbsp;
+    </ng-container>
+    <button
+      *ngIf="authenticationService.agenda_alterar"
+      pButton
+      type="button"
+      icon="fas fa-pen-fancy"
+      label="ALTERAR"
+      class="p-button-rounded p-button-warning"
+      (click)="editar()"
+
+    ></button>
+    &nbsp;&nbsp;
+    <button
+      *ngIf="authenticationService.agenda_apagar"
+      pButton
+      type="button"
+      icon="fas fa-trash-alt"
+      label="APAGAR"
+      class="p-button-rounded p-button-danger"
+      (click)="excluir()"
+    ></button>
+
+  </div>
+</div>
+</div>

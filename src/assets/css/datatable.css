@@ -1,0 +1,370 @@
+.tablistagem.p-datatable.p-datatable-sm .p-datatable-header {
+  padding: 0;
+}
+.tablistagem.p-datatable .p-datatable-thead > tr > th {
+  font-size: 1.2em;
+}
+.tablistagem.p-datatable .p-datatable-header {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+  border: solid var(--surface-d);
+  border-width: 1px 0 0 0;
+  font-weight: 600;
+}
+.tablistagem.p-datatable .p-datatable-header .p-button.p-button-text {
+  background-color: transparent;
+  color: var(--primary-color-text);
+  border-color: transparent;
+}
+.tablistagem.p-datatable .p-datatable-header .p-button.p-button-text:enabled:hover {
+  background: var(--primary-color-text);
+  color: var(--primary-color);
+  border-color: transparent;
+}
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: none;
+}
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded {
+  border-radius: 50%;
+  height: 1.5rem;
+}
+
+
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-sm {
+  font-size: 1rem;
+  padding: 0.3rem 0.3rem;
+}
+.tablistagem.p-datatable .p-datatable-tbody tr, td {
+  border: 0;
+  border-radius: 0;
+}
+.tablistagem.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  padding: 0 0.5rem;
+}
+.tablistagem.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td:first-child {
+  width: 3rem;
+}
+.tablistagem.p-datatable.p-datatable-sm .p-datatable-thead > tr > th:first-child {
+  width: 3rem;
+}
+.tablistagem.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight {
+  background: var(--bt-secundario-bg);
+  color: var(--bt-secundario-color);
+}
+.tablistagem.p-datatable .p-datatable-tbody > tr.p-highlight {
+  background: var(--bt-secundario-bg);
+  color: var(--bt-secundario-color);
+}
+
+
+.tablistagem.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td > p-cellEditor > p-inputMask .p-inputmask.p-inputtext.p-filled {
+  padding: .2em 0.5em;
+  background-color: var(--input-filled);
+}
+
+
+
+/*  CONTEXTMENU  */
+.tablistagem.p-contextmenu {
+  padding: 0.3rem;
+  background:  var(--primary-color-text);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  width: 8rem;
+  border-radius: .8rem;
+}
+.tablistagem.p-contextmenu .p-menuitem-link {
+  padding: 0.3rem;
+  color: var(--primary-color-text);
+  border-radius: 0;
+  transition: box-shadow 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.tablistagem.p-contextmenu .p-menuitem-link .p-menuitem-text {
+  color: var(--text-color);
+}
+.tablistagem.p-contextmenu .p-menuitem-link .p-menuitem-icon {
+  color: var(--text-color);
+  margin-right: 0.5rem;
+}
+.tablistagem.p-contextmenu .context-menu-apagar:hover {
+  background-color: var(--atencao-color);
+  color: var(--primary-color-text);
+}
+.context-menu-apagar a:hover {
+  background-color: var(--atencao-color) !important;
+  color: var(--primary-color-text) !important;
+}
+.context-menu-apagar a:active {
+  background-color: var(--atencao-color) !important;
+  color: var(--primary-color-text) !important;
+}
+.context-menu-alterar a:focus {
+  background: var(--yellow-500) !important;
+  color: var(--surface-800) !important;
+}
+.context-menu-alterar a:hover {
+  background: var(--yellow-500) !important;
+  color: var(--surface-800) !important;
+}
+.context-menu-alterar a:active {
+  background: var(--yellow-500) !important;
+  color: var(--surface-800) !important;
+}
+.tablistagem.p-contextmenu .p-menuitem-link:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: inset var(--primary-box-box-shadow-focus);
+}
+.tablistagem.p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link {
+  background: var(--primary-color);
+}
+.tablistagem.p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link .p-menuitem-text {
+  color: var(--primary-color-text);
+}
+.tablistagem.p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link .p-menuitem-icon, .p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link .p-submenu-icon {
+  color: var(--primary-color-text);
+}
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded.expandido {
+  border-radius: 50%;
+  height: 2.357rem;
+}
+
+/*    EXPANDIDO     */
+.tablistagem.p-datatable tr.expandido, .tablistagem.p-datatable td.expandido {
+  background: var(--formularios-bg) !important;
+}
+
+
+/*
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded {
+  border-radius: 50%;
+  height: 1.5rem;
+}
+*/
+
+.tablistagem.p-datatable .p-datatable-tbody > tr.expandido > td.expandido .p-button.p-button-icon-only.p-button-rounded {
+  border-radius: 50%;
+  height: unset;
+  width: 2.5em;
+}
+
+.rowexpansion-corpo {
+  max-width: 95vw;
+  padding: .5rem;
+  font-size: 1em;
+}
+
+.expandido .p-grid {
+  padding: .3rem;
+}
+
+.expandido .p-col-12.p-sm-12.p-md-6.p-lg-4.p-xl-3 {
+  padding: .2rem;
+}
+
+
+/*
+.tablistagem.p-datatable .expandido .p-button.p-button-icon-only.p-button-rounded {
+  border-radius: 50% !important;
+  height: 2rem !important;
+  width: 2rem !important;
+}
+*/
+
+.tablistagem h5 {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: var(--formulario-field-label-font-weight) !important;
+  display: block !important;
+  top: 50%;
+  margin-top: 0;
+  margin-bottom: 0.3rem !important;
+}
+
+.tablistagem .registros:not(h5) {
+  font-size: 1.2em !important;
+}
+
+
+.tablistagem .registros {
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+  padding: .5rem;
+  border-radius: .5rem;
+  overflow: auto;
+}
+
+span.mostratexto {
+  cursor: zoom-in;
+}
+span.mostratexto:hover {
+  text-shadow: 0.3em 0.3em .5em black;
+  text-decoration: underline;
+}
+
+/*    TABELA VAZIA    */
+
+.tablistagem .tabela-vazia-a {
+  width: 100vw;
+  height: calc(100vh - 10rem);
+  text-align: center;
+}
+
+.tablistagem .tabela-vazia-b {
+  position: relative;
+  top: calc(100vh / 4);
+  text-align: center;
+  height: calc(40px + (20 - 8) * ((100vw - 360px) / (1920 - 360)));
+}
+
+.tablistagem .tabela-vazia-c {
+  display: inline;
+  padding: 2rem;
+  color: var(--primary-color-text);
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 1rem;
+  text-align: center;
+  font-size: calc(20px + (20 - 8) * ((100vw - 360px) / (1920 - 360)));
+}
+
+.tablistagem .tabela-vazia-aviso2 {
+  position: relative;
+  top: calc(100vh / 4);
+  left: calc(50vw - (20vw * 1.26) / 2);
+  width: calc(20vw * 1.26);
+  padding: .5rem;
+  color: var(--primary-color-text);
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 1rem;
+  font-size: calc(20px + (20 - 8) * ((100vw - 360px) / (1920 - 360)));
+}
+
+/*    PAGINATOR    */
+
+.tablistagem.p-datatable .p-paginator {
+  height: 2em;
+  padding: 0.2rem 0.75rem 0.2rem 0.75rem ;
+}
+
+.tablistagem .p-paginator-page.p-paginator-element.p-link {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.tablistagem .p-paginator .p-paginator-page,
+.tablistagem .p-paginator .p-paginator-current,
+.tablistagem .p-paginator .p-paginator-first,
+.tablistagem .p-paginator .p-paginator-prev,
+.tablistagem .p-paginator .p-paginator-next,
+.tablistagem .p-paginator .p-paginator-last {
+  height: 2em;
+  width: 2em;
+}
+
+.tablistagem .p-paginator .p-dropdown{
+  margin-left: 0.5rem;
+  height: 2em;
+  border: 1px solid var(--surface-300);
+}
+.tablistagem .p-paginator .p-inputtext {
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--primary-color);
+  padding-top: .2rem;
+  padding-bottom: 0;
+  padding-left: .2rem;
+  padding-right: 0;
+}
+.tablistagem .p-dropdown .p-dropdown-trigger {
+  color: var(--primary-color);
+}
+/*    SMS    */
+
+.tablistagem.p-datatable .p-datatable-footer {
+  height: 3rem;
+}
+
+/*
+*** p-dialog ***********************************************************************
+*/
+
+.tablistagem.p-dialog {
+  max-height: calc(100vh - 3.1rem) !important;
+  width: calc(21cm + 1em);
+  /*min-width: 400px;*/
+  background: var(--formulario-bg-externo-color);
+  margin-top: 0 !important;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  margin-left: 0.75rem;
+}
+
+.tablistagem.p-dialog .p-dialog-header {
+  border-bottom: 1px solid var(--formulario-bg-externo-color);
+  background: var(--formulario-bg-externo-color);
+  color: var(--text-color);
+  padding: .5rem 1rem 0;
+}
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--text-color);
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: box-shadow 0.15s;
+  margin-right: 0.5rem;
+}
+.tablistagem .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+  color: var(--text-color-secondary);
+  border-color: transparent;
+  background: transparent;
+}
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+}
+.tablistagem.p-dialog .p-dialog-content {
+  margin: .5em;
+  padding: .5rem;
+  border: 1px solid var(--formulario-bg-interno-color);
+  border-radius: 1em;
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+}
+
+.tablistagem.p-dialog .p-dialog-footer {
+  text-align: left;
+  padding: .3em;
+  background-color: var(--formulario-bg-externo-color) !important;
+}
+
+
+.tablistagem .p-editor-container .p-editor-content.ql-snow {
+  border: 0;
+}
+.tablistagem .ql-container {
+  font-size: 1rem;
+}
+/*
+
+.tablistagem .p-editor-container .p-editor-content .ql-editor {
+  color: red;
+}
+
+.tablistagem .p-editor-container {
+  font-size: 1rem;
+  color: red;
+}
+*/

@@ -1,0 +1,53 @@
+<div class="card">
+  <div style="text-align:center; background-color: var(--primary-color); height: 48px;">
+    <div style="color: var(--claro); padding-top: .8em"><h5>USUÁRIOS</h5></div>
+  </div>
+  <p-table [value]="usuarios" dataKey="usuario_id" [tableStyle]="{'font-size':'12px'}" [resizableColumns]="true">
+    <ng-template pTemplate="header">
+      <tr style="font-size: small;">
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>Nome</th>
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>Login</th>
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>Núcleo</th>
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>E-mail</th>
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>Cargo</th>
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>Responsável</th>
+        <th style="padding-bottom: .3em; padding-top: .3em;" pResizableColumn>Principal</th>
+        <th style="text-align:center; padding-bottom: .3em; padding-top: .3em;" pResizableColumn>
+          <button *ngIf="alt.usuario_responsavel_sn || alt.usuario_principal_sn || alt.usuario_incluir" pButton type="button" icon="pi pi-plus" (click)="onIncluir()" class="p-button-raised p-button-rounded"></button>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usu let-ri="rowIndex">
+      <tr style="font-size: small;padding-bottom: 0; padding-top: .3em;">
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{usu.usuario_nome}}
+        </td>
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{usu.usuario_login}}
+        </td>
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{usu.local_nome}}
+        </td>
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{usu.usuario_email}}
+        </td>
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{usu.usuario_cargo}}
+        </td>
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{strSn(usu.usuario_responsavel_sn)}}
+        </td>
+        <td style="padding-bottom: 0; padding-top: .3em;" >
+          {{strSn(usu.usuario_principal_sn)}}
+        </td>
+        <td style="text-align:center; padding-bottom: 0; padding-top: .3em;">
+          <button pButton type="button" icon="pi pi-pencil" (click)="onAlterar(usu)" class="p-button-raised p-button-rounded" [disabled]="(!alt.usuario_responsavel_sn || !alt.usuario_principal_sn) || !alt.usuario_alterar"></button>&nbsp;
+          <button pButton type="button" icon="pi pi-trash" (click)="onApagar(usu)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="(!alt.usuario_responsavel_sn || !alt.usuario_principal_sn) || !alt.usuario_apagar"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast key="usuarioToast" position="center"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
+

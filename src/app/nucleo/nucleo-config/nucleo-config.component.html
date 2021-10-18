@@ -1,0 +1,62 @@
+
+<div class="card">
+  <div style="text-align:center; background-color: var(--primary-color); height: 48px;">
+    <div style="color: var(--claro); padding-top: .8em"><h5>NÚCLEOS</h5></div>
+  </div>
+  <p-table [value]="locais" dataKey="local_id" [tableStyle]="{'font-size':'12px'}">
+    <ng-template pTemplate="header">
+      <tr style="font-size: small;">
+        <th nowrap="nowrap" style="width: 50px; padding-bottom: .3em; padding-top: .3em;" >Nome</th>
+        <th nowrap="nowrap" style="width: 50px; padding-bottom: .3em; padding-top: .3em;" >Endereço</th>
+        <th nowrap="nowrap" style="width: 50px; padding-bottom: .3em; padding-top: .3em;" >Telefone</th>
+        <th nowrap="nowrap" style="width: 50px; padding-bottom: .3em; padding-top: .3em;" >Responsável</th>
+        <th nowrap="nowrap" style="width: 50px; padding-bottom: .3em; padding-top: .3em;" >Cor</th>
+        <th colspan="2" style="text-align:center; width: 50px; padding-bottom: .3em; padding-top: .3em;">
+          <button *ngIf="perIncluir" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="p-button-raised p-button-rounded"></button>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-local let-ri="rowIndex">
+      <tr style="font-size: small;padding-bottom: 0; padding-top: .3em;">
+        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;" >
+          {{local.local_nome}}
+        </td>
+        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;" >
+          {{local.local_endereco}}
+        </td>
+        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;" >
+          {{local.local_telefone}}
+        </td>
+        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;" >
+          {{local.local_responsavel_usuario_nome}}
+        </td>
+        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;" [style]="{'backgroundColor': local.local_color}">
+          {{local.local_color}}
+        </td>
+        <td style="text-align:center;width: 50px; padding-bottom: 0; padding-top: .3em;">
+          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(local)" class="p-button-raised p-button-rounded" [disabled]="!perAltarar"></button>
+        </td>
+        <td style="text-align:center;width: 50px; padding-bottom: 0; padding-top: .3em;">
+          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(local)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="!perDeletar"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast key="msg2"></p-toast>
+
+<p-toast key="msgExcluir" position="center"></p-toast>
+<p-dialog
+  header="{{acao}}"
+  [(visible)]="ns.formDisplay"
+  [modal]="true"
+  [closable]="true"
+  [blockScroll]="true"
+  [style]="{ width: '800px'}"
+  (onHide)="fechaDialog()"
+>
+  <app-nucleo-form></app-nucleo-form>
+</p-dialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
+

@@ -1,0 +1,222 @@
+
+  <form [formGroup]="formTarefa">
+
+    <div class="p-grid">
+      <div class="p-col-12"></div>
+    </div>
+
+    <div class="p-grid">
+
+      <!-- tarefa_situacao_nome -->
+      <div class="p-col-6 campoLabelMenu" *ngIf="acao=='alterar'">
+        <h6>Situação</h6>
+        <div [style.backgroundColor]="fcor(config.data.tarefa.tarefa_situacao_id)" style="padding-left: 5px; padding-right: 5px;">{{config.data.tarefa.tarefa_situacao_nome}}</div>
+      </div>
+
+      <!-- tarefa_usuario_id -->
+      <div class="p-col-6 campoLabelMenu" *ngIf="acao=='alterar'">
+        <h6> Demandado(s)</h6>
+        <table>
+          <tr *ngFor="let us of usuario_situacao">
+            <td [style.backgroundColor]="fcor(us.tus_situacao_id)" style="padding-left: 5px; padding-right: 5px;">{{us.tu_usuario_nome}}</td>
+            <td [style.backgroundColor]="fcor(us.tus_situacao_id)" style="padding-left: 5px; padding-right: 5px;">{{us.tus_situacao_nome}}</td>
+          </tr>
+
+        </table>
+      </div>
+
+      <!-- tarefa_usuario_autor_id -->
+      <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('tarefa_usuario_autor_id')">
+        <h6><span style="color: var(--ativo);">*</span> Autor</h6>
+        <p-dropdown
+          [options]="ddUsuario_id"
+          formControlName="tarefa_usuario_autor_id"
+          [style]="{'width':'80%'}"
+          [readonly]="tarefa_usuario_autor_id_readonly"
+        ></p-dropdown>
+        <app-campo-control-erro msgErro="Autor é obrigatório."></app-campo-control-erro>
+      </div>
+
+      <!-- tarefa_usuario_id -->
+      <div *ngIf="acao=='incluir'" class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('tarefa_usuario_id')">
+        <h6><span style="color: var(--ativo);">*</span> Demandado(s)</h6>
+        <p-multiSelect
+          [options]="ddUsuario_id"
+          formControlName="tarefa_usuario_id"
+          defaultLabel="Demandado(s)"
+          [displaySelectedLabel]="true"
+          [maxSelectedLabels]="6"
+          [style]="{'width':'80%'}"
+          [filter]="false"
+        >
+        </p-multiSelect>
+        <app-campo-control-erro msgErro="Demandado(s) é obrigatório."></app-campo-control-erro>
+      </div>
+
+      <!-- tarefa_data -->
+      <div class="p-col-6 campoLabelMenu" [ngClass]="aplicaCssErro('tarefa_data')">
+        <h6><span style="color: var(--ativo);">*</span> Prazo</h6>
+        <p-calendar
+          formControlName="tarefa_data"
+          dateFormat="dd/mm/yy"
+          [yearNavigator]="true"
+          yearRange="2000:2035"
+          placeholder="dd/mm/aaaa"
+
+          dataType="string"
+          [styleClass]="'estreito'"
+        ></p-calendar>
+        <app-campo-control-erro msgErro="Data é obrigatório."></app-campo-control-erro>
+      </div>
+
+      <!-- tarefa_hora -->
+      <div class="p-col-6 campoLabelMenu">
+        <h6> Hora</h6>
+        <p-calendar
+          formControlName="tarefa_hora"
+          placeholder="hh:mm"
+          dataType="string"
+          hourFormat="24"
+          [timeOnly]="true"
+          [styleClass]="'estreito'"
+          [inputStyle]="{'max-width':'133px'}"
+        ></p-calendar>
+      </div>
+
+      <!-- tarefa_titulo -->
+      <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('tarefa_titulo')">
+        <h6><span style="color: var(--ativo);">*</span> Titulo</h6>
+        <input
+          formControlName="tarefa_titulo"
+          type="text"
+          [size]="80"
+          [maxlength]="250"
+          pInputText
+        />
+        <app-campo-control-erro msgErro="Data é obrigatório."></app-campo-control-erro>
+      </div>
+
+      <!-- tarefa_tarefa -->
+      <div class="p-col-12 campoLabelMenu">
+        <h6>Tarefa</h6>
+        <textarea
+          formControlName="tarefa_tarefa"
+          [rows]="5"
+          [cols]="80"
+          pInputTextarea
+          [autoResize]="true"
+        >
+        </textarea>
+      </div>
+
+      <!-- tarefa_tarefa -->
+      <!--<div class="p-col-12 campoLabelMenu" *ngIf="authenticationService.arquivos">-->
+        <ng-container *ngIf="acao=='incluir' && authenticationService.arquivos">
+          <div class="p-col-12 campoLabelMenu">
+          <app-arquivo
+            [modulo]="'tarefa'"
+            [modelo]="'incluir'"
+            [registro_id]="arquivo_registro_id"
+            [uploadDisabled]="arquivoDesativado || !formTarefa.valid"
+            [stiloClass]="'p-col-12 campoLabel'"
+            [enviarArquivos]="enviarArquivos"
+            (onBlockSubmit)="onBlockSubmit($event)"
+            (onUpload)="onUpload($event)"
+            (onPossuiArquivos)="onPossuiArquivos($event)"
+            [clearArquivos]="clearArquivos"
+          ></app-arquivo>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="acao=='alterar' && authenticationService.arquivos">
+          <div class="p-col-12 campoLabelMenu">
+          <app-arquivo
+            [modulo]="'tarefa'"
+            [uploadDisabled]="!mostraForm"
+            [registro_id]="tarefa_id"
+            (onPossuiArquivos)="onPossuiArquivos($event)"
+            [modelo]="'alterar'"
+            [stiloClass]="'p-col-12 campoLabel'"
+          ></app-arquivo>
+          </div>
+        </ng-container>
+      <!--</div>-->
+
+      <!-- agenda -->
+      <div *ngIf="acao !== 'alterar'" class="p-col-4 campoLabelMenu">
+        <h6> Lembrete na agenda</h6>
+        <p-inputSwitch formControlName="agenda"></p-inputSwitch>
+      </div>
+      <!-- agenda -->
+      <div class="p-col-4 campoLabelMenu">
+        <h6> E-mail</h6>
+        <p-inputSwitch formControlName="tarefa_email"></p-inputSwitch>
+      </div>
+      <!-- tarefa_sms -->
+      <div *ngIf="acao!=='alterar' && authenticationService.sms_incluir && authenticationService.sms" class="p-col-4 campoLabelMenu">
+        <h6> SMS</h6>
+        <p-inputSwitch formControlName="tarefa_sms" (onChange)="smsVF($event)"></p-inputSwitch>
+      </div>
+
+      <!-- mensagem_sms -->
+      <div *ngIf="vfSms" class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('mensagem_sms')">
+        <h6> Mensagem SMS</h6>
+        <input
+          formControlName="mensagem_sms"
+          type="text"
+          [size]="80"
+          [maxlength]="160"
+          pInputText
+        />
+        <app-campo-control-erro msgErro="Menssagem é obrigatória."></app-campo-control-erro>
+      </div>
+
+
+    </div>
+
+  </form>
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-col-12">
+      <div class="botoesmenu">
+        <button
+          *ngIf="acao=='incluir'"
+          pButton
+          type="button"
+          class="p-button-rounded"
+          [disabled]="!formTarefa.valid || !mostraForm"
+          (click)="enviarTarefa()"
+          label="Enviar"
+        ></button>
+        <button
+          pButton
+          *ngIf="acao=='alterar'"
+          type="button"
+          class="p-button-rounded"
+          [disabled]="!formTarefa.valid || !mostraForm"
+          (click)="enviarTarefaAlterar()"
+          label="Enviar"
+        ></button>
+        &nbsp;&nbsp;
+        <button
+          pButton
+          type="button"
+          class="p-button-rounded p-button-secondary"
+          (click)="resetForm()"
+          label="Limpar"
+          [disabled]="botaoEnviarVF"
+        ></button>
+        &nbsp;&nbsp;
+        <button
+          pButton
+          type="button"
+          class="p-button-rounded p-button-secondary"
+          (click)="voltarListar()"
+          label="Fechar"
+          [disabled]="botaoEnviarVF"
+        ></button>
+      </div>
+    </div>
+    <div class="p-col-12"></div>
+  </div>
+  <p-toast key="tarefaToast" [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,149 @@
+<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalhetarefa">
+  <table class="detalhefull">
+    <tr>
+      <td>
+        <table class="table-hover tabela" #tabtarefa id="tabtarefa">
+          <caption>TAREFA</caption>
+          <tr>
+            <th width="1%" nowrap>
+              Titulo:
+            </th>
+            <td colspan="3">
+              {{tf.tarefa_titulo}}
+            </td>
+          </tr>
+          <tr>
+            <th width="1%" nowrap>
+              Prazo:
+            </th>
+            <td>
+              {{tf.tarefa_data}}
+            </td>
+            <th width="1%" nowrap>
+              Hora:
+            </th>
+            <td>
+              {{tarefaHora(tf.tarefa_hora)}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Autor:
+            </th>
+            <td>
+              {{tf.tarefa_usuario_autor_nome}}
+            </td>
+            <th>
+              Data do pedido:
+            </th>
+            <td>
+              {{tf.tarefa_datahora}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Situação:
+            </th>
+            <td colspan="3" [style.backgroundColor]="fcor(tf.tarefa_situacao_id)">
+              {{tf.tarefa_situacao_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="tf.tarefa_tarefa">
+            <th>
+              Tarefa:
+            </th>
+            <td colspan="3">
+              {{tf.tarefa_tarefa}}
+            </td>
+          </tr>
+        </table>
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4"> </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <table class="table-hover tabela" #tabsituacao id="tabsituacao">
+          <caption>DEMANDADOS / SITUAÇÃO</caption>
+          <tr>
+            <th width="1%" nowrap>
+              Nome:
+            </th>
+            <th width="1%" nowrap>
+              Situação:
+            </th>
+          </tr>
+          <tr *ngFor="let tus of tf.usuario_situacao">
+            <td [style.backgroundColor]="fcor(tus.tus_situacao_id)">
+              {{tus.tu_usuario_nome}}
+            </td>
+            <td [style.backgroundColor]="fcor(tus.tus_situacao_id)">
+              {{tus.tus_situacao_nome}}
+            </td>
+          </tr>
+        </table>
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4"> </td>
+    </tr>
+    <tr *ngIf="tf.tarefa_historico_num > 0">
+      <td colspan="4">
+        <table class="table-bordered tabelainterna" #tabhistorico id="tabhistorico">
+          <caption>HISTÓRICO</caption>
+          <tr>
+            <th width="1%" nowrap>
+              Data:
+            </th>
+            <th width="1%" nowrap>
+              Hora:
+            </th>
+            <th width="1%" nowrap>
+              Nome:
+            </th>
+            <th width="1%" nowrap>
+              Andamento:
+            </th>
+          </tr>
+          <tr *ngFor="let hi of tf.tarefa_historico">
+            <td>
+              {{hi.th_data}}
+            </td>
+            <td>
+              {{hi.th_hora}}
+            </td>
+            <td>
+              {{hi.th_usuario_nome}}
+            </td>
+            <td>
+              {{hi.th_historico}}
+            </td>
+          </tr>
+        </table>
+        <br>
+        <app-arquivo
+          [modulo]="'tarefa'"
+          [modelo]="'detalhe'"
+          [registro_id]="tf.tarefa_id"
+        ></app-arquivo>
+      </td>
+    </tr>
+  </table>
+  <br>
+</p-scrollPanel>
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  &nbsp;&nbsp;
+  <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+          class="p-button-rounded p-button-secondary"
+          (click)="getPdf(false)"></button>
+  &nbsp;&nbsp;
+  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
+          class="p-button-rounded p-button-secondary"
+          (click)="getPdf(true)"></button>
+</div>
+
+

@@ -1,0 +1,17 @@
+<p-sidebar
+  [visible]="mm.mostraMenu$ | async"
+  appendTo="body"
+  [dismissible]="true"
+  (onHide)="onHide()"
+  styleClass="ui-sidebar-full ui-sidebar-sm ui-sidebar-md ui-sidebar-lg"
+  [style]="{'background-color':'var(--fundo'}"
+>
+  <div style="padding-top: 20px">
+    <p-scrollPanel [style]="{height: altura}">
+      <div style="background-color: var(--fundo)">
+        <app-solicitacao-menu-listar></app-solicitacao-menu-listar>
+      </div>
+    </p-scrollPanel>
+  </div>
+</p-sidebar>
+<app-solicitacao-datatable></app-solicitacao-datatable>

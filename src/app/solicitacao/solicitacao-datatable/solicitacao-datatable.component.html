@@ -1,0 +1,253 @@
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dtsol
+         id="tabelasolicitacao"
+         [value]="solicitacoes"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [loading]="loading"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="solicitacao_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="solContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         stateStorage="session"
+         stateKey="solicitacao-listagem"
+         selectionMode="multiple"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         [loadingIcon]="'pi pi-spin pi-spinner'"
+>
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <div class="p-d-inline-flex">
+        <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
+        <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
+        <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
+        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="solicitacaoIncluir()"></button></div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mx-2">SOLICITAÇÃO</div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+      </div>
+    </div>
+    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th></th>
+      <th *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          [style.width]="col.largura"
+          pReorderableColumn
+          pResizableColumn
+      >
+        {{col.header}}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+  <ng-template pTemplate="body" let-sol let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="sol" [pContextMenuRow]="sol" [pSelectableRowIndex]="rowIndex">
+      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="sol" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+      </td>
+      <td *ngFor="let col of columns" [style.width]="col.largura">
+        {{sol[col.field]}}
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-sol let-columns="columns">
+    <tr class="expandido">
+      <td [attr.colspan]="columns.length + 1" class="expandido">
+        <div class="rowexpansion-corpo">
+          <div class="p-fluid">
+            <div class="p-d-flex p-jc-start p-pb-2">
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                  (click)="solicitacaoDetalheCompleto(sol)"
+                >
+                </button>
+              </div>
+              <div *ngIf="authAnalisar && sol.solicitacao_posicao =='EM ABERTO'" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-exclamation-circle"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Analisar"
+                  tooltipPosition="top"
+                  (click)="solicitacaoAnalisar(sol)"
+                >
+                </button>
+              </div>
+              <div *ngIf="authAlterar" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-warning"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                  (click)="solicitacaoAlterar(sol)"
+                >
+                </button>
+              </div>
+              <div *ngIf="authApagar"  class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  (click)="solicitacaoApagar(sol)"
+                >
+                </button>
+              </div>
+            </div>
+
+
+            <div class="p-grid">
+              <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div *ngIf="!linhas[2]" class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  {{linhas[1]}}
+                </div>
+                <div *ngIf="linhas[2] && linhas[1].length > 30" class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0,26)}}...</span>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+1" id="tabela-vazia">
+        <div class="tabela-vazia-a">
+          <div class="tabela-vazia-b">
+            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '300px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    [filter]="true"
+    optionLabel="header"
+    [style]="{width: '270px'}"
+    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+    (onChange)="onChangeSeletorColunas($event)"
+  ></p-listbox>
+</p-dialog>
+
+<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+<p-toast key="solicitacaoToast" position="center"></p-toast>
+
+<!--*** EDITOR *****************************************************************************************************-->
+<p-dialog
+  [(visible)]="showCampoTexto"
+  [dismissableMask]="true"
+  styleClass="tablistagem"
+  [header]="campoTitulo"
+  (onHide)="escondeTexto()"
+>
+  <p-editor #edtor [(ngModel)]="campoTexto" styleClass="tablistagem" [modules]="{toolbar: false}" [readonly]="true">
+    <ng-template pTemplate="header"></ng-template>
+  </p-editor>
+  <p-footer *ngIf="deltaquill">
+    <button
+      pButton
+      type="button"
+      class="p-button-rounded p-button-sm"
+      icon="pi pi-book"
+      (click)="exportWord()"
+      label="Word"
+    ></button>
+  </p-footer>
+</p-dialog>
+
+<!--*** DETALHE ****************************************************************************************************-->
+<ng-container *ngIf="showDetalhe">
+<p-dialog
+  [(visible)]="showDetalhe"
+  [dismissableMask]="true"
+  styleClass="tablistagem"
+  header="DETALHE"
+  (onHide)="escondeDetalhe()"
+>
+  <app-solicitacao-detalhe [solDetalhe]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solicitacao-detalhe>
+</p-dialog>
+</ng-container>

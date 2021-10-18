@@ -1,0 +1,542 @@
+<div class="container" style="text-align:center">
+  <h4>PROCESSO - EXCLUIR</h4>
+</div>
+<div class="container-fluid">
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-md-1 p-xl-1"></div>
+    <div class="p-col-12 p-sm-12 p-md-10 p-xl-10">
+
+      <div class="p-grid formDiv">
+        <div class="p-col-12"></div>
+        <div class="p-col-12">
+
+
+          <table class="detalhefull">
+            <tr>
+              <td>
+                <table class="table-hover tabela" #tabprocesso id="tabprocesso">
+                  <caption>PROCESSO</caption>
+                  <tr *ngIf="!perProcesso">
+                    <th colspan="4">
+                      <div style="text-align: center; padding: 1em;">
+                        <p-message severity="warn" text="{{erroPermissao['processo']}}"></p-message>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr *ngIf="!perSolicitacao">
+                    <th colspan="4">
+                      <div style="text-align: center; padding: 1em;">
+                        <p-message severity="warn" text="{{erroPermissao['solicitacao']}}"></p-message>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th width="1%" nowrap>
+                      Número do processo:
+                    </th>
+                    <td>
+                      {{processo.processo_numero}}
+                    </td>
+                    <th width="1%" nowrap>
+                      Situação:
+                    </th>
+                    <td>
+                      {{processo.processo_status}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Data:
+                    </th>
+                    <td>
+                      {{processo.solicitacao_data}}
+                    </td>
+                    <th>
+                      Assunto:
+                    </th>
+                    <td>
+                      {{processo.solicitacao_assunto_nome}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Resp. Análise:
+                    </th>
+                    <td>
+                      {{processo.solicitacao_reponsavel_analize_nome}}
+                    </td>
+                    <th>
+                      Área de interesse:
+                    </th>
+                    <td>
+                      {{processo.solicitacao_area_interesse_nome}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Núcleo:
+                    </th>
+                    <td colspan="3">
+                      {{processo.solicitacao_local_nome}}
+                    </td>
+                  </tr>
+                </table>
+                <br>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr *ngIf="authenticationService.cadastro_listar">
+              <td>
+                <table class="table-hover tabela" #tabcadastro id="tabcadastro">
+                  <caption>SOLICITANTE</caption>
+                  <tr>
+                    <th width="1%" nowrap>
+                      Solicitante:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_nome}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Tipo de Cadastro:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_tipo_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_endereco">
+                    <th>
+                      Endereço:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_endereco}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_endereco_numero">
+                    <th>
+                      Número:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_endereco_numero}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_endereco_complemento">
+                    <th>
+                      Complemento:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_endereco_complemento}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_bairro">
+                    <th>
+                      Bairro:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_bairro}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Município:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_municipio_nome}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      Estado:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_estado_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_cep">
+                    <th>
+                      CEP:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_cep}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_regiao_nome">
+                    <th>
+                      Região:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_regiao_nome}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_telefone">
+                    <th>
+                      Telefone 1:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_telefone}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_telcom">
+                    <th>
+                      Telefone 2:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_telcom}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_telefone2">
+                    <th>
+                      Telefone 3:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_telefone2}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_celular">
+                    <th>
+                      Celular 1:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_celular}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_celular2">
+                    <th>
+                      Celular 2:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_celular2}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_fax">
+                    <th>
+                      WhatsApp:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_fax}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_email">
+                    <th>
+                      E-mail 1:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_email}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_email2">
+                    <th>
+                      E-mail 2:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_email2}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_rede_social">
+                    <th>
+                      Facebook:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_rede_social}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_outras_midias">
+                    <th>
+                      Outras mídias:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_outras_midias}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="cadastro.cadastro_data_nascimento">
+                    <th>
+                      Data Nascimento/Fundação:
+                    </th>
+                    <td>
+                      {{cadastro.cadastro_data_nascimento}}
+                    </td>
+                  </tr>
+
+
+                  <tr *ngIf="processo.solicitacao_descricao">
+                    <td colspan="2">
+                      <div style="padding: 5px">
+                        <table width="100%">
+                          <tr class="titulo4">
+                            <th style="text-align: center">
+                              Descrição da solicitação
+                            </th>
+                          </tr>
+                          <tr>
+                            <td class="edi">
+                              <span #solicitacao id="solicitacao" [innerHTML]="processo.solicitacao_descricao"></span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+
+                </table>
+                <br>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr *ngIf="oficios && authenticationService.oficio_listar">
+              <td>
+                <table class="table-bordered tabelainterna" #taboficio id="taboficio2">
+                  <caption>OFÍCIOS</caption>
+                  <tr *ngIf="!perOficio">
+                    <th>
+                      <div style="text-align: center; padding: 1em;">
+                        <p-message severity="warn" text="{{erroPermissao['oficio']}}"></p-message>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr *ngFor="let ofi of oficios">
+                    <td style="padding-left: 10px;padding-right: 10px;">
+                      <br>
+                      <table class="table-hover tabela">
+                        <caption class="subcaption">
+                          <div class="float-left"> Orgão Solicitado: {{ofi.oficio_orgao_solicitado_nome}}</div>
+                          <div class="float-right" *ngIf="ofi.oficio_codigo">Código: {{ofi.oficio_codigo}}</div>
+                        </caption>
+                        <tr *ngIf="ofi.oficio_numero">
+                          <th width="1%" nowrap>
+                            Número do ofício:
+                          </th>
+                          <td>
+                            {{ofi.oficio_numero}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_status">
+                          <th>
+                            Situação:
+                          </th>
+                          <td>
+                            {{ofi.oficio_status}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_data_emissao">
+                          <th>
+                            Data da emissão:
+                          </th>
+                          <td>
+                            {{ofi.oficio_data_emissao}}
+                          </td>
+                        <tr *ngIf="ofi.oficio_prioridade_nome">
+                          <th>
+                            Prioridade:
+                          </th>
+                          <td>
+                            {{ofi.oficio_prioridade_nome}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_protocolo_numero">
+                          <th>
+                            Número do protocolo:
+                          </th>
+                          <td>
+                            {{ofi.oficio_protocolo_numero}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_data_protocolo">
+                          <th>
+                            Data do protocolo:
+                          </th>
+                          <td>
+                            {{ofi.oficio_data_protocolo}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_orgao_protocolante_nome">
+                          <th>
+                            Orgão protocolante:
+                          </th>
+                          <td>
+                            {{ofi.oficio_orgao_protocolante_nome}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_protocolante_funcionario">
+                          <th>
+                            Funcionário do orgão:
+                          </th>
+                          <td>
+                            {{ofi.oficio_protocolante_funcionario}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_tipo_andamento_nome">
+                          <th>
+                            Tipo de andamento:
+                          </th>
+                          <td>
+                            {{ofi.oficio_tipo_andamento_nome}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_data_recebimento">
+                          <th>
+                            Data recebimeento:
+                          </th>
+                          <td>
+                            {{ofi.oficio_data_recebimento}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_convenio">
+                          <th>
+                            Concênio:
+                          </th>
+                          <td>
+                            {{ofi.oficio_convenio}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_valor_solicitado">
+                          <th>
+                            Valor solicitado:
+                          </th>
+                          <td>
+                            {{ofi.oficio_valor_solicitado}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_valor_recebido">
+                          <th>
+                            Valor recebido:
+                          </th>
+                          <td>
+                            {{ofi.oficio_valor_recebido}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_data_pagamento">
+                          <th>
+                            Data do pagamento:
+                          </th>
+                          <td>
+                            {{ofi.oficio_data_pagamento}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="ofi.oficio_prazo">
+                          <th>
+                            Prazo:
+                          </th>
+                          <td>
+                            {{ofi.oficio_prazo}}
+                          </td>
+                        </tr>
+
+                        <tr *ngIf="ofi.oficio_descricao_acao">
+                          <td colspan="2">
+                            <div style="padding: 5px">
+                              <table id="acao_{{ofi.oficio_id}}" width="100%">
+                                <tr class="novaPagina">
+                                  <th class="tituloEditor">
+                                    Descrição da ação:
+                                  </th>
+                                  <th class="tituloEditor">
+                                    <span *ngIf="ofi.oficio_codigo">Código: {{ofi.oficio_codigo}}</span>
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <td class="edi" colspan="2">
+                                    <span [innerHTML]="ofi.oficio_descricao_acao"></span>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <br>
+              </td>
+            </tr>
+            <tr *ngIf="oficios && !authenticationService.oficio_listar">
+              <td>
+                <table class="table-bordered tabelainterna" #taboficio id="taboficio">
+                  <caption>OFÍCIOS</caption>
+                  <tr *ngIf="!perOficio">
+                    <th>
+                      <div style="text-align: center; padding: 1em;">
+                        <p-message severity="warn" text="{{erroPermissao['oficio']}}"></p-message>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td>
+                      Existem {{oficios_num}} ofícios vinculados a esse processo
+                      <br>
+                    </td>
+                  </tr>
+                </table>
+                <br>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr *ngIf="historicos">
+              <td>
+                <table class="table-hover tabela" #tabhistorico id="tabhistorico">
+                  <caption>Andamentos</caption>
+                  <tr *ngIf="!perHistorico">
+                    <th colspan="2">
+                      <div style="text-align: center; padding: 1em;">
+                        <p-message severity="warn" text="{{erroPermissao['historico']}}"></p-message>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td>Data</td>
+                    <td>Andamento</td>
+                  </tr>
+                  <tr *ngFor="let his of historicos">
+                    <td style="font-weight: normal">{{his.historico_data}}</td>
+                    <td style="font-weight: normal">{{his.historico_andamento}}</td>
+                  </tr>
+                </table>
+                <br>
+              </td>
+            </tr>
+          </table>
+
+
+        </div>
+        <div class="p-col-12">&nbsp;</div>
+      </div>
+
+      <div class="p-grid formDiv">
+        <div class="p-col-12 campoLabel" style="text-align: center">
+
+
+          <div *ngIf="!podeExcluirSN" style="text-align: center; padding: 1em;">
+            <p-message severity="warn"
+                       text="Este processo não pode ser excluido."></p-message>
+          </div>
+
+          <button pButton type="button" label="VOLTAR" class="p-button-rounded" (click)="voltarListar()"></button>
+          &nbsp;&nbsp;
+          <button *ngIf="podeExcluirSN"
+                  [disabled]="!botaoAtivo"
+                  pButton type="button"
+                  icon="fas fa-file-pdf" label="EXCLUIR"
+                  class="p-button-rounded p-button-secondary"
+                  (click)="excluir()"></button>
+        </div>
+        <div class="p-col-12">&nbsp;</div>
+      </div>
+
+
+    </div>
+    <div class="p-md-1 p-xl-1"></div>
+    <div class="p-col-12"></div>
+  </div>
+</div>
+
+<p-toast key="processoToast" [style]="{marginTop: '80px'}" (onClose)="voltarRecarregar()"></p-toast>
+<p-toast key="processoErro" [style]="{marginTop: '80px'}"></p-toast>
+

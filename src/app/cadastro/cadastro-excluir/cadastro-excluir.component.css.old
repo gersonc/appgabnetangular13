@@ -1,0 +1,27 @@
+.detalheGrid {
+  border-bottom: 1px ActiveCaption solid;
+}
+#tabelaexcluir {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#tabelaexcluir td, #tabelaexcluir th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#tabelaexcluir tr:nth-child(even){background-color: #f2f2f2;}
+
+#tabelaexcluir tr:hover {background-color: #ddd;}
+
+#tabelaexcluir th {
+  font-weight: normal;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: left;
+}
+
+#tabelaexcluir tr {
+  font-weight: bold;
+}

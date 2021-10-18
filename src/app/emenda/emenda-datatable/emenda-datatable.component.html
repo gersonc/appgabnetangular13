@@ -1,0 +1,246 @@
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dtem
+         id="tabelaemenda"
+         [value]="emenda"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="emenda_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="emContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         stateStorage="session"
+         stateKey="emenda-listagem"
+         selectionMode="multiple"
+>
+
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div style="overflow: auto;text-align: center;">EMENDA
+      <div style="overflow:auto;text-align:right;float:left;">
+        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
+        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
+        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
+        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+        <span class="linkTopo" (click)="emendaIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+      </div>
+      <div style="float:right;">
+        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
+          - Num. Registros: {{totalRecords}}</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 50px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          [style.width]="col.largura"
+          pReorderableColumn
+          pResizableColumn
+          style="padding-bottom: .3em; padding-top: .3em;"
+      >
+        {{col.header}}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+  <ng-template pTemplate="body" let-eme let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="eme" [pContextMenuRow]="eme">
+      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <a *ngIf="!expanded" [pRowToggler]="eme" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
+        <a *ngIf="expanded" [pRowToggler]="eme" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+      </td>
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
+          style="padding-bottom: 0; padding-top: .3em;">
+        <ng-container *ngIf="col.field == 'emenda_justificativa'">
+          <div class="texto1">
+            <span [innerHTML]="eme[col.field]"></span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="col.field != 'emenda_justificativa'">
+          <div class="texto1">
+            {{eme[col.field]}}
+          </div>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-eme let-indice="rowIndex" let-columns="columns">
+    <tr style="background-color: var(--secundario)">
+      <td [attr.colspan]="columns.length + 1">
+        <div class="rowSpanCorpo">
+          <div class="rowSpanTabelas">
+            <div class="rowSpanBotoes">
+              <div class="botaoexp">
+                <p-button
+                  (click)="emendaDetalheCompleto(eme)"
+                  type="button"
+                  icon="fas fa-lg fa-glasses"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.emenda_alterar" class="botaoexp">
+                <p-button
+                  (click)="emendaAlterar(eme)"
+                  type="button"
+                  icon="fas fa-lg fa-pen-fancy"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.emenda_alterar" class="botaoexp">
+                <p-button
+                  (click)="emendaAtualizar(eme)"
+                  type="button"
+                  icon="pi pi-pencil"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Atualizar"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.emenda_apagar" class="botaoexp">
+                <p-button
+                  (click)="emendaApagar(eme)"
+                  type="button"
+                  icon="far fa-lg fa-trash-alt"
+                  styleClass="p-button-raised p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+            </div>
+            <div *ngFor="let colunas of dadosExp;" class="tabela1" [style.width]="expColunas">
+              <div *ngFor="let linhas of colunas;" class="campo">
+                <div class="titulo1">
+                  {{linhas[0]}}
+                </div>
+                <ng-container *ngIf="linhas[0] != 'JUSTIFICATIVA'">
+                  <div class="texto1">
+                    {{linhas[1]}}
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <div *ngIf="justificativa" class="tabela1" [style.width]="'100%'">
+              <div class="campo">
+                <div class="titulo1">
+                  Justificativa
+                </div>
+                <div class="texto1">
+                  <span [innerHTML]="justificativa"></span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="historico_emenda" class="tabela1" [style.width]="'100%'">
+              <div class="campo">
+                <div class="titulo1">
+                  Histórico
+                </div>
+                <div class="texto1">
+                  <table class="tabelasimples">
+                    <tr>
+                      <th style="width: 90px">DATA</th>
+                      <th style="width: 150px">USUÁRIO</th>
+                      <th>HISTÓRICO</th>
+                    </tr>
+                    <tr *ngFor="let hi of historico_emenda">
+                      <td style="width: 90px">{{hi.his_data}}</td>
+                      <td style="width: 150px">{{hi.his_usuario}}</td>
+                      <td>{{hi.his_texto}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+1" align="center">
+        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
+          NENHUM REGISTRO
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '300px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    [filter]="true"
+    optionLabel="header"
+    [style]="{width: '270px'}"
+    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+    (onChange)="onChangeSeletorColunas($event)"
+  ></p-listbox>
+</p-dialog>
+<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
+<p-toast key="emendaToast" position="center"></p-toast>
+

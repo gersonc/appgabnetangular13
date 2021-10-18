@@ -1,0 +1,60 @@
+
+<button pButton type="button" label="Imprimir" (click)="imprimir(true)"></button>
+
+<div class="calprintpag" id="divToPrint">
+
+  <ng-container *ngFor="let anos of resp['anos']">
+    <ng-container *ngFor="let meses of anos['meses']">
+      <div class="grid-ano-mes">
+        <div class="ano-mes">
+         {{meses['mesliteral']}} de {{anos['ano']}}
+        </div>
+      </div>
+  <div *ngFor="let dias of meses['dias']" class="grid-dias">
+
+    <div class="item1">
+      {{dias['dia']}}<br>
+      {{dias['diasemana']}}
+    </div>
+    <div class="item2">
+
+      <div *ngFor="let evento of dias['eventos']" class="grid-evento">
+
+        <div class="item3">
+          {{montaHora(evento['allDay'], evento['hora'])}}<br>
+          <span *ngIf="evento.duration">{{evento.duration}}</span>
+          <br *ngIf="!evento.duration">
+        </div>
+        <div class="item4">
+          <div class="grid-dados">
+            <div class="calTitulo" style="font-weight: bold">
+              {{evento.title}}
+            </div>
+            <div *ngIf="evento.calendario_status_id > 1" class="calStatus">
+              {{evento.calendario_status_nome}}
+            </div>
+            <div *ngIf="evento.prioridade_id > 1" class="calPrioridade">
+              {{evento.prioridade_nome}}
+            </div>
+            <div *ngIf="evento.type_name > 1" class="calType">
+              Tipo: {{evento.type_name}}
+            </div>
+            <div *ngIf="evento.calendario_status_id > 1" class="calNucleo">
+              Núcleo: {{evento.local_nome}}
+            </div>
+            <div *ngIf="evento.description" class="calObs">
+              {{evento.description}}
+            </div>
+            <div *ngIf="evento.observacao" class="calObs">
+              {{evento.observacao}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+    </ng-container>
+  </ng-container>
+</div>
+

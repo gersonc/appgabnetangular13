@@ -1,0 +1,523 @@
+<div class="container" style="text-align:center">
+  <h4>PROPOSIÇÃO - ALTERAR</h4>
+</div>
+<div class="container-fluid">
+  <p-scrollPanel [style]="{width: '100%', height: 'auto'}">
+    <div class="p-grid">
+      <div class="p-col-12"></div>
+      <div class="p-md-1 p-xl-1"></div>
+      <div class="p-col-12 p-sm-12 p-md-10 p-xl-10 divform">
+
+        <form [formGroup]="formProp" (ngSubmit)="onSubmit()">
+          <div class="p-grid formDiv">
+
+            <!--*** COLUNA 1 ***-->
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-grid">
+
+                <!--*** proposicao_tipo_id ***-->
+                <div class="p-col-12 campoLabel">
+                  <h6>Tipo</h6>
+                  <p-dropdown
+                    formControlName="proposicao_tipo_id"
+                    [options]="ddProposicao_tipo_id"
+                    [style]="{'width':'90%','vertical-align':'unset'}"
+                    [autofocus]="true"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-configaux-incluir
+                    [desabilitado]="false"
+                    [titulo]="'Incluir Tipo de proposição'"
+                    [tituloCampo]="'Tipo'"
+                    [campoNome]="'proposicao_tipo_id'"
+                    [tamanho]="50"
+                    [tamanhomax]="100"
+                    [dropdown]="'ddProposicao_tipo_id'"
+                    [arrai]="ddProposicao_tipo_id"
+                    (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                  ></app-configaux-incluir>
+                </div>
+
+                <!--*** proposicao_numero ***-->
+                <div class="p-col-12 campoLabel">
+                  <h6> Número</h6>
+                  <input
+                    formControlName="proposicao_numero"
+                    type="text"
+                    size="40"
+                    maxlength="20"
+                    pInputText
+                  />
+                </div>
+
+                <!--*** proposicao_numero ***-->
+                <div class="p-col-12 campoLabel">
+                  <h6> Autor</h6>
+                  <input
+                    formControlName="proposicao_autor"
+                    type="text"
+                    size="40"
+                    maxlength="50"
+                    pInputText
+                  />
+                </div>
+
+                <!--*** proposicao_numero ***-->
+                <div class="p-col-12 campoLabel">
+                  <h6> Relator</h6>
+                  <input
+                    formControlName="proposicao_relator"
+                    type="text"
+                    size="40"
+                    maxlength="50"
+                    pInputText
+                  />
+                </div>
+
+                <!--*** proposicao_data_apresentacao ***-->
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('proposicao_data_apresentacao')">
+                  <h6><span style="color: var(--ativo)">*</span> Data de apresentação</h6>
+                  <p-calendar
+                    formControlName="proposicao_data_apresentacao"
+                    dateFormat="dd/mm/yy"
+                    placeholder="dd/mm/aaaa"
+
+                    dataType="string"
+                    (onBlur)="mudaData()"
+                    (onSelect)="mudaData()"
+                  ></p-calendar>
+                  <app-campo-control-erro msgErro="Data de apresentação é obrigatória."></app-campo-control-erro>
+                </div>
+
+              </div>
+            </div>
+            <!--*** FIM COLUNA 1 ***-->
+
+            <!--*** COLUNA 2 ***-->
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-grid">
+
+                <!--*** proposicao_area_interesse_id ***-->
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('proposicao_area_interesse_id')">
+                  <h6><span style="color: var(--ativo)">*</span> Área de interesse</h6>
+                  <p-dropdown
+                    formControlName="proposicao_area_interesse_id"
+                    placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    [options]="ddProposicao_area_interesse_id"
+                    [style]="{'width':'90%','vertical-align':'unset'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-campo-control-erro msgErro="Área de interesse é obrigatória."></app-campo-control-erro>
+                </div>
+
+                <!--*** proposicao_parecer ***-->
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('proposicao_parecer')">
+                  <h6><span style="color: var(--ativo)">*</span> Parecer</h6>
+                  <p-dropdown
+                    formControlName="proposicao_parecer"
+                    placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    [options]="ddProposicao_parecer"
+                    [style]="{'width':'90%','vertical-align':'unset'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-campo-control-erro msgErro="Parecer é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!--*** proposicao_origem_id ***-->
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('proposicao_origem_id')">
+                  <h6><span style="color: var(--ativo)">*</span> Orgão de origem</h6>
+                  <p-dropdown
+                    formControlName="proposicao_origem_id"
+                    placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    [options]="ddProposicao_origem_id"
+                    [style]="{'width':'90%','vertical-align':'unset'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-configaux-incluir
+                    [desabilitado]="false"
+                    [titulo]="'Incluir Orgão de origem'"
+                    [tituloCampo]="'Orgão'"
+                    [campoNome]="'proposicao_origem_id'"
+                    [tamanho]="50"
+                    [tamanhomax]="100"
+                    [dropdown]="'ddProposicao_origem_id'"
+                    [arrai]="ddProposicao_origem_id"
+                    (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                  ></app-configaux-incluir>
+                  <app-campo-control-erro msgErro="Orgão de origem é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!--*** proposicao_emenda_tipo_id ***-->
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('proposicao_emenda_tipo_id')">
+                  <h6><span style="color: var(--ativo)">*</span> Tipo de emenda</h6>
+                  <p-dropdown
+                    formControlName="proposicao_emenda_tipo_id"
+                    placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    [options]="ddProposicao_emenda_tipo_id"
+                    [style]="{'width':'90%','vertical-align':'unset'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-configaux-incluir
+                    [desabilitado]="false"
+                    [titulo]="'Incluir Tipo de emenda'"
+                    [tituloCampo]="'Tipo de emenda'"
+                    [campoNome]="'proposicao_emenda_tipo_id'"
+                    [tamanho]="50"
+                    [tamanhomax]="100"
+                    [dropdown]="'ddProposicao_emenda_tipo_id'"
+                    [arrai]="ddProposicao_emenda_tipo_id"
+                    (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                  ></app-configaux-incluir>
+                  <app-campo-control-erro msgErro="Tipo de emenda é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!--*** proposicao_situacao_id ***-->
+                <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('proposicao_situacao_id')">
+                  <h6><span style="color: var(--ativo)">*</span> Situação</h6>
+                  <p-dropdown
+                    formControlName="proposicao_situacao_id"
+                    placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    [options]="ddProposicao_situacao_id"
+                    [style]="{'width':'90%','vertical-align':'unset'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-configaux-incluir
+                    [desabilitado]="false"
+                    [titulo]="'Incluir Situação'"
+                    [tituloCampo]="'Situação'"
+                    [campoNome]="'proposicao_situacao_id'"
+                    [tamanho]="50"
+                    [tamanhomax]="100"
+                    [dropdown]="'ddProposicao_situacao_id'"
+                    [arrai]="ddProposicao_situacao_id"
+                    (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                  ></app-configaux-incluir>
+                  <app-campo-control-erro msgErro="Situação é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <ng-container *ngIf="authenticationService.arquivos">
+                  <app-arquivo
+                    [modulo]="'proposicao'"
+                    [uploadDisabled]="arquivoDesativado || !formProp.valid"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                    [registro_id]="pfs.proposicao.proposicao_id"
+                    [modelo]="'alterar'"
+                    [stiloClass]="'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6'"
+                  ></app-arquivo>
+                </ng-container>
+
+              </div>
+            </div>
+            <!--*** FIM COLUNA 2 ***-->
+
+            <!--*** COLUNA 4 ***-->
+
+            <div class="p-col-12">
+              <div class="p-grid">
+
+                <!--*** proposicao_ementa ***-->
+                <div class="p-lg-2 p-xl-1"></div>
+                <div class="p-col-12 p-lg-8 p-xl-10 campoLabel">
+                  <h6> Ementa</h6>
+                  <div style="background-color: var(--claro)">
+                    <quill-editor
+                      formControlName="proposicao_ementa"
+                      [preserveWhitespace]="true"
+                      [sanitize]="true"
+                      placeholder=""
+                      (onFocus)="focus1($event)"
+                    >
+                      <div quill-editor-toolbar [ngStyle]="{'display': mostraModulos1}">
+                        <span class="ql-formats">
+                          <select class="ql-font">
+                            <option selected></option>
+                            <option value="serif"></option>
+                            <option value="monospace"></option>
+                          </select>
+                          <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                          </select>
+                        </span>
+                        <span class="ql-formats">
+                          <button class="ql-bold" [title]="'Bold'"></button>
+                          <button class="ql-italic" [title]="'Italico'"></button>
+                          <button class="ql-underline" [title]="'Underline'"></button>
+                          <button class="ql-strike" [title]="'Strike'"></button>
+                        </span>
+                        <span class="ql-formats">
+                          <select class="ql-color" [title]="'Cor do texto'"></select>
+                          <select class="ql-background" [title]="'Cor de fundo'"></select>
+                        </span>
+                        <span class="ql-formats">
+                          <button class="ql-indent" value="+1" [title]="'Identaçao +1'"></button>
+                          <button class="ql-indent" value="-1" [title]="'Identaçao -1'"></button>
+                          <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                          </select>
+                          <button class="ql-list" value="ordered"></button>
+                          <button class="ql-list" value="bullet"></button>
+                        </span>
+                      </div>
+                    </quill-editor>
+                  </div>
+                </div>
+                <div class="p-lg-2 p-xl-1"></div>
+
+                <!--*** proposicao_texto ***-->
+                <div class="p-lg-2 p-xl-1"></div>
+                <div class="p-col-12 p-lg-8 p-xl-10 campoLabel">
+                  <h6> Texto</h6>
+                  <div style="background-color: var(--claro)">
+                    <quill-editor
+                      formControlName="proposicao_texto"
+                      [sanitize]="true"
+                      placeholder=""
+                      (onFocus)="focus2($event)"
+                    >
+                      <div quill-editor-toolbar [ngStyle]="{'display': mostraModulos2}">
+                        <span class="ql-formats">
+                          <select class="ql-font">
+                            <option selected></option>
+                            <option value="serif"></option>
+                            <option value="monospace"></option>
+                          </select>
+                          <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                          </select>
+                        </span>
+                        <span class="ql-formats">
+                          <button class="ql-bold"></button>
+                          <button class="ql-italic"></button>
+                          <button class="ql-underline"></button>
+                          <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                          <select class="ql-color"></select>
+                          <select class="ql-background"></select>
+                        </span>
+                        <span class="ql-formats">
+                          <button class="ql-indent" value="+1"></button>
+                          <button class="ql-indent" value="-1"></button>
+                          <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                          </select>
+                          <button class="ql-list" value="ordered"></button>
+                          <button class="ql-list" value="bullet"></button>
+                        </span>
+                      </div>
+                    </quill-editor>
+                  </div>
+                </div>
+                <div class="p-lg-2 p-xl-1"></div>
+
+              </div>
+            </div>
+
+            <div class="p-col-12">
+
+              <!--*** COLUNA 4 ***-->
+              <p-fieldset id="proposicao" #proposicao [collapsed]="mostraAnamento">
+                <div class="p-grid">
+                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                    <div class="p-grid">
+
+                      <!--*** proposicao_numero ***-->
+                      <div class="p-col-12 campoLabel">
+                        <h6> Relator atual</h6>
+                        <input
+                          formControlName="proposicao_relator_atual"
+                          type="text"
+                          size="40"
+                          maxlength="70"
+                          pInputText
+                        />
+                      </div>
+
+                      <!--*** andamento_proposicao_data ***-->
+                      <div class="p-col-12 campoLabel">
+                        <h6> Data</h6>
+                        <p-calendar
+                          formControlName="andamento_proposicao_data"
+                          dateFormat="dd/mm/yy"
+                          placeholder="dd/mm/aaaa"
+
+                          dataType="string"
+                        ></p-calendar>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--*** FIM COLUNA 1 ***-->
+
+                  <!--*** COLUNA 2 ***-->
+                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                    <div class="p-grid">
+
+                      <!--*** andamento_proposicao_orgao_id ***-->
+                      <div class="p-col-12 campoLabel">
+                        <h6> Orgão atual</h6>
+                        <p-dropdown
+                          formControlName="proposicao_orgao_id"
+                          placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                          [options]="ddProposicao_orgao_id"
+                          [style]="{'width':'90%','vertical-align':'unset'}"
+                          [showClear]="true"
+                        ></p-dropdown>
+                        <app-configaux-incluir
+                          [desabilitado]="false"
+                          [titulo]="'Incluir Orgão atual'"
+                          [tituloCampo]="'Orgão atual'"
+                          [campoNome]="'proposicao_orgao_id'"
+                          [tamanho]="50"
+                          [tamanhomax]="100"
+                          [dropdown]="'ddProposicao_orgao_id'"
+                          [arrai]="ddProposicao_orgao_id"
+                          (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                          (onBlockSubmit)="onBlockSubmit($event)"
+                        ></app-configaux-incluir>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--*** FIM COLUNA 2 ***-->
+
+                  <!--*** COLUNA 4 ***-->
+
+                  <div class="p-col-12">
+                    <div class="p-grid">
+                      <!--*** andamento_proposicao_texto ***-->
+                      <div class="p-lg-2 p-xl-1"></div>
+                      <div class="p-col-12 p-lg-8 p-xl-10 campoLabel">
+                        <h6> Andamento</h6>
+                        <div style="background-color: var(--claro)">
+                          <quill-editor
+                            formControlName="andamento_proposicao_texto"
+                            [preserveWhitespace]="true"
+                            [sanitize]="true"
+                            placeholder=""
+                            (onFocus)="focus3($event)"
+                          >
+                            <div quill-editor-toolbar [ngStyle]="{'display': mostraModulos3}">
+                       <span class="ql-formats">
+                         <select class="ql-font">
+                           <option selected></option>
+                           <option value="serif"></option>
+                           <option value="monospace"></option>
+                         </select>
+                         <select class="ql-size">
+                           <option value="small"></option>
+                           <option selected></option>
+                           <option value="large"></option>
+                           <option value="huge"></option>
+                         </select>
+                       </span>
+                              <span class="ql-formats">
+                         <button class="ql-bold" [title]="'Bold'"></button>
+                         <button class="ql-italic" [title]="'Italico'"></button>
+                         <button class="ql-underline" [title]="'Underline'"></button>
+                         <button class="ql-strike" [title]="'Strike'"></button>
+                       </span>
+                              <span class="ql-formats">
+                         <select class="ql-color" [title]="'Cor do texto'"></select>
+                         <select class="ql-background" [title]="'Cor de fundo'"></select>
+                       </span>
+                              <span class="ql-formats">
+                         <button class="ql-indent" value="+1" [title]="'Identaçao +1'"></button>
+                         <button class="ql-indent" value="-1" [title]="'Identaçao -1'"></button>
+                         <select class="ql-align">
+                           <option selected></option>
+                           <option value="center"></option>
+                           <option value="right"></option>
+                           <option value="justify"></option>
+                         </select>
+                         <button class="ql-list" value="ordered"></button>
+                         <button class="ql-list" value="bullet"></button>
+                       </span>
+                            </div>
+                          </quill-editor>
+                        </div>
+                      </div>
+                      <div class="p-lg-2 p-xl-1"></div>
+                    </div>
+                  </div>
+
+                </div>
+              </p-fieldset>
+            </div>
+
+
+          </div>
+
+
+          <div class="p-grid formDiv">
+            <div class="p-12">&nbsp;</div>
+          </div>
+          <!--*** Botões ***-->
+          <div class="p-grid formDiv">
+            <div class="p-col-12 campoLabel" style="text-align: center">
+              <button
+                pButton
+                type="button"
+                class="p-button-rounded"
+                [disabled]="!formProp.valid || mostraForm"
+                (click)="enviarProposicao()"
+                label="Enviar"
+              ></button>
+              &nbsp;&nbsp;
+              <button
+                pButton
+                type="button"
+                class="p-button-rounded p-button-secondary"
+                (click)="resetForm()"
+                label="Cancelar"
+                [disabled]="mostraForm"
+              ></button>
+              &nbsp;&nbsp;
+              <button
+                pButton
+                type="button"
+                class="p-button-rounded p-button-secondary"
+                (click)="voltarListar()"
+                label="Voltar"
+                [disabled]="botaoEnviarVF"
+              ></button>
+              &nbsp;&nbsp;
+              <button
+                pButton
+                type="button"
+                class="p-button-rounded p-button-secondary"
+                (click)="mostrarAndamento()"
+                label="Incluir andamento"
+                [disabled]="botaoEnviarVF"
+              ></button>
+            </div>
+            <div class="p-col-12">&nbsp;</div>
+          </div>
+        </form>
+
+      </div>
+      <div class="p-md-1 p-xl-1"></div>
+    </div>
+    <app-form-debug [form]="formProp"></app-form-debug>
+  </p-scrollPanel>
+</div>
+<p-toast key="proposicaoToast" [style]="{marginTop: '80px'}"></p-toast>
+<p-toast key="proposicaoToastOk" [style]="{marginTop: '80px'}" (onClose)="voltarListar()"></p-toast>
+
+

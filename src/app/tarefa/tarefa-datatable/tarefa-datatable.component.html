@@ -1,0 +1,415 @@
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dttf
+         id="tabelatarefa"
+         [value]="tarefa"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="tarefa_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="tfContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         (onEditInit)="onEditInit($event)"
+         (onEditComplete)="onEditComplete($event)"
+         (onEditCancel)="onEditCancel($event)"
+         stateStorage="session"
+         stateKey="tarefa-listagem"
+         selectionMode="multiple"
+>
+
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div style="overflow: auto;text-align: center;">TAREFA
+      <div style="overflow:auto;text-align:right;float:left;">
+        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
+        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
+        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
+        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+        <span class="linkTopo" (click)="tarefaIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+      </div>
+      <div style="float:right;">
+        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
+          - Num. Registros: {{totalRecords}}</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 50px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th *ngIf="mostraCol('tarefa_id')" style="width: 80px; padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_id" pResizableColumn>ID <p-sortIcon [field]="'tarefa_id'"></p-sortIcon></th>
+      <th *ngIf="mostraCol('tarefa_situacao_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_situacao_nome" pResizableColumn>SITUAÇÃO <p-sortIcon [field]="'tarefa_situacao_nome'"></p-sortIcon></th>
+      <th *ngIf="mostraCol('tarefa_titulo')" style="width: 300px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>TITULO</th>
+      <th *ngIf="mostraCol('tarefa_tarefa')" style="width: 300px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>TAREFA</th>
+      <th *ngIf="mostraCol('tarefa_data')" style="width: 100px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_data" pResizableColumn>PRAZO<p-sortIcon [field]="'tarefa_data'"></p-sortIcon></th>
+      <th *ngIf="mostraCol('tu_usuario_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>DEMANDADO(S)</th>
+      <th *ngIf="mostraCol('tus_situacao_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>SITUAÇÃO</th>
+      <th *ngIf="mostraCol('tarefa_hora')" style="width: 80px; padding-bottom: .3em; padding-top: .3em;" pResizableColumn>HORA</th>
+      <th *ngIf="mostraCol('tarefa_usuario_autor_nome')" style="width: 200px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_usuario_autor_nome" pReorderableColumn pResizableColumn>AUTOR <p-sortIcon [field]="'tarefa_usuario_autor_nome'"></p-sortIcon></th>
+      <th *ngIf="mostraCol('tarefa_datahora')" style="width: 150px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_datahora" pResizableColumn>DATA <p-sortIcon [field]="'tarefa_datahora'"></p-sortIcon></th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+
+  <ng-template pTemplate="body" let-tar let-expanded="expanded" let-rowIndex="rowIndex">
+
+      <tr [pSelectableRowDblClick]="tar" [pContextMenuRow]="tar">
+        <td [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+          <a *ngIf="!expanded" [pRowToggler]="tar" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
+          <a *ngIf="expanded" [pRowToggler]="tar" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+        </td>
+        <td *ngIf="mostraCol('tarefa_id')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'80px'">{{tar['tarefa_id']}}</td>
+        <td *ngIf="mostraCol('tarefa_situacao_nome')"
+            [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+            class="ui-resizable-column"
+            style="padding-bottom: 0; padding-top: .3em;"
+            [style.width]="'160px'"
+            [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])"
+            [pEditableColumn]="tar"
+            [pEditableColumnField]="'tarefa_situacao_id'"
+            [pEditableColumnRowIndex]="rowIndex"
+
+        >
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <span *ngIf="tar['tarefa_usuario_autor_id'] === au.usuario_id">
+                <p-listbox [options]="ddTarefa_usuario_situacao_id" [(ngModel)]="tarefa_usuario_situacao"></p-listbox>
+              </span>
+              <span *ngIf="tar['tarefa_usuario_autor_id'] !== au.usuario_id">
+                &nbsp;{{tar['tarefa_situacao_nome']}}
+              </span>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{tar['tarefa_situacao_nome']}}
+            </ng-template>
+          </p-cellEditor>
+
+        </td>
+        <td *ngIf="mostraCol('tarefa_titulo')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'300px'">{{tar['tarefa_titulo']}}</td>
+        <td *ngIf="mostraCol('tarefa_tarefa')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'300px'">{{tar['tarefa_tarefa']}}</td>
+        <td *ngIf="mostraCol('tarefa_data')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'100px'">{{tar['tarefa_data']}}</td>
+        <td *ngIf="mostraCol('tu_usuario_nome')" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'160px'" [style.backgroundColor]="fcor(tar['usuario_situacao'][0]['tus_situacao_id'])">{{tar['usuario_situacao'][0]['tu_usuario_nome']}}</td>
+        <td *ngIf="mostraCol('tus_situacao_nome')"
+            class="ui-resizable-column"
+            style="padding-bottom: 0; padding-top: .3em;"
+            [style.width]="'160px'"
+            [style.backgroundColor]="fcor(tar['usuario_situacao'][0]['tus_situacao_id'])"
+            [pEditableColumn]="tar['usuario_situacao'][0]"
+            [pEditableColumnField]="'tus_situacao_id'"
+            [pEditableColumnRowIndex]="rowIndex"
+        >
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <span *ngIf="tar['usuario_situacao'][0]['tus_usuario_id'] === au.usuario_id">
+                <p-listbox [options]="ddTarefa_usuario_situacao_id" [(ngModel)]="tarefa_usuario_situacao"></p-listbox>
+              </span>
+              <span *ngIf="tar['usuario_situacao'][0]['tus_usuario_id'] !== au.usuario_id">
+                &nbsp;{{tar['usuario_situacao'][0]['tus_situacao_nome']}}
+              </span>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{tar['usuario_situacao'][0]['tus_situacao_nome']}}
+            </ng-template>
+          </p-cellEditor>
+
+        </td>
+
+        <td *ngIf="mostraCol('tarefa_hora')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'80px'">{{tar['tarefa_hora']}}</td>
+        <td *ngIf="mostraCol('tarefa_usuario_autor_nome')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'200px'">{{tar['tarefa_usuario_autor_nome']}}</td>
+        <td *ngIf="mostraCol('tarefa_datahora')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'150px'">{{tar['tarefa_datahora']}}</td>
+      </tr>
+    <ng-container *ngIf="tar['usuario_situacao_num'] > 1 && (mostraCol('tu_usuario_nome') || mostraCol('tus_situacao_nome'))">
+      <tr *ngFor="let reg of tar['usuario_situacao'].slice(1)">
+        <td *ngIf="mostraCol('tu_usuario_nome')" [style.backgroundColor]="fcor(reg['tus_situacao_id'])">
+            {{reg['tu_usuario_nome']}}
+        </td>
+        <td *ngIf="mostraCol('tus_situacao_nome')"
+            [style.backgroundColor]="fcor(reg['tus_situacao_id'])"
+            [style.width]="'160px'"
+            [pEditableColumn]="reg"
+            [pEditableColumnField]="'tus_situacao_id'"
+            [pEditableColumnRowIndex]="rowIndex"
+        >
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <span *ngIf="reg['tus_usuario_id'] === au.usuario_id">
+                <p-listbox [options]="ddTarefa_usuario_situacao_id" [(ngModel)]="tarefa_usuario_situacao"></p-listbox>
+              </span>
+              <span *ngIf="reg['tus_usuario_id'] !== au.usuario_id">
+                &nbsp;{{reg['tus_situacao_nome']}}
+              </span>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{reg['tus_situacao_nome']}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+      </tr>
+    </ng-container>
+
+  </ng-template>
+
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-tar let-indice="rowIndex" let-columns="columns">
+    <tr style="background-color: var(--secundario)">
+      <td [attr.colspan]="columns.length + 1">
+        <div class="rowSpanCorpo">
+          <div class="rowSpanTabelas">
+            <div class="rowSpanBotoes">
+              <div class="botaoexp">
+                <p-button
+                  (click)="getPdf(tar)"
+                  type="button"
+                  icon="fas fa-lg fa-file-pdf"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="PDF"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div class="botaoexp">
+                <p-button
+                  (click)="getPdf(tar, true)"
+                  type="button"
+                  icon="fas fa-lg fa-print"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="Imprimir"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div class="botaoexp">
+                <p-button
+                  (click)="tarefaAlterar(tar)"
+                  type="button"
+                  icon="fas fa-lg fa-pen-fancy"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div class="botaoexp">
+                <p-button
+                  (click)="tarefaAtualizar(tar, indice)"
+                  type="button"
+                  icon="pi pi-pencil"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Atualizar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div class="botaoexp">
+                <p-button
+                  (click)="tarefaApagar(tar)"
+                  type="button"
+                  icon="far fa-lg fa-trash-alt"
+                  styleClass="p-button-raised p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+            </div>
+
+            <div class="container-fluid">
+              <div class="p-grid" id="contx">
+
+                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                  <div class="p-grid">
+
+                    <div class="p-col-12">
+                      <div class="tabrolexpclaro">
+                        <h6>Titulo</h6>
+                        {{tar.tarefa_titulo}}
+                      </div>
+                    </div>
+
+                    <div class="p-col-12">
+                      <div class="tabrolexpclaro">
+                        <h6>Tarefa</h6>
+                        {{tar.tarefa_tarefa}}
+                      </div>
+                    </div>
+
+                    <div class="p-col-6">
+                      <div class="tabrolexpclaro">
+                        <h6>Prazo</h6>
+                        {{tar.tarefa_data}} {{tar.tarefa_hora}}
+                      </div>
+                    </div>
+
+                    <div class="p-col-6">
+                      <div class="tabrolexpclaro">
+                        <h6>Data</h6>
+                        {{tar.tarefa_datahora}}
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+
+                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                  <div class="p-grid">
+
+                    <div class="p-col-6">
+                      <div class="tabrolexpclaro">
+                        <h6>Autor</h6>
+                        {{tar.tarefa_usuario_autor_nome}}
+                      </div>
+                    </div>
+
+
+
+                    <div class="p-col-6">
+                      <div class="tabrolexpclaro" [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])">
+                        <h6>Situação</h6>
+                        {{tar.tarefa_situacao_nome}}
+                      </div>
+                    </div>
+
+                    <div class="p-col-12">
+                      <div class="tabrolexpclaro">
+                        <h6>Demandados / Situação</h6>
+                        <table>
+                          <tr *ngFor="let tu of tar.usuario_situacao">
+                            <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;" [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tu_usuario_nome}}</td>
+                            <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;" [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tus_situacao_nome}}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="p-col-12" *ngIf="tar.tarefa_historico_num > 0">
+                  <div class="p-grid">
+
+
+                    <div class="p-col-12">
+                      <div class="tabrolexpclaro">
+                        <h6>Histórico</h6>
+                        <table>
+                          <tr>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Nome</th>
+                            <th>Situação</th>
+                          </tr>
+                          <tr *ngFor="let hi of tar.tarefa_historico">
+                            <td>{{hi.th_data}}</td>
+                            <td>{{hi.th_hora}}</td>
+                            <td>{{hi.th_usuario_nome}}</td>
+                            <td>{{hi.th_historico}}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+
+
+
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+1" align="center">
+        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
+          NENHUM REGISTRO
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '300px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    optionLabel="header"
+    [style]="{width: '270px'}"
+    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+    (onChange)="onChangeSeletorColunas($event)"
+  ></p-listbox>
+</p-dialog>
+<p-confirmDialog
+  [style]="{width: '50vw'}"
+  [baseZIndex]="10000"
+  [autoZIndex]="true"
+  acceptLabel="Sim"
+  rejectLabel="Não"
+></p-confirmDialog>
+<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
+<p-toast key="tarefaToast" position="center"></p-toast>

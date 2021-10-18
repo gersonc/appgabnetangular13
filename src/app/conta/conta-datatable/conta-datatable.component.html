@@ -1,0 +1,273 @@
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dtct
+         id="tabelaconta"
+         [value]="conta"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="conta_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="ctaContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         [editMode]="'row'"
+         stateStorage="session"
+         stateKey="conta-listagem"
+         selectionMode="multiple"
+>
+
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div style="overflow: auto;text-align: center;">CONTABILIDADE
+      <div style="overflow:auto;text-align:right;float:left;">
+        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
+        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
+        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
+        <span class="linkTopo" (click)="showSoma()"><i class="fas fa-lg fa-calculator"></i><span class="topolink"> Soma </span></span>
+        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+        <span *ngIf="aut.contabilidade_incluir" class="linkTopo" (click)="contaIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+      </div>
+      <div style="float:right;">
+        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
+          - Num. Registros: {{totalRecords}}</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 80px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          [style.width]="col.largura"
+          pReorderableColumn
+          pResizableColumn
+          style="padding-bottom: .3em; padding-top: .3em;"
+      >
+        {{col.header}}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+  <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pEditableRow]="cta">
+      <td style="width: 80px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <a *ngIf="!expanded && !editing && btnExpandirVF" [pRowToggler]="cta" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
+        <a *ngIf="expanded && !editing  && btnExpandirVF" [pRowToggler]="cta" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+        <button *ngIf="editing"  pButton type="button" pSaveEditableRow icon="pi pi-check" class="p-button-success" style="margin-right: .5em" (click)="onRowEditSave(cta, rowIndex)"></button>
+        <button *ngIf="editing"  pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-danger" (click)="onRowEditCancel(cta, rowIndex)"></button>
+      </td>
+
+
+      <td *ngFor="let col of columns" class="ui-resizable-column" [ngStyle]="setCurrentStyles(col, cta[col.field])" >
+        <p-cellEditor *ngIf="col.field === 'conta_paga'">
+          <ng-template pTemplate="input">
+            {{cta.conta_paga_id}}
+            <!--<input pInputText type="text" [(ngModel)]="cta.conta_paga_id">-->
+
+            <p-radioButton labelStyleClass="radiolabel" name="pago" value="0" [(ngModel)]="cta.conta_paga_id" label="NÃO"></p-radioButton>&nbsp;
+            <p-radioButton labelStyleClass="radiolabel" name="pago" value="1" [(ngModel)]="cta.conta_paga_id" label="SIM"></p-radioButton>
+
+{{cta.conta_paga_id}}
+          </ng-template>
+          <ng-template pTemplate="output">
+            <div *ngIf="aut.contabilidade_alterar && btnExpandirVF" pInitEditableRow (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar" tooltipPosition="top">{{cta.conta_paga}}</div>
+            <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_paga}}</div>
+          </ng-template>
+        </p-cellEditor>
+
+        <p-cellEditor *ngIf="col.field === 'conta_pagamento'">
+          <ng-template pTemplate="input">
+
+            <p-calendar
+              [(ngModel)]="cta.conta_pagamento"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+
+              dataType="string"
+              [styleClass]="'estreito'"
+              [autoZIndex]="true"
+              [appendTo]="'body'"
+            ></p-calendar>
+
+          </ng-template>
+          <ng-template pTemplate="output">
+            <div *ngIf="aut.contabilidade_alterar && btnExpandirVF" pInitEditableRow (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar" tooltipPosition="top">{{cta.conta_pagamento}}</div>
+            <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_pagamento}}</div>
+          </ng-template>
+        </p-cellEditor>
+        <ng-container *ngIf="col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
+          {{cta[col.field]}}
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="footer" let-columns>
+    <tr *ngIf="mostraSoma">
+      <td style="width: 80px; padding-bottom: 0; padding-top: .3em;text-align: center; background-color: var(--primary-color);">&nbsp;&nbsp;</td>
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura" style="text-align: right; padding-bottom: 0; padding-top: .3em; background-color: var(--primary-color); color: var(--claro)">
+        <span *ngIf="col.field === 'conta_valor'">{{soma}}</span>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-cta let-indice="rowIndex" let-columns="columns">
+    <tr style="background-color: var(--secundario)">
+      <td [attr.colspan]="columns.length + 1">
+        <div class="rowSpanCorpo">
+          <div class="rowSpanTabelas">
+            <div class="rowSpanBotoes">
+              <div class="botaoexp">
+                <p-button
+                  (click)="getPdf(cta)"
+                  type="button"
+                  icon="fas fa-lg fa-file-pdf"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="PDF"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div class="botaoexp">
+                <p-button
+                  (click)="getPdf(cta, true)"
+                  type="button"
+                  icon="fas fa-lg fa-print"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="Imprimir"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="aut.contabilidade_alterar" class="botaoexp">
+                <p-button
+                  (click)="contaAlterar(cta)"
+                  type="button"
+                  icon="fas fa-lg fa-pen-fancy"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="aut.contabilidade_apagar" class="botaoexp">
+                <p-button
+                  (click)="contaApagar(cta)"
+                  type="button"
+                  icon="far fa-lg fa-trash-alt"
+                  styleClass="p-button-raised p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  [disabled]="btnInativo"
+                >
+                </p-button>
+              </div>
+            </div>
+
+            <div *ngFor="let colunas of dadosExp;" class="tabela1" [style.width]="expColunas">
+              <div *ngFor="let linhas of colunas;" class="campo">
+                <div class="titulo1">
+                  {{linhas[0]}}
+                </div>
+                <div class="texto1">
+                  {{linhas[1]}}
+                </div>
+              </div>
+            </div>
+            <app-arquivo
+              [modulo]="'conta'"
+              [modelo]="'detalhe'"
+              [registro_id]="cta.conta_id"
+            ></app-arquivo>
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="6" align="center">
+        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
+          NENHUM REGISTRO
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '300px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    [filter]="true"
+    optionLabel="header"
+    [style]="{width: '270px'}"
+    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+  ></p-listbox>
+</p-dialog>
+
+
+<p-confirmDialog
+  [style]="{width: '50vw'}"
+  [baseZIndex]="10000"
+  [autoZIndex]="true"
+  acceptLabel="Sim"
+  rejectLabel="Não"
+></p-confirmDialog>
+<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
+<p-toast key="contaToast" position="center"></p-toast>
+

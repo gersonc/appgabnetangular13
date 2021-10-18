@@ -1,0 +1,212 @@
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dtpp
+         id="dtpp"
+         [value]="proposicao"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="proposicao_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="ppContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         stateStorage="session"
+         stateKey="proposicao-listagem"
+         selectionMode="multiple"
+>
+
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div style="overflow: auto;text-align: center;">PROPOSIÇÃO
+      <div style="overflow:auto;text-align:right;float:left;">
+        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
+        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
+        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
+        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+        <span class="linkTopo" (click)="proposicaoIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+      </div>
+      <div style="float:right;">
+        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
+          - Num. Registros: {{totalRecords}}</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 50px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          [style.width]="col.largura"
+          pReorderableColumn
+          pResizableColumn
+          style="padding-bottom: .3em; padding-top: .3em;"
+      >
+        {{col.header}}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+  <ng-template pTemplate="body" let-prop let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="prop" [pContextMenuRow]="prop">
+      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <a *ngIf="!expanded" [pRowToggler]="prop" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
+        <a *ngIf="expanded" [pRowToggler]="prop" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+      </td>
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
+          style="padding-bottom: 0; padding-top: .3em;" [style.background-color]="prop[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
+        {{prop[col.field]}}
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-prop let-indice="rowIndex" let-columns="columns">
+    <tr style="background-color: var(--secundario)">
+      <td [attr.colspan]="columns.length + 1">
+        <div class="rowSpanCorpo">
+          <div class="rowSpanTabelas">
+            <div class="rowSpanBotoes">
+              <div class="botaoexp">
+                <p-button
+                  (click)="proposicaoDetalheCompleto(prop)"
+                  type="button"
+                  icon="fas fa-lg fa-glasses"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.proposicao_alterar" class="botaoexp">
+                <p-button
+                  (click)="proposicaoAlterar(prop)"
+                  type="button"
+                  icon="fas fa-lg fa-pen-fancy"
+                  styleClass="p-button-raised p-button-warning"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.andamentoproposicao_incluir" class="botaoexp">
+                <p-button
+                  (click)="andamentoIncluir(prop)"
+                  type="button"
+                  icon="pi pi-plus"
+                  styleClass="p-button-raised p-button-success"
+                  pTooltip="Incluir Andamento"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.andamentoproposicao_listar" class="botaoexp">
+                <p-button
+                  (click)="andamentoListar(prop)"
+                  type="button"
+                  icon="fas fa-lg fa-receipt"
+                  styleClass="p-button-raised p-button-info"
+                  pTooltip="Listar / Editar Andamentos"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+              <div *ngIf="authenticationService.proposicao_apagar" class="botaoexp">
+                <p-button
+                  (click)="proposicaoApagar(prop)"
+                  type="button"
+                  icon="far fa-lg fa-trash-alt"
+                  styleClass="p-button-raised p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                >
+                </p-button>
+              </div>
+            </div>
+            <div *ngFor="let colunas of dadosExp;" class="tabela1" [style.width]="expColunas">
+              <div *ngFor="let linhas of colunas;" class="campo">
+                <div class="titulo1">
+                  {{linhas[0]}}
+                </div>
+                <div class="texto1">
+                  {{linhas[1]}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+1" align="center">
+        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
+          NENHUM REGISTRO
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '300px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    [filter]="true"
+    optionLabel="header"
+    [style]="{width: '270px'}"
+    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+    (onChange)="onChangeSeletorColunas($event)"
+  ></p-listbox>
+</p-dialog>
+
+<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
+<p-toast key="proposicaoToast" position="center"></p-toast>
+

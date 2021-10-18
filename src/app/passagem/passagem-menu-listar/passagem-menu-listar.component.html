@@ -1,0 +1,148 @@
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label=" Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton *ngIf="authenticationService.passagemaerea_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+</div>
+<form [formGroup]="formMenuPassagem" (keyup)="onKey($event)">
+
+  <div class="p-grid">
+    <div class="p-col-12"></div>
+    <div class="p-col-12"></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+
+      <!-- passagem_beneficiario -->
+      <div *ngIf="ddPassagem_beneficiario.length > 1" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Beneficiario</h6>
+          <p-dropdown
+            [options]="ddPassagem_beneficiario"
+            formControlName="passagem_beneficiario"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- passagem_trecho -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Trecho</h6>
+          <p-autoComplete
+            formControlName="passagem_trecho"
+            placeholder="Trecho"
+            [maxlength]="50"
+            [minLength]="3"
+            [delay]="500"
+            [suggestions]="sgt"
+            (completeMethod)="autoComp($event,'passagem_trecho')"
+            [inputStyle]="{'padding-right':'0'}"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <!-- passagem_voo -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Voo</h6>
+          <p-autoComplete
+            formControlName="passagem_voo"
+            placeholder="Trecho"
+            [maxlength]="50"
+            [minLength]="3"
+            [delay]="500"
+            [suggestions]="sgt"
+            (completeMethod)="autoComp($event,'passagem_voo')"
+            [inputStyle]="{'padding-right':'0'}"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <!-- passagem_aerolinha_id -->
+      <div *ngIf="ddPassagem_aerolinha_id" class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Companhia Aérea</h6>
+          <p-dropdown
+            [options]="ddPassagem_aerolinha_id"
+            formControlName="passagem_aerolinha_id"
+            placeholder="TODAS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- passagem_voado_id -->
+      <div class="p-grid">
+        <div class="p-col-12 campoLabelMenu">
+          <h6>Voado</h6>
+          <p-dropdown
+            [options]="ddPassagem_voado_id"
+            formControlName="passagem_voado_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- passagem_data1 -->
+      <div class="p-grid">
+
+        <div class="p-col-3 campoLabelMenu">
+          <h6>Data</h6>
+          <p-calendar
+            formControlName="passagem_data1"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+
+            dataType="string"
+          ></p-calendar>
+        </div>
+
+        <!-- passagem_data2 -->
+        <div class="p-col-3 campoLabelMenu">
+          <h6>até</h6>
+          <p-calendar
+            formControlName="passagem_data2"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+
+            dataType="string"
+          ></p-calendar>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</form>
+<div class="p-grid">
+  <div class="p-col-12"></div>
+  <div class="p-col-12">
+    <div class="botoesmenu">
+      <button pButton type="submit" icon="fas fa-lg fa-filter" label="Procurar" class="p-button-rounded"
+              (click)="onMudaForm()"></button>
+      &nbsp;&nbsp;
+      <button pButton *ngIf="authenticationService.passagemaerea_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+      <button pButton *ngIf="authenticationService.passagemaerea_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;teste"
+              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    </div>
+  </div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+  <div class="p-col-12"></div>
+</div>

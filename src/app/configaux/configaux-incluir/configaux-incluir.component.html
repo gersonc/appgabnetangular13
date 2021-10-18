@@ -1,0 +1,52 @@
+<ng-container *ngIf="aut.configuracao_incluir">
+  <p-button
+    [style]="{'float':'right', 'vertical-align':'bottom'}"
+    styleClass="configaux"
+    type="button"
+    icon="fa fa-plus"
+    (click)="mostraForm()"
+    [disabled]="_desabilitado"
+  ></p-button>
+</ng-container>
+  <p-dialog
+    [header]="_titulo"
+    [(visible)]="visivel"
+    [modal]="false"
+    [responsive]="true"
+    [closable]="true"
+    [blockScroll]="true"
+    [style]="{ width: '500px' }"
+    (onHide)="onHide()"
+  >
+    <div class="p-grid">
+    <div class="p-col-12">
+      <h6>{{_tituloCampo}}</h6>
+      <input
+        type="text"
+        [(ngModel)]="valor"
+        size="{{_tamanho}}"
+        minlength="2"
+        maxlength="{{tamanhomax}}"
+        (keyup)="mostraBtn()"
+        pInputText
+      />
+    </div>
+    <div class="p-col-12">
+      <p-button
+        *ngIf="ativaBtn"
+        label="Incluir"
+        (onClick)="incluir()"
+      ></p-button>
+      &nbsp;
+      <p-button
+        label="Cancelar / Fechar"
+        (onClick)="cancelar()"
+      ></p-button>
+    </div>
+    </div>
+  </p-dialog>
+  <p-toast key="confauxToast" [style]="{marginTop: '80px'}"></p-toast>
+  <ng-container *ngIf="mostraSpinner">
+    <p-progressSpinner [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+  </ng-container>
+

@@ -1,0 +1,298 @@
+<div class="calfull">
+  <div class="{{calEsq}}" #cesq (resized)="onResized($event)">
+    <div class="cal-esq-esq">
+      <full-calendar #fc [options]="options"></full-calendar>
+    </div>
+    <div *ngIf="largura > 741" class="cal-esq-dir">
+      <div class="calbtn" (click)="showDtelhe()">
+        <i class="pi pi-chevron-left"></i>
+      </div>
+    </div>
+  </div>
+  <div class="{{mostraDetalheClass}}">
+    <ng-container *ngIf="mostraDetalhe">
+      <app-calendario-detalhe [evT]="ev"></app-calendario-detalhe>
+    </ng-container>
+  </div>
+</div>
+
+<p-sidebar
+  [(visible)]="mostraMenu"
+  appendTo="body"
+  [blockScroll]="false"
+  [dismissible]="true"
+  styleClass="menu-lateral-pq"
+>
+  <div style="padding-top: 1.8rem">
+    <p-scrollPanel [styleClass]="'menu-lateral-pq'" >
+      <form (ngSubmit)="onSubmit()" name="calFm" #calForm="ngForm">
+        <div class="p-grid p-input-filled">
+          <div class="p-col-12 formulario">
+            <div class="p-fluid p-formgrid p-grid formulario">
+
+              <div class="p-field p-col-12">
+                <label for="bsStart"><span style="color: var(--atencao-color)">*</span> Data</label>
+                <p-calendar
+                  id="bsStart"
+                  [(ngModel)]="bsStart"
+                  name="bsStart"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  [showTime]="true"
+                  dataType="date"
+                  dateFormat="dd/mm/yy "
+                  placeholder="dd/mm/aaaa"
+                  yearRange="2020:2040"
+                  [readonlyInput]="true"
+                  hourFormat="24"
+                  styleClass="calendario-form"
+                ></p-calendar>
+              </div>
+
+              <div class="p-field p-col-12">
+                <label for="bsFim">Fim</label>
+                <p-calendar
+                  id="bsFim"
+                  [(ngModel)]="bsFim"
+                  name="bsFim"
+                  [showTime]="true"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  dataType="date"
+                  dateFormat="dd/mm/yy"
+                  placeholder="dd/mm/aaaa"
+                  yearRange="2020:2040"
+                  [readonlyInput]="true"
+                  styleClass="calendario-form"
+                  hourFormat="24"
+                ></p-calendar>
+              </div>
+
+              <div class="p-field p-col-12">
+                <label for="bsTituloIni">Título (inicia com)</label>
+                <input
+                  id="bsTituloIni"
+                  [(ngModel)]="bsTituloIni"
+                  name="bsTituloIni"
+                  [maxlength]="50"
+                  pInputText
+                  [size]="40"
+                  type="text"
+                />
+              </div>
+
+              <div class="p-field p-col-12">
+                <label for="bsTitulo">Título (contêm)</label>
+                <input
+                  id="bsTitulo"
+                  [(ngModel)]="bsTitulo"
+                  name="bsTitulo"
+                  [maxlength]="50"
+                  pInputText
+                  [size]="40"
+                  type="text"
+                />
+              </div>
+
+              <div class="p-field p-col-12">
+                <label for="bsObsIni">Observações (inicia com)</label>
+                <input
+                  id="bsObsIni"
+                  [(ngModel)]="bsObsIni"
+                  name="bsObsIni"
+                  [maxlength]="50"
+                  pInputText
+                  [size]="40"
+                  type="text"
+                />
+              </div>
+
+              <div class="p-field p-col-12">
+                <label for="bsObs">Observações (contêm)</label>
+                <input
+                  id="bsObs"
+                  [(ngModel)]="bsObs"
+                  name="bsObs"
+                  [maxlength]="50"
+                  pInputText
+                  [size]="40"
+                  type="text"
+                />
+              </div>
+
+              <div *ngIf="ddlocal.length > 1" class="p-field p-col-12">
+                <label for="local_id">Núcleo</label>
+                <p-dropdown
+                  id="local_id"
+                  placeholder="Selecione"
+                  [options]="ddlocal"
+                  [(ngModel)]="bsLocal_id"
+                  name="local_id"
+                  [showClear]="true"
+                  [baseZIndex]="10001"
+                  appendTo="body"
+                >
+                </p-dropdown>
+              </div>
+
+              <div *ngIf="ddprioridade.length > 1" class="p-field p-col-12">
+                <label for="bsPrioridade_id">Prioridade</label>
+                <p-dropdown
+                  id="bsPrioridade_id"
+                  [(ngModel)]="bsPrioridade_id"
+                  name="bsPrioridade_id"
+                  placeholder="Selecione"
+                  [options]="ddprioridade"
+                  [showClear]="true"
+                  appendTo="body"
+                >
+                </p-dropdown>
+              </div>
+
+              <div *ngIf="ddcalendario_status.length > 1" class="p-field p-col-12">
+                <label for="bsStatus_id">Status</label>
+                <p-dropdown
+                  id="bsStatus_id"
+                  [(ngModel)]="bsStatus_id"
+                  name="bsStatus_id"
+                  placeholder="Selecione"
+                  [options]="ddcalendario_status"
+                  [showClear]="true"
+                  [baseZIndex]="10001"
+                  appendTo="body"
+                >
+                </p-dropdown>
+              </div>
+
+              <div *ngIf="ddtypes.length > 1" class="p-field p-col-12">
+                <label for="bsType_id">Categoria</label>
+                <p-dropdown
+                  id="bsType_id"
+                  [(ngModel)]="bsType_id"
+                  name="type_id"
+                  placeholder="Selecione"
+                  [options]="ddtypes"
+                  [showClear]="true"
+                  [baseZIndex]="10001"
+                  appendTo="body"
+                ></p-dropdown>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12">
+          <button
+            class="p-button-rounded"
+            label="Buscar"
+            pButton
+            pRipple
+            type="submit"
+          ></button>
+          &nbsp;&nbsp;
+          <button
+            (click)="resetForm()"
+            class="p-button-rounded p-button-secondary"
+            label="Limpar"
+            pButton
+            pRipple
+            type="button"
+          ></button>
+          &nbsp;&nbsp;
+          <button
+            (click)="fecharBusca()"
+            class="p-button-rounded p-button-secondary"
+            label="Fechar"
+            pButton
+            pRipple
+            type="button"
+          ></button>
+        </div>
+
+      </form>
+
+    </p-scrollPanel>
+  </div>
+</p-sidebar>
+
+<!--FORMULARIO - INCLUIR/ALTERAR ******************************* -->
+<ng-container *ngIf="mostraForm">
+  <p-dialog
+    [(visible)]="mostraForm"
+    [transitionOptions]="'0ms'"
+    [header]="formTitulo"
+    position="top"
+    appendTo="body"
+    [modal]="true"
+    [dismissableMask]="true"
+    [closable]="true"
+    styleClass="formulario"
+    [breakpoints]="{'1100px': '80vw', '1000px': '90vw', '900px': '100vw'}"
+    [style]="{width: '70vw'}"
+  >
+    <app-calendario-form [formDados]="formDados" (abreFecha)="abreFechaForm()" (eventoRetorno)="eventoRetorno($event)"></app-calendario-form>
+  </p-dialog>
+</ng-container>
+
+<!-- EXIBIR **************************************************** -->
+<ng-container *ngIf="mostraExibir">
+  <p-dialog
+    [(visible)]="mostraExibir"
+    [transitionOptions]="'0ms'"
+    header="EVENTO"
+    position="top"
+    appendTo="body"
+    [modal]="true"
+    [dismissableMask]="true"
+    [closable]="true"
+    styleClass="cal-exibir"
+    [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
+    [style]="{width: '60vw'}"
+  >
+    <app-calendario-exibir [dados]="dadosExibir" (onFechar)="onFecharExibir($event)"></app-calendario-exibir>
+  </p-dialog>
+</ng-container>
+
+<!-- EXCLUIR *************************************************** -->
+<ng-container *ngIf="mostraExcluir">
+  <p-dialog
+    [(visible)]="mostraExcluir"
+    [transitionOptions]="'0ms'"
+    header="APAGAR EVENTO"
+    position="top"
+    appendTo="body"
+    [modal]="true"
+    [dismissableMask]="true"
+    [closable]="true"
+    styleClass="cal-exibir"
+    (onHide)="imprimirFechar()"
+    [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
+    [style]="{width: '60vw'}"
+  >
+    <app-calendario-excluir [dados]="dadosExcluir" (onFechar)="onFecharExcluir($event)" (onReload)="fc.getApi().refetchEvents()"></app-calendario-excluir>
+  </p-dialog>
+</ng-container>
+
+<!-- IMPRIMIR *************************************************** -->
+<ng-container *ngIf="mostraImprimir">
+  <p-dialog
+    [(visible)]="mostraImprimir"
+    [transitionOptions]="'0ms'"
+    header="IMPRIMIR EVENTO"
+    position="top"
+    appendTo="body"
+    [modal]="true"
+    [dismissableMask]="true"
+    [closable]="true"
+    styleClass="cal-exibir"
+    [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
+    [style]="{width: '60vw'}"
+  >
+    <app-calendario-imprimir [dados]="dadosImprimir"></app-calendario-imprimir>
+  </p-dialog>
+</ng-container>
+
+<p-toast key="calToast" [style]="{marginTop: '80px'}"></p-toast>
+<app-calendario-tooltip *ngIf="mostra" [evT]="evT" [largura]="novaLargura" [altura]="novaAltura"></app-calendario-tooltip>
+

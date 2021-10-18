@@ -1,0 +1,562 @@
+<p-scrollPanel [styleClass]="'formulario-scroll'">
+  <div class="p-fluid formulario-bg-externo">
+    <div class="p-d-flex p-jc-center">
+      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <span class="formulario-titulo">CADASTRO - APAGAR</span>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-grid">
+          <div class="p-col-12"></div>
+          <div class="p-col-12">
+            <div class="tabelaborda">
+              <table class="detalhefull">
+                <tr>
+                  <td>
+                    <table class="table-hover tabela">
+                      <tr>
+                        <th>
+                          Tipo de Cadastro:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_tipo_nome}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Tratamento:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_tratamento_nome}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Nome/Rasão Social:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_apelido">
+                        <th>
+                          Apelido:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_apelido}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_sigla">
+                        <th>
+                          Sigla:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_sigla}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_responsavel">
+                        <th>
+                          Empresa/Responsável:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_responsavel}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_cargo">
+                        <th>
+                          Cargo:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_cargo}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_endereco">
+                        <th>
+                          Endereço:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_endereco}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_endereco_numero">
+                        <th>
+                          Número:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_endereco_numero}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_endereco_complemento">
+                        <th>
+                          Complemento:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_endereco_complemento}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_bairro">
+                        <th>
+                          Bairro:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_bairro}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Município:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_municipio_nome}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Estado:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_estado_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_cep">
+                        <th>
+                          CEP:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_cep}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_regiao_nome">
+                        <th>
+                          Região:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_regiao_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_grupo_nome">
+                        <th>
+                          Grupo:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_grupo_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_telefone">
+                        <th>
+                          Telefone 1:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_telefone}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_telcom">
+                        <th>
+                          Telefone 2:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_telcom}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_telefone2">
+                        <th>
+                          Telefone 3:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_telefone2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_celular">
+                        <th>
+                          Celular 1:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_celular}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_celular2">
+                        <th>
+                          Celular 2:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_celular2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_fax">
+                        <th>
+                          WhatsApp:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_fax}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_email">
+                        <th>
+                          E-mail 1:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_email}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_email2">
+                        <th>
+                          E-mail 2:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_email2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_rede_social">
+                        <th>
+                          Facebook:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_rede_social}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_outras_midias">
+                        <th>
+                          Outras mídias:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_outras_midias}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_cpfcnpj">
+                        <th>
+                          CPF/CNPJ:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_cpfcnpj}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_rg">
+                        <th>
+                          RG:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_rg}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_secao">
+                        <th>
+                          Partido:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_secao}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_estado_civil_nome">
+                        <th>
+                          Estado Civil:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_estado_civil_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_conjuge">
+                        <th>
+                          Conjuge:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_conjuge}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_data_nascimento">
+                        <th>
+                          Data Nascimento/Fundação:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_data_nascimento}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Escolaridade:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_escolaridade_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_profissao">
+                        <th>
+                          Profissão:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_profissao}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_sexo">
+                        <th>
+                          Genero:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_sexo}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Boletim:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_jornal | campos012: 'c012'}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Mala Direta:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_mala | campos012: 'c012'}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Contato:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_agenda | campos012: 'c012'}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Sigilo:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_sigilo | campos012: 'c01'}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cs.cadastro_campo1_sn && cadastro.cadastro_campo1">
+                        <th>
+                          {{cs.cadastro_campo1_nome}}:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_campo1}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cs.cadastro_campo2_sn && cadastro.cadastro_campo2">
+                        <th>
+                          {{cs.cadastro_campo2_nome}}:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_campo2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cs.cadastro_campo3_sn && cadastro.cadastro_campo3">
+                        <th>
+                          {{cs.cadastro_campo3_nome}}:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_campo3}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cs.cadastro_campo4_sn && cadastro.cadastro_campo4_nome">
+                        <th>
+                          {{cs.cadastro_campo4_nome}}:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_campo4_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_observacao">
+                        <th>
+                          Observações:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_observacao}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="cadastro.cadastro_data_cadastramento">
+                        <th>
+                          Data de Cadastramento:
+                        </th>
+                        <td>
+                          {{cadastro.cadastro_data_cadastramento}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <br>
+              <app-arquivo
+                [modulo]="'cadastro'"
+                [modelo]="'excluir'"
+                [registro_id]="cadastro.cadastro_id"
+                (onBlockSubmit)="onBlockSubmit($event)"
+              ></app-arquivo>
+            </div>
+          </div>
+          <div *ngIf="vinculos" class="p-col-12">
+            <p-panel header="VÍNCULOS DESTE CADASTRO" class="detalhe">
+               <p *ngIf="solicitacao_num">SOLICITAÇÕES - Este cadastro possui {{solicitacao_num}} solicitação(ões).</p>
+               <p *ngIf="processo_num">PROCESSOS - Este cadastro está incluido em {{processo_num}} processo(s).</p>
+               <p *ngIf="oficio_orgao_solicitado_num">OFÍCIO(S) - Este cadastro é o orgão solicitado de {{oficio_orgao_solicitado_num}} ofício(s).</p>
+               <p *ngIf="oficio_orgao_protocolante_num">OFÍCIO(S) - Este cadastro é o orgão protocolante de {{oficio_orgao_protocolante_num}} ofício(s).</p>
+               <p *ngIf="oficio_cadastro_responsavel_num">OFÍCIO(S) - Este cadastro é o responável por {{oficio_cadastro_responsavel_num}} ofício(s).</p>
+             </p-panel>
+            <br>
+          </div>
+          <div *ngIf="solicitacao" class="p-col-12">
+            <div class="tabelaborda">
+              <p-table [value]="solicitacao" styleClass="detalhe">
+              <ng-template pTemplate="caption">
+                SOLICITAÇÕES - Este cadastro possui a(s) sequinte(s) solicitação(ões).
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>POSIÇÃO</th>
+                  <th>DATA</th>
+                  <th>ASSUNTO</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-solicitacao>
+                <tr>
+                  <td>{{solicitacao.solicitacao_posicao}}</td>
+                  <td>{{solicitacao.solicitacao_data}}</td>
+                  <td>{{solicitacao.solicitacao_assunto_nome}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+            </div>
+          </div>
+          <div *ngIf="processo" class="p-col-12">
+            <div class="tabelaborda">
+              <p-table [value]="processo" styleClass="detalhe">
+              <ng-template pTemplate="caption">
+                PROCESSOS - Este cadastro está incluido ao(s) seguinte(s) processo(s).
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>NÚMERO</th>
+                  <th>POSIÇÃO</th>
+                  <th>ASSUNTO</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-processo>
+                <tr>
+                  <td>{{processo.processo_numero}}</td>
+                  <td>{{processo.processo_status}}</td>
+                  <td>{{processo.solicitacao_assunto_nome}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+            </div>
+            <br>
+          </div>
+          <div *ngIf="oficio_orgao_solicitado" class="p-col-12">
+            <div class="tabelaborda">
+              <p-table [value]="oficio_orgao_solicitado" styleClass="detalhe">
+              <ng-template pTemplate="caption">
+                OFÍCIO(S) - Este cadastro é o orgão solicitado do(s) seguinte(s) ofício(s).
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>POSIÇÃO</th>
+                  <th>CÓDIGO</th>
+                  <th>NÚMERO</th>
+                  <th>DATA</th>
+                  <th>SOLICITANTE</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-oficio_orgao_solicitado>
+                <tr>
+                  <td>{{oficio_orgao_solicitado.oficio_status}}</td>
+                  <td>{{oficio_orgao_solicitado.oficio_codigo}}</td>
+                  <td>{{oficio_orgao_solicitado.oficio_numero}}</td>
+                  <td>{{oficio_orgao_solicitado.oficio_data_emissao}}</td>
+                  <td>{{oficio_orgao_solicitado.oficio_cadastro_nome}}</td>
+                </tr>
+              </ng-template>
+              <br>
+            </p-table>
+            </div>
+            <br>
+          </div>
+          <div *ngIf="oficio_orgao_protocolante" class="p-col-12">
+            <div class="tabelaborda">
+              <p-table [value]="oficio_orgao_protocolante" styleClass="detalhe">
+              <ng-template pTemplate="caption">
+                OFÍCIO(S) - Este cadastro é o orgão protocolante do(s) seguinte(s) ofício(s).
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>POSIÇÃO</th>
+                  <th>CÓDIGO</th>
+                  <th>NÚMERO</th>
+                  <th>DATA</th>
+                  <th>SOLICITANTE</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-oficio_orgao_protocolante>
+                <tr>
+                  <td>{{oficio_orgao_protocolante.oficio_status}}</td>
+                  <td>{{oficio_orgao_protocolante.oficio_codigo}}</td>
+                  <td>{{oficio_orgao_protocolante.oficio_numero}}</td>
+                  <td>{{oficio_orgao_protocolante.oficio_data_emissao}}</td>
+                  <td>{{oficio_orgao_protocolante.oficio_cadastro_nome}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+            </div>
+            <br>
+          </div>
+          <div *ngIf="oficio_cadastro_responsavel" class="p-col-12">
+            <div class="tabelaborda">
+              <p-table [value]="oficio_cadastro_responsavel" styleClass="detalhe">
+              <ng-template pTemplate="caption">
+                OFÍCIO(S) - Este cadastro é o responável pelo(s) seguinte(s) ofício(s).
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>POSIÇÃO</th>
+                  <th>CÓDIGO</th>
+                  <th>NÚMERO</th>
+                  <th>DATA</th>
+                  <th>ORGÃO SOLICITADO</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-oficio_cadastro_responsavel>
+                <tr>
+                  <td>{{oficio_cadastro_responsavel.oficio_status}}</td>
+                  <td>{{oficio_cadastro_responsavel.oficio_codigo}}</td>
+                  <td>{{oficio_cadastro_responsavel.oficio_numero}}</td>
+                  <td>{{oficio_cadastro_responsavel.oficio_data_emissao}}</td>
+                  <td>{{oficio_cadastro_responsavel.oficio_orgao_solicitado_nome}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+            </div>
+          </div>
+        </div>
+        <!--*** Botões ***-->
+        <div class="p-d-flex p-jc-start p-pb-2">
+          <div class="p-mx-2">
+            <button
+              pButton
+              type="button"
+              class="p-button-rounded p-button-danger"
+              [disabled]="botaoEnviarVF || arquivoBlockSubmit"
+              (click)="excluirCadastro()"
+              label="Apagar"
+            ></button>
+          </div>
+          <div>
+            <button
+              pButton
+              type="button"
+              class="p-button-rounded p-button-secondary"
+              (click)="voltarListar()"
+              label="Voltar"
+              [disabled]="botaoEnviarVF"
+            ></button>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+  </div>
+  <div class="p-col-12 formulario-bg-externo"></div>
+</p-scrollPanel>
+<p-toast key="cadastroExcluirToast" [style]="{marginTop: '80px'}"  (onClose)="voltarListar()"></p-toast>

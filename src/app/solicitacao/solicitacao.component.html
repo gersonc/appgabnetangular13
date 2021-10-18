@@ -1,0 +1,15 @@
+<p-sidebar
+  [visible]="mm.mostraMenu$ | async"
+  appendTo="body"
+  [blockScroll]="false"
+  [dismissible]="true"
+  (onHide)="onHide()"
+  styleClass="menu-lateral"
+>
+  <div style="padding-top: 20px">
+    <p-scrollPanel [style]="{height: altura}">
+      <app-solicitacao-menu-listar></app-solicitacao-menu-listar>
+    </p-scrollPanel>
+  </div>
+</p-sidebar>
+<router-outlet></router-outlet>
