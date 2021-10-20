@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig} from 'primeng/dynamicdialog';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 import { EtiquetaService } from '../_services';
 import { Subscription } from 'rxjs';
 

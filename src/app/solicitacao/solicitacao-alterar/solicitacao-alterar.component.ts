@@ -7,8 +7,8 @@ import { take } from 'rxjs/operators';
 
 import { SelectItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { AutocompleteService, DropdownService } from '../../util/_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { AutocompleteService, DropdownService } from '../../_services';
+import { DropdownnomeidClass } from '../../_models';
 import { SolicitacaoFormService, SolicitacaoService } from '../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { SolicitacaoAlterarFormulario, SolicitacaoAlterarInterface, SolicitacaoFormulario } from '../_models';

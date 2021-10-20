@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { UrlService } from "../../util/_services";
+import { UrlService } from "../../_services";
 import {
   TarefaAtualizarForm,
   TarefaBuscaInterface,

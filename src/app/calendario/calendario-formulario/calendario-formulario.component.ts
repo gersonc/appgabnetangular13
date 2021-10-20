@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, OnDestroy, ElementRef } from '@angular/co
 import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { DropdownService, UrlService, UuidService } from '../../util/_services';
+import { DropdownService, UrlService, UuidService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { CalendarioService } from '../_services';
 import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';

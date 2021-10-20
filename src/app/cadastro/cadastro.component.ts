@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MostraMenuService } from '../util/_services';
 import { CadastroBuscaService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
-import { CarregadorService } from '../_services';
 import { Subscription } from 'rxjs';
+// import {MostraMenuService} from "../_services";
+import {MenuInternoService} from "../_services/menu-interno.service";
 
 @Component({
   selector: 'app-cadastro',
@@ -12,28 +12,35 @@ import { Subscription } from 'rxjs';
 })
 export class CadastroComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  mostra = false;
+  public mostraMenuInterno = false;
+  public smsSN = false;
   sub: Subscription[] = [];
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public cbs: CadastroBuscaService,
     private as: ArquivoService,
   ) { }
 
   ngOnInit() {
-    this.mm.showMenu();
-    this.sub.push(this.mm.mostraMenu().subscribe( vf => this.mostra = vf));
+    this.sub.push(this.mi.mostraInternoMenu().subscribe(
+      vf => {
+        this.mostraMenuInterno = vf;
+        console.log('mostraMenuInterno', this.mostraMenuInterno);
+      })
+    );
+    this.sub.push(this.cbs.getSmsSN().subscribe( vf => this.smsSN = vf));
     this.as.getPermissoes();
     this.cbs.criarCadastroBusca();
+    this.mi.showMenuInterno();
     if (!sessionStorage.getItem('cadastro-busca')) {
       this.cbs.buscaStateSN = false;
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     } else {
       if (this.cbs.buscaStateSN) {
-        this.mm.mudaMenu(false);
+        this.mi.mudaMenuInterno(false);
       } else {
-        this.mm.mudaMenu(true);
+        this.mi.mudaMenuInterno(true);
       }
     }
   }

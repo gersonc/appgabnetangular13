@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { CepInterface } from '../_models';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root' // just before your class
+})
 export class CepService {
 
   private cep$: Observable<CepInterface[]> | undefined;

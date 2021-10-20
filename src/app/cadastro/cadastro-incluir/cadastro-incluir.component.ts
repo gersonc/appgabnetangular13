@@ -9,10 +9,10 @@ import {CEPError, Endereco, CEPErrorCode, NgxViacepService} from '@brunoc/ngx-vi
 import {Message, MessageService, SelectItem, SelectItemGroup} from 'primeng/api';
 
 import {WindowsService} from '../../_layout/_service';
-import {AutocompleteService, CepService, DropdownService, MostraMenuService} from '../../util/_services';
+import {AutocompleteService, CepService, DropdownService, MostraMenuService} from '../../_services';
 import {CadastroService} from '../_services';
 import {CadastroDuplicadoBuscaInterface} from '../_models';
-import {DropdownnomeidClass, DropdownsonomearrayClass} from '../../util/_models';
+import {DropdownnomeidClass, DropdownsonomearrayClass} from '../../_models';
 import {MunicipioService} from '../../municipio/_services/municipio.service';
 import {AuthenticationService, CarregadorService, IncluirAuxService} from '../../_services';
 

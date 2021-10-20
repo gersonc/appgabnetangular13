@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { DropdownService, MostraMenuService } from '../../util/_services';
+import { DropdownService, MostraMenuService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { take } from 'rxjs/operators';
 import {TarefaService} from "../_services";

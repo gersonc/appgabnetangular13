@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MostraMenuService } from '../util/_services';
+import { MostraMenuService } from '../_services';
 import { TarefaBuscaService } from './_services';
 import { DialogService } from 'primeng/dynamicdialog';
 

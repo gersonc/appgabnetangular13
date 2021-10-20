@@ -21,7 +21,7 @@ declare interface ColumnsInterface {
   styleUrls: ['./calendario-exibir.component.css'],
   providers: [MessageService]
 })
-export class CalendarioExibirComponent implements OnInit, OnDestroy {
+export class CalendarioExibirComponent2 implements OnInit, OnDestroy {
   @ViewChild('tabcalendario', { static: true }) tabcalendario: ElementRef;
 
   ev: EventoInterface = null ;
@@ -194,6 +194,7 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy {
 
     const fileName = `calendario_${new Date().getTime()}.pdf`;
 
+    // @ts-ignore
     const doc = new jsPDF(
       {
         orientation: 'p',

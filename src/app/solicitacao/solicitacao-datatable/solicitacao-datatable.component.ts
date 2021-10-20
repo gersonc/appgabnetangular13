@@ -12,7 +12,7 @@ import {
   MostraMenuService,
   PrintJSService,
   TabelaPdfService
-} from '../../util/_services';
+} from '../../_services';
 import {
   SolicitacaoArray,
   SolicitacaoInterface,

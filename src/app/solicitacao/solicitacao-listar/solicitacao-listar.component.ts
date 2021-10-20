@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MostraMenuService } from '../../util/_services';
+import { MostraMenuService } from '../../_services';
 import { SolicitacaoBuscarService } from '../_services';
 
 @Component({

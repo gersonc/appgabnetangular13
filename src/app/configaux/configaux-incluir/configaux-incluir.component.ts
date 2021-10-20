@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
-import { UrlService } from '../../util/_services';
+import { UrlService } from '../../_services';
 import { AuthenticationService, IncluirAuxService } from '../../_services';
 import { take } from 'rxjs/operators';
 

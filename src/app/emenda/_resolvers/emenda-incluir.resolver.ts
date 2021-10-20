@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 import { CarregadorService } from '../../_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
 import { SelectItem } from 'primeng/api';
 
 

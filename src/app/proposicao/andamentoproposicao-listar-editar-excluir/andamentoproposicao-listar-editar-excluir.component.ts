@@ -9,11 +9,11 @@ import {
   ProposicaoBuscaCampoInterface
 } from '../_models';
 import { WindowsService } from '../../_layout/_service';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { Location } from '@angular/common';
 import { AndamentoProposicaoService } from '../_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
 import { take } from 'rxjs/operators';
 
 @Component({

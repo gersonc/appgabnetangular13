@@ -12,7 +12,7 @@ import {
 } from '../_models';
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { MostraMenuService } from '../../util/_services';
+import { MostraMenuService } from '../../_services';
 import { SmsService } from '../../sms/_services/sms.service';
 
 

@@ -5,10 +5,10 @@ import { Location } from '@angular/common';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { SelectItem, MessageService } from 'primeng/api';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 import { OficioFormulario, OficioGetAlterarInterface, OficioInterface } from '../_models';
 import { OficioFormService, OficioService } from '../_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
 import { AuthenticationService, CarregadorService } from '../../_services';
 
 @Component({

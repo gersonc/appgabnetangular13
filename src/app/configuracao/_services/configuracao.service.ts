@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Configuracao2Model, ConfiguracaoModel } from "../_models/configuracao-model";
-import { DropdownService, UrlService } from "../../util/_services";
+import { DropdownService, UrlService } from "../../_services";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, Subscription } from "rxjs";
 import { take } from "rxjs/operators";

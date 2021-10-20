@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthenticationService } from '../../_services';
 import { MenuService } from '../_service';
-import { MostraMenuService } from '../../util/_services';
+import { MostraMenuService } from '../../_services';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

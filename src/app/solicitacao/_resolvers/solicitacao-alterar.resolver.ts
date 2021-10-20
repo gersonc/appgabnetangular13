@@ -5,9 +5,9 @@ import { take, mergeMap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve, RouterState } from '@angular/router';
 import { SolicitacaoService, SolicitacaoFormService } from '../_services';
 import { SelectItem } from 'primeng/api';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
 import { SolicitacaoAlterarFormulario, SolicitacaoAlterarInterface, SolicitacaoInterface } from '../_models';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 
 @Injectable({
   providedIn: 'root',

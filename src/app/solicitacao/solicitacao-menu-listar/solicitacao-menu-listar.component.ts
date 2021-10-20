@@ -3,9 +3,9 @@ import { FormGroup, FormControl, FormControlName, FormBuilder, Validators } from
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { DropdownnomeidClass, DropdownsonomearrayClass, DropdownNomeIdJoin } from '../../util/_models';
+import { DropdownnomeidClass, DropdownsonomearrayClass, DropdownNomeIdJoin } from '../../_models';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { MostraMenuService, DropdownService } from '../../util/_services';
+import { MostraMenuService, DropdownService } from '../../_services';
 import {SolicitacaoService, SolicitacaoBuscarService, SolicitacaoDropdownMenuService} from '../_services';
 import { SolicitacaoBuscaInterface } from '../_models';
 import {Observable, Subject, Subscription} from 'rxjs';
@@ -154,7 +154,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
   }
 
   fechar_old() {
-    this.cs.mostraEsconde(false);
+    this.cs.mostraEscondeCarregador(false);
   }
 
   ngOnDestroy(): void {

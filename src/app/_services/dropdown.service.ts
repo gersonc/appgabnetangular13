@@ -6,7 +6,9 @@ import { SelectItemGroup } from 'primeng/api';
 import { UrlService } from './url.service';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root' // just before your class
+})
 export class DropdownService {
 
   private dropdownSimples$: Observable<SelectItem[]> | undefined;

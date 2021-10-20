@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MostraMenuService } from '../../util/_services';
+import { MostraMenuService } from '../../_services';
 import { ProcessoBuscaService } from '../_services';
 import { Subscription } from 'rxjs';
 import {CarregadorService} from '../../_services';

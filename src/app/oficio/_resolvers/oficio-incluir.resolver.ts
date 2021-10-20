@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 import { OficioIncluirForm, OficioIncluirFormInterface } from '../_models';
 import { OficioService } from '../_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
 
 @Injectable({
   providedIn: 'root',

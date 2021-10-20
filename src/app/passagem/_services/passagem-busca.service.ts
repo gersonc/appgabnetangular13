@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PassagemBusca, PassagemBuscaInterface } from '../_models';
 import { take } from 'rxjs/operators';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 
 @Injectable({
   providedIn: 'root'

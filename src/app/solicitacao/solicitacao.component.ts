@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { MostraMenuService } from '../util/_services';
+import { MostraMenuService } from '../_services';
 import { SolicitacaoBuscarService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
 import { CarregadorService } from '../_services';

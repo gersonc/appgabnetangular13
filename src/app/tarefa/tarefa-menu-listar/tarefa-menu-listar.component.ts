@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { MostraMenuService, DropdownService, AutocompleteService } from '../../util/_services';
+import { MostraMenuService, DropdownService, AutocompleteService } from '../../_services';
 import { CarregadorService } from '../../_services';
 import { TarefaBuscaService } from '../_services';
 

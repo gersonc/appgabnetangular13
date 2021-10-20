@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { SelectItem, MessageService } from 'primeng/api';
-import { DropdownService, MostraMenuService } from '../../util/_services';
+import { DropdownService, MostraMenuService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { ProposicaoFormulario, ProposicaoListagemInterface } from '../_models';
 import { ProposicaoFormService, ProposicaoService } from '../_services';

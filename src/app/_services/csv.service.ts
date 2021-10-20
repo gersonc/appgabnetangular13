@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
-import { CadastroInterface } from '../../cadastro/_models';
+import { CadastroInterface } from '../cadastro/_models';
 
 @Injectable({
   providedIn: 'root'

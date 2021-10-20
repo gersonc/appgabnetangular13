@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
 import { take } from 'rxjs/operators';
 
-import { AutocompleteService, MostraMenuService, DropdownService } from '../../util/_services';
+import { AuthenticationService, CarregadorService, AutocompleteService, MostraMenuService, DropdownService } from '../../_services';
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroBuscaInterface } from '../_models';
-import { AuthenticationService, CarregadorService } from '../../_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
+import {MenuInternoService} from "../../_services/menu-interno.service";
 
 
 
@@ -49,7 +49,8 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     private autocompleteservice: AutocompleteService,
     public cadastroService: CadastroService,
     private cbs: CadastroBuscaService,
-    private mm: MostraMenuService,
+    // private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router,
@@ -57,6 +58,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log('CADASTRO MENU');
     this.cadastroService.getCampoCadastro();
     this.formlistarcadastro = this.formBuilder.group({
       cadastro_tipo: [null],
@@ -204,7 +206,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   }
 
   fechar() {
-    this.cs.mostraEsconde(false);
+    this.cs.mostraEscondeCarregador(false);
   }
 
 }

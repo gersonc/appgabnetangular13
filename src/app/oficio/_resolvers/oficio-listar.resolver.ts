@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../util/_services';
-import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from '../../util/_models';
+import { DropdownService } from '../../_services';
+import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from '../../_models';
 import { CarregadorService } from '../../_services';
 import { OficioDropdownMenuListar, OficioDropdownMenuListarInterface, OficioPaginacaoInterface } from '../_models';
 import { OficioBuscaService, OficioService } from '../_services';
@@ -324,7 +324,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     state: RouterStateSnapshot):
     Observable<OficioPaginacaoInterface | boolean | never> {
 
-    this.cs.fechaMenu();
+    // this.cs.fechaMenu();
     this.cs.mostraCarregador();
     this.populaDropdown();
     return this.resp$.pipe(

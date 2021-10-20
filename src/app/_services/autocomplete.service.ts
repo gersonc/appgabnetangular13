@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { UrlService } from './url.service';
 import { SelectItem } from 'primeng/api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root' // just before your class
+})
 export class AutocompleteService {
 
   private autocompleteUrl = this.url.autocompleteservice;

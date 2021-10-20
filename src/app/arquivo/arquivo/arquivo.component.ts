@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { ArquivoService } from '../_services';
 import { AuthenticationService } from '../../_services';
-import { UrlService } from '../../util/_services';
+import { UrlService } from '../../_services';
 import { ArquivoInterface, UploadState } from '../_models';
 import { Subscription } from 'rxjs';
 import {ArquivoSpinnerService} from '../_services/arquivo-spinner.service';

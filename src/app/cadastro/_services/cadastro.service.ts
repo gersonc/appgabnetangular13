@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
-import { UrlService } from '../../util/_services';
+import { UrlService } from '../../_services';
 import {
   CadastroDuplicadoBuscaInterface,
   CadastroFormulario,

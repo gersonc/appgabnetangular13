@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UrlService } from "../../util/_services";
+import { UrlService } from "../../_services";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { GraficoInterface } from "../_models/grafico";

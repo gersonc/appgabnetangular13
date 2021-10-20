@@ -5,7 +5,7 @@ import { ConfiguracaoService } from "../_services";
 import { take } from "rxjs/operators";
 import { AuthenticationService, CarregadorService } from "../../_services";
 import { ConfirmationService, Message, MessageService, SelectItem } from "primeng/api";
-import { DropdownService } from "../../util/_services";
+import { DropdownService } from "../../_services";
 import { Configuracao2Model } from "../_models/configuracao-model";
 
 @Component({

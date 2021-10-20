@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {UrlService} from '../../util/_services';
+import {UrlService} from '../../_services';
 import {ArquivoInterface, ArquivoPermissaoInterface} from '../_models';
 import {saveAs} from 'file-saver';
 import {take} from 'rxjs/operators';

@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { DropdownnomeidClass } from '../../util/_models';
-import { MostraMenuService, DropdownService } from '../../util/_services';
+import { DropdownnomeidClass } from '../../_models';
+import { MostraMenuService, DropdownService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 
 import { EmendaBuscaInterface, EmendaDropdownMenu } from '../_models';
@@ -20,7 +20,7 @@ export class EmendaMenuComponent implements OnInit {
   public formMenuEmenda: FormGroup;
   public items: Array<any> = [];
   public ddNomeIdArray = new DropdownnomeidClass();
-  
+
   public drd = new EmendaDropdownMenu();
 
   constructor(

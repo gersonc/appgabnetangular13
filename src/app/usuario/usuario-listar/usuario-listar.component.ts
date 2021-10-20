@@ -5,7 +5,7 @@ import { UsuarioInterface } from "../_models/usuario";
 import { Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import { ConfirmationService, MessageService, SelectItem } from "primeng/api";
-import { DropdownService } from "../../util/_services";
+import { DropdownService } from "../../_services";
 
 @Component({
   selector: "app-usuario-listar",

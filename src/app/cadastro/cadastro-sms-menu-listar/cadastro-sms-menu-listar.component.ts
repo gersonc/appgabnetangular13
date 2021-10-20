@@ -7,11 +7,11 @@ import { Location } from '@angular/common';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
 import { take } from 'rxjs/operators';
 
-import { AutocompleteService, MostraMenuService, DropdownService } from '../../util/_services';
+import { AutocompleteService, MostraMenuService, DropdownService } from '../../_services';
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroBuscaInterface } from '../_models';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../util/_models';
+import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../_models';
 
 
 
@@ -194,6 +194,6 @@ export class CadastroSmsMenuListarComponent implements OnInit, OnDestroy {
   }
 
   fechar() {
-    this.cs.mostraEsconde(false);
+    this.cs.mostraEscondeCarregador(false);
   }
 }

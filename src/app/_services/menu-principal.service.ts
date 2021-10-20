@@ -10,7 +10,7 @@ export class MenuPrincipalService {
 
   constructor() { }
 
-  abreFechaMenu() {
+  /*abreFechaMenu() {
     console.log('mp.abreFechaMenu');
     this.mostraMn = !this.mostraMn;
     if (this.mostraMn) {
@@ -24,24 +24,24 @@ export class MenuPrincipalService {
         this.menuClasses = this.mostraMn ? 'menu-principal' : 'menu-principal-fechado';
       }, 500);
     }
-  }
+  }*/
 
-  abreMenu() {
+  /*abreMenu() {
     console.log('mp.abreMenu');
     this.mostraMn = true;
     this.menuClasses = 'menu-principal';
     setTimeout(() => {
       this.mostra = this.mostraMn;
     }, 1000);
-  }
+  }*/
 
-  fechaMenu() {
+  /*fechaMenu() {
     console.log('mp.fechaMenu');
     this.mostraMn = false;
     this.menuClasses = 'menu-principal-fechado';
     this.mostra = this.mostraMn;
 
-  }
+  }*/
 
 
 }

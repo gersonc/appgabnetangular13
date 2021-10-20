@@ -14,7 +14,7 @@ import {
 import {ArquivoInterface, ArquivoPermissaoInterface} from '../_models';
 import {Message, MessageService} from 'primeng/api';
 import {Subscription} from 'rxjs';
-import {UrlService} from '../../util/_services';
+import {UrlService} from '../../_services';
 import {ArquivoService} from '../_services';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FileUpload} from 'primeng/fileupload';

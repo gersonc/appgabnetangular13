@@ -13,7 +13,7 @@ import {
   MostraMenuService,
   PrintJSService,
   TabelaPdfService
-} from '../../util/_services';
+} from '../../_services';
 import {
   PassagemArray,
   PassagemBuscaCampoInterface,

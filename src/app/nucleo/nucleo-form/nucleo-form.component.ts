@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { NucleoService } from '../_services/nucleo.service';
 import { LocalClass, LocalInterface } from '../_models/nucleo';
 import { MessageService, SelectItem } from 'primeng/api';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 
 @Component({
   selector: 'app-nucleo-form',

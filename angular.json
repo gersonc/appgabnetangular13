@@ -39,7 +39,9 @@
               "jspdf-autotable",
               "html2canvas",
               "quill-to-word",
-              "canvg"
+              "canvg",
+              "core-js",
+              "raf"
             ],
             "scripts": [
               "node_modules/quill/dist/quill.js"

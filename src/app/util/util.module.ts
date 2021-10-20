@@ -9,7 +9,7 @@ import { CampoControlErroComponent } from './campo-control-erro';
 import { ErrorMsgComponent } from './error-msg';
 import { FormDebugComponent } from './form-debug';
 import { JwtInterceptor, ErrorInterceptor } from '../_helpers';
-import { AutocompleteService, CepService, DropdownService, MostraMenuService } from './_services';
+// import { AutocompleteService, CepService, DropdownService, MostraMenuService } from './_services';
 import { ChildLoaderComponent } from './child-loader/child-loader.component';
 import { MenuContextoComponent } from './menu-contexto/menu-contexto.component';
 import { CampoEditorComponent } from './campo-editor/campo-editor.component';
@@ -47,10 +47,10 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     CampoEditorComponent
   ],
   providers: [
-    DropdownService,
+    /*DropdownService,
     CepService,
     AutocompleteService,
-    MostraMenuService,
+    MostraMenuService,*/
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ]

@@ -41,11 +41,11 @@ export class HomeComponent implements OnInit {
   }
 
   mostraCarregador() {
-    this.cs.mostraEsconde(true);
+    this.cs.mostraEscondeCarregador(true);
   }
 
   escondeCarregador() {
-    this.cs.mostraEsconde(false);
+    this.cs.mostraEscondeCarregador(false);
   }
 
 }

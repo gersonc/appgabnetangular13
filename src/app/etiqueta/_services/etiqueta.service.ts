@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { UrlService } from '../../util/_services';
+import { UrlService } from '../../_services';
 import { EtiquetaInterface, EtiquetaCelula } from '../_models';
 import { CadastroEtiquetaInterface } from '../../cadastro/_models';
 

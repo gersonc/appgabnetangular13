@@ -4,10 +4,10 @@ import { Location } from '@angular/common';
 import { take } from 'rxjs/operators';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { DropdownService, UrlService } from '../../util/_services';
+import { DropdownService, UrlService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { AndamentoProposicaoService } from '../_services';
-import { DropdownnomeidClass } from '../../util/_models';
+import { DropdownnomeidClass } from '../../_models';
 
 @Component({
   selector: 'app-andamentoproposicao-incluir',

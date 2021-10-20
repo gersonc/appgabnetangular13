@@ -11,7 +11,7 @@ import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import { CalendarioService } from './_services';
 import {CalBusca, Evento, EventoInterface} from './_models';
 import {FullCalendarComponent, CalendarOptions, EventApi} from '@fullcalendar/angular';
-import { UrlService } from '../util/_services';
+import { UrlService } from '../_services';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { AuthenticationService, CarregadorService } from '../_services';
@@ -227,7 +227,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       weekNumbers: true,
       navLinks: true,
       loading: (e: boolean) => {
-        this.cs.mostraEsconde(e);
+        this.cs.mostraEscondeCarregador(e);
       },
       navLinkDayClick: (date, jsEvent) => {
         this.mostraDia(date);

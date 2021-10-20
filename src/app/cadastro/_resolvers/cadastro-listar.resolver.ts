@@ -4,8 +4,8 @@ import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroPaginacaoInterface, CadastroSmsPaginacaoInterface } from '../_models';
-import { DropdownService, MostraMenuService } from '../../util/_services';
-import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../util/_models';
+import { DropdownService, MostraMenuService } from '../../_services';
+import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../_models';
 import { CadastroMenuDropdown, CadastroMenuDropdownInterface } from '../_models';
 import { SelectItemGroup } from 'primeng/api';
 import { CarregadorService } from '../../_services';
@@ -211,6 +211,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
     if (!sessionStorage.getItem('cadastro-dropdown')) {
       sessionStorage.setItem('cadastro-dropdown', JSON.stringify(this.ddCadastro));
     }
+    this.cs.escondeCarregador();
     this.resp.next(true);
   }
 
@@ -229,7 +230,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
     if (!sessionStorage.getItem('cadastro-dropdown')) {
       this.dropdown = true;
       this.sms = false;
-      this.cs.fechaMenu();
+      // this.cs.fechaMenu();
       this.cs.mostraCarregador();
       this.populaDropdown();
       return this.resp$.pipe(
@@ -247,7 +248,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
     } else {
       if (sessionStorage.getItem('cadastro-busca') && this.cbs.buscaStateSN) {
         this.sms = false;
-        this.cs.fechaMenu();
+        // this.cs.fechaMenu();
         this.cs.mostraCarregador();
         this.cbs.buscaState = JSON.parse(sessionStorage.getItem('cadastro-busca'));
         if (this.cbs.smsSN) {
@@ -263,7 +264,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
               })
             );
         } else {
-          this.cs.fechaMenu();
+          // this.cs.fechaMenu();
           return this.cadastroService.postCadastroBusca(JSON.parse(sessionStorage.getItem('cadastro-busca')))
             .pipe(
               take(1),
@@ -277,7 +278,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
             );
         }
       } else {
-        this.cs.fechaMenu();
+        // this.cs.fechaMenu();
         if (this.cbs.smsSN && this.sms === true) {
           this.router.navigate(['/cadastro/listar/sms']);
           return EMPTY;

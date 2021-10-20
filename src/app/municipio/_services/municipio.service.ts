@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Municipio} from '../_models/municipio';
-import {UrlService} from '../../util/_services';
+import {UrlService} from '../../_services';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MunicipioIncluirInterface} from '../_models/municipio.interface';
 import {Observable} from 'rxjs';

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, Output, 
 import { HttpClient } from '@angular/common/http';
 import { ArquivoService } from '../_services';
 import { AuthenticationService } from '../../_services';
-import { UrlService } from '../../util/_services';
+import { UrlService } from '../../_services';
 import { Subscription } from 'rxjs';
 import { ArquivoInterface } from '../_models';
 import { take } from 'rxjs/operators';

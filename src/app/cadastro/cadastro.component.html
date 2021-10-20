@@ -1,14 +1,14 @@
 <p-sidebar
-  [(visible)]="mostra"
+  [(visible)]="mostraMenuInterno"
   appendTo="body"
   [blockScroll]="false"
   [dismissible]="true"
   styleClass="menu-lateral"
 >
   <div style="padding-top: 1.8rem">
-    <p-scrollPanel [styleClass]="'menu-lateral'" >
-      <app-cadastro-menu-listar *ngIf="!cbs.smsSN"></app-cadastro-menu-listar>
-      <app-cadastro-sms-menu-listar *ngIf="cbs.smsSN"></app-cadastro-sms-menu-listar>
+    <p-scrollPanel styleClass='menu-lateral' >
+      <app-cadastro-menu-listar *ngIf="!smsSN"></app-cadastro-menu-listar>
+      <app-cadastro-sms-menu-listar *ngIf="smsSN"></app-cadastro-sms-menu-listar>
     </p-scrollPanel>
   </div>
 </p-sidebar>

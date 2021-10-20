@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, of, pipe, Subject } from 'rxjs';
 import { catchError, map, take} from 'rxjs/operators';
 
 import { User } from '../_models';
-import { UrlService} from '../util/_services';
+import { UrlService} from '../_services';
 import {Versao} from './versao';
 
 @Injectable({providedIn: 'root'})

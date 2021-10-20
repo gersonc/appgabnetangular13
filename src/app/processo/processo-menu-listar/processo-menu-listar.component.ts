@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 
 import { SelectItem } from 'primeng/api';
-import { DropdownnomeidClass } from '../../util/_models';
-import { MostraMenuService, DropdownService } from '../../util/_services';
+import { DropdownnomeidClass } from '../../_models';
+import { MostraMenuService, DropdownService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 
 import { ProcessoBuscaService } from '../_services';

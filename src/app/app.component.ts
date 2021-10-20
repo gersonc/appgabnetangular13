@@ -1,3 +1,5 @@
+// import {MenuPrincipalService} from "./_services/menu-principal.service";
+
 declare global {
   interface Window {
     __VERSAOID__: number;
@@ -19,16 +21,11 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent implements OnInit {
   @ViewChild('principal', { static: true }) principal: ElementRef;
-  vf = false;
   title = 'app';
-  currentClasses: {};
-  menuClasses: string;
+  public mostraMenuPrincipal = false;
   carregador = 'carregador';
   public carregadorSN = false;
-  public expande = false;
-  public showMenu: boolean;
-  public mostraMn: boolean;
-  public mostra: boolean;
+
   private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
   public alturaMain: any;
@@ -44,7 +41,7 @@ export class AppComponent implements OnInit {
     public authenticationService: AuthenticationService,
     private windowsService: WindowsService,
     public cs: CarregadorService,
-    private as: ArquivoLoginService
+    private as: ArquivoLoginService,
   ) { }
 
   ngOnInit() {
@@ -52,25 +49,21 @@ export class AppComponent implements OnInit {
     window.__VERSAOID__ = +this.authenticationService.versao_id;
     window.__VERSAO__ = this.authenticationService.versao;
     this.configPrime();
-    this.authenticationService.mostraMenu.subscribe(
-      valor => {
-        this.showMenu = valor;
-      }
-    );
+
     this.cs.getCarregador().subscribe(vf => {
       console.log('app01', vf);
       this.mostraEsconde(vf);
     });
-    this.cs.mostraMn = false;
-    this.cs.mostra = false;
-    this.cs.menuClasses = 'menu-principal-fechado';
+    // this.cs.mostraMn = false;
+    // this.cs.mostra = false;
+    // this.cs.menuClasses = 'menu-principal-fechado';
     if (this.authenticationService.permissoes_carregadas) {
        this.as.verificaPermissoes();
     }
 
   }
 
-  setCurrentClasses() {
+  /*setCurrentClasses() {
     // CSS classes: added/removed per current state of component properties
     setTimeout(() => {
       this.currentClasses = {
@@ -78,7 +71,7 @@ export class AppComponent implements OnInit {
         'menu-principal-fechado': !this.expande
       };
     });
-  }
+  }*/
 
   onResized(id: string, event: ResizedEvent): void {
     const ev = new CoordenadaXY();
@@ -93,9 +86,9 @@ export class AppComponent implements OnInit {
     switch (id) {
       case 'app': {
         this.windowsService.coorApp = ev;
-        this.expande = ev.x > 761;
+        // this.expande = ev.x > 761;
         this.windowsService.changeScreen(ev.x, ev.y);
-        this.setCurrentClasses();
+        // this.setCurrentClasses();
         break;
       }
       case 'topo': {
@@ -160,6 +153,10 @@ export class AppComponent implements OnInit {
       'weekHeader': 'Sm'
     });
     this.config.ripple = true;
+  }
+
+  abreFechaMenu() {
+    this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
   }
 }
 

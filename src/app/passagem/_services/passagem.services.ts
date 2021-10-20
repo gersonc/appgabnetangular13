@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { DropdownService, UrlService } from '../../util/_services';
+import { DropdownService, UrlService } from '../../_services';
 import {
   PassagemBuscaInterface,
   PassagemDetalheInterface,

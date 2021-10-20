@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { UrlService } from '../../util/_services';
+import { UrlService } from '../../_services';
 import { CadastroPaginacaoInterface, SmsDbInterface } from '../../cadastro/_models';
 import { BROWSER_STORAGE, BrowserStorageService } from '../../_services';
 import { SmsEnvioInterface } from '../_models/sms.interface';

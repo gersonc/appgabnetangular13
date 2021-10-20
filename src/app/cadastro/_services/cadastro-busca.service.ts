@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { CadastroBusca, CadastroBuscaInterface} from '../_models';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class CadastroBuscaService {
   buscaStateSNSubject = new BehaviorSubject<boolean>(false);
   buscaStateSN$ = this.buscaStateSNSubject.asObservable();
   smsSNSubject = new BehaviorSubject<boolean>(false);
-  smsSN$ = this.smsSNSubject.asObservable();
+  public smsSN$ = this.smsSNSubject.asObservable();
   stateSN: boolean;
   sms: boolean;
   state: any;
@@ -46,6 +46,10 @@ export class CadastroBuscaService {
 
   get smsSN(): boolean {
     return this.sms;
+  }
+
+  getSmsSN(): Observable<boolean> {
+    return this.smsSN$;
   }
 
   set buscaState(dados: any) {

@@ -40,11 +40,11 @@ export class SolicitacaoListarResolver implements
     state: RouterStateSnapshot):
     Observable<boolean | SolicitacaoPaginacaoInterface | never> {
     if (!sessionStorage.getItem('solicitacao-dropdown') || sessionStorage.getItem('solicitacao-busca')) {
-      this.cs.fechaMenu();
+      // this.cs.fechaMenu();
       this.cs.mostraCarregador();
       return this.getResposta();
     } else {
-      this.cs.fechaMenu();
+      // this.cs.fechaMenu();
       this.router.navigate(['/solicitacao/listar2']);
       return EMPTY;
     }

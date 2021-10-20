@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from '../../util/_models';
+import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from '../../_models';
 import { SolicitacaoDropdownMenuListar } from '../_models';
 import {Observable, Subject, Subscription} from 'rxjs';
-import { DropdownService } from '../../util/_services';
+import { DropdownService } from '../../_services';
 
 @Injectable({
   providedIn: 'root'

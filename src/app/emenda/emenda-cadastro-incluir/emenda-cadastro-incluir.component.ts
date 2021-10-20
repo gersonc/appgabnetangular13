@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Message, MessageService, SelectItem, SelectItemGroup } from 'primeng/api';
-import { AutocompleteService, CepService, DropdownService } from '../../util/_services';
+import { AutocompleteService, CepService, DropdownService } from '../../_services';
 import { CadastroService } from '../../cadastro/_services';
 import {CEPError, Endereco, CEPErrorCode, NgxViacepService} from '@brunoc/ngx-viacep';
 import { AuthenticationService, CarregadorService, IncluirAuxService } from '../../_services';
 import { MunicipioService } from '../../municipio/_services/municipio.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../util/_models';
+import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../_models';
 
 import { WindowsService } from '../../_layout/_service';
 import {EMPTY, Subscription} from 'rxjs';

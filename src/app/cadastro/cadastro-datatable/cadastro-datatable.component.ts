@@ -13,7 +13,7 @@ import {
   MostraMenuService,
   PrintJSService,
   TabelaPdfService
-} from '../../util/_services';
+} from '../../_services';
 import {
   CadastroArray,
   CadastroInterface,
@@ -368,7 +368,7 @@ export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   escondeCarregador() {
-    this.cs.mostraEsconde(false);
+    this.cs.mostraEscondeCarregador(false);
   }
 
   // FUNCOES DE CRUD ===========================================================
