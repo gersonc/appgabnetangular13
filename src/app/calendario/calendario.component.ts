@@ -1,31 +1,25 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
-
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
-import { CalendarioService } from './_services';
+import {CalendarioService} from './_services';
 import {CalBusca, Evento, EventoInterface} from './_models';
-import {FullCalendarComponent, CalendarOptions, EventApi} from '@fullcalendar/angular';
-import { UrlService } from '../_services';
-import { HttpClient } from '@angular/common/http';
-import { take } from 'rxjs/operators';
-import { AuthenticationService, CarregadorService } from '../_services';
-import { MessageService, SelectItem } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
-import { Subscription } from 'rxjs';
-import { WindowsService } from '../_layout/_service';
-import { ResizedEvent } from 'angular-resize-event';
-import { CalendarioFormularioComponent } from './calendario-formulario/calendario-formulario.component';
-import { DateTime } from 'luxon';
-import { CalendarioExibirComponent } from './calendario-exibir/calendario-exibir.component';
+import {CalendarOptions, EventApi, FullCalendarComponent} from '@fullcalendar/angular';
+import {AuthenticationService, CarregadorService, UrlService} from '../_services';
+import {HttpClient} from '@angular/common/http';
+import {take} from 'rxjs/operators';
+import {MessageService, SelectItem} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
+import {Subscription} from 'rxjs';
+import {WindowsService} from '../_layout/_service';
+import {ResizedEvent} from 'angular-resize-event';
+import {DateTime} from 'luxon';
 import autoTable from 'jspdf-autotable';
-import { CalendarioImprimirComponent } from './calendario-imprimir/calendario-imprimir.component';
-import {EventSourceFunc, EventSourceInput} from '@fullcalendar/common';
 
 declare var jsPDF: any;
 
@@ -38,7 +32,7 @@ declare var jsPDF: any;
 export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('fc', { static: true }) fc: FullCalendarComponent;
   @ViewChild('cesq', { static: true }) cesq: ElementRef;
-  @ViewChild('calFm', { static: true }) public calFm: NgForm;
+  @ViewChild('calForm', { static: true }) public calForm: NgForm;
 
   eventos: EventoInterface[];
   evT: {ev: Evento, jsEvent: any} = null;
@@ -997,15 +991,14 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getUtc(d: DateTime = null) {
     d = d ? d : new DateTime();
-    const utc = Date.UTC(
-      d.getFullYear(),
-      d.getMonth(),
-      d.getDate(),
-      d.getHours(),
-      d.getMinutes(),
-      d.getSeconds()
+    return Date.UTC(
+      d.year,
+      d.month,
+      d.day,
+      d.hour,
+      d.minute,
+      d.second
     );
-    return utc;
   }
 
   resetForm() {
