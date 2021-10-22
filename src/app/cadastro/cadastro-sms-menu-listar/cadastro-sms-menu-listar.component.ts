@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
 import { take } from 'rxjs/operators';
 
-import { AutocompleteService, MostraMenuService, DropdownService } from '../../_services';
+import {AutocompleteService, MostraMenuService, DropdownService, MenuInternoService} from '../../_services';
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroBuscaInterface } from '../_models';
 import { AuthenticationService, CarregadorService } from '../../_services';
@@ -52,7 +52,8 @@ export class CadastroSmsMenuListarComponent implements OnInit, OnDestroy {
     private autocompleteservice: AutocompleteService,
     private cadastroService: CadastroService,
     private cbs: CadastroBuscaService,
-    public mm: MostraMenuService,
+    // public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private location: Location,
     public authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -102,7 +103,7 @@ export class CadastroSmsMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('cadastro-listagem-sms')) {
         sessionStorage.removeItem('cadastro-listagem-sms');
       }
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
     }
 
   }
@@ -172,7 +173,7 @@ export class CadastroSmsMenuListarComponent implements OnInit, OnDestroy {
       this.cbs.cadastroBusca[propName] = cadBusca[propName].toString();
     }
     this.cbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 

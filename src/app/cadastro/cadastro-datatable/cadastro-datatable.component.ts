@@ -26,6 +26,7 @@ import {
 import { CadastroService, CadastroBuscaService } from '../_services';
 import { CadastroDetalheComponent } from '../cadastro-detalhe';
 import { ContextMenu } from 'primeng/contextmenu';
+import {MenuInternoService} from "../../_services/menu-interno.service";
 
 
 @Component({
@@ -37,7 +38,7 @@ import { ContextMenu } from 'primeng/contextmenu';
 })
 export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('dt', { static: true }) public dt: any;
-  @ViewChild('cn', { static: true }) public cm: ContextMenu;
+  @ViewChild('cm', { static: true }) public cm: ContextMenu;
   loading = false;
   cols: any[];
   currentPage = 1;
@@ -79,7 +80,8 @@ export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy 
   camposTextos: string[];
 
   constructor(
-    private mm: MostraMenuService,
+    //private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
@@ -280,7 +282,7 @@ export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy 
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.showMenu();
+    this.mi.showMenuInterno();
   }
 
   reset() {
@@ -651,7 +653,7 @@ export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy 
       sessionStorage.setItem('cadastro-busca', JSON.stringify(this.cbs.cadastroBusca));
       sessionStorage.setItem('cadastro-selectedColumns', JSON.stringify(this.selectedColumns));
       this.cbs.buscaStateSN = true;
-      this.mm.mudaSmsVF(true);
+      this.mi.mudaSmsVF(true);
       this.cadastros = null;
       this.router.navigate(['/cadastro/listar/sms/busca']);
     }

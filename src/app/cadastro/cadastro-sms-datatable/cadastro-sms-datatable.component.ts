@@ -11,7 +11,7 @@ import {
   SmsDbInterface, CadastroSmsPaginacaoInterface
 } from '../_models';
 import { CadastroBuscaService, CadastroService } from '../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import { MostraMenuService } from '../../_services';
 import { SmsService } from '../../sms/_services/sms.service';
 
@@ -69,7 +69,8 @@ export class CadastroSmsDatatableComponent implements OnInit, OnDestroy {
 
   constructor(
     private smsService: SmsService,
-    private mm: MostraMenuService,
+    // public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -149,7 +150,7 @@ export class CadastroSmsDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.showMenuInterno();
   }
 
   resetSelectedColumns(): void {
@@ -324,10 +325,10 @@ export class CadastroSmsDatatableComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('cadastro-busca-sms')) {
       sessionStorage.removeItem('cadastro-busca-sms');
     }
-      this.mm.mudaSmsVF(false);
+      this.mi.mudaSmsVF(false);
       this.cbs.buscaStateSN = false;
       this.cadastros = null;
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
       this.router.navigate(['/cadastro/listar']);
   }
 

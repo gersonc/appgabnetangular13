@@ -10,8 +10,7 @@ import { AuthenticationService, CarregadorService, AutocompleteService, MostraMe
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroBuscaInterface } from '../_models';
 import { DropdownnomeidClass } from '../../_models';
-import {MenuInternoService} from "../../_services/menu-interno.service";
-
+import {MenuInternoService} from "../../_services";
 
 
 @Component({
@@ -49,7 +48,6 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     private autocompleteservice: AutocompleteService,
     public cadastroService: CadastroService,
     private cbs: CadastroBuscaService,
-    // private mm: MostraMenuService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -103,7 +101,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('cadastro-listagem')) {
         sessionStorage.removeItem('cadastro-listagem');
       }
-      this.mm.showMenu();
+      this.mi.showMenuInterno();
     }
 
   }
@@ -181,7 +179,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       }
       this.cbs.cadastroBusca[propName] = cadBusca[propName].toString();
     }
-    this.mm.hideMenu();
+    this.mi.hideMenu();
     this.cbs.buscaMenu();
     this.cs.mostraCarregador();
   }

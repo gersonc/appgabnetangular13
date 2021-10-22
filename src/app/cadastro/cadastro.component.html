@@ -1,5 +1,24 @@
 <p-sidebar
-  [(visible)]="mostraMenuInterno"
+  id="sidebar-menuinterno"
+  [(visible)]="mi.mostraMenuInterno"
+  [blockScroll]="true"
+  [dismissible]="true"
+  styleClass="menuinterno"
+  appendTo="body"
+>
+
+
+    <!--<p-scrollPanel styleClass='menu-lateral' >-->
+      <app-cadastro-menu-listar *ngIf="!smsSN"></app-cadastro-menu-listar>
+      <app-cadastro-sms-menu-listar *ngIf="smsSN"></app-cadastro-sms-menu-listar>
+    <!--</p-scrollPanel>-->
+
+</p-sidebar>
+<!--<p-sidebar [(visible)]="mi.mostraMenuInterno">
+  Content
+</p-sidebar>-->
+
+<!--<p-sidebar
   appendTo="body"
   [blockScroll]="false"
   [dismissible]="true"
@@ -7,9 +26,11 @@
 >
   <div style="padding-top: 1.8rem">
     <p-scrollPanel styleClass='menu-lateral' >
-      <app-cadastro-menu-listar *ngIf="!smsSN"></app-cadastro-menu-listar>
+      <app-cadastro-menu-listar></app-cadastro-menu-listar>
       <app-cadastro-sms-menu-listar *ngIf="smsSN"></app-cadastro-sms-menu-listar>
     </p-scrollPanel>
   </div>
-</p-sidebar>
+</p-sidebar>-->
+<div id="menuinterno">
 <router-outlet></router-outlet>
+</div>

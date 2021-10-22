@@ -44,14 +44,16 @@
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
     <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-1">CADASTRO</div>
-      </div>
+
       <div class="p-d-inline-flex">
         <div class="p-mx-1"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
         <div class="p-mr-1"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
         <div class="p-mr-1"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
         <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="cadastroIncluir()"></button></div>
+      </div>
+
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mx-1">CADASTRO</div>
       </div>
 
       <div class="p-d-inline-flex p-ai-center">

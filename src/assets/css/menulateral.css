@@ -1,36 +1,3 @@
-.menu-lateral {
-  background-color: var(--menu-lateral-bg-color);
-}
-
-.menu-lateral-pq {
-  background-color: var(--menu-lateral-bg-color);
-}
-
-.p-sidebar.menu-lateral {
-  padding: 0 1.25em 1.25em 1.25em !important;
-}
-
-.p-sidebar.menu-lateral-pq {
-  padding: 0 1.25em 1.25em 1.25em !important;
-}
-
-/*  height: calc(var(--menu-lateral-height) - 2rem);*/
-.p-scrollpanel.menu-lateral {
-  box-sizing: border-box;
-  height: var(--menu-lateral-height) !important;
-  padding: 0 1.8rem 1.8rem 0;
-  position: relative;
-  width: 100%;
-}
-
-.p-scrollpanel.menu-lateral-pq {
-  box-sizing: border-box;
-  height: var(--menu-lateral-height) !important;
-  padding: 0 1.8rem 1.8rem 0;
-  position: relative;
-  width: 100%;
-}
-
 @media screen and (min-width: 1201px) {
   .p-sidebar-left.menu-lateral  {
     width: var(--menu-lateral-width) !important;
@@ -75,6 +42,55 @@
     width: var(--menu-lateral-pq-width-576) !important;
   }
 }
+
+
+/*
+.p-sidebar .menu-lateral {
+  background: green;
+}
+
+
+#sidebar-menuinterno .p-sidebar .p-sidebar-active .p-sidebar-left {
+  background: red !important;
+
+}
+*/
+
+
+.menu-lateral {
+  background-color: var(--menu-lateral-bg-color);
+}
+
+.menu-lateral-pq {
+  background-color: var(--menu-lateral-bg-color);
+}
+
+.p-sidebar.menu-lateral {
+  padding: 0 1.25em 1.25em 1.25em !important;
+}
+
+.p-sidebar.menu-lateral-pq {
+  padding: 0 1.25em 1.25em 1.25em !important;
+}
+
+/*  height: calc(var(--menu-lateral-height) - 2rem);*/
+.p-scrollpanel.menu-lateral {
+  box-sizing: border-box;
+  height: var(--menu-lateral-height) !important;
+  padding: 0 1.8rem 1.8rem 0;
+  position: relative;
+  width: 100%;
+}
+
+.p-scrollpanel.menu-lateral-pq {
+  box-sizing: border-box;
+  height: var(--menu-lateral-height) !important;
+  padding: 0 1.8rem 1.8rem 0;
+  position: relative;
+  width: 100%;
+}
+
+
 
 .p-sidebar-left.menu-lateral  {
   top: 3.1rem !important;

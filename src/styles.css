@@ -7,15 +7,16 @@
 @import "~primeicons/primeicons.css";
 @import "~primeng/resources/primeng.css";
 /*@import "assets/css/themas/vela-purple/vela-purple-gabnet.css";*/
-@import "assets/css/themas/bootstrap4-light-blue/theme.css";
-/*@import "assets/css/themas/saga-blue/saga-blue-gabnet.css";*/
+/*@import "assets/css/themas/bootstrap4-light-blue/theme.css";*/
+@import "assets/css/themas/saga-blue/saga-blue-gabnet.css";
 @import "assets/css/calendario.css";
 @import "assets/css/componentes.css";
 @import "assets/css/configuracao.css";
 @import "assets/css/formulario.css";
 @import "assets/css/datatable.css";
 @import "assets/css/detalhe.css";
-@import "assets/css/menulateral.css";
+/*@import "assets/css/menulateral.css";*/
+@import "assets/css/menuinterno.css";
 @import "assets/css/menuprincipal.css";
 /*
 
@@ -118,7 +119,7 @@
   --menu-lateral-pq-width-576: 100vw;
 
   --altura-main: 100vh;
-  --menu-lateral-height: calc(100vh - 4.1em);
+  --menu-lateral-height: calc(100vh - 4.6em);
 
 
   --fundotabela: var(--surface-c);
