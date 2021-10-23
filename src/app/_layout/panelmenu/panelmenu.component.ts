@@ -29,6 +29,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    console.log('panelmenu');
     this.items = this.itens;
   }
 

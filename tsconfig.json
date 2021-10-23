@@ -24,7 +24,10 @@
     "strictFunctionTypes": false,
     "noStrictGenericChecks": false,
     "emitDecoratorMetadata": true,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "paths": {
+      "primeng/*": ["node_modules/primeng-lts/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

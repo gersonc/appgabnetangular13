@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService, V } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService, V} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -82,7 +82,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    public mm: MostraMenuService,
+    // public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -291,7 +292,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {

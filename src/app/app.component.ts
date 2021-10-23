@@ -1,5 +1,3 @@
-// import {MenuPrincipalService} from "./_services/menu-principal.service";
-
 declare global {
   interface Window {
     __VERSAOID__: number;
@@ -21,17 +19,18 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent implements OnInit {
   @ViewChild('principal', { static: true }) principal: ElementRef;
+
   title = 'app';
   public mostraMenuPrincipal = false;
   carregador = 'carregador';
   public carregadorSN = false;
 
-  private altura: number = WindowsService.nativeWindow.innerHeight;
+  /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
   public alturaMain: any;
   private currentUser: any;
   public parlamentarNome = '';
-  public usuarioNome = '';
+  public usuarioNome = '';*/
 
 
   private evs: CoordenadaXY[] = [];
@@ -54,24 +53,12 @@ export class AppComponent implements OnInit {
       console.log('app01', vf);
       this.mostraEsconde(vf);
     });
-    // this.cs.mostraMn = false;
-    // this.cs.mostra = false;
-    // this.cs.menuClasses = 'menu-principal-fechado';
+
     if (this.authenticationService.permissoes_carregadas) {
        this.as.verificaPermissoes();
     }
 
   }
-
-  /*setCurrentClasses() {
-    // CSS classes: added/removed per current state of component properties
-    setTimeout(() => {
-      this.currentClasses = {
-        'menu-principal': this.expande,
-        'menu-principal-fechado': !this.expande
-      };
-    });
-  }*/
 
   onResized(id: string, event: ResizedEvent): void {
     const ev = new CoordenadaXY();
@@ -111,9 +98,7 @@ export class AppComponent implements OnInit {
   }
 
   public mostraEsconde(vf: boolean) {
-    setTimeout(() => {
       this.carregadorSN = vf;
-    });
   }
 
   configPrime() {

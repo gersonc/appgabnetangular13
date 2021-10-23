@@ -4,8 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
 import { DropdownnomeidClass, DropdownsonomearrayClass, DropdownNomeIdJoin } from '../../_models';
-import { AuthenticationService, CarregadorService } from '../../_services';
-import { MostraMenuService, DropdownService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService, DropdownService } from '../../_services';
 import {SolicitacaoService, SolicitacaoBuscarService, SolicitacaoDropdownMenuService} from '../_services';
 import { SolicitacaoBuscaInterface } from '../_models';
 import {Observable, Subject, Subscription} from 'rxjs';
@@ -42,7 +41,8 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
     private dd: DropdownService,
     private solicitacaoService: SolicitacaoService,
     private sbs: SolicitacaoBuscarService,
-    private mm: MostraMenuService,
+    // private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -52,6 +52,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    console.log('solicitacao menu');
     this.formListarSolicitacao = this.formBuilder.group({
       solicitacao_posicao: [null],
       solicitacao_cadastro_tipo_id: [null],
@@ -75,7 +76,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('solicitacao-listagem')) {
         sessionStorage.removeItem('solicitacao-listagem');
       }
-      this.mm.showMenu();
+      this.mi.mostraInternoMenu()
     }
   }
 
@@ -134,13 +135,13 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
       this.sbs.solicitacaoBusca[propName] = solBusca[propName].toString();
     }
     this.sbs.buscaMenu();
-    this.mm.hideMenu();
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
-      this.mm.hideMenu();
+      this.mi.hideMenu();
       this.cs.mostraCarregador();
       this.router.navigate(['/solicitacao/incluir']);
     } else {

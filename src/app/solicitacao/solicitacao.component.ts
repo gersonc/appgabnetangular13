@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { MostraMenuService } from '../_services';
+import { MenuInternoService } from '../_services';
 import { SolicitacaoBuscarService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
-import { CarregadorService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,33 +11,39 @@ import { Subscription } from 'rxjs';
 })
 export class SolicitacaoComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  mostra = false;
   sub: Subscription[] = [];
+  public mostraMenuInterno = false;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private sbs: SolicitacaoBuscarService,
     private as: ArquivoService,
-    private cs: CarregadorService
   ) {  }
 
   ngOnInit() {
+    console.log('SOLICITACAO');
+    this.sub.push(this.mi.mostraInternoMenu().subscribe(
+      vf => {
+        this.mostraMenuInterno = vf;
+        console.log('mostraMenuInterno', this.mostraMenuInterno);
+      })
+    );
     this.as.getPermissoes();
     this.sbs.criarSolicitacaoBusca();
     if (!sessionStorage.getItem('solicitacao-busca')) {
       this.sbs.buscaStateSN = false;
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     } else {
       if (this.sbs.buscaStateSN) {
-        this.mm.mudaMenu(false);
+        this.mi.mudaMenuInterno(false);
       } else {
-        this.mm.mudaMenu(true);
+        this.mi.mudaMenuInterno(true);
       }
     }
   }
 
   onHide() {
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
   }
 
   ngOnDestroy(): void {

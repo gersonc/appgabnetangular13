@@ -10,7 +10,6 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ContextMenuModule } from 'primeng/contextmenu';
-// import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -50,11 +49,7 @@ import { SolicitacaoExcluirComponent } from './solicitacao-excluir/solicitacao-e
 import { SolicitacaoCadastroIncluirComponent } from './solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component';
 import { SolicitacaoCadastroIncluirListaexistenteComponent } from './solicitacao-cadastro-incluir-listaexistente';
 import { RippleModule } from 'primeng/ripple';
-import {EditorModule} from "primeng/editor";
-
-// import { SolicitacaoCadastroIncluirListaexistenteComponent } from './solicitacao-cadastro-incluir-listaexistente';
-
-
+import { EditorModule } from "primeng/editor";
 
 
 @NgModule({

@@ -11,7 +11,7 @@ import { SolicitacaoDropdownMenuService, SolicitacaoService } from '../_services
   providedIn: 'root'
 })
 export class SolicitacaoListarResolver implements
-  Resolve<SolicitacaoDropdownMenuListarInterface | SolicitacaoPaginacaoInterface | boolean> {
+  Resolve<boolean | SolicitacaoPaginacaoInterface> {
 
   constructor(
     private router: Router,
@@ -20,7 +20,17 @@ export class SolicitacaoListarResolver implements
     private sdd: SolicitacaoDropdownMenuService
   ) { }
 
-  getResposta(): Observable<boolean | SolicitacaoPaginacaoInterface> {
+  getBusca(): Observable<SolicitacaoPaginacaoInterface> {
+    return this.solicitacaoService.postSolicitacaoBusca(JSON.parse(sessionStorage.getItem('solicitacao-busca')))
+      .pipe(take(1));
+  }
+
+  getDropDown(): Observable<boolean> {
+    return this.sdd.populaDropdownMenu
+      .pipe(take(1));
+  }
+
+  /*getResposta(): Observable<boolean | SolicitacaoPaginacaoInterface> {
     if (sessionStorage.getItem('solicitacao-busca')) {
       return this.sdd.populaDropdownMenu
         .pipe(take(1),
@@ -33,20 +43,25 @@ export class SolicitacaoListarResolver implements
       return this.sdd.populaDropdownMenu
         .pipe(take(1));
     }
-  }
+  }*/
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):
-    Observable<boolean | SolicitacaoPaginacaoInterface | never> {
+    Observable<boolean> | Observable<SolicitacaoPaginacaoInterface> | Observable<never> {
     if (!sessionStorage.getItem('solicitacao-dropdown') || sessionStorage.getItem('solicitacao-busca')) {
       // this.cs.fechaMenu();
       this.cs.mostraCarregador();
-      return this.getResposta();
+      return this.getDropDown();
     } else {
-      // this.cs.fechaMenu();
-      this.router.navigate(['/solicitacao/listar2']);
-      return EMPTY;
+      if (sessionStorage.getItem('solicitacao-busca')) {
+        this.cs.mostraCarregador();
+        return this.getBusca();
+      } else {
+        // this.cs.fechaMenu();
+        this.router.navigate(['/solicitacao/listar2']);
+        return EMPTY;
+      }
     }
   }
 }

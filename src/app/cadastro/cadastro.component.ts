@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import { CadastroBuscaService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
 import { Subscription } from 'rxjs';
-// import {MostraMenuService} from "../_services";
-import {MenuInternoService} from "../_services/menu-interno.service";
+import { MenuInternoService } from "../_services";
 
 @Component({
   selector: 'app-cadastro',
@@ -23,6 +22,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log('cadastro');
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
@@ -46,6 +46,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('destroy cadastro');
     this.sub.forEach(s => s.unsubscribe());
   }
 

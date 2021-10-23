@@ -1,15 +1,13 @@
 <p-sidebar
-  [visible]="mm.mostraMenu$ | async"
-  appendTo="body"
-  [blockScroll]="false"
+  id="sidebar-menuinterno"
+  [(visible)]="mi.mostraMenuInterno"
+  [blockScroll]="true"
   [dismissible]="true"
-  (onHide)="onHide()"
-  styleClass="menu-lateral"
+  styleClass="menuinterno"
+  appendTo="body"
 >
-  <div style="padding-top: 20px">
-    <p-scrollPanel [style]="{height: altura}">
-      <app-solicitacao-menu-listar></app-solicitacao-menu-listar>
-    </p-scrollPanel>
-  </div>
+  <app-solicitacao-menu-listar></app-solicitacao-menu-listar>
 </p-sidebar>
+
+
 <router-outlet></router-outlet>
