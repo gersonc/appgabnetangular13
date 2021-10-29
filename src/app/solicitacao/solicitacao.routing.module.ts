@@ -14,6 +14,7 @@ import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-lis
 import { SolicitacaoCadastroIncluirComponent } from './solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component';
 import { SolicitacaoCadastroFormResolver } from './_resolvers/solicitacao-cadastro-form.resolver';
 import { SolicitacaoAlterarResolver } from './_resolvers/solicitacao-alterar.resolver';
+import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
 
 const solicitacaoRoutes: Routes = [
   {
@@ -34,6 +35,7 @@ const solicitacaoRoutes: Routes = [
       },
       {
         path: 'listar',
+        // component: SolicitacaoTesteComponent,
         component: SolicitacaoDatatableComponent,
         canActivate: [AuthChildGuard],
         data: {

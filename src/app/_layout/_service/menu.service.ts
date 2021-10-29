@@ -31,8 +31,7 @@ export class MenuService {
     if (this.authenticationService.solicitacao) {
       if (this.authenticationService.solicitacao_listar) {
         this.items.push(
-          {label: 'Solicitações', icon: 'far fa-address-card',
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao/listar'] });
+          {label: 'Solicitações', routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao/listar'] });
       }
       if (!this.authenticationService.solicitacao_listar && this.authenticationService.solicitacao_incluir) {
         this.items.push(

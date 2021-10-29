@@ -24,7 +24,7 @@ import { TxtReader } from 'txt-reader';
 })
 export class CalendarioFormularioComponent implements OnInit, OnDestroy {
   @ViewChild('calForm', { static: true }) public calForm: NgForm;
-  @ViewChild('content', { static: true }) public content: ElementRef;
+  // @ViewChild('content', { static: true }) public content: ElementRef;
 
   public ptBr: any;
 

@@ -4,9 +4,9 @@ import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroPaginacaoInterface, CadastroSmsPaginacaoInterface } from '../_models';
-import { DropdownService, MostraMenuService } from '../../_services';
+import { DropdownService } from '../../_services';
 import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../_models';
-import { CadastroMenuDropdown, CadastroMenuDropdownInterface } from '../_models';
+import { CadastroMenuDropdown } from '../_models';
 import { SelectItemGroup } from 'primeng/api';
 import { CarregadorService } from '../../_services';
 
@@ -216,6 +216,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
   }
 
   onDestroy(): void {
+    console.log('cadastro resolver destroy');
     this.sub.forEach(s => s.unsubscribe());
   }
 

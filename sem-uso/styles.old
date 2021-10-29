@@ -1,0 +1,420 @@
+@charset "UTF-8";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.snow.css";
+
+@import "~primeflex/primeflex.css";
+@import "~primeicons/primeicons.css";
+@import "~primeng-lts/resources/primeng.css";
+/*@import "assets/css/themas/vela-purple/vela-purple-gabnet.css";*/
+/*@import "assets/css/themas/bootstrap4-light-blue/theme.css";*/
+@import "assets/css/themas/saga-blue/saga-blue-gabnet.css";
+@import "assets/css/calendario.css";
+@import "assets/css/componentes.css";
+@import "assets/css/configuracao.css";
+@import "assets/css/formulario.css";
+@import "assets/css/datatable.css";
+@import "assets/css/detalhe.css";
+/*@import "assets/css/menulateral.css";*/
+@import "assets/css/menuinterno.css";
+@import "assets/css/menuprincipal.css";
+/*
+
+@import "assets/css/bootstrap.css";
+
+*/
+@import "assets/css/arquivo.css";
+
+/*
+*** FONTES PARA O EDITOR ******************
+*/
+
+:root {
+  --surface-i:#607D8B;
+  --surface-u:#4d646f;
+
+  --surface-a:#ffffff;
+  --surface-b:#efefef;
+  --surface-c:#e9ecef;
+  --surface-d:#dee2e6;
+  --surface-e:#ffffff;
+  --surface-f:#ffffff;
+  --text-color:#212529;
+  --text-color-secondary:#6c757d;
+  --primary-color:#007bff;
+  --primary-color-text:#ffffff;
+  --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --surface-0: #ffffff;
+  --surface-50: #f9fafb;
+  --surface-100: #f8f9fa;
+  --surface-200: #e9ecef;
+  --surface-300: #dee2e6;
+  --surface-400: #ced4da;
+  --surface-500: #adb5bd;
+  --surface-600: #6c757d;
+  --surface-700: #495057;
+  --surface-800: #343a40;
+  --surface-900: #212529;
+  --content-padding:1.25em;
+  --inline-spacing:0.5em;
+}
+
+/*CALENDARIO*/
+:root {
+
+  --fc-button-text-color: var(--primary-color-text);
+  --fc-event-border-color: transparent;
+  --fc-event-bg-color:  var(--primary-color);
+  --fc-event-text-color: var(--primary-color-text);
+
+  /*
+
+
+  --ativo: #e02365;
+  --secundario: #c8c8c8;
+  --terciario: #343a40;
+  --fundo: #b7b3ba;
+  --desativado: #f9f9f9;
+  --atencao-fundo: #ffe399;
+  --atencao: #ffba01;
+  --claro: white;
+  --textocinza: #737373;
+  --mb-fundo: #007ad9;
+  --mb-sub-fundo: #8dcdff;
+  --subtitulo: #8dcdff;
+  --mb-fundo-hover: #e02365;
+  --mb-fundo-ativo: #e02365;
+  --mb-cor: white;
+  --mb-cor-ativo: #8dcdff;
+  --form-fundo-painel: #b7b3ba;
+  --form-fundo-pagina: white;
+  --fundotabela: #f0f0f0;
+  --cinza-botao: #c8c8c8;
+  --fundo-botao-claro: #f4f4f4;
+  --fundo-botao-escuro: #333333;
+
+  */
+
+}
+
+
+:root {
+
+  --primary-box-box-shadow-focus: 0 0 0 0.2em rgba(38, 143, 255, 0.5);
+
+  --secondary-bg: var(--text-color-secondary);
+  --secondary-color-text: var(--primary-color-text);
+  --secondary-box-shadow: 0 0 0 0.4em var(--primary-color);
+
+  --menu-lateral-width: 1100px;
+  --menu-lateral-width-1200: 70vw;
+  --menu-lateral-width-992: 80vw;
+  --menu-lateral-width-768: 100vw;
+  --menu-lateral-width-576: 100vw;
+
+  --menu-lateral-pq-width: 550px;
+  --menu-lateral-pq-width-1200: 40vw;
+  --menu-lateral-pq-width-992: 50vw;
+  --menu-lateral-pq-width-768: 60vw;
+  --menu-lateral-pq-width-576: 100vw;
+
+  --altura-main: 100vh;
+  --menu-lateral-height: calc(100vh - 4.6em);
+
+
+  --fundotabela: var(--surface-c);
+  --claro: var(--surface-0);
+  --ativo: var(--primary-color);
+
+
+
+  --topo: calc(3em + 1px);
+  --altura-padrao: calc(100vh - (3em + 1px));
+  --fc-neutral-bg-color: hsla(0,0%,81.6%,.3);
+  --menu-lateral-bg-color: var(--surface-d);
+
+  /*
+  bootstrap4-light-blue ********************
+  */
+
+  --atencao-color: #dc3545;
+  --erro-color: #721c24;
+
+  --bt-secundario-bg: var(--text-color-secondary);
+  --bt-secundario-color: var(--primary-color-text);
+  --bt-secundario-border: 1px solid var(--text-color-secondary);
+
+  --bt-secundario-bg-hover: #5a6268;
+  --bt-secundario-color-hover: var(--primary-color-text);
+  --bt-secundario-border-hover: var(--bt-secundario-bg-hover);
+
+  --bt-secundario-box-shadow-focus: 0 0 0 0.2em rgba(130, 138, 145, 0.5);
+
+  --bt-secundario-bg-active: #545b62;
+  --bt-secundario-color-active: #ffffff;
+  --bt-secundario-border-active: #4e555b;
+
+  --detalhe-dialog-bg: var(--surface-d);
+  --detalhe-bg-externo: var(--surface-d);
+  --detalhe-bg-interno: var(--primary-color-text);
+
+
+}
+
+html {
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: block;
+  margin: 0 !important;
+  font-family: var(--font-family);
+}
+
+
+@media screen and (min-width: 1200px) {
+
+}
+
+@media screen and (min-width: 992px) {
+
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (max-width: 769px) {
+  .calform .p-datepicker table th, .p-datepicker table td {
+    padding: 0;
+  }
+}
+
+.app {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 2em;
+  color: var(--primary-color-text);
+  background-color: var(--primary-color);
+  clear: both;
+  text-align: center;
+  padding: 0 0 0 .5em;
+  font-size: 1.2em;
+}
+
+
+.topo {
+  font-size: 1.5em;
+  background-color: transparent;
+}
+
+.main {
+  position: fixed;
+  top: 2.2em;
+  left: 0;
+  --tamanhomenu: 12.5em;
+  width: 100%;
+  height: var(--altura-main);
+  z-index: 0;
+}
+
+.aberto {
+  --tamanhomenu: 0px;
+}
+
+.botoesdetalhe {
+  padding-top: .8em;
+}
+
+
+
+
+/*
+
+.campoLabel {
+  margin-bottom:-.4em;
+  margin-top: -.4em;
+  padding-bottom: -.4em;
+  padding-top: -.4em;
+}
+
+.campoLabelMenu {
+  margin-bottom: .3em;
+  margin-top: -.4em;
+  padding-bottom: -.4em;
+  padding-top: -.4em;
+}
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+.cores-secundarias {
+  color: #f2ffed;
+}
+
+
+.spiner-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+}
+
+.spiner {
+  position: fixed;
+  top: calc(50vh - 3.1em);
+  left: calc(50vw - 3.1em);
+  width: 6.25em;
+  height: 6.25em;
+  background-color: transparent;
+  z-index: 10000;
+}
+
+.p-inputswitch {
+  margin-bottom: .25em!important;
+  margin-top: .25em!important;
+}
+
+/*
+// FORMULARIOS *********************
+
+*/
+h5 {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  display: block !important;
+  top: 50%;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+
+.p-float-label h5 {
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  margin-top: -.5em;
+  transition-property: all;
+  transition-timing-function: ease;
+  line-height: 1;
+}
+
+
+.p-field > h5 {
+  color: var(--surface-700);
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  display: block !important;
+  top: 50% !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.5em !important;
+}
+
+.p-formgroup-inline .p-field > h5,
+.p-formgroup-inline .p-field-checkbox > h5,
+.p-formgroup-inline .p-field-radiobutton > h5 {
+  margin-right: 0.5em !important;
+  margin-bottom: 0 !important;
+}
+
+.p-field-checkbox > h5,
+.p-field-radiobutton > h5 {
+  margin-left: 0.3em !important;
+  line-height: .8 !important;
+}
+/*
+.p-checkbox .p-checkbox-box {
+  width: 2.2em !important;
+  height: 2.2em !important;
+  margin-bottom: 8px !important;
+}
+
+
+
+
+.formulario-cadastro .p-field.p-col-12 {
+  background-color: red;
+  font-size: .8em !important;
+}
+
+
+.formulario-cadastro input[type="text"] {
+  width: 150px;
+  display: block;
+  margin-bottom: 10px;
+  background-color: yellow;
+}
+
+
+
+.formulario-cadastro .p-dropdown {
+  font-size: .4em !important;
+}
+
+.formulario-cadastro .p-dropdown-panel {
+  background-color: blue !important;
+
+}
+
+
+
+
+[class$="formulario-cadastro"] > [class$="p-field"] {
+  font-size: .8em !important;
+  background-color: #5ac06c !important;
+}
+*/
+/*
+.formulario-cadastro .p-col-1, .formulario-cadastro .p-col-2, .formulario-cadastro .p-col-3, .formulario-cadastro .p-col-4, .formulario-cadastro .p-col-5, .formulario-cadastro .p-col-6, .formulario-cadastro .p-col-7, .formulario-cadastro .p-col-8, .formulario-cadastro .p-col-9, .formulario-cadastro .p-col-10, .formulario-cadastro .p-col-11, .formulario-cadastro .p-col-12 {
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-left: .5em;
+  padding-bottom: 0;
+}
+
+*/
+/*
+
+app-upload-arquivo > p-fileupload > div > div.p-fileupload-buttonbar > span {
+  color: var(--surface-a);
+  background: var(--surface-i);
+  border: 1px solid var(--surface-i);
+}
+
+
+
+*/
+
+

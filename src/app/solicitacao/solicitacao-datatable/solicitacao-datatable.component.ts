@@ -1,27 +1,23 @@
-import { Component, OnInit, OnDestroy, ViewChild, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import {AuthenticationService, CarregadorService, MenuInternoService, V} from '../../_services';
+import { AuthenticationService, CarregadorService, MenuInternoService, V} from '../../_services';
 import {
   CsvService,
   ExcelService,
-  MostraMenuService,
   PrintJSService,
   TabelaPdfService
 } from '../../_services';
 import {
-  SolicitacaoArray,
-  SolicitacaoInterface,
   SolicitacaoTotalInterface,
   SolicitacaoPaginacaoInterface,
   SolicitacaoBuscaCampoInterface,
   SolicitacaoDetalheInterface,
   SolicitacaoInterfaceExcel,
-  SolicitacaoInterfaceExcel2,
   SolicitacaoListar12Interface,
   SolicitacaoListar345Interface, SolicitacaoExcel12
 } from '../_models';
@@ -82,7 +78,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    // public mm: MostraMenuService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
@@ -194,17 +189,17 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     }
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'fas fa-lg fa-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'far fa-lg fa-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'fas fa-lg fa-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'fas fa-lg fa-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'fas fa-lg fa-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'far fa-lg fa-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
-    this.constroiExtendida();
+    // this.constroiExtendida();
 
     if (this.sbs.buscaStateSN) {
       this.getState();
@@ -231,8 +226,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
 
   onLazyLoad(event: LazyLoadEvent): void {
     if (event.sortField) {
-      if (this.sbs.solicitacaoBusca.sortcampo !== event.sortField.toString ()) {
-        this.sbs.solicitacaoBusca.sortcampo = event.sortField.toString ();
+      if (this.sbs.solicitacaoBusca.sortcampo !== event.sortField?.toString ()) {
+        this.sbs.solicitacaoBusca.sortcampo = event.sortField?.toString ();
       }
     }
     if (this.sbs.solicitacaoBusca.inicio !== event.first.toString()) {
@@ -696,6 +691,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     return sl;
   }
 
+
+
   constroiExtendida() {
     const v = this.solicitacaoService.recuperaColunaExpandida();
     if (v) {
@@ -765,7 +762,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
 
     // this.quillInstance = ev.getQuill();
     // Here is your export function
-// Typically this would be triggered by a click on an export button
+    // Typically this would be triggered by a click on an export button
 
     // const delta = this.quillInstance.getContents();
 

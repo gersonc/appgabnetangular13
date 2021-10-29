@@ -33,7 +33,7 @@ export class WindowsService {
     this.larguraMenu = this.larguraMenuSubject.asObservable();
     this.alturaMenuSubject = new BehaviorSubject<number>(WindowsService.nativeWindow.innerHeight);
     this.alturaMenu = this.alturaMenuSubject.asObservable();
-    this.expandeMenuSubject = new BehaviorSubject<boolean>(this.getExpandeMenu(WindowsService.nativeWindow.innerWidth));
+    this.expandeMenuSubject = new BehaviorSubject<boolean>(WindowsService.getExpandeMenu(WindowsService.nativeWindow.innerWidth));
     this.expandeMenu = this.expandeMenuSubject.asObservable();
   }
 
@@ -109,7 +109,7 @@ export class WindowsService {
 
   public changeLarguraMenu(horz: number) {
     this.larguraMenuSubject.next(horz);
-    this.expandeMenuSubject.next(this.getExpandeMenu(horz));
+    this.expandeMenuSubject.next(WindowsService.getExpandeMenu(horz));
   }
 
   public changeAlturaMenu(vert: number) {
@@ -121,7 +121,7 @@ export class WindowsService {
     this.alturaMenuSubject.next(vert);
   }
 
-  private getExpandeMenu(larg: number) {
+  private static getExpandeMenu(larg: number) {
     return larg > 768;
   }
 

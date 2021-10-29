@@ -30,7 +30,7 @@ declare interface ColumnsInterface {
 
 export class CadastroExcluirComponent implements OnInit, OnDestroy {
 
-  @ViewChild('tabcadastroexcluir', { static: true }) tabcadastroexcluir: ElementRef;
+  // @ViewChild('tabcadastroexcluir', { static: true }) tabcadastroexcluir: ElementRef;
   public ht: any;
   private dados: CadastroDetalheCompletoInterface;
   public cadastro: CadastroInterface = null;

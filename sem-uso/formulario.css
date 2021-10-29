@@ -3,6 +3,7 @@
 /*
 *** desiger ***********************************************************************
 */
+/*
 
 :root {
   --input-filled: var(--surface-b);
@@ -17,6 +18,7 @@
   --formulario-input-font-size: 1rem;
   --formulario-label-font-size: .9rem;
 }
+*/
 
 .formulario {
   padding: 1px 1px !important;

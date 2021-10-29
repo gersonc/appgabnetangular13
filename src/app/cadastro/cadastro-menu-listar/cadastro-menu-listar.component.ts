@@ -10,7 +10,7 @@ import { AuthenticationService, CarregadorService, AutocompleteService, MostraMe
 import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroBuscaInterface } from '../_models';
 import { DropdownnomeidClass } from '../../_models';
-import {MenuInternoService} from "../../_services";
+import { MenuInternoService } from "../../_services";
 
 
 @Component({

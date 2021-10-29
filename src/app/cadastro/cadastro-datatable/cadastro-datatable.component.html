@@ -118,13 +118,14 @@
                 >
                 </button>
               </div>
+                <button pButton pRipple type="button" icon="pi pi-bell" class="p-button-rounded p-button-warning p-button-text"></button>
               <div *ngIf="authenticationService.cadastro_alterar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-pencil"
-                  class="p-button-rounded p-button-warning"
+                  class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Alterar"
                   tooltipPosition="top"
                   (click)="cadastroAlterar(cad)"

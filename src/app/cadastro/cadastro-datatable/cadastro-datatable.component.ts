@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, OnDestroy, ViewChild, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -10,7 +10,6 @@ import { EtiquetaSeletorComponent } from '../../etiqueta/etiqueta-seletor/';
 import {
   CsvService,
   ExcelService,
-  MostraMenuService,
   PrintJSService,
   TabelaPdfService
 } from '../../_services';
@@ -26,17 +25,16 @@ import {
 import { CadastroService, CadastroBuscaService } from '../_services';
 import { CadastroDetalheComponent } from '../cadastro-detalhe';
 import { ContextMenu } from 'primeng/contextmenu';
-import {MenuInternoService} from "../../_services/menu-interno.service";
+import {MenuInternoService} from '../../_services';
 
 
 @Component({
   selector: 'app-cadastro-datatable',
   templateUrl: './cadastro-datatable.component.html',
   styleUrls: ['./cadastro-datatable.component.css'],
-  encapsulation: ViewEncapsulation.None,
   providers: [ DialogService ]
 })
-export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy {
+export class CadastroDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dt', { static: true }) public dt: any;
   @ViewChild('cm', { static: true }) public cm: ContextMenu;
   loading = false;
@@ -174,21 +172,21 @@ export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'fas fa-lg fa-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'far fa-lg fa-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'fas fa-lg fa-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'fas fa-lg fa-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'fas fa-lg fa-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'far fa-lg fa-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }},
-      {label: 'ETIQUETAS', icon: 'fas fa-lg fa-tag', style: {'font-size': '1em'}, command: () => { this.exportToEtiquetas(); }},
-      {label: 'ETIQ. - TODAS', icon: 'fas fa-lg fa-tags', style: {'font-size': '.9em'}, command: () => { this.exportToEtiquetas(true); }},
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }},
+      {label: 'ETIQUETAS', icon: 'pi pi-ticket', style: {'font-size': '1em'}, command: () => { this.exportToEtiquetas(); }},
+      {label: 'ETIQ. - TODAS', icon: 'pi pi-ticket', style: {'font-size': '.9em'}, command: () => { this.exportToEtiquetas(true); }},
 
     ];
     if (this.authenticationService.sms && this.authenticationService.sms_incluir) {
       this.itemsAcao.push(
-        {label: 'SMS', icon: 'fas fa-lg fa-sms', style: {'font-size': '.9em'}, command: () => { this.gerenciadorSMS(); }}
+        {label: 'SMS', icon: 'pi pi-send', style: {'font-size': '.9em'}, command: () => { this.gerenciadorSMS(); }}
       );
     }
 
@@ -208,8 +206,6 @@ export class CadastroDatatableComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   // EVENTOS ===================================================================
-
-  ngOnChanges() { }
 
   onColReorder(event): void {
     this.mapeiaColunasSelecionadas();

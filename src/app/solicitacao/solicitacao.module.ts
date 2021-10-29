@@ -4,7 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
 
-import { UtilModule } from '../util/util.module';
+// import { UtilModule } from '../util/util.module';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -36,8 +36,7 @@ import { NgxViacepModule } from '@brunoc/ngx-viacep';
 import { AccordionModule } from 'primeng/accordion';
 
 import { ArquivoModule } from '../arquivo/arquivo.module';
-import { SolicitacaoRoutingModule } from './solicitacao.routing.module';
-import { SolicitacaoComponent } from './solicitacao.component';
+
 import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-listar.component';
 import { SolicitacaoIncluirComponent } from './solicitacao-incluir/solicitacao-incluir.component';
 import { SolicitacaoDatatableComponent } from './solicitacao-datatable/solicitacao-datatable.component';
@@ -50,6 +49,10 @@ import { SolicitacaoCadastroIncluirComponent } from './solicitacao-cadastro-incl
 import { SolicitacaoCadastroIncluirListaexistenteComponent } from './solicitacao-cadastro-incluir-listaexistente';
 import { RippleModule } from 'primeng/ripple';
 import { EditorModule } from "primeng/editor";
+import {SolicitacaoRoutingModule} from "./solicitacao.routing.module";
+import {SolicitacaoComponent} from "./solicitacao.component";
+import {UtilModule} from "../util/util.module";
+import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
 
 
 @NgModule({
@@ -103,7 +106,8 @@ import { EditorModule } from "primeng/editor";
     SolicitacaoAlterarComponent,
     SolicitacaoExcluirComponent,
     SolicitacaoCadastroIncluirComponent,
-    SolicitacaoCadastroIncluirListaexistenteComponent
+    SolicitacaoCadastroIncluirListaexistenteComponent,
+    SolicitacaoTesteComponent
   ],
   exports: [
     SolicitacaoComponent,

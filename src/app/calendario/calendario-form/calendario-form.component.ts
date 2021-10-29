@@ -24,7 +24,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   @Output() abreFecha = new EventEmitter();
   @Output() eventoRetorno = new EventEmitter<EventoInterface[]>();
   @ViewChild('calForm', { static: true }) public calForm: NgForm;
-  @ViewChild('content', { static: true }) public content: ElementRef;
+  // @ViewChild('content', { static: true }) public content: ElementRef;
 
   public ptBr: any;
 
