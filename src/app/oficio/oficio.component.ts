@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit } from '@angular/core';
-import { MostraMenuService } from '../_services';
+import {MenuInternoService, MostraMenuService} from '../_services';
 import { OficioBuscaService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
 import { CarregadorService } from '../_services';
@@ -12,38 +12,39 @@ import { Subscription } from 'rxjs';
 })
 export class OficioComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  mostra = false;
+  public mostraMenuInterno = false;
   sub: Subscription[] = [];
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private obs: OficioBuscaService,
-    private as: ArquivoService,
-    private cs: CarregadorService
+    private as: ArquivoService
   ) { }
 
   ngOnInit() {
-    console.log('ofi 01');
+    console.log('OFICIO');
+    this.sub.push(this.mi.mostraInternoMenu().subscribe(
+      vf => {
+        this.mostraMenuInterno = vf;
+        console.log('mostraMenuInterno', this.mostraMenuInterno);
+      })
+    );
     this.as.getPermissoes();
     this.obs.criarOficioBusca();
     if (!sessionStorage.getItem('oficio-busca')) {
-      console.log('ofi 02');
       this.obs.buscaStateSN = false;
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     } else {
-      console.log('ofi 03');
       if (this.obs.buscaStateSN) {
-        console.log('ofi 04');
-        this.mm.mudaMenu(false);
+        this.mi.mudaMenuInterno(false);
       } else {
-        console.log('ofi 05');
-        this.mm.mudaMenu(true);
+        this.mi.mudaMenuInterno(true);
       }
     }
   }
 
   onHide() {
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
   }
 
   ngOnDestroy(): void {

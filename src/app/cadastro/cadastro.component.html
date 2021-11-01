@@ -6,8 +6,10 @@
   styleClass="menuinterno"
   appendTo="body"
 >
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
   <app-cadastro-menu-listar *ngIf="!smsSN"></app-cadastro-menu-listar>
   <app-cadastro-sms-menu-listar *ngIf="smsSN"></app-cadastro-sms-menu-listar>
+  </p-scrollPanel>
 </p-sidebar>
 
 <router-outlet></router-outlet>

@@ -89,7 +89,6 @@
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-cad let-cad2=cad let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cad" [pContextMenuRow]="cad" [pSelectableRowIndex]="rowIndex">
-
       <td>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="cad" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
@@ -118,7 +117,6 @@
                 >
                 </button>
               </div>
-                <button pButton pRipple type="button" icon="pi pi-bell" class="p-button-rounded p-button-warning p-button-text"></button>
               <div *ngIf="authenticationService.cadastro_alterar" class="p-mr-2">
                 <button
                   pButton

@@ -38,7 +38,6 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
     this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
     this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
-
     // ****** solicitacao_cadastro_tipo_id *****
     this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
     // ****** solicitacao_cadastro_id *****

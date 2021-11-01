@@ -9,7 +9,7 @@ import {CEPError, Endereco, CEPErrorCode, NgxViacepService} from '@brunoc/ngx-vi
 import {Message, MessageService, SelectItem, SelectItemGroup} from 'primeng/api';
 
 import {WindowsService} from '../../_layout/_service';
-import {AutocompleteService, CepService, DropdownService, MostraMenuService} from '../../_services';
+import {AutocompleteService, CepService, DropdownService, MenuInternoService, MostraMenuService} from '../../_services';
 import {CadastroService} from '../_services';
 import {CadastroDuplicadoBuscaInterface} from '../_models';
 import {DropdownnomeidClass, DropdownsonomearrayClass} from '../../_models';
@@ -81,7 +81,8 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    public mm: MostraMenuService,
+    /*public mm: MostraMenuService,*/
+    public mi: MenuInternoService,
     private messageService: MessageService,
     private dd: DropdownService,
     public cs: CadastroService,
@@ -111,7 +112,7 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
   ngAfterViewInit() {
     setTimeout(() => {
       this.cr.escondeCarregador();
-      this.mm.mudaMenu(false);
+      this.mi.hideMenu()
     }, 500);
 
     /*if (this.carregamento < 3) {

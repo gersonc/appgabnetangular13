@@ -54,7 +54,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   mostraSeletor = false;
   camposSelecionados: CadastroBuscaCampoInterface[];
   // altura = `${WindowsService.altura - 180}` + 'rem';
-  altura = `${WindowsService.altura - 171.41}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
+  //altura = `${WindowsService.altura - 171.41}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
+  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   larguraExpandido = `${WindowsService.largura - 50}` + 'px';
   numColunas = 3;

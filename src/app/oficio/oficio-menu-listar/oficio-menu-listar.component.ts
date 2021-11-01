@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
 // import { DropdownnomeidClass } from '../../_models';
-import { MostraMenuService, DropdownService } from '../../_services';
+import {MostraMenuService, DropdownService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 
 import { OficioBuscaService } from '../_services';
@@ -52,7 +52,7 @@ export class OficioMenuListarComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     // private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -100,7 +100,7 @@ export class OficioMenuListarComponent implements OnInit {
       if (sessionStorage.getItem('oficio-listagem')) {
         sessionStorage.removeItem('oficio-listagem');
       }
-      this.mm.showMenu();
+      this.mi.showMenuInterno();
     }
   }
 
@@ -152,13 +152,13 @@ export class OficioMenuListarComponent implements OnInit {
     }
     this.obs.buscaMenu();
     // this.mm.mudaMenu(false);
-    this.mm.hideMenu();
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.oficio_incluir) {
-      this.mm.hideMenu();
+      this.mi.hideMenu();
       this.cs.mostraCarregador();
       this.router.navigate(['/oficio/incluir']);
     } else {

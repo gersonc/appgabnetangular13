@@ -83,7 +83,7 @@
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-sol let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="sol" [pContextMenuRow]="sol" [pSelectableRowIndex]="rowIndex">
-      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+      <td>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="sol" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
       <td *ngFor="let col of columns" [style.width]="col.largura">

@@ -39,7 +39,7 @@ export class CadastroSmsDatatableComponent implements OnInit, OnDestroy {
   selectedColumns: any[] = [];
   selectedColumnsOld: any[] = [];
   camposSelecionados: CadastroBuscaCampoInterface[];
-  altura = `${WindowsService.altura - 221}` + 'px';
+  altura = `${WindowsService.altura - 150}` + 'px';
   meiaAltura = `${(WindowsService.altura - 170) / 2}` + 'px';
   tmp = false;
   clonedCad: { [id: number]: CadastroSmsInterface; } = {};

@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 
 import {SelectItem, MenuItem, SelectItemGroup} from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { AutocompleteService, DropdownService, MostraMenuService } from '../../_services';
+import {AutocompleteService, DropdownService, MenuInternoService, MostraMenuService} from '../../_services';
 import { DropdownnomeidClass } from '../../_models';
 import { SolicitacaoFormService } from '../_services';
 import {AuthenticationService, CarregadorService} from '../../_services';
@@ -82,7 +82,7 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private autocompleteservice: AutocompleteService,
     private location: Location,
     private sfs: SolicitacaoFormService,
@@ -131,8 +131,10 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngAfterViewInit() {
-    // this.mm.hideMenu();
-    this.cs.escondeCarregador();
+    setTimeout(() => {
+      this.cs.escondeCarregador();
+      this.mi.hideMenu()
+    }, 500);
   }
 
 
@@ -401,7 +403,7 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
       this.router.navigate(['/solicitacao/listar/busca']);
     } else {
       // this.cs.mostraCarregador();
-      this.mm.showMenu();
+      this.mi.showMenuInterno();
       this.router.navigate(['/solicitacao/listar']);
     }
   }
