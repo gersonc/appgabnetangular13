@@ -19,7 +19,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
   public ddNomeIdJoinArray = new DropdownNomeIdJoin();
   private ddOficio = new OficioDropdownMenuListar();
   private sub: Subscription[] = [];
-  private resp = new Subject<boolean | OficioPaginacaoInterface>();
+  private resp = new Subject<boolean>();
   private resp$ = this.resp.asObservable();
   private dropdown = false;
   private oficios: OficioPaginacaoInterface = null;
@@ -286,10 +286,12 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     if (!sessionStorage.getItem('oficio-dropdown')) {
       sessionStorage.setItem('oficio-dropdown', JSON.stringify(this.ddOficio));
     }
-    this.getListagem();
+    // this.getListagem();
+    this.cs.escondeCarregador();
+    this.resp.next(true);
   }
 
-  getListagem() {
+  /*getListagem() {
     if (sessionStorage.getItem('oficio-busca')) {
       this.obs.buscaState = JSON.parse(sessionStorage.getItem('oficio-busca'));
       this.sub.push(this.oficioService.postOficioBusca(this.obs.buscaState).pipe(take(1)).subscribe(
@@ -308,7 +310,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     } else {
       this.resp.next(true);
     }
-  }
+  }*/
 
   onDestroy(): void {
     console.log('destroy');
@@ -318,34 +320,31 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):
-    Observable<OficioPaginacaoInterface | boolean | never> {
+    Observable<OficioPaginacaoInterface> | Observable<boolean> | Observable<never> {
 
     // this.cs.fechaMenu();
-    this.cs.mostraCarregador();
-    this.populaDropdown();
-    return this.resp$.pipe(
-      take(1),
-      mergeMap(vf => {
-        if (this.oficios) {
-          this.onDestroy();
-          return of(vf);
-        } else {
-          this.onDestroy();
-          this.onDestroy();
-          this.router.navigate(['/oficio/listar2']);
-          return EMPTY;
-        }
-      })
-    );
-  }
-}
+    /*    this.cs.mostraCarregador();
+        this.populaDropdown();
+        return this.resp$.pipe(
+          take(1),
+          mergeMap(vf => {
+            if (this.oficios) {
+              this.onDestroy();
+              return of(vf);
+            } else {
+              this.onDestroy();
+              this.onDestroy();
+              this.router.navigate(['/oficio/listar2']);
+              return EMPTY;
+            }
+          })
+        );
+      }
+    }*/
 
-/*
 
     if (!sessionStorage.getItem('oficio-dropdown')) {
-      console.log('ggg3');
       this.dropdown = true;
-      this.cs.fechaMenu();
       this.cs.mostraCarregador();
       this.populaDropdown();
       return this.resp$.pipe(
@@ -361,12 +360,9 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
         })
       );
     } else {
-      console.log('ggg4');
       if (sessionStorage.getItem('oficio-busca')) {
-        console.log('ggg5');
-        this.cs.fechaMenu();
         this.cs.mostraCarregador();
-        this.obs.buscaState = JSON.parse(sessionStorage.getItem('oficio-busca'));
+        // this.obs.buscaState = JSON.parse(sessionStorage.getItem('oficio-busca'));
         return this.oficioService.postOficioBusca(JSON.parse(sessionStorage.getItem('oficio-busca')))
           .pipe(
             take(1),
@@ -374,17 +370,15 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
               if (dados) {
                 return of(dados);
               } else {
-                this.router.navigate(['/oficio/listar2']);
+                // this.router.navigate(['/oficio/listar2']);
                 return EMPTY;
               }
             })
           );
       } else {
-        console.log('ggg6');
-        this.cs.fechaMenu();
         this.router.navigate(['/oficio/listar2']);
         return EMPTY;
       }
     }
   }
-*/
+}

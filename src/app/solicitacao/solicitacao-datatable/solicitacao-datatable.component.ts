@@ -158,34 +158,34 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     this.mapeiaColunasSelecionadas();
 
     this.contextoMenu = [
-      {label: 'DETALHES', icon: 'fas fa-lg fa-glasses', style: {'font-size': '1em'},
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {this.solicitacaoDetalheCompleto(this.solContexto); }}];
 
     if (this.aut.usuario_responsavel_sn) {
       this.authAnalisar = true;
       this.contextoMenu.push(
-        {label: 'ANALISAR', icon: 'far fa-lg fa-eye', style: {'font-size': '1em'},
+        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
           command: () => { this.solicitacaoAnalisar(this.solContexto); }});
     }
 
     if (this.aut.solicitacao_incluir) {
       this.authIncluir = true;
       this.contextoMenu.push(
-        {label: 'INCLUIR', icon: 'far fa-lg fa-address-card', style: {'font-size': '1em'},
+        {label: 'INCLUIR', icon: 'pi pi-plus', style: {'font-size': '1em'},
           command: () => { this.solicitacaoIncluir(); }});
     }
 
     if (this.aut.solicitacao_alterar) {
       this.authAlterar = true;
       this.contextoMenu.push(
-        {label: 'ALTERAR', icon: 'fas fa-lg fa-pen-fancy', style: {'font-size': '1em'},
+        {label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => { this.solicitacaoAlterar(this.solContexto); }});
     }
 
     if (this.aut.solicitacao_apagar) {
       this.authApagar = true;
       this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'far fa-lg fa-trash-alt', style: {'font-size': '1em'},
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => { this.solicitacaoApagar(this.solContexto); }});
     }
 

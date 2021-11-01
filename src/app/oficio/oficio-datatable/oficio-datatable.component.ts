@@ -6,7 +6,7 @@ import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -79,7 +79,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   ofiDetalhe: OficioListagemInterface = null;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
@@ -133,7 +133,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     this.mapeiaColunasSelecionadas();
 
     this.contextoMenu = [
-      {label: 'DETALHES', icon: 'fas fa-lg fa-glasses', style: {'font-size': '1em'},
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {this.oficioDetalheCompleto(this.ofContexto); }}];
 
     if (this.authenticationService.usuario_responsavel_sn
@@ -141,40 +141,40 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
         || this.authenticationService.oficio_deferir)) {
       this.authAnalisar = true;
       this.contextoMenu.push(
-        {label: 'ANALISAR', icon: 'far fa-lg fa-eye', style: {'font-size': '1em'},
+        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
           command: () => { this.oficioAnalisar(this.ofContexto); }});
     }
 
     if (this.authenticationService.oficio_incluir) {
       this.authIncluir = true;
       this.contextoMenu.push(
-        {label: 'INCLUIR', icon: 'far fa-lg fa-address-card', style: {'font-size': '1em'},
+        {label: 'INCLUIR', icon: 'pi pi-plus', style: {'font-size': '1em'},
           command: () => { this.oficioIncluir(); }});
     }
 
     if (this.authenticationService.oficio_alterar) {
       this.authAlterar = true;
       this.contextoMenu.push(
-        {label: 'ALTERAR', icon: 'fas fa-lg fa-pen-fancy', style: {'font-size': '1em'},
+        {label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => { this.oficioAlterar(this.ofContexto); }});
     }
 
     if (this.authenticationService.oficio_apagar) {
       this.authApagar = true;
       this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'far fa-lg fa-trash-alt', style: {'font-size': '1em'},
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => { this.oficioApagar(this.ofContexto); }});
     }
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'fas fa-lg fa-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'far fa-lg fa-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'fas fa-lg fa-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'fas fa-lg fa-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'fas fa-lg fa-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'far fa-lg fa-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
     this.constroiExtendida();
@@ -264,7 +264,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {
