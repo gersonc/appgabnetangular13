@@ -9,9 +9,16 @@ import {
   CadastroSolicitacaoInterface, CadastroSolicitacaoNumInterface
 } from '../_models';
 import { AuthenticationService } from '../../_services';
-
-import * as jsPDF from 'jspdf';
+// import { jsPDF } from "jspdf";
+import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
+import { applyPlugin } from 'jspdf-autotable';
+applyPlugin(jsPDF);
+import { UserOptions } from 'jspdf-autotable';
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
+
 
 declare interface ColumnsInterface {
   header: string;
@@ -128,7 +135,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
 
   getPdf (imprimir: boolean) {
 
-    // @ts-ignore
+    let linhas: number[] = [];
+
+
     let doc = new jsPDF (
       {
         orientation: 'p',
@@ -136,8 +145,8 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         format: 'a4',
         putOnlyUsedFonts: true
       }
-    );
-    const pageNumber = doc.internal.getNumberOfPages ();
+    ) as jsPDFCustom;
+    const pageNumber = doc.getNumberOfPages ();
     const k2: string[] = Object.keys(this.cadastro_titulo);
     const t2: string[] = Object.values(this.cadastro_titulo);
     const s2: string[] = Object.keys(this.cadastro);
@@ -160,7 +169,7 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
     }
     const head2 = [['Cadastro', '']];
 
-    doc.autoTable({
+    autoTable(doc, {
       head: head2,
       body: cadastro,
       startY: 20,
@@ -178,11 +187,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
           bottom: 0.5,
           left: 2}
       },
-      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+      didDrawPage: (d) => {
+        console.log(d.cursor.y);
+        linhas[0] = d.cursor.y;
+      },
     });
 
+    console.log('linha0->', linhas[0]);
+
     doc.setPage(pageNumber);
-    let linha = doc.autoTable.previous.finalY;
+    let linha = linhas[0];
     if (this.vinculos) {
       if (this.dados.solicitacao_num.length > 0) {
         linha += 8;
@@ -209,11 +224,12 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         const txt3 = 'Este cadastro é responsável de ' + this.oficio_cadastro_responsavel_num + ' ofício(s).';
         doc.text(txt3, 15, linha);
       }
+      console.log('linha2->', linha);
     }
-
 
     if (this.solicitacao) {
       linha += 12;
+      console.log('linha3>', linha);
       const colums0: ColumnsInterface[] = [];
       const t: string[] = Object.keys (this.solicitacao_titulo);
       const v: string[] = Object.values (this.solicitacao_titulo);
@@ -223,10 +239,18 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
           dataKey: t[i]
         });
       }
-      doc.text ('SOLICITAÇÕES - Este cadastro possui a(s) sequinte(s) solicitação(ões).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable ({
+
+      let solpdf: any[] = [];
+      this.solicitacao.forEach( s => {
+        solpdf.push([s.solicitacao_id, s.solicitacao_data, s.solicitacao_posicao, s.solicitacao_assunto_nome]);
+      } );
+
+
+
+      doc.text ('SOLICITAÇÕES - Este cadastro possui a(s) sequinte(s) solicitação(ões).', 15, linha + 100);
+      autoTable (doc,{
         columns: colums0,
-        body: this.solicitacao,
+        body: solpdf,
         startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
@@ -242,12 +266,19 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          console.log(d.cursor.y);
+          linhas[1] = d.cursor.y;
+        },
       });
-      linha = doc.autoTable.previous.finalY + 12;
+      // linha = doc.autoTable.previous.finalY + 12;
+      linha = linhas[1] + 12;
+      console.log('linha4>', linha);
     }
 
     if (this.processo) {
+      linha += 12;
       const colums1: ColumnsInterface[] = [];
       const t: string[] = Object.keys (this.processo_titulo);
       const v: string[] = Object.values (this.processo_titulo);
@@ -257,10 +288,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
           dataKey: t[i]
         });
       }
-      doc.text ('PROCESSOS - Este cadastro está incluido ao(s) seguinte(s) processo(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable ({
+
+      let pc: any[] = [];
+      this.processo.forEach( p => {
+        pc.push([p.processo_id, p.processo_numero, p.processo_status, p.solicitacao_assunto_nome]);
+      })
+
+
+      doc.text ('PROCESSOS - Este cadastro está incluido ao(s) seguinte(s) processo(s).', 15, linha + 10);
+      autoTable (doc, {
         columns: colums1,
-        body: this.processo,
+        body: pc,
         startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
@@ -276,12 +314,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          console.log(d.cursor.y);
+          linhas[2] = d.cursor.y;
+        },
       });
-      linha = doc.autoTable.previous.finalY + 12;
+      linha = linhas[2] + 12;
     }
 
     if (this.oficio_orgao_solicitado) {
+      linha += 12;
       const colums2: ColumnsInterface[] = [];
       const t: string[] = Object.keys (this.oficio_orgao_solicitado_titulo);
       const v: string[] = Object.values (this.oficio_orgao_solicitado_titulo);
@@ -291,10 +334,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
           dataKey: t[i]
         });
       }
-      doc.text ('OFÍCIO(S) - Este cadastro é o orgão solicitado do(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable ({
+
+
+      let ors: any[] = [];
+      this.oficio_orgao_solicitado.forEach( o => {
+        ors.push([o.oficio_id, o.oficio_codigo, o.oficio_numero, o.oficio_data_emissao, o.oficio_status, o.oficio_cadastro_nome]);
+      });
+
+      doc.text ('OFÍCIO(S) - Este cadastro é o orgão solicitado do(s) seguinte(s) ofício(s).', 15, linha + 10);
+      autoTable (doc,{
         columns: colums2,
-        body: this.oficio_orgao_solicitado,
+        body: ors,
         startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
@@ -310,12 +360,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          console.log(d.cursor.y);
+          linhas[3] = d.cursor.y;
+        },
       });
-      linha = doc.autoTable.previous.finalY + 12;
+      linha = linhas[3] + 12;
     }
 
     if (this.oficio_orgao_protocolante) {
+      linha += 12;
       const colums3: ColumnsInterface[] = [];
       const t: string[] = Object.keys (this.oficio_orgao_protocolante_titulo);
       const v: string[] = Object.values (this.oficio_orgao_protocolante_titulo);
@@ -325,10 +380,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
           dataKey: t[i]
         });
       }
-      doc.text ('OFÍCIO(S) - Este cadastro é o orgão protocolante do(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable ({
+
+      let oop: any[] = [];
+      this.oficio_orgao_protocolante.forEach( o => {
+        oop.push([o.oficio_id, o.oficio_codigo, o.oficio_numero, o.oficio_data_emissao, o.oficio_status, o.oficio_cadastro_nome]);
+      });
+
+
+      doc.text ('OFÍCIO(S) - Este cadastro é o orgão protocolante do(s) seguinte(s) ofício(s).', 15, linha + 10);
+      autoTable (doc,{
         columns: colums3,
-        body: this.oficio_orgao_protocolante,
+        body: oop,
         startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
@@ -344,12 +406,17 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          console.log(d.cursor.y);
+          linhas[4] = d.cursor.y;
+        },
       });
-      linha = doc.autoTable.previous.finalY + 12;
+      linha = linhas[4] + 12;
     }
 
     if (this.oficio_cadastro_responsavel) {
+      linha += 12;
       const colums4: ColumnsInterface[] = [];
       const t: string[] = Object.keys (this.oficio_cadastro_responsavel_titulo);
       const v: string[] = Object.values (this.oficio_cadastro_responsavel_titulo);
@@ -359,10 +426,16 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
           dataKey: t[i]
         });
       }
-      doc.text ('OFÍCIO(S) - Este cadastro é o responável pelo(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable ({
+
+      let ocr: any[] = [];
+      this.oficio_cadastro_responsavel.forEach(o => {
+        ocr.push([o.oficio_id, o.oficio_codigo, o.oficio_numero, o.oficio_data_emissao, o.oficio_status, o.oficio_orgao_solicitado_nome]);
+      })
+
+      doc.text ('OFÍCIO(S) - Este cadastro é o responável pelo(s) seguinte(s) ofício(s).', 15, linha + 10);
+      autoTable (doc,{
         columns: colums4,
-        body: this.oficio_cadastro_responsavel,
+        body: ocr,
         startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
@@ -378,8 +451,13 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          console.log(d.cursor.y);
+          linhas[5] = d.cursor.y;
+        },
       });
+      linha = linhas[5] + 12;
     }
 
     const nome = this.cadastro.cadastro_nome.replace (' ', '_').toLowerCase ();
@@ -390,8 +468,8 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
     if (imprimir) {
       // doc.output('dataurlnewwindow', fileName);
       doc.autoPrint();
-      doc.output('dataurlnewwindow', fileName);
-      // doc.save (fileName);
+      //doc.output('dataurlnewwindow', fileName);
+      doc.save (fileName);
     }
     doc = null;
   }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuInternoService } from '../_services';
 import { SolicitacaoBuscarService } from './_services';
 import { ArquivoService } from '../arquivo/_services';

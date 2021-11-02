@@ -14488,11 +14488,11 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
 
 .p-sidebar .p-sidebar-header .p-sidebar-close,
 .p-sidebar .p-sidebar-header .p-sidebar-icon {
-  width: 2rem;
-  height: 2rem;
+  width: 1rem;
+  height: 1rem;
   color: var(--text-color-secondary);
   border: 0 none;
-  background: transparent;
+  background: var(--formulario-bg-externo-color);
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
@@ -14512,16 +14512,15 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   background: var(--background-color-overlay);
 }
 .p-sidebar {
-  background: var(--formularios-bg);
+  background: var(--formulario-bg-externo-color);
   color: var(--text-color);
   border: 0 none;
-  /*padding: 0 .5rem 1rem 1rem;*/
+  padding: 0 .5rem 1rem 1rem;
   box-shadow: 0px 11px 15px -7px var(--rgba02), 0px 24px 38px 3px var(--rgba014), 0px 9px 46px 8px var(--rgba012);
   opacity: 1;
 }
 .p-sidebar-header {
-  /*background: var(--formularios-bg);*/
-  background: var(--surface-a);
+  background: var(--formulario-bg-externo-color);
   align-items: center;
   display: flex;
   justify-content: flex-end;

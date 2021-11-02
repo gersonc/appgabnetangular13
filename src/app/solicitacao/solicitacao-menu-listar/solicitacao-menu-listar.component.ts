@@ -75,7 +75,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('solicitacao-listagem')) {
         sessionStorage.removeItem('solicitacao-listagem');
       }
-      // this.mi.mostraInternoMenu()
       this.mi.showMenuInterno();
     }
   }
@@ -139,6 +138,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       // this.mi.hideMenu();
+      this.sbs.buscaStateSN = false;
       this.cs.mostraCarregador();
       this.router.navigate(['/solicitacao/incluir']);
     } else {
@@ -151,7 +151,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
   }
 
-  fechar_old() {
+  fechar() {
     this.cs.mostraEscondeCarregador(false);
   }
 

@@ -106,7 +106,6 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
 
   }
 
-
   public transformaLabel(entrada: SelectItem[], num: number): SelectItem[] {
     const b: SelectItem[] = [];
     for (const { label, value} of entrada) {

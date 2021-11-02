@@ -224,6 +224,9 @@
   [header]="campoTitulo"
   (onHide)="escondeTexto()"
 >
+  <!--<quill-view [content]="campoTexto"></quill-view>-->
+  <!--<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>-->
+  <!--<quill-editor #edtor [(ngModel)]="campoTexto"></quill-editor>-->
   <p-editor #edtor [(ngModel)]="campoTexto" styleClass="tablistagem" [modules]="{toolbar: false}" [readonly]="true">
     <ng-template pTemplate="header"></ng-template>
   </p-editor>

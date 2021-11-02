@@ -1,7 +1,8 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
-    <div class="p-fluid formulario-bg-externo">
-      <form [formGroup]="formSolicitacaoAlterar" (ngSubmit)="onSubmit()">
+    <form [formGroup]="formSolicitacaoAlterar" (ngSubmit)="onSubmit()">
+      <div class="p-fluid formulario-bg-externo">
+
         <div class="p-d-flex p-jc-center">
           <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
             <span class="formulario-titulo">SOLICITAÇÃO - ALTERAR</span>
@@ -41,7 +42,8 @@
 
                   <!--*** solicitacao_area_interesse_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_area_interesse_id')">
-                    <label for="solicitacao_area_interesse_id"><span style="color: var(--ativo)">*</span> Área de interesse</label>
+                    <label for="solicitacao_area_interesse_id"><span style="color: var(--ativo)">*</span> Área de
+                      interesse</label>
                     <p-dropdown
                       id="solicitacao_area_interesse_id"
                       formControlName="solicitacao_area_interesse_id"
@@ -105,7 +107,8 @@
 
                   <!--*** solicitacao_data_atendimento ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_data_atendimento')">
-                    <label for="solicitacao_data_atendimento"><span style="color: var(--ativo)">*</span> Data do atendimento</label>
+                    <label for="solicitacao_data_atendimento"><span style="color: var(--ativo)">*</span> Data do
+                      atendimento</label>
                     <p-calendar
                       id="solicitacao_data_atendimento"
                       formControlName="solicitacao_data_atendimento"
@@ -118,7 +121,8 @@
 
                   <!--*** solicitacao_cadastrante_cadastro_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_cadastrante_cadastro_id')">
-                    <label for="solicitacao_cadastrante_cadastro_id"><span style="color: var(--ativo)">*</span> Cadastrante</label>
+                    <label for="solicitacao_cadastrante_cadastro_id"><span style="color: var(--ativo)">*</span>
+                      Cadastrante</label>
                     <p-dropdown
                       id="solicitacao_cadastrante_cadastro_id"
                       formControlName="solicitacao_cadastrante_cadastro_id"
@@ -137,8 +141,10 @@
                 <div class="p-fluid p-formgrid p-grid">
 
                   <!--*** solicitacao_tipo_recebimento_id ***-->
-                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12" [ngClass]="aplicaCssErro('solicitacao_tipo_recebimento_id')">
-                    <label for="solicitacao_tipo_recebimento_id"><span style="color: var(--ativo)">*</span> Tipo de recebimento</label>
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
+                       [ngClass]="aplicaCssErro('solicitacao_tipo_recebimento_id')">
+                    <label for="solicitacao_tipo_recebimento_id"><span style="color: var(--ativo)">*</span> Tipo de
+                      recebimento</label>
                     <p-dropdown
                       id="solicitacao_tipo_recebimento_id"
                       formControlName="solicitacao_tipo_recebimento_id"
@@ -163,8 +169,10 @@
                   </div>
 
                   <!--*** solicitacao_reponsavel_analize_id ***-->
-                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12" [ngClass]="aplicaCssErro('solicitacao_reponsavel_analize_id')">
-                    <label for="solicitacao_reponsavel_analize_id"><span style="color: var(--ativo)">*</span> Responsável pela análize</label>
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
+                       [ngClass]="aplicaCssErro('solicitacao_reponsavel_analize_id')">
+                    <label for="solicitacao_reponsavel_analize_id"><span style="color: var(--ativo)">*</span>
+                      Responsável pela análize</label>
                     <p-dropdown
                       id="solicitacao_reponsavel_analize_id"
                       formControlName="solicitacao_reponsavel_analize_id"
@@ -176,19 +184,19 @@
                   </div>
 
                   <!--*** Tipo de analise ***-->
-<!--
-                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12" [ngClass]="aplicaCssErro('solicitacao_tipo_analize')">
-                    <label for="solicitacao_tipo_analize"><span style="color: var(&#45;&#45;ativo)">*</span> Tipo de análise</label>
-                    <p-dropdown
-                      id="solicitacao_tipo_analize"
-                      formControlName="solicitacao_tipo_analize"
-                      placeholder="Selecione"
-                      [options]="ddSolicitacao_tipo_analize"
-                      [required]="true"
-                    ></p-dropdown>
-                    <app-campo-control-erro msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
-                  </div>
--->
+                  <!--
+                                    <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12" [ngClass]="aplicaCssErro('solicitacao_tipo_analize')">
+                                      <label for="solicitacao_tipo_analize"><span style="color: var(&#45;&#45;ativo)">*</span> Tipo de análise</label>
+                                      <p-dropdown
+                                        id="solicitacao_tipo_analize"
+                                        formControlName="solicitacao_tipo_analize"
+                                        placeholder="Selecione"
+                                        [options]="ddSolicitacao_tipo_analize"
+                                        [required]="true"
+                                      ></p-dropdown>
+                                      <app-campo-control-erro msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
+                                    </div>
+                  -->
 
                   <!--*** pro_num ***-->
                   <!--<div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12">
@@ -274,10 +282,25 @@
 
                 </div>
               </div>
-              <!--*** FIM COLUNA 4 ***-->
+
+            </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
               <div class="p-col-12 formulario">
                 <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2">
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
                   <div class="p-mr-2">
                     <button
                       pButton
@@ -309,14 +332,22 @@
                 </div>
                 <!--*** FIM BOTOES ***-->
               </div>
+
+
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid formulario-bg-externo">
+          <div class="p-col-12"></div>
+          <div class="p-col-12"></div>
+        </div>
+      </div>
+
+    </form>
   </div>
 </p-scrollPanel>
-<!--<app-form-debug [form]="formSolicitacaoIncluir"></app-form-debug>-->
 <p-toast key="solicitacaoToast" [style]="{marginTop: '80px'}"></p-toast>
 

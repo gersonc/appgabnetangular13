@@ -1,7 +1,8 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
-    <div class="p-fluid formulario-bg-externo">
-      <form #fci [formGroup]="formCadIncluir" (ngSubmit)="onSubmit()">
+    <form #fci [formGroup]="formCadIncluir" (ngSubmit)="onSubmit()">
+      <div class="p-fluid formulario-bg-externo">
+
         <div class="p-d-flex p-jc-center">
           <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
             <span class="formulario-titulo">CADASTRO - INCLUIR</span>
@@ -29,7 +30,8 @@
                     <app-campo-control-erro msgErro="Tipo de Cadastro é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** Tratamento ***-->
-                  <div class="p-field p-col-12" [ngClass]="aplicaCssErroAsync('cadastro_tratamento_id', validaTratamento)">
+                  <div class="p-field p-col-12"
+                       [ngClass]="aplicaCssErroAsync('cadastro_tratamento_id', validaTratamento)">
                     <label for="cadastro_tratamento_id"><span style="color: var(--ativo)">*</span> Tratamento</label>
                     <p-dropdown
                       id="cadastro_tratamento_id"
@@ -39,7 +41,8 @@
                       [required]="true"
                       (blur)="mudaSituacao('cadastro_tratamento_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_tratamento_id', validaTratamento)" msgErro="Tratamento é obrigatório.">
+                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_tratamento_id', validaTratamento)"
+                                            msgErro="Tratamento é obrigatório.">
                     </app-campo-control-erro>
                   </div>
                   <!--*** Nome / Razão Social ***-->
@@ -54,7 +57,8 @@
                       pInputText
                       (blur)="verificaDuplicados($event)"
                     />
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_nome', validaNome)" msgErro="Nome é obrigatório.">
+                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_nome', validaNome)"
+                                            msgErro="Nome é obrigatório.">
                     </app-campo-control-erro>
                   </div>
                   <!--*** Apelido ***-->
@@ -170,7 +174,8 @@
                     />
                   </div>
                   <!--*** Município ***-->
-                  <div class="p-field p-col-12" [ngClass]="aplicaCssErroAsync('cadastro_municipio_id', validaMunicipio)">
+                  <div class="p-field p-col-12"
+                       [ngClass]="aplicaCssErroAsync('cadastro_municipio_id', validaMunicipio)">
                     <label for="cadastro_municipio_id"><span style="color: var(--ativo)">*</span> Município</label>
                     <div #vmunicipio class="p-inputgroup">
                       <p-dropdown
@@ -191,7 +196,8 @@
                         [disabled]="disableSubmit"
                       ></button>
                     </div>
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_municipio_id', validaMunicipio)" msgErro="Município é obrigatório.">
+                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_municipio_id', validaMunicipio)"
+                                            msgErro="Município é obrigatório.">
                     </app-campo-control-erro>
                   </div>
                   <!--*** Incluir Município ***-->
@@ -238,7 +244,7 @@
                     </div>
                   </p-dialog>
                   <!--*** Estado ***-->
-                  <div class="p-field p-col-12" [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)" >
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)">
                     <label for="cadastro_estado_id"><span style="color: var(--ativo)">*</span> Estado</label>
                     <p-dropdown
                       id="cadastro_estado_id"
@@ -247,7 +253,8 @@
                       [options]="ddEstadoId"
                       [required]="true"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_estado_id', validaEstado)" msgErro="Estado é obrigatório.">
+                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_estado_id', validaEstado)"
+                                            msgErro="Estado é obrigatório.">
                     </app-campo-control-erro>
                   </div>
                   <!--*** Região ***-->
@@ -286,7 +293,8 @@
                     <p-messages [value]="msgs" [closable]="true"></p-messages>
                     <div class="p-field p-col-12">
                       <label for="reg_nome">Nova região</label>
-                      <input id="reg_nome" type="text" formControlName="reg_nome" [size]="40" [minlength]="2" [maxlength]="50" (keyup)="mostraBtnIncluirRegiao()" pInputText/>
+                      <input id="reg_nome" type="text" formControlName="reg_nome" [size]="40" [minlength]="2"
+                             [maxlength]="50" (keyup)="mostraBtnIncluirRegiao()" pInputText/>
                     </div>
                     <div class="p-col-12 p-d-flex p-jc-start p-pb-2">
                       <div class="p-mr-2">
@@ -663,45 +671,71 @@
               </div>
               <!--*** FIM COLUNA 3 ***-->
             </div>
-            <!--*** Botões ***-->
-            <div class="p-d-flex p-jc-start p-pb-2">
-              <div class="p-mr-2">
-                <button
-                  pButton
-                  type="button"
-                  class="p-button-rounded"
-                  [disabled]="disableSubmit"
-                  (click)="enviarCadastro()"
-                  label="Enviar"
-                ></button>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="disableSubmit"
+                      (click)="enviarCadastro()"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Cancelar&nbsp;&nbsp;"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div>
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Voltar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
               </div>
-              <div class="p-mr-2">
-                <button
-                  pButton
-                  type="button"
-                  class="p-button-rounded p-button-secondary"
-                  (click)="resetForm()"
-                  label="Cancelar&nbsp;&nbsp;"
-                  [disabled]="botaoEnviarVF"
-                ></button>
-              </div>
-              <div>
-                <button
-                  pButton
-                  type="button"
-                  class="p-button-rounded p-button-secondary"
-                  (click)="voltarListar()"
-                  label="Voltar"
-                  [disabled]="botaoEnviarVF"
-                ></button>
-              </div>
+
+
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
         </div>
-        <!--</div>-->
-      </form>
-    </div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid formulario-bg-externo">
+          <div class="p-col-12"></div>
+          <div class="p-col-12"></div>
+        </div>
+      </div>
+
+    </form>
   </div>
 </p-scrollPanel>
 
@@ -736,5 +770,6 @@
 <p-toast key="cepToast" [style]="{marginTop: '80px'}"></p-toast>
 <p-toast key="arquivoToast" [style]="{marginTop: '80px'}"></p-toast>
 <p-overlayPanel appendTo="body" #op>
-  <p-progressSpinner  [style]="{width: '30px', height: '30px'}" strokeWidth="4" animationDuration="2s"></p-progressSpinner>
+  <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="4"
+                     animationDuration="2s"></p-progressSpinner>
 </p-overlayPanel>

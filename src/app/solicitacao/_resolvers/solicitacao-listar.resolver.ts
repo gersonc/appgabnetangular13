@@ -146,7 +146,10 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<SolicitacaoPaginacaoInterface> | Observable<boolean>| Observable<never> {
+    state: RouterStateSnapshot):
+    Observable<SolicitacaoPaginacaoInterface> |
+    Observable<boolean> |
+    Observable<never> {
     if (!sessionStorage.getItem('solicitacao-dropdown')) {
         this.cs.mostraCarregador();
         this.populaDropdown();

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CadastroBuscaService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
 import { Subscription } from 'rxjs';
