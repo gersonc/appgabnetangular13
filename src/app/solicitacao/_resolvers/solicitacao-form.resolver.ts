@@ -12,14 +12,17 @@ import {CarregadorService} from '../../_services';
 @Injectable({
   providedIn: 'root',
 })
-export class SolicitacaoFormResolver implements Resolve<boolean> {
+export class SolicitacaoFormResolver implements Resolve<never> {
   resposta = new Subject<boolean>();
+  resp = new Subject<boolean>();
   resposta$ = this.resposta.asObservable();
+  private resp$ = this.resposta.asObservable();
   sub: Subscription[] = [];
   esperar = 0;
   solicitacao_id = 0;
   solicitacao: SolicitacaoAlterarInterface;
   dados = true;
+  cf = true;
 
   constructor(
     private solicitacaoService: SolicitacaoService,
@@ -41,6 +44,8 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
   }
 
   carregaDados() {
+    let contador = 3;
+    console.log('contador->', contador);
     if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
       const tpcad: SelectItemGroup[] = [];
       const a = [1, 2];
@@ -71,14 +76,25 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
                 c++;
                 if (c === 2) {
                   sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
-                  this.espera();
+                  // this.espera();
+                  this.cf = true;
+                  contador--;
+                  console.log('contador->', contador);
+                  if (contador === 0) {
+                    this.resp.next(this.cf);
+                  }
                 }
               }
             })
         );
       }
     } else {
-      this.espera();
+      // this.espera();
+      contador--;
+      console.log('contador->', contador);
+      if (contador === 0) {
+        this.resp.next(this.cf);
+      }
     }
 
     const ddNomeIdArray = new DropdownnomeidClass();
@@ -136,12 +152,23 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
             console.log(err);
           },
           complete: () => {
-            this.espera();
+            // this.espera();
+            this.cf = true;
+            contador--;
+            console.log('contador->', contador);
+            if (contador === 0) {
+              this.resp.next(this.cf);
+            }
           }
         })
       );
     } else {
-      this.espera();
+      // this.espera();
+      contador--;
+      console.log('contador->', contador);
+      if (contador === 0) {
+        this.resp.next(this.cf);
+      }
     }
 
     // ****** solicitacao_reponsavel_analize_id *****
@@ -164,12 +191,23 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
               console.log(err);
             },
             complete: () => {
-              this.espera();
+              // this.espera();
+              this.cf = true;
+              contador--;
+              console.log('contador->', contador);
+              if (contador === 0) {
+                this.resp.next(this.cf);
+              }
             }
           })
       );
     } else {
-      this.espera();
+      // this.espera();
+      contador--;
+      console.log('contador->', contador);
+      if (contador === 0) {
+        this.resp.next(this.cf);
+      }
     }
   }
 
@@ -179,16 +217,17 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Observable<never> {
+    state: RouterStateSnapshot): Observable<never> {
     this.carregaDados();
-    return this.resposta$.pipe(
+    return this.resp$.pipe(
       take(1),
       mergeMap(dados => {
         if (dados) {
           // this.cs.fechaMenu();
           // this.cs.mostraCarregador();
           this.onDestroy();
-          return of(dados);
+          // return of(dados);
+          return EMPTY;
         } else {
           // this.cs.fechaMenu();
           this.onDestroy();

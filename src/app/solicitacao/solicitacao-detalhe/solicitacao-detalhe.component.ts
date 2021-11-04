@@ -9,13 +9,16 @@ import {
   SolicitacaoProcessoInterface,
   SolicitacaoProcessoNumInterface
 } from '../_models';
-// @ts-ignore
-import * as jsPDF from 'jspdf';
-// import autoTable from 'jspdf-autotable';
-import 'jspdf-autotable';
 
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
+
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
 declare var html2canvas: any;
-
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;
@@ -87,18 +90,21 @@ export class SolicitacaoDetalheComponent implements OnInit {
   }
 
   getPdf (imprimir = false) {
-    // @ts-ignore
-    const doc = new jsPDF(
+
+    let linha = 0;
+    let doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
         putOnlyUsedFonts: true
       }
-    );
+    ) as jsPDFCustom;
+    const pageNumber = doc.getNumberOfPages ();
+
     doc.setFontSize(15);
     doc.text('SOLICITAÇÃO', 15, 15);
-    doc.setFontSize(8);
+    doc.setFontSize(10);
 
     const k: string[] = Object.keys(this.solicitacao_titulo);
     const t: string[] = Object.values(this.solicitacao_titulo);
@@ -128,7 +134,7 @@ export class SolicitacaoDetalheComponent implements OnInit {
     }
     const head = [['Solicitação', '']];
 
-    doc.autoTable({
+    autoTable(doc, {
       head: head,
       body: solicitacao,
       startY: 20,
@@ -146,10 +152,14 @@ export class SolicitacaoDetalheComponent implements OnInit {
           bottom: 0.5,
           left: 2}
       },
-      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+      didDrawPage: (d) => {
+        linha = d.cursor.y;
+      },
     });
 
-    const pageNumber = doc.internal.getNumberOfPages();
+    doc.setPage(pageNumber);
+    doc.setFontSize(10);
 
 
     if (this.solicitacao.solicitacao_descricao) {
@@ -164,6 +174,7 @@ export class SolicitacaoDetalheComponent implements OnInit {
 
 
     if (this.cadastro) {
+      linha += 12;
       const k2: string[] = Object.keys(this.cadastro_titulo);
       const t2: string[] = Object.values(this.cadastro_titulo);
       const s2: string[] = Object.keys(this.cadastro);
@@ -186,10 +197,10 @@ export class SolicitacaoDetalheComponent implements OnInit {
       }
       const head2 = [['Solicitante', '']];
 
-      doc.autoTable({
+      autoTable(doc, {
         head: head2,
         body: cadastro,
-        startY: doc.autoTable.previous.finalY + 8,
+        startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
@@ -204,7 +215,10 @@ export class SolicitacaoDetalheComponent implements OnInit {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          linha = d.cursor.y;
+        },
       });
 
       doc.setPage(pageNumber);
@@ -213,31 +227,34 @@ export class SolicitacaoDetalheComponent implements OnInit {
 
     if (this.vinculos) {
       if (this.solDetalhe.processo_num.length > 0) {
+        linha += 8;
         const txtpro = 'Esta solicitaçãoo está vinculada ao processo ' + this.processo_num + '.';
-        doc.text(txtpro, 15, doc.autoTable.previous.finalY + 8);
+        doc.text(txtpro, 15, linha);
       }
       if (this.solDetalhe.oficio_num.length > 0) {
+        linha += 8;
         const txtofi = 'Esta solicitaçãoo está vinculada a ' + this.oficio_num + ' ofício(s).';
-        doc.text(txtofi, 15, doc.autoTable.previous.finalY + 16);
+        doc.text(txtofi, 15, linha);
       }
     }
 
 
     if (this.processo) {
-      const colums3: ColumnsInterface[] = [];
-      const t3: string[] = Object.keys(this.processo_titulo);
-      const v3: string[] = Object.values(this.processo_titulo);
-      for (let i = 0; i < t3.length; i++) {
-        colums3.push({
-          header: v3[i],
-          dataKey: t3[i]
-        });
-      }
-      doc.text('PROCESSOS - Esta solicitação está vinculada ao seguinte processo.', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable({
+      const colums3: ColumnsInterface[] = [
+        {header: 'NÚMERO', dataKey: 'processo_numero'},
+        {header: 'SITUAÇÃO', dataKey: 'processo_situacao'}
+      ];
+      linha += 12;
+      let pc: any[] = [];
+      this.processo.forEach( p => {
+        pc.push([p.processo_numero, p.processo_status]);
+      })
+      doc.text('PROCESSO - Esta solicitação está vinculada ao seguinte processo.', 15, linha);
+      linha += 2;
+      autoTable(doc, {
         columns: colums3,
-        body: this.processo,
-        startY: doc.autoTable.previous.finalY + 12,
+        body: pc,
+        startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
@@ -252,25 +269,34 @@ export class SolicitacaoDetalheComponent implements OnInit {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          linha = d.cursor.y;
+        },
       });
     }
 
     if (this.oficio) {
-      const colums4: ColumnsInterface[] = [];
-      const t4: string[] = Object.keys(this.oficio_titulo);
-      const v4: string[] = Object.values(this.oficio_titulo);
-      for (let i = 0; i < t4.length; i++) {
-        colums4.push({
-          header: v4[i],
-          dataKey: t4[i]
-        });
-      }
-      doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable({
+      linha += 12;
+      const colums4: ColumnsInterface[] = [
+        {header: 'POSIÇÃO', dataKey: 'oficio_status'},
+        {header: 'CÓDIGO', dataKey: 'oficio_codigo'},
+        {header: 'NÚMERO', dataKey: 'oficio_numero'},
+        {header: 'DATA', dataKey: 'oficio_data_emissao'},
+        {header: 'ORGÃO SOLICITADO', dataKey: 'oficio_orgao_solicitado_nome'},
+      ];
+
+      let oficio: any[] = [];
+      this.oficio.forEach( p => {
+        oficio.push([p.oficio_status, p.oficio_codigo, p.oficio_numero, p.oficio_data_emissao, p.oficio_orgao_solicitado_nome]);
+      })
+
+      doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, linha);
+      linha += 2;
+      autoTable(doc, {
         columns: colums4,
-        body: this.oficio,
-        startY: doc.autoTable.previous.finalY + 12,
+        body: oficio,
+        startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
@@ -285,7 +311,10 @@ export class SolicitacaoDetalheComponent implements OnInit {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          linha = d.cursor.y;
+        },
       });
     }
 
@@ -328,10 +357,12 @@ export class SolicitacaoDetalheComponent implements OnInit {
       setTimeout(() => {
         if (imprimir === false) {
           doc.save(fileName);
+          doc = null;
         } else {
+          const a: string = doc.output('bloburi').toString();
+          window.open(a);
           doc.autoPrint();
-          // doc.output('dataurlnewwindow');
-          window.open(doc.output('bloburl'));
+          doc = null;
         }
       }, tempo);
     });

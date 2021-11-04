@@ -150,31 +150,25 @@
           </tr>
           <tr *ngIf="solicitacao.solicitacao_descricao" class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              Descrição:
+              <span style="font-weight: bold">Descrição:</span>
               <div *ngIf="solicitacao.solicitacao_descricao" style="margin-top: .25em">
-                <p-editor id="descricao" #descricao [ngModel]="solicitacao.solicitacao_descricao" class="detalhe" [readonly]="true">
-                  <ng-template pTemplate="header"></ng-template>
-                </p-editor>
+                <quill-view-html id="descricao" #descricao [content]="solicitacao.solicitacao_descricao" class="detalhe"></quill-view-html>
               </div>
             </th>
           </tr>
           <tr *ngIf="solicitacao.solicitacao_aceita_recusada"  class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              Observações:
+              <span style="font-weight: bold">Observações:</span>
               <div>
-                <p-editor id="observacao" #observacao [ngModel]="solicitacao.solicitacao_aceita_recusada" class="detalhe" [readonly]="true">
-                  <ng-template pTemplate="header"></ng-template>
-                </p-editor>
+                <quill-view-html id="observacao" #observacao [content]="solicitacao.solicitacao_aceita_recusada" class="detalhe"></quill-view-html>
               </div>
             </th>
           </tr>
           <tr *ngIf="solicitacao.solicitacao_carta"  class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              Carta:
+              <span style="font-weight: bold">Carta:</span>
               <div>
-                <p-editor id="carta" #carta [ngModel]="solicitacao.solicitacao_carta" class="detalhe" [readonly]="true">
-                  <ng-template pTemplate="header"></ng-template>
-                </p-editor>
+                <quill-view-html id="carta" #carta [content]="solicitacao.solicitacao_carta" class="detalhe"></quill-view-html>
               </div>
             </th>
           </tr>

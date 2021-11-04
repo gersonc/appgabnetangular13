@@ -12,13 +12,12 @@ import { AuthenticationService } from '../../_services';
 // import { jsPDF } from "jspdf";
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
-import { applyPlugin } from 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
 applyPlugin(jsPDF);
-import { UserOptions } from 'jspdf-autotable';
+
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
 }
-
 
 declare interface ColumnsInterface {
   header: string;
@@ -135,9 +134,7 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
 
   getPdf (imprimir: boolean) {
 
-    let linhas: number[] = [];
-
-
+    let linha = 0;
     let doc = new jsPDF (
       {
         orientation: 'p',
@@ -189,15 +186,13 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
       },
       bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
       didDrawPage: (d) => {
-        console.log(d.cursor.y);
-        linhas[0] = d.cursor.y;
+        linha = d.cursor.y;
       },
     });
 
-    console.log('linha0->', linhas[0]);
-
     doc.setPage(pageNumber);
-    let linha = linhas[0];
+    doc.setFontSize(10);
+
     if (this.vinculos) {
       if (this.dados.solicitacao_num.length > 0) {
         linha += 8;
@@ -224,12 +219,12 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         const txt3 = 'Este cadastro é responsável de ' + this.oficio_cadastro_responsavel_num + ' ofício(s).';
         doc.text(txt3, 15, linha);
       }
-      console.log('linha2->', linha);
     }
 
     if (this.solicitacao) {
       linha += 12;
-      console.log('linha3>', linha);
+      doc.text ('SOLICITAÇÕES - Este cadastro possui a(s) sequinte(s) solicitação(ões).', 15, linha);
+      linha += 2;
       const colums0: ColumnsInterface[] = [];
       const t: string[] = Object.keys (this.solicitacao_titulo);
       const v: string[] = Object.values (this.solicitacao_titulo);
@@ -242,12 +237,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
 
       let solpdf: any[] = [];
       this.solicitacao.forEach( s => {
-        solpdf.push([s.solicitacao_id, s.solicitacao_data, s.solicitacao_posicao, s.solicitacao_assunto_nome]);
+        solpdf.push([s.solicitacao_data, s.solicitacao_assunto_nome, s.solicitacao_posicao]);
       } );
 
-
-
-      doc.text ('SOLICITAÇÕES - Este cadastro possui a(s) sequinte(s) solicitação(ões).', 15, linha + 100);
       autoTable (doc,{
         columns: colums0,
         body: solpdf,
@@ -268,13 +260,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         },
         bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
-          console.log(d.cursor.y);
-          linhas[1] = d.cursor.y;
+          linha = d.cursor.y;
         },
       });
-      // linha = doc.autoTable.previous.finalY + 12;
-      linha = linhas[1] + 12;
-      console.log('linha4>', linha);
     }
 
     if (this.processo) {
@@ -291,11 +279,12 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
 
       let pc: any[] = [];
       this.processo.forEach( p => {
-        pc.push([p.processo_id, p.processo_numero, p.processo_status, p.solicitacao_assunto_nome]);
+        pc.push([p.processo_numero, p.processo_status, p.solicitacao_assunto_nome]);
       })
 
 
-      doc.text ('PROCESSOS - Este cadastro está incluido ao(s) seguinte(s) processo(s).', 15, linha + 10);
+      doc.text ('PROCESSOS - Este cadastro está incluido ao(s) seguinte(s) processo(s).', 15, linha);
+      linha += 2;
       autoTable (doc, {
         columns: colums1,
         body: pc,
@@ -316,11 +305,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         },
         bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
-          console.log(d.cursor.y);
-          linhas[2] = d.cursor.y;
+          linha = d.cursor.y;
         },
       });
-      linha = linhas[2] + 12;
     }
 
     if (this.oficio_orgao_solicitado) {
@@ -335,13 +322,13 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         });
       }
 
-
       let ors: any[] = [];
       this.oficio_orgao_solicitado.forEach( o => {
         ors.push([o.oficio_id, o.oficio_codigo, o.oficio_numero, o.oficio_data_emissao, o.oficio_status, o.oficio_cadastro_nome]);
       });
 
-      doc.text ('OFÍCIO(S) - Este cadastro é o orgão solicitado do(s) seguinte(s) ofício(s).', 15, linha + 10);
+      doc.text ('OFÍCIO(S) - Este cadastro é o orgão solicitado do(s) seguinte(s) ofício(s).', 15, linha);
+      linha += 2;
       autoTable (doc,{
         columns: colums2,
         body: ors,
@@ -362,11 +349,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         },
         bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
-          console.log(d.cursor.y);
-          linhas[3] = d.cursor.y;
+          linha = d.cursor.y;
         },
       });
-      linha = linhas[3] + 12;
     }
 
     if (this.oficio_orgao_protocolante) {
@@ -387,7 +372,8 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
       });
 
 
-      doc.text ('OFÍCIO(S) - Este cadastro é o orgão protocolante do(s) seguinte(s) ofício(s).', 15, linha + 10);
+      doc.text ('OFÍCIO(S) - Este cadastro é o orgão protocolante do(s) seguinte(s) ofício(s).', 15, linha);
+      linha += 2;
       autoTable (doc,{
         columns: colums3,
         body: oop,
@@ -408,11 +394,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         },
         bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
-          console.log(d.cursor.y);
-          linhas[4] = d.cursor.y;
+          linha = d.cursor.y;
         },
       });
-      linha = linhas[4] + 12;
     }
 
     if (this.oficio_cadastro_responsavel) {
@@ -432,7 +416,8 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         ocr.push([o.oficio_id, o.oficio_codigo, o.oficio_numero, o.oficio_data_emissao, o.oficio_status, o.oficio_orgao_solicitado_nome]);
       })
 
-      doc.text ('OFÍCIO(S) - Este cadastro é o responável pelo(s) seguinte(s) ofício(s).', 15, linha + 10);
+      doc.text ('OFÍCIO(S) - Este cadastro é o responável pelo(s) seguinte(s) ofício(s).', 15, linha);
+      linha += 2;
       autoTable (doc,{
         columns: colums4,
         body: ocr,
@@ -453,11 +438,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
         },
         bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
-          console.log(d.cursor.y);
-          linhas[5] = d.cursor.y;
+          linha = d.cursor.y;
         },
       });
-      linha = linhas[5] + 12;
     }
 
     const nome = this.cadastro.cadastro_nome.replace (' ', '_').toLowerCase ();
@@ -466,10 +449,9 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
       doc.save (fileName);
     }
     if (imprimir) {
-      // doc.output('dataurlnewwindow', fileName);
+      const a: string = doc.output('bloburi').toString();
+      window.open(a);
       doc.autoPrint();
-      //doc.output('dataurlnewwindow', fileName);
-      doc.save (fileName);
     }
     doc = null;
   }
