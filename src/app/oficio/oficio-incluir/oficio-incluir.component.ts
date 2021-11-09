@@ -1,11 +1,20 @@
-import { Component, ViewChild, OnInit, DoCheck, OnDestroy, ViewEncapsulation, ElementRef } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  DoCheck,
+  OnDestroy,
+  ViewEncapsulation,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { SelectItem, MenuItem, MessageService } from 'primeng/api';
-import { DropdownService, MostraMenuService } from '../../_services';
+import {DropdownService, MenuInternoService, MostraMenuService} from '../../_services';
 import { DropdownnomeidClass } from '../../_models';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { OficioFormulario, OficioIncluirForm, OficioIncluirFormInterface } from '../_models';
@@ -20,7 +29,7 @@ import {Editor} from 'primeng/editor';
   encapsulation: ViewEncapsulation.None,
   providers: [MessageService]
 })
-export class OficioIncluirComponent implements DoCheck, OnInit, OnDestroy {
+export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild('ofidesc', { static: true }) ofidesc: Editor;
   @ViewChild('histand', { static: true }) histand: Editor;
@@ -88,7 +97,7 @@ export class OficioIncluirComponent implements DoCheck, OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dd: DropdownService,
     private ofs: OficioFormService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     private location: Location,
     private messageService: MessageService,
     public authenticationService: AuthenticationService,
@@ -98,8 +107,6 @@ export class OficioIncluirComponent implements DoCheck, OnInit, OnDestroy {
     private cs: CarregadorService
   ) {  }
 
-  ngDoCheck() {
-  }
 
   ngOnInit() {
     this.ofs.criaOficio();
@@ -142,12 +149,16 @@ export class OficioIncluirComponent implements DoCheck, OnInit, OnDestroy {
     this.cs.escondeCarregador();
   }
 
+  ngAfterViewInit() {
+    this.cs.escondeCarregador();
+    this.mi.hideMenu();
+  }
+
   carregaDropdownSessionStorage() {
     this.ddPrioridade_id = JSON.parse(sessionStorage.getItem('dropdown-prioridade'));
     this.ddAndamento_id = JSON.parse(sessionStorage.getItem('dropdown-andamento'));
     this.ddrecebimento_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'));
   }
-
 
   // ***     FORMULARIO      *************************
   criaForm() {
@@ -308,7 +319,7 @@ export class OficioIncluirComponent implements DoCheck, OnInit, OnDestroy {
       }
     }
     if (!sessionStorage.getItem('oficio-busca')) {
-      this.mm.showMenu();
+      this.mi.mostraInternoMenu();
     }
     // this.router.navigate(['/oficio/listar/busca']);
     this.router.navigate(['/oficio/listar2']);

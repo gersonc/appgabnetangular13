@@ -134,15 +134,12 @@ const solicitacaoRoutes: Routes = [
         }
       },
       {
-        path: 'apagar/:id',
+        path: 'apagar',
         component: SolicitacaoExcluirComponent,
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.solicitacao,
           scopes: Scope.solicitacao_apagar
-        },
-        resolve: {
-          dados: SolicitacaoExcluirResolver
         }
       }
     ]

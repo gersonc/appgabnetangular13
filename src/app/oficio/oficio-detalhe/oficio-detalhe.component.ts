@@ -1,11 +1,15 @@
 import {Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter} from '@angular/core';
 import { OficioDetalheInterface, OficioListagemInterface } from '../_models';
-import * as jsPDF from 'jspdf';
+
+import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
-import 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
 
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
 declare var html2canvas: any;
-
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;
@@ -36,18 +40,20 @@ export class OficioDetalheComponent implements OnInit {
 
   getPdf (imprimir = false) {
 
-    // @ts-ignore
-    const doc = new jsPDF(
+    let linha = 0;
+    let doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
         putOnlyUsedFonts: true
       }
-    );
+    ) as jsPDFCustom;
+    const pageNumber = doc.getNumberOfPages ();
+
     doc.setFontSize(15);
     doc.text('OFÍCIO', 15, 15);
-    doc.setFontSize(8);
+    doc.setFontSize(10);
 
     const k = [
       'oficio_id',
@@ -128,7 +134,7 @@ export class OficioDetalheComponent implements OnInit {
     }
     const head = [['Ofício', '']];
 
-    doc.autoTable({
+    autoTable(doc,{
       head: head,
       body: oficio,
       startY: 20,
@@ -146,10 +152,15 @@ export class OficioDetalheComponent implements OnInit {
           bottom: 0.5,
           left: 2}
       },
-      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+      didDrawPage: (d) => {
+        linha = d.cursor.y;
+      },
     });
 
-    const pageNumber = doc.internal.getNumberOfPages();
+    doc.setPage(pageNumber);
+    doc.setFontSize(10);
+
 
     this.campos = [];
     if (this.oficio.oficio_descricao_acao) {
@@ -193,9 +204,12 @@ export class OficioDetalheComponent implements OnInit {
       setTimeout(() => {
         if (imprimir === false) {
           doc.save(fileName);
+          doc = null;
         } else {
+          const a: string = doc.output('bloburi').toString();
+          window.open(a);
           doc.autoPrint();
-          window.open(doc.output('bloburl'));
+          doc = null;
         }
       }, tempo);
     });

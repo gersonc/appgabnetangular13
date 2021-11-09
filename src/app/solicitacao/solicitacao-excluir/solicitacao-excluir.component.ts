@@ -17,6 +17,7 @@ import { take } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { isArrayLike } from 'rxjs/internal-compatibility';
 
+
 @Component({
   selector: 'app-solicitacao-excluir',
   templateUrl: './solicitacao-excluir.component.html',
@@ -76,38 +77,35 @@ export class SolicitacaoExcluirComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.sub.push(this.activatedRoute.data.subscribe(
-      (data: {dados: SolicitacaoExcluirInterface}) => {
-        this.solicitacao = data.dados.solicitacao;
-        this.arquivo_num = + data.dados.arquivo_num;
+        this.dados = this.ss.solicitacaoExluirDados;
+        this.solicitacao = this.dados.solicitacao;
+        this.arquivo_num = + this.dados.arquivo_num;
         if (this.arquivo_num > 0 && !this.authenticationService.arquivos_apagar) {
           this.arquivoSN = false;
         }
         if (this.authenticationService.cadastro_listar) {
-          this.cadastro = data.dados.cadastro;
+          this.cadastro = this.dados.cadastro;
         }
-        if (this.authenticationService.processo_listar && data.dados.processo) {
-          this.processo = data.dados.processo;
+        if (this.authenticationService.processo_listar && this.dados.processo) {
+          this.processo = this.dados.processo;
         }
-        if (data.dados.processo_num.num || data.dados.oficio_num.num) {
+        if (this.dados.processo_num.num || this.dados.oficio_num.num) {
           this.vinculos = true;
-          this.processo_num = data.dados.processo_num;
-          this.oficio_num = data.dados.oficio_num;
+          this.processo_num = this.dados.processo_num;
+          this.oficio_num = this.dados.oficio_num;
         }
-        if (this.authenticationService.oficio_vizualizar && data.dados.oficio.length > 0) {
-          this.oficio = data.dados.oficio;
+        if (this.authenticationService.oficio_vizualizar && this.dados.oficio.length > 0) {
+          this.oficio = this.dados.oficio;
         }
-        this.erro = data.dados.erro;
-        if ((data.dados.processo || data.dados.processo_num.num)
+        this.erro = this.dados.erro;
+        if ((this.dados.processo || this.dados.processo_num.num)
           && this.authenticationService.processo_apagar === false) {
           this.processoSN = false;
         }
-        if ((data.dados.oficio || data.dados.oficio_num.num)
+        if ((this.dados.oficio || this.dados.oficio_num.num)
           && this.authenticationService.oficio_apagar === false) {
           this.oficioSN = false;
         }
-      }
-    ));
     this.cs.escondeCarregador();
     this.montaMsg();
   }

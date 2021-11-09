@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import { FormGroup, FormControl, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { DropdownnomeidClass, DropdownsonomearrayClass, DropdownNomeIdJoin } from '../../_models';
-import {AuthenticationService, CarregadorService, MenuInternoService, DropdownService } from '../../_services';
-import {SolicitacaoService, SolicitacaoBuscarService, SolicitacaoDropdownMenuService} from '../_services';
-import {SolicitacaoBuscaInterface, SolicitacaoPaginacaoInterface} from '../_models';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {take} from 'rxjs/operators';
+import { AuthenticationService, CarregadorService, MenuInternoService, DropdownService } from '../../_services';
+import { SolicitacaoService, SolicitacaoBuscarService, SolicitacaoDropdownMenuService } from '../_services';
+import { SolicitacaoBuscaInterface } from '../_models';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -51,7 +49,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log('solicitacao menu');
     this.formListarSolicitacao = this.formBuilder.group({
       solicitacao_posicao: [null],
       solicitacao_cadastro_tipo_id: [null],
@@ -105,7 +102,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
   getCarregaDropDown() {
     this.sub.push(this.sdd.resp$.subscribe(
       (dados: boolean ) => {
-        console.log('dds', dados);
       },
       error => {
         console.error(error.toString());
@@ -137,7 +133,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
 
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
-      // this.mi.hideMenu();
       this.sbs.buscaStateSN = false;
       this.cs.mostraCarregador();
       this.router.navigate(['/solicitacao/incluir']);

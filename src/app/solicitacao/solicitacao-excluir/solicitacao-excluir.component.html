@@ -132,33 +132,34 @@
                     {{solicitacao.solicitacao_orgao}}
                   </td>
                 </tr>
+
                 <tr *ngIf="solicitacao.solicitacao_descricao" class="novaPagina">
                   <th colspan="2" class="tituloEditor">
-                    Descrição:
-                    <div *ngIf="solicitacao.solicitacao_descricao" style="margin-top: .25em">
-                      <p-editor id="descricao" #descricao [ngModel]="solicitacao.solicitacao_descricao" class="detalhe" [readonly]="true">
-                        <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
+                    <span style="font-weight: bold; color: var(--text-color)">Descrição:</span>
+                    <div>
+                      <quill-view-html [content]="solicitacao.solicitacao_descricao" class="detalhe"></quill-view-html>
                     </div>
                   </th>
                 </tr>
-                <tr *ngIf="solicitacao.solicitacao_aceita_recusada" class="novaPagina">
+                <tr *ngIf="solicitacao.solicitacao_aceita_recusada !== null" class="novaPagina">
                   <th colspan="2" class="tituloEditor">
-                    Observações:
-                    <div *ngIf="solicitacao.solicitacao_aceita_recusada" style="margin-top: .25em">
-                      <p-editor id="observacao" #observacao [ngModel]="solicitacao.solicitacao_aceita_recusada" class="detalhe" [readonly]="true">
-                        <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
+                    <span style="font-weight: bold; color: var(--text-color)">Observações:</span>
+                    <div>
+                      <quill-view-html id="observacao" #observacao [content]="solicitacao.solicitacao_aceita_recusada" class="detalhe"></quill-view-html>
                     </div>
                   </th>
                 </tr>
-                <tr *ngIf="solicitacao.solicitacao_carta" class="novaPagina">
+
+                <tr *ngIf="solicitacao.solicitacao_carta !== null" class="novaPagina">
                   <th colspan="2" class="tituloEditor">
-                    Descrição:
-                    <div *ngIf="solicitacao.solicitacao_carta" style="margin-top: .25em">
-                      <p-editor id="carta" #carta [ngModel]="solicitacao.solicitacao_carta" class="detalhe" [readonly]="true">
-                        <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
+                    <span style="font-weight: bold; color: var(--text-color)">Carta:</span>
+                    <!--<quill-view [content]="solicitacao.solicitacao_carta" format="text" theme="snow"></quill-view>-->
+                    <!--<div class="ql-container ql-snow" style="border-width: 0;">
+                      <div class="ql-editor" [innerHTML]="solicitacao.solicitacao_carta">
+                      </div>
+                    </div>-->
+                    <div>
+                      <quill-view-html [content]="solicitacao.solicitacao_carta" class="detalhe"></quill-view-html>
                     </div>
                   </th>
                 </tr>

@@ -52,6 +52,11 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
           this.mostraExcluir = true;
           break;
         }
+        case 'alterar': {
+          this.horizontal = true;
+          this.mostraExcluir = true;
+          break;
+        }
         default: {
           this.horizontal = false;
           break;

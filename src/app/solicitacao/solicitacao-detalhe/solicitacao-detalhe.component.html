@@ -1,4 +1,4 @@
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'">
+<p-scrollPanel class="detalhe">
   <table class="detalhefull">
     <tr>
       <td>
@@ -151,7 +151,7 @@
           <tr *ngIf="solicitacao.solicitacao_descricao" class="novaPagina">
             <th colspan="2" class="tituloEditor">
               <span style="font-weight: bold">Descrição:</span>
-              <div *ngIf="solicitacao.solicitacao_descricao" style="margin-top: .25em">
+              <div *ngIf="solicitacao.solicitacao_descricao">
                 <quill-view-html id="descricao" #descricao [content]="solicitacao.solicitacao_descricao" class="detalhe"></quill-view-html>
               </div>
             </th>
@@ -477,12 +477,12 @@
   <br>
 </p-scrollPanel>
 <div style="padding-top: 5px">
-  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  <button pButton type="button" icon="pi pi-times" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-file-pdf" label="PDF" class="p-button-rounded p-button-secondary"
+  <button pButton type="button" icon="pi pi-file-pdf" label="PDF" class="p-button-rounded p-button-secondary"
           (click)="getPdf(false)"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR" class="p-button-rounded p-button-secondary"
+  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR" class="p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 
 </div>

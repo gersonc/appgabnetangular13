@@ -1,8 +1,7 @@
-import {Component, OnDestroy, OnInit } from '@angular/core';
-import {MenuInternoService, MostraMenuService} from '../_services';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MenuInternoService } from '../_services';
 import { OficioBuscaService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
-import { CarregadorService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,11 +21,9 @@ export class OficioComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('OFICIO');
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
-        console.log('mostraMenuInterno', this.mostraMenuInterno);
       })
     );
     this.as.getPermissoes();

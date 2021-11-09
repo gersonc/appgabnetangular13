@@ -36,6 +36,7 @@ export class SolicitacaoService {
   campos: string[];
   titulos: string[];
   camposTexto: string[];
+  solicitacaoExluirDados: SolicitacaoExcluirInterface;
 
   public expandido = new Subject();
 

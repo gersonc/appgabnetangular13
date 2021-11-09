@@ -3,12 +3,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-// import { DropdownnomeidClass } from '../../_models';
-import {MostraMenuService, DropdownService, MenuInternoService} from '../../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
-
+import { MenuInternoService, AuthenticationService, CarregadorService } from '../../_services';
 import { OficioBuscaService } from '../_services';
 import { OficioBuscaInterface, OficioDropdownMenuListar } from '../_models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-oficio-menu-listar',
@@ -151,14 +149,12 @@ export class OficioMenuListarComponent implements OnInit {
       this.obs.oficioBusca[propName] = ofBusca[propName].toString();
     }
     this.obs.buscaMenu();
-    // this.mm.mudaMenu(false);
     this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.oficio_incluir) {
-      this.mi.hideMenu();
       this.cs.mostraCarregador();
       this.router.navigate(['/oficio/incluir']);
     } else {

@@ -21,11 +21,9 @@ export class SolicitacaoComponent implements OnInit, OnDestroy {
   ) {  }
 
   ngOnInit() {
-    console.log('SOLICITACAO');
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
-        console.log('mostraMenuInterno', this.mostraMenuInterno);
       })
     );
     this.as.getPermissoes();

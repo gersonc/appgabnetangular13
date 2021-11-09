@@ -1,28 +1,26 @@
-import { OnDestroy, Injectable} from '@angular/core';
-import { Observable, of, EMPTY, Subscription, Subject, pipe } from 'rxjs';
-import {take, mergeMap, map, tap} from 'rxjs/operators';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve, RouterState } from '@angular/router';
+import { Injectable} from '@angular/core';
+import {Observable, of, Subscription, Subject} from 'rxjs';
+import {take, mergeMap} from 'rxjs/operators';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { SolicitacaoService, SolicitacaoFormService } from '../_services';
-import {SelectItem, SelectItemGroup} from 'primeng/api';
+import { SelectItemGroup } from 'primeng/api';
 import { DropdownnomeidClass } from '../../_models';
-import { SolicitacaoAlterarFormulario, SolicitacaoAlterarInterface, SolicitacaoInterface } from '../_models';
-import { DropdownService } from '../../_services';
-import {CarregadorService} from '../../_services';
+import { SolicitacaoAlterarInterface } from '../_models';
+import { DropdownService, CarregadorService } from '../../_services';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SolicitacaoFormResolver implements Resolve<never> {
-  resposta = new Subject<boolean>();
-  resp = new Subject<boolean>();
-  resposta$ = this.resposta.asObservable();
-  private resp$ = this.resposta.asObservable();
+export class SolicitacaoFormResolver implements Resolve<boolean> {
+  private resp: Subject<boolean>;
+  private resp$: Observable<boolean>;
   sub: Subscription[] = [];
   esperar = 0;
   solicitacao_id = 0;
   solicitacao: SolicitacaoAlterarInterface;
   dados = true;
   cf = true;
+  contador = 3;
 
   constructor(
     private solicitacaoService: SolicitacaoService,
@@ -30,22 +28,18 @@ export class SolicitacaoFormResolver implements Resolve<never> {
     private sfs: SolicitacaoFormService,
     private router: Router,
     private dd: DropdownService
-  ) {
-  }
+  ) { }
 
   espera() {
-    this.esperar++;
-    if (this.esperar === 3) {
-      this.esperar = 0;
-      setTimeout(() => {
-        this.resposta.next(true);
-      }, 500);
+    this.contador--;
+    this.resp.next(this.cf);
+    if (this.contador < 1) {
+      this.resp.complete();
     }
   }
 
   carregaDados() {
-    let contador = 3;
-    console.log('contador->', contador);
+    this.cf = true;
     if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
       const tpcad: SelectItemGroup[] = [];
       const a = [1, 2];
@@ -59,7 +53,7 @@ export class SolicitacaoFormResolver implements Resolve<never> {
           'cadastro_tipo_nome',
           'cadastro_tipo_tipo',
           String(b)
-          ).pipe(take(1))
+          ).pipe(take(3))
             .subscribe({
               next: (dados) => {
                 tipo = {
@@ -76,25 +70,14 @@ export class SolicitacaoFormResolver implements Resolve<never> {
                 c++;
                 if (c === 2) {
                   sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
-                  // this.espera();
-                  this.cf = true;
-                  contador--;
-                  console.log('contador->', contador);
-                  if (contador === 0) {
-                    this.resp.next(this.cf);
-                  }
+                  this.espera();
                 }
               }
             })
         );
       }
     } else {
-      // this.espera();
-      contador--;
-      console.log('contador->', contador);
-      if (contador === 0) {
-        this.resp.next(this.cf);
-      }
+      this.espera();
     }
 
     const ddNomeIdArray = new DropdownnomeidClass();
@@ -152,23 +135,12 @@ export class SolicitacaoFormResolver implements Resolve<never> {
             console.log(err);
           },
           complete: () => {
-            // this.espera();
-            this.cf = true;
-            contador--;
-            console.log('contador->', contador);
-            if (contador === 0) {
-              this.resp.next(this.cf);
-            }
+            this.espera();
           }
         })
       );
     } else {
-      // this.espera();
-      contador--;
-      console.log('contador->', contador);
-      if (contador === 0) {
-        this.resp.next(this.cf);
-      }
+      this.espera();
     }
 
     // ****** solicitacao_reponsavel_analize_id *****
@@ -191,22 +163,14 @@ export class SolicitacaoFormResolver implements Resolve<never> {
               console.log(err);
             },
             complete: () => {
-              // this.espera();
-              this.cf = true;
-              contador--;
-              console.log('contador->', contador);
-              if (contador === 0) {
-                this.resp.next(this.cf);
-              }
+              this.espera();
             }
           })
       );
     } else {
-      // this.espera();
-      contador--;
-      console.log('contador->', contador);
-      if (contador === 0) {
-        this.resp.next(this.cf);
+      this.contador--;
+      if (this.contador === 0) {
+        this.espera();
       }
     }
   }
@@ -217,22 +181,16 @@ export class SolicitacaoFormResolver implements Resolve<never> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<never> {
+    state: RouterStateSnapshot):Observable<boolean> {
+    this.resp = new Subject<boolean>();
+    this.resp$ = this.resp.asObservable();
+    this.contador = 3;
     this.carregaDados();
     return this.resp$.pipe(
       take(1),
       mergeMap(dados => {
-        if (dados) {
-          // this.cs.fechaMenu();
-          // this.cs.mostraCarregador();
           this.onDestroy();
-          // return of(dados);
-          return EMPTY;
-        } else {
-          // this.cs.fechaMenu();
-          this.onDestroy();
-          return EMPTY;
-        }
+          return of(dados);
       })
     );
   }

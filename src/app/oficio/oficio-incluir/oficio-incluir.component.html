@@ -1,7 +1,8 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
-    <div class="p-fluid formulario-bg-externo">
-      <form [formGroup]="formOfIncluir" (ngSubmit)="onSubmit()">
+    <form [formGroup]="formOfIncluir" (ngSubmit)="onSubmit()">
+      <div class="p-fluid formulario-bg-externo">
+
         <div class="p-d-flex p-jc-center">
           <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
             <span class="formulario-titulo">OFÍCIO - INCLUIR</span>
@@ -13,6 +14,7 @@
               <!--*** COLUNA 1 ***-->
               <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
                 <div class="p-fluid p-formgrid p-grid formulario">
+
                   <!--*** ddOficio_processo_id ***-->
                   <div *ngIf="!solicitacao" class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_processo_id')">
                     <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
@@ -38,7 +40,10 @@
                         <caption>Dados do processo</caption>
                         <tr>
                           <th>Código:</th>
-                          <td>{{oficio_codigo | uppercase}}<p-progressSpinner *ngIf="oficod" [style]="{width: '10px', height: '10px'}" strokeWidth="2" animationDuration=".5s"></p-progressSpinner></td>
+                          <td>{{oficio_codigo | uppercase}}
+                            <p-progressSpinner *ngIf="oficod" [style]="{width: '10px', height: '10px'}" strokeWidth="2"
+                                               animationDuration=".5s"></p-progressSpinner>
+                          </td>
                         </tr>
                         <tr>
                           <th>Processo Número:</th>
@@ -79,6 +84,7 @@
               <!--*** COLUNA 2 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
                 <div class="p-fluid p-formgrid p-grid">
+
                   <!--*** oficio_orgao_solicitado_nome ***-->
                   <div class="p-field p-col-12">
                     <label for="oficio_orgao_solicitado_nome"><span style="color: var(--ativo)">*</span>Orgão solicitado</label>
@@ -176,7 +182,8 @@
                 <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_orgao_protocolante_nome ***-->
                   <div class="p-field p-col-12">
-                    <label for="oficio_orgao_protocolante_nome"><span style="color: var(--ativo)">*</span>Orgão protocolante</label>
+                    <label for="oficio_orgao_protocolante_nome"><span style="color: var(--ativo)">*</span>Orgão
+                      protocolante</label>
                     <input
                       id="oficio_orgao_protocolante_nome"
                       formControlName="oficio_orgao_protocolante_nome"
@@ -238,7 +245,8 @@
                 <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_tipo_andamento_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
-                    <label for="oficio_tipo_andamento_id"><span style="color: var(--ativo)">*</span> Encaminhamento</label>
+                    <label for="oficio_tipo_andamento_id"><span style="color: var(--ativo)">*</span>
+                      Encaminhamento</label>
                     <p-dropdown
                       id="oficio_tipo_andamento_id"
                       formControlName="oficio_tipo_andamento_id"
@@ -313,7 +321,8 @@
                   </div>
                   <!--*** oficio_tipo_recebimento_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
-                    <label for="oficio_tipo_recebimento_id"><span style="color: var(--ativo)">*</span> Recebimento</label>
+                    <label for="oficio_tipo_recebimento_id"><span style="color: var(--ativo)">*</span>
+                      Recebimento</label>
                     <p-dropdown
                       id="oficio_tipo_recebimento_id"
                       formControlName="oficio_tipo_recebimento_id"
@@ -393,7 +402,22 @@
                 </div>
               </div>
               <!--*** FIM COLUNA 11 ***-->
-              <!--*** Botões ***-->
+
+            </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
               <div class="p-col-12 formulario">
                 <!--*** Botões ***-->
                 <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
@@ -431,25 +455,33 @@
                 </div>
                 <!--*** FIM BOTOES ***-->
               </div>
+
+
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid formulario-bg-externo">
+          <div class="p-col-12"></div>
+          <div class="p-col-12"></div>
+        </div>
+      </div>
 
     </form>
-    </div>
   </div>
 </p-scrollPanel>
-
 
 
 <!--<app-form-debug [form]="formOfIncluir"></app-form-debug>-->
 <p-toast key="oficioToast" [style]="{marginTop: '80px'}"></p-toast>
 
-<p-dialog #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display" [style]="{width: '70%'}">
-        <p-editor id="solicitacao" [ngModel]="solicitacao_descricao" class="detalhe" [readonly]="true">
-          <ng-template pTemplate="header"></ng-template>
-        </p-editor>
+<p-dialog #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display"
+          [style]="{width: '70%'}">
+  <p-editor id="solicitacao" [ngModel]="solicitacao_descricao" class="detalhe" [readonly]="true">
+    <ng-template pTemplate="header"></ng-template>
+  </p-editor>
   <div style="padding-top: .4em">
     <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   </div>

@@ -1,4 +1,4 @@
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheOficio">
+<p-scrollPanel class="detalhe" id="detalheOficio">
   <table class="detalhefull">
     <tr>
       <td>
@@ -224,9 +224,7 @@
               <th colspan="2" class="tituloEditor">
                 Solicitação:
                 <div *ngIf="oficio.oficio_solicitacao_descricao" style="margin-top: .25em">
-                  <p-editor id="solicitacao" [ngModel]="oficio.oficio_solicitacao_descricao" class="detalhe" [readonly]="true">
-                    <ng-template pTemplate="header"></ng-template>
-                  </p-editor>
+                  <quill-view-html id="solicitacao" #solicitacao [content]="oficio.oficio_solicitacao_descricao" class="detalhe"></quill-view-html>
                 </div>
               </th>
             </tr>
@@ -234,9 +232,7 @@
               <th colspan="2" class="tituloEditor">
                 Descreção da ação:
                 <div *ngIf="oficio.oficio_descricao_acao" style="margin-top: .25em">
-                  <p-editor id="descricao" [ngModel]="oficio.oficio_descricao_acao" class="detalhe" [readonly]="true">
-                    <ng-template pTemplate="header"></ng-template>
-                  </p-editor>
+                  <quill-view-html id="descricao" #descricao [content]="oficio.oficio_descricao_acao" class="detalhe"></quill-view-html>
                 </div>
               </th>
             </tr>
@@ -252,13 +248,13 @@
   <br>
 </p-scrollPanel>
 <div class="botoesdetalhe">
-  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  <button pButton type="button" icon="pi pi-times" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+  <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
           class="p-button-rounded p-button-secondary"
           (click)="getPdf(false)"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
+  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
           class="p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 </div>

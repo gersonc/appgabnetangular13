@@ -93,7 +93,7 @@
   </ng-template>
 
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-ofi let-indice="rowIndex" let-columns="columns">
+  <ng-template pTemplate="rowexpansion" let-ofi let-columns="columns">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -214,7 +214,7 @@
 </p-dialog>
 
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
-
+<p-toast key="oficioToast" position="center"></p-toast>
 
 <!--*** EDITOR *****************************************************************************************************-->
 <p-dialog
@@ -224,9 +224,8 @@
   [header]="campoTitulo"
   (onHide)="escondeTexto()"
 >
-  <p-editor #edtor [(ngModel)]="campoTexto" styleClass="tablistagem" [modules]="{toolbar: false}" [readonly]="true">
-    <ng-template pTemplate="header"></ng-template>
-  </p-editor>
+  <quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>
+
   <p-footer *ngIf="deltaquill">
     <button
       pButton
@@ -249,9 +248,8 @@
     (onHide)="escondeDetalhe()"
   >
     <app-oficio-detalhe [oficio]="ofiDetalhe" (hideDetalhe)="escondeDetalhe()"></app-oficio-detalhe>
-    <!--<app-solicitacao-detalhe [solDetalhe]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solicitacao-detalhe>-->
   </p-dialog>
 </ng-container>
 
-<p-toast key="oficioToast" position="center"></p-toast>
+
 

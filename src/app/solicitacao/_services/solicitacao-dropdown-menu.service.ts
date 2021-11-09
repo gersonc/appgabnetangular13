@@ -248,7 +248,6 @@ export class SolicitacaoDropdownMenuService {
         let ct = 0;
         this.sub.forEach(s => {
           ct++;
-          console.log('solicitacao dropdown destroy');
           s.unsubscribe()
           if (ct === 3) {
             this.resp.next(true);
@@ -257,12 +256,10 @@ export class SolicitacaoDropdownMenuService {
         });
       }
       if (this.inicio) {
-        console.log('solicitacao dropdown inicio');
         this.inicio = false;
         this.getDropdownMenu();
       }
     } else {
-      console.log('solicitacao dropdown fim');
       this.resp.next(false);
       this.resp.complete();
     }

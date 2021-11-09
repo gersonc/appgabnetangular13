@@ -1,33 +1,18 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
-import {
-  CsvService,
-  ExcelService,
-  MostraMenuService,
-  PrintJSService,
-  TabelaPdfService
-} from '../../_services';
-import {
-  OficioArray,
-  OficioBuscaCampoInterface,
-  OficioDetalheInterface,
-  OficioInterface,
-  OficioListagemInterface,
-  OficioPaginacaoInterface,
-  OficioTotalInterface
-} from '../_models';
+import { AuthenticationService, CarregadorService, MenuInternoService, CsvService, ExcelService, PrintJSService, TabelaPdfService } from '../../_services';
+import { OficioArray, OficioBuscaCampoInterface, OficioListagemInterface, OficioPaginacaoInterface, OficioTotalInterface } from '../_models';
 import { OficioBuscaService, OficioService } from '../_services';
 import {Config} from 'quill-to-word';
 import * as quillToWord from 'quill-to-word';
-import {saveAs} from 'file-saver';
-import {Editor} from 'primeng/editor';
+import { saveAs } from 'file-saver';
+import { Editor } from 'primeng/editor';
 
 @Component({
   selector: 'app-oficio-datatable',
@@ -55,7 +40,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   selectedColumnsOld: any[] = [];
   mostraSeletor = false;
   camposSelecionados: OficioBuscaCampoInterface[];
-  altura = `${WindowsService.altura - 180}` + 'px';
+  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   numColunas = 3;
   expColunas = 0;

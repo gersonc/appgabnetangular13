@@ -5,13 +5,7 @@ import { take } from 'rxjs/operators';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService, MenuInternoService, V} from '../../_services';
-import {
-  CsvService,
-  ExcelService,
-  PrintJSService,
-  TabelaPdfService
-} from '../../_services';
+import { CsvService, ExcelService, PrintJSService, TabelaPdfService, AuthenticationService, CarregadorService, MenuInternoService } from '../../_services';;
 import {
   SolicitacaoTotalInterface,
   SolicitacaoPaginacaoInterface,
@@ -19,13 +13,13 @@ import {
   SolicitacaoDetalheInterface,
   SolicitacaoInterfaceExcel,
   SolicitacaoListar12Interface,
-  SolicitacaoListar345Interface, SolicitacaoExcel12
+  SolicitacaoListar345Interface, SolicitacaoExcel12, SolicitacaoExcluirInterface
 } from '../_models';
 import { SolicitacaoService, SolicitacaoBuscarService } from '../_services';
-import {Editor} from 'primeng/editor';
-import { saveAs } from 'file-saver';
-import * as quillToWord from 'quill-to-word';
 import {Config} from 'quill-to-word';
+import * as quillToWord from 'quill-to-word';
+import { saveAs } from 'file-saver';
+import { Editor } from 'primeng/editor';
 
 @Component({
   selector: 'app-solicitacao-datatable',
@@ -440,6 +434,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoApagar(sol: SolicitacaoListar12Interface | SolicitacaoListar345Interface) {
+    let soldel: SolicitacaoExcluirInterface;
     if (this.aut.solicitacao_apagar) {
       this.cs.mostraCarregador();
       this.dtsol.saveState();
@@ -449,7 +444,20 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacao/apagar', sol.solicitacao_id]);
+      this.sub.push(this.solicitacaoService.getSolicitacaoExcluir(sol.solicitacao_id)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.solicitacaoService.solicitacaoExluirDados = dados;
+          },
+          error: (err) => {
+            console.error('erro', err.toString ());
+          },
+          complete: () => {
+            this.router.navigate(['/solicitacao/apagar']);
+          }
+        }));
+
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -688,7 +696,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       cadastro_telcom:                        'TELEFONE3',
       cadastro_fax: 							            'FAX',
     } ;*/
-    console.log('excell22', sl);
     return sl;
   }
 

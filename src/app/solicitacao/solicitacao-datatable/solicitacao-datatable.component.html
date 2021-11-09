@@ -224,7 +224,6 @@
   [header]="campoTitulo"
   (onHide)="escondeTexto()"
 >
-  <!--<quill-view [content]="campoTexto"></quill-view>-->
   <quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>
 
   <p-footer *ngIf="deltaquill">
