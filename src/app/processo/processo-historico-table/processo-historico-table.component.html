@@ -6,7 +6,9 @@
     </tr>
     <tr *ngFor="let his of historico">
       <td style="width: 100px">{{his.historico_data}}</td>
-      <td><span [innerHTML]="his.historico_andamento"></span></td>
+      <td>
+        <quill-view-html [content]="his.historico_andamento" class="detalhe"></quill-view-html>
+      </td>
     </tr>
   </table>
 </ng-container>
