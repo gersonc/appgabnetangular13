@@ -286,34 +286,12 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     if (!sessionStorage.getItem('oficio-dropdown')) {
       sessionStorage.setItem('oficio-dropdown', JSON.stringify(this.ddOficio));
     }
-    // this.getListagem();
     this.cs.escondeCarregador();
     this.resp.next(true);
   }
 
-  /*getListagem() {
-    if (sessionStorage.getItem('oficio-busca')) {
-      this.obs.buscaState = JSON.parse(sessionStorage.getItem('oficio-busca'));
-      this.sub.push(this.oficioService.postOficioBusca(this.obs.buscaState).pipe(take(1)).subscribe(
-        {
-          next: (dados: OficioPaginacaoInterface) => {
-            this.oficios = dados;
-          },
-          error: err => {
-            console.error(err);
-          },
-          complete: () => {
-            this.resp.next(this.oficios);
-          }
-        }
-      ));
-    } else {
-      this.resp.next(true);
-    }
-  }*/
 
   onDestroy(): void {
-    console.log('destroy');
     this.sub.forEach(s => s.unsubscribe());
   }
 
@@ -321,27 +299,6 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):
     Observable<OficioPaginacaoInterface> | Observable<boolean> | Observable<never> {
-
-    // this.cs.fechaMenu();
-    /*    this.cs.mostraCarregador();
-        this.populaDropdown();
-        return this.resp$.pipe(
-          take(1),
-          mergeMap(vf => {
-            if (this.oficios) {
-              this.onDestroy();
-              return of(vf);
-            } else {
-              this.onDestroy();
-              this.onDestroy();
-              this.router.navigate(['/oficio/listar2']);
-              return EMPTY;
-            }
-          })
-        );
-      }
-    }*/
-
 
     if (!sessionStorage.getItem('oficio-dropdown')) {
       this.dropdown = true;

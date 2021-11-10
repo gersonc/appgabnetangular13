@@ -14328,21 +14328,7 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   border: 0;
   background-color: #0aa9f2;
 }
-/*
-:root {
-  --menuinterno-width: 1100px;
-  --menuinterno-width-1200: 70vw;
-  --menuinterno-width-992: 80vw;
-  --menuinterno-width-768: 100vw;
-  --menuinterno-width-576: 100vw;
 
-  --menuinterno-pq-width: 550px;
-  --menuinterno-pq-width-1200: 40vw;
-  --menuinterno-pq-width-992: 50vw;
-  --menuinterno-pq-width-768: 60vw;
-  --menuinterno-pq-width-576: 100vw;
-}
-*/
 @media screen and (min-width: 1201px) {
   .p-sidebar-left.menuinterno  {
     width: var(--menuinterno-width) !important;

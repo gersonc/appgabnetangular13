@@ -41,6 +41,7 @@ import { ProcessoHistoricoTableComponent } from './processo-historico-table/proc
 import {RippleModule} from 'primeng/ripple';
 import {TooltipModule} from 'primeng/tooltip';
 import {EditorModule} from 'primeng/editor';
+import {QuillModule} from "ngx-quill";
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import {EditorModule} from 'primeng/editor';
         ProcessoRoutingModule,
         RippleModule,
         TooltipModule,
-        EditorModule
+        EditorModule,
+        QuillModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

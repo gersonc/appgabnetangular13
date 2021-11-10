@@ -289,7 +289,7 @@ export class SolicitacaoDetalheComponent implements OnInit {
       let oficio: any[] = [];
       this.oficio.forEach( p => {
         oficio.push([p.oficio_status, p.oficio_codigo, p.oficio_numero, p.oficio_data_emissao, p.oficio_orgao_solicitado_nome]);
-      })
+      });
 
       doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, linha);
       linha += 2;
@@ -353,6 +353,7 @@ export class SolicitacaoDetalheComponent implements OnInit {
           doc.addImage(dataUrl, 'PNG', 10, 16, this.larguras[a], this.alturas[a]);
           a++;
         });
+
       const tempo = (this.campos.length * 500) + 500;
       setTimeout(() => {
         if (imprimir === false) {

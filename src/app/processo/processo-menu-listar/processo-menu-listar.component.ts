@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormControlName, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 import { SelectItem } from 'primeng/api';
 import { DropdownnomeidClass } from '../../_models';
-import { MostraMenuService, DropdownService } from '../../_services';
+import {MostraMenuService, DropdownService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 
 import { ProcessoBuscaService } from '../_services';
@@ -21,9 +20,6 @@ export class ProcessoMenuListarComponent implements OnInit {
   public formMenuProcesso: FormGroup;
   public items: Array<any> = [];
   public ddNomeIdArray = new DropdownnomeidClass();
-  // public ddSoNomeArray = new DropdownsonomearrayClass();
-  // public ddSoDataArray = new DropdownsonomearrayClass();
-  // public ddNomeIdJoinArray = new DropdownNomeIdJoin();
   public ddCadastro_regiao_id: SelectItem[] = [];
   public ddProcesso_numero: SelectItem[] = [];
   public ddCadastro_municipio_id: SelectItem[] = [];
@@ -41,7 +37,7 @@ export class ProcessoMenuListarComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -69,7 +65,7 @@ export class ProcessoMenuListarComponent implements OnInit {
     this.carregaDropDown();
 
     if (!this.pbs.buscaStateSN) {
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
     }
   }
 
@@ -105,7 +101,7 @@ export class ProcessoMenuListarComponent implements OnInit {
       this.pbs.processoBusca[propName] = ofBusca[propName].toString();
     }
     this.pbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 

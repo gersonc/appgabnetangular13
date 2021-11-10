@@ -7,19 +7,23 @@ import {
   ProcessoOficioInterface,
   ProcessoSolicitacaoCadastroInterface, ProcessoSolicitacaoInterface
 } from '../_models';
-// import * as html2canvas from 'html2canvas';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../_services';
-import * as jsPDF from 'jspdf';
+
+import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
-import 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
 
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
 declare var html2canvas: any;
-
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;
 }
+
 @Component({
   selector: 'app-processo-detalhe',
   templateUrl: './processo-detalhe.component.html',
@@ -73,7 +77,6 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
     this.historicos_num = this.proDetalhe.historicos_num;
     this.historicos = this.proDetalhe.historicos;
     this.historico_titulo = this.proDetalhe.historico_titulo;
-    console.log('dados->', this.dados);
   }
 
   ngOnDestroy(): void {
@@ -84,18 +87,20 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
   getPdf (imprimir = false) {
     this.pdfVF = true;
 
-    // @ts-ignore
-    const doc = new jsPDF(
+    let linha = 0;
+    let doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
         putOnlyUsedFonts: true
       }
-    );
+    ) as jsPDFCustom;
+    let pageNumber = doc.getNumberOfPages();
+
     doc.setFontSize(15);
     doc.text('PROCESSO', 15, 15);
-    doc.setFontSize(8);
+    doc.setFontSize(10);
 
     const k: string[] = Object.keys(this.processo_titulo);
     const t: string[] = Object.values(this.processo_titulo);
@@ -125,7 +130,7 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
     }
     const head = [['Solicitação', '']];
 
-    doc.autoTable({
+    autoTable(doc,{
       head: head,
       body: processo,
       startY: 20,
@@ -143,10 +148,14 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
           bottom: 0.5,
           left: 2}
       },
-      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+      didDrawPage: (d) => {
+        linha = d.cursor.y;
+      },
     });
 
-    let pageNumber = doc.internal.getNumberOfPages();
+    doc.setPage(pageNumber);
+    doc.setFontSize(10);
 
 
     if (this.processo.solicitacao_descricao) {
@@ -161,6 +170,7 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
 
 
     if (this.cadastro) {
+      linha += 12;
       const k2: string[] = Object.keys(this.cadastro_titulo);
       const t2: string[] = Object.values(this.cadastro_titulo);
       const s2: string[] = Object.keys(this.cadastro);
@@ -183,10 +193,10 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
       }
       const head2 = [['Solicitante', '']];
 
-      doc.autoTable({
+      autoTable(doc,{
         head: head2,
         body: cadastro,
-        startY: doc.autoTable.previous.finalY + 8,
+        startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
@@ -201,7 +211,10 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          linha = d.cursor.y;
+        },
       });
 
       doc.setPage(pageNumber);
@@ -210,7 +223,8 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
 
 
     if (this.oficios) {
-      doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
+      linha += 12;
+      doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, linha);
 
       const ofiTitulo: string[] = [];
       const ofiNum = this.oficios.length;
@@ -238,11 +252,10 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
               titDoc = titDoc + ' - ' + ofic.oficio_orgao_solicitado_nome;
             }
           }*/
-          pageNumber = doc.internal.getNumberOfPages();
-          doc.setPage(pageNumber);
+          doc.setPage(pageNumber++);
 
           if (pageNumber > 2) {
-            valY = doc.autoTable.previous.finalY + 8;
+            valY = linha += 12;
           }
 
           let s4: string[] = Object.keys(ofic);
@@ -264,10 +277,10 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
           }
           const head4 = [['Oficio', '']];
 
-          doc.autoTable({
+          autoTable(doc,{
             head: head4,
             body: ofiVal,
-            // startY: valY,
+            startY: valY,
             pageBreak: 'avoid',
             styles: {cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8},
             headStyles: {
@@ -283,7 +296,10 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
                 left: 2
               }
             },
-            bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1}
+            bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1},
+            didDrawPage: (d) => {
+              linha = d.cursor.y;
+            }
           });
 
 
@@ -291,7 +307,7 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
             this.campos.push(idNome);
           }
 
-          doc.setPage(pageNumber);
+          doc.setPage(pageNumber++);
 
           s4 = null;
           v4 = null;
@@ -303,6 +319,7 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
     }
 
     if (this.historicos) {
+      linha += 12;
       const hcolums: ColumnsInterface[] = [];
       const t5: string[] = Object.keys(this.historico_titulo);
       const v5: string[] = Object.values(this.historico_titulo);
@@ -312,11 +329,16 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
           dataKey: t5[i]
         });
       }
+      let historicos: any[] = [];
+      this.historicos.forEach( h => {
+        historicos.push([h.historico_data, h.historico_andamento]);
+      })
+
       // doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable({
+      autoTable(doc,{
         columns: hcolums,
-        body: this.historicos,
-        startY: doc.autoTable.previous.finalY + 12,
+        body: historicos,
+        startY: linha,
         pageBreak: 'avoid',
         styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
@@ -331,7 +353,10 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
             bottom: 0.5,
             left: 2}
         },
-        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+        didDrawPage: (d) => {
+          linha = d.cursor.y;
+        },
       });
 
     }
@@ -379,19 +404,18 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
 
     });
 
-
-
-      const tempo = (this.campos.length * 500) + 500;
-      setTimeout(() => {
-        if (imprimir === false) {
-          doc.save(fileName);
-        } else {
-          doc.autoPrint();
-          // doc.output('dataurlnewwindow');
-          window.open(doc.output('bloburl'));
-        }
-      }, tempo);
-
+    const tempo = (this.campos.length * 500) + 500;
+    setTimeout(() => {
+      if (imprimir === false) {
+        doc.save(fileName);
+        doc = null;
+      } else {
+        const a: string = doc.output('bloburi').toString();
+        window.open(a);
+        doc.autoPrint();
+        doc = null;
+      }
+    }, tempo);
   }
 
   getCanvasData = element => {

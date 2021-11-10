@@ -89,13 +89,16 @@
 
       <td *ngFor="let col of columns" [style.width]="col.largura" [style.background-color]="pro[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
         <ng-container *ngIf="col.field=='solicitacao_descricao'">
-          <span [innerHTML]="pro['solicitacao_descricao']"></span>
+          <quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>
+          <!--<span [innerHTML]="pro['solicitacao_descricao']"></span>-->
         </ng-container>
         <ng-container *ngIf="col.field=='solicitacao_aceita_recusada'">
-          <span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>
+          <quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>
+          <!--<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>-->
         </ng-container>
         <ng-container *ngIf="col.field=='oficio_descricao_acao'">
-          <span [innerHTML]="pro['oficio_descricao_acao']"></span>
+          <quill-view-html [content]="pro['oficio_descricao_acao']"></quill-view-html>
+          <!--<span [innerHTML]="pro['oficio_descricao_acao']"></span>-->
         </ng-container>
         <ng-container *ngIf="col.field=='oficio'">
           <app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>
@@ -225,9 +228,9 @@
   [modal]="true"
   (onHide)="escondeTexto()"
 >
-  <p-editor #edtor [(ngModel)]="campoTexto" styleClass="tablistagem" [modules]="{toolbar: false}" [readonly]="true">
-    <ng-template pTemplate="header"></ng-template>
-  </p-editor>
+  <div *ngIf="campoTexto" style="margin-top: .25em">
+    <quill-view-html id="edtor" #edtor [content]="campoTexto" class="detalhe"></quill-view-html>
+  </div>
   <p-footer *ngIf="deltaquill">
     <button
       pButton

@@ -209,13 +209,11 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   }
 
   onRowExpand(event): void {
-    console.log('exp', event);
     this.oficioService.expandidoDados = event.data;
     this.sub.push(this.dadosExpandidos = this.oficioService.getColunaExtendida()
       .pipe(take(1))
       .subscribe(
         dados => {
-          console.log(dados);
           this.expColunas = dados.pop();
           this.dadosExp = dados;
         }
@@ -308,9 +306,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   getState(): void {
     this.obs.criarOficioBusca();
     this.obs.oficioBusca = JSON.parse(sessionStorage.getItem('oficio-busca'));
-    console.log('ggg0');
     if (this.obs.buscaStateSN) {
-      console.log('ggg1');
       this.sub.push(this.activatedRoute.data.subscribe(
         (data: { dados: OficioPaginacaoInterface }) => {
           this.oficio = data.dados.oficio;
@@ -598,7 +594,6 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     } else {
       this.campoTexto = texto[1];
     }
-    console.log('deltaquill', this.deltaquill);
   }
 
   escondeTexto() {

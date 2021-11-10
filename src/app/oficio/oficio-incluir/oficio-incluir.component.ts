@@ -139,7 +139,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.url === 'processo') {
       this.location.go('../solicitacao/listar/busca');
     }
-    this.configuraCalendario();
+    // this.configuraCalendario();
     this.criaForm();
     if (this.solicitacao) {
       this.formOfIncluir.get('oficio_processo_id').patchValue(this.processo_id);
@@ -150,8 +150,10 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.cs.escondeCarregador();
-    this.mi.hideMenu();
+    setTimeout(() => {
+      this.cs.escondeCarregador();
+      this.mi.hideMenu();
+    }, 500);
   }
 
   carregaDropdownSessionStorage() {
@@ -202,7 +204,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   mudaProcesso(event) {
-    // console.log(event);
     this.oficio_codigo = 'AGUARDE...';
     this.oficod = true;
     this.processo_id = event.value.processo_id;
@@ -321,8 +322,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     if (!sessionStorage.getItem('oficio-busca')) {
       this.mi.mostraInternoMenu();
     }
-    // this.router.navigate(['/oficio/listar/busca']);
-    this.router.navigate(['/oficio/listar2']);
+    this.router.navigate(['/oficio/listar/busca']);
   }
 
   verificaValidTouched(campo: string) {

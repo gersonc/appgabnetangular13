@@ -239,11 +239,9 @@
               Descrição da solicitação:
             </th>
           </tr>
-          <tr *ngIf="processo.solicitacao_descricao" id="solicitacao_descricao">
+          <tr *ngIf="processo.solicitacao_descricao">
             <td colspan="2">
-              <p-editor #oficio [ngModel]="processo.solicitacao_descricao" class="detalhe" [readonly]="true">
-                <ng-template pTemplate="header"></ng-template>
-              </p-editor>
+              <quill-view-html id="solicitacao_descricao" #solicitacao_descricao [content]="processo.solicitacao_descricao" class="detalhe"></quill-view-html>
             </td>
           </tr>
 
@@ -252,11 +250,9 @@
               Observações:
             </th>
           </tr>
-          <tr *ngIf="processo.solicitacao_aceita_recusada" id="solicitacao_aceita_recusada">
+          <tr *ngIf="processo.solicitacao_aceita_recusada">
             <td colspan="2">
-              <p-editor [ngModel]="processo.solicitacao_aceita_recusada" class="detalhe" [readonly]="true">
-                <ng-template pTemplate="header"></ng-template>
-              </p-editor>
+              <quill-view-html id="solicitacao_aceita_recusada" #solicitacao_aceita_recusada [content]="processo.solicitacao_aceita_recusada" class="detalhe"></quill-view-html>
             </td>
           </tr>
 
@@ -265,11 +261,9 @@
               Carta:
             </th>
           </tr>
-          <tr *ngIf="processo.processo_carta" id="processo_carta">
+          <tr *ngIf="processo.processo_carta">
             <td colspan="2">
-              <p-editor [ngModel]="processo.processo_carta" class="detalhe" [readonly]="true">
-                <ng-template pTemplate="header"></ng-template>
-              </p-editor>
+              <quill-view-html id="processo_carta" #processo_carta [content]="processo.processo_carta" class="detalhe"></quill-view-html>
             </td>
           </tr>
 
@@ -428,11 +422,9 @@
                 Descrição da ação:
               </th>
             </tr>
-            <tr *ngIf="ofi.oficio_descricao_acao" id="acao_{{ofi.oficio_id}}">
+            <tr *ngIf="ofi.oficio_descricao_acao" >
               <td colspan="2">
-                <p-editor #oficio [ngModel]="ofi.oficio_descricao_acao" class="detalhe" [readonly]="true">
-                  <ng-template pTemplate="header"></ng-template>
-                </p-editor>
+                <quill-view-html id="acao_{{ofi.oficio_id}}" #acao_{{ofi.oficio_id}} [content]="ofi.oficio_descricao_acao" class="detalhe"></quill-view-html>
               </td>
             </tr>
           </table>

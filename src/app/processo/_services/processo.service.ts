@@ -290,7 +290,6 @@ export class ProcessoService {
           const n = this.campos.indexOf(v);
           const m = this.camposTexto.indexOf(v);
           if (n >= 0) {
-            console.log('n-->', n);
             const cc: any[] = [];
             const tit = this.titulos[n].toString();
             let vf = false;
@@ -346,7 +345,6 @@ export class ProcessoService {
         }
       }
     }
-    console.log('b---->', b);
     this.expandido.next(b);
   }
 

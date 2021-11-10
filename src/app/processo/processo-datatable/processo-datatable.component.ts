@@ -6,7 +6,7 @@ import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -82,7 +82,7 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
   proDetalhe: ProcessoDetalheInterface = null;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
@@ -174,7 +174,7 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
     this.mapeiaColunasSelecionadas();
 
     this.contextoMenu = [
-      {label: 'DETALHES', icon: 'fas fa-lg fa-glasses', style: {'font-size': '1em'},
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {this.processoDetalheCompleto(this.prContexto); }}];
 
     if (this.authenticationService.usuario_responsavel_sn
@@ -182,44 +182,45 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
         || this.authenticationService.processo_deferir)) {
       this.authAnalisar = true;
       this.contextoMenu.push(
-        {label: 'ANALISAR', icon: 'far fa-lg fa-eye', style: {'font-size': '1em'},
+        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
           command: () => { this.processoAnalisar(this.prContexto); }});
     }
 
     if (this.authenticationService.processo_apagar) {
       this.authApagar = true;
       this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'far fa-lg fa-trash-alt', style: {'font-size': '1em'},
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => { this.processoApagar(this.prContexto); }});
     }
 
     this.contextoMenu2 = [
-      {label: 'DETALHES', icon: 'fas fa-lg fa-glasses', style: {'font-size': '1em'},
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {this.processoDetalheCompleto(this.prContexto); }}];
 
     if (this.authenticationService.processo_apagar) {
       this.authApagar = true;
       this.contextoMenu2.push(
-        {label: 'APAGAR', icon: 'far fa-lg fa-trash-alt', style: {'font-size': '1em'},
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => { this.processoApagar(this.prContexto); }});
     }
 
     this.contextoMenu3 = this.contextoMenu;
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'fas fa-lg fa-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'far fa-lg fa-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'fas fa-lg fa-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'fas fa-lg fa-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'fas fa-lg fa-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'far fa-lg fa-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
     if (this.pbs.buscaStateSN) {
       this.getState();
     } else {
+      this.cs.escondeCarregador();
       this.pbs.processoBusca.todos = false;
     }
 
@@ -306,7 +307,7 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {

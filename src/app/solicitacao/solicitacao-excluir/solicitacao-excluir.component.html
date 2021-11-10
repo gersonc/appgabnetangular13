@@ -8,6 +8,7 @@
       </div>
       <div class="p-grid">
         <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+
           <div class="p-fluid p-formgrid p-grid formulario">
             <div class="p-field p-col-12">
               <table class="table-hover tabela">
@@ -176,10 +177,10 @@
               </table>
             </div>
           </div>
-          <div class="p-fluid p-formgrid p-grid formulario">
-            <div class="p-field p-col-12">
 
-              <table *ngIf="cadastro" class="table-hover tabela">
+          <div *ngIf="cadastro" class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+              <table class="table-hover tabela">
                 <caption>SOLICITANTE</caption>
                 <tr>
                   <th>
@@ -490,7 +491,7 @@
                       type="button"
                       [disabled]="botaoEnviarVF || arquivoBlockSubmit"
                       label="APAGAR"
-                      class="p-button-rounded p-button-warning"
+                      class="p-button-rounded p-button-danger"
                       (click)="excluirSolicitacao()">
                     </button>
                   </div>

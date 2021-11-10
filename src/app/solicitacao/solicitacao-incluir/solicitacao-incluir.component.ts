@@ -133,7 +133,7 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
   ngAfterViewInit() {
     setTimeout(() => {
       this.cs.escondeCarregador();
-      this.mi.hideMenu()
+      this.mi.hideMenu();
     }, 500);
   }
 
