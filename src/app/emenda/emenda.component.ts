@@ -1,39 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { MostraMenuService } from '../_services';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MenuInternoService } from '../_services';
 import { ArquivoService } from '../arquivo/_services';
 import { EmendaBuscaService } from './_services';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-emenda',
   templateUrl: './emenda.component.html',
   styleUrls: ['./emenda.component.css']
 })
-export class EmendaComponent implements OnInit {
-  public altura = (window.innerHeight - 170) + 'px';
+export class EmendaComponent implements OnInit, OnDestroy {
+  public altura = (window.innerHeight) + 'px';
+  sub: Subscription[] = [];
+  public mostraMenuInterno = false;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private as: ArquivoService,
     public ebs: EmendaBuscaService
   ) { }
 
   ngOnInit(): void {
+    this.sub.push(this.mi.mostraInternoMenu().subscribe(
+      vf => {
+        this.mostraMenuInterno = vf;
+      })
+    );
     this.as.getPermissoes();
     this.ebs.criarEmendaBusca();
     if (!sessionStorage.getItem('emenda-busca')) {
       this.ebs.buscaStateSN = false;
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     } else {
       if (this.ebs.buscaStateSN) {
-        this.mm.mudaMenu(false);
+        this.mi.mudaMenuInterno(false);
       } else {
-        this.mm.mudaMenu(true);
+        this.mi.mudaMenuInterno(true);
       }
     }
   }
 
   onHide() {
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 
 }

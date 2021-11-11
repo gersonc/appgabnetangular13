@@ -47,6 +47,7 @@ import { EmendaAlterarComponent } from './emenda-alterar/emenda-alterar.componen
 import { EmendaAtualizarComponent } from './emenda-atualizar/emenda-atualizar.component';
 import { EmendaExcluirComponent } from './emenda-excluir/emenda-excluir.component';
 import {InputSwitchModule} from "primeng/inputswitch";
+import {RippleModule} from "primeng/ripple";
 
 
 @NgModule({
@@ -99,7 +100,8 @@ import {InputSwitchModule} from "primeng/inputswitch";
         ExportAsModule,
         InputNumberModule,
         ConfigauxModule,
-        InputSwitchModule
+        InputSwitchModule,
+        RippleModule
     ],
   exports: [
     EmendaComponent

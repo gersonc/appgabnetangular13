@@ -35,24 +35,28 @@
          stateStorage="session"
          stateKey="emenda-listagem"
          selectionMode="multiple"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         [loadingIcon]="'pi pi-spin pi-spinner'"
 >
 
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <div style="overflow: auto;text-align: center;">EMENDA
-      <div style="overflow:auto;text-align:right;float:left;">
-        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
-        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
-        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
-        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
-        <span class="linkTopo" (click)="emendaIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <div class="p-d-inline-flex">
+        <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
+        <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
+        <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
+        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="emendaIncluir()"></button></div>
       </div>
-      <div style="float:right;">
-        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
-          - Num. Registros: {{totalRecords}}</span>
+
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mx-2">SOLICITAÇÃO</div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
       </div>
     </div>
+    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -64,13 +68,12 @@
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 50px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.largura"
           pReorderableColumn
           pResizableColumn
-          style="padding-bottom: .3em; padding-top: .3em;"
       >
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -80,22 +83,16 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-eme let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="eme" [pContextMenuRow]="eme">
+    <tr [pSelectableRow]="eme" [pContextMenuRow]="eme" [pSelectableRowIndex]="rowIndex">
       <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <a *ngIf="!expanded" [pRowToggler]="eme" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
-        <a *ngIf="expanded" [pRowToggler]="eme" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
-          style="padding-bottom: 0; padding-top: .3em;">
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura" >
         <ng-container *ngIf="col.field == 'emenda_justificativa'">
-          <div class="texto1">
-            <span [innerHTML]="eme[col.field]"></span>
-          </div>
+          <quill-view-html [content]="eme[col.field]"></quill-view-html>
         </ng-container>
         <ng-container *ngIf="col.field != 'emenda_justificativa'">
-          <div class="texto1">
             {{eme[col.field]}}
-          </div>
         </ng-container>
       </td>
     </tr>
@@ -103,39 +100,46 @@
 
   <!--*** EXPANDIDO ************************************************************************************************-->
   <ng-template pTemplate="rowexpansion" let-eme let-indice="rowIndex" let-columns="columns">
-    <tr style="background-color: var(--secundario)">
-      <td [attr.colspan]="columns.length + 1">
-        <div class="rowSpanCorpo">
-          <div class="rowSpanTabelas">
-            <div class="rowSpanBotoes">
-              <div class="botaoexp">
+    <tr class="expandido">
+      <td [attr.colspan]="columns.length + 1" class="expandido">
+        <div class="rowexpansion-corpo">
+          <div class="p-fluid">
+            <div class="p-d-flex p-jc-start p-pb-2">
+              <div class="p-mr-2">
                 <p-button
                   (click)="emendaDetalheCompleto(eme)"
+                  pButton
+                  pRipple
                   type="button"
-                  icon="fas fa-lg fa-glasses"
-                  styleClass="p-button-raised p-button-info"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
                   pTooltip="Detalhes"
                   tooltipPosition="top"
                 >
                 </p-button>
               </div>
-              <div *ngIf="authenticationService.emenda_alterar" class="botaoexp">
-                <p-button
-                  (click)="emendaAlterar(eme)"
+              <div *ngIf="authenticationService.emenda_alterar" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
                   type="button"
-                  icon="fas fa-lg fa-pen-fancy"
-                  styleClass="p-button-raised p-button-warning"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
+                  (click)="emendaAlterar(eme)"
                 >
-                </p-button>
+                </button>
               </div>
+
               <div *ngIf="authenticationService.emenda_alterar" class="botaoexp">
                 <p-button
                   (click)="emendaAtualizar(eme)"
+                  pButton
+                  pRipple
                   type="button"
                   icon="pi pi-pencil"
-                  styleClass="p-button-raised p-button-warning"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Atualizar"
                   tooltipPosition="top"
                 >
@@ -144,9 +148,11 @@
               <div *ngIf="authenticationService.emenda_apagar" class="botaoexp">
                 <p-button
                   (click)="emendaApagar(eme)"
+                  pButton
+                  pRipple
                   type="button"
-                  icon="far fa-lg fa-trash-alt"
-                  styleClass="p-button-raised p-button-danger"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
                 >

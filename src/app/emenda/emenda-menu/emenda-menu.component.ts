@@ -4,9 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
 import { DropdownnomeidClass } from '../../_models';
-import { MostraMenuService, DropdownService } from '../../_services';
+import {MostraMenuService, DropdownService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
-
 import { EmendaBuscaInterface, EmendaDropdownMenu } from '../_models';
 import { EmendaBuscaService} from '../_services';
 
@@ -26,7 +25,7 @@ export class EmendaMenuComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -74,7 +73,7 @@ export class EmendaMenuComponent implements OnInit {
       if (sessionStorage.getItem('emenda-listagem')) {
         sessionStorage.removeItem('emenda-listagem');
       }
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
     }
   }
 
@@ -97,13 +96,13 @@ export class EmendaMenuComponent implements OnInit {
       this.ebs.emendaBusca[propName] = emBusca[propName].toString();
     }
     this.ebs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.emenda_incluir) {
-      this.mm.mudaMenu(false);
+      this.mi.hideMenu();
       this.cs.mostraCarregador();
       this.router.navigate(['/emenda/incluir']);
     } else {
