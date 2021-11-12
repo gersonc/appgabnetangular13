@@ -43,14 +43,26 @@
   <ng-template pTemplate="caption">
     <div class="p-d-flex p-jc-between p-ai-center">
       <div class="p-d-inline-flex">
-        <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
-        <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
-        <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
-        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="emendaIncluir()"></button></div>
+        <div class="p-mx-2">
+          <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                  (click)="mostraMenu()"></button>
+        </div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                  (click)="mostraSelectColunas()"></button>
+        </div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
+                  (click)="men.toggle($event)"></button>
+        </div>
+        <div class="p-mr-0">
+          <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                  (click)="emendaIncluir()"></button>
+        </div>
       </div>
 
       <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-2">SOLICITAÇÃO</div>
+        <div class="p-mx-2">EMENDAS</div>
       </div>
       <div class="p-d-inline-flex p-ai-center">
         <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
@@ -85,14 +97,16 @@
   <ng-template pTemplate="body" let-eme let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="eme" [pContextMenuRow]="eme" [pSelectableRowIndex]="rowIndex">
       <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+                [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura" >
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura">
         <ng-container *ngIf="col.field == 'emenda_justificativa'">
           <quill-view-html [content]="eme[col.field]"></quill-view-html>
         </ng-container>
         <ng-container *ngIf="col.field != 'emenda_justificativa'">
-            {{eme[col.field]}}
+          {{eme[col.field]}}
         </ng-container>
       </td>
     </tr>
@@ -106,7 +120,7 @@
           <div class="p-fluid">
             <div class="p-d-flex p-jc-start p-pb-2">
               <div class="p-mr-2">
-                <p-button
+                <button
                   (click)="emendaDetalheCompleto(eme)"
                   pButton
                   pRipple
@@ -116,7 +130,7 @@
                   pTooltip="Detalhes"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
               <div *ngIf="authenticationService.emenda_alterar" class="p-mr-2">
                 <button
@@ -131,22 +145,21 @@
                 >
                 </button>
               </div>
-
-              <div *ngIf="authenticationService.emenda_alterar" class="botaoexp">
-                <p-button
+              <div *ngIf="authenticationService.emenda_alterar" class="p-mr-2">
+                <button
                   (click)="emendaAtualizar(eme)"
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-pencil"
-                  class="p-button-rounded p-button-warning"
+                  class="p-button-rounded p-button-secondary"
                   pTooltip="Atualizar"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
-              <div *ngIf="authenticationService.emenda_apagar" class="botaoexp">
-                <p-button
+              <div *ngIf="authenticationService.emenda_apagar" class="p-mr-2">
+                <button
                   (click)="emendaApagar(eme)"
                   pButton
                   pRipple
@@ -156,37 +169,27 @@
                   pTooltip="Apagar"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
             </div>
-            <div *ngFor="let colunas of dadosExp;" class="tabela1" [style.width]="expColunas">
-              <div *ngFor="let linhas of colunas;" class="campo">
-                <div class="titulo1">
-                  {{linhas[0]}}
-                </div>
-                <ng-container *ngIf="linhas[0] != 'JUSTIFICATIVA'">
-                  <div class="texto1">
-                    {{linhas[1]}}
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-            <div *ngIf="justificativa" class="tabela1" [style.width]="'100%'">
-              <div class="campo">
-                <div class="titulo1">
-                  Justificativa
-                </div>
-                <div class="texto1">
-                  <span [innerHTML]="justificativa"></span>
+
+            <div class="p-grid">
+              <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div *ngIf="!linhas[2]" class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  <span *ngIf="linhas[0] != 'JUSTIFICATIVA'">{{linhas[1]}}</span>
                 </div>
               </div>
-            </div>
-            <div *ngIf="historico_emenda" class="tabela1" [style.width]="'100%'">
-              <div class="campo">
-                <div class="titulo1">
-                  Histórico
+              <div *ngIf="justificativa" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>Justificativa</h5>
+                  <span *ngIf="justificativa.length > 30" class="mostratexto" (click)="mostraTexto(justificativa)">{{justificativa.substr(0,26)}}...</span>
+                  <span *ngIf="justificativa.length <= 30" class="mostratexto">{{justificativa}}</span>
                 </div>
-                <div class="texto1">
+              </div>
+              <div *ngIf="historico_emenda" class="p-col-12">
+                <div class="registros p-shadow-1">
+                  <h5>Histórico</h5>
                   <table class="tabelasimples">
                     <tr>
                       <th style="width: 90px">DATA</th>
@@ -203,8 +206,6 @@
               </div>
             </div>
 
-
-
           </div>
         </div>
       </td>
@@ -214,9 +215,11 @@
   <!--*** TABELA VAZIA *********************************************************************************************-->
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
-      <td [attr.colspan]="columns.length+1" align="center">
-        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
-          NENHUM REGISTRO
+      <td [attr.colspan]="columns.length+1" id="tabela-vazia">
+        <div class="tabela-vazia-a">
+          <div class="tabela-vazia-b">
+            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+          </div>
         </div>
       </td>
     </tr>
@@ -249,4 +252,15 @@
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
 <p-toast key="emendaToast" position="center"></p-toast>
+
+<!--*** EDITOR *****************************************************************************************************-->
+<p-dialog
+  [(visible)]="showCampoTexto"
+  [dismissableMask]="true"
+  styleClass="tablistagem"
+  [header]="'JUSTIFICATIVA'"
+  (onHide)="escondeTexto()"
+>
+  <quill-view-html #edtor [content]="justificativa" class="tablistagem"></quill-view-html>
+</p-dialog>
 

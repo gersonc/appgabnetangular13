@@ -27,6 +27,10 @@ import { EmendaBuscaService, EmendaService } from '../_services';
 import { EmendaDetalheComponent } from '../emenda-detalhe/emenda-detalhe.component';
 import {EmendaAtualizarComponent} from "../emenda-atualizar/emenda-atualizar.component";
 import {TarefaListarInterface} from "../../tarefa/_models";
+import {Editor} from "primeng/editor";
+import {Config} from "quill-to-word";
+import * as quillToWord from "quill-to-word";
+import {saveAs} from "file-saver";
 
 
 @Component({
@@ -37,6 +41,7 @@ import {TarefaListarInterface} from "../../tarefa/_models";
   providers: [ DialogService ]
 })
 export class EmendaDatatableComponent implements OnInit, OnDestroy {
+  @ViewChild('edtor', { static: true }) public edtor: Editor;
   @ViewChild('dtem', { static: true }) public dtem: any;
   loading = false;
   cols: any[];
@@ -72,6 +77,10 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
   historico_emenda: HistoricoEmendaInterface[] = null;
   // buscaStateSN: boolean;
   // public mostraMenu$: boolean;
+  campoTexto: string = null;
+  campoTitulo: string = null;
+  showCampoTexto = false;
+  deltaquill: any = null;
 
   constructor(
     public mi: MenuInternoService,
@@ -229,10 +238,6 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
         dados => {
           this.expColunas = dados.pop();
           this.dadosExp = dados;
-          console.log('event', event);
-          console.log('this.expColunas', this.expColunas);
-          console.log('this.dadosExp', this.dadosExp);
-          console.log('this.emendaService.expandidoDados', this.emendaService.expandidoDados);
         }
       ));
     if (event.data.historico_emenda) {
@@ -620,6 +625,47 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
       );
       this.emendaService.montaColunaExpandida(v);
     }
+  }
+
+  mostraTexto(texto: string) {
+    this.showCampoTexto = true;
+  }
+
+  escondeTexto() {
+    this.showCampoTexto = false;
+  }
+
+  async exportWord() {
+
+    const config: Config = {
+      paragraphStyles: {
+        header_1: {
+          paragraph: {
+            spacing: {
+              before: 3000,
+              after: 1500
+            }
+          },
+          run: {
+            size: 12,
+            bold: false,
+            color: 'ffffff'
+          }
+        }
+      },
+      exportAs: 'blob'
+    };
+
+    // this.quillInstance = ev.getQuill();
+    // Here is your export function
+    // Typically this would be triggered by a click on an export button
+
+    // const delta = this.quillInstance.getContents();
+
+    const blob: any = await quillToWord.generateWord(this.deltaquill, config);
+    // const blob: any = await quillToWord.generateWord(delta, this.quillToWordConfig);
+    const fileName = 'solicitação_' + this.campoTitulo.toLowerCase() + '.docx';
+    saveAs(blob, fileName);
   }
 
   ngOnDestroy(): void {

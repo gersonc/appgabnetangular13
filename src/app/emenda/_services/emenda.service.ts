@@ -187,7 +187,7 @@ export class EmendaService {
         }
       }
     }
-    const tamanho = b.length;
+    /*const tamanho = b.length;
     let linhas: number = tamanho;
     let colunas = 1;
     if (tamanho > 10) {
@@ -220,7 +220,8 @@ export class EmendaService {
     }
     const largura = (100 / colunas).toFixed(2) + '%';
     idxC.push(largura.toString());
-    this.expandido.next(idxC);
+    this.expandido.next(idxC);*/
+    this.expandido.next(b);
   }
 
 

@@ -1,12 +1,14 @@
 <ng-container *ngIf="aut.configuracao_incluir">
-  <p-button
-    [style]="{'float':'right', 'vertical-align':'bottom'}"
-    styleClass="configaux"
+  <div class="p-fluid p-inputgroup" style="font-size: 1rem;height: 2rem;">
+  <button
+    class="confaux p-button-secondary p-button-icon-only"
+    pButton
     type="button"
-    icon="fa fa-plus"
+    icon="pi pi-plus"
     (click)="mostraForm()"
     [disabled]="_desabilitado"
-  ></p-button>
+  ></button>
+  </div>
 </ng-container>
   <p-dialog
     [header]="_titulo"

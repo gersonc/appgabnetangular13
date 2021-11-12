@@ -8714,13 +8714,13 @@ p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
   color: var(--primary-color);
 }
 .p-inputgroup-addon {
-  background: var(--surface-c);
+  background: var(--input-filled);
   color: var(--text-color-secondary);
   border-top: 1px solid var(--surface-c-border);
   border-left: 1px solid var(--surface-c-border);
   border-bottom: 1px solid var(--surface-c-border);
-  padding: 0.5rem 0.5rem;
-  min-width: 2.357rem;
+  padding: 0 0.5rem;
+  /*min-width: 2.357rem;*/
 }
 .p-inputgroup-addon:last-child {
   border-right: 1px solid var(--surface-c-border);
@@ -15096,4 +15096,16 @@ h5 {
   font-size: 1.5em !important;
   color: var(--text-color);
   margin: 0;
+}
+
+.confaux{
+  background: var(--input-filled);
+  border: 1px solid var(--border-elementos-input-forms);
+  color: var(--filled-icons-color);
+}
+
+.confaux:hover{
+  background: var(--bt-secundario-bg-hover);
+  border: 1px solid var(--bt-secundario-border-hover);
+  color: var(--bt-secundario-color-hover);
 }
