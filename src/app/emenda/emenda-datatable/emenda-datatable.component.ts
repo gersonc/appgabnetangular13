@@ -143,20 +143,20 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
     this.mapeiaColunasSelecionadas();
 
     this.contextoMenu = [
-      {label: 'DETALHES', icon: 'fas fa-lg fa-glasses', style: {'font-size': '1em'},
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {this.emendaDetalheCompleto(this.emContexto); }}];
 
     if (this.authenticationService.emenda_incluir) {
       this.authIncluir = true;
       this.contextoMenu.push(
-        {label: 'INCLUIR', icon: 'far fa-lg fa-address-card', style: {'font-size': '1em'},
+        {label: 'INCLUIR', icon: 'pi pi-plus', style: {'font-size': '1em'},
           command: () => { this.emendaIncluir(); }});
     }
 
     if (this.authenticationService.emenda_alterar) {
       this.authAlterar = true;
       this.contextoMenu.push(
-        {label: 'ALTERAR', icon: 'fas fa-lg fa-pen-fancy', style: {'font-size': '1em'},
+        {label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => { this.emendaAlterar(this.emContexto); }});
     }
 
@@ -170,19 +170,19 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
     if (this.authenticationService.emenda_apagar) {
       this.authApagar = true;
       this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'far fa-lg fa-trash-alt', style: {'font-size': '1em'},
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => { this.emendaApagar(this.emContexto); }});
     }
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'fas fa-lg fa-file-csv', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'fas fa-lg fa-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'far fa-lg fa-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'fas fa-lg fa-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'fas fa-lg fa-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'fas fa-lg fa-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'far fa-lg fa-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
     this.constroiExtendida();

@@ -1,5 +1,4 @@
-
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheEmenda">
+<p-scrollPanel class="detalhe" id="detalheEmenda">
   <table class="detalhefull">
     <tr>
       <td>
@@ -17,23 +16,20 @@
           </ng-container>
 
           <tr *ngIf="dados.emenda.emenda_justificativa" class="novaPagina">
-            <td colspan="2" class="tituloEditor">
-              {{emenda_titulo['emenda_justificativa']}}
-            </td>
-          </tr>
-          <tr *ngIf="dados.emenda.emenda_justificativa">
-            <td colspan="2" class="edi" #justificativa id="justificativa" >
-              <div style="padding: 5px">
-                <span [innerHTML]="dados.emenda.emenda_justificativa"></span>
+            <th colspan="2" class="tituloEditor">
+              {{emenda_titulo['emenda_justificativa']}}:
+              <div *ngIf="dados.emenda.emenda_justificativa" style="margin-top: .25em">
+                <quill-view-html id="justificativa" #justificativa [content]="dados.emenda.emenda_justificativa" class="detalhe"></quill-view-html>
               </div>
-            </td>
+            </th>
           </tr>
-          <app-arquivo
-            [modulo]="'emenda'"
-            [modelo]="'detalhe'"
-            [registro_id]="dados.emenda.emenda_id"
-          ></app-arquivo>
+
         </table>
+        <app-arquivo
+          [modulo]="'emenda'"
+          [modelo]="'detalhe'"
+          [registro_id]="dados.emenda.emenda_id"
+        ></app-arquivo>
       </td>
     </tr>
     <tr>
@@ -41,7 +37,7 @@
     </tr>
     <tr *ngIf="dados.emenda.historico_emenda">
       <td>
-        <table class="table-hover tabelasimples" #tabhistorico id="tabhistorico">
+        <table class="table-hover tabelasimples" #tabhistorico id="tabhistorico" style="width: 100%">
           <caption>HISTÓRICO</caption>
           <tr>
             <th>
@@ -78,13 +74,13 @@
   <br>
 </p-scrollPanel>
 <div class="botoesdetalhe">
-  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  <button pButton type="button" icon="pi pi-times" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+  <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
           class="p-button-rounded p-button-secondary"
           (click)="getPdf(false)"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
+  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
           class="p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 </div>

@@ -101,7 +101,7 @@
                 [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura">
+      <td *ngFor="let col of columns" [style.width]="col.largura">
         <ng-container *ngIf="col.field == 'emenda_justificativa'">
           <quill-view-html [content]="eme[col.field]"></quill-view-html>
         </ng-container>
