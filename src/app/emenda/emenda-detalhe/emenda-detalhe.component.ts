@@ -4,10 +4,16 @@ import { MessageService } from 'primeng/api';
 import { EmendaDetalheInterface, EmendaListarInterface, HistoricoEmendaInterface } from '../_models';
 import { EmendaService } from "../_services";
 import { Subscription } from 'rxjs';
-import html2canvas from 'html2canvas';
 
-declare var jsPDF: any;
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
 
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
+declare var html2canvas: any;
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;
@@ -101,21 +107,25 @@ export class EmendaDetalheComponent implements OnInit, OnDestroy {
 
 
   getPdf (imprimir = false) {
-    const doc = new jsPDF(
+
+    let linha = 0;
+    let doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
         putOnlyUsedFonts: true
       }
-    );
+    ) as jsPDFCustom;
+    const pageNumber = doc.getNumberOfPages ();
+
     doc.setFontSize(15);
     doc.text('EMENDA', 15, 15);
-    doc.setFontSize(8);
+    doc.setFontSize(10);
 
     const head = [['Emenda', '']];
 
-    doc.autoTable({
+    autoTable(doc,{
       head: head,
       body: this.emenda2,
       startY: 20,
@@ -133,20 +143,30 @@ export class EmendaDetalheComponent implements OnInit, OnDestroy {
           bottom: 0.5,
           left: 2}
       },
-      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
+      didDrawPage: (d) => {
+        linha = d.cursor.y;
+      },
     });
 
-    const pageNumber = doc.internal.getNumberOfPages();
+    doc.setPage(pageNumber);
+    doc.setFontSize(10);
 
     if (this.historico_emenda) {
-      const y1 = +doc.autoTable.previous.finalY + 9;
+      linha += 12;
+      const y1 = linha;
       const y2 = y1 + 5;
+
+      let historicoemenda: any[] = [];
+      this.historico_emenda.forEach( e => {
+        historicoemenda.push([e.his_data, e.his_usuario, e.his_texto]);
+      })
 
       doc.setFontSize(15);
       doc.text('HISTÓRICO', 15, y1);
       doc.setFontSize(8);
       doc.autoTable({
-        body: this.historico_emenda,
+        body: historicoemenda,
         columns: [
           {header: this.titulos['historico_emenda_titulo_min'].his_data, dataKey: 'his_data'},
           {header: this.titulos['historico_emenda_titulo_min'].his_usuario, dataKey: 'his_usuario'},
@@ -168,9 +188,11 @@ export class EmendaDetalheComponent implements OnInit, OnDestroy {
             left: 2
           }
         },
-        bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1}
+        bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1},
+        didDrawPage: (d) => {
+          linha = d.cursor.y;
+        },
       });
-      const pageNumber2 = doc.internal.getNumberOfPages();
     }
 
     if (this.dados.emenda.emenda_justificativa) {
@@ -208,10 +230,12 @@ export class EmendaDetalheComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         if (imprimir === false) {
           doc.save(fileName);
+          doc = null;
         } else {
+          const a: string = doc.output('bloburi').toString();
+          window.open(a);
           doc.autoPrint();
-          // doc.output('dataurlnewwindow');
-          window.open(doc.output('bloburl'));
+          doc = null;
         }
       }, tempo);
     });
@@ -241,7 +265,7 @@ export class EmendaDetalheComponent implements OnInit, OnDestroy {
     });
   }
 
-  getPdf2 (imprimir = false) {
+  /*getPdf2 (imprimir = false) {
     const doc = new jsPDF(
       {
         orientation: 'p',
@@ -269,7 +293,7 @@ export class EmendaDetalheComponent implements OnInit, OnDestroy {
         window.open(doc.output('bloburl'));
       }
     }, 2500);
-  }
+  }*/
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
