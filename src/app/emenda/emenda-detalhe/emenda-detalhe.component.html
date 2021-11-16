@@ -25,6 +25,11 @@
           </tr>
 
         </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
         <app-arquivo
           [modulo]="'emenda'"
           [modelo]="'detalhe'"
@@ -33,11 +38,13 @@
       </td>
     </tr>
     <tr>
-      <td><br></td>
+      <td>
+        <br>
+      </td>
     </tr>
     <tr *ngIf="dados.emenda.historico_emenda">
       <td>
-        <table class="table-hover tabelasimples" #tabhistorico id="tabhistorico" style="width: 100%">
+        <table class="table-hover tabela" #tabhistorico id="tabhistorico" style="width: 100%">
           <caption>HISTÓRICO</caption>
           <tr>
             <th>

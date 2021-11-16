@@ -60,7 +60,7 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
   mostraSeletor = false;
   camposSelecionados: EmendaBuscaCampoInterface[];
   altura = `${WindowsService.altura - 180}` + 'px';
-  meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
+  meiaAltura = `${(WindowsService.altura - 180) / 2}` + 'px';
   numColunas = 3;
   expColunas = 0;
   dadosExpandidos: Subscription;
@@ -387,10 +387,12 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
       header: 'EMENDA DETALHE',
       width: '60%',
       height: '90vh',
+      styleClass: 'tablistagem',
       dismissableMask: false,
       showHeader: true
     });
   }
+
 
   emendaAtualizar(em: EmendaListarInterface) {
     const ref = this.dialogService.open(EmendaAtualizarComponent, {
@@ -398,9 +400,12 @@ export class EmendaDatatableComponent implements OnInit, OnDestroy {
         emenda: em
       },
       header: 'EMENDA ATUALIZAR',
-      width: '500px',
-      dismissableMask: false,
-      showHeader: true
+      width: '60%',
+      dismissableMask: true,
+      showHeader: true,
+      modal: true,
+      styleClass: 'formulario'
+
     });
     this.sub.push(ref.onClose.subscribe((res?: EmendaListarInterface) => {
       if (res) {
