@@ -2,27 +2,25 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../_services';
+import { DropdownService, CarregadorService } from '../../_services';
 import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from '../../_models';
-import { CarregadorService } from '../../_services';
-import { ProposicaoDropdownMenuListar, ProposicaoDropdownMenuListarInterface, ProposicaoPaginacaoInterface } from '../_models';
+import { ProposicaoDropdownMenuListar, ProposicaoPaginacaoInterface } from '../_models';
 import { ProposicaoBuscaService, ProposicaoService } from '../_services';
-import {EmendaPaginacaoInterface} from "../../emenda/_models";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProposicaoListarResolver implements Resolve<any[] | boolean | ProposicaoPaginacaoInterface> {
+export class ProposicaoListarResolver implements Resolve<boolean | ProposicaoPaginacaoInterface> {
   public ddNomeIdArray = new DropdownnomeidClass();
   public ddSoNomeArray = new DropdownsonomearrayClass();
   public ddSoDataArray = new DropdownsonomearrayClass();
   private ddProposicao = new ProposicaoDropdownMenuListar();
   private sub: Subscription[] = [];
-  private resp = new Subject<ProposicaoPaginacaoInterface | boolean | any[]>();
+  private resp = new Subject<boolean>();
   private resp$ = this.resp.asObservable();
   private dropdown = false;
-  private proposicaoPaginacao: ProposicaoPaginacaoInterface;
+  private proposicaoPaginacao: ProposicaoPaginacaoInterface = null;
 
   constructor(
     private router: Router,
@@ -30,9 +28,7 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
     private cs: CarregadorService,
     private proposicaoService: ProposicaoService,
     private obs: ProposicaoBuscaService
-  ) {
-    console.log('proposicao2');
-  }
+  ) {  }
 
   populaDropdown() {
 
@@ -83,7 +79,7 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
           (err) => console.error(err),
           () => {
             contador++;
-            if (contador === 4) {
+            if (contador === 3) {
               this.gravaDropDown();
             }
           }
@@ -107,7 +103,7 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
           },
           complete: () => {
             contador++;
-            if (contador === 4) {
+            if (contador === 3) {
               this.gravaDropDown();
             }
           }
@@ -123,35 +119,12 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
           (err) => console.error(err),
           () => {
             contador++;
-            if (contador === 4) {
+            if (contador === 3) {
               this.gravaDropDown();
             }
           }
         )
       );
-
-      if (sessionStorage.getItem('proposicao-busca')) {
-        this.cs.mostraCarregador();
-        this.obs.buscaState = JSON.parse(sessionStorage.getItem('proposicao-busca'));
-        this.proposicaoService.postProposicaoBusca(JSON.parse(sessionStorage.getItem('proposicao-busca')))
-          .pipe(take(1))
-          .subscribe(
-            (dados) => {
-                this.proposicaoPaginacao = dados;
-          },
-          (err) => console.error(err),
-          () => {
-            contador++;
-            if (contador === 4) {
-              this.gravaDropDown();
-            }
-          });
-      } else {
-        contador++;
-        if (contador === 4) {
-          this.gravaDropDown();
-        }
-      }
     }
   }
 
@@ -159,15 +132,16 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
     if (!sessionStorage.getItem('proposicao-dropdown')) {
       sessionStorage.setItem('proposicao-dropdown', JSON.stringify(this.ddProposicao));
     }
-    if (this.proposicaoPaginacao) {
-      this.resp.next(this.proposicaoPaginacao);
-    } else {
-      this.resp.next(true);
-    }
+    this.cs.escondeCarregador();
+    this.resp.next(true);
+  }
+
+  onDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<any[] | boolean | ProposicaoPaginacaoInterface> {
+    Observable<boolean> | Observable<ProposicaoPaginacaoInterface> {
     if (!sessionStorage.getItem('proposicao-dropdown')) {
       this.dropdown = true;
       this.cs.mostraCarregador();
@@ -176,8 +150,10 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
         take(1),
         mergeMap(vf => {
           if (vf) {
+            this.onDestroy();
             return of(vf);
           } else {
+            this.onDestroy();
             return EMPTY;
           }
         })
@@ -185,7 +161,7 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
     } else {
       if (sessionStorage.getItem('proposicao-busca')) {
         this.cs.mostraCarregador();
-        this.obs.buscaState = JSON.parse(sessionStorage.getItem('proposicao-busca'));
+        // this.obs.buscaState = JSON.parse(sessionStorage.getItem('proposicao-busca'));
         return this.proposicaoService.postProposicaoBusca(JSON.parse(sessionStorage.getItem('proposicao-busca')))
           .pipe(
             take(1),
@@ -193,13 +169,12 @@ export class ProposicaoListarResolver implements Resolve<any[] | boolean | Propo
               if (dados) {
                 return of(dados);
               } else {
-                this.router.navigate(['/proposicao/busca']);
                 return EMPTY;
               }
             })
           );
       } else {
-        // this.router.navigate(['/proposicao/busca']);
+        this.router.navigate(['/proposicao/listar/busca']);
         return EMPTY;
       }
     }

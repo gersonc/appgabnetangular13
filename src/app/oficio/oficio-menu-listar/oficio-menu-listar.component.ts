@@ -49,7 +49,6 @@ export class OficioMenuListarComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    // private dd: DropdownService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,

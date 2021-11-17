@@ -4,8 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
 import { DropdownnomeidClass } from '../../_models';
-import { MostraMenuService, DropdownService } from '../../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import { AuthenticationService, CarregadorService, DropdownService, MenuInternoService} from '../../_services';
 import { ProposicaoBuscaService } from '../_services';
 import { ProposicaoBuscaInterface } from '../_models';
 
@@ -37,7 +36,7 @@ export class ProposicaoMenuListarComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -71,7 +70,7 @@ export class ProposicaoMenuListarComponent implements OnInit {
       if (sessionStorage.getItem('proposicao-listagem')) {
         sessionStorage.removeItem('proposicao-listagem');
       }
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
     }
   }
 
@@ -108,13 +107,13 @@ export class ProposicaoMenuListarComponent implements OnInit {
       this.pbs.proposicaoBusca[propName] = propBusca[propName].toString();
     }
     this.pbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.proposicao_incluir) {
-      this.mm.mudaMenu(false);
+      this.mi.hideMenu();
       this.cs.mostraCarregador();
       this.router.navigate(['/proposicao/incluir']);
     } else {

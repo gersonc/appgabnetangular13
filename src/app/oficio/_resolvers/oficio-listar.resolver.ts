@@ -324,15 +324,18 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
           .pipe(
             take(1),
             mergeMap(dados => {
+              this.onDestroy();
               if (dados) {
                 return of(dados);
               } else {
+                this.onDestroy();
                 // this.router.navigate(['/oficio/listar2']);
                 return EMPTY;
               }
             })
           );
       } else {
+        this.onDestroy();
         this.router.navigate(['/oficio/listar2']);
         return EMPTY;
       }

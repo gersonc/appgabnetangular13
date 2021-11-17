@@ -133,39 +133,6 @@ export class ProposicaoService {
         }
       }
     }
-    const tamanho = b.length;
-    let linhas: number = tamanho;
-    let colunas = 1;
-    if (tamanho > 10) {
-      colunas = 2;
-      linhas = Math.ceil(tamanho / 2);
-      if (linhas > 10) {
-        colunas = 3;
-        linhas = Math.ceil(tamanho / 3);
-        if (linhas > 10) {
-          colunas = 4;
-          linhas = Math.ceil(tamanho / 4);
-        }
-      }
-    }
-
-    let col: number;
-    let lin: number;
-    const idxC = [];
-
-    let contador = 0;
-    for (col = 1; col <= colunas; col++) {
-      const idcL = [];
-      for (lin = 1; lin <= linhas; lin++) {
-        if (contador < tamanho) {
-          idcL.push(b[contador]);
-        }
-        contador++;
-      }
-      idxC.push(idcL);
-    }
-    const largura = (100 / colunas).toFixed(2) + '%';
-    idxC.push(largura.toString());
-    this.expandido.next(idxC);
+    this.expandido.next(b);
   }
 }

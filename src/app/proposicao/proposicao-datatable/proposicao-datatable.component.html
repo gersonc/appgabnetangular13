@@ -32,6 +32,7 @@
          (onContextMenuSelect)="onContextMenuSelect($event)"
          [customSort]="true"
          [tableStyle]="{'font-size':'12px'}"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped"
          stateStorage="session"
          stateKey="proposicao-listagem"
          selectionMode="multiple"
@@ -39,20 +40,33 @@
 
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <div style="overflow: auto;text-align: center;">PROPOSIÇÃO
-      <div style="overflow:auto;text-align:right;float:left;">
-        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
-        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
-        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
-        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
-        <span class="linkTopo" (click)="proposicaoIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <div class="p-d-inline-flex">
+        <div class="p-mx-2">
+          <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                  (click)="mostraMenu()"></button>
+        </div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                  (click)="mostraSelectColunas()"></button>
+        </div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
+                  (click)="men.toggle($event)"></button>
+        </div>
+        <div class="p-mr-0">
+          <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                  (click)="proposicaoIncluir()"></button>
+        </div>
       </div>
-      <div style="float:right;">
-        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
-          - Num. Registros: {{totalRecords}}</span>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mx-2">PROPOSIÇÃO</div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
       </div>
     </div>
+    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -64,13 +78,12 @@
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 50px; padding-bottom: .3em; padding-top: .3em;" pResizableColumnDisabled></th>
+      <th></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.largura"
           pReorderableColumn
           pResizableColumn
-          style="padding-bottom: .3em; padding-top: .3em;"
       >
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -80,13 +93,14 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-prop let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="prop" [pContextMenuRow]="prop">
+    <tr [pSelectableRow]="prop" [pContextMenuRow]="prop" [pSelectableRowIndex]="rowIndex">
       <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <a *ngIf="!expanded" [pRowToggler]="prop" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
-        <a *ngIf="expanded" [pRowToggler]="prop" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+                [pRowToggler]="prop" class="p-button-rounded  p-button-text p-button-sm"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
-          style="padding-bottom: 0; padding-top: .3em;" [style.background-color]="prop[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
+      <td *ngFor="let col of columns" [style.width]="col.largura"
+          [style.background-color]="prop[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
         {{prop[col.field]}}
       </td>
     </tr>
@@ -94,67 +108,88 @@
 
   <!--*** EXPANDIDO ************************************************************************************************-->
   <ng-template pTemplate="rowexpansion" let-prop let-indice="rowIndex" let-columns="columns">
-    <tr style="background-color: var(--secundario)">
-      <td [attr.colspan]="columns.length + 1">
-        <div class="rowSpanCorpo">
-          <div class="rowSpanTabelas">
-            <div class="rowSpanBotoes">
-              <div class="botaoexp">
-                <p-button
-                  (click)="proposicaoDetalheCompleto(prop)"
+    <tr class="expandido">
+      <td [attr.colspan]="columns.length + 1" class="expandido">
+        <div class="rowexpansion-corpo">
+          <div class="p-fluid">
+            <div class="p-d-flex p-jc-start p-pb-2">
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
                   type="button"
-                  icon="fas fa-lg fa-glasses"
-                  styleClass="p-button-raised p-button-info"
+                  icon="pi pi-eye"
+                  class="p-button-rounded p-button-raised"
                   pTooltip="Detalhes"
                   tooltipPosition="top"
+                  (click)="proposicaoDetalheCompleto(prop)"
                 >
-                </p-button>
+                </button>
               </div>
-              <div *ngIf="authenticationService.proposicao_alterar" class="botaoexp">
-                <p-button
+              <div *ngIf="authenticationService.proposicao_alterar" class="p-mr-2">
+                <button
                   (click)="proposicaoAlterar(prop)"
+                  pButton
+                  pRipple
                   type="button"
-                  icon="fas fa-lg fa-pen-fancy"
-                  styleClass="p-button-raised p-button-warning"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-raised p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
-              <div *ngIf="authenticationService.andamentoproposicao_incluir" class="botaoexp">
-                <p-button
+              <div *ngIf="authenticationService.andamentoproposicao_incluir" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
                   (click)="andamentoIncluir(prop)"
                   type="button"
                   icon="pi pi-plus"
-                  styleClass="p-button-raised p-button-success"
+                  class="p-button-rounded p-button-raised p-button-success"
                   pTooltip="Incluir Andamento"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
-              <div *ngIf="authenticationService.andamentoproposicao_listar" class="botaoexp">
-                <p-button
+              <div *ngIf="authenticationService.andamentoproposicao_listar" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
                   (click)="andamentoListar(prop)"
                   type="button"
-                  icon="fas fa-lg fa-receipt"
-                  styleClass="p-button-raised p-button-info"
+                  icon="pi pi-exclamation-circle"
+                  class="p-button-rounded p-button-raised p-button-info"
                   pTooltip="Listar / Editar Andamentos"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
-              <div *ngIf="authenticationService.proposicao_apagar" class="botaoexp">
-                <p-button
+              <div *ngIf="authenticationService.proposicao_apagar" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
                   (click)="proposicaoApagar(prop)"
                   type="button"
-                  icon="far fa-lg fa-trash-alt"
-                  styleClass="p-button-raised p-button-danger"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-raised p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
                 >
-                </p-button>
+                </button>
               </div>
             </div>
+
+            <div class="p-grid">
+              <div *ngFor="let linhas of dadosExp" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  {{linhas[1]}}
+                </div>
+              </div>
+            </div>
+
+            <!--<div class="p-grid">
             <div *ngFor="let colunas of dadosExp;" class="tabela1" [style.width]="expColunas">
               <div *ngFor="let linhas of colunas;" class="campo">
                 <div class="titulo1">
@@ -165,6 +200,7 @@
                 </div>
               </div>
             </div>
+            </div>-->
           </div>
         </div>
       </td>
@@ -174,9 +210,11 @@
   <!--*** TABELA VAZIA *********************************************************************************************-->
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
-      <td [attr.colspan]="columns.length+1" align="center">
-        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
-          NENHUM REGISTRO
+      <td [attr.colspan]="columns.length+1" id="tabela-vazia">
+        <div class="tabela-vazia-a">
+          <div class="tabela-vazia-b">
+            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+          </div>
         </div>
       </td>
     </tr>

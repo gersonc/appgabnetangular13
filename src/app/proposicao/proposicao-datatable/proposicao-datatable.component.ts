@@ -6,7 +6,7 @@ import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -54,7 +54,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   selectedColumnsOld: any[] = [];
   mostraSeletor = false;
   camposSelecionados: ProposicaoBuscaCampoInterface[];
-  altura = `${WindowsService.altura - 180}` + 'px';
+  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   numColunas = 3;
   expColunas = 0;
@@ -73,7 +73,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   // public mostraMenu$: boolean;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
@@ -253,7 +253,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {

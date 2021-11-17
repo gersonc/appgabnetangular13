@@ -1,18 +1,14 @@
 <p-sidebar
-  [visible]="mm.mostraMenu$ | async"
-  appendTo="body"
-  [blockScroll]="false"
+  id="sidebar-menuinterno"
+  [(visible)]="mi.mostraMenuInterno"
+  [blockScroll]="true"
   [dismissible]="true"
-  (onHide)="onHide()"
-  styleClass="ui-sidebar-full ui-sidebar-sm ui-sidebar-md ui-sidebar-lg"
-  [style]="{'background-color':'var(--fundo'}"
+  styleClass="menuinterno"
+  appendTo="body"
 >
-  <div style="padding-top: 20px">
-    <p-scrollPanel [style]="{height: altura}">
-      <div style="background-color: var(--fundo)">
-        <app-proposicao-menu-listar></app-proposicao-menu-listar>
-      </div>
-    </p-scrollPanel>
-  </div>
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
+    <app-proposicao-menu-listar></app-proposicao-menu-listar>
+  </p-scrollPanel>
 </p-sidebar>
+
 <router-outlet></router-outlet>
