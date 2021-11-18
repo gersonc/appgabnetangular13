@@ -1,4 +1,4 @@
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheProposicao">
+<p-scrollPanel class="detalhe">
   <table class="detalhefull">
     <tr>
       <td>
@@ -95,41 +95,31 @@
 
           <tr *ngIf="proposicao.proposicao_ementa" class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              Ementa:
+              <span style="font-weight: bold">Ementa:</span>
+              <div *ngIf="proposicao.proposicao_ementa">
+                <quill-view-html #ementa id="ementa" [content]="proposicao.proposicao_ementa" class="detalhe"></quill-view-html>
+              </div>
             </th>
           </tr>
-          <tr *ngIf="proposicao.proposicao_ementa">
-            <td colspan="2">
-              <div style="padding: 5px">
-                <table>
-                  <tr>
-                    <td class="edi">
-                      <span #ementa id="ementa" [innerHTML]="proposicao.proposicao_ementa"></span>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </td>
-          </tr>
+
+
           <tr *ngIf="proposicao.proposicao_texto" class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              Texto:
+              <span style="font-weight: bold">Texto:</span>
+              <div *ngIf="proposicao.proposicao_texto">
+                <quill-view-html id="texto" #texto [content]="proposicao.proposicao_texto" class="detalhe"></quill-view-html>
+              </div>
             </th>
           </tr>
-          <tr *ngIf="proposicao.proposicao_texto">
-            <td colspan="2">
-              <div style="padding: 5px">
-                <table>
-                  <tr>
-                    <td class="edi">
-                      <span id="texto" #texto [innerHTML]="proposicao.proposicao_texto"></span>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </td>
-          </tr>
+
         </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <br>
+
         <app-arquivo
           [modulo]="'proposicao'"
           [modelo]="'detalhe'"
@@ -137,11 +127,13 @@
         ></app-arquivo>
       </td>
     </tr>
-  </table>
-  <br><br>
-  <table class="detalhefull">
+    <tr *ngIf="andamento_proposicao" class="novaPagina">
+      <td></td>
+    </tr>
     <tr>
       <td>
+        <br>
+
         <table *ngIf="andamento_proposicao" class="table-hover tabelasimples" #tabandamento id="tabandamento">
           <caption>ANDAMENTO</caption>
           <tr>
@@ -175,25 +167,28 @@
           </tr>
             <tr>
               <td colspan="4">
-                <span [innerHTML]="and.andamento_proposicao_texto"></span>
+                <quill-view-html [content]="and.andamento_proposicao_texto" class="detalhe"></quill-view-html>
               </td>
             </tr>
           </ng-container>
         </table>
+
+
       </td>
     </tr>
   </table>
   <br>
 </p-scrollPanel>
+
 <div class="botoesdetalhe">
-  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  <button pButton type="button" icon="pi pi-times" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
-          class="p-button-rounded p-button-secondary"
+  <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
+          class="p-button-raised p-button-rounded p-button-secondary"
           (click)="getPdf(false)"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
-          class="p-button-rounded p-button-secondary"
+  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
+          class="p-button-raised p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 </div>
 

@@ -12,20 +12,22 @@ import { ToastModule } from 'primeng/toast';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputTextModule } from 'primeng/inputtext';
+import {TooltipModule} from "primeng/tooltip";
 
 @NgModule({
   declarations: [ConfigauxIncluirComponent],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    InputTextModule,
-    ButtonModule,
-    DialogModule,
-    ToastModule,
-    OverlayPanelModule,
-    ProgressSpinnerModule
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        FormsModule,
+        InputTextModule,
+        ButtonModule,
+        DialogModule,
+        ToastModule,
+        OverlayPanelModule,
+        ProgressSpinnerModule,
+        TooltipModule
+    ],
   entryComponents: [
     ConfigauxIncluirComponent
   ],

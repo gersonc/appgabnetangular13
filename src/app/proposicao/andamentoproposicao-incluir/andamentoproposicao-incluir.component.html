@@ -1,204 +1,163 @@
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheProposicao">
-  <div class="container" style="text-align:center">
-    <h4>PROPOSIÇÃO - INCLUIR</h4>
-  </div>
+<p-scrollPanel [styleClass]="'formulario'">
+  <!--<div class="formulario externo">-->
+  <form [formGroup]="formProp">
+    <div class="p-fluid formulario-bg-externo">
 
-  <div class="container-fluid">
-    <div class="p-grid formDiv">
-      <form [formGroup]="formProp">
-        <!--*** COLUNA 1 ***-->
-        <div class="p-col-12">
-          <div class="p-grid">
+      <div class="p-grid">
+        <div class="p-col-12 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
 
-            <!--*** andamento_proposicao_data ***-->
-            <div class="p-col-12 campoLabel">
-              <h6> Data</h6>
-              <p-calendar
-                formControlName="andamento_proposicao_data"
-                dateFormat="dd/mm/yy"
-                placeholder="dd/mm/aaaa"
+            <!--*** COLUNA 1 ***-->
+            <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-fluid p-formgrid p-grid">
 
-                dataType="string"
-              ></p-calendar>
-            </div>
+                <!--*** andamento_proposicao_data ***-->
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <label>Data</label>
+                  <p-calendar
+                    id="andamento_proposicao_data"
+                    formControlName="andamento_proposicao_data"
+                    dateFormat="dd/mm/yy"
+                    placeholder="dd/mm/aaaa"
+                    dataType="string"
+                  ></p-calendar>
+                </div>
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">&nbsp;</div>
 
-            <!--*** andamento_proposicao_relator_atual ***-->
-            <div class="p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabel">
-              <h6> Relator</h6>
-              <input
-                formControlName="andamento_proposicao_relator_atual"
-                type="text"
-                size="40"
-                maxlength="50"
-                pInputText
-              />
-            </div>
-            <div class="p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabel">
-              <h6> Alterar relator atual?</h6>
-              <p-inputSwitch formControlName="sn_relator_atual"></p-inputSwitch>
-            </div>
+                <!--*** andamento_proposicao_relator_atual ***-->
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <label for="andamento_proposicao_relator_atual">Relator</label>
+                  <input
+                    id="andamento_proposicao_relator_atual"
+                    formControlName="andamento_proposicao_relator_atual"
+                    type="text"
+                    size="40"
+                    maxlength="50"
+                    pInputText
+                  />
+                </div>
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <h5>Alterar relator atual?</h5>
+                  <p-inputSwitch id="sn_relator_atual" formControlName="sn_relator_atual"></p-inputSwitch>
+                </div>
 
-            <!--*** andamento_proposicao_orgao_id ***-->
-            <div class="p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabel">
-              <h6> Orgão atual</h6>
-              <p-dropdown
-                formControlName="andamento_proposicao_orgao_id"
-                placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                [options]="ddProposicao_orgao_id"
-                [style]="{'width':'90%','vertical-align':'unset'}"
-                [showClear]="true"
-              ></p-dropdown>
-              <app-configaux-incluir
-                [desabilitado]="false"
-                [titulo]="'Incluir Orgão atual'"
-                [tituloCampo]="'Orgão atual'"
-                [campoNome]="'andamento_proposicao_orgao_id'"
-                [tamanho]="50"
-                [tamanhomax]="100"
-                [dropdown]="'ddProposicao_orgao_id'"
-                [arrai]="ddProposicao_orgao_id"
-                (onNovoRegistroAux)="onNovoRegistroAux($event)"
-                (onBlockSubmit)="onBlockSubmit($event)"
-              ></app-configaux-incluir>
-            </div>
-
-            <div class=" p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabel">
-              <h6> Alterar orgão atual?</h6>
-              <p-inputSwitch formControlName="sn_orgao"></p-inputSwitch>
-            </div>
-
-            <!--*** proposicao_situacao_id ***-->
-            <div class="p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabel">
-              <h6> Situação</h6>
-              <p-dropdown
-                formControlName="andamento_proposicao_situacao_id"
-                placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                [options]="ddProposicao_situacao_id"
-                [style]="{'width':'90%','vertical-align':'unset'}"
-                [showClear]="true"
-              ></p-dropdown>
-              <app-configaux-incluir
-                [desabilitado]="false"
-                [titulo]="'Incluir Situação'"
-                [tituloCampo]="'Situação'"
-                [campoNome]="'andamento_proposicao_situacao_id'"
-                [tamanho]="50"
-                [tamanhomax]="100"
-                [dropdown]="'ddProposicao_situacao_id'"
-                [arrai]="ddProposicao_situacao_id"
-                (onNovoRegistroAux)="onNovoRegistroAux($event)"
-                (onBlockSubmit)="onBlockSubmit($event)"
-              ></app-configaux-incluir>
-            </div>
-
-            <div class="p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabel">
-              <h6> Alterar situação atual?</h6>
-              <p-inputSwitch formControlName="sn_situacao"></p-inputSwitch>
-            </div>
-
-            <div class="p-col-12">
-              <div class="p-grid">
-                <!--*** andamento_proposicao_texto ***-->
-                <div class="p-lg-2 p-xl-1"></div>
-                <div class="p-col-12 p-lg-8 p-xl-10 campoLabel">
-                  <h6> Andamento</h6>
-                  <div style="background-color: var(--claro)">
-                    <quill-editor
-                      formControlName="andamento_proposicao_texto"
-                      [preserveWhitespace]="true"
-                      [sanitize]="true"
-                      placeholder=""
-                      (onFocus)="focus($event)"
-                    >
-                      <div quill-editor-toolbar [ngStyle]="{'display': mostraModulo}">
-                       <span class="ql-formats">
-                         <select class="ql-font">
-                           <option selected></option>
-                           <option value="serif"></option>
-                           <option value="monospace"></option>
-                         </select>
-                         <select class="ql-size">
-                           <option value="small"></option>
-                           <option selected></option>
-                           <option value="large"></option>
-                           <option value="huge"></option>
-                         </select>
-                       </span>
-                        <span class="ql-formats">
-                         <button class="ql-bold" [title]="'Bold'"></button>
-                         <button class="ql-italic" [title]="'Italico'"></button>
-                         <button class="ql-underline" [title]="'Underline'"></button>
-                         <button class="ql-strike" [title]="'Strike'"></button>
-                       </span>
-                        <span class="ql-formats">
-                         <select class="ql-color" [title]="'Cor do texto'"></select>
-                         <select class="ql-background" [title]="'Cor de fundo'"></select>
-                       </span>
-                        <span class="ql-formats">
-                         <button class="ql-indent" value="+1" [title]="'Identaçao +1'"></button>
-                         <button class="ql-indent" value="-1" [title]="'Identaçao -1'"></button>
-                         <select class="ql-align">
-                           <option selected></option>
-                           <option value="center"></option>
-                           <option value="right"></option>
-                           <option value="justify"></option>
-                         </select>
-                         <button class="ql-list" value="ordered"></button>
-                         <button class="ql-list" value="bullet"></button>
-                       </span>
-                      </div>
-                    </quill-editor>
+                <!--*** andamento_proposicao_orgao_id ***-->
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <label for="andamento_proposicao_orgao_id">Orgão atual</label>
+                  <div class="p-inputgroup">
+                  <p-dropdown
+                    id="andamento_proposicao_orgao_id"
+                    formControlName="andamento_proposicao_orgao_id"
+                    placeholder="Selecione"
+                    [options]="ddProposicao_orgao_id"
+                    [style]="{'width':'100%'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-configaux-incluir
+                    [desabilitado]="false"
+                    [titulo]="'Incluir Orgão atual'"
+                    [tituloCampo]="'Orgão atual'"
+                    [campoNome]="'andamento_proposicao_orgao_id'"
+                    [tamanho]="50"
+                    [tamanhomax]="100"
+                    [dropdown]="'ddProposicao_orgao_id'"
+                    [arrai]="ddProposicao_orgao_id"
+                    (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                  ></app-configaux-incluir>
                   </div>
                 </div>
-                <div class="p-lg-2 p-xl-1"></div>
+
+                <div class="p-field p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <h5>Alterar orgão atual?</h5>
+                  <p-inputSwitch id="sn_orgao" formControlName="sn_orgao"></p-inputSwitch>
+                </div>
+
+                <!--*** proposicao_situacao_id ***-->
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <label for="andamento_proposicao_situacao_id"> Situação</label>
+                  <div class="p-inputgroup">
+                  <p-dropdown
+                    id="andamento_proposicao_situacao_id"
+                    formControlName="andamento_proposicao_situacao_id"
+                    placeholder="Selecione"
+                    [options]="ddProposicao_situacao_id"
+                    [style]="{'width':'100%'}"
+                    [showClear]="true"
+                  ></p-dropdown>
+                  <app-configaux-incluir
+                    [desabilitado]="false"
+                    [titulo]="'Incluir Situação'"
+                    [tituloCampo]="'Situação'"
+                    [campoNome]="'andamento_proposicao_situacao_id'"
+                    [tamanho]="50"
+                    [tamanhomax]="100"
+                    [dropdown]="'ddProposicao_situacao_id'"
+                    [arrai]="ddProposicao_situacao_id"
+                    (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                  ></app-configaux-incluir>
+                  </div>
+                </div>
+
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                  <h5>Alterar situação atual?</h5>
+                  <p-inputSwitch id="sn_situacao" formControlName="sn_situacao"></p-inputSwitch>
+                </div>
+
+
+                <!--*** andamento_proposicao_texto ***-->
+                <div class="p-field p-col-12 formulario-quill">
+                  <label for="andamento_proposicao_texto">Andamento</label>
+                  <p-editor
+                    id="andamento_proposicao_texto"
+                    formControlName="andamento_proposicao_texto"
+                    [modules]="modulos"
+                  >
+                    <ng-template pTemplate="header"></ng-template>
+                  </p-editor>
+                </div>
+
+                <!--*** FIM COLUNA 6 ***-->
+
               </div>
             </div>
 
           </div>
         </div>
+      </div>
 
-      </form>
     </div>
-  </div>
+  </form>
+  <!--</div>-->
 </p-scrollPanel>
-<div class="container-fluid">
-  <div class="p-grid formDiv">
-    <div class="p-12">&nbsp;</div>
-  </div>
-  <!--*** Botões ***-->
-  <div class="p-grid formDiv">
-    <div class="p-col-12 campoLabel" style="text-align: center">
-      <button
-        pButton
-        type="button"
-        class="p-button-rounded"
-        [disabled]="botaoEnviarVF"
-        (click)="incluirAndamentoProposicao()"
-        label="Incluir"
-      ></button>
-      &nbsp;&nbsp;
-      <button
-        pButton
-        type="button"
-        class="p-button-rounded p-button-secondary"
-        (click)="resetForm()"
-        label="Cancelar"
-        [disabled]="botaoEnviarVF"
-      ></button>
-      &nbsp;&nbsp;
-      <button
-        pButton
-        type="button"
-        class="p-button-rounded p-button-secondary"
-        (click)="fechar()"
-        label="Fechar"
-        [disabled]="botaoEnviarVF"
-      ></button>
-    </div>
-  </div>
-  <div class="p-grid formDiv">
-    <div class="p-12">&nbsp;</div>
-  </div>
+<div class="botoesdetalhe">
+  <button
+    pButton
+    type="button"
+    class="p-button-raised p-button-rounded"
+    [disabled]="botaoEnviarVF"
+    (click)="incluirAndamentoProposicao()"
+    label="Incluir"
+  ></button>
+  &nbsp;&nbsp;
+  <button
+    pButton
+    type="button"
+    class="p-button-raised p-button-rounded p-button-secondary"
+    (click)="resetForm()"
+    label="Cancelar"
+    [disabled]="botaoEnviarVF"
+  ></button>
+  &nbsp;&nbsp;
+  <button
+    pButton
+    type="button"
+    class="p-button-raised p-button-rounded p-button-secondary"
+    (click)="fechar()"
+    label="Fechar"
+    [disabled]="botaoEnviarVF"
+  ></button>
 </div>
 
 <p-toast key="andamentoProposicaoToast" [style]="{marginTop: '80px'}"></p-toast>

@@ -369,9 +369,10 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
             data: {
               ppDetalhe: ppDetalhe
             },
-            header: 'Detalhes',
+            header: 'PROPOSIÇÃO DETALHE',
             width: '70%',
             height: '80vh',
+            styleClass: 'tablistagem',
             dismissableMask: true,
             showHeader: true
           });
@@ -416,6 +417,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
               header: 'ANDAMENTOS',
               width: '90%',
               height: '80vh',
+              styleClass: 'tablistagem',
               dismissableMask: true,
               showHeader: true,
               closable: true
@@ -433,8 +435,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
           proposicao_id: pp.proposicao_id
         },
         header: 'INCLUIR ANDAMENTOS',
-        width: '90%',
-        height: '80vh',
+        styleClass: 'tablistagem',
         dismissableMask: true,
         showHeader: true,
         closable: true
