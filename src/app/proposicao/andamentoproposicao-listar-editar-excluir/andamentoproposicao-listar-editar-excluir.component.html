@@ -1,185 +1,185 @@
 
   <!--*** INICIO ****************************************************************************************************-->
-  <p-table #dtap
-           id="dtap"
-           [value]="andamento_proposicao"
-           dataKey="andamento_proposicao_id"
-           [scrollable]="true"
-
-           scrollHeight="50vh"
-           [autoLayout]="false"
-           columnResizeMode="expand"
-           [rowHover]="true"
-           [responsive]="false"
-           [sortOrder]="1"
-           [editMode]="'row'"
-           [tableStyle]="{'font-size':'12px'}"
-           styleClass="tablistagem p-datatable-sm p-datatable-gridlines"
-           [resizableColumns]="true"
+  <p-table
+    dataKey="andamento_proposicao_id"
+    [value]="andamento_proposicao"
+    (onRowExpand)="onRowExpand($event)"
+    styleClass="tablistagem p-datatable-sm p-datatable-striped"
+    [tableStyle]="{'font-size':'12px'}"
+    [resizableColumns]="true"
   >
-<!--
-
-    [scrollHeight]="altura"
-
--->
-
-    <!--*** TOPO ****************************************************************************************************-->
-    <ng-template pTemplate="caption">
-      <div style="text-align: center;">
-        ANDAMENTOS DA PROPOSIÇÃO
-      </div>
-    </ng-template>
-
-    <ng-template pTemplate="colgroup" let-columns>
-      <colgroup>
-        <col [style.width]="100">
-        <col [style.width]="350">
-        <col [style.width]="350">
-        <col [style.width]="1100">
-        <col [style.width]="150">
-        <col [style.width]="250">
-      </colgroup>
-    </ng-template>
-
     <!--*** TITULOS *************************************************************************************************-->
 
     <ng-template pTemplate="header" let-columns>
-      <tr>
+      <!--<tr>
         <th style="width:100px"></th>
         <th style="width:150px;text-align: left;" pResizableColumn>DATA</th>
         <th style="width:350px;text-align: left;" pResizableColumn>SITUAÇÃO</th>
         <th style="width:1100px;text-align: left;" pResizableColumn>ANDAMENTO</th>
         <th style="width:350px;text-align: left;" pResizableColumn>ORGÃO</th>
         <th style="width:250px;text-align: left;" pResizableColumn>RELATOR ATUAL</th>
-      </tr>
-    </ng-template>
-
-    <!--*** DADOS ***************************************************************************************************-->
-    <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-      <tr [pEditableRow]="rowData">
-
-        <td style="width:100px;text-align:center;">
-          <button *ngIf="!editing && aut.andamentoproposicao_alterar && !botaoEnviarVF" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="p-button-info" (click)="onRowEditInit(rowData)"></button>
-          <button *ngIf="editing && aut.andamentoproposicao_alterar && !botaoEnviarVF" pButton type="button" pSaveEditableRow icon="pi pi-check" class="p-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData, ri)"></button>
-          <button *ngIf="editing && aut.andamentoproposicao_alterar && !botaoEnviarVF" pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
-          <button *ngIf="!editing && aut.andamentoproposicao_apagar && !botaoEnviarVF" pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="onDelete(rowData, ri)"></button>
-        </td>
-
-        <td style="width:150px;" pEditableColumn>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px" class="formulario">
-              <p-calendar
-                [(ngModel)]="rowData.andamento_proposicao_data"
-                dateFormat="dd/mm/yy"
-                placeholder="dd/mm/aaaa"
-                dataType="string"
-              ></p-calendar>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{rowData.andamento_proposicao_data}}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-
-        <td style="width:350px;" pEditableColumn>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <div style="overflow: auto;padding-top: 5px">
-              <p-dropdown
-                [(ngModel)]="rowData.andamento_proposicao_situacao_id"
-                [style]="{'width':'95%'}"
-                placeholder="Selecione"
-                [options]="ddProposicao_situacao_id"
-                [showClear]="true"
-                scrollHeight="200px"
-              ></p-dropdown>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{rowData.andamento_proposicao_situacao_nome}}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-
-
-        <td style="width:1100px;" pEditableColumn>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <div style="min-height: 200px; min-width: 300px; overflow: auto;padding-top: 5px">
-                <p-editor
-                  [(ngModel)]="rowData.andamento_proposicao_texto"
-                  formControlName="andamento_proposicao_texto"
-                  [modules]="modulos"
-                  (focus)="focus($event)"
-                >
-                  <ng-template pTemplate="header"></ng-template>
-                </p-editor>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{rowData.andamento_proposicao_texto}}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-
-        <td style="width:350px;" pEditableColumn>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
-                <p-dropdown
-                  [style]="{'width':'95%'}"
-                  [(ngModel)]="rowData.andamento_proposicao_orgao_id"
-                  placeholder="Selecione"
-                  [options]="ddProposicao_orgao_id"
-                  [showClear]="true"
-                  scrollHeight="200px"
-                ></p-dropdown>
-              </div>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{rowData.andamento_proposicao_orgao_nome}}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-
-        <td style="width:250px;" pEditableColumn>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <div [style.minHeight]="styleExpr" style="overflow: auto;padding-top: 5px">
-                <input
-                  [(ngModel)]="rowData.andamento_proposicao_relator_atual"
-                  type="text"
-                  maxlength="50"
-                  pInputText
-                />
-              </div>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{rowData.andamento_proposicao_relator_atual}}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-
-
-      </tr>
-    </ng-template>
-
-    <!--*** TABELA VAZIA *********************************************************************************************-->
-    <ng-template pTemplate="emptymessage">
+      </tr>-->
       <tr>
-        <td [attr.colspan]="6" id="tabela-vazia">
-          <div class="tabela-vazia-a">
-            <div class="tabela-vazia-b">
-              <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+        <th></th>
+        <th style="text-align: left;" pResizableColumn>DATA</th>
+        <th style="text-align: left;" pResizableColumn>SITUAÇÃO</th>
+        <th style="text-align: left;" pResizableColumn>ANDAMENTO</th>
+        <th style="text-align: left;" pResizableColumn>ORGÃO</th>
+        <th style="text-align: left;" pResizableColumn>RELATOR ATUAL</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-rowIndex="rowIndex">
+      <tr>
+        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+          <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+                  [pRowToggler]="rowData" class="p-button-rounded  p-button-text p-button-sm"
+                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        </td>
+        <td class="ui-resizable-column">{{rowData.andamento_proposicao_data}}</td>
+        <td class="ui-resizable-column">{{rowData.andamento_proposicao_situacao_nome}}</td>
+        <td class="ui-resizable-column">{{rowData.andamento_proposicao_texto}}</td>
+        <td class="ui-resizable-column">{{rowData.andamento_proposicao_orgao_nome}}</td>
+        <td class="ui-resizable-column">{{rowData.andamento_proposicao_relator_atual}}</td>
+      </tr>
+    </ng-template>
+
+
+    <!--*** EXPANDIDO ************************************************************************************************-->
+    <ng-template pTemplate="rowexpansion" let-rowData>
+      <tr class="expandido">
+        <td [attr.colspan]="6" class="expandido">
+          <div class="rowexpansion-corpo">
+
+
+
+              <div class="p-grid">
+                <div class="p-col-12 p-mt-0 p-pb-0 formulario-bg-interno">
+                  <div class="p-grid p-input-filled">
+
+                    <!--*** COLUNA 1 ***-->
+                    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+                      <div class="p-fluid p-formgrid p-grid">
+
+                        <!--*** andamento_proposicao_relator_atual ***-->
+                        <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                          <label for="andamento_proposicao_relator_atual">Relator</label>
+                          <input
+                            id="andamento_proposicao_relator_atual"
+                            [(ngModel)]="rowData.andamento_proposicao_relator_atual"
+                            type="text"
+                            size="40"
+                            maxlength="50"
+                            pInputText
+                          />
+                        </div>
+
+
+                        <!--*** andamento_proposicao_data ***-->
+                        <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                          <label>Data</label>
+                          <p-calendar
+                            id="andamento_proposicao_data"
+                            [(ngModel)]="rowData.andamento_proposicao_data"
+                            dateFormat="dd/mm/yy"
+                            placeholder="dd/mm/aaaa"
+                            dataType="string"
+                          ></p-calendar>
+                        </div>
+
+
+
+                        <!--*** andamento_proposicao_orgao_id ***-->
+                        <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                          <label for="andamento_proposicao_orgao_id">Orgão atual</label>
+                          <div class="p-inputgroup">
+                            <p-dropdown
+                              id="andamento_proposicao_orgao_id"
+                              [(ngModel)]="rowData.andamento_proposicao_orgao_id"
+                              placeholder="Selecione"
+                              [options]="ddProposicao_orgao_id"
+                              [style]="{'width':'100%'}"
+                              [showClear]="true"
+                            ></p-dropdown>
+                            <app-configaux-incluir
+                              [desabilitado]="false"
+                              [titulo]="'Incluir Orgão atual'"
+                              [tituloCampo]="'Orgão atual'"
+                              [campoNome]="'andamento_proposicao_orgao_id'"
+                              [tamanho]="50"
+                              [tamanhomax]="100"
+                              [dropdown]="'ddProposicao_orgao_id'"
+                              [arrai]="ddProposicao_orgao_id"
+                              (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                              (onBlockSubmit)="onBlockSubmit($event)"
+                            ></app-configaux-incluir>
+                          </div>
+                        </div>
+
+                        <!--*** proposicao_situacao_id ***-->
+                        <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
+                          <label for="andamento_proposicao_situacao_id"> Situação</label>
+                          <div class="p-inputgroup">
+                            <p-dropdown
+                              id="andamento_proposicao_situacao_id"
+                              [(ngModel)]="rowData.andamento_proposicao_situacao_id"
+                              placeholder="Selecione"
+                              [options]="ddProposicao_situacao_id"
+                              [style]="{'width':'100%'}"
+                              [showClear]="true"
+                            ></p-dropdown>
+                            <app-configaux-incluir
+                              [desabilitado]="false"
+                              [titulo]="'Incluir Situação'"
+                              [tituloCampo]="'Situação'"
+                              [campoNome]="'andamento_proposicao_situacao_id'"
+                              [tamanho]="50"
+                              [tamanhomax]="100"
+                              [dropdown]="'ddProposicao_situacao_id'"
+                              [arrai]="ddProposicao_situacao_id"
+                              (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                              (onBlockSubmit)="onBlockSubmit($event)"
+                            ></app-configaux-incluir>
+                          </div>
+                        </div>
+
+
+                        <!--*** andamento_proposicao_texto ***-->
+                        <div class="p-field p-col-12 formulario-quill">
+                          <label for="andamento_proposicao_texto">Andamento</label>
+                          <p-editor
+                            id="andamento_proposicao_texto"
+                            [(ngModel)]="rowData.andamento_proposicao_texto"
+                            [modules]="modulos"
+                          >
+                            <ng-template pTemplate="header"></ng-template>
+                          </p-editor>
+                        </div>
+
+                        <!--*** FIM COLUNA 6 ***-->
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
             </div>
-          </div>
+
         </td>
       </tr>
     </ng-template>
-    <!--*** MENU *****************************************************************************************************-->
+
+
   </p-table>
+
+
+
+
+
+
+
   <!--*** FIM ********************************************************************************************************-->
 
 <br>

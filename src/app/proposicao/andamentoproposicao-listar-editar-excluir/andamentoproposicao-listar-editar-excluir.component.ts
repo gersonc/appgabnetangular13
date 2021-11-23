@@ -61,6 +61,8 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
     ['link']                         // link and image, video
   ];
 
+  rowData: AndamentoProposicaoListagemInterface = null;
+
 
   constructor(
     public ref: DynamicDialogRef,
@@ -159,6 +161,11 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
 
   fechar() {
     this.ref.close ();
+  }
+
+  onRowExpand(event): void {
+    this.rowData = event.data;
+    console.log("rowData", this.rowData);
   }
 
   onRowEditInit(prop: AndamentoProposicaoListagemInterface) {
