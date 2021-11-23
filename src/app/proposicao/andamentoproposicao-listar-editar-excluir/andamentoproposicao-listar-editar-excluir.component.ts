@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
 import { AndamentoProposicaoService } from '../_services';
 import { DropdownnomeidClass } from '../../_models';
 import { take } from 'rxjs/operators';
+import {Editor} from "primeng/editor";
 
 @Component({
   selector: 'app-andamentoproposicao-listar-editar-excluir',
@@ -22,6 +23,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./andamentoproposicao-listar-editar-excluir.component.css']
 })
 export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
+  @ViewChild('edtor', { static: true }) public edtor: Editor;
   @ViewChild('dtap', { static: true }) public dtap: any;
   altura = `${WindowsService.altura - 180}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
@@ -62,6 +64,12 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
   ];
 
   rowData: AndamentoProposicaoListagemInterface = null;
+
+  campoTexto: string = null;
+  campoTitulo: string = null;
+  showCampoTexto = false;
+  deltaquill: any = null;
+  showDetalhe = false;
 
 
   constructor(
@@ -342,5 +350,30 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
     }
   }
 
+  escondeTexto() {
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = null;
+    this.showCampoTexto = false;
+  }
+
+  mostraTexto(texto: any[]) {
+    this.campoTitulo = null;
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = texto[0];
+    this.showCampoTexto = true;
+    if (texto[4]) {
+      if (this.edtor.getQuill()) {
+        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
+      }
+      this.deltaquill = JSON.parse(texto[4]);
+      setTimeout( () => {
+        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
+      }, 300);
+    } else {
+      this.campoTexto = texto[1];
+    }
+  }
 
 }

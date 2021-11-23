@@ -420,7 +420,8 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
               styleClass: 'tablistagem',
               dismissableMask: true,
               showHeader: true,
-              closable: true
+              closable: true,
+              style: {'max-width': '1270px'}
             });
           }
         }));

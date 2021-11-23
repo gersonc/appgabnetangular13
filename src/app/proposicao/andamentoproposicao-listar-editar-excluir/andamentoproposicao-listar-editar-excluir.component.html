@@ -5,23 +5,15 @@
     [value]="andamento_proposicao"
     (onRowExpand)="onRowExpand($event)"
     styleClass="tablistagem p-datatable-sm p-datatable-striped"
-    [tableStyle]="{'font-size':'12px'}"
+    [tableStyle]="{'font-size':'12px', 'border-collapse':'separate'}"
     [resizableColumns]="true"
   >
     <!--*** TITULOS *************************************************************************************************-->
 
     <ng-template pTemplate="header" let-columns>
-      <!--<tr>
-        <th style="width:100px"></th>
-        <th style="width:150px;text-align: left;" pResizableColumn>DATA</th>
-        <th style="width:350px;text-align: left;" pResizableColumn>SITUAÇÃO</th>
-        <th style="width:1100px;text-align: left;" pResizableColumn>ANDAMENTO</th>
-        <th style="width:350px;text-align: left;" pResizableColumn>ORGÃO</th>
-        <th style="width:250px;text-align: left;" pResizableColumn>RELATOR ATUAL</th>
-      </tr>-->
       <tr>
-        <th></th>
-        <th style="text-align: left;" pResizableColumn>DATA</th>
+        <th style="width: 100px;"></th>
+        <th style="width: 90px;text-align: left;" pResizableColumn>DATA</th>
         <th style="text-align: left;" pResizableColumn>SITUAÇÃO</th>
         <th style="text-align: left;" pResizableColumn>ANDAMENTO</th>
         <th style="text-align: left;" pResizableColumn>ORGÃO</th>
@@ -31,16 +23,38 @@
 
     <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-rowIndex="rowIndex">
       <tr>
-        <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-          <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
-                  [pRowToggler]="rowData" class="p-button-rounded  p-button-text p-button-sm"
-                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        <td style="width: 100px; padding-bottom: 0; padding-top: .3em;text-align: center">
+          <button
+            [pTooltip]="expanded ? 'Cancelar' : 'ALterar'"
+            [pRowToggler]="rowData"
+            pButton
+            pRipple
+            type="button"
+            [icon]="expanded ? 'pi pi-minus-circle' : 'pi pi-pencil'"
+            class="p-button-warning p-button-sm"
+            tooltipPosition="top"
+          >
+          </button>
+          &nbsp;
+          <button
+            *ngIf="!expanded"
+            pButton
+            pRipple
+            (click)="onDelete(rowData, rowIndex)"
+            type="button"
+            icon="pi pi-trash"
+            class=" p-button-sm p-button-danger"
+            pTooltip="Apagar"
+            tooltipPosition="top"
+          >
+          </button>
         </td>
-        <td class="ui-resizable-column">{{rowData.andamento_proposicao_data}}</td>
-        <td class="ui-resizable-column">{{rowData.andamento_proposicao_situacao_nome}}</td>
-        <td class="ui-resizable-column">{{rowData.andamento_proposicao_texto}}</td>
-        <td class="ui-resizable-column">{{rowData.andamento_proposicao_orgao_nome}}</td>
-        <td class="ui-resizable-column">{{rowData.andamento_proposicao_relator_atual}}</td>
+        <td class="ui-resizable-column" style="width: 90px; white-space: normal;">{{rowData.andamento_proposicao_data}}</td>
+        <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_situacao_nome}}</td>
+        <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0,26)}}...</span>
+        <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_texto}}</td>
+        <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_orgao_nome}}</td>
+        <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_relator_atual}}</td>
       </tr>
     </ng-template>
 
@@ -51,8 +65,6 @@
         <td [attr.colspan]="6" class="expandido">
           <div class="rowexpansion-corpo">
 
-
-
               <div class="p-grid">
                 <div class="p-col-12 p-mt-0 p-pb-0 formulario-bg-interno">
                   <div class="p-grid p-input-filled">
@@ -60,20 +72,6 @@
                     <!--*** COLUNA 1 ***-->
                     <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
                       <div class="p-fluid p-formgrid p-grid">
-
-                        <!--*** andamento_proposicao_relator_atual ***-->
-                        <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
-                          <label for="andamento_proposicao_relator_atual">Relator</label>
-                          <input
-                            id="andamento_proposicao_relator_atual"
-                            [(ngModel)]="rowData.andamento_proposicao_relator_atual"
-                            type="text"
-                            size="40"
-                            maxlength="50"
-                            pInputText
-                          />
-                        </div>
-
 
                         <!--*** andamento_proposicao_data ***-->
                         <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
@@ -87,12 +85,23 @@
                           ></p-calendar>
                         </div>
 
-
+                        <!--*** andamento_proposicao_relator_atual ***-->
+                        <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6 campoLabelMenu">
+                          <h5>Relator</h5>
+                          <!--<label for="andamento_proposicao_relator_atual">Relator</label>-->
+                          <input
+                            id="andamento_proposicao_relator_atual"
+                            [(ngModel)]="rowData.andamento_proposicao_relator_atual"
+                            type="text"
+                            size="40"
+                            maxlength="50"
+                            pInputText
+                          />
+                        </div>
 
                         <!--*** andamento_proposicao_orgao_id ***-->
                         <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
                           <label for="andamento_proposicao_orgao_id">Orgão atual</label>
-                          <div class="p-inputgroup">
                             <p-dropdown
                               id="andamento_proposicao_orgao_id"
                               [(ngModel)]="rowData.andamento_proposicao_orgao_id"
@@ -101,25 +110,11 @@
                               [style]="{'width':'100%'}"
                               [showClear]="true"
                             ></p-dropdown>
-                            <app-configaux-incluir
-                              [desabilitado]="false"
-                              [titulo]="'Incluir Orgão atual'"
-                              [tituloCampo]="'Orgão atual'"
-                              [campoNome]="'andamento_proposicao_orgao_id'"
-                              [tamanho]="50"
-                              [tamanhomax]="100"
-                              [dropdown]="'ddProposicao_orgao_id'"
-                              [arrai]="ddProposicao_orgao_id"
-                              (onNovoRegistroAux)="onNovoRegistroAux($event)"
-                              (onBlockSubmit)="onBlockSubmit($event)"
-                            ></app-configaux-incluir>
-                          </div>
                         </div>
 
                         <!--*** proposicao_situacao_id ***-->
                         <div class="p-field p-col-12 p-sm-12 p-md-6 p-xl-6 p-lg-6">
                           <label for="andamento_proposicao_situacao_id"> Situação</label>
-                          <div class="p-inputgroup">
                             <p-dropdown
                               id="andamento_proposicao_situacao_id"
                               [(ngModel)]="rowData.andamento_proposicao_situacao_id"
@@ -128,21 +123,7 @@
                               [style]="{'width':'100%'}"
                               [showClear]="true"
                             ></p-dropdown>
-                            <app-configaux-incluir
-                              [desabilitado]="false"
-                              [titulo]="'Incluir Situação'"
-                              [tituloCampo]="'Situação'"
-                              [campoNome]="'andamento_proposicao_situacao_id'"
-                              [tamanho]="50"
-                              [tamanhomax]="100"
-                              [dropdown]="'ddProposicao_situacao_id'"
-                              [arrai]="ddProposicao_situacao_id"
-                              (onNovoRegistroAux)="onNovoRegistroAux($event)"
-                              (onBlockSubmit)="onBlockSubmit($event)"
-                            ></app-configaux-incluir>
-                          </div>
                         </div>
-
 
                         <!--*** andamento_proposicao_texto ***-->
                         <div class="p-field p-col-12 formulario-quill">
@@ -170,14 +151,7 @@
         </td>
       </tr>
     </ng-template>
-
-
   </p-table>
-
-
-
-
-
 
 
   <!--*** FIM ********************************************************************************************************-->
@@ -194,6 +168,18 @@
     acceptLabel="Sim"
     rejectLabel="Não"
   ></p-confirmDialog>
+
+  <!--*** EDITOR *****************************************************************************************************-->
+  <p-dialog
+    [(visible)]="showCampoTexto"
+    [dismissableMask]="true"
+    styleClass="tablistagem"
+    [header]="'Andamento'"
+    (onHide)="escondeTexto()"
+  >
+    <quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>
+  </p-dialog>
+
 
 
 
