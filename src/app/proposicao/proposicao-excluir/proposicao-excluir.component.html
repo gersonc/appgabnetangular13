@@ -1,18 +1,15 @@
-<div class="container" style="text-align:center">
-  <h4>PROPOSIÇÃO - APAGAR</h4>
-</div>
-<div class="container-fluid">
-  <div class="p-grid">
-    <div class="p-col-12"></div>
-    <div class="p-md-1 p-xl-1"></div>
-    <div class="p-col-12 p-sm-12 p-md-10 p-xl-10">
-
-      <div class="p-grid formDiv">
-        <div class="p-col-12"></div>
-        <div class="p-col-12">
-          <table class="detalhefull">
-            <tr>
-              <td>
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">PROPOSIÇÃO - APAGAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
                 <table class="table-hover tabela" #tabproposicao id="tabproposicao">
                   <caption>PROPOSIÇÃO</caption>
                   <tr *ngIf="proposicao.proposicao_tipo_nome">
@@ -104,133 +101,136 @@
                     </td>
                   </tr>
 
+
                   <tr *ngIf="proposicao.proposicao_ementa" class="novaPagina">
                     <th colspan="2" class="tituloEditor">
                       Ementa:
+                      <div *ngIf="proposicao.proposicao_ementa" style="margin-top: .25em">
+                        <quill-view-html #ementa id="ementa" [content]="proposicao.proposicao_ementa" class="detalhe"></quill-view-html>
+                      </div>
                     </th>
                   </tr>
-                  <tr *ngIf="proposicao.proposicao_ementa">
-                    <td colspan="2">
-                      <div style="padding: 5px">
-                        <table>
-                          <tr>
-                            <td class="edi">
-                              <span #ementa id="ementa" [innerHTML]="proposicao.proposicao_ementa"></span>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
+
                   <tr *ngIf="proposicao.proposicao_texto" class="novaPagina">
                     <th colspan="2" class="tituloEditor">
                       Texto:
+                      <div *ngIf="proposicao.proposicao_texto" style="margin-top: .25em">
+                        <quill-view-html #texto id="texto" [content]="proposicao.proposicao_texto" class="detalhe"></quill-view-html>
+                      </div>
                     </th>
                   </tr>
-                  <tr *ngIf="proposicao.proposicao_texto">
-                    <td colspan="2">
-                      <div style="padding: 5px">
-                        <table>
-                          <tr>
-                            <td class="edi">
-                              <span id="texto" #texto [innerHTML]="proposicao.proposicao_texto"></span>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
+                  <tr>
+                    <td colspan="2" style="padding-left: 0; padding-right: 0">
+                      <app-arquivo
+                        [modulo]="'proposicao'"
+                        [modelo]="'excluir'"
+                        [registro_id]="proposicao.proposicao_id"
+                        (onBlockSubmit)="onBlockSubmit($event)"
+                      ></app-arquivo>
                     </td>
                   </tr>
                 </table>
-                <app-arquivo
-                  [modulo]="'proposicao'"
-                  [modelo]="'excluir'"
-                  [registro_id]="proposicao.proposicao_id"
-                  (onBlockSubmit)="onBlockSubmit($event)"
-                ></app-arquivo>
-              </td>
-            </tr>
-          </table>
-          <br><br>
-          <table class="detalhefull">
-            <tr>
-              <td>
-                <table *ngIf="andamento_proposicao" class="table-hover tabelasimples" #tabandamento id="tabandamento">
-                  <caption>ANDAMENTO</caption>
+            </div>
+
+            <div class="p-field p-col-12"><br></div>
+
+            <div class="p-field p-col-12">
+              <table *ngIf="andamento_proposicao" class="table-hover tabelasimples" #tabandamento id="tabandamento">
+                <caption>ANDAMENTO</caption>
+                <tr>
+                  <th>
+                    Data:
+                  </th>
+                  <th>
+                    Redator:
+                  </th>
+                  <th>
+                    Orgão:
+                  </th>
+                  <th>
+                    Situação:
+                  </th>
+                </tr>
+                <ng-container *ngFor="let and of andamento_proposicao">
                   <tr>
-                    <th>
-                      Data:
-                    </th>
-                    <th>
-                      Redator:
-                    </th>
-                    <th>
-                      Orgão:
-                    </th>
-                    <th>
-                      Situação:
-                    </th>
+                    <td>
+                      {{and.andamento_proposicao_data}}
+                    </td>
+                    <td>
+                      {{and.andamento_proposicao_relator_atual}}
+                    </td>
+                    <td>
+                      {{and.andamento_proposicao_orgao_nome}}
+                    </td>
+                    <td>
+                      {{and.andamento_proposicao_situacao_nome}}
+                    </td>
                   </tr>
-                  <ng-container *ngFor="let and of andamento_proposicao">
-                    <tr>
-                      <td>
-                        {{and.andamento_proposicao_data}}
-                      </td>
-                      <td>
-                        {{and.andamento_proposicao_relator_atual}}
-                      </td>
-                      <td>
-                        {{and.andamento_proposicao_orgao_nome}}
-                      </td>
-                      <td>
-                        {{and.andamento_proposicao_situacao_nome}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="4">
-                        <span [innerHTML]="and.andamento_proposicao_texto"></span>
-                      </td>
-                    </tr>
-                  </ng-container>
-                </table>
-              </td>
-            </tr>
-          </table>
+                  <tr>
+                    <td colspan="4">
+                      <span [innerHTML]="and.andamento_proposicao_texto"></span>
+                    </td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="p-col-12">&nbsp;</div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
       </div>
-
-
-      <div class="p-grid formDiv">
-        <div class="p-col-12 campoLabel" style="text-align: center">
-
-          <button
-            pButton
-            [disabled]="apagarAtivo || botaoEnviarInativo"
-            type="button"
-            class="p-button-rounded p-button-danger"
-            (click)="showDialog()"
-            label="APAGAR"
-          ></button>
-          &nbsp;&nbsp;
-          <button
-            pButton
-            type="button"
-            class="p-button-rounded p-button-secondary"
-            (click)="voltarListar()"
-            [disabled]="botoesInativos"
-            label="Voltar"
-          ></button>
-
-        </div>
-        <div class="p-col-12">&nbsp;</div>
-      </div>
-
-
     </div>
-    <div class="p-md-1 p-xl-1"></div>
-    <div class="p-col-12"></div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+            <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      [disabled]="apagarAtivo || botaoEnviarInativo"
+                      type="button"
+                      class="p-button-rounded p-button-danger"
+                      (click)="showDialog()"
+                      label="APAGAR"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      [disabled]="botoesInativos"
+                      label="Voltar"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid formulario-bg-externo">
+        <div class="p-col-12"> </div>
+        <div class="p-col-12"> </div>
+      </div>
+    </div>
   </div>
-</div>
+</p-scrollPanel>
 
 <p-toast key="proposicaoToast" [style]="{marginTop: '80px'}" (onClose)="voltarListar()"></p-toast>
 <p-toast key="proposicaoErro" [style]="{marginTop: '80px'}"></p-toast>

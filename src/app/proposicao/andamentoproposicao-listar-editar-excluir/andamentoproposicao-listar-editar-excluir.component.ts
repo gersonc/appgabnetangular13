@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { MessageService, ConfirmationService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
@@ -70,6 +70,7 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
   showCampoTexto = false;
   deltaquill: any = null;
   showDetalhe = false;
+  rowIndex = 0;
 
 
   constructor(
@@ -173,12 +174,17 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
 
   onRowExpand(event): void {
     this.rowData = event.data;
-    console.log("rowData", this.rowData);
   }
 
-  onRowEditInit(prop: AndamentoProposicaoListagemInterface) {
+  onRowEditInit(prop: AndamentoProposicaoListagemInterface, rowIndex: number, expanded: any) {
+    console.log('expanded', expanded);
     this.styleExpr = '10rem';
     this.old[prop.andamento_proposicao_id] = {...prop};
+    this.rowIndex = rowIndex;
+  }
+
+  fecharForm() {
+
   }
 
   onDelete(prop: AndamentoProposicaoListagemInterface, index: number) {
@@ -239,6 +245,7 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
   }
 
   onRowEditSave(prop: AndamentoProposicaoListagemInterface, index: number) {
+    console.log('index', index);
     this.styleExpr = '';
     this.criaAndamentoProposicao(prop);
     if (this.contador > 0) {
@@ -357,23 +364,13 @@ export class AndamentoproposicaoListarEditarExcluirComponent implements OnInit {
     this.showCampoTexto = false;
   }
 
-  mostraTexto(texto: any[]) {
+  mostraTexto(texto: string) {
     this.campoTitulo = null;
     this.campoTexto = null;
     this.deltaquill = null;
-    this.campoTitulo = texto[0];
+    // this.campoTitulo = texto[0];
     this.showCampoTexto = true;
-    if (texto[4]) {
-      if (this.edtor.getQuill()) {
-        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
-      }
-      this.deltaquill = JSON.parse(texto[4]);
-      setTimeout( () => {
-        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
-      }, 300);
-    } else {
-      this.campoTexto = texto[1];
-    }
+    this.campoTexto = texto;
   }
 
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MostraMenuService } from '../_services';
+import {MenuInternoService, MostraMenuService} from '../_services';
 import { TelefoneBuscaService } from './_services';
 import { DialogService } from 'primeng/dynamicdialog';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-telefone',
@@ -10,29 +11,42 @@ import { DialogService } from 'primeng/dynamicdialog';
   providers: [ DialogService ]
 })
 export class TelefoneComponent implements OnInit {
-  public altura = (window.innerHeight - 170) + 'px';
+  public altura = (window.innerHeight) + 'px';
+  public mostraMenuInterno = false;
+  sub: Subscription[] = [];
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private tbs: TelefoneBuscaService,
     public dialogService: DialogService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
+    this.sub.push(this.mi.mostraInternoMenu().subscribe(
+      vf => {
+        this.mostraMenuInterno = vf;
+      })
+    );
     this.tbs.criarTelefoneBusca();
     if (!sessionStorage.getItem('telefone-busca')) {
       this.tbs.buscaStateSN = false;
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     } else {
       if (this.tbs.buscaStateSN) {
-        this.mm.mudaMenu(false);
+        this.mi.mudaMenuInterno(false);
       } else {
-        this.mm.mudaMenu(true);
+        this.mi.mudaMenuInterno(true);
       }
     }
   }
 
   onHide() {
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
   }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
+  }
+
 }

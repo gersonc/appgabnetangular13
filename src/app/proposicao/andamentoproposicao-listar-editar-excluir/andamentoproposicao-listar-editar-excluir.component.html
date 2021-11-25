@@ -33,6 +33,7 @@
             [icon]="expanded ? 'pi pi-minus-circle' : 'pi pi-pencil'"
             class="p-button-warning p-button-sm"
             tooltipPosition="top"
+            (click)="onRowEditInit(rowData, rowIndex, expanded)"
           >
           </button>
           &nbsp;
@@ -51,8 +52,15 @@
         </td>
         <td class="ui-resizable-column" style="width: 90px; white-space: normal;">{{rowData.andamento_proposicao_data}}</td>
         <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_situacao_nome}}</td>
-        <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0,26)}}...</span>
-        <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_texto}}</td>
+        <ng-container *ngIf="rowData.andamento_proposicao_texto">
+        <td *ngIf="rowData.andamento_proposicao_texto.length > 100"  class="ui-resizable-column" style="white-space: normal;">
+          <span class="mostratexto" (click)="mostraTexto(rowData.andamento_proposicao_texto)">{{rowData.andamento_proposicao_texto.substr(0,100)}}...</span>
+        </td>
+        <td *ngIf="rowData.andamento_proposicao_texto.length <= 100" class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_texto}}</td>
+        </ng-container>
+        <ng-container *ngIf="!rowData.andamento_proposicao_texto">
+          <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_situacao_nome}}</td>
+        </ng-container>
         <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_orgao_nome}}</td>
         <td class="ui-resizable-column" style="white-space: normal;">{{rowData.andamento_proposicao_relator_atual}}</td>
       </tr>
@@ -64,6 +72,23 @@
       <tr class="expandido">
         <td [attr.colspan]="6" class="expandido">
           <div class="rowexpansion-corpo">
+            <div class="p-fluid">
+              <div class="p-d-flex p-jc-start p-pb-2">
+                <div class="p-mr-2">
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-save"
+                    label="Gravar"
+                    class="p-button-rounded p-button-success"
+                    pTooltip="Gravar"
+                    tooltipPosition="top"
+                    (click)="onRowEditSave(rowData, rowIndex)"
+                  >
+                  </button>
+                </div>
+              </div>
 
               <div class="p-grid">
                 <div class="p-col-12 p-mt-0 p-pb-0 formulario-bg-interno">
@@ -145,8 +170,8 @@
                   </div>
                 </div>
               </div>
-
             </div>
+          </div>
 
         </td>
       </tr>
