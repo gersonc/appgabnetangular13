@@ -37,6 +37,7 @@ import { TelefoneComponent } from './telefone.component';
 import { TelefoneMenuListarComponent } from './telefone-menu-listar/telefone-menu-listar.component';
 import { TelefoneDatatableComponent } from './telefone-datatable/telefone-datatable.component';
 import { TelefoneFormularioComponent } from './telefone-formulario/telefone-formulario.component';
+import {RippleModule} from "primeng/ripple";
 
 
 @NgModule({
@@ -46,37 +47,38 @@ import { TelefoneFormularioComponent } from './telefone-formulario/telefone-form
     TelefoneDatatableComponent,
     TelefoneFormularioComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    UtilModule,
-    TableModule,
-    ButtonModule,
-    SidebarModule,
-    AutoCompleteModule,
-    PaginatorModule,
-    DropdownModule,
-    DialogModule,
-    DynamicDialogModule,
-    InputTextModule,
-    ScrollPanelModule,
-    CalendarModule,
-    MenuModule,
-    ListboxModule,
-    InputSwitchModule,
-    ProgressSpinnerModule,
-    ChipsModule,
-    ContextMenuModule,
-    TooltipModule,
-    SelectButtonModule,
-    ToastModule,
-    KeyFilterModule,
-    ConfirmDialogModule,
-    InputTextareaModule,
-    TelefoneRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        UtilModule,
+        TableModule,
+        ButtonModule,
+        SidebarModule,
+        AutoCompleteModule,
+        PaginatorModule,
+        DropdownModule,
+        DialogModule,
+        DynamicDialogModule,
+        InputTextModule,
+        ScrollPanelModule,
+        CalendarModule,
+        MenuModule,
+        ListboxModule,
+        InputSwitchModule,
+        ProgressSpinnerModule,
+        ChipsModule,
+        ContextMenuModule,
+        TooltipModule,
+        SelectButtonModule,
+        ToastModule,
+        KeyFilterModule,
+        ConfirmDialogModule,
+        InputTextareaModule,
+        TelefoneRoutingModule,
+        RippleModule
+    ],
   exports: [
     TelefoneComponent
   ],

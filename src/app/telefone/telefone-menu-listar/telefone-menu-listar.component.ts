@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { MostraMenuService, DropdownService, AutocompleteService } from '../../_services';
+import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { TelefoneBuscaService } from '../_services';
 import { take } from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private autocompleteservice: AutocompleteService,
     private activatedRoute: ActivatedRoute,
@@ -73,7 +73,7 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('telefone-listagem')) {
         sessionStorage.removeItem('telefone-listagem');
       }
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
     }
 
     this.sub.push(this.tbs.atualisaMenu$.subscribe(
@@ -125,7 +125,7 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
     this.tbs.resetTelefoneBusca();
     this.tbs.tb = this.formMenuTelefone!.getRawValue();
     this.tbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 
