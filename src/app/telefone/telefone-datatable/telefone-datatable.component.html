@@ -40,50 +40,33 @@
 
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <ng-template pTemplate="caption">
-      <div class="p-d-flex p-jc-between p-ai-center">
-        <div class="p-d-inline-flex">
-          <div class="p-mx-2">
-            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
-                    (click)="mostraMenu()"></button>
-          </div>
-          <div class="p-mr-2">
-            <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
-                    (click)="mostraSelectColunas()"></button>
-          </div>
-          <div class="p-mr-2">
-            <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
-                    (click)="men.toggle($event)"></button>
-          </div>
-          <div class="p-mr-0">
-            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
-                    (click)="telefoneIncluir()"></button>
-          </div>
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <div class="p-d-inline-flex">
+        <div class="p-mx-2">
+          <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                  (click)="mostraMenu()"></button>
         </div>
-        <div class="p-d-inline-flex p-ai-center">
-          <div class="p-mx-2">TELEFONE</div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                  (click)="mostraSelectColunas()"></button>
         </div>
-        <div class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
+                  (click)="men.toggle($event)"></button>
+        </div>
+        <div class="p-mr-0">
+          <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                  (click)="telefoneIncluir()"></button>
         </div>
       </div>
-      <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
-    </ng-template>
-
-    <!--<div style="overflow: auto;text-align: center;">TELEFONE
-      <div style="overflow:auto;text-align:right;float:left;">
-        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
-        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
-        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
-        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
-        <span *ngIf="authenticationService.telefone_incluir" class="linkTopo" (click)="telefoneIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mx-2">TELEFONE</div>
       </div>
-      <div style="float:right;">
-        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
-          - Num. Registros: {{totalRecords}}</span>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
       </div>
-    </div>-->
+    </div>
+    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -116,7 +99,8 @@
                 [pRowToggler]="tel" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura" style="padding-bottom: 0; padding-top: .3em;">
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
+          style="padding-bottom: 0; padding-top: .3em;">
         {{tel[col.field]}}
       </td>
     </tr>
@@ -188,90 +172,90 @@
               </div>
             </div>
 
-                <div class="p-grid" id="contx">
+            <div class="p-grid" id="contx">
 
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>ID</h5>
-                      {{tel.telefone_id}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>DATA E HORA</h5>
-                      {{tel.telefone_data}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>PARA</h5>
-                      {{tel.telefone_para}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>DE</h5>
-                      {{tel.telefone_de}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>ASSUNTO</h5>
-                      {{tel.telefone_assunto}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>DDD</h5>
-                      {{tel.telefone_ddd}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>TELEFONE</h5>
-                      {{tel.telefone_telefone}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>NÚCLEO</h5>
-                      {{tel.telefone_local_nome}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>RESOLVIDO</h5>
-                      {{tel.telefone_resolvido}}
-                    </div>
-                  </div>
-
-                  <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                    <div class="registros p-shadow-1">
-                      <h5>ATENDENTE</h5>
-                      {{tel.telefone_usuario_nome}}
-                    </div>
-                  </div>
-
-                  <div *ngIf="tel.telefone_observacao" class="p-col-12">
-                    <div class="registros p-shadow-1">
-                      <h5>OBSERVAÇÃO</h5>
-                      {{tel.telefone_observacao}}
-                    </div>
-                  </div>
-
-
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>ID</h5>
+                  {{tel.telefone_id}}
                 </div>
-
               </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>DATA E HORA</h5>
+                  {{tel.telefone_data}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>PARA</h5>
+                  {{tel.telefone_para}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>DE</h5>
+                  {{tel.telefone_de}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>ASSUNTO</h5>
+                  {{tel.telefone_assunto}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>DDD</h5>
+                  {{tel.telefone_ddd}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>TELEFONE</h5>
+                  {{tel.telefone_telefone}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>NÚCLEO</h5>
+                  {{tel.telefone_local_nome}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>RESOLVIDO</h5>
+                  {{tel.telefone_resolvido}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>ATENDENTE</h5>
+                  {{tel.telefone_usuario_nome}}
+                </div>
+              </div>
+
+              <div *ngIf="tel.telefone_observacao" class="p-col-12">
+                <div class="registros p-shadow-1">
+                  <h5>OBSERVAÇÃO</h5>
+                  {{tel.telefone_observacao}}
+                </div>
+              </div>
+
+
             </div>
+
+          </div>
+        </div>
       </td>
     </tr>
   </ng-template>

@@ -138,7 +138,7 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
         },
         header: 'INCLUIR TELEFONEMA',
         width: '60%',
-        height: '50vh',
+        height: '90vh',
         dismissableMask: true,
         showHeader: true
       });

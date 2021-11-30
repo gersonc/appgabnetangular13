@@ -2,11 +2,18 @@ import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/co
 import { AndamentoProposicaoListagemInterface, ProposicaoDetalheInterface, ProposicaoListagemInterface } from '../_models';
 // import * as html2canvas from 'html2canvas';
 // @ts-ignore
-import html2canvas from 'html2canvas';
+// import html2canvas from 'html2canvas';
 import { Subscription } from 'rxjs';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-declare var jsPDF: any;
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
 
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
+declare var html2canvas: any;
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;
@@ -49,7 +56,7 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
 
 
   getPdf (imprimir = false) {
-    const doc = new jsPDF(
+    let doc = new jsPDF(
       {
         orientation: 'p',
         unit: 'mm',
@@ -60,7 +67,7 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
     doc.setFontSize(15);
     doc.text('PROPOSIÇÃO', 15, 15);
     doc.setFontSize(8);
-    doc.autoTable ({
+    autoTable (doc, {
       startY: 20,
       html: this.tabproposicao.nativeElement
     });
@@ -93,7 +100,7 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
     }
 
     const head = [['Proposição', '']];
-    doc.autoTable({
+    autoTable(doc, {
       head: head,
       body: proposicao,
       startY: 20,
@@ -114,7 +121,7 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
       bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
     });
 
-    const pageNumber = doc.internal.getNumberOfPages();
+    const pageNumber = doc.getNumberOfPages ();
 
 
     if (this.proposicao.proposicao_ementa) {
@@ -145,10 +152,27 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
           });
         }
       }
+
+      let corpo: any[] = [];
+
+      this.andamento_proposicao.forEach(c => {
+        corpo.push([
+            c.andamento_proposicao_id,
+            c.andamento_proposicao_proposicao_id,
+            c.andamento_proposicao_data,
+            c.andamento_proposicao_texto,
+            c.andamento_proposicao_relator_atual,
+            c.andamento_proposicao_orgao_id,
+            c.andamento_proposicao_orgao_nome,
+            c.andamento_proposicao_situacao_id,
+            c.andamento_proposicao_situacao_nome
+          ])
+      });
+
       // doc.text('OFÍCIO(S) - Esta solicitação está vinculada ao(s) seguinte(s) ofício(s).', 15, doc.autoTable.previous.finalY + 10);
-      doc.autoTable({
+      autoTable(doc, {
         columns: hcolums,
-        body: this.andamento_proposicao,
+        body: corpo,
         startY: 20,
         pageBreak: 'avoid',
         rowPageBreak: 'auto',
@@ -190,7 +214,7 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
             break;
           }
         }
-        doc.addPage('a4', 'P');
+        doc.addPage('a4', 'p');
         doc.setFontSize(16);
         doc.text(ti, 10, 10);
         doc.addImage(dataUrl, 'PNG', 10, 16, this.larguras[a], this.alturas[a]);
@@ -200,13 +224,29 @@ export class ProposicaoDetalheComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         if (imprimir === false) {
           doc.save(fileName);
+          doc = null;
+        } else {
+          const a: string = doc.output('bloburi').toString();
+          window.open(a);
+          doc.autoPrint();
+          doc = null;
+        }
+      }, tempo);
+    });
+
+
+
+    /*  const tempo = (this.campos.length * 500) + 500;
+      setTimeout(() => {
+        if (imprimir === false) {
+          doc.save(fileName);
         } else {
           doc.autoPrint();
           // doc.output('dataurlnewwindow');
           window.open(doc.output('bloburl'));
         }
       }, tempo);
-    });
+    });*/
   }
 
   getCanvasData = element => {

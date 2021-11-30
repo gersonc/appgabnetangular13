@@ -6,7 +6,7 @@ import { LazyLoadEvent, SelectItem, MenuItem, ConfirmationService } from 'primen
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -24,7 +24,19 @@ import {
 } from '../_models';
 import { TelefoneBuscaService, TelefoneService } from '../_services';
 import { TelefoneFormularioComponent } from '../telefone-formulario/telefone-formulario.component';
-declare var jsPDF: any;
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
+
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
+declare var html2canvas: any;
+declare interface ColumnsInterface {
+  header: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-telefone-datatable',
@@ -75,7 +87,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
   // public mostraMenu$: boolean;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     public dialogService: DialogService,
     private cf: ConfirmationService,
@@ -277,7 +289,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {
@@ -655,31 +667,27 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
 
   getPdf(tel: TelefoneInterface, imprimir = false) {
     const headers = [
-      { titulo1: 'titulo1', valor1: 'valor1', titulo2: 'titulo2', valor2: 'valor2' }
+      ['titulo1', 'valor1', 'titulo2', 'valor2']
     ];
 
     const body = [
-      { titulo1: 'ID', valor1: tel.telefone_id, titulo2: 'DATA E HORA', valor2: tel.telefone_data },
-      { titulo1: 'PARA', valor1: tel.telefone_para, titulo2: 'DE', valor2: tel.telefone_de },
-      { titulo1: 'ASSUNTO', valor1: tel.telefone_assunto, titulo2: 'NÚCLEO', valor2: tel.telefone_local_nome },
-      { titulo1: 'DDD', valor1: tel.telefone_ddd, titulo2: 'TELEFONE', valor2: tel.telefone_telefone },
-      { titulo1: 'RESOLVIDO', valor1: tel.telefone_id, titulo2: 'ATENDENTE', valor2: tel.telefone_usuario_nome },
+      ['ID', tel.telefone_id, 'DATA E HORA', tel.telefone_data ],
+      ['PARA', tel.telefone_para, 'DE', tel.telefone_de ],
+      ['ASSUNTO', tel.telefone_assunto, 'NÚCLEO',tel.telefone_local_nome ],
+      ['DDD', tel.telefone_ddd, 'TELEFONE', tel.telefone_telefone ],
+      ['RESOLVIDO', tel.telefone_id, 'ATENDENTE', tel.telefone_usuario_nome ],
       [{
         colSpan: 4,
         content: 'OBSERVAÇÕES',
-        styles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' }
       }],
       [{
         colSpan: 4,
         content: tel.telefone_observacao,
-        styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
       }],
     ];
 
-
-    // this.mostraCtx = true;
     setTimeout(() => {
-      const doc = new jsPDF(
+      let doc = new jsPDF(
         {
           orientation: 'p',
           unit: 'mm',
@@ -691,35 +699,34 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
       doc.setFontSize(15);
       doc.text('TELEFONEMA', 15, 15);
       doc.setFontSize(8);
-      doc.autoTable ({
+      autoTable (doc, {
         startY: 20,
-        // html:  document.getElementById('ctx')
-        head: headers,
-        body: body,
-        tableWidth: '100%',
+        body: [
+          ['ID', tel.telefone_id, 'DATA E HORA', tel.telefone_data ],
+          ['PARA', tel.telefone_para, 'DE', tel.telefone_de ],
+          ['ASSUNTO', tel.telefone_assunto, 'NÚCLEO',tel.telefone_local_nome ],
+          ['DDD', tel.telefone_ddd, 'TELEFONE', tel.telefone_telefone ],
+          ['RESOLVIDO', tel.telefone_id, 'ATENDENTE', tel.telefone_usuario_nome ],
+          ['OBSERVAÇÕES',{ colSpan: 3, content: tel.telefone_observacao}]
+        ],
         showHead: false,
-        columnStyles: {
-          titulo1: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
-          valor1: { cellWidth: 'wrap', fontSize: '10' },
-          titulo2: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
-          valor2: { cellWidth: 'wrap', fontSize: '10' },
-        },
         theme: 'grid',
-        bodyStyles: {fontSize: '8'},
+        bodyStyles: {fontSize: 8},
 
       });
 
-
-      if (imprimir === false) {
-        doc.save(fileName);
-        // this.mostraCtx = false;
-      } else {
-        doc.autoPrint();
-        // doc.output('dataurlnewwindow');
-        window.open(doc.output('bloburl'));
-        // this.mostraCtx = false;
-      }
-
+      const tempo = (this.campos.length * 500) + 500;
+      setTimeout(() => {
+        if (imprimir === false) {
+          doc.save(fileName);
+          doc = null;
+        } else {
+          const a: string = doc.output('bloburi').toString();
+          window.open(a);
+          doc.autoPrint();
+          doc = null;
+        }
+      }, tempo);
     }, 2000);
   }
 }
