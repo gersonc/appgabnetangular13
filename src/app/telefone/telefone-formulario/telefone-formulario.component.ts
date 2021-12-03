@@ -367,6 +367,8 @@ export class TelefoneFormularioComponent implements OnInit {
       if (this.resp !== undefined) {
         if (this.resp.length === 4) {
           this.ref.close(this.resp[3]);
+        } else {
+          this.ref.close();
         }
       } else {
         this.ref.close();

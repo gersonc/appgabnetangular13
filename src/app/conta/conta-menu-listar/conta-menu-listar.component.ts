@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { MostraMenuService, DropdownService, AutocompleteService } from '../../_services';
+import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { ContaBuscaService } from '../_services';
 import { take } from 'rxjs/operators';
 import { ContaFormularioComponent } from '../conta-formulario/conta-formulario.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ContaDropdown } from '../_models/conta-dropdown';
+import { ContaDropdown } from '../_models';
 
 @Component({
   selector: 'app-conta-menu-listar',
@@ -29,7 +29,7 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     // private autocompleteservice: AutocompleteService,
     private activatedRoute: ActivatedRoute,
@@ -59,7 +59,7 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('conta-listagem')) {
         sessionStorage.removeItem('conta-listagem');
       }
-      this.mm.mudaMenu(true);
+      this.mi.mostraInternoMenu()
     }
 
     this.sub.push(this.cbs.atualisaMenu$.subscribe(
@@ -122,7 +122,7 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
       this.cbs.cb.conta_paga_id = null;
     }
     this.cbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
     this.cs.mostraCarregador();
   }
 

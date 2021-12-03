@@ -377,7 +377,8 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
         },
         header: 'INCLUIR TELEFONEMA',
         width: '60%',
-        height: '50vh',
+        /*height: '50vh',*/
+        styleClass: 'tablistagem',
         dismissableMask: true,
         showHeader: true
       });
@@ -400,7 +401,8 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
         },
         header: 'ALTERAR TELEFONEMA',
         width: '60%',
-        height: '50vh',
+        styleClass: 'tablistagem',
+        /*height: '50vh',*/
         dismissableMask: true,
         showHeader: true
       });

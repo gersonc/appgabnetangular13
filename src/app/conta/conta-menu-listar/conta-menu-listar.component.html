@@ -1,158 +1,217 @@
-<div class="p-grid">
-  <div class="p-col-12"></div>
-  <div class="p-col-12"></div>
-  <div class="p-col-12">
-    <div class="botoesmenu">
-      <button pButton type="submit" icon="fas fa-lg fa-filter" label=" Procurar" class="p-button-rounded"
-              (click)="onMudaForm()"></button>
-      &nbsp;&nbsp;
-      <button pButton *ngIf="authenticationService.contabilidade_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
-              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+<div class="p-fluid formulario-bg-externo">
+  <form [formGroup]="formMenuConta" (keyup)="onKey($event)">
+    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+      <div class="p-d-inline-flex">
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div *ngIf="authenticationService.contabilidade_incluir" class="p-mr-2">
+          <button
+            *ngIf="authenticationService.contabilidade_incluir"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            iconPos="left"
+            label="Incluir"
+            class="p-button-rounded p-button-secondary"
+            (click)="goIncluir()"
+          ></button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<form [formGroup]="formMenuConta" (keyup)="onKey($event)">
 
-  <div class="p-grid">
-    <div class="p-col-12"></div>
-    <div class="p-col-12"></div>
-  </div>
+    <div class="p-d-flex p-ml-1 p-pl-2">
+      <div class="p-fluid p-grid">
 
-  <div class="p-grid">
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="p-fluid p-formgrid p-grid formulario">
 
-      <!-- cedente_array -->
-      <div class="p-grid">
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 campoLabelMenu">
-          <h6>Cedente</h6>
-          <p-chips
-            formControlName="cedente_array"
-            [addOnTab]="true"
-            [addOnBlur]="true"
-          ></p-chips>
+            <!-- cedente_array -->
+            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <label for="cedente_array">Cedente</label>
+              <p-chips
+                id="cedente_array"
+                formControlName="cedente_array"
+                [addOnTab]="true"
+                [addOnBlur]="true"
+              ></p-chips>
+            </div>
+
+            <!-- conta_tipo -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
+              <label>Tipo</label>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="tipo" value="999" formControlName="conta_tipo_id"
+                               label="TODOS"></p-radioButton>
+              </p>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="tipo" value="0" formControlName="conta_tipo_id"
+                               label="FIXA"></p-radioButton>
+              </p>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="tipo" value="1" formControlName="conta_tipo_id"
+                               label="VARIÁVEL"></p-radioButton>
+              </p>
+            </div>
+
+            <!-- conta_debito_automatico -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
+              <label>Débito automático</label>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="debito" value="999"
+                               formControlName="conta_debito_automatico_id" label="TODOS"></p-radioButton>
+              </p>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="debito" value="0"
+                               formControlName="conta_debito_automatico_id" label="NÃO"></p-radioButton>
+              </p>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="debito" value="1"
+                               formControlName="conta_debito_automatico_id" label="SIM"></p-radioButton>
+              </p>
+            </div>
+
+            <!-- conta_paga -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
+              <label>Pago</label>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="pago" value="999" formControlName="conta_paga_id"
+                               label="TODOS"></p-radioButton>
+              </p>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="pago" value="0" formControlName="conta_paga_id"
+                               label="NÃO"></p-radioButton>
+              </p>
+              <p>
+                <p-radioButton labelStyleClass="radiolabel" name="pago" value="1" formControlName="conta_paga_id"
+                               label="SIM"></p-radioButton>
+              </p>
+            </div>
+
+          </div>
         </div>
+
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="p-fluid p-formgrid p-grid formulario">
+
+            <!-- conta_pagamento_1data -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+              <label for="conta_pagamento_1data">Data pagamento</label>
+              <p-calendar
+                id="conta_pagamento_1data"
+                formControlName="conta_pagamento_1data"
+                dateFormat="dd/mm/yy"
+                [yearNavigator]="true"
+                yearRange="2000:2035"
+                placeholder="dd/mm/aaaa"
+
+                dataType="string"
+              ></p-calendar>
+            </div>
+
+            <!-- conta_pagamento_2data -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+              <label for="conta_pagamento_2data">até</label>
+              <p-calendar
+                id="conta_pagamento_2data"
+                formControlName="conta_pagamento_2data"
+                dateFormat="dd/mm/yy"
+                [yearNavigator]="true"
+                yearRange="2000:2035"
+                placeholder="dd/mm/aaaa"
+
+                dataType="string"
+              ></p-calendar>
+            </div>
+
+            <!-- conta_vencimento_1data -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+              <label for="conta_vencimento_1data">Data vencimento</label>
+              <p-calendar
+                id="conta_vencimento_1data"
+                formControlName="conta_vencimento_1data"
+                dateFormat="dd/mm/yy"
+                [yearNavigator]="true"
+                yearRange="2000:2035"
+                placeholder="dd/mm/aaaa"
+                dataType="string"
+              ></p-calendar>
+            </div>
+
+            <!-- conta_vencimento_2data -->
+            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+              <label for="conta_vencimento_2data">até</label>
+              <p-calendar
+                id="conta_vencimento_2data"
+                formControlName="conta_vencimento_2data"
+                dateFormat="dd/mm/yy"
+                [yearNavigator]="true"
+                yearRange="2000:2035"
+                placeholder="dd/mm/aaaa"
+
+                dataType="string"
+              ></p-calendar>
+            </div>
+
+            <!-- conta_local_id -->
+            <div *ngIf="ddConta_local_id.length > 1" class="p-field p-col-12">
+              <label for="conta_local_id">Núcleo</label>
+              <p-dropdown
+                id="conta_local_id"
+                [options]="ddConta_local_id"
+                formControlName="conta_local_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+
+          </div>
+        </div>
+
       </div>
-
-      <!-- conta_tipo -->
-      <div class="p-grid">
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4 campoLabelMenu">
-          <h6>Tipo</h6>
-          <p><p-radioButton labelStyleClass="radiolabel" name="tipo" value="999" formControlName="conta_tipo_id" label="TODOS"></p-radioButton></p>
-          <p><p-radioButton labelStyleClass="radiolabel" name="tipo" value="0" formControlName="conta_tipo_id" label="FIXA"></p-radioButton></p>
-          <p><p-radioButton labelStyleClass="radiolabel" name="tipo" value="1" formControlName="conta_tipo_id" label="VARIÁVEL"></p-radioButton></p>
-        </div>
-
-      <!-- conta_debito_automatico -->
-
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4 campoLabelMenu">
-          <h6>Débito automático</h6>
-          <p><p-radioButton labelStyleClass="radiolabel" name="debito" value="999" formControlName="conta_debito_automatico_id" label="TODOS"></p-radioButton></p>
-          <p><p-radioButton labelStyleClass="radiolabel" name="debito" value="0" formControlName="conta_debito_automatico_id" label="NÃO"></p-radioButton></p>
-          <p><p-radioButton labelStyleClass="radiolabel" name="debito" value="1" formControlName="conta_debito_automatico_id" label="SIM"></p-radioButton></p>
-        </div>
-
-      <!-- conta_paga -->
-
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4 campoLabelMenu">
-          <h6>Pago</h6>
-          <p><p-radioButton labelStyleClass="radiolabel" name="pago" value="999" formControlName="conta_paga_id" label="TODOS"></p-radioButton></p>
-          <p><p-radioButton labelStyleClass="radiolabel" name="pago" value="0" formControlName="conta_paga_id" label="NÃO"></p-radioButton></p>
-          <p><p-radioButton labelStyleClass="radiolabel" name="pago" value="1" formControlName="conta_paga_id" label="SIM"></p-radioButton></p>
-        </div>
-      </div>
-
-      <!-- conta_pagamento_1data -->
-      <div class="p-grid">
-
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3 campoLabelMenu">
-          <h6>Data pagamento</h6>
-          <p-calendar
-            formControlName="conta_pagamento_1data"
-            dateFormat="dd/mm/yy"
-            [yearNavigator]="true"
-            yearRange="2000:2035"
-            placeholder="dd/mm/aaaa"
-
-            dataType="string"
-          ></p-calendar>
-        </div>
-
-        <!-- conta_pagamento_2data -->
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3 campoLabelMenu">
-          <h6>até</h6>
-          <p-calendar
-            formControlName="conta_pagamento_2data"
-            dateFormat="dd/mm/yy"
-            [yearNavigator]="true"
-            yearRange="2000:2035"
-            placeholder="dd/mm/aaaa"
-
-            dataType="string"
-          ></p-calendar>
-        </div>
-
-      </div>
-
-      <!-- conta_vencimento_1data -->
-      <div class="p-grid">
-
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3 campoLabelMenu">
-          <h6>Data vencimento</h6>
-          <p-calendar
-            formControlName="conta_vencimento_1data"
-            dateFormat="dd/mm/yy"
-            [yearNavigator]="true"
-            yearRange="2000:2035"
-            placeholder="dd/mm/aaaa"
-            dataType="string"
-          ></p-calendar>
-        </div>
-
-        <!-- conta_vencimento_2data -->
-        <div class="p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3 campoLabelMenu">
-          <h6>até</h6>
-          <p-calendar
-            formControlName="conta_vencimento_2data"
-            dateFormat="dd/mm/yy"
-            [yearNavigator]="true"
-            yearRange="2000:2035"
-            placeholder="dd/mm/aaaa"
-
-            dataType="string"
-          ></p-calendar>
-        </div>
-
-      </div>
-
-      <!-- conta_local_id -->
-      <div *ngIf="ddConta_local_id.length > 1" class="p-grid">
-        <div class="p-col-12 campoLabelMenu">
-          <h6>Núcleo</h6>
-          <p-dropdown
-            [options]="ddConta_local_id"
-            formControlName="conta_local_id"
-            placeholder="TODOS"
-            [showClear]="true"
-          ></p-dropdown>
-        </div>
-      </div>
-
     </div>
-  </div>
-
-</form>
-<div class="p-grid">
-  <div class="p-col-12"></div>
-  <div class="p-col-12">
-    <div class="botoesmenu">
-      <button pButton type="submit" icon="fas fa-lg fa-filter" label="Procurar" class="p-button-rounded"
-              (click)="onMudaForm()"></button>
-      &nbsp;&nbsp;
-      <button pButton *ngIf="authenticationService.contabilidade_incluir"  type="button" icon="far fa-lg fa-address-card" label="&nbsp;&nbsp;Incluir"
-              class="p-button-rounded p-button-secondary" (click)="goIncluir()"></button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+      <div class="p-d-inline-flex">
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div *ngIf="authenticationService.contabilidade_incluir" class="p-mr-2">
+          <button
+            *ngIf="authenticationService.contabilidade_incluir"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            iconPos="left"
+            label="Incluir"
+            class="p-button-rounded p-button-secondary"
+            (click)="goIncluir()"
+          ></button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="p-col-12"></div>
-  <div class="p-col-12"></div>
-  <div class="p-col-12"></div>
+
+  </form>
 </div>

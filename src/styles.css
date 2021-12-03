@@ -13333,6 +13333,13 @@ form.menuinterno-form {
   padding: 1px 1px !important;
   /*font-size: 8px !important;*/
 }
+
+.formulariotelefone {
+  padding: 1px 1px !important;
+  border-radius: 10px;
+  /*font-size: 8px !important;*/
+}
+
 .formulario h5 {
   color: inherit !important;
   font-size: var(--formulario-label-font-size);
