@@ -167,7 +167,7 @@ export class ContaService {
         if (ev[v].toString().length > 0) {
           const n = campo.indexOf(v);
           if (n >= 0) {
-            const cc: string[] = [];
+            const cc: any[] = [];
             cc.push(titulo[n].toString());
             /*switch (v) {
               case 'conta_debito_automatico' : {
@@ -247,13 +247,18 @@ export class ContaService {
               }
             }*/
             cc.push(ev[v].toString());
+            if (v === 'conta_observacao') {
+              cc.push(true);
+            } else {
+              cc.push(false);
+            }
             b.push(cc);
             a++;
           }
         }
       }
     }
-    const tamanho = b.length;
+    /*const tamanho = b.length;
     let linhas: number = tamanho;
     let colunas = 2;
     if (tamanho > 10) {
@@ -288,7 +293,8 @@ export class ContaService {
     }
     const largura = (100 / colunas).toFixed(2) + '%';
     idxC.push(largura.toString());
-    this.expandido.next(idxC);
+    this.expandido.next(idxC);*/
+    this.expandido.next(b);
   }
 
 

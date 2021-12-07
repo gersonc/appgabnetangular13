@@ -35,7 +35,7 @@
           <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- cedente_array -->
-            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
               <label for="cedente_array">Cedente</label>
               <p-chips
                 id="cedente_array"
@@ -47,53 +47,107 @@
 
             <!-- conta_tipo -->
             <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
-              <label>Tipo</label>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="tipo" value="999" formControlName="conta_tipo_id"
-                               label="TODOS"></p-radioButton>
-              </p>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="tipo" value="0" formControlName="conta_tipo_id"
-                               label="FIXA"></p-radioButton>
-              </p>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="tipo" value="1" formControlName="conta_tipo_id"
-                               label="VARIÁVEL"></p-radioButton>
-              </p>
+              <h5>Tipo</h5>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  id="conta_tipo_id1"
+                  labelStyleClass="radiolabel"
+                  name="conta_tipo_id"
+                  value="999"
+                  formControlName="conta_tipo_id"
+                ></p-radioButton>
+                <label for="conta_tipo_id1">TODOS</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  id="conta_tipo_id2"
+                  labelStyleClass="radiolabel"
+                  name="conta_tipo_id"
+                  value="0"
+                  formControlName="conta_tipo_id"
+                ></p-radioButton>
+                <label for="conta_tipo_id2">FIXA</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  id="conta_tipo_id3"
+                  labelStyleClass="radiolabel"
+                  name="conta_tipo_id"
+                  value="1"
+                  formControlName="conta_tipo_id"
+                ></p-radioButton>
+                <label for="conta_tipo_id3">VARIÁVEL</label>
+              </div>
             </div>
 
             <!-- conta_debito_automatico -->
             <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
-              <label>Débito automático</label>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="debito" value="999"
-                               formControlName="conta_debito_automatico_id" label="TODOS"></p-radioButton>
-              </p>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="debito" value="0"
-                               formControlName="conta_debito_automatico_id" label="NÃO"></p-radioButton>
-              </p>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="debito" value="1"
-                               formControlName="conta_debito_automatico_id" label="SIM"></p-radioButton>
-              </p>
+              <h5>Débito automático</h5>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  labelStyleClass="radiolabel"
+                  name="conta_debito_automatico_id"
+                  value="999"
+                  formControlName="conta_debito_automatico_id"
+                  id="conta_debito_automatico_id1"
+                ></p-radioButton>
+                <label for="conta_debito_automatico_id1">TODOS</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  labelStyleClass="radiolabel"
+                  name="conta_debito_automatico_id"
+                  value="0"
+                  formControlName="conta_debito_automatico_id"
+                  id="conta_debito_automatico_id2"
+                ></p-radioButton>
+                <label for="conta_debito_automatico_id2">NÃO</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  labelStyleClass="radiolabel"
+                  name="conta_debito_automatico_id"
+                  value="1"
+                  formControlName="conta_debito_automatico_id"
+                  id="conta_debito_automatico_id3"
+                ></p-radioButton>
+                <label for="conta_debito_automatico_id3">SIM</label>
+              </div>
             </div>
 
             <!-- conta_paga -->
             <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
-              <label>Pago</label>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="pago" value="999" formControlName="conta_paga_id"
-                               label="TODOS"></p-radioButton>
-              </p>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="pago" value="0" formControlName="conta_paga_id"
-                               label="NÃO"></p-radioButton>
-              </p>
-              <p>
-                <p-radioButton labelStyleClass="radiolabel" name="pago" value="1" formControlName="conta_paga_id"
-                               label="SIM"></p-radioButton>
-              </p>
+              <h5>Pago</h5>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  id="conta_paga_id1"
+                  labelStyleClass="radiolabel"
+                  name="conta_paga_id"
+                  value="999"
+                  formControlName="conta_paga_id"
+                ></p-radioButton>
+                <label for="conta_paga_id1">TODOS</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  id="conta_paga_id2"
+                  labelStyleClass="radiolabel"
+                  name="conta_paga_id"
+                  value="0"
+                  formControlName="conta_paga_id"
+                ></p-radioButton>
+                <label for="conta_paga_id2">NÃO</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton
+                  id="conta_paga_id3"
+                  labelStyleClass="radiolabel"
+                  name="conta_paga_id"
+                  value="1"
+                  formControlName="conta_paga_id"
+                ></p-radioButton>
+                <label for="conta_paga_id3">SIM</label>
+              </div>
             </div>
 
           </div>
@@ -103,7 +157,7 @@
           <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- conta_pagamento_1data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
               <label for="conta_pagamento_1data">Data pagamento</label>
               <p-calendar
                 id="conta_pagamento_1data"
@@ -118,7 +172,7 @@
             </div>
 
             <!-- conta_pagamento_2data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
               <label for="conta_pagamento_2data">até</label>
               <p-calendar
                 id="conta_pagamento_2data"
@@ -133,7 +187,7 @@
             </div>
 
             <!-- conta_vencimento_1data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
               <label for="conta_vencimento_1data">Data vencimento</label>
               <p-calendar
                 id="conta_vencimento_1data"
@@ -147,7 +201,7 @@
             </div>
 
             <!-- conta_vencimento_2data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-3">
+            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
               <label for="conta_vencimento_2data">até</label>
               <p-calendar
                 id="conta_vencimento_2data"
@@ -173,7 +227,6 @@
               ></p-dropdown>
             </div>
 
-
           </div>
         </div>
 
@@ -181,10 +234,7 @@
     </div>
     <br>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
         <div class="p-mr-2">

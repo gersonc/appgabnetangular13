@@ -56,7 +56,7 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
   selectedColumnsOld: any[] = [];
   mostraSeletor = false;
   camposSelecionados: ProcessoBuscaCampoInterface[];
-  altura = `${WindowsService.altura - 180}` + 'px';
+  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   numColunas = 3;
   expColunas = 0;

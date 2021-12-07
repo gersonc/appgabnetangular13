@@ -24,6 +24,7 @@ import {
 import { ContaBuscaService, ContaService } from '../_services';
 import { ContaFormularioComponent } from '../conta-formulario/conta-formulario.component';
 import { ContaDropdown } from '../_models';
+import {Editor} from "primeng/editor";
 declare var jsPDF: any;
 
 @Component({
@@ -35,6 +36,7 @@ declare var jsPDF: any;
 export class ContaDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtct', { static: true }) public dtct: any;
   @ViewChild('cm', { static: true }) cm: ElementRef;
+  @ViewChild('edtor', { static: true }) public edtor: Editor;
   private alturas: number[] = [];
   private larguras: number[] = [];
   private campos: string[] = [];
@@ -54,7 +56,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   selectedColumnsOld: any[] = [];
   mostraSeletor = false;
   camposSelecionados: ContaBuscaCampoInterface[];
-  altura = `${WindowsService.altura - 180}` + 'px';
+  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   numColunas = 2;
   expColunas = 0;
@@ -88,8 +90,13 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   paga_id: number | boolean = null;
   pagamento: string = null;
   idx: number = null;
-
   _selectedColumns: any[];
+
+  campoTexto: string = null;
+  campoTitulo: string = null;
+  showCampoTexto = false;
+  deltaquill: any = null;
+  showDetalhe = false;
 
   constructor(
     public mm: MostraMenuService,
@@ -110,7 +117,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.configuraCalendario();
 
     this.cols = [
-      { field: 'conta_id', header: 'ID', sortable: 'true', largura: '80px'},
+      { field: 'conta_id', header: 'ID', sortable: 'true', largura: '7rem'},
       { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', largura: '300px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', largura: '120px'},
       { field: 'conta_valor', header: 'VALOR', sortable: 'true', largura: '100px'},
@@ -137,7 +144,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.authIncluir = true;
       this.contextoMenu.push(
         {
-          label: 'INCLUIR', icon: 'far fa-lg fa-address-card', style: { 'font-size': '1em' },
+          label: 'INCLUIR', icon: 'pi pi-plus', style: { 'font-size': '1em' },
           command: () => {
             this.contaIncluir();
           }
@@ -148,7 +155,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.authAlterar = true;
       this.contextoMenu.push(
         {
-          label: 'ALTERAR', icon: 'fas fa-lg fa-pen-fancy', style: { 'font-size': '1em' },
+          label: 'ALTERAR', icon: 'pi pi-pencil', style: { 'font-size': '1em' },
           command: () => {
             this.contaAlterar(this.ctaContexto);
           }
@@ -159,14 +166,14 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.authApagar = true;
       this.contextoMenu.push(
         {
-          label: 'APAGAR', icon: 'far fa-lg fa-trash-alt', style: { 'font-size': '1em' },
+          label: 'APAGAR', icon: 'pi pi-trash', style: { 'font-size': '1em' },
           command: () => {
             this.contaApagar(this.ctaContexto);
           }
         });
     }
 
-    this.itemsAcao = [
+    /*this.itemsAcao = [
       {
         label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: { 'font-size': '.9em' }, command: () => {
           this.exportToCsv();
@@ -207,6 +214,17 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
           this.exportToXLSX(true);
         }
       }
+    ];*/
+
+    this.itemsAcao = [
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
     this.constroiExtendida();
@@ -276,11 +294,19 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   resetSelectedColumns(): void {
       this._selectedColumns = [
+        /*{ field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', largura: '300px'},
+        { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', largura: '120px'},
+        { field: 'conta_valor', header: 'VALOR', sortable: 'true', largura: '100px'},
+        { field: 'conta_paga', header: 'PAGO', sortable: 'true', largura: '100px'},
+        { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', largura: '120px'},*/
         { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', largura: '300px'},
         { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', largura: '120px'},
         { field: 'conta_valor', header: 'VALOR', sortable: 'true', largura: '100px'},
         { field: 'conta_paga', header: 'PAGO', sortable: 'true', largura: '100px'},
         { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', largura: '120px'},
+        { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', largura: '120px'},
+        { field: 'conta_tipo', header: 'TIPO', sortable: 'true', largura: '100px'},
+        { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', largura: '500px'}
       ];
   }
 
@@ -793,7 +819,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
           });
         }
         this.soma = 'R$ ' + valor.toLocaleString('pt-BR');
-        this.altura = `${WindowsService.altura - 205}` + 'px';
+        this.altura = `${WindowsService.altura - 175}` + 'px';
       }
     }
   }
@@ -804,7 +830,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.mostraCalculo();
     } else {
       this.indexSoma = 0;
-      this.altura = `${WindowsService.altura - 180}` + 'px';
+      this.altura = `${WindowsService.altura - 150}` + 'px';
       this.soma = null;
     }
   }
@@ -897,6 +923,36 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       }
 
     }, 2000);
+  }
+
+  mostraTexto(texto: any[]) {
+    this.campoTitulo = null;
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = texto[0];
+    this.showCampoTexto = true;
+    if (texto[4]) {
+      if (this.edtor.getQuill()) {
+        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
+      }
+      this.deltaquill = JSON.parse(texto[4]);
+      setTimeout( () => {
+        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
+      }, 300);
+    } else {
+      this.campoTexto = texto[1];
+    }
+  }
+
+  escondeTexto() {
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = null;
+    this.showCampoTexto = false;
+  }
+
+  escondeDetalhe() {
+    this.showDetalhe = false;
   }
 
 }

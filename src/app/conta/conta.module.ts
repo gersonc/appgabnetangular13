@@ -37,6 +37,8 @@ import { ContaComponent } from './conta.component';
 import { ContaMenuListarComponent } from './conta-menu-listar/conta-menu-listar.component';
 import { ContaDatatableComponent } from './conta-datatable/conta-datatable.component';
 import { ContaFormularioComponent } from './conta-formulario/conta-formulario.component';
+import {RippleModule} from "primeng/ripple";
+import {QuillModule} from "ngx-quill";
 
 
 
@@ -47,39 +49,41 @@ import { ContaFormularioComponent } from './conta-formulario/conta-formulario.co
     ContaDatatableComponent,
     ContaFormularioComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    UtilModule,
-    TableModule,
-    ButtonModule,
-    SidebarModule,
-    AutoCompleteModule,
-    PaginatorModule,
-    DropdownModule,
-    DialogModule,
-    DynamicDialogModule,
-    InputTextModule,
-    ScrollPanelModule,
-    CalendarModule,
-    MenuModule,
-    ListboxModule,
-    InputSwitchModule,
-    ProgressSpinnerModule,
-    ChipsModule,
-    ContextMenuModule,
-    TooltipModule,
-    SelectButtonModule,
-    ToastModule,
-    KeyFilterModule,
-    ConfirmDialogModule,
-    InputTextareaModule,
-    RadioButtonModule,
-    ContaRoutingModule,
-    ArquivoModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        UtilModule,
+        TableModule,
+        ButtonModule,
+        SidebarModule,
+        AutoCompleteModule,
+        PaginatorModule,
+        DropdownModule,
+        DialogModule,
+        DynamicDialogModule,
+        InputTextModule,
+        ScrollPanelModule,
+        CalendarModule,
+        MenuModule,
+        ListboxModule,
+        InputSwitchModule,
+        ProgressSpinnerModule,
+        ChipsModule,
+        ContextMenuModule,
+        TooltipModule,
+        SelectButtonModule,
+        ToastModule,
+        KeyFilterModule,
+        ConfirmDialogModule,
+        InputTextareaModule,
+        RadioButtonModule,
+        ContaRoutingModule,
+        ArquivoModule,
+        RippleModule,
+        QuillModule
+    ],
   exports: [
     ContaComponent
   ],
