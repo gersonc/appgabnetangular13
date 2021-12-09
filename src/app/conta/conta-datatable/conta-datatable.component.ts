@@ -25,7 +25,19 @@ import { ContaBuscaService, ContaService } from '../_services';
 import { ContaFormularioComponent } from '../conta-formulario/conta-formulario.component';
 import { ContaDropdown } from '../_models';
 import {Editor} from "primeng/editor";
-declare var jsPDF: any;
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+import { applyPlugin, UserOptions } from 'jspdf-autotable';
+applyPlugin(jsPDF);
+
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
+declare var html2canvas: any;
+declare interface ColumnsInterface {
+  header: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-conta-datatable',
@@ -860,6 +872,24 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       { titulo1: 'titulo1', valor1: 'valor1', titulo2: 'titulo2', valor2: 'valor2' }
     ];
 
+    /*const body = [
+      { titulo1: 'ID', valor1: ctb.conta_id, titulo2: 'PAGO', valor2: ctb.conta_paga },
+      { titulo1: 'DT. VENC', valor1: ctb.conta_vencimento, titulo2: 'DT. PGTO.', valor2: ctb.conta_pagamento },
+      { titulo1: 'CEDENTE', valor1: ctb.conta_cedente, titulo2: 'VALOR', valor2: ctb.conta_valor },
+      { titulo1: 'NÚCLEO', valor1: ctb.conta_local_nome, titulo2: 'DBTO. AUT.', valor2: ctb.conta_debito_automatico },
+      { titulo1: 'TIPO', valor1: ctb.conta_tipo },
+      [{
+        colSpan: 4,
+        content: 'OBSERVAÇÕES',
+        styles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' }
+      }],
+      [{
+        colSpan: 4,
+        content: ctb.conta_observacao,
+        styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
+      }],
+    ];*/
+
     const body = [
       { titulo1: 'ID', valor1: ctb.conta_id, titulo2: 'PAGO', valor2: ctb.conta_paga },
       { titulo1: 'DT. VENC', valor1: ctb.conta_vencimento, titulo2: 'DT. PGTO.', valor2: ctb.conta_pagamento },
@@ -893,7 +923,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       doc.setFontSize(15);
       doc.text('LANÇAMENTO', 15, 15);
       doc.setFontSize(8);
-      doc.autoTable ({
+      autoTable (doc, {
         startY: 20,
         // html:  document.getElementById('ctx')
         head: headers,
