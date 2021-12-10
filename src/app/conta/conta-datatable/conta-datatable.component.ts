@@ -6,7 +6,7 @@ import { LazyLoadEvent, SelectItem, MenuItem, ConfirmationService } from 'primen
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -111,7 +111,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   showDetalhe = false;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public aut: AuthenticationService,
     public dialogService: DialogService,
     private cf: ConfirmationService,
@@ -352,7 +352,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {
@@ -446,7 +446,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         },
         header: 'ALTERAR LANÇAMENTO',
         width: '60%',
-        height: '50vh',
+        styleClass: 'tablistagem',
+        /*height: '50vh',*/
         dismissableMask: true,
         showHeader: true
       });
@@ -872,25 +873,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       { titulo1: 'titulo1', valor1: 'valor1', titulo2: 'titulo2', valor2: 'valor2' }
     ];
 
-    /*const body = [
-      { titulo1: 'ID', valor1: ctb.conta_id, titulo2: 'PAGO', valor2: ctb.conta_paga },
-      { titulo1: 'DT. VENC', valor1: ctb.conta_vencimento, titulo2: 'DT. PGTO.', valor2: ctb.conta_pagamento },
-      { titulo1: 'CEDENTE', valor1: ctb.conta_cedente, titulo2: 'VALOR', valor2: ctb.conta_valor },
-      { titulo1: 'NÚCLEO', valor1: ctb.conta_local_nome, titulo2: 'DBTO. AUT.', valor2: ctb.conta_debito_automatico },
-      { titulo1: 'TIPO', valor1: ctb.conta_tipo },
-      [{
-        colSpan: 4,
-        content: 'OBSERVAÇÕES',
-        styles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' }
-      }],
-      [{
-        colSpan: 4,
-        content: ctb.conta_observacao,
-        styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
-      }],
-    ];*/
-
-    const body = [
+    const body: any[] = [
       { titulo1: 'ID', valor1: ctb.conta_id, titulo2: 'PAGO', valor2: ctb.conta_paga },
       { titulo1: 'DT. VENC', valor1: ctb.conta_vencimento, titulo2: 'DT. PGTO.', valor2: ctb.conta_pagamento },
       { titulo1: 'CEDENTE', valor1: ctb.conta_cedente, titulo2: 'VALOR', valor2: ctb.conta_valor },
@@ -907,6 +890,24 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
       }],
     ];
+
+    /*const body: any[] = [
+      ['ID', ctb.conta_id, 'PAGO', ctb.conta_paga ],
+      ['DT. VENC', ctb.conta_vencimento, 'DT. PGTO.', ctb.conta_pagamento ],
+      ['CEDENTE', ctb.conta_cedente, 'VALOR', ctb.conta_valor ],
+      ['NÚCLEO',ctb.conta_local_nome, 'DBTO. AUT.', ctb.conta_debito_automatico ],
+      ['TIPO', ctb.conta_tipo ],
+      [{
+        colSpan: 4,
+        content: 'OBSERVAÇÕES',
+        styles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' }
+      }],
+      [{
+        colSpan: 4,
+        content: ctb.conta_observacao,
+        styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
+      }],
+    ];*/
 
 
     // this.mostraCtx = true;
@@ -928,27 +929,29 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         // html:  document.getElementById('ctx')
         head: headers,
         body: body,
-        tableWidth: '100%',
+        tableWidth: "auto",
         showHead: false,
         columnStyles: {
           titulo1: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
-          valor1: { cellWidth: 'wrap', fontSize: '10' },
+          valor1: { cellWidth: 'wrap', fontSize: 10 },
           titulo2: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
-          valor2: { cellWidth: 'wrap', fontSize: '10' },
+          valor2: { cellWidth: 'wrap', fontSize: 10 },
         },
         theme: 'grid',
-        bodyStyles: {fontSize: '8'},
+        bodyStyles: {fontSize: 8},
 
       });
+
+
 
 
       if (imprimir === false) {
         doc.save(fileName);
         // this.mostraCtx = false;
       } else {
+        const a: string = doc.output('bloburi').toString();
+        window.open(a);
         doc.autoPrint();
-        // doc.output('dataurlnewwindow');
-        window.open(doc.output('bloburl'));
         // this.mostraCtx = false;
       }
 

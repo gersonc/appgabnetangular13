@@ -135,7 +135,8 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
         },
         header: 'INCLUIR CONTA',
         width: '60%',
-        height: '50vh',
+        styleClass: 'tablistagem',
+        /*height: '50vh',*/
         dismissableMask: true,
         showHeader: true
       });

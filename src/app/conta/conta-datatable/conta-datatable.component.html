@@ -285,11 +285,13 @@
   </ng-template>
 
   <!--*** TABELA VAZIA *********************************************************************************************-->
-  <ng-template pTemplate="emptymessage">
+  <ng-template pTemplate="emptymessage" let-columns>
     <tr>
-      <td [attr.colspan]="6" align="center">
-        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
-          NENHUM REGISTRO
+      <td [attr.colspan]="columns.length+1" id="tabela-vazia">
+        <div class="tabela-vazia-a">
+          <div class="tabela-vazia-b">
+            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+          </div>
         </div>
       </td>
     </tr>

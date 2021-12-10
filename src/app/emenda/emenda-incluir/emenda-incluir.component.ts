@@ -318,7 +318,8 @@ export class EmendaIncluirComponent implements OnInit {
     if (this.authenticationService.cadastro_incluir) {
       this.cs.mostraCarregador();
       sessionStorage.setItem('emenda-incluir', JSON.stringify(this.formEmendaIncluir.getRawValue()));
-      this.router.navigate(['/solicitacao/cadastro']);
+      // this.router.navigate(['/solicitacao/cadastro']);
+      this.router.navigate(['/incluir/cadastro/emenda']);
     } else {
       console.error('SEM PERMISSAO');
     }
