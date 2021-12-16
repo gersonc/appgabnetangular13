@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../_services';
+import {CarregadorService, DropdownService} from '../../_services';
 import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../_models';
 import { CadastroFormulario, CadastroFormularioInterface } from '../_models';
 import { CadastroService } from '../_services';
@@ -21,6 +21,7 @@ export class CadastroFormResolver implements Resolve<CadastroFormularioInterface
   private cadastro_id = 0;
 
   constructor(
+    private cs: CarregadorService,
     private router: Router,
     private dd: DropdownService,
     private cadastroService: CadastroService,
@@ -211,6 +212,7 @@ export class CadastroFormResolver implements Resolve<CadastroFormularioInterface
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
+          this.cs.escondeCarregador();
           if (dados) {
             this.onDestroy();
             return of(dados);

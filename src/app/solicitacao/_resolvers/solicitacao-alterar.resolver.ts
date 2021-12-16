@@ -162,7 +162,7 @@ export class SolicitacaoAlterarResolver implements OnDestroy, Resolve<Solicitaca
         'usuario_responsavel_sn',
         '=',
         '1',
-        ['ASC']
+        'ASC'
         )
           .pipe(take(1))
           .subscribe({

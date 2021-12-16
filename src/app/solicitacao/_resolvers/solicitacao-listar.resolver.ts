@@ -33,13 +33,33 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
 
   private populaDropdown() {
     let contador = 0;
+    // contador++;
+
+    this.sub.push(this.dd.getDropdownSolCadTipo()
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          console.log(dados);
+          this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados;
+        },
+        error: (err) => {
+          console.error(err);
+        },
+        complete: () => {
+          contador++;
+          if (contador === 4) {
+            this.gravaDropDown();
+          }
+        }
+      })
+    );
 
     // ****** solicitacao_posicao *****
     this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
     this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
     // ****** solicitacao_cadastro_tipo_id *****
-    this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
+    // this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
     // ****** solicitacao_cadastro_id *****
     this.ddNomeIdArray.add('ddSolicitacao_cadastro_id', 'solicitacao', 'solicitacao_cadastro_id', 'solicitacao_cadastro_nome');
     // ****** solicitacao_assunto_id *****
@@ -74,7 +94,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 3) {
+          if (contador === 4) {
             this.gravaDropDown();
           }
         }
@@ -85,7 +105,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados['ddSolicitacao_cadastro_tipo_id'];
+          // this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados['ddSolicitacao_cadastro_tipo_id'];
           this.ddSolicitacao.ddSolicitacao_cadastro_id = dados['ddSolicitacao_cadastro_id'];
           this.ddSolicitacao.ddSolicitacao_assunto_id = dados['ddSolicitacao_assunto_id'];
           this.ddSolicitacao.ddSolicitacao_atendente_cadastro_id = dados['ddSolicitacao_atendente_cadastro_id'];
@@ -100,7 +120,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 3) {
+          if (contador === 4) {
             this.gravaDropDown();
           }
         }
@@ -119,7 +139,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 3) {
+          if (contador === 4) {
             this.gravaDropDown();
           }
         }

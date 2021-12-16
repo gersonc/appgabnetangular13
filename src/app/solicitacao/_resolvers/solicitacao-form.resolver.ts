@@ -32,27 +32,27 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
 
   espera() {
     this.contador--;
-    this.resp.next(this.cf);
     if (this.contador < 1) {
+      this.resp.next(this.cf);
       this.resp.complete();
     }
   }
 
   carregaDados() {
     this.cf = true;
-    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
+    /*if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
       const tpcad: SelectItemGroup[] = [];
       const a = [1, 2];
       let tipo: SelectItemGroup;
       let c = 0;
-      for (const b of a) {
+      // for (const b of a) {
 
         this.sub.push(this.dd.getDropdown3campos(
-          'cadastro',
-          'cadastro_tipo',
-          'cadastro_tipo_nome',
-          'cadastro_tipo_tipo',
-          String(b)
+          'tipo_cadastro',
+          'tipo_cadastro_id',
+          'tipo_cadastro_nome',
+          'tipo_cadastro_tipo',
+          '1'
           ).pipe(take(3))
             .subscribe({
               next: (dados) => {
@@ -69,13 +69,62 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
               complete: () => {
                 c++;
                 if (c === 2) {
+                  console.log('resolver');
                   sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
                   this.espera();
                 }
               }
             })
         );
-      }
+      this.sub.push(this.dd.getDropdown3campos(
+          'tipo_cadastro',
+          'tipo_cadastro_id',
+          'tipo_cadastro_nome',
+          'tipo_cadastro_tipo',
+          '2'
+        ).pipe(take(3))
+          .subscribe({
+            next: (dados) => {
+              tipo = {
+                label: dados['label'].toString(),
+                value: null,
+                items: dados['items']
+              };
+              tpcad.push(tipo);
+            },
+            error: (err) => {
+              console.error(err);
+            },
+            complete: () => {
+              c++;
+              if (c === 2) {
+                console.log('resolver');
+                sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
+                this.espera();
+              }
+            }
+          })
+      );
+      // }
+    } else {
+      this.espera();
+    }*/
+
+    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
+      this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dados));
+          },
+          error: (err) => {
+            console.error(err);
+          },
+          complete: () => {
+            this.espera();
+          }
+        })
+      );
     } else {
       this.espera();
     }
@@ -152,7 +201,7 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
         'usuario_responsavel_sn',
         '=',
         '1',
-        ['ASC']
+        'ASC'
         )
           .pipe(take(1))
           .subscribe({

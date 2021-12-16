@@ -54,7 +54,7 @@ export class SolicitacaoAlterarComponent implements OnInit, AfterViewInit, OnDes
   teste: any[];
 
   constructor(
-    private http: HttpClient,
+    // private http: HttpClient,
     private formBuilder: FormBuilder,
     private dd: DropdownService,
     private autocompleteservice: AutocompleteService,
@@ -75,10 +75,11 @@ export class SolicitacaoAlterarComponent implements OnInit, AfterViewInit, OnDes
         this.solicitacao_id = data.dados.solicitacao_id;
         this.solicitacao_cadastro_tipo_nome = data.dados.solicitacao_cadastro_tipo_nome;
         this.solicitacao_cadastro_nome = data.dados.solicitacao_cadastro_nome;
+        this.criaForm();
       }
     ));
     this.carregaDropdownSessionStorage();
-    this.criaForm();
+    // this.criaForm();
     this.configuraCalendario();
     this.configuraEditor();
     this.cadastro_incluir = this.authenticationService.cadastro_incluir;

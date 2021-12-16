@@ -238,9 +238,11 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
         mergeMap(vf => {
           if (vf) {
             this.onDestroy();
+            this.cs.escondeCarregador();
             return of(vf);
           } else {
             this.onDestroy();
+            this.cs.escondeCarregador();
             return EMPTY;
           }
         })
@@ -255,6 +257,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
             .pipe(
               take(1),
               mergeMap(dados => {
+                this.cs.escondeCarregador();
                 if (dados) {
                   return of(dados);
                 } else {
@@ -267,6 +270,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
             .pipe(
               take(1),
               mergeMap(dados => {
+                this.cs.escondeCarregador();
                 if (dados) {
                   return of(dados);
                 } else {
@@ -276,6 +280,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
             );
         }
       } else {
+        this.cs.escondeCarregador();
         if (this.cbs.smsSN && this.sms === true) {
           this.router.navigate(['/cadastro/listar/sms']);
           return EMPTY;

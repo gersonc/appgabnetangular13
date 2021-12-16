@@ -104,7 +104,7 @@ export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    this.cr.escondeCarregador();
+    // this.cr.escondeCarregador();
     this.ativaValidacao = false;
   }
 
@@ -176,7 +176,7 @@ export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestro
         if (this.ddTipoCadastroId.length >= 1) {
           this.tipotipo = this.achaTipo2(this.ddTipoCadastroId, this.cs.cadastro.cadastro_tipo_id);
         }
-        this.cr.escondeCarregador();
+        // this.cr.escondeCarregador();
     }, 500);
   }
 

@@ -79,8 +79,17 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -90,6 +99,9 @@
           "configurations": {
             "production": {
               "browserTarget": "gbnetstiile03:build:production"
+            },
+            "development": {
+              "browserTarget": "gbnetstiile03:build:development"
             }
           }
         },

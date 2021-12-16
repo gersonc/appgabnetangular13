@@ -78,6 +78,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
 
   carregaDropDown() {
     if (sessionStorage.getItem('solicitacao-dropdown')) {
+      console.log('aaaaaaa');
       let dd = JSON.parse(sessionStorage.getItem('solicitacao-dropdown'));
       this.ddSolicitacao_posicao = dd['ddSolicitacao_posicao'];
       this.ddSolicitacao_cadastro_tipo_id = dd['ddSolicitacao_cadastro_tipo_id'];
@@ -95,6 +96,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
       dd = null;
       this.cs.escondeCarregador();
     } else {
+      console.log('bbbbbb');
         this.getCarregaDropDown();
     }
   }

@@ -160,11 +160,11 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
 
   carregaDropDown() {
     // ***     Tipo Cadastro      *************************
-    this.sub.push(this.dd.getDropdown3campos(
-      'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
+    this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
+          console.log(dados);
           const tipo: SelectItemGroup = {
             label: dados['label'].toString(),
             value: null,
@@ -183,6 +183,8 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
           }
         }
       }));
+
+
     this.sub.push(this.dd.getDropdown3campos(
       'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '1')
       .pipe(take(1))

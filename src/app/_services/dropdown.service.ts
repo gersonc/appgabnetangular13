@@ -13,6 +13,7 @@ export class DropdownService {
 
   private dropdownSimples$: Observable<SelectItem[]> | undefined;
   private dropdownAgrupado$: Observable<SelectItemGroup> | undefined;
+  private dropdownAgrupados$: Observable<SelectItemGroup[]> | undefined;
   private dropdownArray$: Observable<any[]> | undefined;
 
   constructor(
@@ -45,6 +46,24 @@ export class DropdownService {
     }
     this.dropdownAgrupado$ = this.http.get<SelectItemGroup>(dd);
     return this.dropdownAgrupado$;
+  }
+
+  public getDropdownCadastroTipoIncluir() {
+    let dd: string;
+    dd = this.url.dropdown + '/cadtipoincluir';
+    return this.http.get<SelectItemGroup[]>(dd);
+    // const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    // this.dropdownAgrupados$ = this.http.get<SelectItemGroup[]>(dd);
+    // return this.dropdownSimples$;
+  }
+
+  public getDropdownSolCadTipo() {
+    let dd: string;
+    dd = this.url.dropdown + '/solcadtipo';
+    return this.http.get<SelectItemGroup[]>(dd);
+    // const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    // this.dropdownAgrupados$ = this.http.get<any[]>(dd);
+    // return this.dropdownSimples$;
   }
 
   public postDropdown3campos(dados: any): Observable<SelectItem[]> {
@@ -111,9 +130,9 @@ export class DropdownService {
     wcampo: string,
     woperador: string,
     wvalor: string,
-    parametros?: string[]
+    parametros?: string
   ): Observable<any[]> {
-    const dados = [ {tabela, campo_id, campo_nome, wcampo, woperador, wvalor, parametros}];
+    const dados = [{tabela, campo_id, campo_nome, wcampo, woperador, wvalor, parametros}];
     let dd: string;
     dd = this.url.dropdown + '/nomeidw';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
