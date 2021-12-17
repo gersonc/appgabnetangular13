@@ -7,7 +7,7 @@ import { SolicitacaoService, SolicitacaoFormService } from '../_services';
 import { SelectItem } from 'primeng/api';
 import { DropdownnomeidClass } from '../../_models';
 import { SolicitacaoAlterarFormulario, SolicitacaoAlterarInterface, SolicitacaoInterface } from '../_models';
-import { DropdownService } from '../../_services';
+import {CarregadorService, DropdownService} from '../../_services';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,7 @@ export class SolicitacaoAlterarResolver implements OnDestroy, Resolve<Solicitaca
 
 
   constructor(
+    private cs: CarregadorService,
     private solicitacaoService: SolicitacaoService,
     private sfs: SolicitacaoFormService,
     private router: Router,
@@ -192,6 +193,7 @@ export class SolicitacaoAlterarResolver implements OnDestroy, Resolve<Solicitaca
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<SolicitacaoAlterarInterface> | Observable<never> {
+    this.cs.mostraCarregador();
     if (route.paramMap.get('id')) {
       this.carregaDados(route.paramMap.get('id'));
     }
@@ -199,6 +201,7 @@ export class SolicitacaoAlterarResolver implements OnDestroy, Resolve<Solicitaca
       take(1),
       mergeMap(dados => {
           this.ngOnDestroy();
+          this.cs.escondeCarregador();
           return of(dados);
       })
     );

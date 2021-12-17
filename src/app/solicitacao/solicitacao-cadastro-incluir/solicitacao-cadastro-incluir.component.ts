@@ -159,7 +159,7 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
   }
 
   carregaDropDown() {
-    // ***     Tipo Cadastro      *************************
+    /*// ***     Tipo Cadastro      *************************
     this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
       .pipe(take(1))
       .subscribe({
@@ -208,9 +208,55 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
           }
         }
       }));
+    */
+
+    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
+      const tpcad: SelectItemGroup[] = [];
+      const a = [1, 2];
+      let tipo: SelectItemGroup;
+      let c = 0;
+      for (const b of a) {
+        c++;
+        this.sub.push(this.dd.getDropdown3campos(
+            'cadastro',
+            'cadastro_tipo',
+            'cadastro_tipo_nome',
+            'cadastro_tipo_tipo',
+            String(b)
+          ).pipe(take(1))
+            .subscribe({
+              next: (dados) => {
+                tipo = {
+                  label: dados['label'].toString(),
+                  value: null,
+                  items: dados['items']
+                };
+                tpcad.push(tipo);
+              },
+              error: (err) => {
+                console.error(err);
+              },
+              complete: () => {
+                this.ddTipoCadastroId.push(tipo);
+                this.carregamento++;
+                // this.espera.next(this.carregamento);
+                if (c === 2) {
+                  sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
+                }
+              }
+            })
+        );
+      }
+    } else {
+      this.ddTipoCadastroId = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro'));
+      this.carregamento++;
+      this.carregamento++;
+      // this.espera.next(this.carregamento);
+    }
   }
 
   carregaDropdownSessionStorage() {
+    this.ddTipoCadastroId = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro'));
     this.ddTratamento = JSON.parse(sessionStorage.getItem('dropdown-tratamento'));
     this.ddGrupo = JSON.parse(sessionStorage.getItem('dropdown-grupo'));
     this.ddMunicipioId = JSON.parse(sessionStorage.getItem('dropdown-municipio'));
@@ -221,9 +267,7 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
     this.ddSexo = JSON.parse(sessionStorage.getItem('dropdown-sexo'));
     this.ddCampo4Id = JSON.parse(sessionStorage.getItem('dropdown-campo4'));
     this.carregamento++;
-    if (this.carregamento === 3) {
-      this.cr.escondeCarregador();
-    }
+    // this.espera.next(this.carregamento);
   }
 
   onSubmit() {
@@ -718,6 +762,10 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
     this.cr.mostraCarregador();
     this.router.navigate(['/solicitacao/incluir/cadastro/cadastro',
       {tipo: this.tipo_id, value: this.id, label:  this.nome.toUpperCase()}]);
+  }
+
+  onShowMunicipioForm() {
+    this.btnIncluirMunicipio = false;
   }
 
   voltarListar(ev?: any) {

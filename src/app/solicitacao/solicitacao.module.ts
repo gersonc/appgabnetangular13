@@ -53,6 +53,7 @@ import {SolicitacaoRoutingModule} from "./solicitacao.routing.module";
 import {SolicitacaoComponent} from "./solicitacao.component";
 import {UtilModule} from "../util/util.module";
 import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.c
         NgxViacepModule,
         AccordionModule,
         RippleModule,
+        InputTextareaModule,
     ],
   declarations: [
     SolicitacaoComponent,

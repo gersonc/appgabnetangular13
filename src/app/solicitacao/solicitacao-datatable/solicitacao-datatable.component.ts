@@ -451,9 +451,11 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
             this.solicitacaoService.solicitacaoExluirDados = dados;
           },
           error: (err) => {
+            this.cs.escondeCarregador();
             console.error('erro', err.toString ());
           },
           complete: () => {
+            this.cs.escondeCarregador();
             this.router.navigate(['/solicitacao/apagar']);
           }
         }));

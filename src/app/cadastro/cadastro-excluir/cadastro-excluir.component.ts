@@ -148,7 +148,7 @@ export class CadastroExcluirComponent implements OnInit, OnDestroy {
         if (this.dados.erro) {
           this.erro = this.dados.erro;
         }
-        this.cr.escondeCarregador();
+        // this.cr.escondeCarregador();
       }}));
   }
 

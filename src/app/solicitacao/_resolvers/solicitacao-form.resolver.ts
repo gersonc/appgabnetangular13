@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import {Observable, of, Subscription, Subject} from 'rxjs';
+import {Observable, of, Subscription, Subject, EMPTY} from 'rxjs';
 import {take, mergeMap} from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { SolicitacaoService, SolicitacaoFormService } from '../_services';
@@ -34,82 +34,13 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
     this.contador--;
     if (this.contador < 1) {
       this.resp.next(this.cf);
+      this.cs.escondeCarregador();
       this.resp.complete();
     }
   }
 
   carregaDados() {
     this.cf = true;
-    /*if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      const tpcad: SelectItemGroup[] = [];
-      const a = [1, 2];
-      let tipo: SelectItemGroup;
-      let c = 0;
-      // for (const b of a) {
-
-        this.sub.push(this.dd.getDropdown3campos(
-          'tipo_cadastro',
-          'tipo_cadastro_id',
-          'tipo_cadastro_nome',
-          'tipo_cadastro_tipo',
-          '1'
-          ).pipe(take(3))
-            .subscribe({
-              next: (dados) => {
-                tipo = {
-                  label: dados['label'].toString(),
-                  value: null,
-                  items: dados['items']
-                };
-                tpcad.push(tipo);
-              },
-              error: (err) => {
-                console.error(err);
-              },
-              complete: () => {
-                c++;
-                if (c === 2) {
-                  console.log('resolver');
-                  sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
-                  this.espera();
-                }
-              }
-            })
-        );
-      this.sub.push(this.dd.getDropdown3campos(
-          'tipo_cadastro',
-          'tipo_cadastro_id',
-          'tipo_cadastro_nome',
-          'tipo_cadastro_tipo',
-          '2'
-        ).pipe(take(3))
-          .subscribe({
-            next: (dados) => {
-              tipo = {
-                label: dados['label'].toString(),
-                value: null,
-                items: dados['items']
-              };
-              tpcad.push(tipo);
-            },
-            error: (err) => {
-              console.error(err);
-            },
-            complete: () => {
-              c++;
-              if (c === 2) {
-                console.log('resolver');
-                sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
-                this.espera();
-              }
-            }
-          })
-      );
-      // }
-    } else {
-      this.espera();
-    }*/
-
     if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
       this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
         .pipe(take(1))
@@ -217,10 +148,7 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
           })
       );
     } else {
-      this.contador--;
-      if (this.contador === 0) {
-        this.espera();
-      }
+      this.espera();
     }
   }
 
@@ -230,18 +158,31 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):Observable<boolean> {
-    this.resp = new Subject<boolean>();
-    this.resp$ = this.resp.asObservable();
-    this.contador = 3;
-    this.carregaDados();
-    return this.resp$.pipe(
-      take(1),
-      mergeMap(dados => {
+    state: RouterStateSnapshot):Observable<boolean> |
+    Observable<never> {
+    if ( !sessionStorage.getItem('dropdown-tipo_cadastro') ||
+      !sessionStorage.getItem('dropdown-assunto') ||
+      !sessionStorage.getItem('dropdown-atendente') ||
+      !sessionStorage.getItem('dropdown-cadastrante') ||
+      !sessionStorage.getItem('dropdown-tipo_recebimento') ||
+      !sessionStorage.getItem('dropdown-local') ||
+      !sessionStorage.getItem('dropdown-area_interesse') ||
+      !sessionStorage.getItem('dropdown-reponsavel_analize') ) {
+      this.resp = null;
+      this.resp = new Subject<boolean>();
+      this.resp$ = this.resp.asObservable();
+      this.contador = 3;
+      this.carregaDados();
+      return this.resp$.pipe(
+        take(1),
+        mergeMap(dados => {
           this.onDestroy();
-          return of(dados);
-      })
-    );
+            return of(dados);
+        })
+      );
+    } else {
+      this.router.navigate(['/solicitacao/incluir2']);
+    }
   }
 }
 

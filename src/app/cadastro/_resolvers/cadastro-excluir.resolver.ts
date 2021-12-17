@@ -4,6 +4,7 @@ import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { CadastroDetalheCompletoInterface } from '../_models';
 import { CadastroService } from '../_services';
+import {CarregadorService} from "../../_services";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class CadastroExcluirResolver implements Resolve<CadastroDetalheCompletoI
 
   constructor(
     private router: Router,
-    private cadastroService: CadastroService
+    private cadastroService: CadastroService,
+    private cr: CarregadorService,
   ) { }
 
   resolve(
@@ -25,8 +27,10 @@ export class CadastroExcluirResolver implements Resolve<CadastroDetalheCompletoI
         take(1),
         mergeMap(dados => {
           if (dados) {
+            this.cr.escondeCarregador();
             return of(dados);
           } else {
+            this.cr.escondeCarregador();
             this.router.navigate(['/cadastro/listar']);
             return EMPTY;
           }

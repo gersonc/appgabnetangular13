@@ -106,7 +106,7 @@ export class SolicitacaoExcluirComponent implements OnInit, OnDestroy {
           && this.authenticationService.oficio_apagar === false) {
           this.oficioSN = false;
         }
-    this.cs.escondeCarregador();
+    // this.cs.escondeCarregador();
     this.montaMsg();
   }
 

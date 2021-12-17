@@ -176,6 +176,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         return this.resp$.pipe(
           take(1),
           mergeMap(vf => {
+            this.cs.escondeCarregador();
             if (vf) {
               this.onDestroy();
               return of(vf);
@@ -192,6 +193,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
           .pipe(
             take(1),
             mergeMap(dados => {
+              this.cs.escondeCarregador();
               if (dados) {
                 return of(dados);
               } else {
@@ -200,6 +202,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
             })
           );
       } else {
+        this.cs.escondeCarregador();
         this.router.navigate(['/solicitacao/listar2']);
         return EMPTY;
       }
