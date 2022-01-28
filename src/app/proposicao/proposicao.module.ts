@@ -36,7 +36,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { ExportAsModule } from 'ngx-export-as';
+// import { ExportAsModule } from 'ngx-export-as';
 import { EditorModule } from 'primeng/editor';
 
 
@@ -105,7 +105,7 @@ import {RippleModule} from "primeng/ripple";
         ConfirmDialogModule,
         FieldsetModule,
         TooltipModule,
-        ExportAsModule,
+//        ExportAsModule,
         ProposicaoRoutingModule,
         RippleModule
     ],

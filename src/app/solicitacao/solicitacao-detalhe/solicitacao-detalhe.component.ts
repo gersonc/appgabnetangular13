@@ -18,7 +18,8 @@ applyPlugin(jsPDF);
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
 }
-declare var html2canvas: any;
+import html2canvas from 'html2canvas';
+// declare var html2canvas: any;
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;

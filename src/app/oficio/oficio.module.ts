@@ -30,7 +30,7 @@ import { ToastModule } from 'primeng/toast';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CardModule } from 'primeng/card';
 import { InputMaskModule } from 'primeng/inputmask';
-import { ExportAsModule } from 'ngx-export-as';
+// import { ExportAsModule } from 'ngx-export-as';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { OficioIncluirComponent } from './oficio-incluir/oficio-incluir.component';
@@ -104,7 +104,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
         CardModule,
         ProgressSpinnerModule,
         InputMaskModule,
-        ExportAsModule,
+//         ExportAsModule,
         TooltipModule,
         RippleModule,
         EditorModule,

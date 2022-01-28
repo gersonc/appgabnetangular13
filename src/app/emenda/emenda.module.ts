@@ -29,7 +29,7 @@ import { ToastModule } from 'primeng/toast';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CardModule } from 'primeng/card';
 import { InputMaskModule } from 'primeng/inputmask';
-import { ExportAsModule } from 'ngx-export-as';
+// import { ExportAsModule } from 'ngx-export-as';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TooltipModule } from 'primeng/tooltip';
@@ -98,7 +98,7 @@ import {EditorModule} from "primeng/editor";
     InputMaskModule,
     TooltipModule,
     InputTextareaModule,
-    ExportAsModule,
+//    ExportAsModule,
     InputNumberModule,
     ConfigauxModule,
     InputSwitchModule,

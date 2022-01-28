@@ -31,7 +31,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { QuillModule } from 'ngx-quill';
-import { ExportAsModule } from 'ngx-export-as';
+// import { ExportAsModule } from 'ngx-export-as';
 import { NgxViacepModule } from '@brunoc/ngx-viacep';
 import { AccordionModule } from 'primeng/accordion';
 
@@ -91,7 +91,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
         EditorModule,
         QuillModule.forRoot(),
         TooltipModule,
-        ExportAsModule,
+//        ExportAsModule,
         NgxViacepModule,
         AccordionModule,
         RippleModule,

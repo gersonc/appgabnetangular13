@@ -26,7 +26,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('op', { static: true }) public op: any;
   formCadAlterar: FormGroup;
-  ddTipoCadastroId: SelectItemGroup[] = [];
+  ddTipoCadastroId: any[] = [];
   ddTratamento: SelectItem[] = [];
   ddGrupo: SelectItem[] = [];
   ddMunicipioId: SelectItem[] = [];
@@ -123,6 +123,7 @@ export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestro
 
   // ***     FORMULARIO      *************************
   criaForm() {
+    console.log('this.cs.cadastro.cadastro_tipo_id', this.cs.cadastro.cadastro_tipo_id, this.ddTipoCadastroId);
     this.formCadAlterar = this.formBuilder.group({
       cadastro_id: [this.cs.cadastro.cadastro_id],
       cadastro_tipo_id: [this.cs.cadastro.cadastro_tipo_id, Validators.required],
@@ -301,28 +302,19 @@ export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestro
     return rsp ? rsp : false;
   }
 
-  achaTipo2(arr: SelectItemGroup[], valor): number {
-    console.log(arr);
-    // const a: SelectItem[] = arr[0].items.concat(arr[1].items);
-    const ar: SelectItem[] = [];
-    for (let i = 0; i < arr[0].items.length - 1; i++) {
-      ar.push(arr[0].items[i]);
-    }
-    for (let i = 0; i < arr[1].items.length - 1; i++) {
-      ar.push(arr[1].items[i]);
-    }
-    const rsp: SelectItem = ar.find(function (x) {
+  achaTipo2(arr: any[], valor: number): number {
+    const rsp: any = arr.find(function (x) {
       return x.value === valor;
     });
     if (this.disableSubmit === true) {
       this.disableSubmit = false;
     }
-    return rsp ? rsp.value : 0;
+    const rp: number = rsp ? rsp.title : 1;
+    return rp;
   }
 
   mudaTipo (event) {
-    const a: SelectItem = this.achaTipo(this.ddTipoCadastroId, event.value);
-    this.tipotipo = Number(a.title);
+    this.tipotipo = this.achaTipo2(this.ddTipoCadastroId, event.value);
     this.block = false;
     this.formCadAlterar.enable();
   }

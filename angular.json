@@ -45,7 +45,7 @@
               "quill-to-word",
               "canvg",
               "core-js",
-              "raf"
+              "raf",
             ],
             "scripts": [
               "./node_modules/quill/dist/quill.js",

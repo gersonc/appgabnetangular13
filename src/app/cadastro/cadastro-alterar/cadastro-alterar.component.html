@@ -21,10 +21,8 @@
                     <p-dropdown
                       id="cadastro_tipo_id"
                       formControlName="cadastro_tipo_id"
-                      dataKey="cadastro_tipo_id[0]"
                       placeholder="Selecione"
                       [options]="ddTipoCadastroId"
-                      [group]="true"
                       [required]="true"
                       [autofocus]="true"
                       (onChange)="mudaTipo($event)"

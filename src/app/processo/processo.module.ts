@@ -26,7 +26,7 @@ import { ToastModule } from 'primeng/toast';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CardModule } from 'primeng/card';
 import { InputMaskModule } from 'primeng/inputmask';
-import { ExportAsModule } from 'ngx-export-as';
+// import { ExportAsModule } from 'ngx-export-as';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { ProcessoListarComponent } from './processo-listar/processo-listar.component';
@@ -93,7 +93,7 @@ import {QuillModule} from "ngx-quill";
         CardModule,
         ProgressSpinnerModule,
         InputMaskModule,
-        ExportAsModule,
+//         ExportAsModule,
         ProcessoRoutingModule,
         RippleModule,
         TooltipModule,
