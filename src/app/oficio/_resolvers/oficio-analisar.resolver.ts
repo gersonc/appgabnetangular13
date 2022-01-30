@@ -4,6 +4,7 @@ import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { OficioInterface } from '../_models';
 import { OficioService } from '../_services';
+import {CarregadorService} from "../../_services";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class OficioAnalisarResolver implements Resolve<OficioInterface> {
 
   constructor(
     private router: Router,
-    private oficioService: OficioService
+    private oficioService: OficioService,
+    private cs: CarregadorService
   ) {}
 
   resolve(
@@ -27,6 +29,7 @@ export class OficioAnalisarResolver implements Resolve<OficioInterface> {
         take(1),
         mergeMap(dados => {
           if (dados) {
+            this.cs.escondeCarregador();
             return of(dados);
           } else {
             this.router.navigate(['/oficio/listar2']);

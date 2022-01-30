@@ -61,9 +61,6 @@ export class ProcessoDetalheComponent implements OnInit, OnDestroy {
     this.hideDetalhe.emit(true);
   }
 
-  teste() {
-    console.log('oficio->', this.oficios);
-  }
 
   ngOnInit() {
     this.dados = this.proDetalhe;

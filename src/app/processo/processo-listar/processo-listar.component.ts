@@ -1,23 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ProcessoBuscaService } from '../_services';
 import { Subscription } from 'rxjs';
 import { MenuInternoService } from "../../_services";
+import { ArquivoService } from "../../arquivo/_services";
 
 @Component({
   selector: 'app-processo-listar',
   templateUrl: './processo-listar.component.html',
   styleUrls: ['./processo-listar.component.css']
 })
-export class ProcessoListarComponent implements OnInit {
-  // public altura = (window.innerHeight - 170) + 'px';
-  public altura = (window.innerHeight - 126) + 'px';
+export class ProcessoListarComponent implements OnInit, OnDestroy {
+  public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
   sub: Subscription[] = [];
 
-
   constructor(
     public mi: MenuInternoService,
-    private pbs: ProcessoBuscaService
+    private pbs: ProcessoBuscaService,
+    private as: ArquivoService
   ) {  }
 
   ngOnInit() {
@@ -26,6 +26,7 @@ export class ProcessoListarComponent implements OnInit {
         this.mostraMenuInterno = vf;
       })
     );
+    this.as.getPermissoes();
     this.pbs.criarProcessoBusca();
     if (!sessionStorage.getItem('processo-busca')) {
       this.pbs.buscaStateSN = false;
