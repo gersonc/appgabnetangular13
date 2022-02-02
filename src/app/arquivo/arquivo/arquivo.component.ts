@@ -88,6 +88,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
           this.showUploadButton = false; // acho que e false
           this.modo = 'basic';
           this.incluir = true;
+          this.uploadAtivo = true;
           this.modeloView = changes.modelo.currentValue;
           break;
         }

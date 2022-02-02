@@ -48,6 +48,8 @@ export class SolicitacaoAlterarComponent implements OnInit, AfterViewInit, OnDes
   cadastroTipoIdRecebido = 0;
   resp: any[];
   sub: Subscription[] = [];
+  arquivo_num = 0;
+  arquivos?: any[];
 
   possuiArquivos = false;
 
@@ -75,6 +77,8 @@ export class SolicitacaoAlterarComponent implements OnInit, AfterViewInit, OnDes
         this.solicitacao_id = data.dados.solicitacao_id;
         this.solicitacao_cadastro_tipo_nome = data.dados.solicitacao_cadastro_tipo_nome;
         this.solicitacao_cadastro_nome = data.dados.solicitacao_cadastro_nome;
+        this.arquivo_num = data.dados.arquivo_num;
+        this.arquivos = data.dados.arquivo;
         this.criaForm();
       }
     ));

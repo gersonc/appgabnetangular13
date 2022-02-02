@@ -360,7 +360,7 @@ export class SolicitacaoService {
   }
 
   getSolicitacaoAlterar(id: number): Observable<SolicitacaoAlterarInterface> {
-    const ur = this.url.solicitacao + '/'  + id;
+    const ur = this.url.solicitacao + '/alterar/'  + id;
     this.solicitacao$ = this.http.get<SolicitacaoAlterarInterface>(ur);
     return this.solicitacao$;
   }

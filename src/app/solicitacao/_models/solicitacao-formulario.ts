@@ -57,6 +57,8 @@ export class SolicitacaoAnalisarFormulario implements SolicitacaoAnalisarFormInt
 }
 
 export interface SolicitacaoAlterarInterface {
+  arquivo?: any[];
+  arquivo_num?: number;
   solicitacao_id?: number;
   solicitacao_data?: string;
   solicitacao_assunto_id?: number;
@@ -81,6 +83,8 @@ export interface SolicitacaoAlterarInterface {
 }
 
 export class SolicitacaoAlterarFormulario implements SolicitacaoAlterarInterface {
+  arquivo = null;
+  arquivo_num = 0;
   solicitacao_id = null;
   solicitacao_data = null;
   solicitacao_assunto_id = null;

@@ -55,6 +55,8 @@ export interface SolicitacaoInterface {
   historico_data?: string;
   historico_andamento?: string;
   historico_andamento_texto?: string;
+  arquivo?: any[];
+  arquivo_num?: number;
 }
 
 export interface SolicitacaoInterfaceExcel {
