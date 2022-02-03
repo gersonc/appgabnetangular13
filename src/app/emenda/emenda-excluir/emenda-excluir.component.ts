@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Router} from "@angular/router";
 import {AuthenticationService, CarregadorService} from "../../_services";
 import {take} from "rxjs/operators";
+import {HistoricoEmendaInterface} from "../_models";
 
 declare interface ColumnsInterface {
   header: string;
@@ -27,10 +28,13 @@ export class EmendaExcluirComponent implements OnInit, OnDestroy {
   display = false;
   resp: any[];
   sub: Subscription[] = [];
+  historicos: HistoricoEmendaInterface[] = null;
+  historico_emenda_num = 0;
 
   apagarAtivo = false;
   botoesInativos = false;
   botaoEnviarInativo = false;
+  emenda_id = 0;
 
   constructor(
     private router: Router,
@@ -39,6 +43,7 @@ export class EmendaExcluirComponent implements OnInit, OnDestroy {
     public authenticationService: AuthenticationService,
     private messageService: MessageService,
   ) {
+    this.cs.escondeCarregador();
     this.apagarAtivo = !this.authenticationService.emenda_apagar;
   }
 
@@ -57,6 +62,8 @@ export class EmendaExcluirComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.emenda_id = this.es.emendaExcluir.emenda_id;
+
     const s: string[] = Object.keys(this.es.emendaExcluir);
     const v: any[] = Object.values(this.es.emendaExcluir);
     let eme1: any[] = [];
@@ -66,10 +73,17 @@ export class EmendaExcluirComponent implements OnInit, OnDestroy {
       }
     }
 
+    if (this.es.emendaExcluir.historico_emenda_num > 0) {
+      this.historico_emenda_num = this.es.emendaExcluir.historico_emenda_num;
+      this.historicos = [];
+      this.historicos = this.es.emendaExcluir.historico_emenda;
+      console.log('this.es.emendaExcluir', this.es.emendaExcluir);
+    }
+
     s1.forEach( k => {
-      if (eme1[k] && k !== 'emenda_justificativa' && k !== 'historico_emenda' && k !== 'historico_emenda_num') {
+      // if (eme1[k] && k !== 'emenda_justificativa' && k !== 'historico_emenda' && k !== 'historico_emenda_num') {
         this.emenda.push([tit1[k], eme1[k]]);
-      }
+      // }
     });
 
     this.cs.escondeCarregador();

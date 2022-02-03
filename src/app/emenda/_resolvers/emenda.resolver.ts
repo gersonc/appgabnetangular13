@@ -68,8 +68,10 @@ export class EmendaResolver implements Resolve<any[] | boolean | EmendaPaginacao
               this.populaDropdown();
             }
             if (dados) {
+              this.cs.escondeCarregador();
               return of(dados);
             } else {
+              this.cs.escondeCarregador();
               this.router.navigate(['/emenda/listar']);
               return EMPTY;
             }
@@ -85,9 +87,11 @@ export class EmendaResolver implements Resolve<any[] | boolean | EmendaPaginacao
         mergeMap(vf => {
           if (vf) {
             this.onDestroy();
+            this.cs.escondeCarregador();
             return of(vf);
           } else {
             this.onDestroy();
+            this.cs.escondeCarregador();
             return EMPTY;
           }
         })

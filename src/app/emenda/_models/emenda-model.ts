@@ -210,7 +210,7 @@ export class EmendaListar implements EmendaListarInterface{
   cadastro_cpfcnpj = null;
   cadastro_municipio_nome = null;
   historico_emenda = [];
-  historico_emenda_num = null;
+  historico_emenda_num = 0;
 }
 
 

@@ -25,12 +25,12 @@
                   </tr>
                 </ng-container>
 
-                <tr *ngIf="es.emendaExcluir.emenda_justificativa" class="novaPagina">
+                <tr *ngIf="emenda['emenda_justificativa']" class="novaPagina">
                   <td colspan="2" class="tituloEditor">
                     {{emenda_titulo['emenda_justificativa']}}
                   </td>
                 </tr>
-                <tr *ngIf="es.emendaExcluir.emenda_justificativa">
+                <tr *ngIf="emenda['emenda_justificativa']">
                   <td colspan="2" class="edi" #justificativa id="justificativa">
                     <div style="padding: 5px">
                       <quill-view-html [content]="es.emendaExcluir.emenda_justificativa"
@@ -41,7 +41,7 @@
                 </tr>
               </table>
             </div>
-            <div class="p-field p-col-12">
+            <div *ngIf="historico_emenda_num > 0" class="p-field p-col-12">
               <table class="table-hover tabela" #tabhistorico id="tabhistorico">
                 <caption>HISTÓRICO</caption>
                 <tr>
@@ -55,7 +55,8 @@
                     {{historico_emenda_titulo['his_texto']}}
                   </th>
                 </tr>
-                <tr *ngFor="let hi of es.emendaExcluir.historico_emenda">
+                <!--<tr *ngFor="let hi of es.emendaExcluir.historico_emenda">-->
+                <tr *ngFor="let hi of historicos">
                   <td>{{hi.his_data}}</td>
                   <td>{{hi.his_usuario}}</td>
                   <td>{{hi.his_texto}}</td>
@@ -66,7 +67,7 @@
               <app-arquivo
                 [modulo]="'emenda'"
                 [modelo]="'detalhe'"
-                [registro_id]="es.emendaExcluir.emenda_id"
+                [registro_id]="emenda_id"
               ></app-arquivo>
             </div>
           </div>

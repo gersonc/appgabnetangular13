@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../_services';
+import {CarregadorService, DropdownService} from '../../_services';
 import { OficioGetAlterar, OficioGetAlterarInterface } from '../_models';
 import { OficioService } from '../_services';
 import { DropdownnomeidClass } from '../../_models';
@@ -22,6 +22,7 @@ export class OficioFormResolver implements Resolve<OficioGetAlterarInterface> {
 
   constructor(
     private router: Router,
+    private cs: CarregadorService,
     private oficioService: OficioService,
     private dd: DropdownService,
   ) {}
@@ -97,6 +98,7 @@ export class OficioFormResolver implements Resolve<OficioGetAlterarInterface> {
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
+    this.cs.escondeCarregador();
   }
 
   resolve(

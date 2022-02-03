@@ -140,6 +140,7 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
+    this.cs.escondeCarregador();
   }
 
   resolve(
@@ -175,14 +176,17 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
             take(1),
             mergeMap(dados => {
               if (dados) {
+                this.onDestroy();
                 return of(dados);
               } else {
+                this.onDestroy();
                 this.router.navigate(['/processo/listar2']);
                 return EMPTY;
               }
             })
           );
       } else {
+        this.onDestroy();
         this.router.navigate(['/processo/listar2']);
         return EMPTY;
       }

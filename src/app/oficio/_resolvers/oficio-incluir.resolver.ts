@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../_services';
+import {CarregadorService, DropdownService} from '../../_services';
 import { OficioIncluirForm, OficioIncluirFormInterface } from '../_models';
 import { OficioService } from '../_services';
 import { DropdownnomeidClass } from '../../_models';
@@ -21,6 +21,7 @@ export class OficioIncluirResolver implements Resolve<OficioIncluirForm | null> 
 
   constructor(
     private router: Router,
+    private cs: CarregadorService,
     private oficioService: OficioService,
     private dd: DropdownService,
   ) {}
@@ -126,6 +127,7 @@ export class OficioIncluirResolver implements Resolve<OficioIncluirForm | null> 
   onDestroy(): void {
     this.contador = 0;
     this.sub.forEach(s => s.unsubscribe());
+    this.cs.escondeCarregador();
   }
 
   resolve(

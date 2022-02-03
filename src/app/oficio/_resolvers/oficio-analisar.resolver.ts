@@ -32,6 +32,7 @@ export class OficioAnalisarResolver implements Resolve<OficioInterface> {
             this.cs.escondeCarregador();
             return of(dados);
           } else {
+            this.cs.escondeCarregador();
             this.router.navigate(['/oficio/listar2']);
             return EMPTY;
           }

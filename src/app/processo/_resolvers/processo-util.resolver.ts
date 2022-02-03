@@ -4,6 +4,7 @@ import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { ProcessoDetalheInterface } from '../_models';
 import { ProcessoService } from '../_services';
+import {CarregadorService} from "../../_services";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { ProcessoService } from '../_services';
 export class ProcessoUtilResolver implements Resolve<ProcessoDetalheInterface> {
 
   constructor(
+    private cs: CarregadorService,
     private router: Router,
     private processoService: ProcessoService
   ) {}
@@ -25,8 +27,10 @@ export class ProcessoUtilResolver implements Resolve<ProcessoDetalheInterface> {
         take(1),
         mergeMap(dados => {
           if (dados) {
+            this.cs.escondeCarregador();
             return of(dados);
           } else {
+            this.cs.escondeCarregador();
             this.router.navigate(['/processo/listar2']);
             return EMPTY;
           }

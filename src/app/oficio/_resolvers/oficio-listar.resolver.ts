@@ -286,13 +286,13 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     if (!sessionStorage.getItem('oficio-dropdown')) {
       sessionStorage.setItem('oficio-dropdown', JSON.stringify(this.ddOficio));
     }
-    this.cs.escondeCarregador();
     this.resp.next(true);
   }
 
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
+    this.cs.escondeCarregador();
   }
 
   resolve(

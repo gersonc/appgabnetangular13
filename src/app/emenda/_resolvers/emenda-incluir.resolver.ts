@@ -164,9 +164,11 @@ export class EmendaIncluirResolver implements Resolve<boolean | null> {
       mergeMap(vf => {
         if (vf) {
           this.onDestroy();
+          this.cs.escondeCarregador();
           return of(vf);
         } else {
           this.onDestroy();
+          this.cs.escondeCarregador();
           return EMPTY;
         }
       })
