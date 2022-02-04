@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../_services';
+import {CarregadorService, DropdownService} from '../../_services';
 import { ProposicaoListagemInterface } from '../_models';
 import { ProposicaoService } from '../_services';
 import { DropdownnomeidClass } from '../../_models';
@@ -22,6 +22,7 @@ export class ProposicaoFormResolver implements Resolve<ProposicaoListagemInterfa
     private router: Router,
     private proposicaoService: ProposicaoService,
     private dd: DropdownService,
+    private cs: CarregadorService
   ) {}
 
   espera() {
@@ -148,8 +149,10 @@ export class ProposicaoFormResolver implements Resolve<ProposicaoListagemInterfa
       take(1),
       mergeMap(dados => {
         if (dados) {
+          this.cs.escondeCarregador();
           return of(dados);
         } else {
+          this.cs.escondeCarregador();
           this.router.navigate(['/proposicao/incluir2']);
           return null;
         }

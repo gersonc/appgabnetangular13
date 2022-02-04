@@ -410,6 +410,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
             console.log('erro', err.toString());
           },
           complete: () => {
+            this.cs.escondeCarregador();
             const ref = this.dialogService.open(AndamentoproposicaoListarEditarExcluirComponent, {
               data: {
                 andamentos: andamentos
@@ -421,6 +422,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
               dismissableMask: true,
               showHeader: true,
               closable: true,
+
               style: {'max-width': '1270px'}
             });
           }

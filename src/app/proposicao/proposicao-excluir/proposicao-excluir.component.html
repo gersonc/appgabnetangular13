@@ -234,8 +234,17 @@
 
 <p-toast key="proposicaoToast" [style]="{marginTop: '80px'}" (onClose)="voltarListar()"></p-toast>
 <p-toast key="proposicaoErro" [style]="{marginTop: '80px'}"></p-toast>
-<p-dialog header="ATENÇÃO" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70"
-          [maximizable]="true" [baseZIndex]="10000">
+<p-dialog
+  header="ATENÇÃO"
+  [(visible)]="display"
+  [modal]="true"
+  [responsive]="true"
+  [style]="{width: '350px', minWidth: '200px'}"
+  [minY]="70"
+  [maximizable]="true"
+  [baseZIndex]="10000"
+  styleClass="tablistagem"
+>
   <p>Deseja excluir permanetemente esta proposição?</p>
   <p-footer>
     <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-check" (click)="excluirProposicao()" label="Sim"></button>

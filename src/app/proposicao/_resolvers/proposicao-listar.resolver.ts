@@ -138,6 +138,7 @@ export class ProposicaoListarResolver implements Resolve<boolean | ProposicaoPag
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
+    this.cs.escondeCarregador();
   }
 
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
@@ -167,13 +168,16 @@ export class ProposicaoListarResolver implements Resolve<boolean | ProposicaoPag
             take(1),
             mergeMap(dados => {
               if (dados) {
+                this.cs.escondeCarregador();
                 return of(dados);
               } else {
+                this.cs.escondeCarregador();
                 return EMPTY;
               }
             })
           );
       } else {
+        this.cs.escondeCarregador();
         this.router.navigate(['/proposicao/listar/busca']);
         return EMPTY;
       }

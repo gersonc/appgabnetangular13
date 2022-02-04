@@ -4,6 +4,7 @@ import { take, mergeMap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
 import { ProposicaoListagemInterface } from '../_models';
 import { ProposicaoService } from '../_services';
+import {CarregadorService} from "../../_services";
 
 
 @Injectable({
@@ -21,6 +22,7 @@ export class ProposicaoDetalheExcluirResolver implements Resolve<ProposicaoLista
   constructor(
     private router: Router,
     private proposicaoService: ProposicaoService,
+    private cs: CarregadorService
   ) {}
 
 
@@ -28,6 +30,7 @@ export class ProposicaoDetalheExcluirResolver implements Resolve<ProposicaoLista
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<ProposicaoListagemInterface> | null {
     if (!route.paramMap.get('id')) {
+      this.cs.escondeCarregador();
       this.router.navigate(['/proposicao/busca']);
       return null;
     }
@@ -37,8 +40,10 @@ export class ProposicaoDetalheExcluirResolver implements Resolve<ProposicaoLista
       take(1),
       mergeMap(dados => {
         if (dados) {
+          this.cs.escondeCarregador();
           return of(dados);
         } else {
+          this.cs.escondeCarregador();
           this.router.navigate(['/proposicao/busca']);
           return null;
         }

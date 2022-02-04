@@ -21,7 +21,7 @@ export class EmendaIncluirResolver implements Resolve<boolean | null> {
   constructor(
     private router: Router,
     private dd: DropdownService,
-    private cs: CarregadorService,
+    private cs: CarregadorService
   ) {}
 
 
