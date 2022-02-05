@@ -93,8 +93,10 @@ export class ContaListarResolver implements Resolve<ContaPaginacaoInterface | bo
         take(1),
         mergeMap(vf => {
           if (vf) {
+            this.cs.escondeCarregador();
             return of(vf);
           } else {
+            this.cs.escondeCarregador();
             return EMPTY;
           }
         })
@@ -108,15 +110,18 @@ export class ContaListarResolver implements Resolve<ContaPaginacaoInterface | bo
             take(1),
             mergeMap(dados => {
               if (dados) {
+                this.cs.escondeCarregador();
                 return of(dados);
               } else {
                 this.router.navigate(['/conta/listar2']);
+                this.cs.escondeCarregador();
                 return EMPTY;
               }
             })
           );
       } else {
         this.router.navigate(['/conta/listar2']);
+        this.cs.escondeCarregador();
         return EMPTY;
       }
     }

@@ -308,6 +308,7 @@
   [modal]="true"
   [style]="{width: '300px'}"
   [dismissableMask]="true"
+  styleClass="tablistagem"
   (onHide)="hideSeletor($event)"
 >
   <p-listbox
@@ -329,6 +330,7 @@
   [autoZIndex]="true"
   acceptLabel="Sim"
   rejectLabel="Não"
+  styleClass="tablistagem"
 ></p-confirmDialog>
 <p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
 <p-toast key="contaToast" position="center"></p-toast>

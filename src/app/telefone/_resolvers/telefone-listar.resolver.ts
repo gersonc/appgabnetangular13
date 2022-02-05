@@ -119,8 +119,10 @@ export class TelefoneListarResolver implements Resolve<TelefonePaginacaoInterfac
         take(1),
         mergeMap(vf => {
           if (vf) {
+            this.cs.escondeCarregador();
             return of(vf);
           } else {
+            this.cs.escondeCarregador();
             return EMPTY;
           }
         })
@@ -134,6 +136,7 @@ export class TelefoneListarResolver implements Resolve<TelefonePaginacaoInterfac
             take(1),
             mergeMap(dados => {
               if (dados) {
+                this.cs.escondeCarregador();
                 return of(dados);
               } else {
                 this.router.navigate(['/telefone/listar2']);
@@ -142,6 +145,7 @@ export class TelefoneListarResolver implements Resolve<TelefonePaginacaoInterfac
             })
           );
       } else {
+        this.cs.escondeCarregador();
         this.router.navigate(['/telefone/listar2']);
         return EMPTY;
       }
