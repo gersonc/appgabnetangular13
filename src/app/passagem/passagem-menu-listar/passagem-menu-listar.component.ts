@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { MostraMenuService, DropdownService, AutocompleteService } from '../../_services';
+import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { PassagemBuscaService } from '../_services';
 import { take } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private autocompleteservice: AutocompleteService,
     private activatedRoute: ActivatedRoute,
@@ -64,7 +64,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('passagem-listagem')) {
         sessionStorage.removeItem('passagem-listagem');
       }
-      this.mm.mudaMenu(true);
+      this.mi.showMenuInterno();
     }
 
     this.sub.push(this.pbs.atualisaMenu$.subscribe(
@@ -124,7 +124,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
       this.pbs.ps.passagem_aerolinha_id = null;
     }
     this.pbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.hideMenu();
     this.cs.mostraCarregador();
   }
 

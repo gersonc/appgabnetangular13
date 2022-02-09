@@ -192,11 +192,13 @@
 <!--*** FIM ********************************************************************************************************-->
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+
 <p-dialog
   header="Selecione as colunas."
   [(visible)]="mostraSeletor"
   [modal]="true"
-  [style]="{width: '300px'}"
+  styleClass="tablistagem"
+  [style]="{width: '400px'}"
   [dismissableMask]="true"
   (onHide)="hideSeletor($event)"
 >
@@ -207,8 +209,7 @@
     [checkbox]="true"
     [filter]="true"
     optionLabel="header"
-    [style]="{width: '270px'}"
-    [listStyle]="{'max-height':'300px', 'width':'250px'}"
+
     (onChange)="onChangeSeletorColunas($event)"
   ></p-listbox>
 </p-dialog>

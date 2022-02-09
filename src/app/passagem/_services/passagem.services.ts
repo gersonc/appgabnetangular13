@@ -138,7 +138,7 @@ export class PassagemService {
     sessionStorage.setItem('passagem-expandido', JSON.stringify(dados));
   }
 
-  montaColunaExpandida(ev: any[]) {
+  montaColunaExpandida2(ev: any[]) {
     const campo = [
       'passagem_id',
       'passagem_data',
@@ -218,6 +218,89 @@ export class PassagemService {
     const largura = (100 / colunas).toFixed(2) + '%';
     idxC.push(largura.toString());
     this.expandido.next(idxC);
+  }
+
+  montaColunaExpandida(ev: any[]) {
+    const campo = [
+      'passagem_id',
+      'passagem_data',
+      'passagem_hora',
+      'passagem_beneficiario',
+      'passagem_aerolinha_nome',
+      'passagem_trecho',
+      'passagem_voo',
+      'passagem_localizador',
+      'passagem_valor',
+      'passagem_voado_sn',
+      'passagem_observacao'
+    ];
+    const titulo = [
+      'Id',
+      'Data',
+      'Horário',
+      'Beneficiário',
+      'Companhia Aérea',
+      'Trecho',
+      'Voo',
+      'Lacalizador',
+      'Valor',
+      'Voado',
+      'Observações'
+    ];
+    let a = 0;
+    const b: any[] = [];
+
+    for (const v in ev) {
+      if (ev[v] !== null) {
+        if (ev[v].toString().length > 0) {
+          const n = campo.indexOf(v);
+          if (n >= 0) {
+            const cc: string[] = [];
+            cc.push(titulo[n].toString());
+            cc.push(ev[v].toString());
+            b.push(cc);
+            a++;
+          }
+        }
+      }
+    }
+    /*const tamanho = b.length;
+    let linhas: number = tamanho;
+    let colunas = 2;
+    if (tamanho > 10) {
+      colunas = 2;
+      linhas = Math.ceil(tamanho / 2);
+      if (linhas > 10) {
+        colunas = 3;
+        linhas = Math.ceil(tamanho / 3);
+        if (linhas > 10) {
+          colunas = 4;
+          linhas = Math.ceil(tamanho / 4);
+        }
+      }
+    } else {
+      linhas = Math.ceil(tamanho / 2);
+    }
+
+    let col: number;
+    let lin: number;
+    const idxC = [];
+
+    let passagemdor = 0;
+    for (col = 1; col <= colunas; col++) {
+      const idcL = [];
+      for (lin = 1; lin <= linhas; lin++) {
+        if (passagemdor < tamanho) {
+          idcL.push(b[passagemdor]);
+        }
+        passagemdor++;
+      }
+      idxC.push(idcL);
+    }
+    const largura = (100 / colunas).toFixed(2) + '%';
+    idxC.push(largura.toString());
+    this.expandido.next(idxC);*/
+    this.expandido.next(b);
   }
 
   carregaDropdownMenu() {

@@ -6,7 +6,7 @@ import { LazyLoadEvent, SelectItem, MenuItem, ConfirmationService } from 'primen
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
 import {
   CsvService,
   ExcelService,
@@ -83,7 +83,7 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
   idx: number = null;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public aut: AuthenticationService,
     public dialogService: DialogService,
     private cf: ConfirmationService,
@@ -100,8 +100,8 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
 
     this.cols = [
       { field: 'passagem_id', header: 'ID', sortable: 'true', largura: '80px'},
-      { field: 'passagem_data', header: 'DATA', sortable: 'true', largura: '120px'},
-      { field: 'passagem_hora', header: 'HORÁRIO', sortable: 'false', largura: '120px'},
+      { field: 'passagem_data', header: 'DATA', sortable: 'true', largura: '80px'},
+      { field: 'passagem_hora', header: 'HORÁRIO', sortable: 'false', largura: '80px'},
       { field: 'passagem_beneficiario', header: 'BENEFICIÁRIO', sortable: 'true', largura: '300px'},
       { field: 'passagem_aerolinha_nome', header: 'COMPANHIA', sortable: 'true', largura: '200px'},
       { field: 'passagem_trecho', header: 'TRECHO', sortable: 'true', largura: '300px'},
@@ -285,7 +285,7 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {
@@ -295,8 +295,8 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
   resetSelectedColumns(): void {
     if (this.selectedColumns.length <= 1) {
       this.selectedColumns = [
-        { field: 'passagem_data', header: 'DATA', sortable: 'true', largura: '120px'},
-        { field: 'passagem_hora', header: 'HORÁRIO', sortable: 'false', largura: '120px'},
+        { field: 'passagem_data', header: 'DATA', sortable: 'true', largura: '80px'},
+        { field: 'passagem_hora', header: 'HORÁRIO', sortable: 'false', largura: '80px'},
         { field: 'passagem_beneficiario', header: 'BENEFICIÁRIO', sortable: 'true', largura: '300px'},
         { field: 'passagem_aerolinha_nome', header: 'COMPANHIA', sortable: 'true', largura: '200px'},
         { field: 'passagem_trecho', header: 'TRECHO', sortable: 'true', largura: '300px'},
