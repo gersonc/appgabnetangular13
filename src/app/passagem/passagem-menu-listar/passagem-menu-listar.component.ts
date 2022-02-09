@@ -28,6 +28,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
   public ddPassagem_aerolinha_id: SelectItem[] = [];
   public ddPassagem_beneficiario: SelectItem[] = [];
   public ddPassagem_voado_id: SelectItem[];
+  estilo1 = {width: '100%'};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -137,6 +138,10 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
         showHeader: true
       });
     }
+  }
+
+  onLimparForm() {
+    this.formMenuPassagem.reset();
   }
 
   onKey(event) {

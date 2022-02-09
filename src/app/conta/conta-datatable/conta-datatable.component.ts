@@ -185,48 +185,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    /*this.itemsAcao = [
-      {
-        label: 'CSV', icon: 'fas fa-lg fa-file-csv', style: { 'font-size': '.9em' }, command: () => {
-          this.exportToCsv();
-        }
-      },
-      {
-        label: 'CSV - TODOS', icon: 'fas fa-lg fa-file-csv', style: { 'font-size': '.9em' }, command: () => {
-          this.exportToCsv(true);
-        }
-      },
-      {
-        label: 'PDF', icon: 'fas fa-lg fa-file-pdf', style: { 'font-size': '1em' }, command: () => {
-          this.mostraTabelaPdf();
-        }
-      },
-      {
-        label: 'PDF - TODOS', icon: 'far fa-lg fa-file-pdf', style: { 'font-size': '.9em' }, command: () => {
-          this.mostraTabelaPdf(true);
-        }
-      },
-      {
-        label: 'IMPRIMIR', icon: 'fas fa-lg fa-print', style: { 'font-size': '1em' }, command: () => {
-          this.imprimirTabela();
-        }
-      },
-      {
-        label: 'IMPRIMIR - TODOS', icon: 'fas fa-lg fa-print', style: { 'font-size': '.9em' }, command: () => {
-          this.imprimirTabela(true);
-        }
-      },
-      {
-        label: 'EXCEL', icon: 'fas fa-lg fa-file-excel', style: { 'font-size': '1em' }, command: () => {
-          this.exportToXLSX();
-        }
-      },
-      {
-        label: 'EXCEL - TODOS', icon: 'far fa-lg fa-file-excel', style: { 'font-size': '.9em' }, command: () => {
-          this.exportToXLSX(true);
-        }
-      }
-    ];*/
 
     this.itemsAcao = [
       {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
@@ -423,7 +381,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         },
         header: 'INCLUIR LANÇAMENTO',
         width: '60%',
-        height: '50vh',
+        /*height: '50vh',*/
         dismissableMask: true,
         showHeader: true
       });
@@ -890,25 +848,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
       }],
     ];
-
-    /*const body: any[] = [
-      ['ID', ctb.conta_id, 'PAGO', ctb.conta_paga ],
-      ['DT. VENC', ctb.conta_vencimento, 'DT. PGTO.', ctb.conta_pagamento ],
-      ['CEDENTE', ctb.conta_cedente, 'VALOR', ctb.conta_valor ],
-      ['NÚCLEO',ctb.conta_local_nome, 'DBTO. AUT.', ctb.conta_debito_automatico ],
-      ['TIPO', ctb.conta_tipo ],
-      [{
-        colSpan: 4,
-        content: 'OBSERVAÇÕES',
-        styles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' }
-      }],
-      [{
-        colSpan: 4,
-        content: ctb.conta_observacao,
-        styles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'normal' }
-      }],
-    ];*/
-
 
     // this.mostraCtx = true;
     setTimeout(() => {

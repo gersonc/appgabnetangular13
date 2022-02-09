@@ -47,6 +47,7 @@
         <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
         <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
         <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
+        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="contaIncluir()"></button></div>
         <div class="p-mr-2"><button pButton type="button" label="Soma" icon="pi pi-dollar" class="p-button-text p-button-sm" (click)="showSoma()"></button></div>
       </div>
       <div class="p-d-inline-flex p-ai-center">
@@ -58,25 +59,6 @@
     </div>
     <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
-
-
-<!--  <ng-template pTemplate="caption">
-    <div style="overflow: auto;text-align: center;">CONTABILIDADE
-      <div style="overflow:auto;text-align:right;float:left;">
-        <span class="espacotopolink">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span class="linkTopo" (click)="mostraMenu()"><i class="fas fa-lg fa-filter"></i><span class="topolink"> Filtrar </span></span>
-        <span class="linkTopo" (click)="mostraSelectColunas()"><i class="fas fa-lg fa-sliders-h fa-rotate-90"></i><span class="topolink"> Exibe colunas </span></span>
-        <span class="linkTopo" (click)="men.toggle($event)"><i class="fas fa-lg fa-receipt"></i><span class="topolink"> Relatórios </span></span>
-        <span class="linkTopo" (click)="showSoma()"><i class="fas fa-lg fa-calculator"></i><span class="topolink"> Soma </span></span>
-        <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
-        <span *ngIf="aut.contabilidade_incluir" class="linkTopo" (click)="contaIncluir()"><i class="far fa-lg fa-address-card"></i><span class="topolink"> Incluir </span></span>
-      </div>
-      <div style="float:right;">
-        <span style="text-align: right">Página {{currentPage}} de {{numerodePaginas}}
-          - Num. Registros: {{totalRecords}}</span>
-      </div>
-    </div>
-  </ng-template>-->
 
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
@@ -100,22 +82,6 @@
     </tr>
   </ng-template>
 
-  <!--<ng-template pTemplate="header" let-columns>
-    <tr>
-      <th></th>
-      <th *ngFor="let col of columns"
-          [pSortableColumn]="col.field"
-          [style.width]="col.largura"
-          pReorderableColumn
-          pResizableColumn
-          style="padding-bottom: .3em; padding-top: .3em;"
-      >
-        {{col.header}}
-        <p-sortIcon [field]="col.field"></p-sortIcon>
-      </th>
-    </tr>
-  </ng-template>-->
-
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pEditableRow]="cta">
@@ -128,7 +94,7 @@
       </td>
 
 
-      <td *ngFor="let col of columns" class="ui-resizable-column" [ngStyle]="setCurrentStyles(col, cta[col.field])" style="text-align: left" >
+      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col, cta[col.field])" style="text-align: left" >
         <p-cellEditor *ngIf="col.field === 'conta_paga'">
           <ng-template pTemplate="input">
             <!--<input pInputText type="text" [(ngModel)]="cta.conta_paga_id">-->
@@ -195,7 +161,7 @@
                   (click)="getPdf(cta)"
                   type="button"
                   icon="pi pi-file-pdf"
-                  class="p-button-raised p-button-info"
+                  class="p-button-rounded p-button-info"
                   pTooltip="PDF"
                   tooltipPosition="top"
                   [disabled]="btnInativo"
@@ -209,7 +175,7 @@
                   (click)="getPdf(cta, true)"
                   type="button"
                   icon="pi pi-print"
-                  class="p-button-raised p-button-info"
+                  class="p-button-rounded p-button-info"
                   pTooltip="Imprimir"
                   tooltipPosition="top"
                   [disabled]="btnInativo"
@@ -223,7 +189,7 @@
                   (click)="contaAlterar(cta)"
                   type="button"
                   icon="pi pi-pencil"
-                  class="p-button-raised p-button-warning"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
                   [disabled]="btnInativo"
@@ -237,7 +203,7 @@
                   (click)="contaApagar(cta)"
                   type="button"
                   icon="pi pi-trash"
-                  class="p-button-raised p-button-danger"
+                  class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
                   [disabled]="btnInativo"
@@ -246,16 +212,6 @@
               </div>
             </div>
 
-            <!--<div *ngFor="let colunas of dadosExp;" class="tabela1" [style.width]="expColunas">
-              <div *ngFor="let linhas of colunas;" class="campo">
-                <div class="titulo1">
-                  {{linhas[0]}}
-                </div>
-                <div class="texto1">
-                  {{linhas[1]}}
-                </div>
-              </div>
-            </div>-->
             <div class="p-grid">
               <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div *ngIf="!linhas[2]" class="registros p-shadow-1">
@@ -331,6 +287,10 @@
   acceptLabel="Sim"
   rejectLabel="Não"
   styleClass="tablistagem"
+  acceptIcon="pi pi-trash"
+  acceptButtonStyleClass="p-button-rounded p-button-danger"
+  rejectIcon="pi pi-times"
+  rejectButtonStyleClass=""
 ></p-confirmDialog>
 <p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
 <p-toast key="contaToast" position="center"></p-toast>

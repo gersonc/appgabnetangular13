@@ -1,18 +1,33 @@
 <p-sidebar
+  id="sidebar-menuinterno"
+  [(visible)]="mi.mostraMenuInterno"
+  [blockScroll]="true"
+  [dismissible]="true"
+  styleClass="menuinterno-pq"
+  appendTo="body"
+>
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
+    <app-passagem-menu-listar></app-passagem-menu-listar>
+  </p-scrollPanel>
+</p-sidebar>
+
+<router-outlet></router-outlet>
+
+<!--<p-sidebar
   [visible]="mm.mostraMenu$ | async"
   appendTo="body"
   [blockScroll]="false"
   [dismissible]="true"
   (onHide)="onHide()"
   styleClass="ui-sidebar-full ui-sidebar-sm ui-sidebar-md ui-sidebar-lg"
-  [style]="{'background-color':'var(--fundo'}"
+  [style]="{'background-color':'var(&#45;&#45;fundo'}"
 >
   <div style="padding-top: 20px">
     <p-scrollPanel [style]="{height: altura}">
-      <div style="background-color: var(--fundo)">
+      <div style="background-color: var(&#45;&#45;fundo)">
         <app-passagem-menu-listar></app-passagem-menu-listar>
       </div>
     </p-scrollPanel>
   </div>
 </p-sidebar>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet>-->

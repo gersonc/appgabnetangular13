@@ -118,8 +118,10 @@ export class PassagemListarResolver implements Resolve<PassagemPaginacaoInterfac
         take(1),
         mergeMap(vf => {
           if (vf) {
+            this.cs.escondeCarregador();
             return of(vf);
           } else {
+            this.cs.escondeCarregador();
             return EMPTY;
           }
         })
@@ -133,14 +135,17 @@ export class PassagemListarResolver implements Resolve<PassagemPaginacaoInterfac
             take(1),
             mergeMap(dados => {
               if (dados) {
+                this.cs.escondeCarregador();
                 return of(dados);
               } else {
+                this.cs.escondeCarregador();
                 this.router.navigate(['/passagem/listar2']);
                 return EMPTY;
               }
             })
           );
       } else {
+        this.cs.escondeCarregador();
         this.router.navigate(['/passagem/listar2']);
         return EMPTY;
       }
