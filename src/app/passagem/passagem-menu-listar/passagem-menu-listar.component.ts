@@ -20,6 +20,8 @@ import { PassagemDropdown } from '../_models';
   providers: [ DialogService ]
 })
 export class PassagemMenuListarComponent implements OnInit, OnDestroy {
+  public altura = (window.innerHeight) + 'px';
+  public altura2 = ((window.innerHeight) - 130) + 'px';
   public formMenuPassagem: FormGroup;
   public items: Array<any> = [];
   ptBr: any;
@@ -29,6 +31,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
   public ddPassagem_beneficiario: SelectItem[] = [];
   public ddPassagem_voado_id: SelectItem[];
   estilo1 = {width: '100%'};
+  estilo2 = {height: this.altura2};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,6 +47,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log('altura2', this.altura2);
     this.configuraCalendario();
 
     this.formMenuPassagem = this.formBuilder.group({
