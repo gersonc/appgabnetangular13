@@ -137,7 +137,7 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
         },
         header: 'INCLUIR PASSAGEM',
         width: '60%',
-        height: '50vh',
+        styleClass: 'tablistagem',
         dismissableMask: true,
         showHeader: true
       });

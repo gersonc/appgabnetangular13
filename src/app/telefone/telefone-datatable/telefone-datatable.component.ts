@@ -376,9 +376,9 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
           origem: 'tabela'
         },
         header: 'INCLUIR TELEFONEMA',
-        width: '60%',
-        /*height: '50vh',*/
         styleClass: 'tablistagem',
+        width: '60%',
+        height: '50vh',
         dismissableMask: true,
         showHeader: true
       });

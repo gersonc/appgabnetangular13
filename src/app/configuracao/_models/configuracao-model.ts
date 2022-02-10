@@ -35,3 +35,8 @@ export class Configuracao2Model implements Configuracao2ModelInterface {
   titulo = null;
   texto = null;
 }
+
+export interface ConfiguracaoMenuIntensInterface {
+  label: string;
+  code: string;
+}

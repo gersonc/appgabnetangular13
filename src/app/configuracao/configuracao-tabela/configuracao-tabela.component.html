@@ -12,10 +12,10 @@
   "
 >
   <div *ngIf="!cfs.configuracao" class="container" style="text-align:center">
-    <h4>ESCOLHA UMA DAS OPÇÕES</h4>
+    <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
   </div>
   <table *ngIf="cfs.configuracao" class="tabelasimples" style="width: 100%;">
-    <caption *ngIf="cfs.configuracao.titulo">{{cfs.configuracao.titulo}}</caption>
+    <caption *ngIf="cfs.configuracao.titulo"><b>{{cfs.configuracao.titulo}}</b></caption>
     <thead *ngIf="perIncluir && !idx">
       <tr *ngIf="!mostraIncluir">
       <td>&nbsp;</td>
@@ -90,10 +90,10 @@
         </td>
       </ng-container>
       <ng-container *ngIf="i!==idx">
-        <td>
+        <td style="padding-left: 1rem">
           {{cf.campo_nome}}
         </td>
-        <td *ngIf="i!==idx" style="text-align:center; padding-bottom: .3em; padding-top: .3em; min-width: 50px;">
+        <td *ngIf="i!==idx" style="text-align:center; padding-bottom: .3em; padding-top: .3em; min-width: 80px;">
           <button *ngIf="perAltarar" pButton type="button" icon="pi pi-pencil" (click)="onEditar(cf.campo_id, cf.campo_nome, i)" class="p-button-raised p-button-rounded p-button-info" style="margin-right: .5em" [disabled]="!alt.configuracao_alterar && mostraAlterar == 0 && mostraApagar == 0"></button>
           <button *ngIf="perDeletar" pButton type="button" icon="pi pi-trash" (click)="onDeletar(cf.campo_id, cf.campo_nome, i)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="!alt.configuracao_apagar  && mostraAlterar == 0 && mostraApagar == 0"></button>
         </td>

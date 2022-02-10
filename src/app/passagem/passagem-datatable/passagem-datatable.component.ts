@@ -375,8 +375,9 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
           origem: 'tabela'
         },
         header: 'INCLUIR PASSAGEM',
-        width: '60%',
-        height: '50vh',
+        styleClass: 'tablistagem',
+        width: '70%',
+        /*height: '50vh',*/
         dismissableMask: true,
         showHeader: true
       });
@@ -397,9 +398,10 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
           passagem: pass,
           origem: 'tabela'
         },
+        styleClass: 'tablistagem',
         header: 'ALTERAR PASSAGEM',
-        width: '60%',
-        height: '50vh',
+        width: '70%',
+        /*height: '50vh',*/
         dismissableMask: true,
         showHeader: true
       });

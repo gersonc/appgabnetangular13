@@ -1,221 +1,251 @@
-<p-scrollPanel [styleClass]="'scrollPanel50'">
+<div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
   <form [formGroup]="formPassagem">
+    <div class="p-fluid">
 
-    <div class="p-grid">
-      <div class="p-col-12"></div>
-      <div class="p-col-12"></div>
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+              <div class="p-fluid p-formgrid p-grid formulario">
+
+                <!-- passagem_beneficiario -->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_beneficiario')">
+                  <label for="passagem_beneficiario"><span style="color: var(--ativo);">*</span>Beneficiário</label>
+                  <p-autoComplete
+                    id="passagem_beneficiario"
+                    formControlName="passagem_beneficiario"
+                    [maxlength]="50"
+                    [minLength]="3"
+                    [size]="40"
+                    [delay]="500"
+                    [suggestions]="sgt"
+                    dropdownMode="current"
+                    (completeMethod)="autoComp($event)"
+                  ></p-autoComplete>
+                  <app-campo-control-erro msgErro="Beneficiário é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!-- passagem_data -->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_data')">
+                  <div style="float: left; margin-right: 7px">
+                    <label for="passagem_data"><span style="color: var(--ativo);">*</span>Data</label>
+                    <p-calendar
+                      id="passagem_data"
+                      formControlName="passagem_data"
+                      dateFormat="dd/mm/yy"
+                      [yearNavigator]="true"
+                      yearRange="2000:2035"
+                      placeholder="dd/mm/aaaa"
+                      dataType="string"
+                      [styleClass]="'estreito'"
+                    ></p-calendar>
+                    <app-campo-control-erro msgErro="Data é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!-- passagem_hora -->
+                  <div>
+                    <label for="passagem_hora">Hora</label>
+                    <p-calendar
+                      id="passagem_hora"
+                      formControlName="passagem_hora"
+                      placeholder="hh:mm"
+                      dataType="string"
+                      hourFormat="24"
+                      [timeOnly]="true"
+                      [styleClass]="'estreito'"
+                      [inputStyle]="{'max-width':'133px'}"
+                    ></p-calendar>
+                  </div>
+                </div>
+
+
+                <!-- passagem_trecho -->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_trecho')">
+                  <label for="passagem_trecho"><span style="color: var(--ativo);">*</span>Trecho</label>
+                  <p-autoComplete
+                    id="passagem_trecho"
+                    formControlName="passagem_trecho"
+                    [maxlength]="150"
+                    [minLength]="3"
+                    [size]="40"
+                    [delay]="500"
+                    [suggestions]="sgt2"
+                    dropdownMode="current"
+                    (completeMethod)="autoComp2($event)"
+                  ></p-autoComplete>
+                  <app-campo-control-erro msgErro="Trecho é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!--*** passagem_aerolinha_id ***-->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_aerolinha_id')">
+                  <label for="passagem_aerolinha_id"><span style="color: var(--ativo)">*</span>Companhia aerea</label>
+                  <p-dropdown
+                    id="passagem_aerolinha_id"
+                    formControlName="passagem_aerolinha_id"
+                    placeholder="Selecione"
+                    [options]="ddPassagem_aerolinha_id"
+                    [required]="true"
+                    [style]="{'width':'100%','max-width':'311px'}"
+                  ></p-dropdown>
+                  <app-campo-control-erro msgErro="Companhia aerea é obrigatório.">
+                  </app-campo-control-erro>
+                </div>
+
+                <!-- passagem_voado_id -->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_voado_id')">
+                  <label for="passagem_voado_id"><span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span>Voado
+                    S/N</label>
+                  <p-selectButton
+                    id="passagem_voado_id"
+                    [options]="ddPassagem_voado_id"
+                    formControlName="passagem_voado_id"
+                  ></p-selectButton>
+                  <app-campo-control-erro msgErro="Voado S/N é obrigatório."></app-campo-control-erro>
+                </div>
+
+
+              </div>
+            </div>
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+              <div class="p-fluid p-formgrid p-grid formulario">
+
+                <!-- passagem_valor -->
+                <div class="p-field p-col-12">
+                  <label for="passagem_valor">Valor</label>
+                  <input
+                    id="passagem_valor"
+                    formControlName="passagem_valor"
+                    type="text"
+                    [size]="40"
+                    [maxlength]="40"
+                    pKeyFilter="money"
+                    pInputText
+                  />
+                </div>
+
+                <!-- passagem_voo -->
+                <div class="p-field p-col-12">
+                  <label for="passagem_voo">Voo</label>
+                  <input
+                    id="passagem_voo"
+                    formControlName="passagem_voo"
+                    type="text"
+                    [size]="40"
+                    [maxlength]="45"
+                    pInputText
+                  />
+                </div>
+
+                <!-- passagem_localizador -->
+                <div class="p-field p-col-12">
+                  <label for="passagem_localizador">Localizador</label>
+                  <input
+                    id="passagem_localizador"
+                    formControlName="passagem_localizador"
+                    type="text"
+                    [size]="40"
+                    [maxlength]="45"
+                    pInputText
+                  />
+                </div>
+
+                <!-- agenda -->
+                <div *ngIf="acao !== 'alterar'" class="p-field p-col-12">
+                  <label for="agenda">Lembrete na agenda</label>
+                  <p-inputSwitch
+                    id="agenda"
+                    formControlName="agenda"
+                  ></p-inputSwitch>
+                </div>
+
+                <!-- passagem_observacao -->
+                <div class="p-field p-col-12">
+                  <label for="passagem_observacao">Observações</label>
+                  <textarea
+                    id="passagem_observacao"
+                    formControlName="passagem_observacao"
+                    [rows]="5"
+                    [cols]="40"
+                    pInputTextarea
+                    [autoResize]="true"
+                    style="max-width :90%"
+                  ></textarea>
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+
     </div>
 
     <div class="p-grid">
-      <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
-
-        <!-- passagem_beneficiario -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('passagem_beneficiario')">
-            <h6><span style="color: var(--ativo);">*</span> Beneficiário</h6>
-            <p-autoComplete
-              formControlName="passagem_beneficiario"
-              [maxlength]="50"
-              [minLength]="3"
-              [size]="40"
-              [delay]="500"
-              [suggestions]="sgt"
-              dropdownMode="current"
-              (completeMethod)="autoComp($event)"
-            ></p-autoComplete>
-            <app-campo-control-erro msgErro="Beneficiário é obrigatório."></app-campo-control-erro>
-          </div>
-        </div>
-
-        <!-- passagem_data -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('passagem_data')">
-            <div style="float: left; margin-right: 7px">
-              <h6><span style="color: var(--ativo);">*</span> Data</h6>
-              <p-calendar
-                formControlName="passagem_data"
-                dateFormat="dd/mm/yy"
-                [yearNavigator]="true"
-                yearRange="2000:2035"
-                placeholder="dd/mm/aaaa"
-                dataType="string"
-                [styleClass]="'estreito'"
-              ></p-calendar>
-              <app-campo-control-erro msgErro="Data é obrigatório."></app-campo-control-erro>
-            </div>
-
-            <!-- passagem_hora -->
-            <div>
-              <h6> Hora</h6>
-              <p-calendar
-                formControlName="passagem_hora"
-                placeholder="hh:mm"
-                dataType="string"
-                hourFormat="24"
-                [timeOnly]="true"
-                [styleClass]="'estreito'"
-                [inputStyle]="{'max-width':'133px'}"
-              ></p-calendar>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- passagem_trecho -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('passagem_trecho')">
-            <h6><span style="color: var(--ativo);">*</span> Trecho</h6>
-            <p-autoComplete
-              formControlName="passagem_trecho"
-              [maxlength]="150"
-              [minLength]="3"
-              [size]="40"
-              [delay]="500"
-              [suggestions]="sgt2"
-              dropdownMode="current"
-              (completeMethod)="autoComp2($event)"
-            ></p-autoComplete>
-            <app-campo-control-erro msgErro="Trecho é obrigatório."></app-campo-control-erro>
-          </div>
-        </div>
-
-        <!--*** passagem_aerolinha_id ***-->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('passagem_aerolinha_id')">
-            <h6><span style="color: var(--ativo)">*</span> Companhia aerea</h6>
-            <p-dropdown
-              formControlName="passagem_aerolinha_id"
-              placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-              [options]="ddPassagem_aerolinha_id"
-              [required]="true"
-              [style]="{'width':'100%','max-width':'311px'}"
-            ></p-dropdown>
-            <app-campo-control-erro msgErro="Companhia aerea é obrigatório.">
-            </app-campo-control-erro>
-          </div>
-        </div>
-
-        <!-- passagem_voado_id -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu" [ngClass]="aplicaCssErro('passagem_voado_id')">
-            <h6><span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span> Voado S/N</h6>
-            <p-selectButton [options]="ddPassagem_voado_id" formControlName="passagem_voado_id"></p-selectButton>
-            <app-campo-control-erro msgErro="Voado S/N é obrigatório."></app-campo-control-erro>
-          </div>
-
-        </div>
-
-
-      </div>
-      <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
-
-        <!-- passagem_valor -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu">
-            <h6> Valor</h6>
-            <input
-              formControlName="passagem_valor"
-              type="text"
-              [size]="40"
-              [maxlength]="40"
-              pKeyFilter="money"
-              pInputText
-            />
-          </div>
-        </div>
-
-        <!-- passagem_voo -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu">
-            <h6> Voo</h6>
-            <input
-              formControlName="passagem_voo"
-              type="text"
-              [size]="40"
-              [maxlength]="45"
-              pInputText
-            />
-          </div>
-        </div>
-
-        <!-- passagem_localizador -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu">
-            <h6> Localizador</h6>
-            <input
-              formControlName="passagem_localizador"
-              type="text"
-              [size]="40"
-              [maxlength]="45"
-              pInputText
-            />
-          </div>
-        </div>
-
-        <!-- agenda -->
-        <div *ngIf="acao !== 'alterar'"  class="p-grid">
-          <div class="p-col-12 campoLabelMenu">
-            <h6> Lembrete na agenda</h6>
-            <p-inputSwitch formControlName="agenda"></p-inputSwitch>
-          </div>
-        </div>
-
-        <!-- passagem_observacao -->
-        <div class="p-grid">
-          <div class="p-col-12 campoLabelMenu">
-            <h6>Observações</h6>
-            <textarea
-              formControlName="passagem_observacao"
-              [rows]="5"
-              [cols]="40"
-              pInputTextarea
-              [autoResize]="true"
-              style="max-width :90%"
-            >
-          </textarea>
-          </div>
-        </div>
-
-      </div>
-
+      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
     </div>
 
+    <div class="p-fluid">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+            <div class="p-col-12 formulario">
+              <!--*** Botões ***-->
+              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                <div class="p-d-inline-flex">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="!formPassagem.valid || !mostraForm"
+                      (click)="enviarPassagem()"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Limpar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Fechar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1">&nbsp;</div>
+    </div>
 
   </form>
-  <div class="p-grid">
-    <div class="p-col-12"></div>
-    <div class="p-col-12">
-      <div class="botoesmenu">
-        <button
-          pButton
-          type="button"
-          class="p-button-rounded"
-          [disabled]="!formPassagem.valid || !mostraForm"
-          (click)="enviarPassagem()"
-          label="Enviar"
-        ></button>
-        &nbsp;&nbsp;
-        <button
-          pButton
-          type="button"
-          class="p-button-rounded p-button-secondary"
-          (click)="resetForm()"
-          label="Limpar"
-          [disabled]="botaoEnviarVF"
-        ></button>
-        &nbsp;&nbsp;
-        <button
-          pButton
-          type="button"
-          class="p-button-rounded p-button-secondary"
-          (click)="voltarListar()"
-          label="Fechar"
-          [disabled]="botaoEnviarVF"
-        ></button>
-      </div>
-    </div>
-    <div class="p-col-12"></div>
-    <div class="p-col-12"></div>
-    <div class="p-col-12"></div>
-  </div>
-</p-scrollPanel>
+</div>
+
