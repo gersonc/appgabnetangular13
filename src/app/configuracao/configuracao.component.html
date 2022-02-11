@@ -19,30 +19,32 @@
                 optionLabel="label"
                 (onChange)="selectCfg($event)"
                 styleClass="formulario"
+                [listStyle]="{'height':'calc(100vh - 100px)'}"
               ></p-listbox>
             </div>
             <div class="p-col-9 p-xl-9 p-lg-12 p-md-12 p-sm-12">
-              <ng-container *ngIf="tipoComp === 1">
-                <app-configuracao-tabela [componente]="componente"></app-configuracao-tabela>
-              </ng-container>
-              <ng-container *ngIf="tipoComp === 2">
-                <app-configuracao-tabela2 [componente]="componente"></app-configuracao-tabela2>
-              </ng-container>
-              <ng-container *ngIf="tipoComp === 3">
-                <app-etiqueta-config></app-etiqueta-config>
-              </ng-container>
-              <ng-container *ngIf="tipoComp === 4">
-                <app-nucleo-config></app-nucleo-config>
-              </ng-container>
-              <ng-container *ngIf="tipoComp === 5">
-                <app-usuario></app-usuario>
-              </ng-container>
-              <ng-container *ngIf="tipoComp === 0">
-                <div class="container" style="text-align:center">
-                  <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
-                </div>
-              </ng-container>
-
+                <p-scrollPanel [styleClass]="'scrollinterno'">
+                <ng-container *ngIf="tipoComp === 1">
+                  <app-configuracao-tabela [componente]="componente"></app-configuracao-tabela>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 2">
+                  <app-configuracao-tabela2 [componente]="componente"></app-configuracao-tabela2>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 3">
+                  <app-etiqueta-config></app-etiqueta-config>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 4">
+                  <app-nucleo-config></app-nucleo-config>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 5">
+                  <app-usuario></app-usuario>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 0">
+                  <div class="container" style="text-align:center">
+                    <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
+                  </div>
+                </ng-container>
+              </p-scrollPanel>
             </div>
           </div>
         </div>

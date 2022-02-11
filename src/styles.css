@@ -13451,6 +13451,7 @@ form.menuinterno-form {
   height: calc(100vh - 50px);
   background-color: var(--formulario-bg-externo-color);
 }
+
 .formulario .p-inputswitch {
   margin-bottom: 0 !important;
   margin-top: 0 !important;
@@ -13472,6 +13473,16 @@ form.menuinterno-form {
   width: 100%;
   height: calc(100vh - 50px);
 }
+.formulario.semscroll .p-scrollpanel {
+  width: 100%;
+  height: 100vh;
+}
+
+.formulario .scrollinterno .p-scrollpanel {
+  width: 100%;
+  height: calc(100vh - 100px);
+}
+
 /*
 *** p-dialog ***********************************************************************
 */

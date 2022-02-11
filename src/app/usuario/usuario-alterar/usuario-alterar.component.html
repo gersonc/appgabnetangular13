@@ -1,26 +1,28 @@
-<div class="card">
-  <div style="text-align:center; background-color: var(--primary-color); height: 48px;">
-    <div style="color: var(--claro); padding-top: .8em"><h5>USUÁRIO - ALTERAR</h5></div>
-  </div>
-  <div class="container-fluid">
-    <p-scrollPanel [style]="{width: '100%', height: 'auto'}">
-      <div class="p-grid">
-        <div class="p-col-12"></div>
-        <div class="p-md-1 p-xl-1"></div>
-        <div class="p-col-12 p-sm-12 p-md-10 p-xl-10 divform">
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <form [formGroup]="formUsuario" (ngSubmit)="onSubmit()">
+      <div class="p-fluid formulario-bg-externo">
 
-          <form [formGroup]="formUsuario" (ngSubmit)="onSubmit()">
-            <div class="p-grid formDiv">
+        <div class="p-d-flex p-jc-center">
+          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+            <span class="formulario-titulo">USUÁRIO - ALTERAR</span>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+
+
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12">
-                <div class="p-grid">
+              <div class="p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+                <div class="p-fluid p-formgrid p-grid formulario">
 
-                  <div class="p-col-12"></div>
 
                   <!--*** usuario_nome ***-->
-                  <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('usuario_nome')">
-                    <h6><span style="color: var(--ativo)">*</span> Nome completo</h6>
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_nome')">
+                    <label for="usuario_nome"><span style="color: var(--ativo)">*</span> Nome completo</label>
                     <input
+                      id="usuario_nome"
                       formControlName="usuario_nome"
                       type="text"
                       size="40"
@@ -31,9 +33,10 @@
                   </div>
 
                   <!--*** usuario_login ***-->
-                  <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('usuario_login')">
-                    <h6><span style="color: var(--ativo)">*</span> Nome de usuário</h6>
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_login')">
+                    <label for="usuario_login"><span style="color: var(--ativo)">*</span> Nome de usuário</label>>
                     <input
+                      id="usuario_login"
                       formControlName="usuario_login"
                       type="text"
                       size="40"
@@ -44,9 +47,10 @@
                   </div>
 
                   <!--*** usuario_email ***-->
-                  <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('usuario_email')">
-                    <h6><span style="color: var(--ativo)">*</span> E-mail</h6>
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_email')">
+                    <label for="usuario_email"><span style="color: var(--ativo)">*</span> E-mail</label>
                     <input
+                      id="usuario_email"
                       formControlName="usuario_email"
                       type="text"
                       size="40"
@@ -57,9 +61,10 @@
                   </div>
 
                   <!--*** usuario_celular ***-->
-                  <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('usuario_celular')">
-                    <h6><span style="color: var(--ativo)">*</span> Celular</h6>
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_celular')">
+                    <label for="usuario_celular"><span style="color: var(--ativo)">*</span> Celular</label>
                     <input
+                      id="usuario_celular"
                       formControlName="usuario_celular"
                       type="text"
                       size="40"
@@ -69,10 +74,20 @@
                     <app-campo-control-erro msgErro="Celular é obrigatório."></app-campo-control-erro>
                   </div>
 
+
+                </div>
+              </div>
+              <!--*** FIM COLUNA 1 ***-->
+              <!--*** COLUNA 2 ***-->
+              <div class="p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+                <div class="p-fluid p-formgrid p-grid">
+
+
                   <!--*** usuario_cargo ***-->
-                  <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('usuario_cargo')">
-                    <h6><span style="color: var(--ativo)">*</span> Cargo</h6>
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_cargo')">
+                    <label for="usuario_cargo"><span style="color: var(--ativo)">*</span> Cargo</label>
                     <input
+                      id="usuario_cargo"
                       formControlName="usuario_cargo"
                       type="text"
                       size="40"
@@ -83,9 +98,10 @@
                   </div>
 
                   <!--*** usuario_local_id ***-->
-                  <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('usuario_local_id')">
-                    <h6><span style="color: var(--ativo)">*</span> Núcleo</h6>
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_local_id')">
+                    <label for="usuario_local_id"><span style="color: var(--ativo)">*</span> Núcleo</label>
                     <p-dropdown
+                      id="usuario_local_id"
                       formControlName="usuario_local_id"
                       [options]="ddUsuario_local_id"
                       [required]="true"
@@ -95,632 +111,673 @@
                   </div>
 
                   <!--*** usuario_responsavel_sn ***-->
-                  <div class="p-col-12 campoLabel">
-                    <h6>Responsável</h6>
+                  <div class="p-field p-col-12">
+                    <label for="usuario_responsavel_sn">Responsável</label>
                     <p-dropdown
+                      id="usuario_responsavel_sn"
                       formControlName="usuario_responsavel_sn"
                       [options]="ddSimNao"
                     ></p-dropdown>
                   </div>
 
                   <!--*** usuario_principal_sn ***-->
-                  <div class="p-col-12 campoLabel">
-                    <h6>Principal</h6>
+                  <div class="p-field p-col-12">
+                    <label for="usuario_principal_sn">Principal</label>
                     <p-dropdown
+                      id="usuario_principal_sn"
                       formControlName="usuario_principal_sn"
                       [options]="ddSimNao"
                     ></p-dropdown>
                   </div>
 
+
+                </div>
+              </div>
+              <!--*** FIM COLUNA 2 ***-->
+              <!--*** COLUNA 3 ***-->
+              <div class="p-sm-12 p-md-12 p-lg-12 p-xl-6 formulario">
+                <div class="p-fluid p-formgrid p-grid">
+
+
                   <!--*** usuario_acesso ***-->
-                  <div class="p-grid">
-                    <div class="p-col-12">
-                      <div class="permissoes">
-                        <div class="p-grid">
-
-                          <!--*** configuracoes ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Configurações</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cf_i"
-                                            id="cf_i"></p-checkbox>
-                                <label for="cf_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cf_a"
-                                            id="cf_a"></p-checkbox>
-                                <label for="cf_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cf_d"
-                                            id="cf_d"></p-checkbox>
-                                <label for="cf_d">Apagar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** assunto ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Assunto</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="as_i"
-                                            id="as_i"></p-checkbox>
-                                <label for="as_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="as_a"
-                                            id="as_a"></p-checkbox>
-                                <label for="as_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="as_d"
-                                            id="as_d"></p-checkbox>
-                                <label for="as_d">Apagar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** municipios ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Municípios</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="mu_i"
-                                            id="mu_i"></p-checkbox>
-                                <label for="mu_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="mu_a"
-                                            id="mu_a"></p-checkbox>
-                                <label for="mu_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="mu_d"
-                                            id="mu_d"></p-checkbox>
-                                <label for="as_d">Apagar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Usuários ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Usuários</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="us_i"
-                                            id="us_i"></p-checkbox>
-                                <label for="us_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="us_a"
-                                            id="us_a"></p-checkbox>
-                                <label for="us_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="us_d"
-                                            id="us_d"></p-checkbox>
-                                <label for="us_d">Apagar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Agenda ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Agenda</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ag_i"
-                                            id="ag_i"></p-checkbox>
-                                <label for="ag_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ag_a"
-                                            id="ag_a"></p-checkbox>
-                                <label for="ag_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ag_d"
-                                            id="ag_d"></p-checkbox>
-                                <label for="ag_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ag_v"
-                                            id="ag_v"></p-checkbox>
-                                <label for="ag_v">Visualizar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Agenda do parlamentar ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Agenda do parlamentar</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="a2_i"
-                                            id="a2_i"></p-checkbox>
-                                <label for="a2_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="a2_a"
-                                            id="a2_a"></p-checkbox>
-                                <label for="a2_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="a2_d"
-                                            id="a2_d"></p-checkbox>
-                                <label for="a2_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="a2_v"
-                                            id="a2_v"></p-checkbox>
-                                <label for="a2_v">Visualizar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Cadastros ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Cadastros</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ca_i"
-                                            id="ca_i"></p-checkbox>
-                                <label for="ca_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ca_a"
-                                            id="ca_a"></p-checkbox>
-                                <label for="ca_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ca_d"
-                                            id="ca_d"></p-checkbox>
-                                <label for="ca_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ca_l"
-                                            id="ca_l"></p-checkbox>
-                                <label for="ca_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Cadastros sigilosos ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Cadastros sigilosos</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cs_i"
-                                            id="cs_i"></p-checkbox>
-                                <label for="cs_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cs_a"
-                                            id="cs_a"></p-checkbox>
-                                <label for="cs_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cs_d"
-                                            id="cs_d"></p-checkbox>
-                                <label for="cs_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="cs_l"
-                                            id="cs_l"></p-checkbox>
-                                <label for="cs_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Telefonemas ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Telefonemas</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="te_i"
-                                            id="te_i"></p-checkbox>
-                                <label for="te_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="te_a"
-                                            id="te_a"></p-checkbox>
-                                <label for="te_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="te_d"
-                                            id="te_d"></p-checkbox>
-                                <label for="te_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="te_l"
-                                            id="te_l"></p-checkbox>
-                                <label for="te_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Contatos ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Contatos</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ct_e"
-                                            id="ct_e"></p-checkbox>
-                                <label for="ct_e">Exibir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ct_g"
-                                            id="ct_g"></p-checkbox>
-                                <label for="ct_g">Gerenciar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Contabilidade ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Telefonemas</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="co_i"
-                                            id="co_i"></p-checkbox>
-                                <label for="co_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="co_a"
-                                            id="co_a"></p-checkbox>
-                                <label for="co_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="co_d"
-                                            id="co_d"></p-checkbox>
-                                <label for="co_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="co_l"
-                                            id="co_l"></p-checkbox>
-                                <label for="co_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Solicitações ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Solicitações</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="so_i"
-                                            id="so_i"></p-checkbox>
-                                <label for="so_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="so_a"
-                                            id="so_a"></p-checkbox>
-                                <label for="so_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="so_d"
-                                            id="so_d"></p-checkbox>
-                                <label for="so_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="so_l"
-                                            id="so_l"></p-checkbox>
-                                <label for="so_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Ofícios ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Ofícios</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="of_i"
-                                            id="of_i"></p-checkbox>
-                                <label for="of_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="of_a"
-                                            id="of_a"></p-checkbox>
-                                <label for="of_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="of_d"
-                                            id="of_d"></p-checkbox>
-                                <label for="of_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="of_l"
-                                            id="of_l"></p-checkbox>
-                                <label for="of_l">Listar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="of_df"
-                                            id="of_df"></p-checkbox>
-                                <label for="of_df">Deferir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="of_id"
-                                            id="of_id"></p-checkbox>
-                                <label for="of_id">Indeferir</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Processos ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Processos</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pr_df"
-                                            id="pr_df"></p-checkbox>
-                                <label for="pr_df">Deferir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pr_if"
-                                            id="pr_if"></p-checkbox>
-                                <label for="pr_if">Indeferir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pr_d"
-                                            id="pr_d"></p-checkbox>
-                                <label for="pr_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pr_l"
-                                            id="pr_l"></p-checkbox>
-                                <label for="pr_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Histórico (processo) ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Histórico (processo)</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="hi_i"
-                                            id="hi_i"></p-checkbox>
-                                <label for="hi_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="hi_a"
-                                            id="hi_a"></p-checkbox>
-                                <label for="hi_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="hi_d"
-                                            id="hi_d"></p-checkbox>
-                                <label for="hi_d">Apagar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Emendas ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Emendas</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="em_i"
-                                            id="em_i"></p-checkbox>
-                                <label for="em_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="em_a"
-                                            id="em_a"></p-checkbox>
-                                <label for="em_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="em_d"
-                                            id="em_d"></p-checkbox>
-                                <label for="em_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="em_l"
-                                            id="em_l"></p-checkbox>
-                                <label for="em_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Histórico (emendas) ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Histórico (emendas)</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="he_i"
-                                            id="he_i"></p-checkbox>
-                                <label for="he_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="he_a"
-                                            id="he_a"></p-checkbox>
-                                <label for="he_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="he_d"
-                                            id="he_d"></p-checkbox>
-                                <label for="he_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="he_l"
-                                            id="he_l"></p-checkbox>
-                                <label for="he_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Proposições ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Proposições</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pp_i"
-                                            id="pp_i"></p-checkbox>
-                                <label for="pp_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pp_a"
-                                            id="pp_a"></p-checkbox>
-                                <label for="pp_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pp_d"
-                                            id="pp_d"></p-checkbox>
-                                <label for="pp_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pp_l"
-                                            id="pp_l"></p-checkbox>
-                                <label for="pp_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Andamentos (proposições) ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Andamentos (proposições)</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ap_i"
-                                            id="ap_i"></p-checkbox>
-                                <label for="ap_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ap_a"
-                                            id="ap_a"></p-checkbox>
-                                <label for="ap_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ap_d"
-                                            id="ap_d"></p-checkbox>
-                                <label for="ap_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ap_l"
-                                            id="ap_l"></p-checkbox>
-                                <label for="ap_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Passagens Aéreas ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Passagens Aéreas</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pa_i"
-                                            id="pa_i"></p-checkbox>
-                                <label for="pa_i">Incluir</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pa_a"
-                                            id="pa_a"></p-checkbox>
-                                <label for="pa_a">Alterar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pa_d"
-                                            id="pa_d"></p-checkbox>
-                                <label for="pa_d">Apagar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="pa_l"
-                                            id="pa_l"></p-checkbox>
-                                <label for="pa_l">Listar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** SMS ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>SMS</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="sm_i"
-                                            id="sm_i"></p-checkbox>
-                                <label for="sm_i">Enviar</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!--*** Arquivos ***-->
-                          <div class="p-col-12 campoLabel">
-                            <h6>Arquivos</h6>
-                            <div class="p-formgroup-inline">
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ar_a"
-                                            id="ar_a"></p-checkbox>
-                                <label for="ar_a">Anexar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ar_b"
-                                            id="ar_b"></p-checkbox>
-                                <label for="ar_b">Baixar</label>
-                              </div>
-                              <div class="p-field-checkbox">
-                                <p-checkbox formControlName="usuario_acesso" value="ar_d"
-                                            id="ar_d"></p-checkbox>
-                                <label for="ar_d">Apagar</label>
-                              </div>
-                            </div>
-                          </div>
 
 
-                        </div>
+                  <!--*** configuracoes ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Configurações</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cf_i"
+                                    id="cf_i"></p-checkbox>
+                        <label for="cf_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cf_a"
+                                    id="cf_a"></p-checkbox>
+                        <label for="cf_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cf_d"
+                                    id="cf_d"></p-checkbox>
+                        <label for="cf_d">Apagar</label>
                       </div>
                     </div>
                   </div>
 
+                  <!--*** assunto ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Assunto</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="as_i"
+                                    id="as_i"></p-checkbox>
+                        <label for="as_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="as_a"
+                                    id="as_a"></p-checkbox>
+                        <label for="as_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="as_d"
+                                    id="as_d"></p-checkbox>
+                        <label for="as_d">Apagar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** municipios ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Municípios</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="mu_i"
+                                    id="mu_i"></p-checkbox>
+                        <label for="mu_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="mu_a"
+                                    id="mu_a"></p-checkbox>
+                        <label for="mu_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="mu_d"
+                                    id="mu_d"></p-checkbox>
+                        <label for="as_d">Apagar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Usuários ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Usuários</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="us_i"
+                                    id="us_i"></p-checkbox>
+                        <label for="us_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="us_a"
+                                    id="us_a"></p-checkbox>
+                        <label for="us_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="us_d"
+                                    id="us_d"></p-checkbox>
+                        <label for="us_d">Apagar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Agenda ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Agenda</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ag_i"
+                                    id="ag_i"></p-checkbox>
+                        <label for="ag_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ag_a"
+                                    id="ag_a"></p-checkbox>
+                        <label for="ag_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ag_d"
+                                    id="ag_d"></p-checkbox>
+                        <label for="ag_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ag_v"
+                                    id="ag_v"></p-checkbox>
+                        <label for="ag_v">Visualizar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Agenda do parlamentar ***-->
+                  <div class="p-field p-col-12">
+                    <label>Agenda do parlamentar</label>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="a2_i"
+                                    id="a2_i"></p-checkbox>
+                        <label for="a2_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="a2_a"
+                                    id="a2_a"></p-checkbox>
+                        <label for="a2_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="a2_d"
+                                    id="a2_d"></p-checkbox>
+                        <label for="a2_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="a2_v"
+                                    id="a2_v"></p-checkbox>
+                        <label for="a2_v">Visualizar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Cadastros ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Cadastros</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ca_i"
+                                    id="ca_i"></p-checkbox>
+                        <label for="ca_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ca_a"
+                                    id="ca_a"></p-checkbox>
+                        <label for="ca_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ca_d"
+                                    id="ca_d"></p-checkbox>
+                        <label for="ca_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ca_l"
+                                    id="ca_l"></p-checkbox>
+                        <label for="ca_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Cadastros sigilosos ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Cadastros sigilosos</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cs_i"
+                                    id="cs_i"></p-checkbox>
+                        <label for="cs_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cs_a"
+                                    id="cs_a"></p-checkbox>
+                        <label for="cs_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cs_d"
+                                    id="cs_d"></p-checkbox>
+                        <label for="cs_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="cs_l"
+                                    id="cs_l"></p-checkbox>
+                        <label for="cs_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Telefonemas ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Telefonemas</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="te_i"
+                                    id="te_i"></p-checkbox>
+                        <label for="te_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="te_a"
+                                    id="te_a"></p-checkbox>
+                        <label for="te_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="te_d"
+                                    id="te_d"></p-checkbox>
+                        <label for="te_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="te_l"
+                                    id="te_l"></p-checkbox>
+                        <label for="te_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Contatos ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Contatos</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ct_e"
+                                    id="ct_e"></p-checkbox>
+                        <label for="ct_e">Exibir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ct_g"
+                                    id="ct_g"></p-checkbox>
+                        <label for="ct_g">Gerenciar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Contabilidade ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Telefonemas</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="co_i"
+                                    id="co_i"></p-checkbox>
+                        <label for="co_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="co_a"
+                                    id="co_a"></p-checkbox>
+                        <label for="co_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="co_d"
+                                    id="co_d"></p-checkbox>
+                        <label for="co_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="co_l"
+                                    id="co_l"></p-checkbox>
+                        <label for="co_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+
                 </div>
-
-
               </div>
-            </div>
+              <!--*** FIM COLUNA 3 ***-->
+              <!--*** COLUNA 4 ***-->
+              <div class="p-sm-12 p-md-12 p-lg-12 p-xl-6 formulario">
+                <div class="p-fluid p-formgrid p-grid">
 
-            <div class="p-grid formDiv">
-              <div class="p-12">&nbsp;</div>
-            </div>
-            <!--*** Botões ***-->
-            <div class="p-grid formDiv">
-              <div class="p-col-12 campoLabel" style="text-align: center">
-                <button
-                  pButton
-                  type="ngSubmit"
-                  class="p-button-rounded"
-                  [disabled]="!formUsuario.valid && botaoEnviarVF"
-                  label="ALTERAR"
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  pButton
-                  type="button"
-                  class="p-button-rounded p-button-secondary"
-                  (click)="cancelar()"
-                  label="Cancelar"
-                  [disabled]="botaoEnviarVF"
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  pButton
-                  type="button"
-                  class="p-button-rounded p-button-secondary"
-                  (click)="sair()"
-                  label="Voltar"
-                  [disabled]="botaoEnviarVF"
-                ></button>
+
+                  <!--*** Solicitações ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Solicitações</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="so_i"
+                                    id="so_i"></p-checkbox>
+                        <label for="so_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="so_a"
+                                    id="so_a"></p-checkbox>
+                        <label for="so_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="so_d"
+                                    id="so_d"></p-checkbox>
+                        <label for="so_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="so_l"
+                                    id="so_l"></p-checkbox>
+                        <label for="so_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Ofícios ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Ofícios</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="of_i"
+                                    id="of_i"></p-checkbox>
+                        <label for="of_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="of_a"
+                                    id="of_a"></p-checkbox>
+                        <label for="of_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="of_d"
+                                    id="of_d"></p-checkbox>
+                        <label for="of_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="of_l"
+                                    id="of_l"></p-checkbox>
+                        <label for="of_l">Listar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="of_df"
+                                    id="of_df"></p-checkbox>
+                        <label for="of_df">Deferir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="of_id"
+                                    id="of_id"></p-checkbox>
+                        <label for="of_id">Indeferir</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Processos ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Processos</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pr_df"
+                                    id="pr_df"></p-checkbox>
+                        <label for="pr_df">Deferir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pr_if"
+                                    id="pr_if"></p-checkbox>
+                        <label for="pr_if">Indeferir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pr_d"
+                                    id="pr_d"></p-checkbox>
+                        <label for="pr_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pr_l"
+                                    id="pr_l"></p-checkbox>
+                        <label for="pr_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Histórico (processo) ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Histórico (processo)</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="hi_i"
+                                    id="hi_i"></p-checkbox>
+                        <label for="hi_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="hi_a"
+                                    id="hi_a"></p-checkbox>
+                        <label for="hi_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="hi_d"
+                                    id="hi_d"></p-checkbox>
+                        <label for="hi_d">Apagar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Emendas ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Emendas</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="em_i"
+                                    id="em_i"></p-checkbox>
+                        <label for="em_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="em_a"
+                                    id="em_a"></p-checkbox>
+                        <label for="em_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="em_d"
+                                    id="em_d"></p-checkbox>
+                        <label for="em_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="em_l"
+                                    id="em_l"></p-checkbox>
+                        <label for="em_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Histórico (emendas) ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Histórico (emendas)</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="he_i"
+                                    id="he_i"></p-checkbox>
+                        <label for="he_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="he_a"
+                                    id="he_a"></p-checkbox>
+                        <label for="he_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="he_d"
+                                    id="he_d"></p-checkbox>
+                        <label for="he_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="he_l"
+                                    id="he_l"></p-checkbox>
+                        <label for="he_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Proposições ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Proposições</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pp_i"
+                                    id="pp_i"></p-checkbox>
+                        <label for="pp_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pp_a"
+                                    id="pp_a"></p-checkbox>
+                        <label for="pp_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pp_d"
+                                    id="pp_d"></p-checkbox>
+                        <label for="pp_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pp_l"
+                                    id="pp_l"></p-checkbox>
+                        <label for="pp_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Andamentos (proposições) ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Andamentos (proposições)</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ap_i"
+                                    id="ap_i"></p-checkbox>
+                        <label for="ap_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ap_a"
+                                    id="ap_a"></p-checkbox>
+                        <label for="ap_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ap_d"
+                                    id="ap_d"></p-checkbox>
+                        <label for="ap_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ap_l"
+                                    id="ap_l"></p-checkbox>
+                        <label for="ap_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Passagens Aéreas ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Passagens Aéreas</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pa_i"
+                                    id="pa_i"></p-checkbox>
+                        <label for="pa_i">Incluir</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pa_a"
+                                    id="pa_a"></p-checkbox>
+                        <label for="pa_a">Alterar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pa_d"
+                                    id="pa_d"></p-checkbox>
+                        <label for="pa_d">Apagar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="pa_l"
+                                    id="pa_l"></p-checkbox>
+                        <label for="pa_l">Listar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** SMS ***-->
+                  <div class="p-field p-col-12">
+                    <h4>SMS</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="sm_i"
+                                    id="sm_i"></p-checkbox>
+                        <label for="sm_i">Enviar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--*** Arquivos ***-->
+                  <div class="p-field p-col-12">
+                    <h4>Arquivos</h4>
+                    <div class="p-formgroup-inline">
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ar_a"
+                                    id="ar_a"></p-checkbox>
+                        <label for="ar_a">Anexar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ar_b"
+                                    id="ar_b"></p-checkbox>
+                        <label for="ar_b">Baixar</label>
+                      </div>
+                      <div class="p-field-checkbox">
+                        <p-checkbox formControlName="usuario_acesso" value="ar_d"
+                                    id="ar_d"></p-checkbox>
+                        <label for="ar_d">Apagar</label>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
               </div>
-              <div class="p-col-12">&nbsp;</div>
+
             </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+              <div class="p-col-12 formulario">
 
 
-          </form>
+                <!--*** Botões ***-->
+
+
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="ngSubmit"
+                      class="p-button-rounded"
+                      [disabled]="!formUsuario.valid && botaoEnviarVF"
+                      label="Alterar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="cancelar()"
+                      label="Cancelar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="sair()"
+                      label="Voltar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+
+
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
         </div>
       </div>
-      <div class="p-md-1 p-xl-1"></div>
-    </p-scrollPanel>
-    <app-form-debug [form]="formUsuario"></app-form-debug>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid formulario-bg-externo">
+          <div class="p-col-12"></div>
+          <div class="p-col-12"></div>
+        </div>
+      </div>
+
+    </form>
   </div>
-</div>
+</p-scrollPanel>
+
 <p-toast key="usuarioToast" [style]="{marginTop: '80px'}"></p-toast>
