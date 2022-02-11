@@ -11,12 +11,14 @@
           <div class="p-grid">
             <div class="p-col-3 p-xl-3 p-lg-12 p-md-12 p-sm-12">
               <p-listbox
+                name="opcao"
+                #opcao1="ngModel"
                 [options]="menuCfgItens"
                 [(ngModel)]="cfgItem"
-                [dataKey]="'code'"
                 optionValue="code"
                 optionLabel="label"
-                (onClick)="selectCfg($event)"
+                (onChange)="selectCfg($event)"
+                styleClass="formulario"
               ></p-listbox>
             </div>
             <div class="p-col-9 p-xl-9 p-lg-12 p-md-12 p-sm-12">

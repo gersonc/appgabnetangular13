@@ -59,12 +59,14 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   }
 
   onIncluindo() {
+    this.acao = 'INCLUIR ETIQUETA'
     this.ecs.etqAcao = 'INCLUIR';
     this.ecs.etqForm = new EtiquetaClass();
     this.ecs.formDisplay = true;
   }
 
   onEdit(etiqueta: EtiquetaInterface) {
+    this.acao = 'ALTERAR ETIQUETA'
     this.ecs.etqAcao = 'ALTERAR';
     this.ecs.etqForm = etiqueta;
     this.ecs.formDisplay = true;
@@ -73,7 +75,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   onDelete(etiqueta: EtiquetaInterface) {
     this.cf.confirm({
       message: 'Apagar etiqueta marca ' + etiqueta.etq_marca + ' modelo ' + etiqueta.etq_modelo + '?',
-      header: 'APAGAR',
+      header: 'APAGAR ETIQUETA',
       icon: 'pi pi-trash',
       accept: () => {
         this.messageService.clear('msgExcluir');

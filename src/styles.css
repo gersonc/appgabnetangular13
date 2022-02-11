@@ -8902,6 +8902,52 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   font-size: 1.25rem;
   padding: 0.625rem 0.625rem;
 }
+
+/*
+
+--bt-secundario-bg-hover: #5a6268;
+--bt-secundario-color-hover: var(--primary-color-text);
+--bt-secundario-border-hover: var(--bt-secundario-bg-hover);
+
+*/
+
+.formulario .p-listbox {
+     background: var(--input-filled);
+     color: var(--text-color);
+     border: 1px solid var(--surface-c-border);
+     border-radius: 3px;
+}
+
+.formulario .p-listbox .p-listbox-list .p-listbox-item {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+.formulario .p-listbox:not(.p-disabled) .p-listbox-item:not(.p-highlight):not(.p-disabled):hover {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+}
+
+.formulario .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}
+.formulario .p-listbox .p-listbox-list .p-listbox-item:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  color: var(--bt-secundario-color-hover);
+  background: var(--text-color-secondary);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}
+
+
 .p-listbox {
   background: var(--surface-a);
   color: var(--text-color);
@@ -8945,7 +8991,7 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
 .p-listbox .p-listbox-list .p-listbox-item:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: var(--box-shadow-focus15);
+  box-shadow: var(--bt-secundario-bg-active);
 }
 .p-listbox .p-listbox-list .p-listbox-item .p-checkbox {
   margin-right: 0.5rem;
@@ -8998,6 +9044,8 @@ p-listbox.ng-dirty.ng-invalid > .p-listbox {
   color: var(--text-color);
   border-radius: 3px;
 }
+
+
 .p-multiselect.p-multiselect-chip .p-multiselect-token .p-multiselect-token-icon {
   margin-left: 0.5rem;
 }

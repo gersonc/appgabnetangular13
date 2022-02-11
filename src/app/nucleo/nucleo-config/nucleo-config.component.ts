@@ -64,6 +64,7 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
   onIncluindo() {
     this.ns.nuMostraBt = true;
     this.ns.nuAcao = 'INCLUIR';
+    this.acao = 'NÚCLEO INCLUIR'
     this.ns.nuForm = new LocalClass();
     this.ns.formDisplay = true;
   }
@@ -72,6 +73,7 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
     this.ns.nuMostraBt = true;
     this.ns.nuForm = new LocalClass();
     this.ns.nuAcao = 'ALTERAR';
+    this.acao = 'NÚCLEO ALTERAR'
     this.ns.nuForm = local;
     this.ns.formDisplay = true;
   }
@@ -79,7 +81,7 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
   onDelete(local: LocalInterface) {
     this.cf.confirm({
       message: 'Apagar local marca ' + local.local_nome + '?',
-      header: 'APAGAR',
+      header: 'NÚCLEO APAGAR',
       icon: 'pi pi-trash',
       accept: () => {
         this.messageService.clear('msgExcluir');

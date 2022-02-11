@@ -131,10 +131,10 @@ export class ConfiguracaoComponent implements OnInit {
   }
 
   selectCfg(event) {
-    console.log(event.option.code);
+    console.log(event);
     this.cs.mostraCarregador();
-    this.componente = event.option.code;
-    switch (event.option.code) {
+    this.componente = event.value;
+    switch (this.componente) {
       case 'etiqueta_config': {
         this.tipoComp = 3;
         break;

@@ -53,10 +53,11 @@
   [modal]="true"
   [closable]="true"
   [blockScroll]="true"
+  styleClass="tablistagem"
   [style]="{ width: '800px'}"
   (onHide)="fechaDialog()"
 >
   <app-nucleo-form></app-nucleo-form>
 </p-dialog>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
 

@@ -1,0 +1,238 @@
+@charset "UTF-8";
+/*
+*** FONTES PARA O EDITOR ******************
+*/
+:root {
+  --surface-i:#607D8B;
+  --surface-u:#4d646f;
+  --surface-a:#ffffff;
+  --surface-b:#efefef;
+  --surface-c:#e9ecef;
+  --surface-d:#dee2e6;
+  --surface-e:#ffffff;
+  --surface-f:#ffffff;
+
+  --text-color:#212529;
+  --text-color-secondary:#6c757d;
+  --primary-color:#007bff;
+  --primary-color-text:#ffffff;
+  --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --surface-0: #ffffff;
+  --surface-50: #f9fafb;
+  --surface-100: #f8f9fa;
+  --surface-200: #e9ecef;
+  --surface-300: #dee2e6;
+  --surface-400: #ced4da;
+  --surface-500: #adb5bd;
+  --surface-600: var(--text-color-secondary);
+  --surface-700: #495057;
+  --surface-800: #343a40;
+  --surface-900: var(--text-color);
+
+  --content-padding:1.25em;
+  --inline-spacing:0.5em;
+
+
+  --fc-button-text-color: var(--primary-color-text);
+  --fc-event-border-color: transparent;
+  --fc-event-bg-color:  var(--primary-color);
+  --fc-event-text-color: var(--primary-color-text);
+
+  --primary-box-box-shadow-focus: 0 0 0 0.2em rgba(38, 143, 255, 0.5);
+
+  --secondary-bg: var(--text-color-secondary);
+  --secondary-color-text: var(--primary-color-text);
+  --secondary-box-shadow: 0 0 0 0.4em var(--primary-color);
+
+  --menu-lateral-width: 1100px;
+  --menu-lateral-width-1200: 70vw;
+  --menu-lateral-width-992: 80vw;
+  --menu-lateral-width-768: 100vw;
+  --menu-lateral-width-576: 100vw;
+
+  --menu-lateral-pq-width: 550px;
+  --menu-lateral-pq-width-1200: 40vw;
+  --menu-lateral-pq-width-992: 50vw;
+  --menu-lateral-pq-width-768: 60vw;
+  --menu-lateral-pq-width-576: 100vw;
+
+  --altura-main: 100vh;
+  --menu-lateral-height: calc(100vh - 4.6em);
+
+
+  --fundotabela: var(--surface-c);
+  --claro: var(--surface-0);
+  --ativo: var(--primary-color);
+
+  --fundo-botao-claro: #f4f4f4;
+  --fundo-botao-escuro: #333333;
+
+  --topo: calc(3em + 1px);
+  --altura-padrao: calc(100vh - (3em + 1px));
+  --fc-neutral-bg-color: hsla(0,0%,81.6%,.3);
+  --menu-lateral-bg-color: var(--surface-d);
+
+  /*
+  bootstrap4-light-blue ********************
+  */
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --atencao-color: #dc3545;
+  --erro-color: #721c24;
+
+  --bt-secundario-bg: var(--text-color-secondary);
+  --bt-secundario-color: var(--primary-color-text);
+  --bt-secundario-border: 1px solid var(--text-color-secondary);
+
+  --bt-secundario-bg-hover: #5a6268;
+  --bt-secundario-color-hover: var(--primary-color-text);
+  --bt-secundario-border-hover: var(--bt-secundario-bg-hover);
+
+  --bt-secundario-box-shadow-focus: 0 0 0 0.2em rgba(130, 138, 145, 0.5);
+
+  --bt-secundario-bg-active: #545b62;
+  --bt-secundario-color-active: #ffffff;
+  --bt-secundario-border-active: #4e555b;
+
+  --detalhe-dialog-bg: var(--surface-d);
+  --detalhe-bg-externo: var(--surface-d);
+  --detalhe-bg-interno: var(--primary-color-text);
+
+  --fc-button-border-color: var(--surface-300);
+  --fc-button-bg-color: #2c3e50;
+}
+:root {
+  /*  --surface-a:#ffffff;
+    --surface-b:#f8f9fa;
+    --surface-c:#e9ecef;
+    --surface-d:var(--surface-border);
+    --surface-e:var(--surface-a);
+    --surface-f:var(--surface-a);
+    --text-color:#495057;
+    --text-color-secondary:var(--text-color-secondary);
+    --primary-color:#2196F3;
+    --primary-color-text:var(--surface-a);
+    --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+    --surface-0: var(--surface-a);
+    --surface-50: #FAFAFA;
+    --surface-100: #F5F5F5;
+    --surface-200: #EEEEEE;
+    --surface-300: #E0E0E0;
+    --surface-400: #BDBDBD;
+    --surface-500: #9E9E9E;
+    --surface-600: #757575;
+    --surface-700: #616161;
+    --surface-800: #424242;
+    --surface-900: #212121;*/
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-300: #E0E0E0;
+  --gray-400: #BDBDBD;
+  --gray-500: #9E9E9E;
+  --gray-600: #757575;
+  --gray-700: #616161;
+  --gray-800: #424242;
+  --gray-900: #212121;
+  --content-padding:1rem;
+  --inline-spacing:0.5rem;
+  --border-radius:3px;
+  --surface-ground:var(--surface-b);
+  --surface-section:var(--surface-a);
+  --surface-card:var(--surface-a);
+  --surface-overlay:var(--surface-a);
+  --surface-border:#dee2e6;
+
+  --invalid:#f44336;
+  --hover2:#0d89ec;
+  --hover3:#b6bfc8;
+  --vermelho:#D32F2F;
+  --amarelo:var(--yellow-500);
+  --verde:#689F38;
+  --secondary2:var(--bluegray-500);
+  --background-color-overlay:rgba(0, 0, 0, 0.4);
+  --rgba02:rgba(0, 0, 0, 0.2);
+  --rgba014:rgba(0, 0, 0, 0.14);
+  --rgba012:rgba(0, 0, 0, 0.12);
+  --rgba004:rgba(33, 150, 243, 0.04);
+  --rgba016:rgba(33, 150, 243, 0.16);
+  --rgba-preto0:rgba(255, 255, 255, 0);
+  --box-shadow-focus15: inset 0 0 0 0.15rem #a6d5fa;
+  --box-shadow-focus2:0 0 0 0.2rem #a6d5fa;
+  --background-highlight:#E3F2FD;
+  --surface-c-border:#ced4da;
+  --disabled-highlight:#0b7ad1;
+
+  --colorpicker-background:#323232;
+  --colorpicker-border-color:#191919;
+  --rgba-secondary004:rgba(96, 125, 139, 0.04);
+  --rgba-secondary016:rgba(96, 125, 139, 0.16);
+  --button-secondary-enabled-hover: #56717d;
+  --button-secondary-enabled-active: #4d646f;
+}
+:root {
+  --input-filled: var(--surface-b);
+  --filled-icons-color: var(--surface-700);
+  --border-elementos-input-forms: var(--surface-400);
+  --borda-formulario-background-color:var(--surface-500);
+  --formulario-field-label-font-weight: 500;
+  --formulario-field-input-font-weight: 500;
+  --formularios-bg: var(--surface-d);
+  --formulario-bg-interno-color: var(--primary-color-text);
+  --formulario-bg-externo-color: var(--formularios-bg);
+  --formulario-input-font-size: 1rem;
+  --formulario-label-font-size: .9rem;
+}
+:root {
+  --menuinterno-width: 1100px;
+  --menuinterno-width-1200: 70vw;
+  --menuinterno-width-992: 80vw;
+  --menuinterno-width-768: 100vw;
+  --menuinterno-width-576: 100vw;
+
+  --menuinterno-pq-width: 550px;
+  --menuinterno-pq-width-1200: 40vw;
+  --menuinterno-pq-width-992: 50vw;
+  --menuinterno-pq-width-768: 60vw;
+  --menuinterno-pq-width-576: 100vw;
+
+  --menuinterno-bg: var(--formularios-bg);
+  --menuinterno-close: var(--filled-icons-color);
+}
+
+
+.formulario .p-listbox {
+  background: var(--input-filled);
+  color: var(--text-color);
+  border: 1px solid var(--surface-c-border);
+  border-radius: 3px;
+}
+
+.formulario .p-listbox .p-listbox-list .p-listbox-item {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+.formulario .p-listbox:not(.p-disabled) .p-listbox-item:not(.p-highlight):not(.p-disabled):hover {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+}
+
+.formulario .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}
+.formulario .p-listbox .p-listbox-list .p-listbox-item:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  color: var(--bt-secundario-color-hover);
+  background: var(--text-color-secondary);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}
