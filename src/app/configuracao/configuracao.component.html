@@ -7,9 +7,9 @@
         </div>
       </div>
       <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-xl-10 p-lg-12 p-md-12 p-sm-12 p-xl-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
           <div class="p-grid">
-            <div class="p-col-2">
+            <div class="p-col-3 p-xl-3 p-lg-12 p-md-12 p-sm-12">
               <p-listbox
                 [options]="menuCfgItens"
                 [(ngModel)]="cfgItem"
@@ -19,8 +19,28 @@
                 (onClick)="selectCfg($event)"
               ></p-listbox>
             </div>
-            <div class="p-col-10">
-              <router-outlet></router-outlet>
+            <div class="p-col-9 p-xl-9 p-lg-12 p-md-12 p-sm-12">
+              <ng-container *ngIf="tipoComp === 1">
+                <app-configuracao-tabela [componente]="componente"></app-configuracao-tabela>
+              </ng-container>
+              <ng-container *ngIf="tipoComp === 2">
+                <app-configuracao-tabela2 [componente]="componente"></app-configuracao-tabela2>
+              </ng-container>
+              <ng-container *ngIf="tipoComp === 3">
+                <app-etiqueta-config></app-etiqueta-config>
+              </ng-container>
+              <ng-container *ngIf="tipoComp === 4">
+                <app-nucleo-config></app-nucleo-config>
+              </ng-container>
+              <ng-container *ngIf="tipoComp === 5">
+                <app-usuario></app-usuario>
+              </ng-container>
+              <ng-container *ngIf="tipoComp === 0">
+                <div class="container" style="text-align:center">
+                  <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
+                </div>
+              </ng-container>
+
             </div>
           </div>
         </div>

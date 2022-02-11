@@ -40,3 +40,23 @@ export interface ConfiguracaoMenuIntensInterface {
   label: string;
   code: string;
 }
+
+export interface ConfiguracaoComponenteInterface {
+  tabela?: string;
+  campo_id?: string;
+  campo_nome?: string;
+  campo_txt1?: string;
+  titulo?: string;
+  labelTxt1?: string;
+  texto?: string;
+}
+
+export class ConfiguracaoComponente implements ConfiguracaoComponenteInterface {
+  tabela = null;
+  campo_id = null;
+  campo_nome = null;
+  campo_txt1 = null;
+  titulo = null;
+  labelTxt1 = null;
+  texto = null;
+}

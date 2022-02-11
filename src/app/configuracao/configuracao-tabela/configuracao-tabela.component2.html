@@ -18,11 +18,11 @@
     <caption *ngIf="cfs.configuracao.titulo"><b>{{cfs.configuracao.titulo}}</b></caption>
     <thead *ngIf="perIncluir && !idx">
       <tr *ngIf="!mostraIncluir">
-        <td>&nbsp;</td>
-        <td style="text-align:center;">
-          <button pButton type="button" icon="pi pi-plus" class="p-button-raised p-button-rounded" style="margin-right: .5em" (click)="clickIncluir()"></button>
-        </td>
-      </tr>
+      <td>&nbsp;</td>
+      <td style="text-align:center;">
+        <button pButton type="button" icon="pi pi-plus" class="p-button-raised p-button-rounded" style="margin-right: .5em" (click)="clickIncluir()"></button>
+      </td>
+    </tr>
       <tr *ngIf="mostraIncluir">
       <td>
         <p-messages key="msgIncluirErro" [(value)]="msgErroIncluir"></p-messages>

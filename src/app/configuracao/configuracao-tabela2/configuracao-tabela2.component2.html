@@ -12,20 +12,20 @@
   align-content: center;
   "
 >
-  <div *ngIf="!cfs.configuracao2" class="container" style="text-align:center">
-    <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
+  <div *ngIf="!cfs.configuracao" class="container" style="text-align:center">
+    <h4>ESCOLHA UMA DAS OPÇÕES</h4>
   </div>
-  <!--<table  class="tabelasimples" style="width: 100%;">
+  <table  class="tabelasimples" style="width: 100%;">
     <caption *ngIf="cfs.configuracao2.titulo">{{cfs.configuracao2.titulo}}</caption>
-  </table>-->
+  </table>
 <p-table *ngIf="cfs.configuracao2" [value]="listagem" dataKey="campo_id" editMode="row">
-  <ng-template *ngIf="cfs.configuracao2.titulo" pTemplate="caption">
-    <b><span style="text-align: center">{{cfs.configuracao2.titulo}}</span></b>
+  <ng-template *ngIf="cfs.configuracao2.titulo" pTemplate="capton">
+    {{cfs.configuracao.titulo}}
   </ng-template>
   <ng-template pTemplate="header">
-    <tr>
+    <tr *ngIf="cfs.configuracao2.titulo">
       <th>{{cfs.configuracao2.titulo}}</th>
-      <th>{{campo_txt2}}</th>
+      <th *ngIf="labelTxt1">{{labelTxt1}}</th>
       <th style="text-align:center; padding-bottom: .3em; padding-top: .3em; min-width: 50px;">
         <button *ngIf="alt.configuracao_incluir && !incluindo" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="p-button-raised p-button-rounded" [disabled]="editando"></button>
       </th>

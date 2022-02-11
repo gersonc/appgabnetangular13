@@ -35,6 +35,9 @@ import { NucleoFormComponent } from './nucleo-form/nucleo-form.component';
     ConfirmDialogModule,
     ColorPickerModule
   ],
+  exports: [
+    NucleoConfigComponent
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

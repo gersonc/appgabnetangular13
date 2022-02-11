@@ -1,4 +1,5 @@
-import {Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfiguracaoService } from '../_services';
 import { take } from 'rxjs/operators';
@@ -12,9 +13,7 @@ import { ConfiguracaoModel } from '../_models/configuracao-model';
   templateUrl: './configuracao-tabela.component.html',
   styleUrls: ['./configuracao-tabela.component.css']
 })
-export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy {
-
-  @Input() componente?: string = null;
+export class ConfiguracaoTabelaComponent implements OnInit, OnDestroy {
 
   private sub: Subscription[] = [];
   listagem: any[] = null;
@@ -54,280 +53,51 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     public alt: AuthenticationService,
     private cs: CarregadorService,
     private dd: DropdownService,
-    private messageService: MessageService
-  ) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.componente) {
-      switch (changes.componente.currentValue) {
-        case 'area_interesse': {
-          this.configuracao = {
-            tabela: 'area_interesse',
-            campo_id: 'area_interesse_id',
-            campo_nome: 'area_interesse_nome',
-            titulo: 'ÁREAS DE INTERESSE',
-            texto: 'a área de interesse'
-          };
-          this.inicio();
-          break;
-        }
-        case 'assunto': {
-          this.configuracao = {
-            tabela: 'assunto',
-            campo_id: 'assunto_id',
-            campo_nome: 'assunto_nome',
-            titulo: 'ASSUNTOS',
-            texto: 'o assunto'
-          }
-          this.inicio();
-          break;
-        }
-        case 'aerolinha': {
-          this.configuracao = {
-            tabela: 'aerolinha',
-            campo_id: 'aerolinha_id',
-            campo_nome: 'aerolinha_nome',
-            titulo: 'COMPANHIAS AÉREAS',
-            texto: 'a companhias aérea'
-          }
-          this.inicio();
-          break;
-        }
-        case 'escolaridade': {
-          this.configuracao = {
-            tabela: 'escolaridade',
-            campo_id: 'escolaridade_id',
-            campo_nome: 'escolaridade_nome',
-            titulo: 'ESCOLARIDADE',
-            texto: 'a escolaridade'
-          }
-          this.inicio();
-          break;
-        }
-        case 'estado': {
-          this.configuracao = {
-            tabela: 'estado',
-            campo_id: 'estado_id',
-            campo_nome: 'estado_nome',
-            titulo: 'ESTADOS',
-            texto: 'o estado'
-          }
-          this.inicio();
-          break;
-        }
-        case 'estado_civil': {
-          this.configuracao = {
-            tabela: 'estado_civil',
-            campo_id: 'estado_civil_id',
-            campo_nome: 'estado_civil_nome',
-            titulo: 'ESTADO CIVIL',
-            texto: 'o estado civil'
-          }
-          this.inicio();
-          break;
-        }
-        case 'grupo': {
-          this.configuracao = {
-            tabela: 'grupo',
-            campo_id: 'grupo_id',
-            campo_nome: 'grupo_nome',
-            titulo: 'GRUPOS',
-            texto: 'o grupo'
-          }
-          this.inicio();
-          break;
-        }
-        case 'municipio': {
-          this.configuracao = {
-            tabela: 'municipio',
-            campo_id: 'municipio_id',
-            campo_nome: 'municipio_nome',
-            titulo: 'MUNICÍPIOS',
-            texto: 'o município'
-          }
-          this.inicio();
-          break;
-        }
-        case 'ogu': {
-          this.configuracao = {
-            tabela: 'ogu',
-            campo_id: 'ogu_id',
-            campo_nome: 'ogu_nome',
-            titulo: 'O.G.U.',
-            texto: 'o O.G.U.'
-          }
-          this.inicio();
-          break;
-        }
-        case 'origem_proposicao': {
-          this.configuracao = {
-            tabela: 'origem_proposicao',
-            campo_id: 'origem_proposicao_id',
-            campo_nome: 'origem_proposicao_nome',
-            titulo: 'ORIGEM DA PROPOSIÇÃO',
-            texto: 'a origem da proposicao'
-          }
-          this.inicio();
-          break;
-        }
-        case 'orgao_proposicao': {
-          this.configuracao = {
-            tabela: 'orgao_proposicao',
-            campo_id: 'orgao_proposicao_id',
-            campo_nome: 'orgao_proposicao_nome',
-            titulo: 'ORGÃO DA PROPOSIÇÃO',
-            texto: 'o orgão da proposicao'
-          }
-          this.inicio();
-          break;
-        }
-        case 'tipo_emenda': {
-          this.configuracao = {
-            tabela: 'tipo_emenda',
-            campo_id: 'tipo_emenda_id',
-            campo_nome: 'tipo_emenda_nome',
-            titulo: 'TIPO DE EMENDA',
-            texto: 'o tipo de emenda'
-          }
-          this.inicio();
-          break;
-        }
-        case 'tipo_proposicao': {
-          this.configuracao = {
-            tabela: 'tipo_proposicao',
-            campo_id: 'tipo_proposicao_id',
-            campo_nome: 'tipo_proposicao_nome',
-            titulo: 'TIPO DE PROPOSIÇÃO',
-            texto: 'o tipo de proposição'
-          }
-          this.inicio();
-          break;
-        }
-        case 'emenda_proposicao': {
-          this.configuracao = {
-            tabela: 'emenda_proposicao',
-            campo_id: 'emenda_proposicao_id',
-            campo_nome: 'emenda_proposicao_nome',
-            titulo: 'TIPO DE EMEDA DE PROPOSIÇÃO',
-            texto: 'o tipo de emenda de proposição'
-          }
-          this.inicio();
-          break;
-        }
-        case 'andamento': {
-          this.configuracao = {
-            tabela: 'andamento',
-            campo_id: 'andamento_id',
-            campo_nome: 'andamento_nome',
-            titulo: 'TIPOS DE ENCAMINHAMENTO',
-            texto: 'o tipo de encaminhamento'
-          }
-          this.inicio();
-          break;
-        }
-        case 'tipo_recebimento': {
-          this.configuracao = {
-            tabela: 'tipo_recebimento',
-            campo_id: 'tipo_recebimento_id',
-            campo_nome: 'tipo_recebimento_nome',
-            titulo: 'TIPOS DE RECEBIMENTOS',
-            texto: 'o tipo de recebimento'
-          }
-          this.inicio();
-          break;
-        }
-        case 'tratamento': {
-          this.configuracao = {
-            tabela: 'tratamento',
-            campo_id: 'tratamento_id',
-            campo_nome: 'tratamento_nome',
-            titulo: 'TRATAMENTOS',
-            texto: 'o tratamento'
-          }
-          this.inicio();
-          break;
-        }
-        case 'situacao_proposicao': {
-          this.configuracao = {
-            tabela: 'situacao_proposicao',
-            campo_id: 'situacao_proposicao_id',
-            campo_nome: 'situacao_proposicao_nome',
-            titulo: 'SITUAÇÃO DA PROPOSIÇÃO',
-            texto: 'a situação da proposição'
-          }
-          this.inicio();
-          break;
-        }
-        default: {
-          this.configuracao = new ConfiguracaoModel();
-          this.titulo = 'CONFIGURAÇÕES';
-          break;
-        }
-      }
-    }
+    private messageService: MessageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    console.log('construtor');
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log('init');
+    if (this.activatedRoute.snapshot.data.dados) {
+      const snap = this.activatedRoute.snapshot.data.dados;
+      this.perIncluir = this.alt.configuracao_incluir;
+      this.perAltarar = this.alt.configuracao_alterar;
+      this.perDeletar = this.alt.configuracao_apagar;
+      this.perPrincipal = this.alt.usuario_principal_sn;
+      this.perResponsavel = this.alt.usuario_responsavel_sn;
+      if (this.alt.configuracao_alterar) {
+        this.colsp++;
+      }
+      if (this.alt.configuracao_apagar) {
+        this.colsp++;
+      }
+      this.tabela = snap.tabela;
+      this.tabel = snap.tabela;
+      this.configuracao = {
+        titulo: snap.titulo,
+        campo_id: snap.campo_id,
+        campo_nome: snap.campo_nome,
+        tabela: snap.tabela,
+        texto: snap.texto
+      };
+      this.titulo = this.configuracao.titulo;
+      this.cfs.configuracao = this.configuracao;
+      this.getAll(this.tabela);
+    } else {
+      this.titulo = 'CONFIGURAÇÕES';
+    }
+  }
 
   ngOnDestroy(): void {
     this.cfs.configuracao = null;
     this.sub.forEach(s => {
       s.unsubscribe();
     });
-  }
-
-  inicio() {
-    this.sub.forEach(s => {
-      s.unsubscribe();
-    });
-    this.resetAll();
-    this.perIncluir = this.alt.configuracao_incluir;
-    this.perAltarar = this.alt.configuracao_alterar;
-    this.perDeletar = this.alt.configuracao_apagar;
-    this.perPrincipal = this.alt.usuario_principal_sn;
-    this.perResponsavel = this.alt.usuario_responsavel_sn;
-    this.colsp = 1;
-    if (this.alt.configuracao_alterar) {
-      this.colsp++;
-    }
-    if (this.alt.configuracao_apagar) {
-      this.colsp++;
-    }
-    this.tabela = this.configuracao.tabela;
-    this.tabel = this.configuracao.tabela;
-    this.titulo = this.configuracao.titulo;
-    this.cfs.configuracao = this.configuracao;
-    this.getAll(this.configuracao.tabela);
-  }
-
-  resetAll() {
-    this.listagem = null;
-    this.perIncluir = false;
-    this.perAltarar = false;
-    this.perDeletar = false;
-    this.perPrincipal = false;
-    this.perResponsavel = false;
-    this.nome  = null;
-    this.id  = null;
-    this.idx  = null;
-    this.mostraAlterar = 0;
-    this.mostraApagar = 0;
-    this.mostraDropDown = false;
-    this.dropDown = null;
-    this.drop = 0;
-    this.acao  = null;
-    this.tabel  = null;
-    this.msgs  = [];
-    this.resp = null;
-    this.nomeIncluir = null;
-    this.colsp = 1;
-    this.nomeOld = null;
-    this.confirmaAlterar = false;
-    this.confirmaApagar = false;
-    this.tabela = null;
-    this.mostraIncluir = false;
-    this.msgErroIncluir = null;
-    this.msgErroEditar = null;
+    console.log('ngOnDestroy');
   }
 
   getAll(tabela: string) {

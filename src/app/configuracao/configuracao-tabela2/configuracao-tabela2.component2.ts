@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, OnChanges, Input, SimpleChanges} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfiguracaoService } from "../_services";
@@ -6,7 +6,7 @@ import { take } from "rxjs/operators";
 import { AuthenticationService, CarregadorService } from "../../_services";
 import { ConfirmationService, Message, MessageService, SelectItem } from "primeng/api";
 import { DropdownService } from "../../_services";
-import { Configuracao2Model, ConfiguracaoModel} from "../_models/configuracao-model";
+import { Configuracao2Model } from "../_models/configuracao-model";
 
 @Component({
   selector: 'app-configuracao-tabela2',
@@ -14,9 +14,7 @@ import { Configuracao2Model, ConfiguracaoModel} from "../_models/configuracao-mo
   styleUrls: ['./configuracao-tabela2.component.css'],
   providers: [ConfirmationService]
 })
-export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestroy {
-
-  @Input() componente?: string = null;
+export class ConfiguracaoTabela2Component implements OnInit, OnDestroy {
 
   private sub: Subscription[] = [];
   listagem: any[] = null;
@@ -42,15 +40,11 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   confirmaApagar = false;
   incluindo = false;
   editando = false;
-  campo_txt2: string = null;
+  labelTxt1: string = null;
   ddTipoCadastroTipo: SelectItem[] = [{ label: 'PF', value: 1}, { label: 'PJ', value: 2}];
   mostraApagar = 0;
-  titulo = 'CONFIGURAÇÕES';
 
   msgErroEditar: Message[];
-
-  configuracao = new Configuracao2Model();
-  cpn: string = null;
 
   constructor(
     public cfs: ConfiguracaoService,
@@ -59,79 +53,35 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     private dd: DropdownService,
     private messageService: MessageService,
     private cf: ConfirmationService,
-    // private router: Router,
-    // private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.componente) {
-      this.cpn = changes.componente.currentValue.toString();
-      switch (changes.componente.currentValue) {
-        case 'prioridade': {
-          this.configuracao = {
-            tabela: 'prioridade',
-            campo_id: 'prioridade_id',
-            campo_id2: null,
-            campo_nome: 'prioridade_nome',
-            campo_txt1: 'prioridade_color',
-            titulo: 'PRIORIDADE',
-            campo_txt2: 'COR',
-            texto: 'a prioridade'
-          };
-          this.inicio();
-          break;
-        }
-        case 'tipo_cadastro': {
-          this.configuracao = {
-            tabela: 'tipo_cadastro',
-            campo_id: 'tipo_cadastro_id',
-            campo_id2: 'tipo_cadastro_tipo',
-            campo_nome: 'tipo_cadastro_nome',
-            titulo: 'TIPO DE CADASTRO',
-            campo_txt1: null,
-            campo_txt2: 'PF/PJ',
-            texto: 'o tipo de cadastro'
-          }
-          this.inicio();
-          break;
-        }
-        default: {
-          this.configuracao = new Configuracao2Model();
-          this.titulo = 'CONFIGURAÇÕES';
-          break;
-        }
-      }
-    }
-  }
-
   ngOnInit(): void {
-    // this.cfs.configuracao2 = new Configuracao2Model();
-  }
-
-  inicio() {
-    this.sub.forEach(s => {
-      s.unsubscribe();
-    });
-    this.resetAll();
-    this.cfs.configuracao2 = this.configuracao;
-
-      this.cfs.configuracao2.titulo = this.configuracao.titulo;
-      this.cfs.configuracao2.campo_id = this.configuracao.campo_id;
-      this.cfs.configuracao2.campo_nome = this.configuracao.campo_nome;
-      this.cfs.configuracao2.tabela = this.configuracao.tabela;
-      this.cfs.configuracao2.texto = this.configuracao.texto;
-      if (this.configuracao.tabela === 'prioridade') {
-        this.cfs.configuracao2.campo_txt1 = this.configuracao.campo_txt1;
-        // this.cfs.configuracao2.campo_txt2 = null;
+    this.cfs.configuracao2 = new Configuracao2Model();
+    if (this.activatedRoute.snapshot.data.dados) {
+      let snap = this.activatedRoute.snapshot.data.dados;
+      this.cfs.configuracao2.titulo = snap.titulo;
+      this.cfs.configuracao2.campo_id = snap.campo_id;
+      this.cfs.configuracao2.campo_nome = snap.campo_nome;
+      this.cfs.configuracao2.tabela = snap.tabela;
+      this.cfs.configuracao2.texto = snap.texto;
+      if (snap.tabela === 'prioridade') {
+        this.cfs.configuracao2.campo_txt1 = snap.campo_txt1;
+        this.cfs.configuracao2.campo_txt2 = null;
         this.cfs.configuracao2.campo_id2 = null;
+        this.labelTxt1 = snap.labelTxt1;
       }
-      if (this.configuracao.tabela === 'tipo_cadastro') {
+      if (snap.tabela === 'tipo_cadastro') {
         this.cfs.configuracao2.campo_txt1 = null;
-        // this.cfs.configuracao2.campo_txt2 = null;
-        this.cfs.configuracao2.campo_id2 = this.configuracao.campo_id2;
+        this.cfs.configuracao2.campo_txt2 = null;
+        this.cfs.configuracao2.campo_id2 = snap.campo_id2;
+        this.labelTxt1 = snap.labelTxt1;
       }
-    this.campo_txt2 = this.configuracao.campo_txt2;
       this.getAll();
+    } else {
+      this.cfs.configuracao2.titulo = 'CONFIGURAÇÕES';
+    }
   }
 
   ngOnDestroy(): void {
@@ -153,35 +103,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.sub.forEach(s => {
       s.unsubscribe();
     });
-  }
-
-  resetAll() {
-    this.listagem = null;
-    this.nome = null;
-    this.id = null;
-    this.campo_txt1 = null;
-    this.campo_id2 = null;
-    this.idx = null;
-    this.mostraDropDown = false;
-    this.dropDown = null;
-    this.drop = 0;
-    this.acao = null;
-    this.msgs = [];
-    this.msg = [];
-    this.resp = null;
-    this.nomeIncluir = null;
-    this.campo_txt1Incluir = null;
-    this.campo_id2_incluir = null;
-    this.nomeOld = null;
-    this.campo_txt1Old = null;
-    this.campo_idOld = null;
-    this.confirmaAlterar = false;
-    this.confirmaApagar = false;
-    this.incluindo = false;
-    this.editando = false;
-    this.campo_txt2 = null;
-    this.mostraApagar = 0;
-    this.msgErroEditar = null;
   }
 
   getAll() {
