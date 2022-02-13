@@ -1,4 +1,4 @@
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalhetarefa">
+<p-scrollPanel class="detalhe" id="detalhetarefa">
   <table class="detalhefull">
     <tr>
       <td>
@@ -92,7 +92,7 @@
     </tr>
     <tr *ngIf="tf.tarefa_historico_num > 0">
       <td colspan="4">
-        <table class="table-bordered tabelainterna" #tabhistorico id="tabhistorico">
+        <table class="table-hover tabela" #tabhistorico id="tabhistorico">
           <caption>HISTÓRICO</caption>
           <tr>
             <th width="1%" nowrap>
@@ -134,15 +134,16 @@
   </table>
   <br>
 </p-scrollPanel>
+
 <div class="botoesdetalhe">
-  <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
+  <button pButton type="button" icon="pi pi-times" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
-          class="p-button-rounded p-button-secondary"
+  <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
+          class="p-button-raised p-button-rounded p-button-secondary"
           (click)="getPdf(false)"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="fas fa-print" label="IMPRIMIR"
-          class="p-button-rounded p-button-secondary"
+  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
+          class="p-button-raised p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 </div>
 

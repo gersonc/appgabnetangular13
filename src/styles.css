@@ -15175,3 +15175,51 @@ h5 {
   border: 1px solid var(--bt-secundario-border-hover);
   color: var(--bt-secundario-color-hover);
 }
+
+
+.grafico.p-menu {
+  padding: 0.25rem 0;
+  background: var(--input-filled);
+  color: var(--text-color);
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  width: 12.5rem;
+}
+/*.grafico.p-menu .p-menuitem-link {
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  border-radius: 0;
+  transition: box-shadow 0.2s;
+  -webkit-user-select: none;
+  user-select: none;
+}*/
+.grafico.p-menu .p-menuitem-link .p-menuitem-text {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.grafico.p-menu .p-menuitem-link:not(.p-disabled):hover {
+  background: var(--bt-secundario-bg-hover);
+}
+
+.grafico.p-menu .p-menuitem-link:hover {
+  color: var(--claro);
+}
+
+.grafico.p-menu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text {
+  color: var(--claro);
+}
+
+.grafico.p-menu .p-submenu-header {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  background: var(--input-filled);
+  font-weight: 600;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.grafico .p-menu .p-menu-separator {
+  border-top: 1px solid var(--text-color);
+  margin: 0.25rem 0;
+}

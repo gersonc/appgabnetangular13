@@ -10,7 +10,7 @@ import { SolicitacaoAlterarComponent } from './solicitacao-alterar/solicitacao-a
 import { SolicitacaoExcluirComponent } from './solicitacao-excluir/solicitacao-excluir.component';
 import { SolicitacaoExcluirResolver } from './_resolvers';
 import { SolicitacaoDatatableComponent } from './solicitacao-datatable/solicitacao-datatable.component';
-import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-listar.component';
+// import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-listar.component';
 import { SolicitacaoCadastroIncluirComponent } from './solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component';
 import { SolicitacaoCadastroFormResolver } from './_resolvers/solicitacao-cadastro-form.resolver';
 import { SolicitacaoAlterarResolver } from './_resolvers/solicitacao-alterar.resolver';

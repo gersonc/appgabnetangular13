@@ -45,14 +45,26 @@
   <ng-template pTemplate="caption">
     <div class="p-d-flex p-jc-between p-ai-center">
       <div class="p-d-inline-flex">
-        <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
-        <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
-        <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
-        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="tarefaIncluir()"></button></div>
+        <div class="p-mx-2">
+          <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                  (click)="mostraMenu()"></button>
+        </div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                  (click)="mostraSelectColunas()"></button>
+        </div>
+        <div class="p-mr-2">
+          <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
+                  (click)="men.toggle($event)"></button>
+        </div>
+        <div class="p-mr-0">
+          <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                  (click)="tarefaIncluir()"></button>
+        </div>
       </div>
 
       <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-2">PASSAGENS AÉREAS</div>
+        <div class="p-mx-2">TAREFAS</div>
       </div>
       <div class="p-d-inline-flex p-ai-center">
         <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
@@ -71,16 +83,41 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 50px;text-align: center"></th>
-      <th *ngIf="mostraCol('tarefa_id')" style="padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_id" pResizableColumn>ID <p-sortIcon [field]="'tarefa_id'"></p-sortIcon></th>
-      <th *ngIf="mostraCol('tarefa_situacao_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;"pResizableColumn pSortableColumn="tarefa_situacao_nome" pResizableColumn>SITUAÇÃO <p-sortIcon [field]="'tarefa_situacao_nome'"></p-sortIcon></th>
-      <th *ngIf="mostraCol('tarefa_titulo')" style="width: 300px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>TITULO</th>
-      <th *ngIf="mostraCol('tarefa_tarefa')" style="width: 300px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>TAREFA</th>
-      <th *ngIf="mostraCol('tarefa_data')" style="width: 100px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_data" pResizableColumn>PRAZO<p-sortIcon [field]="'tarefa_data'"></p-sortIcon></th>
-      <th *ngIf="mostraCol('tu_usuario_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>DEMANDADO(S)</th>
-      <th *ngIf="mostraCol('tus_situacao_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;" pResizableColumn>SITUAÇÃO</th>
-      <th *ngIf="mostraCol('tarefa_hora')" style="width: 80px; padding-bottom: .3em; padding-top: .3em;" pResizableColumn>HORA</th>
-      <th *ngIf="mostraCol('tarefa_usuario_autor_nome')" style="width: 200px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_usuario_autor_nome" pReorderableColumn pResizableColumn>AUTOR <p-sortIcon [field]="'tarefa_usuario_autor_nome'"></p-sortIcon></th>
-      <th *ngIf="mostraCol('tarefa_datahora')" style="width: 150px;padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_datahora" pResizableColumn>DATA <p-sortIcon [field]="'tarefa_datahora'"></p-sortIcon></th>
+      <th *ngIf="mostraCol('tarefa_id')" style="padding-bottom: .3em; padding-top: .3em;" pSortableColumn="tarefa_id"
+          pResizableColumn>ID
+        <p-sortIcon [field]="'tarefa_id'"></p-sortIcon>
+      </th>
+      <th *ngIf="mostraCol('tarefa_situacao_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;"
+          pResizableColumn pSortableColumn="tarefa_situacao_nome" pResizableColumn>SITUAÇÃO
+        <p-sortIcon [field]="'tarefa_situacao_nome'"></p-sortIcon>
+      </th>
+      <th *ngIf="mostraCol('tarefa_titulo')" style="width: 300px;padding-bottom: .3em; padding-top: .3em;"
+          pResizableColumn>TITULO
+      </th>
+      <th *ngIf="mostraCol('tarefa_tarefa')" style="width: 300px;padding-bottom: .3em; padding-top: .3em;"
+          pResizableColumn>TAREFA
+      </th>
+      <th *ngIf="mostraCol('tarefa_data')" style="width: 100px;padding-bottom: .3em; padding-top: .3em;"
+          pSortableColumn="tarefa_data" pResizableColumn>PRAZO
+        <p-sortIcon [field]="'tarefa_data'"></p-sortIcon>
+      </th>
+      <th *ngIf="mostraCol('tu_usuario_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;"
+          pResizableColumn>DEMANDADO(S)
+      </th>
+      <th *ngIf="mostraCol('tus_situacao_nome')" style="width: 160px;padding-bottom: .3em; padding-top: .3em;"
+          pResizableColumn>SITUAÇÃO
+      </th>
+      <th *ngIf="mostraCol('tarefa_hora')" style="width: 80px; padding-bottom: .3em; padding-top: .3em;"
+          pResizableColumn>HORA
+      </th>
+      <th *ngIf="mostraCol('tarefa_usuario_autor_nome')" style="width: 200px;padding-bottom: .3em; padding-top: .3em;"
+          pSortableColumn="tarefa_usuario_autor_nome" pReorderableColumn pResizableColumn>AUTOR
+        <p-sortIcon [field]="'tarefa_usuario_autor_nome'"></p-sortIcon>
+      </th>
+      <th *ngIf="mostraCol('tarefa_datahora')" style="width: 150px;padding-bottom: .3em; padding-top: .3em;"
+          pSortableColumn="tarefa_datahora" pResizableColumn>DATA
+        <p-sortIcon [field]="'tarefa_datahora'"></p-sortIcon>
+      </th>
     </tr>
   </ng-template>
 
@@ -88,74 +125,86 @@
 
   <ng-template pTemplate="body" let-tar let-expanded="expanded" let-rowIndex="rowIndex">
 
-      <tr [pSelectableRowDblClick]="tar" [pContextMenuRow]="tar">
-        <td [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-          <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
-                  [pRowToggler]="tar" class="p-button-rounded  p-button-text p-button-sm"
-                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-        </td>
+    <tr [pSelectableRowDblClick]="tar" [pContextMenuRow]="tar">
+      <td [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <button type="button" pButton [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+                [pRowToggler]="tar" class="p-button-rounded  p-button-text p-button-sm"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+      </td>
 
-        <td *ngIf="mostraCol('tarefa_id')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" style="padding-bottom: 0; padding-top: .3em;" [style.width]="'80px'">{{tar['tarefa_id']}}</td>
-        <td *ngIf="mostraCol('tarefa_situacao_nome')"
-            [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
-            style="padding-bottom: 0; padding-top: .3em;"
-            [style.width]="'160px'"
-            [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])"
-            [pEditableColumn]="tar"
-            [pEditableColumnField]="'tarefa_situacao_id'"
-            [pEditableColumnRowIndex]="rowIndex"
+      <td *ngIf="mostraCol('tarefa_id')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;" [style.width]="'80px'">{{tar['tarefa_id']}}</td>
+      <td *ngIf="mostraCol('tarefa_situacao_nome')"
+          [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;"
+          [style.width]="'160px'"
+          [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])"
+          [pEditableColumn]="tar"
+          [pEditableColumnField]="'tarefa_situacao_id'"
+          [pEditableColumnRowIndex]="rowIndex"
 
-        >
-          <p-cellEditor>
-            <ng-template pTemplate="input">
+      >
+        <p-cellEditor>
+          <ng-template pTemplate="input">
               <span *ngIf="tar['tarefa_usuario_autor_id'] === au.usuario_id">
                 <p-listbox [options]="ddTarefa_usuario_situacao_id" [(ngModel)]="tarefa_usuario_situacao"></p-listbox>
               </span>
-              <span *ngIf="tar['tarefa_usuario_autor_id'] !== au.usuario_id">
+            <span *ngIf="tar['tarefa_usuario_autor_id'] !== au.usuario_id">
                 &nbsp;{{tar['tarefa_situacao_nome']}}
               </span>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{tar['tarefa_situacao_nome']}}
-            </ng-template>
-          </p-cellEditor>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{tar['tarefa_situacao_nome']}}
+          </ng-template>
+        </p-cellEditor>
 
-        </td>
-        <td *ngIf="mostraCol('tarefa_titulo')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'300px'">{{tar['tarefa_titulo']}}</td>
-        <td *ngIf="mostraCol('tarefa_tarefa')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'300px'">{{tar['tarefa_tarefa']}}</td>
-        <td *ngIf="mostraCol('tarefa_data')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])" style="padding-bottom: 0; padding-top: .3em;" [style.width]="'100px'">{{tar['tarefa_data']}}</td>
-        <td *ngIf="mostraCol('tu_usuario_nome')" class="ui-resizable-column"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'160px'" [style.backgroundColor]="fcor(tar['usuario_situacao'][0]['tus_situacao_id'])">{{tar['usuario_situacao'][0]['tu_usuario_nome']}}</td>
-        <td *ngIf="mostraCol('tus_situacao_nome')"
-            style="padding-bottom: 0; padding-top: .3em;"
-            [style.width]="'160px'"
-            [style.backgroundColor]="fcor(tar['usuario_situacao'][0]['tus_situacao_id'])"
-            [pEditableColumn]="tar['usuario_situacao'][0]"
-            [pEditableColumnField]="'tus_situacao_id'"
-            [pEditableColumnRowIndex]="rowIndex"
-        >
-          <p-cellEditor>
-            <ng-template pTemplate="input">
+      </td>
+      <td *ngIf="mostraCol('tarefa_titulo')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;" [style.width]="'300px'">{{tar['tarefa_titulo']}}</td>
+      <td *ngIf="mostraCol('tarefa_tarefa')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;" [style.width]="'300px'">{{tar['tarefa_tarefa']}}</td>
+      <td *ngIf="mostraCol('tarefa_data')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;" [style.width]="'100px'">{{tar['tarefa_data']}}</td>
+      <td *ngIf="mostraCol('tu_usuario_nome')" class="ui-resizable-column" style="padding-bottom: 0; padding-top: .3em;"
+          [style.width]="'160px'"
+          [style.backgroundColor]="fcor(tar['usuario_situacao'][0]['tus_situacao_id'])">{{tar['usuario_situacao'][0]['tu_usuario_nome']}}</td>
+      <td *ngIf="mostraCol('tus_situacao_nome')"
+          style="padding-bottom: 0; padding-top: .3em;"
+          [style.width]="'160px'"
+          [style.backgroundColor]="fcor(tar['usuario_situacao'][0]['tus_situacao_id'])"
+          [pEditableColumn]="tar['usuario_situacao'][0]"
+          [pEditableColumnField]="'tus_situacao_id'"
+          [pEditableColumnRowIndex]="rowIndex"
+      >
+        <p-cellEditor>
+          <ng-template pTemplate="input">
               <span *ngIf="tar['usuario_situacao'][0]['tus_usuario_id'] === au.usuario_id">
                 <p-listbox [options]="ddTarefa_usuario_situacao_id" [(ngModel)]="tarefa_usuario_situacao"></p-listbox>
               </span>
-              <span *ngIf="tar['usuario_situacao'][0]['tus_usuario_id'] !== au.usuario_id">
+            <span *ngIf="tar['usuario_situacao'][0]['tus_usuario_id'] !== au.usuario_id">
                 &nbsp;{{tar['usuario_situacao'][0]['tus_situacao_nome']}}
               </span>
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{tar['usuario_situacao'][0]['tus_situacao_nome']}}
-            </ng-template>
-          </p-cellEditor>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{tar['usuario_situacao'][0]['tus_situacao_nome']}}
+          </ng-template>
+        </p-cellEditor>
 
-        </td>
-        <td *ngIf="mostraCol('tarefa_hora')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'80px'">{{tar['tarefa_hora']}}</td>
-        <td *ngIf="mostraCol('tarefa_usuario_autor_nome')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'200px'">{{tar['tarefa_usuario_autor_nome']}}</td>
-        <td *ngIf="mostraCol('tarefa_datahora')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"  style="padding-bottom: 0; padding-top: .3em;" [style.width]="'150px'">{{tar['tarefa_datahora']}}</td>
-      </tr>
-    <ng-container *ngIf="tar['usuario_situacao_num'] > 1 && (mostraCol('tu_usuario_nome') || mostraCol('tus_situacao_nome'))">
+      </td>
+      <td *ngIf="mostraCol('tarefa_hora')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;" [style.width]="'80px'">{{tar['tarefa_hora']}}</td>
+      <td *ngIf="mostraCol('tarefa_usuario_autor_nome')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;"
+          [style.width]="'200px'">{{tar['tarefa_usuario_autor_nome']}}</td>
+      <td *ngIf="mostraCol('tarefa_datahora')" [attr.rowspan]="getRowSpan(tar['usuario_situacao_num'])"
+          style="padding-bottom: 0; padding-top: .3em;" [style.width]="'150px'">{{tar['tarefa_datahora']}}</td>
+    </tr>
+    <ng-container
+      *ngIf="tar['usuario_situacao_num'] > 1 && (mostraCol('tu_usuario_nome') || mostraCol('tus_situacao_nome'))">
       <tr *ngFor="let reg of tar['usuario_situacao'].slice(1)">
         <td *ngIf="mostraCol('tu_usuario_nome')" [style.backgroundColor]="fcor(reg['tus_situacao_id'])">
-            {{reg['tu_usuario_nome']}}
+          {{reg['tu_usuario_nome']}}
         </td>
         <td *ngIf="mostraCol('tus_situacao_nome')"
             [style.backgroundColor]="fcor(reg['tus_situacao_id'])"
@@ -219,6 +268,18 @@
               </div>
               <div class="p-mr-2">
                 <button
+                  (click)="tarefaExibir(tar)"
+                  pButton
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                >
+                </button>
+              </div>
+              <div class="p-mr-2">
+                <button
                   (click)="tarefaAlterar(tar)"
                   pButton
                   type="button"
@@ -258,116 +319,107 @@
               </div>
             </div>
 
-              <div class="p-grid" id="contx">
+            <div class="p-grid" id="contx">
 
-                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
 
-                      <div class="registros p-shadow-1">
-                        <h5>Titulo</h5>
-                        {{tar.tarefa_titulo}}
-                      </div>
-
+                <div class="registros p-shadow-1">
+                  <h5>Titulo</h5>
+                  {{tar.tarefa_titulo}}
                 </div>
 
-                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              </div>
 
-                  <div class="registros p-shadow-1" [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])">
-                    <h5>Situação</h5>
-                    {{tar.tarefa_situacao_nome}}
-                  </div>
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
 
+                <div class="registros p-shadow-1" [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])">
+                  <h5>Situação</h5>
+                  {{tar.tarefa_situacao_nome}}
                 </div>
 
-                <div class="p-col-6 p-sm-6 p-md-3 p-lg-3 p-xl-3">
+              </div>
 
-                      <div class="registros p-shadow-1">
-                        <h5>Prazo</h5>
-                        {{tar.tarefa_data}} {{tar.tarefa_hora}}
-                      </div>
+              <div class="p-col-6 p-sm-6 p-md-3 p-lg-3 p-xl-3">
 
-                </div>
-                <div class="p-col-6 p-sm-6 p-md-3 p-lg-3 p-xl-3">
-
-                      <div class="registros p-shadow-1">
-                        <h5>Data</h5>
-                        {{tar.tarefa_datahora}}
-                      </div>
-
+                <div class="registros p-shadow-1">
+                  <h5>Prazo</h5>
+                  {{tar.tarefa_data}} {{tar.tarefa_hora}}
                 </div>
 
-                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              </div>
+              <div class="p-col-6 p-sm-6 p-md-3 p-lg-3 p-xl-3">
 
-                  <div class="registros p-shadow-1">
-                    <h5>Autor</h5>
-                    {{tar.tarefa_usuario_autor_nome}}
-                  </div>
-
+                <div class="registros p-shadow-1">
+                  <h5>Data</h5>
+                  {{tar.tarefa_datahora}}
                 </div>
 
-                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              </div>
 
-                  <div class="registros p-shadow-1">
-                    <h5>Tarefa</h5>
-                    {{tar.tarefa_tarefa}}
-                  </div>
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
 
+                <div class="registros p-shadow-1">
+                  <h5>Autor</h5>
+                  {{tar.tarefa_usuario_autor_nome}}
                 </div>
 
+              </div>
 
+              <div *ngIf="tar.tarefa_tarefa" class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
 
-                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-
-                      <div class="registros p-shadow-1">
-                        <h5>Demandados / Situação</h5>
-                        <table>
-                          <tr *ngFor="let tu of tar.usuario_situacao">
-                            <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;" [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tu_usuario_nome}}</td>
-                            <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;" [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tus_situacao_nome}}</td>
-                          </tr>
-                        </table>
-                      </div>
-
-
-
-                  </div>
-
-
-                <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" *ngIf="tar.tarefa_historico_num > 0">
-<!--                  <div class="p-grid">
-
-
-                    <div class="p-col-12">-->
-                      <div class="registros p-shadow-1">
-                        <h5>Histórico</h5>
-                        <table class="tablistagem">
-                          <tr>
-                            <th>Data</th>
-                            <th>Hora</th>
-                            <th>Nome</th>
-                            <th>Situação</th>
-                          </tr>
-                          <tr *ngFor="let hi of tar.tarefa_historico">
-                            <td>{{hi.th_data}}</td>
-                            <td>{{hi.th_hora}}</td>
-                            <td>{{hi.th_usuario_nome}}</td>
-                            <td>{{hi.th_historico}}</td>
-                          </tr>
-                        </table>
-                      </div>
-                    <!--</div>
-
-
-                  </div>-->
+                <div *ngIf="tar.tarefa_tarefa.length > 50" class="registros p-shadow-1">
+                  <h5>Tarefa</h5>
+                  <span class="mostratexto" (click)="mostraTexto(tar.tarefa_tarefa)">{{tar.tarefa_tarefa.substr(0, 26)}}...</span>
+                </div>
+                <div *ngIf="tar.tarefa_tarefa.length <= 50" class="registros p-shadow-1">
+                  <h5>Tarefa</h5>
+                  {{tar.tarefa_tarefa}}
                 </div>
 
+              </div>
 
 
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
 
+                <div class="registros p-shadow-1">
+                  <h5>Demandados / Situação</h5>
+                  <table>
+                    <tr *ngFor="let tu of tar.usuario_situacao">
+                      <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;"
+                          [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tu_usuario_nome}}</td>
+                      <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;"
+                          [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tus_situacao_nome}}</td>
+                    </tr>
+                  </table>
+                </div>
 
 
               </div>
 
-            <!--</div>-->
+
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" *ngIf="tar.tarefa_historico_num > 0">
+
+                <div class="registros p-shadow-1">
+                  <h5>Histórico</h5>
+                  <table class="tablistagem">
+                    <tr>
+                      <th>Data</th>
+                      <th>Hora</th>
+                      <th>Nome</th>
+                      <th>Situação</th>
+                    </tr>
+                    <tr *ngFor="let hi of tar.tarefa_historico">
+                      <td>{{hi.th_data}}</td>
+                      <td>{{hi.th_hora}}</td>
+                      <td>{{hi.th_usuario_nome}}</td>
+                      <td>{{hi.th_historico}}</td>
+                    </tr>
+                  </table>
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
         </div>
@@ -399,6 +451,7 @@
   [modal]="true"
   [style]="{width: '300px'}"
   [dismissableMask]="true"
+  styleClass="tablistagem"
   (onHide)="hideSeletor($event)"
 >
   <p-listbox
@@ -418,6 +471,26 @@
   [autoZIndex]="true"
   acceptLabel="Sim"
   rejectLabel="Não"
+  [dismissableMask]="true"
+  styleClass="tablistagem"
 ></p-confirmDialog>
 <p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
+
+
+
+<!--*** EDITOR *****************************************************************************************************-->
+<p-dialog
+  [(visible)]="showCampoTexto"
+  [dismissableMask]="true"
+  styleClass="tablistagem"
+  [modal]="true"
+  [header]="'TAREFA'"
+  (onHide)="escondeTexto()"
+>
+  <quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>
+
+</p-dialog>
+
+
+
 <p-toast key="tarefaToast" position="center"></p-toast>

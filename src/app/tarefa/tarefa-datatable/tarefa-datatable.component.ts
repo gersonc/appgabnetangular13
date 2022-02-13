@@ -9,7 +9,7 @@ import { WindowsService } from '../../_layout/_service';
 import {
   ColumnsInterface,
   CsvService,
-  ExcelService,
+  ExcelService, MenuInternoService,
   MostraMenuService,
   PrintJSService,
   TabelaPdfService
@@ -28,6 +28,10 @@ import { TarefaFormularioComponent } from '../tarefa-formulario/tarefa-formulari
 import { AuthenticationService, CarregadorService} from "../../_services";
 import {TarefaAtualizarComponent} from "../tarefa-atualizar/tarefa-atualizar.component";
 import {TarefaExibirComponent} from "../tarefa-exibir/tarefa-exibir.component";
+import {Config} from 'quill-to-word';
+import * as quillToWord from 'quill-to-word';
+import {Editor} from "primeng/editor";
+import {TelefoneFormularioComponent} from "../../telefone/telefone-formulario/telefone-formulario.component";
 declare var jsPDF: any;
 
 @Component({
@@ -41,6 +45,7 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('cm', { static: true }) cm: ElementRef;
   @ViewChild('autorSit', { static: true }) autorSit: any;
   @ViewChild('userSit', { static: true }) userSit: ElementRef;
+  @ViewChild('edtor', { static: true }) public edtor: Editor;
   private alturas: number[] = [];
   private larguras: number[] = [];
   private campos: string[] = [];
@@ -79,11 +84,14 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
   mostraCtx = false;
   ddTarefa_usuario_situacao_id: SelectItem[] = [];
   tarefa_usuario_situacao = -1;
-  // buscaStateSN: boolean;
-  // public mostraMenu$: boolean;
+
+  campoTexto: string = null;
+  campoTitulo: string = null;
+  showCampoTexto = false;
+  deltaquill: any = null;
 
   constructor(
-    public mm: MostraMenuService,
+    public mi: MenuInternoService,
     public dialogService: DialogService,
     private cf: ConfirmationService,
     private activatedRoute: ActivatedRoute,
@@ -307,7 +315,7 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {
-    this.mm.mudaMenu();
+    this.mi.mudaMenuInterno();
   }
 
   mostraLoader(vf: boolean) {
@@ -425,10 +433,12 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
           tpBusca: this.tbs.tb.tipo_listagem
         },
         header: 'INCLUIR TAREFA',
+        styleClass: 'tablistagem',
         width: '60%',
-        height: '80vh',
-        dismissableMask: false,
-        showHeader: true
+        /*height: '50vh',*/
+        dismissableMask: true,
+        showHeader: true,
+        modal: true
       });
 
       this.sub.push(ref2.onClose.subscribe((res?: boolean) => {
@@ -437,6 +447,7 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
         }
       }));
   }
+
 
   tarefaAlterar(tar: TarefaListarInterface) {
     if (this.au.usuario_id === tar.tarefa_usuario_autor_id || this.au.usuario_principal_sn || this.au.usuario_responsavel_sn) {
@@ -448,9 +459,10 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
           tpBusca: this.tbs.tb.tipo_listagem
         },
         header: 'ALTERAR TAREFA',
+        styleClass: 'tablistagem',
         width: '60%',
-        height: '90vh',
-        dismissableMask: false,
+        modal: true,
+        dismissableMask: true,
         showHeader: true
       });
 
@@ -467,6 +479,35 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
+  tarefaAtualizar(tar: TarefaListarInterface, rowIndex: number) {
+    console.log('tarefaAtualizar', tar, rowIndex);
+    const ref = this.dialogService.open(TarefaAtualizarComponent, {
+      data: {
+        acao: 'atualizar',
+        tarefa: tar,
+        origem: 'tabela',
+        tpBusca: this.tbs.tb.tipo_listagem
+      },
+      header: 'ATUALIZAR TAREFA',
+      styleClass: 'tablistagem',
+      width: '80%',
+      modal: true,
+      dismissableMask: true,
+      showHeader: true
+    });
+
+    this.sub.push(ref.onClose.subscribe((res?: TarefaListarInterface) => {
+      if (res) {
+        const tmp = this.tarefa.find(i =>
+          i.tarefa_id === res.tarefa_id
+        );
+        if (tmp !== undefined) {
+          this.tarefa[this.tarefa.indexOf(tmp)] = res;
+        }
+      }
+    }));
+  }
+
   tarefaExibir(tar: TarefaListarInterface) {
     const ref = this.dialogService.open(TarefaExibirComponent, {
       data: {
@@ -476,9 +517,10 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
         tpBusca: this.tbs.tb.tipo_listagem
       },
       header: 'TAREFA DETALHE',
-      width: '60%',
-      height: '90vh',
-      dismissableMask: false,
+      styleClass: 'tablistagem',
+      width: '80%',
+      modal: true,
+      dismissableMask: true,
       showHeader: true
     });
   }
@@ -531,33 +573,7 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  tarefaAtualizar(tar: TarefaListarInterface, rowIndex: number) {
-    console.log('tarefaAtualizar', tar, rowIndex);
-    const ref = this.dialogService.open(TarefaAtualizarComponent, {
-      data: {
-        acao: 'atualizar',
-        tarefa: tar,
-        origem: 'tabela',
-        tpBusca: this.tbs.tb.tipo_listagem
-      },
-      width: '65%',
-      height: '90vh',
-      header: 'ATUALIZAR TAREFA',
-      dismissableMask: false,
-      showHeader: true
-    });
 
-    this.sub.push(ref.onClose.subscribe((res?: TarefaListarInterface) => {
-      if (res) {
-        const tmp = this.tarefa.find(i =>
-          i.tarefa_id === res.tarefa_id
-        );
-        if (tmp !== undefined) {
-          this.tarefa[this.tarefa.indexOf(tmp)] = res;
-        }
-      }
-    }));
-  }
 
   onEditInit(ev) {
     if (ev.field === 'tarefa_situacao_id') {
@@ -1046,6 +1062,33 @@ export class TarefaDatatableComponent implements OnInit, OnDestroy {
     }, 2000);
 
 
+  }
+
+  mostraTexto(texto: string) {
+    // this.campoTitulo = null;
+    this.campoTexto = texto;
+    this.deltaquill = null;
+    // this.campoTitulo = texto[0];
+    this.showCampoTexto = true;
+    if (texto) {
+      if (this.edtor.getQuill()) {
+        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
+      }
+      // this.deltaquill = JSON.parse(texto);
+      this.deltaquill = texto;
+      setTimeout( () => {
+        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
+      }, 300);
+    } else {
+      this.campoTexto = texto;
+    }
+  }
+
+  escondeTexto() {
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = null;
+    this.showCampoTexto = false;
   }
 
   ngOnDestroy(): void {

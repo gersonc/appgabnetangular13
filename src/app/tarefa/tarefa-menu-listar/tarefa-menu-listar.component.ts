@@ -125,10 +125,12 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
         origem: 'menu',
         tpBusca: this.tpListagem
       },
+      styleClass: 'tablistagem',
       header: 'INCLUIR TAREFA',
-      style: {'maxWidth':'640px'},
+      width: '60%',
       dismissableMask: false,
-      showHeader: true
+      showHeader: true,
+      modal: true
     });
   }
 
@@ -136,6 +138,8 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     let a = 0;
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
   }
+
+
 
   mudaTipoListagem(ev) {
     this.tpListagem = this.formMenuTarefa.get('tipo_listagem').value;

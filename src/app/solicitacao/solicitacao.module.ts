@@ -35,7 +35,7 @@ import { AccordionModule } from 'primeng/accordion';
 
 import { ArquivoModule } from '../arquivo/arquivo.module';
 
-import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-listar.component';
+// import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-listar.component';
 import { SolicitacaoIncluirComponent } from './solicitacao-incluir/solicitacao-incluir.component';
 import { SolicitacaoDatatableComponent } from './solicitacao-datatable/solicitacao-datatable.component';
 import { SolicitacaoMenuListarComponent } from './solicitacao-menu-listar/solicitacao-menu-listar.component';
@@ -97,7 +97,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     ],
   declarations: [
     SolicitacaoComponent,
-    SolicitacaoListarComponent,
+    // SolicitacaoListarComponent,
     SolicitacaoIncluirComponent,
     SolicitacaoDatatableComponent,
     SolicitacaoMenuListarComponent,
@@ -111,7 +111,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   ],
   exports: [
     SolicitacaoComponent,
-    SolicitacaoListarComponent,
+    // SolicitacaoListarComponent,
     SolicitacaoIncluirComponent,
     SolicitacaoDatatableComponent,
     SolicitacaoMenuListarComponent,
