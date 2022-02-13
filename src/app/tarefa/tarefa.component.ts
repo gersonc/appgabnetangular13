@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MostraMenuService } from '../_services';
+import {MenuInternoService, MostraMenuService} from '../_services';
 import { TarefaBuscaService } from './_services';
 import { DialogService } from 'primeng/dynamicdialog';
 
@@ -14,6 +14,7 @@ export class TarefaComponent implements OnInit {
 
   constructor(
     public mm: MostraMenuService,
+    public mi: MenuInternoService,
     private tbs: TarefaBuscaService,
     public dialogService: DialogService,
   ) { }
@@ -22,17 +23,17 @@ export class TarefaComponent implements OnInit {
     this.tbs.criarTarefaBusca();
     if (!sessionStorage.getItem('tarefa-busca')) {
       this.tbs.buscaStateSN = false;
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     } else {
       if (this.tbs.buscaStateSN) {
-        this.mm.mudaMenu(false);
+        this.mi.mudaMenuInterno(false);
       } else {
-        this.mm.mudaMenu(true);
+        this.mi.mudaMenuInterno(true);
       }
     }
   }
 
   onHide() {
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
   }
 }

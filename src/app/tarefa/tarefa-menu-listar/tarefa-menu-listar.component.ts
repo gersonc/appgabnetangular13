@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import { MostraMenuService, DropdownService, AutocompleteService } from '../../_services';
+import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
 import { CarregadorService } from '../../_services';
 import { TarefaBuscaService } from '../_services';
 
@@ -30,11 +30,16 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     {label: 'Enviadas', value: 'enviadas'},
     {label: 'Recebidas', value: 'recebidas'}
   ];
+  public altura = (window.innerHeight) + 'px';
+  public altura2 = ((window.innerHeight) - 130) + 'px';
+  estilo1 = {width: '100%'};
+  estilo2 = {height: this.altura2};
 
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private mm: MostraMenuService,
+    public mi: MenuInternoService,
+    // private mm: MostraMenuService,
     private autocompleteservice: AutocompleteService,
     private activatedRoute: ActivatedRoute,
     public dialogService: DialogService,
@@ -64,7 +69,7 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('tarefa-listagem')) {
         sessionStorage.removeItem('tarefa-listagem');
       }
-      this.mm.mudaMenu(true);
+      this.mi.mudaMenuInterno(true);
     }
 
     this.sub.push(this.tbs.atualisaMenu$.subscribe(
@@ -109,7 +114,7 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
       this.tbs.tb.sortorder = '01';
     }
     this.tbs.buscaMenu();
-    this.mm.mudaMenu(false);
+    this.mi.mudaMenuInterno(false);
     this.cs.mostraCarregador();
   }
 

@@ -96,8 +96,10 @@ export class TarefaListarResolver implements Resolve<TarefaPaginacaoInterface | 
         take(1),
         mergeMap(vf => {
           if (vf) {
+            this.cs.escondeCarregador();
             return of(vf);
           } else {
+            this.cs.escondeCarregador();
             return EMPTY;
           }
         })
@@ -111,15 +113,18 @@ export class TarefaListarResolver implements Resolve<TarefaPaginacaoInterface | 
             take(1),
             mergeMap(dados => {
               if (dados) {
+                this.cs.escondeCarregador();
                 return of(dados);
               } else {
                 this.router.navigate(['/tarefa/listar']);
+                this.cs.escondeCarregador();
                 return EMPTY;
               }
             })
           );
       } else {
         this.router.navigate(['/tarefa/listar2']);
+        this.cs.escondeCarregador();
         return EMPTY;
       }
     }
