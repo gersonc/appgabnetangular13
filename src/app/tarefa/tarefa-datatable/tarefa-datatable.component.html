@@ -186,135 +186,139 @@
 
   <!--*** EXPANDIDO ************************************************************************************************-->
   <ng-template pTemplate="rowexpansion" let-tar let-indice="rowIndex" let-columns="columns">
-    <tr style="background-color: var(--secundario)">
-      <td [attr.colspan]="columns.length + 1">
-        <div class="rowSpanCorpo">
-          <div class="rowSpanTabelas">
-            <div class="rowSpanBotoes">
-              <div class="botaoexp">
-                <p-button
+    <tr class="expandido">
+      <td [attr.colspan]="columns.length + 1" class="expandido">
+        <div class="rowexpansion-corpo">
+          <div class="p-fluid">
+            <div class="p-d-flex p-jc-start p-pb-2">
+              <div class="p-mr-2">
+                <button
                   (click)="getPdf(tar)"
+                  pButton
                   type="button"
-                  icon="fas fa-lg fa-file-pdf"
-                  styleClass="p-button-raised p-button-info"
-                  pTooltip="PDF"
+                  icon="pi pi-file-pdf"
+                  pTooltip="Pdf"
                   tooltipPosition="top"
+                  class="p-button-rounded p-button-secondary"
                   [disabled]="btnInativo"
                 >
-                </p-button>
+                </button>
               </div>
-              <div class="botaoexp">
-                <p-button
+              <div class="p-mr-2">
+                <button
                   (click)="getPdf(tar, true)"
+                  pButton
                   type="button"
-                  icon="fas fa-lg fa-print"
-                  styleClass="p-button-raised p-button-info"
+                  icon="pi pi-print"
                   pTooltip="Imprimir"
                   tooltipPosition="top"
+                  class="p-button-rounded p-button-secondary"
                   [disabled]="btnInativo"
                 >
-                </p-button>
+                </button>
               </div>
-              <div class="botaoexp">
-                <p-button
+              <div class="p-mr-2">
+                <button
                   (click)="tarefaAlterar(tar)"
+                  pButton
                   type="button"
-                  icon="fas fa-lg fa-pen-fancy"
-                  styleClass="p-button-raised p-button-warning"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
                   [disabled]="btnInativo"
                 >
-                </p-button>
+                </button>
               </div>
-              <div class="botaoexp">
-                <p-button
-                  (click)="tarefaAtualizar(tar, indice)"
+              <div class="p-mr-2">
+                <button
+                  pButton
                   type="button"
-                  icon="pi pi-pencil"
-                  styleClass="p-button-raised p-button-warning"
-                  pTooltip="Atualizar"
+                  icon="pi pi-exclamation-circle"
                   tooltipPosition="top"
+                  (click)="tarefaAtualizar(tar, indice)"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Atualizar"
                   [disabled]="btnInativo"
                 >
-                </p-button>
+                </button>
               </div>
-              <div class="botaoexp">
-                <p-button
+              <div class="p-mr-2">
+                <button
                   (click)="tarefaApagar(tar)"
+                  pButton
                   type="button"
-                  icon="far fa-lg fa-trash-alt"
-                  styleClass="p-button-raised p-button-danger"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
                   [disabled]="btnInativo"
                 >
-                </p-button>
+                </button>
               </div>
             </div>
 
-            <div class="container-fluid">
               <div class="p-grid" id="contx">
 
                 <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-                  <div class="p-grid">
 
-                    <div class="p-col-12">
-                      <div class="tabrolexpclaro">
-                        <h6>Titulo</h6>
+                      <div class="registros p-shadow-1">
+                        <h5>Titulo</h5>
                         {{tar.tarefa_titulo}}
                       </div>
-                    </div>
 
-                    <div class="p-col-12">
-                      <div class="tabrolexpclaro">
-                        <h6>Tarefa</h6>
-                        {{tar.tarefa_tarefa}}
-                      </div>
-                    </div>
+                </div>
 
-                    <div class="p-col-6">
-                      <div class="tabrolexpclaro">
-                        <h6>Prazo</h6>
+                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+
+                  <div class="registros p-shadow-1" [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])">
+                    <h5>Situação</h5>
+                    {{tar.tarefa_situacao_nome}}
+                  </div>
+
+                </div>
+
+                <div class="p-col-6 p-sm-6 p-md-3 p-lg-3 p-xl-3">
+
+                      <div class="registros p-shadow-1">
+                        <h5>Prazo</h5>
                         {{tar.tarefa_data}} {{tar.tarefa_hora}}
                       </div>
-                    </div>
 
-                    <div class="p-col-6">
-                      <div class="tabrolexpclaro">
-                        <h6>Data</h6>
+                </div>
+                <div class="p-col-6 p-sm-6 p-md-3 p-lg-3 p-xl-3">
+
+                      <div class="registros p-shadow-1">
+                        <h5>Data</h5>
                         {{tar.tarefa_datahora}}
                       </div>
-                    </div>
 
+                </div>
 
+                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+
+                  <div class="registros p-shadow-1">
+                    <h5>Autor</h5>
+                    {{tar.tarefa_usuario_autor_nome}}
                   </div>
+
+                </div>
+
+                <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+
+                  <div class="registros p-shadow-1">
+                    <h5>Tarefa</h5>
+                    {{tar.tarefa_tarefa}}
+                  </div>
+
                 </div>
 
 
 
                 <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-                  <div class="p-grid">
 
-                    <div class="p-col-6">
-                      <div class="tabrolexpclaro">
-                        <h6>Autor</h6>
-                        {{tar.tarefa_usuario_autor_nome}}
-                      </div>
-                    </div>
-
-
-
-                    <div class="p-col-6">
-                      <div class="tabrolexpclaro" [style.backgroundColor]="fcor(tar['tarefa_situacao_id'])">
-                        <h6>Situação</h6>
-                        {{tar.tarefa_situacao_nome}}
-                      </div>
-                    </div>
-
-                    <div class="p-col-12">
-                      <div class="tabrolexpclaro">
-                        <h6>Demandados / Situação</h6>
+                      <div class="registros p-shadow-1">
+                        <h5>Demandados / Situação</h5>
                         <table>
                           <tr *ngFor="let tu of tar.usuario_situacao">
                             <td style="border: 2px solid var(--claro); border-radius: 10px; padding-left: 5px;" [style.backgroundColor]="fcor(tu.tus_situacao_id)">{{tu.tu_usuario_nome}}</td>
@@ -322,20 +326,20 @@
                           </tr>
                         </table>
                       </div>
-                    </div>
+
 
 
                   </div>
-                </div>
-
-                <div class="p-col-12" *ngIf="tar.tarefa_historico_num > 0">
-                  <div class="p-grid">
 
 
-                    <div class="p-col-12">
-                      <div class="tabrolexpclaro">
-                        <h6>Histórico</h6>
-                        <table>
+                <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" *ngIf="tar.tarefa_historico_num > 0">
+<!--                  <div class="p-grid">
+
+
+                    <div class="p-col-12">-->
+                      <div class="registros p-shadow-1">
+                        <h5>Histórico</h5>
+                        <table class="tablistagem">
                           <tr>
                             <th>Data</th>
                             <th>Hora</th>
@@ -350,10 +354,10 @@
                           </tr>
                         </table>
                       </div>
-                    </div>
+                    <!--</div>
 
 
-                  </div>
+                  </div>-->
                 </div>
 
 
@@ -363,7 +367,7 @@
 
               </div>
 
-            </div>
+            <!--</div>-->
 
           </div>
         </div>
@@ -374,9 +378,11 @@
   <!--*** TABELA VAZIA *********************************************************************************************-->
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
-      <td [attr.colspan]="columns.length+1" align="center">
-        <div [style.margin-top]="meiaAltura" [style.margin-bottom]="meiaAltura">
-          NENHUM REGISTRO
+      <td [attr.colspan]="columns.length+1" id="tabela-vazia">
+        <div class="tabela-vazia-a">
+          <div class="tabela-vazia-b">
+            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+          </div>
         </div>
       </td>
     </tr>

@@ -29,9 +29,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
 import { QuillModule } from 'ngx-quill';
-// import { ExportAsModule } from 'ngx-export-as';
 import { NgxViacepModule } from '@brunoc/ngx-viacep';
 import { AccordionModule } from 'primeng/accordion';
 

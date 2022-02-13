@@ -93,7 +93,6 @@ import {QuillModule} from "ngx-quill";
         CardModule,
         ProgressSpinnerModule,
         InputMaskModule,
-//         ExportAsModule,
         ProcessoRoutingModule,
         RippleModule,
         TooltipModule,

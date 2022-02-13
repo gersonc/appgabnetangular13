@@ -32,6 +32,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageModule } from 'primeng/message';
+import {EditorModule} from 'primeng/editor';
+import {QuillModule} from "ngx-quill";
 
 import { ArquivoModule } from '../arquivo/arquivo.module';
 import { TarefaComponent } from './tarefa.component';
@@ -39,8 +41,8 @@ import { TarefaRoutingModule } from "./tarefa.routing.module";
 import { TarefaDatatableComponent } from "./tarefa-datatable/tarefa-datatable.component";
 import { TarefaMenuListarComponent } from "./tarefa-menu-listar/tarefa-menu-listar.component";
 import { TarefaFormularioComponent } from "./tarefa-formulario/tarefa-formulario.component";
-import {TarefaAtualizarComponent} from "./tarefa-atualizar/tarefa-atualizar.component";
-import {TarefaExibirComponent} from "./tarefa-exibir/tarefa-exibir.component";
+import { TarefaAtualizarComponent } from "./tarefa-atualizar/tarefa-atualizar.component";
+import { TarefaExibirComponent } from "./tarefa-exibir/tarefa-exibir.component";
 
 
 
@@ -78,6 +80,8 @@ import {TarefaExibirComponent} from "./tarefa-exibir/tarefa-exibir.component";
     TarefaRoutingModule,
     MultiSelectModule,
     MessageModule,
+    EditorModule,
+    QuillModule.forRoot(),
     ArquivoModule
   ],
   declarations: [

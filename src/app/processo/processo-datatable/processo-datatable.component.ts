@@ -6,11 +6,10 @@ import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
-import {AuthenticationService, CarregadorService, MenuInternoService} from '../../_services';
+import { AuthenticationService, CarregadorService, MenuInternoService } from '../../_services';
 import {
   CsvService,
   ExcelService,
-  MostraMenuService,
   PrintJSService,
   TabelaPdfService
 } from '../../_services';
@@ -23,7 +22,6 @@ import {
   ProcessoTotalInterface
 } from '../_models';
 import { ProcessoBuscaService, ProcessoService } from '../_services';
-import { ProcessoDetalheComponent } from '../processo-detalhe/processo-detalhe.component';
 import {Config} from 'quill-to-word';
 import * as quillToWord from 'quill-to-word';
 import {saveAs} from 'file-saver';
