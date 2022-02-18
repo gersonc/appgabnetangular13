@@ -13452,6 +13452,11 @@ form.menuinterno-form {
   background-color: var(--formulario-bg-externo-color);
 }
 
+.formulario.home {
+  height: 100vh;
+  background-color: var(--formulario-bg-externo-color);
+}
+
 .formulario .p-inputswitch {
   margin-bottom: 0 !important;
   margin-top: 0 !important;
@@ -15223,3 +15228,5 @@ h5 {
   border-top: 1px solid var(--text-color);
   margin: 0.25rem 0;
 }
+
+

@@ -12,6 +12,7 @@ import { AuthenticationService, CarregadorService } from '../../_services';
 })
 export class PanelmenuComponent implements OnInit, OnChanges {
   @Input() mostra = false;
+  @Input() recarrega = false;
   public items!: MenuItem[];
   public menuPrincipalClasses = 'menu-principal-fechado';
   public mostraMenuPrincipal = true;
@@ -23,17 +24,27 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('menuchanges', changes);
     if (changes.mostra) {
       this.abreFechaMenuPrincipal();
     }
   }
 
   ngOnInit(): void {
+    this.authenticationService.mostraMenu.subscribe(
+      vf => {
+        if (vf) {
+          this.items = this.carregaItens();
+        } else {
+          this.limpaMenu();
+        }
+      }
+    )
     console.log('panelmenu');
-    this.items = this.itens;
+
   }
 
-  public get itens() {
+  public carregaItens() {
     this.items = [];
     if (this.authenticationService.agenda) {
       this.items.push({label: 'Home', icon: 'fas fa-home',command: () => { this.fechaMenuPrincipal(); }, routerLink: [''], routerLinkActiveOptions: '{exact: true}'});
@@ -181,6 +192,11 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }, routerLink: ['login'], routerLinkActiveOptions: 'active'});
     return this.items;
   }
+
+  limpaMenu() {
+    this.items = [];
+  }
+
 
   abreFechaMenuPrincipal() {
     console.log('abreFechaMenuPrincipal');

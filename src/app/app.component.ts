@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   public mostraMenuPrincipal = false;
   carregador = 'carregador';
   public carregadorSN = false;
+  recarregamenu = false;
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;

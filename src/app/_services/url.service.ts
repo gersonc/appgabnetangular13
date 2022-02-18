@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class UrlService {
 
-  url = location.hostname === 'localhost' ? 'http://slimgn08.dv/' : '/api/';
-  // url = '/api/';
+  //url = location.hostname === 'localhost' ? 'http://slimgn08.dv/' : '/api/';
+  url = '/api/';
+  // url = 'http://slimgn08.dv/';
   dropdown = this.url + 'dropdown';
   autocompleteservice = this.url + 'autocomplete';
   cadastro = this.url + 'cadastro';

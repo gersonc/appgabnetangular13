@@ -79,6 +79,7 @@ export class UsuarioIncluirComponent implements OnInit, OnDestroy {
       usuario_responsavel_sn: [this.us.usuario?.usuario_responsavel_sn],
       usuario_principal_sn: [this.us.usuario?.usuario_principal_sn],
       usuario_acesso: [this.us.usuario?.usuario_acesso2],
+      usuario_senha: [this.us.usuario?.usuario_senha],
     });
   }
 
@@ -148,18 +149,20 @@ export class UsuarioIncluirComponent implements OnInit, OnDestroy {
     user.usuario_nome = this.formUsuario!.get('usuario_nome')!.value;
     user.usuario_local_id = this.formUsuario!.get('usuario_local_id')!.value;
     user.usuario_login = this.formUsuario!.get('usuario_login')!.value;
+    user.usuario_senha = this.formUsuario!.get('usuario_senha')!.value;
     user.usuario_email = this.formUsuario!.get('usuario_email')!.value;
     user.usuario_cargo = this.formUsuario!.get('usuario_cargo')!.value;
     user.usuario_responsavel_sn = this.formUsuario!.get('usuario_responsavel_sn')!.value;
     user.usuario_principal_sn = this.formUsuario!.get('usuario_principal_sn')!.value;
-    user.usuario_acesso = this.us.escreverAcesso(this.formUsuario!.get('usuario_acesso')!.value);
+    // user.usuario_acesso = this.us.escreverAcesso(this.formUsuario!.get('usuario_acesso')!.value);
+    user.usuario_acesso = '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111';
     user.usuario_cargo = this.formUsuario!.get('usuario_cargo')!.value;
     user.usuario_celular = this.formUsuario!.get('usuario_celular')!.value;
     delete user.usuario_acesso2;
     delete user.local_nome;
     // @ts-ignore
     delete user.usuario_id;
-    delete user.usuario_senha;
+    // delete user.usuario_senha;
     return user;
   }
 

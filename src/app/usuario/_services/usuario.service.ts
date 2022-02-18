@@ -151,6 +151,7 @@ export class UsuarioService {
   }
 
   escreverAcesso(valor: string[]): any {
+    console.log('escreverAcesso1', valor);
     let r = '';
     this.acessoStr.forEach( (v) => {
       if (valor.indexOf(v) !== -1) {
@@ -159,6 +160,7 @@ export class UsuarioService {
         r = r + '0';
       }
     });
+    console.log('escreverAcesso2', r);
     return r;
   }
 
