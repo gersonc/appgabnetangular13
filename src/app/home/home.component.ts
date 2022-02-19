@@ -14,6 +14,7 @@ import { CoordenadaXY } from '../_layout/_service/coordenada-x-y';
 export class HomeComponent implements OnInit {
   currentUser: User;
   mostra = false;
+  hst = location.hostname;
 
   coorApp: CoordenadaXY;
   coorTopo: CoordenadaXY;

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gbnetstiile03": {
+    "GabNet": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/gbnetstiile03",
+            "outputPath": "dist/GabNet",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -94,21 +94,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "gbnetstiile03:build"
+            "browserTarget": "GabNet:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "gbnetstiile03:build:production"
+              "browserTarget": "GabNet:build:production"
             },
             "development": {
-              "browserTarget": "gbnetstiile03:build:development"
+              "browserTarget": "GabNet:build:development"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gbnetstiile03:build"
+            "browserTarget": "GabNet:build"
           }
         },
         "test": {
@@ -145,16 +145,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "gbnetstiile03:serve"
+            "devServerTarget": "GabNet:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "gbnetstiile03:serve:production"
+              "devServerTarget": "GabNet:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "gbnetstiile03"
+  "defaultProject": "GabNet"
 }
