@@ -19,6 +19,7 @@ import { MenuItem } from "primeng/api";
 import { FileManagerService } from "./_services/file-manager.service";
 import {take} from "rxjs/operators";
 import {CarregadorService} from "../_services";
+import {ArquivoPastaInterface} from "./_services/arquivo-pasta.interface";
 
 @Component({
   selector: 'file-manager',
@@ -44,6 +45,8 @@ export class FileManagerComponent implements OnChanges, OnInit, OnDestroy {
   @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
   @Output() navigatedUp = new EventEmitter();*/
 
+  diretorios: ArquivoPastaInterface[] = [];
+
   sub: Subscription[] = [];
   items: MenuItem[];
   items2: MenuItem[];
@@ -68,6 +71,7 @@ export class FileManagerComponent implements OnChanges, OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
+          this.diretorios = [...dados];
           console.log('todas', dados);
         },
         error: err => console.error('ERRO-->', err),
@@ -139,7 +143,7 @@ export class FileManagerComponent implements OnChanges, OnInit, OnDestroy {
     // this.elementRemoved.emit(element);
   }
 
-  navigate(element: FileElement) {
+  navigate(element: ArquivoPastaInterface) {
     /*if (element.isFolder) {
       this.navigatedDown.emit(element);
     }*/

@@ -16,6 +16,8 @@ export interface FileUploadInterface {
   arquivo_ativo?: number;
   arquivo_obs?: string;
   arquivo_num?: number;
+  arquivo_arquivo_pasta_id?: number;
+  arquivo_arquivo_pasta_nome?: string;
 }
 
 export interface ArquivoInterface {
@@ -33,6 +35,8 @@ export interface ArquivoInterface {
   arquivo_ativo?: number;
   arquivo_obs?: string;
   arquivo_num?: number;
+  arquivo_arquivo_pasta_id?: number;
+  arquivo_arquivo_pasta_nome?: string;
 }
 
 export interface ArquivoNumInterface {
