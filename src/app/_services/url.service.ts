@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class UrlService {
+  private url = `${environment.apiUrl}`;
 
-  url = location.hostname === 'localhost' ? 'http://slimgn08.dv/' : '/api/';
+  // url = location.hostname === 'localhost' ? 'http://slimgn08.dv/' : '/api/';
   // url = 'http://gn5.gabnet.com.br/api/';
   // url = '/api/';
   // url = 'http://slimgn08.dv/';
@@ -35,6 +36,7 @@ export class UrlService {
   configuracao = this.url + 'configuracao';
   usuario = this.url + 'usuario';
   grafico = this.url + 'grafico';
+  filemanager = this.url + 'filemanager';
   uploadlocal = this.url + 'arquivo2';
 
 

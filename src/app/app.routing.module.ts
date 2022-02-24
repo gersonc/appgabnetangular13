@@ -116,6 +116,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'arquivos',
+    loadChildren: () => import('./file-manager/file-manager.module').then(m => m.FileManagerModule),
+    canActivate: [AuthGuard],
+    data: {
+      rules: Rule.arquivos
+    }
+  },
+  {
     path: 'login',
     component: LoginComponent
   },

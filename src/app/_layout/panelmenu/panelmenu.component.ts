@@ -168,6 +168,19 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.authenticationService.arquivos) {
+      if (this.authenticationService.arquivos_baixar) {
+        this.items.push(
+          {
+            label: 'Arquivos',
+            icon: 'pi pi-folder',
+            command: () => { this.fechaMenuPrincipal(); },
+            routerLinkActiveOptions: '{exact: true}',
+            routerLink: ['/arquivos']
+          });
+      }
+    }
+
     this.items.push(
       {
         label: 'Tarefa',
