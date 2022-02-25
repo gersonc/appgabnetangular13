@@ -36,6 +36,8 @@ export interface ProcessoHistoricoInterface {
   historico_id?: number;
   historico_data?: string;
   historico_andamento?: string;
+  historico_andamento_delta?: string;
+  historico_andamento_texto?: string;
   historico_processo_id?: number;
 }
 

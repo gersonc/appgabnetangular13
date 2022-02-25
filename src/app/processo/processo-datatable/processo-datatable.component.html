@@ -104,7 +104,8 @@
           <app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>
         </ng-container>
         <ng-container *ngIf="col.field=='historico'">
-          <app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>
+          <app-historico-processo *ngIf="pro['historico']" [acao]="'listar'" [dados]="pro['historico']"></app-historico-processo>
+          <!--<app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>-->
         </ng-container>
         <ng-container *ngIf="col.field!='oficio' && col.field!='historico'">
           {{pro[col.field]}}
