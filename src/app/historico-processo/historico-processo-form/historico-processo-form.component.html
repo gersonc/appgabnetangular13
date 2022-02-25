@@ -1,0 +1,91 @@
+<div *ngIf="moostraBotao" class="p-mr-2">
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-eye"
+    class="p-button-rounded"
+    pTooltip="Incluir Andamento"
+    tooltipPosition="top"
+    (click)="formMostra()"
+  >
+  </button>
+</div>
+
+<ng-container *ngIf="showDetalhe">
+  <p-dialog
+    [(visible)]="showDetalhe"
+    styleClass="tablistagem"
+    header="DETALHE"
+    [modal]="true"
+    [dismissableMask]="true"
+    (onHide)="escondeDetalhe()"
+  >
+    <div class="formulario externo">
+      <form [formGroup]="formHis" (ngSubmit)="onSubmit()">
+        <div class="p-fluid formulario-bg-externo">
+          <!--*** historico_data ***-->
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12" [ngClass]="aplicaCssErro('historico_data')">
+              <label for="historico_data"><span style="color: var(--ativo)">*</span> Data</label>
+              <p-calendar
+                id="historico_data"
+                formControlName="historico_data"
+                dateFormat="dd/mm/yy"
+                placeholder="dd/mm/aaaa"
+                dataType="string"
+              ></p-calendar>
+              <app-campo-control-erro msgErro="Data é obrigatória."></app-campo-control-erro>
+            </div>
+
+            <div class="p-field p-col-12 formulario-quill">
+              <label for="historico_andamento"><span style="color: var(--ativo)">*</span> Data</label>
+              <p-editor
+                #editor
+                formControlName="historico_andamento"
+                id="historico_andamento"
+                [modules]="modulos"
+              >
+                <ng-template pTemplate="header"></ng-template>
+              </p-editor>
+
+            </div>
+
+
+            <div class="p-grid p-input-filled">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="submit"
+                      class="p-button-rounded"
+                      [disabled]="!formHis.valid"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Cancelar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+          </div>
+
+        </div>
+        </div>
+      </form>
+    </div>
+
+  </p-dialog>
+</ng-container>

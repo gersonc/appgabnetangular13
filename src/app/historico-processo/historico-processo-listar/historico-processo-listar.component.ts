@@ -10,7 +10,7 @@ export class HistoricoProcessoListarComponent implements OnInit, OnChanges {
   @Input() dados: any[];
   @Input() classeStylos?: string;
   his: ProcessoHistoricoInterface[];
-  estilo = 'tabelacomponent';
+  estilo = 'tablcomp';
 
 
   constructor() {

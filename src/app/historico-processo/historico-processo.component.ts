@@ -16,12 +16,15 @@ export class HistoricoProcessoComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-    this.ac = this.acao;
+    // this.ac = this.acao;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.acao) {
-      this.ac = changes.acao.currentValue;
+      const a = changes.acao.currentValue;
+      if (a === 'incluir') {
+        this.ac = 'form'
+      }
     }
     if (changes.classeStylos) {
       this.estilo = changes.classeStylos.currentValue;
