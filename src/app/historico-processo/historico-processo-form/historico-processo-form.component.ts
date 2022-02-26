@@ -14,16 +14,18 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges {
   @Input() dados?: ProcessoListagemInterface;
   @Input() classeStylos?: string;
   @Input() acao: string;
-  moostraBotao = false;
+  mostraBotao = false;
   his: ProcessoHistoricoInterface;
   estilo = 'formulario-quill';
   ac: string;
-  showDetalhe = false;
+  showFormulario = false;
   formHis: FormGroup;
   historico: ProcessoHistoricoInterface;
   deltaquill: any = null;
   mostraForm = true;
   botaoEnviarVF = false;
+  acao2 = 'INCLUIR'
+  acao3 = 'Incluir Andamento'
   modulos = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -37,8 +39,7 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges {
       [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
       [{ 'font': [] }],
       [{ 'align': [] }],
-      ['clean'],                                         // remove formatting button
-      ['link']                         // link and image, video
+      ['clean']                        // link and image, video
     ]
   };
 
@@ -72,18 +73,14 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges {
     public authenticationService: AuthenticationService
   ) {}
 
-
-
-
   ngOnInit(): void {
     if (this.authenticationService.historicoemenda_incluir)  {
-      this.moostraBotao = true;
+      this.mostraBotao = true;
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dados) {
-
       const d: ProcessoListagemInterface = changes.dados.currentValue;
       this.his = {
         historico_id: null,
@@ -93,18 +90,22 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges {
         historico_andamento_texto: null,
         historico_processo_id: d.processo_id
       }
-
     }
+
     if (changes.classeStylos) {
       this.estilo = changes.classeStylos.currentValue;
     }
+
     if (changes.acao) {
       this.ac = changes.acao.currentValue;
+      if (this.ac === 'incluir') {
+        this.acao2 = 'INCLUIR';
+        this.acao3 = 'Incluir Andamento';
+      }
     }
   }
 
   formMostra() {
-    this.showDetalhe = true;
     this.criaForm();
   }
 
@@ -137,54 +138,47 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges {
     this.his = null;
     this.estilo = 'formulario-quill';
     this.ac = null;
-    this.showDetalhe = false;
+    this.showFormulario = false;
     this.formHis = null
     this.historico = null;
     this.deltaquill = null;
     this.mostraForm = true;
     this.botaoEnviarVF = false;
-    this.showDetalhe = false;
+    this.showFormulario = false;
   }
 
-  escondeDetalhe() {
+  escondeFormulario() {
 
   }
 
   criaForm() {
-    // const hd = (this.his.historico_data) ? this.his.historico_data : null;
-
-
     this.formHis = this.fb.group({
       historico_data: [null, Validators.required],
       historico_andamento: [null, Validators.required]
     });
 
+    setTimeout( () => {
     if (this.his.historico_andamento_delta) {
       this.editor.getQuill().deleteText(0, this.editor.getQuill().getLength());
       this.deltaquill = JSON.parse(this.his.historico_andamento_delta);
-      setTimeout( () => {
         this.editor.getQuill().updateContents(this.deltaquill, 'api');
-      }, 300);
     } else {
       if (this.his.historico_andamento) {
         this.editor.getQuill().deleteText(0, this.editor.getQuill().getLength());
-        setTimeout( () => {
         this.editor.getQuill().updateContents(this.his.historico_andamento, 'api');
         this.editor.getQuill().update('user');
-        }, 300);
       } else {
         if (this.his.historico_andamento_texto) {
-          setTimeout( () => {
           this.formHis.get('historico_andamento').setValue(this.his.historico_andamento_texto);
-          }, 300);
         }
       }
     }
-
-
+    this.showFormulario = true;
+    }, 400);
   }
 
   onSubmit() {
+    this.botaoEnviarVF = false;
     this.verificaValidacoesForm(this.formHis);
   }
 

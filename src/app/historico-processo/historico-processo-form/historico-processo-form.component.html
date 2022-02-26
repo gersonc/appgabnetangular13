@@ -1,91 +1,115 @@
-<div *ngIf="moostraBotao" class="p-mr-2">
+<div *ngIf="mostraBotao" class="p-mr-2">
   <button
     pButton
     pRipple
     type="button"
-    icon="pi pi-eye"
-    class="p-button-rounded"
-    pTooltip="Incluir Andamento"
+    icon="pi pi-bookmark"
+    class="p-button-rounded p-button-info"
+    [pTooltip]="acao3"
     tooltipPosition="top"
     (click)="formMostra()"
   >
   </button>
 </div>
 
-<ng-container *ngIf="showDetalhe">
+<ng-container *ngIf="showFormulario">
   <p-dialog
-    [(visible)]="showDetalhe"
-    styleClass="tablistagem"
-    header="DETALHE"
+    [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
+    [style]="{width: '60vw'}"
+    id="historicoformdialog"
+    [(visible)]="showFormulario"
+    header="{{acao2}} ANDAMENTO PROCESSO"
     [modal]="true"
     [dismissableMask]="true"
-    (onHide)="escondeDetalhe()"
+    (onHide)="escondeFormulario()"
+    styleClass="formulario"
+    [maximizable]="true"
   >
-    <div class="formulario externo">
-      <form [formGroup]="formHis" (ngSubmit)="onSubmit()">
-        <div class="p-fluid formulario-bg-externo">
-          <!--*** historico_data ***-->
-          <div class="p-fluid p-formgrid p-grid formulario">
-            <div class="p-field p-col-12" [ngClass]="aplicaCssErro('historico_data')">
-              <label for="historico_data"><span style="color: var(--ativo)">*</span> Data</label>
-              <p-calendar
-                id="historico_data"
-                formControlName="historico_data"
-                dateFormat="dd/mm/yy"
-                placeholder="dd/mm/aaaa"
-                dataType="string"
-              ></p-calendar>
-              <app-campo-control-erro msgErro="Data é obrigatória."></app-campo-control-erro>
-            </div>
 
-            <div class="p-field p-col-12 formulario-quill">
-              <label for="historico_andamento"><span style="color: var(--ativo)">*</span> Data</label>
-              <p-editor
-                #editor
-                formControlName="historico_andamento"
-                id="historico_andamento"
-                [modules]="modulos"
-              >
-                <ng-template pTemplate="header"></ng-template>
-              </p-editor>
+    <form [formGroup]="formHis" (ngSubmit)="onSubmit()">
+      <table class="historicoformdialog tabela">
+        <tr>
+          <td>
 
-            </div>
+            <table class="historicoformdialog tabela">
+              <tr>
+                <td>
 
+                  <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+                    <div class="p-field p-col-12 p-sm-12 p-md-8 p-lg-4 p-xl-3 formulario"
+                         [ngClass]="aplicaCssErro('historico_data')">
+                      <label for="historico_data"><span style="color: var(--ativo)">*</span>Data</label>
+                      <p-calendar
+                        id="historico_data"
+                        formControlName="historico_data"
+                        dateFormat="dd/mm/yy"
+                        placeholder="dd/mm/aaaa"
+                        dataType="string"
+                      ></p-calendar>
+                      <app-campo-control-erro
+                        msgErro="Data é obrigatória."
+                        [mostrarErro]="!formHis.valid &&
+                                       !formHis.controls['historico_data'].pristine &&
+                                       formHis.controls['historico_data'].dirty &&
+                                       formHis.controls['historico_data'].touched
+                      "></app-campo-control-erro>
+                    </div>
 
-            <div class="p-grid p-input-filled">
-              <div class="p-col-12 formulario">
-                <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      type="submit"
-                      class="p-button-rounded"
-                      [disabled]="!formHis.valid"
-                      label="Enviar"
-                    ></button>
+                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12 formulario">
+                      <label for="historico_andamento"><span style="color: var(--ativo)">*</span>Andamento</label>
+                      <p-editor
+                        [style]="{'width':'100%'}"
+                        #editor
+                        formControlName="historico_andamento"
+                        id="historico_andamento"
+                        [modules]="modulos"
+                      >
+                        <ng-template pTemplate="header"></ng-template>
+                      </p-editor>
+                      <app-campo-control-erro
+                        msgErro="Andamento é obrigatório."
+                        [mostrarErro]="!formHis.valid &&
+                                       !formHis.controls['historico_andamento'].pristine &&
+                                       formHis.controls['historico_andamento'].dirty &&
+                                       formHis.controls['historico_andamento'].touched
+                      "></app-campo-control-erro>
+                    </div>
+
+                    <div class="p-field p-col-12">
+                      <!--*** Botões ***-->
+                      <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                        <div class="p-mr-2">
+                          <button
+                            pButton
+                            type="submit"
+                            class="botaoinferior p-button-rounded"
+                            [disabled]="!formHis.valid && !botaoEnviarVF"
+                            label="Enviar"
+                          ></button>
+                        </div>
+                        <div class="p-mr-2">
+                          <button
+                            pButton
+                            type="button"
+                            class="botaoinferior p-button-rounded p-button-secondary"
+                            (click)="resetForm()"
+                            label="Cancelar"
+                            [disabled]="botaoEnviarVF"
+                          ></button>
+                        </div>
+                      </div>
+                      <!--*** FIM BOTOES ***-->
+                    </div>
+
                   </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      type="button"
-                      class="p-button-rounded p-button-secondary"
-                      (click)="resetForm()"
-                      label="Cancelar"
-                      [disabled]="botaoEnviarVF"
-                    ></button>
-                  </div>
 
-                </div>
-                <!--*** FIM BOTOES ***-->
-              </div>
+                </td>
+              </tr>
+            </table>
 
-          </div>
-
-        </div>
-        </div>
-      </form>
-    </div>
-
+          </td>
+        </tr>
+      </table>
+    </form>
   </p-dialog>
 </ng-container>

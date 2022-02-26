@@ -62,6 +62,7 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
+
   fc: any;
   toolbarEditor = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
