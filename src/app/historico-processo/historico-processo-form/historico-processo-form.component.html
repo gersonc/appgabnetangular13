@@ -36,6 +36,7 @@
                 <td>
 
                   <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+
                     <div class="p-field p-col-12 p-sm-12 p-md-8 p-lg-4 p-xl-3 formulario"
                          [ngClass]="aplicaCssErro('historico_data')">
                       <label for="historico_data"><span style="color: var(--ativo)">*</span>Data</label>
@@ -46,33 +47,29 @@
                         placeholder="dd/mm/aaaa"
                         dataType="string"
                       ></p-calendar>
-                      <app-campo-control-erro
-                        msgErro="Data é obrigatória."
-                        [mostrarErro]="!formHis.valid &&
-                                       !formHis.controls['historico_data'].pristine &&
-                                       formHis.controls['historico_data'].dirty &&
-                                       formHis.controls['historico_data'].touched
-                      "></app-campo-control-erro>
+                      <app-campo-erro msgErro="Data é obrigatória."
+                                      [mostrarErro]="verificaRequired('historico_data')"></app-campo-erro>
                     </div>
+                    <div class="p-field p-md-2 p-lg-8 p-xl-9 formulario"></div>
 
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12 formulario">
+                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12 formulario" [ngClass]="aplicaCssErro('historico_andamento')">
                       <label for="historico_andamento"><span style="color: var(--ativo)">*</span>Andamento</label>
-                      <p-editor
-                        [style]="{'width':'100%'}"
-                        #editor
-                        formControlName="historico_andamento"
+                      <p-panel [showHeader]="false" [toggleable]="false" id="#historico_andamento3" class="heditor">
+                      <quill-editor
+                        class="heditor"
                         id="historico_andamento"
+                        formControlName="historico_andamento"
                         [modules]="modulos"
-                      >
-                        <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
-                      <app-campo-control-erro
-                        msgErro="Andamento é obrigatório."
-                        [mostrarErro]="!formHis.valid &&
-                                       !formHis.controls['historico_andamento'].pristine &&
-                                       formHis.controls['historico_andamento'].dirty &&
-                                       formHis.controls['historico_andamento'].touched
-                      "></app-campo-control-erro>
+                        (onEditorCreated)="onEditorCreated($event)"
+                        (onContentChanged)="onContentChanged($event)"
+                        [styles]="{'width':'100%'}"
+                        [required]="true"
+                        [placeholder]="null"
+                        [format]="formato"
+                      ></quill-editor>
+                      </p-panel>
+                      <app-campo-erro msgErro="Andamento é obrigatório."
+                                      [mostrarErro]="verificaRequired('historico_andamento')"></app-campo-erro>
                     </div>
 
                     <div class="p-field p-col-12">
@@ -83,7 +80,6 @@
                             pButton
                             type="submit"
                             class="botaoinferior p-button-rounded"
-                            [disabled]="!formHis.valid && !botaoEnviarVF"
                             label="Enviar"
                           ></button>
                         </div>
@@ -106,7 +102,6 @@
                 </td>
               </tr>
             </table>
-
           </td>
         </tr>
       </table>

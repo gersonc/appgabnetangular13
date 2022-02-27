@@ -205,7 +205,7 @@
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
  */
-.ql-container {
+/*.ql-container {
   box-sizing: border-box;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -1151,12 +1151,12 @@
 .ql-container.ql-bubble:not(.ql-disabled) a:hover::after {
   visibility: visible;
 }
-/*!
+!*!
  * Quill Editor v1.3.6
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
- */
+ *!
 .ql-container {
   box-sizing: border-box;
   font-family: Helvetica, Arial, sans-serif;
@@ -1547,7 +1547,7 @@
   pointer-events: none;
   position: absolute;
   right: 15px;
-}
+}*/
 /*!
  * Quill Editor v1.3.6
  * https://quilljs.com/
@@ -15322,6 +15322,18 @@ h5 {
   border-radius: 5px;
 }
 
+#historico_andamento .p-editor-container.ng-dirty.ng-invalid {
+  /*min-width: 800px;*/
+  /*max-width: 100%;*/
+  /*display: inline-flex;*/
+
+  /*padding: 0 .5rem .5rem .5rem;
+  background-color: var(--input-filled);*/
+  /*border: 2px solid red;*/
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
 /*#historico_andamento .p-editor-container .p-editor-content .ql-editor {
   background: var(--input-filled);
   color: var(--text-color);
@@ -15358,14 +15370,46 @@ h5 {
   padding-bottom: 5rem;
 }
 
-/*
-#historicoformdialog .formulario.p-dialog .p-dialog-content {
 
-  !*border: 1px solid var(--formulario-bg-interno-color);*!
-  border: 1px solid green;
-  !*background: var(--formulario-bg-interno-color);*!
-  background: green;
-  color: var(--text-color);
-  font-size: initial;
-}
+
+/*
+*******************  EDITOR ***********************
 */
+
+.heditor .p-panel .p-panel-content {
+  /*padding: 0 0.5rem 0.5rem 0.5rem;*/
+  padding: 0;
+  background-color: transparent;
+  /* border: 2px solid red; */
+  border: 1px solid transparent;
+  /*border-radius: 5px;*/
+}
+
+.heditor .ql-toolbar.ql-snow {
+  /*padding: 0 0.5rem 0.5rem 0.5rem;*/
+  padding: .5rem 1rem .5rem 1rem;
+  background-color: var(--input-filled);
+  border-bottom: 0;
+  border-top: 1px solid var(--border-elementos-input-forms);
+  border-left: 1px solid var(--border-elementos-input-forms);
+  border-right: 1px solid var(--border-elementos-input-forms);
+  border-radius: 5px 5px 0 0;
+}
+
+.heditor .ql-toolbar.ql-snow .ng-invalid2 {
+  border-top: 1px solid red;
+  border-left: 1px solid red;
+  border-right: 1px solid red;
+}
+
+.heditor .ql-editor {
+  background: var(--surface-a);
+  color: var(--text-color);
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.heditor .ql-editor .ng-invalid2 {
+  border-color: red;
+}
+

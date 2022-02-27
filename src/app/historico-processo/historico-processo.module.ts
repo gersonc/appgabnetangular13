@@ -13,6 +13,7 @@ import {UtilModule} from "../util/util.module";
 import {EditorModule} from "primeng/editor";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {RippleModule} from "primeng/ripple";
+import {PanelModule} from "primeng/panel";
 
 
 
@@ -23,19 +24,21 @@ import {RippleModule} from "primeng/ripple";
     HistoricoProcessoListarComponent,
     HistoricoProcessoFormComponent,
   ],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        TableModule,
-        QuillModule,
-        TooltipModule,
-        DialogModule,
-        CalendarModule,
-        UtilModule,
-        EditorModule,
-        ScrollPanelModule,
-        RippleModule
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    //QuillModule,
+    TooltipModule,
+    DialogModule,
+    CalendarModule,
+    UtilModule,
+    EditorModule,
+    QuillModule.forRoot(),
+    ScrollPanelModule,
+    RippleModule,
+    PanelModule
+  ],
   exports: [
     HistoricoProcessoComponent,
     HistoricoProcessoFormComponent

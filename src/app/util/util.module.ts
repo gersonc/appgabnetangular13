@@ -16,7 +16,9 @@ import { CampoEditorComponent } from './campo-editor/campo-editor.component';
 import {FormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputTextareaModule} from 'primeng/inputtextarea';
-
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import { CampoErroComponent } from './campo-erro/campo-erro.component';
 
 @NgModule({
   imports: [
@@ -28,7 +30,9 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     EditorModule,
     FormsModule,
     DropdownModule,
-    InputTextareaModule
+    InputTextareaModule,
+    MessagesModule,
+    MessageModule
   ],
   declarations: [
     CampoControlErroComponent,
@@ -36,7 +40,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     ErrorMsgComponent,
     ChildLoaderComponent,
     MenuContextoComponent,
-    CampoEditorComponent
+    CampoEditorComponent,
+    CampoErroComponent
   ],
   exports: [
     FormDebugComponent,
@@ -44,7 +49,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     ErrorMsgComponent,
     ChildLoaderComponent,
     MenuContextoComponent,
-    CampoEditorComponent
+    CampoEditorComponent,
+    CampoErroComponent
   ],
   providers: [
     /*DropdownService,
