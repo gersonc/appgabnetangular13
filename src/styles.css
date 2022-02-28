@@ -15414,12 +15414,28 @@ h5 {
 }
 
 .pointerAlterar {
-  padding: .3rem .5rem .3rem .5rem;
+  /*padding: 5px 7px 5px 7px;*/
+  padding: .3em .5em .3em .5em;
   background-color: var(--warning);
   border: 1px solid var(--warning);
   border-radius: 50%;
+  margin-bottom: .3em;
 }
 .pointerAlterar:hover {
   cursor: pointer;
 }
+
+.pointerExcluir {
+  color: var(--primary-color-text);
+  /*padding: 5px 7px 5px 7px;*/
+  padding: .3em .5em .3em .5em;
+  background-color: var(--atencao-color);
+  border: 1px solid var(--atencao-color);
+  border-radius: 50%;
+  margin-bottom: .3em;
+}
+.pointerExcluir:hover {
+  cursor: pointer;
+}
+
 

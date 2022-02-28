@@ -12,7 +12,7 @@ import {Delta} from "quill";
 @Component({
   selector: 'app-historico-processo-form',
   templateUrl: './historico-processo-form.component.html',
-  styleUrls: ['./historico-processo-form.component.css']
+  styleUrls: ['./historico-processo-form.component.css'],
 })
 export class HistoricoProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() dados?: any;
@@ -93,7 +93,6 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, OnDest
           historico_processo_id: d.historico_processo_id
         }
       }
-      console.log('changes.dados2', this.his);
     }
 
     if (changes.classeStylos) {

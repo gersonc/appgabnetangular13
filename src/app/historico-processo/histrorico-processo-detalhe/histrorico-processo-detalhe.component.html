@@ -3,7 +3,7 @@
   <tr>
     <td>Data</td>
     <td>Andamento</td>
-    <td *ngIf="authenticationService.historico_alterar"></td>
+    <td *ngIf="authenticationService.historico_alterar || authenticationService.historico_apagar" style="width: 3em"></td>
   </tr>
 
 <tr *ngFor="let his of historicos; index as i">
@@ -20,8 +20,9 @@
       {{his.historico_andamento}}
     </ng-container>
   </td>
-  <td *ngIf="authenticationService.historico_alterar">
+  <td *ngIf="authenticationService.historico_alterar || authenticationService.historico_apagar" style="width: 3em">
     <app-historico-processo-form *ngIf="authenticationService.historico_alterar" [acao]="'alterar'" [dados]="his" (novosDados)="historicos[i]=$event"></app-historico-processo-form>
+    <app-historico-processo-excluir *ngIf="authenticationService.historico_apagar" [id]="his.historico_id" [idx]="i" (OnExcluir)="onExluir($event)"></app-historico-processo-excluir>
   </td>
 
 </tr>

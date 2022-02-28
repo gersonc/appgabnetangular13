@@ -19,7 +19,7 @@ import { HistroricoProcessoDetalheComponent } from './histrorico-processo-detalh
 import { HistoricoProcessoExcluirComponent } from './historico-processo-excluir/historico-processo-excluir.component';
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ToastModule} from "primeng/toast";
-
+import {ConfirmationService} from "primeng/api";
 
 
 

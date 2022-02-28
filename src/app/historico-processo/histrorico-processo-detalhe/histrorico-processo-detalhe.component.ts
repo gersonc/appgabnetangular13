@@ -34,8 +34,8 @@ export class HistroricoProcessoDetalheComponent implements OnInit {
     return JSON.parse(str);
   }
 
-  onExluir(ev) {
-
+  onExluir(ev: number) {
+    this.historicos.splice(ev, 1);
   }
 
 }

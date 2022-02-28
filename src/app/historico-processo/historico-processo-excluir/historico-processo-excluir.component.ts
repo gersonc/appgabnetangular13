@@ -4,12 +4,12 @@ import {AuthenticationService} from "../../_services";
 import {HistoricoProcessoService} from "../_services/historico-processo.service";
 import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
-import {ProcessoHistoricoInterface} from "../../processo/_models";
 
 @Component({
   selector: 'app-historico-processo-excluir',
   templateUrl: './historico-processo-excluir.component.html',
-  styleUrls: ['./historico-processo-excluir.component.css']
+  styleUrls: ['./historico-processo-excluir.component.css'],
+  providers: [ConfirmationService,MessageService]
 })
 export class HistoricoProcessoExcluirComponent implements OnInit, OnDestroy {
   @Input() id?: number;
@@ -33,9 +33,6 @@ export class HistoricoProcessoExcluirComponent implements OnInit, OnDestroy {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.exluir();
-      },
-      reject: () => {
-        // this.messageService.add({severity:'error', summary:'Erro', detail:'Ocorreu um erro.'});
       }
     });
   }
@@ -57,7 +54,7 @@ export class HistoricoProcessoExcluirComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           if (this.resp[0]) {
-            this.messageService.add({severity:'info', summary:'Andamento', detail:'Excluido com sucesso.'});
+            this.messageService.add({severity:'success', summary:'Andamento', detail:'Excluido com sucesso.'});
             this.OnExcluir.emit(this.idx);
           } else {
             this.messageService.add({severity:'error', summary:'Erro', detail:this.msg[2]});
