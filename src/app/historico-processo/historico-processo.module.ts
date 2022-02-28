@@ -14,6 +14,11 @@ import {EditorModule} from "primeng/editor";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {RippleModule} from "primeng/ripple";
 import {PanelModule} from "primeng/panel";
+import {MessageModule} from "primeng/message";
+import { HistroricoProcessoDetalheComponent } from './histrorico-processo-detalhe/histrorico-processo-detalhe.component';
+import { HistoricoProcessoExcluirComponent } from './historico-processo-excluir/historico-processo-excluir.component';
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ToastModule} from "primeng/toast";
 
 
 
@@ -23,6 +28,8 @@ import {PanelModule} from "primeng/panel";
     HistoricoProcessoComponent,
     HistoricoProcessoListarComponent,
     HistoricoProcessoFormComponent,
+    HistroricoProcessoDetalheComponent,
+    HistoricoProcessoExcluirComponent,
   ],
   imports: [
     CommonModule,
@@ -37,11 +44,16 @@ import {PanelModule} from "primeng/panel";
     QuillModule.forRoot(),
     ScrollPanelModule,
     RippleModule,
-    PanelModule
+    PanelModule,
+    MessageModule,
+    ConfirmPopupModule,
+    ToastModule
   ],
   exports: [
     HistoricoProcessoComponent,
-    HistoricoProcessoFormComponent
+    HistoricoProcessoFormComponent,
+    HistroricoProcessoDetalheComponent,
+    HistoricoProcessoExcluirComponent
   ]
 })
 export class HistoricoProcessoModule { }

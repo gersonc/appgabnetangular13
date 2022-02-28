@@ -1,22 +1,26 @@
-import {Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ProcessoHistoricoInterface, ProcessoListagemInterface} from "../../processo/_models";
-// import {Editor} from "primeng/editor";
+import {ProcessoHistoricoInterface} from "../../processo/_models";
 import {AuthenticationService} from "../../_services";
-import {QuillEditorComponent, QuillService} from "ngx-quill";
+import {HistoricoProcessoService} from "../_services/historico-processo.service";
+import {Subscription} from "rxjs";
+import {take} from "rxjs/operators";
+import {HistoricoProcessoI} from "../_models/historico-processo";
+import {Delta} from "quill";
+
 
 @Component({
   selector: 'app-historico-processo-form',
   templateUrl: './historico-processo-form.component.html',
   styleUrls: ['./historico-processo-form.component.css']
 })
-export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoCheck {
-  // @ViewChild('editor', { static: true }) editor: QuillService;
-  @Input() dados?: ProcessoListagemInterface;
+export class HistoricoProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() dados?: any;
   @Input() classeStylos?: string;
   @Input() acao: string;
+  @Output() novosDados = new EventEmitter<ProcessoHistoricoInterface>();
   mostraBotao = false;
-  his: ProcessoHistoricoInterface;
+  his: HistoricoProcessoI;
   estilo = 'formulario-quill';
   ac: string;
   showFormulario = false;
@@ -25,10 +29,19 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoChec
   deltaquill: any = null;
   mostraForm = true;
   botaoEnviarVF = false;
+  enviando = false;
   acao2 = 'INCLUIR'
   acao3 = 'Incluir Andamento'
-  formato: 'object' | 'html' | 'text' | 'json' = 'html';
+  formato: 'object' | 'html' | 'text' | 'json' = 'object';
+  sub: Subscription[] = [];
   editor: any;
+  editorContent: any;
+  editorObject: Delta;
+  editorJson: Delta;
+  editorTxt: string;
+  editorHtml: string;
+  resp: any[];
+  msg: any[] = [0, null];
   modulos = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -46,55 +59,41 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoChec
     ]
   };
 
-/*  if (this.formSolicitacaoIncluir.get('solicitacao_descricao').value) {
-  const ql: any = this.soldesc.getQuill();
-  const txt1 = ql.getContents();
-  const txt2 = ql.getText();
-  solicitacao.solicitacao_descricao = this.formSolicitacaoIncluir.get('solicitacao_descricao').value;
-  solicitacao.solicitacao_descricao_delta = JSON.stringify(ql.getContents());
-  solicitacao.solicitacao_descricao_texto = ql.getText();
-
-
-  if (texto[4]) {
-      if (this.edtor.getQuill()) {
-        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
-      }
-      this.deltaquill = JSON.parse(texto[4]);
-      setTimeout( () => {
-        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
-      }, 300);
-    } else {
-      this.campoTexto = texto[1];
-    }
-
-
-}*/
-
-
   constructor(
     private fb: FormBuilder,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private historicoProcessoService: HistoricoProcessoService
   ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit');
     if (this.authenticationService.historicoemenda_incluir)  {
       this.mostraBotao = true;
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('ngOnChanges');
     if (changes.dados) {
-      const d: ProcessoListagemInterface = changes.dados.currentValue;
-      this.his = {
-        historico_id: d.historico_id,
-        historico_data: d.historico_data,
-        historico_andamento: d.historico_andamento,
-        historico_andamento_delta: d.historico_andamento_delta,
-        historico_andamento_texto: d.historico_andamento_texto,
-        historico_processo_id: d.processo_id
+      const d = changes.dados.currentValue;
+      if (typeof changes.dados.currentValue === 'number') {
+        this.his = {
+          historico_id: null,
+          historico_data: null,
+          historico_andamento: null,
+          historico_andamento_delta: null,
+          historico_andamento_texto: null,
+          historico_processo_id: d
+        }
+      } else {
+        this.his = {
+          historico_id: d.historico_id,
+          historico_data: d.historico_data,
+          historico_andamento: d.historico_andamento,
+          historico_andamento_delta: d.historico_andamento_delta,
+          historico_andamento_texto: d.historico_andamento_texto,
+          historico_processo_id: d.historico_processo_id
+        }
       }
+      console.log('changes.dados2', this.his);
     }
 
     if (changes.classeStylos) {
@@ -107,46 +106,19 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoChec
         this.acao2 = 'INCLUIR';
         this.acao3 = 'Incluir Andamento';
       }
+      if (this.ac === 'altera') {
+        this.acao2 = 'ALTERAR';
+        this.acao3 = 'Alterar Andamento';
+      }
     }
-  }
-
-  ngDoCheck() {
-    console.log('ngDoCheck');
-
   }
 
   formMostra() {
     this.criaForm();
   }
 
-/*  escolheTipo(h: any | null): ProcessoHistoricoInterface {
-    if (h) {
-      let hi: ProcessoHistoricoInterface = h;
-      if (hi.historico_andamento_delta) {
-        hi.historico_andamento_texto = null;
-        hi.historico_andamento = hi.historico_andamento_delta;
-        hi.historico_andamento_delta = null;
-        return hi;
-      }
-      if (hi.historico_andamento) {
-        hi.historico_andamento_texto = null;
-        hi.historico_andamento_delta = null;
-        return hi;
-      }
-      if (hi.historico_andamento_texto) {
-        hi.historico_andamento = hi.historico_andamento_texto;
-        hi.historico_andamento_delta = null;
-        hi.historico_andamento_texto = null;
-        return hi;
-      }
-      return hi;
-    }
-    return null;..
-  }*/
-
   fechar() {
     this.his = null;
-    // this.estilo = 'formulario-quill';
     this.ac = null;
     this.showFormulario = false;
     this.formHis = null
@@ -170,12 +142,12 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoChec
   }
 
   onEditorCreated(ev) {
-    console.log('onEditorCreated', ev);
     this.editor = ev.Quill;
     if (this.ac === 'alterar') {
+      this.formHis.get('historico_data').setValue(this.his.historico_data);
       if (this.his.historico_andamento_delta) {
         this.formato = 'object';
-        this.editor.deleteText(0, this.editor.getLength());
+        // this.editor.deleteText(0, this.editor.getLength());
         this.formHis.get('historico_andamento').setValue(JSON.parse(this.his.historico_andamento_delta));
       } else {
         if (this.his.historico_andamento) {
@@ -192,14 +164,17 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoChec
   }
 
   onSubmit() {
+    console.log('submit1');
     if (this.formHis.valid) {
-      this.botaoEnviarVF = false;
+      this.botaoEnviarVF = true;
       if (this.ac === 'incluir') {
         this.incluir();
+        console.log('submit2');
       }
       if (this.ac === 'alterar') {
         this.alterar();
       }
+      console.log('submit3');
     } else {
       this.botaoEnviarVF = false;
       this.verificaValidacoesForm(this.formHis);
@@ -246,24 +221,99 @@ export class HistoricoProcessoFormComponent implements OnInit, OnChanges, DoChec
   }
 
   onContentChanged(ev) {
-    // console.log('onContentChanged', ev);
     this.editor = ev;
+    this.editorContent = ev.content;
+    this.editorJson = ev.content;
+    this.editorHtml = ev.html;
+    this.editorTxt = ev.text;
   }
 
   incluir() {
-    console.log('incluir0', this.editor);
-    this.historico = {
-      historico_andamento: this.editor.html,
-      historico_andamento_delta: JSON.stringify(this.editor.delta),
-      historico_andamento_texto: this.editor.text,
-      historico_data: this.formHis.get('historico_data').value,
-      historico_id: null,
-      historico_processo_id: this.his.historico_processo_id
-    };
-    console.log('incluir', this.historico);
+    if (this.formHis.valid) {
+      this.enviando = false;
+      this.historico = {
+        historico_andamento: this.editorHtml,
+        historico_andamento_delta: JSON.stringify(this.editorContent),
+        historico_andamento_texto: this.editorTxt,
+        historico_data: this.formHis.get('historico_data').value,
+        historico_id: null,
+        historico_processo_id: this.his.historico_processo_id
+      };
+      this.sub.push(this.historicoProcessoService.incluir(this.historico)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.enviando = true;
+            this.msg[2] = err + " - Ocorreu um erro.";
+            console.error(err);
+            this.resetForm();
+          },
+          complete: () => {
+            if (this.resp[0]) {
+              this.historico.historico_id = this.resp[1];
+              this.msg[0] = 1;
+              this.msg[2] = 'Andamento incluido com sucesso.';
+            } else {
+              this.enviando = true;
+              this.msg[0] = 2;
+              this.msg[2] = this.resp[0] + " - Ocorreu um erro.";
+              this.resetForm();
+            }
+
+          }
+        })
+      );
+    }
   }
 
   alterar() {
 
+    if (this.formHis.valid) {
+      this.enviando = false;
+      this.historico = {
+        historico_andamento: this.editorHtml,
+        historico_andamento_delta: JSON.stringify(this.editorContent),
+        historico_andamento_texto: this.editorTxt,
+        historico_data: this.formHis.get('historico_data').value,
+        historico_id: this.his.historico_id,
+        historico_processo_id: this.his.historico_processo_id
+      };
+      this.sub.push(this.historicoProcessoService.alterar(this.historico)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.enviando = true;
+            this.msg[2] = err + " - Ocorreu um erro.";
+            console.error(err);
+            this.resetForm();
+          },
+          complete: () => {
+            if (this.resp[0]) {
+              this.historico.historico_id = this.resp[1];
+
+              this.msg[1] = 'Andamento Alterado com sucesso.';
+              this.msg[0] = 1;
+              this.novosDados.emit(this.historico);
+            } else {
+              this.enviando = true;
+              this.msg[0] = 2;
+              this.msg[1] = this.resp[0] + " - Ocorreu um erro.";
+              this.resetForm();
+            }
+
+          }
+        })
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 }

@@ -1,3 +1,4 @@
+<ng-container *ngIf="ac==='incluir'">
 <div *ngIf="mostraBotao" class="p-mr-2">
   <button
     pButton
@@ -11,6 +12,10 @@
   >
   </button>
 </div>
+</ng-container>
+<ng-container *ngIf="ac==='alterar'">
+  <div class="pointerAlterar p-shadow-2"><i class="pi pi-pencil" (click)="formMostra()"></i></div>
+</ng-container>
 
 <ng-container *ngIf="showFormulario">
   <p-dialog
@@ -24,8 +29,8 @@
     (onHide)="escondeFormulario()"
     styleClass="formulario"
     [maximizable]="true"
+    [baseZIndex]="10"
   >
-
     <form [formGroup]="formHis" (ngSubmit)="onSubmit()">
       <table class="historicoformdialog tabela">
         <tr>
@@ -75,15 +80,16 @@
                     <div class="p-field p-col-12">
                       <!--*** Botões ***-->
                       <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                        <div class="p-mr-2">
+                        <div *ngIf="!enviando" class="p-mr-2">
                           <button
                             pButton
                             type="submit"
                             class="botaoinferior p-button-rounded"
                             label="Enviar"
+                            [disabled]="botaoEnviarVF"
                           ></button>
                         </div>
-                        <div class="p-mr-2">
+                        <div *ngIf="!enviando"  class="p-mr-2">
                           <button
                             pButton
                             type="button"
@@ -93,8 +99,21 @@
                             [disabled]="botaoEnviarVF"
                           ></button>
                         </div>
+                        <div class="p-mr-2">
+                          <button
+                            pButton
+                            type="button"
+                            class="botaoinferior p-button-rounded p-button-secondary"
+                            (click)="fechar()"
+                            label="Fechar"
+                          ></button>
+                        </div>
                       </div>
                       <!--*** FIM BOTOES ***-->
+                    </div>
+                    <div *ngIf="msg[0]!==0" class="p-field p-col-12">
+                      <p-message *ngIf="msg[0]===1" severity="success" text="{{msg[1]}}"></p-message>
+                      <p-message *ngIf="msg[0]===2" severity="error" text="{{msg[1]}}"></p-message>
                     </div>
 
                   </div>

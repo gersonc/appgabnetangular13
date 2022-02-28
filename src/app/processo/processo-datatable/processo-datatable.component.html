@@ -159,7 +159,7 @@
                 >
                 </button>
               </div>
-              <app-historico-processo-form [acao]="'incluir'" [dados]="pro"></app-historico-processo-form>
+              <app-historico-processo-form [acao]="'incluir'" [dados]="pro.processo_id"></app-historico-processo-form>
             </div>
 
 
@@ -253,6 +253,7 @@
     [modal]="true"
     [dismissableMask]="true"
     (onHide)="escondeDetalhe()"
+    [baseZIndex]="0"
   >
     <app-processo-detalhe [proDetalhe]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-processo-detalhe>
   </p-dialog>

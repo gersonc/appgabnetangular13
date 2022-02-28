@@ -1,4 +1,4 @@
-<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheprocesso">
+<!--<p-scrollPanel [styleClass]="'scrollPanelDetalhe'" id="detalheprocesso">-->
   <table class="detalhefull">
     <tr>
       <td>
@@ -451,7 +451,7 @@
     </tr>
     <tr *ngIf="historicos">
       <td>
-        <table class="table-hover tabela" #tabhistorico id="tabhistorico">
+        <!--<table class="table-hover tabela" #tabhistorico id="tabhistorico">
           <caption>HISTÓRICOS</caption>
           <tr>
             <td>Data</td>
@@ -461,13 +461,14 @@
             <td style="font-weight: normal">{{his.historico_data}}</td>
             <td style="font-weight: normal">{{his.historico_andamento}}</td>
           </tr>
-        </table>
+        </table>-->
+        <app-histrorico-processo-detalhe #tabhistorico [historicos]="historicos"></app-histrorico-processo-detalhe>
         <br>
       </td>
     </tr>
   </table>
   <br>
-</p-scrollPanel>
+<!--</p-scrollPanel>-->
 <div class="botoesdetalhe">
   <button pButton type="button" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;

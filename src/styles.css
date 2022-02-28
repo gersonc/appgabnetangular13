@@ -15413,3 +15413,13 @@ h5 {
   border-color: red;
 }
 
+.pointerAlterar {
+  padding: .3rem .5rem .3rem .5rem;
+  background-color: var(--warning);
+  border: 1px solid var(--warning);
+  border-radius: 50%;
+}
+.pointerAlterar:hover {
+  cursor: pointer;
+}
+
