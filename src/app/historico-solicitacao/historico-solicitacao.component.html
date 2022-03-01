@@ -1,0 +1,11 @@
+<ng-container *ngIf="acao=='listar'">
+  <ng-container *ngIf="valores[0]">
+    <app-historico-solocitacao-listar [dados]="valores" [classeStylos]="estilo"></app-historico-solocitacao-listar>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="ac=='form'">
+  <ng-container *ngIf="valores[0]">
+    <app-historico-solocitacao-form [dados]="valores" [acao]="acao" [classeStylos]="estilo"></app-historico-solocitacao-form>
+  </ng-container>
+</ng-container>
