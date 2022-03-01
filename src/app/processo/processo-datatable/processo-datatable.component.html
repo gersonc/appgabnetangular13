@@ -247,6 +247,8 @@
 <!--*** DETALHE ****************************************************************************************************-->
 <ng-container *ngIf="showDetalhe">
   <p-dialog
+    [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
+    [style]="{width: '60vw'}"
     [(visible)]="showDetalhe"
     styleClass="tablistagem"
     header="DETALHE"

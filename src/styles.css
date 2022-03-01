@@ -15058,6 +15058,7 @@ body {
 }
 .botoesdetalhe {
   padding-top: .8em;
+  padding-bottom: 3rem;
 }
 .cores-secundarias {
   color: #f2ffed;
@@ -15438,4 +15439,7 @@ h5 {
   cursor: pointer;
 }
 
+.espacoInferiorMenu {
+  padding-bottom: 3rem;
+}
 
