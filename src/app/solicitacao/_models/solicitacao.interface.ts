@@ -336,6 +336,15 @@ export class SolicitacaoExcel12 implements SolicitacaoListar12Interface {
   cadastro_fax = null;
 }
 
+export interface SolicitacaoHistoricoInterface {
+  historico_id?: number;
+  historico_data?: string;
+  historico_andamento?: string;
+  historico_andamento_delta?: string;
+  historico_andamento_texto?: string;
+  historico_solicitacao_id?: number;
+}
+
 
 
 

@@ -9,7 +9,13 @@
     <ng-template pTemplate="body" let-his>
       <tr>
         <td>{{his.historico_data}}</td>
-        <td><quill-view-html [content]="his.historico_andamento" class="detalhe"></quill-view-html></td>
+        <td>
+          <ng-container *ngIf="escolheTipo(his)">
+              <quill-view-html *ngIf="formato==='html'" [content]="his.historico_andamento" class="detalhe"></quill-view-html>
+              <quill-view-html *ngIf="formato==='text'" [content]="his.historico_andamento_texto" class="detalhe"></quill-view-html>
+              <quill-view *ngIf="formato==='object'" [content]="transforma(his.historico_andamento_delta)" format="object" class="detalhe"></quill-view>
+          </ng-container>
+        </td>
       </tr>
     </ng-template>
   </p-table>

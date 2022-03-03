@@ -190,7 +190,9 @@ export class AuthenticationService {
             delete user.cota_disponivel;
             delete user.cota_utilizada;
             localStorage.removeItem('currentUser');
+            localStorage.removeItem('access_token');
             localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('access_token', user.token);
             this.carregaPermissoes(user);
             this.currentUserSubject!.next(user);
             }
@@ -457,8 +459,10 @@ export class AuthenticationService {
             delete user.arquivo_cota;
             delete user.cota_disponivel;
             delete user.cota_utilizada;
+            localStorage.removeItem('access_token');
             localStorage.removeItem('currentUser');
             localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('access_token', user.token);
             this.carregaPermissoes(user);
             this.currentUserSubject?.next(user);
             return true;
@@ -470,6 +474,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    localStorage.removeItem('access_token');
     localStorage.removeItem('currentUser');
     localStorage.clear();
     sessionStorage.clear();

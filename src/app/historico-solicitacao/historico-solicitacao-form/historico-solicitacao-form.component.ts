@@ -1,12 +1,15 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SolicitacaoHistoricoInterface} from "../../solocitacao/_models";
+// import {SolicitacaoHistoricoInterface} from "../../solocitacao/_models";
 import {AuthenticationService} from "../../_services";
-import {HistoricoSolicitacaoService} from "../_services/historico-solocitacao.service";
+// import {HistoricoSolicitacaoService} from "../_services/historico-solocitacao.service";
 import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
-import {HistoricoSolicitacaoI} from "../_models/historico-solocitacao";
+// import {HistoricoSolicitacaoI} from "../_models/historico-solocitacao";
 import {Delta} from "quill";
+import {SolicitacaoHistoricoInterface} from "../../solicitacao/_models";
+import {HistoricoSolicitacaoService} from "../_services/historico-solicitacao.service";
+import {HistoricoSolicitacaoI} from "../_models/historico-solicitacao";
 
 
 @Component({
@@ -236,7 +239,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
         historico_andamento_texto: this.editorTxt,
         historico_data: this.formHis.get('historico_data').value,
         historico_id: null,
-        historico_solocitacao_id: this.his.historico_solocitacao_id
+        historico_solicitacao_id: this.his.historico_solocitacao_id
       };
       this.sub.push(this.historicoSolicitacaoService.incluir(this.historico)
         .pipe(take(1))
@@ -278,7 +281,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
         historico_andamento_texto: this.editorTxt,
         historico_data: this.formHis.get('historico_data').value,
         historico_id: this.his.historico_id,
-        historico_solocitacao_id: this.his.historico_solocitacao_id
+        historico_solicitacao_id: this.his.historico_solocitacao_id
       };
       this.sub.push(this.historicoSolicitacaoService.alterar(this.historico)
         .pipe(take(1))

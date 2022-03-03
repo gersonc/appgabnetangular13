@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {UrlService} from "../../_services";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {SolicitacaoHistoricoInterface} from "../../solocitacao/_models";
+// import {SolicitacaoHistoricoInterface} from "../../solocitacao/_models";
 import {Observable} from "rxjs";
+import {SolicitacaoHistoricoInterface} from "../../solicitacao/_models";
 
 @Injectable({
   providedIn: 'root'

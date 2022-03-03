@@ -11,68 +11,47 @@ export class HistoricoProcessoListarComponent implements OnInit, OnChanges {
   @Input() classeStylos?: string;
   his: ProcessoHistoricoInterface[];
   estilo = 'tablcomp';
+  formato: 'object' | 'html' | 'text' | 'json' = 'object';
 
+  constructor() {}
 
-  constructor() {
-    this.his = this.transformaDados(this.dados);
-  }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dados) {
-      this.his = [...this.transformaDados(changes.dados.currentValue)];
+      this.his = [...changes.dados.currentValue];
     }
     if (changes.classeStylos) {
       this.estilo = changes.classeStylos.currentValue;
     }
   }
 
-  escolheTipo(h: any | null): Boolean | ProcessoHistoricoInterface {
+  escolheTipo(h: any | null): boolean {
     if (h) {
       let hi: ProcessoHistoricoInterface = h;
       if (hi.historico_andamento_delta) {
-        hi.historico_andamento_texto = null;
-        hi.historico_andamento = hi.historico_andamento_delta;
-        hi.historico_andamento_delta = null;
-        return hi;
+        this.formato = "object";
+        return true;
       }
       if (hi.historico_andamento) {
-        hi.historico_andamento_texto = null;
-        hi.historico_andamento_delta = null;
-        return hi;
+        this.formato = 'html'
+        return true;
       }
       if (hi.historico_andamento_texto) {
-        hi.historico_andamento = hi.historico_andamento_texto;
-        hi.historico_andamento_delta = null;
-        hi.historico_andamento_texto = null;
-        return hi;
-      }
-      return hi;
-    }
-    return false;
-  }
-
-  transformaDados(dados: any[]): ProcessoHistoricoInterface[] {
-    if (dados) {
-      if (dados.length === 0) {
-        return null;
-      }
-      let re: ProcessoHistoricoInterface[] = [];
-      dados.forEach(value => {
-        if (this.escolheTipo(value)) {
-          re.push(<ProcessoHistoricoInterface>this.escolheTipo(value));
-        }
-      });
-      if (re.length > 0) {
-        return re;
-      } else {
-        return [];
+        this.formato = "text";
+        return true;
       }
     } else {
-      return [];
+      this.formato = 'json';
+      return false;
     }
   }
+
+  transforma(str) {
+    return JSON.parse(str);
+  }
+
 
 }

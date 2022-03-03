@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {JwtModule} from "@auth0/angular-jwt";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -25,6 +26,9 @@ import { DialogModule } from 'primeng/dialog';
 
 import { PanelMenuModule } from 'primeng/panelmenu';
 
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
 
 @NgModule({
   declarations: [
@@ -37,6 +41,13 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
+        disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    }),
     AngularResizeEventModule,
     ToastModule,
     MessagesModule,

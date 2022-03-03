@@ -39,6 +39,8 @@ export class UrlService {
   filemanager = this.url + 'filemanager';
   uploadlocal = this.url + 'arquivo2';
   historicoProcesso = this.url + 'historicoprocesso';
+  historicoSolicitacao = this.url + 'historicosolicitacao';
+  ping = this.url + 'ping';
 
 
   constructor() { }

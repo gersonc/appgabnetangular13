@@ -6,3 +6,4 @@ export interface HistoricoSolicitacaoI {
   historico_andamento_texto?: string | undefined | null;
   historico_solocitacao_id?: number | undefined | null;
 }
+
