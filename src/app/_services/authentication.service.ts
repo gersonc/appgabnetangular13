@@ -238,6 +238,8 @@ export class AuthenticationService {
   public parlamentar_arquivo_ativo = false;
   public versao: any = null;
   public versao_id = 0;
+  public userRules: any[];
+  public userScops: any[];
 
 
   private currentUserSubject?: BehaviorSubject<User>;
@@ -290,7 +292,7 @@ export class AuthenticationService {
     let r: string[] = [];
     for (let i = 0; i < n; i++) {
       if (valor[i] === '1') {
-        r.push(this.acessoStr[i]);
+        r.push(this.acessoRule[i]);
       }
     }
     return r;
@@ -470,8 +472,8 @@ export class AuthenticationService {
   }
 
   carregaPermissoes1(rule: string, user: User): void {
-    const regra = this.descreveAcesso(rule);
-    console.log('carregaPermissoes1', regra);
+    const regra = this.descreveRule(rule);
+    // console.log('carregaPermissoes1', regra);
     this.agenda2 = regra?.indexOf('a2') !== -1;
     this.agenda = regra?.indexOf('ag') !== -1;
     this.andamentoproposicao = regra?.indexOf('ap') !== -1;
@@ -496,11 +498,12 @@ export class AuthenticationService {
     this.usuario = regra?.indexOf('us') !== -1;
     this.usuario_principal_sn = regra?.indexOf('up') !== -1;
     this.usuario_responsavel_sn = regra?.indexOf('ur') !== -1;
+    this.userScops = regra;
     this.carregaPermissoes3(user.usuario_acesso);
   }
 
   carregaPermissoes2(user): void {
-    console.log('carregaPermissoes2');
+    // console.log('carregaPermissoes2');
 /*    this.agenda2 = user.rule?.indexOf('a2') !== -1;
     this.agenda = user.rule?.indexOf('ag') !== -1;
     this.andamentoproposicao = user.rule?.indexOf('ap') !== -1;
@@ -628,6 +631,9 @@ export class AuthenticationService {
     this.arquivos_apagar = acesso.indexOf('ar_d') !== -1;
     this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
     this.usuario_responsavel_sn = (this.usuario_responsavel_sn ||  acesso.indexOf('us_r') !== -1);
+    this.userRules = acesso;
+    // JSON.parse(<string>localStorage.getItem('currentUser'))
+    this.currentUserSubject!.next(JSON.parse(<string>localStorage.getItem('currentUser')));
     this.mostraMenuEmiter(true);
   }
 
@@ -735,6 +741,9 @@ export class AuthenticationService {
     this.arquivos_anexar = false;
     this.arquivos_baixar = false;
     this.arquivos_apagar = false;
+    this.versao_id = 0;
+    this.userRules = [];
+    this.userScops = [];
     this.versao = 0;
     this.permissoes_carregadas = false;
     this.mostraMenuEmiter(false);
