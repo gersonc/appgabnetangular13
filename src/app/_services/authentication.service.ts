@@ -392,7 +392,7 @@ export class AuthenticationService {
     this.solicitacao_alterar = acesso.indexOf('so_a') !== -1;
     this.solicitacao_apagar = acesso.indexOf('so_d') !== -1;
     this.solicitacao_listar = acesso.indexOf('so_l') !== -1;
-    this.solicitacao_analisar = acesso.indexOf('so_n') !== -1;
+    this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
     this.processo_deferir = acesso.indexOf('pr_df') !== -1;
     this.processo_indeferir = acesso.indexOf('pr_if') !== -1;
     this.processo_listar = acesso.indexOf('pr_l') !== -1;
@@ -456,7 +456,7 @@ export class AuthenticationService {
     this.arquivos_anexar = acesso.indexOf('ar_a') !== -1;
     this.arquivos_baixar = acesso.indexOf('ar_b') !== -1;
     this.arquivos_apagar = acesso.indexOf('ar_d') !== -1;
-    this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
+    // this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
     this.usuario_responsavel_sn = (this.usuario_responsavel_sn ||  acesso.indexOf('us_r') !== -1);
     this.userRules = acesso;
     this.currentUserSubject!.next(JSON.parse(<string>localStorage.getItem('currentUser')));

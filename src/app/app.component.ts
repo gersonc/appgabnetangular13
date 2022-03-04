@@ -45,13 +45,11 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('app000');
     window.__VERSAOID__ = +this.authenticationService.versao_id;
     window.__VERSAO__ = this.authenticationService.versao;
     this.configPrime();
 
     this.cs.getCarregador().subscribe(vf => {
-      console.log('app01', vf);
       this.mostraEsconde(vf);
     });
 
@@ -63,9 +61,6 @@ export class AppComponent implements OnInit {
 
   onResized(id: string, event: ResizedEvent): void {
     const ev = new CoordenadaXY();
-
-    // ev.elem = event.element.nativeElement.id;
-
     ev.oldX = event.oldRect?.width;
     ev.oldY = event.oldRect?.height;
     ev.x = event.newRect.width;
@@ -74,9 +69,7 @@ export class AppComponent implements OnInit {
     switch (id) {
       case 'app': {
         this.windowsService.coorApp = ev;
-        // this.expande = ev.x > 761;
         this.windowsService.changeScreen(ev.x, ev.y);
-        // this.setCurrentClasses();
         break;
       }
       case 'topo': {

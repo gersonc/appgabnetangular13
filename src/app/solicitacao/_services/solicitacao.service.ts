@@ -40,7 +40,9 @@ export class SolicitacaoService {
 
   public expandido = new Subject();
 
-  constructor(private url: UrlService, private http: HttpClient) { }
+  constructor(private url: UrlService, private http: HttpClient) {
+    this.solicitacaoUrl = this.url.solicitacao;
+  }
 
   buscaMenu() {
     this.buscaSubject.next();
@@ -341,7 +343,8 @@ export class SolicitacaoService {
   }
 
   getSolicitacaoAnalise(id: number): Observable<SolicitacaoCadastroAnalise> {
-    const ur = this.url.solicitacao + '/analise/'  + id ;
+    console.log('getSolicitacaoAnalise', id);
+    const ur = this.solicitacaoUrl + '/analise/'  + id ;
     this.silicitacaoAnalise$ = this.http.get<SolicitacaoCadastroAnalise>(ur);
     return this.silicitacaoAnalise$;
   }

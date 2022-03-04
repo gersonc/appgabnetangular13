@@ -18,13 +18,11 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   public mostraMenuPrincipal = true;
 
   constructor(
-    // private cs: CarregadorService,
     private menuService: MenuService,
     private authenticationService: AuthenticationService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('menuchanges', changes);
     if (changes.mostra) {
       this.abreFechaMenuPrincipal();
     }
@@ -34,15 +32,12 @@ export class PanelmenuComponent implements OnInit, OnChanges {
     this.authenticationService.mostraMenu.subscribe(
       vf => {
         if (vf) {
-          console.log('carregaItens-menu');
           this.items = this.carregaItens();
         } else {
           this.limpaMenu();
         }
       }
     )
-    console.log('panelmenu');
-
   }
 
   public carregaItens() {
@@ -213,7 +208,6 @@ export class PanelmenuComponent implements OnInit, OnChanges {
 
 
   abreFechaMenuPrincipal() {
-    console.log('abreFechaMenuPrincipal');
     this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
     if (this.mostraMenuPrincipal) {
       this.menuPrincipalClasses = 'menu-principal';
@@ -222,18 +216,9 @@ export class PanelmenuComponent implements OnInit, OnChanges {
     }
   }
 
-  abreMenuPrincipal() {
-    console.log('cs 08');
-    this.mostraMenuPrincipal = true;
-    this.menuPrincipalClasses = 'menu-principal';
-  }
-
   fechaMenuPrincipal() {
-    console.log('fechaMenuPrincipal');
     this.mostraMenuPrincipal = false;
     this.menuPrincipalClasses = 'menu-principal-fechado';
-    // this.cs.escondeCarregador();
-
   }
 
 }

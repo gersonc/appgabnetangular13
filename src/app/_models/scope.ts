@@ -17,7 +17,7 @@ export class Scope {
   static solicitacao_alterar = 'so_a';
   static solicitacao_apagar = 'so_d';
   static solicitacao_listar = 'so_l';
-  static solicitacao_analisar = 'so_n';
+  static solicitacao_analisar = 'so_an';
   static processo_deferir = 'pr_df';
   static processo_indeferir = 'pr_if';
   static processo_listar = 'pr_l';
