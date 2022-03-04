@@ -9,12 +9,35 @@ import {AuthenticationService} from "../../_services";
 })
 export class HistroricoProcessoDetalheComponent implements OnInit {
   @Input() historicos: ProcessoHistoricoInterface[];
+  formato: 'object' | 'html' | 'text' | 'json' = 'object';
+
 
   constructor(
     public authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+  }
+
+  escolheTipo(h: any | null): boolean {
+    if (h) {
+      let hi: ProcessoHistoricoInterface = h;
+      if (hi.historico_andamento_delta) {
+        this.formato = "object";
+        return true;
+      }
+      if (hi.historico_andamento) {
+        this.formato = 'html'
+        return true;
+      }
+      if (hi.historico_andamento_texto) {
+        this.formato = "text";
+        return true;
+      }
+    } else {
+      this.formato = 'json';
+      return false;
+    }
   }
 
   escolheCampos(h: ProcessoHistoricoInterface): number {

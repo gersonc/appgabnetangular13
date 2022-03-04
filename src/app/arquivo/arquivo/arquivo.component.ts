@@ -67,7 +67,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
       this.stiloClasse = changes.stiloClass.currentValue;
     }*/
     if (changes.uploadDisabled) {
-      if (this.as.arquivosPermissoes.value.cota_disponivel > 0) {
+      if (this.as.arquivosPermissoes.value.config_cota_disponivel > 0) {
         this.disabled = changes.uploadDisabled.currentValue;
       }
     }
@@ -160,7 +160,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
 
       }
     }));
-    if (this.as.arquivosPermissoes.value.arquivo_ativo && this.incluir) {
+    if (this.as.arquivosPermissoes.value.config_arquivo_ativo && this.incluir) {
       if (this.aut.arquivos_anexar) {
         this.uploadAtivo = true;
         /// this.uploadAtivo = false;

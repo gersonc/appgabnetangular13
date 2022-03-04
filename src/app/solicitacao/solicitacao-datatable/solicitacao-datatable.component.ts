@@ -466,6 +466,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoAnalisar(sol: SolicitacaoListar12Interface | SolicitacaoListar345Interface) {
+    console.log('solicitacaoAnalisar', sol);
     if (sol.solicitacao_posicao !== 'EM ABERTO') {
       this.messageService.add(
         {
@@ -478,6 +479,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.usuario_responsavel_sn
       && this.aut.solicitacao_analisar
       && sol.solicitacao_posicao === 'EM ABERTO') {
+      console.log('solicitacaoAnalisar22222222', sol);
       this.cs.mostraCarregador();
       this.dtsol.saveState();
       if (this.solicitacaoService.expandidoDados) {

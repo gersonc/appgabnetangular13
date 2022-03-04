@@ -154,8 +154,8 @@ export class UsuarioIncluirComponent implements OnInit, OnDestroy {
     user.usuario_cargo = this.formUsuario!.get('usuario_cargo')!.value;
     user.usuario_responsavel_sn = this.formUsuario!.get('usuario_responsavel_sn')!.value;
     user.usuario_principal_sn = this.formUsuario!.get('usuario_principal_sn')!.value;
-    // user.usuario_acesso = this.us.escreverAcesso(this.formUsuario!.get('usuario_acesso')!.value);
-    user.usuario_acesso = '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111';
+    user.usuario_acesso = this.us.escreverAcesso(this.formUsuario!.get('usuario_acesso')!.value);
+    // user.usuario_acesso = '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111';
     user.usuario_cargo = this.formUsuario!.get('usuario_cargo')!.value;
     user.usuario_celular = this.formUsuario!.get('usuario_celular')!.value;
     delete user.usuario_acesso2;

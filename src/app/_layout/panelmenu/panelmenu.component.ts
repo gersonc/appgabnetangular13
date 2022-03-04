@@ -34,6 +34,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
     this.authenticationService.mostraMenu.subscribe(
       vf => {
         if (vf) {
+          console.log('carregaItens-menu');
           this.items = this.carregaItens();
         } else {
           this.limpaMenu();

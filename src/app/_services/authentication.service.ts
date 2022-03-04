@@ -11,8 +11,116 @@ import {Versao} from './versao';
 @Injectable({providedIn: 'root'})
 
 export class AuthenticationService {
+  private acessoStr = [
+    'cf_i',
+    'cf_a',
+    'as_i',
+    'as_a',
+    'mu_i',
+    'mu_a',
+    'us_i',
+    'us_a',
+    'us_d',
+    'ca_i',
+    'ca_a',
+    'ca_d',
+    'ca_l',
+    'so_i',
+    'so_a',
+    'so_d',
+    'so_l',
+    'pr_df',
+    'pr_if',
+    'pr_l',
+    'of_i',
+    'of_df',
+    'of_id',
+    'of_l',
+    'of_a',
+    'hi_i',
+    'hi_a',
+    'hi_d',
+    'ag_i',
+    'ag_a',
+    'ag_d',
+    'pr_d',
+    'of_d',
+    'as_d',
+    'mu_d',
+    'ag_v',
+    'a2_i',
+    'a2_a',
+    'a2_d',
+    'a2_v',
+    'te_i',
+    'te_a',
+    'te_d',
+    'te_l',
+    'co_i',
+    'co_a',
+    'co_d',
+    'co_l',
+    'ct_e',
+    'ct_g',
+    'cf_d',
+    'em_i',
+    'em_a',
+    'em_d',
+    'em_l',
+    'he_i',
+    'he_a',
+    'he_d',
+    'he_l',
+    'cs_i',
+    'cs_a',
+    'cs_d',
+    'cs_l',
+    'pp_i',
+    'pp_a',
+    'pp_d',
+    'pp_l',
+    'ap_i',
+    'ap_a',
+    'ap_d',
+    'ap_l',
+    'pa_i',
+    'pa_a',
+    'pa_d',
+    'pa_l',
+    'sm_i',
+    'ar_a',
+    'ar_b',
+    'ar_d',
+    'ur_s',
+    'so_an'
+  ];
+  private acessoRule = [
+    "a2",
+    "ag",
+    "ap",
+    "ar",
+    "as",
+    "ca",
+    "cf",
+    "co",
+    "cs",
+    "ct",
+    "em",
+    "he",
+    "hi",
+    "mu",
+    "of",
+    "pa",
+    "pp",
+    "pr",
+    "so",
+    "sm",
+    "te",
+    "us",
+    "up",
+    "ur"
+  ];
   public permissoes_carregadas = false;
-
   public agenda2 = false;
   public agenda = false;
   public andamentoproposicao = false;
@@ -147,7 +255,10 @@ export class AuthenticationService {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(<string>localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
     if (this.currentUserSubject.value) {
-      this.carregaPermissoes(this.currentUserSubject.value);
+      // this.carregaPermissoes1(this.currentUserSubject.value.usuario_regras);
+      this.carregaPermissoes2(this.currentUserSubject.value);
+      // this.carregaPermissoes3(this.currentUserSubject.value.usuario_acesso);
+      this.currentUserSubject!.next(this.currentUserSubject.value);
     }
   }
 
@@ -163,6 +274,28 @@ export class AuthenticationService {
     this.mostraMenuSource.next(valor);
   }
 
+  descreveAcesso(valor: string): string[] {
+    const n = valor.length;
+    let r: string[] = [];
+    for (let i = 0; i < n; i++) {
+      if (valor[i] === '1') {
+        r.push(this.acessoStr[i]);
+      }
+    }
+    return r;
+  }
+
+  descreveRule(valor: string): string[] {
+    const n = valor.length;
+    let r: string[] = [];
+    for (let i = 0; i < n; i++) {
+      if (valor[i] === '1') {
+        r.push(this.acessoStr[i]);
+      }
+    }
+    return r;
+  }
+
   login(username: string, password: string) {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
@@ -173,28 +306,32 @@ export class AuthenticationService {
         'Authorization': hvalue
       })
     };
-    return this.http.post<any>(this.urlService.login, {username, password}, httpOptions)
+    //return this.http.post<User>(this.urlService.login, {username, password}, httpOptions)
+    return this.http.get<any>(this.urlService.login, httpOptions)
       .pipe(
         take(1),
         map(user => {
           if (user && user.token) {
             const arq = {
-              'arquivo_ativo': user.arquivo_ativo,
-              'arquivo_cota': user.arquivo_cota,
-              'cota_disponivel': user.cota_disponivel,
-              'cota_utilizada': user.cota_utilizada
+              'config_arquivo_ativo': user.config_arquivo_ativo,
+              'config_arquivo_cota': user.config_arquivo_cota,
+              'config_cota_disponivel': user.config_cota_disponivel,
+              'config_cota_utilizada': user.config_cota_utilizada
             };
             sessionStorage.setItem('arquivo-permissoes', JSON.stringify(arq));
-            delete user.arquivo_ativo;
-            delete user.arquivo_cota;
-            delete user.cota_disponivel;
-            delete user.cota_utilizada;
+            delete user.config_arquivo_ativo;
+            delete user.config_arquivo_cota;
+            delete user.config_cota_disponivel;
+            delete user.config_cota_utilizada;
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
             localStorage.setItem('currentUser', JSON.stringify(user));
             localStorage.setItem('access_token', user.token);
-            this.carregaPermissoes(user);
-            this.currentUserSubject!.next(user);
+            // this.carregaPermissoes(user);
+            // this.carregaPermissoes1(user.usuario_regras);
+            this.carregaPermissoes2(user);
+            // this.carregaPermissoes3(user.usuario_acesso);
+            // this.currentUserSubject!.next(user);
             }
           return user;
         }),
@@ -307,6 +444,7 @@ export class AuthenticationService {
     this.arquivos_anexar = user.scope?.indexOf('ar_a') !== -1;
     this.arquivos_baixar = user.scope?.indexOf('ar_b') !== -1;
     this.arquivos_apagar = user.scope?.indexOf('ar_d') !== -1;
+    this.solicitacao_analisar = user.scope?.indexOf('so_an') !== -1;
     this.parlamentar_sms_ativo = user.parlamentar_sms_ativo === 1;
     this.parlamentar_arquivo_ativo = user.parlamentar_arquivo_ativo === 1;
     this._versao = +user.parlamentar_versao!;
@@ -316,8 +454,10 @@ export class AuthenticationService {
     this.usuario_id = user.usuario_id!;
     this.usuario_local_id = user.usuario_local_id!;
     this.usuario_nome = user.usuario_nome!;
-    this.usuario_principal_sn = user.usuario_principal_sn === 1;
-    this.usuario_responsavel_sn = user.usuario_responsavel_sn === 1;
+    this.usuario_principal_sn = +user.usuario_principal_sn === 1;
+    this.usuario_responsavel_sn = (+user.usuario_responsavel_sn === 1 ||  user.scope?.indexOf('us_r') !== -1);
+    // this.usuario_responsavel_sn = user.scope?.indexOf('us_r') !== -1; // teste
+
     this.permissoes_carregadas = true;
     this.mostraMenuEmiter(true);
     if (!this.parlamentar_arquivo_ativo) {
@@ -327,6 +467,168 @@ export class AuthenticationService {
     }
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
     this.versao_id = +user.parlamentar_versao!;
+  }
+
+  carregaPermissoes1(rule: string, user: User): void {
+    const regra = this.descreveAcesso(rule);
+    console.log('carregaPermissoes1', regra);
+    this.agenda2 = regra?.indexOf('a2') !== -1;
+    this.agenda = regra?.indexOf('ag') !== -1;
+    this.andamentoproposicao = regra?.indexOf('ap') !== -1;
+    this.arquivos = regra?.indexOf('ar') !== -1;
+    this.assunto = regra?.indexOf('as') !== -1;
+    this.cadastro = regra?.indexOf('ca') !== -1;
+    this.configuracao = regra?.indexOf('cf') !== -1;
+    this.contabilidade = regra?.indexOf('co') !== -1;
+    this.cadastrosigilo = regra?.indexOf('cs') !== -1;
+    this.contatos = regra?.indexOf('ct') !== -1;
+    this.emenda = regra?.indexOf('em') !== -1;
+    this.historicoemenda = regra?.indexOf('he') !== -1;
+    this.historico = regra?.indexOf('hi') !== -1;
+    this.municipio = regra?.indexOf('mu') !== -1;
+    this.oficio = regra?.indexOf('of') !== -1;
+    this.passagemaerea = regra?.indexOf('pa') !== -1;
+    this.proposicao = regra?.indexOf('pp') !== -1;
+    this.processo = regra?.indexOf('pr') !== -1;
+    this.solicitacao = regra?.indexOf('so') !== -1;
+    this.sms = regra?.indexOf('sm') !== -1;
+    this.telefone = regra?.indexOf('te') !== -1;
+    this.usuario = regra?.indexOf('us') !== -1;
+    this.usuario_principal_sn = regra?.indexOf('up') !== -1;
+    this.usuario_responsavel_sn = regra?.indexOf('ur') !== -1;
+    this.carregaPermissoes3(user.usuario_acesso);
+  }
+
+  carregaPermissoes2(user): void {
+    console.log('carregaPermissoes2');
+/*    this.agenda2 = user.rule?.indexOf('a2') !== -1;
+    this.agenda = user.rule?.indexOf('ag') !== -1;
+    this.andamentoproposicao = user.rule?.indexOf('ap') !== -1;
+    this.arquivos = user.rule?.indexOf('ar') !== -1;
+    this.assunto = user.rule?.indexOf('as') !== -1;
+    this.cadastro = user.rule?.indexOf('ca') !== -1;
+    this.configuracao = user.rule?.indexOf('cf') !== -1;
+    this.contabilidade = user.rule?.indexOf('co') !== -1;
+    this.cadastrosigilo = user.rule?.indexOf('cs') !== -1;
+    this.contatos = user.rule?.indexOf('ct') !== -1;
+    this.emenda = user.rule?.indexOf('em') !== -1;
+    this.historicoemenda = user.rule?.indexOf('he') !== -1;
+    this.historico = user.rule?.indexOf('hi') !== -1;
+    this.municipio = user.rule?.indexOf('mu') !== -1;
+    this.oficio = user.rule?.indexOf('of') !== -1;
+    this.passagemaerea = user.rule?.indexOf('pa') !== -1;
+    this.proposicao = user.rule?.indexOf('pp') !== -1;
+    this.processo = user.rule?.indexOf('pr') !== -1;
+    this.solicitacao = user.rule?.indexOf('so') !== -1;
+    this.sms = user.rule?.indexOf('sm') !== -1;
+    this.telefone = user.rule?.indexOf('te') !== -1;
+    this.usuario = user.rule?.indexOf('us') !== -1;
+    this.usuario_principal_sn = user.rule?.indexOf('up') !== -1;
+    this.usuario_responsavel_sn = user.rule?.indexOf('ur') !== -1;*/
+
+  // this.parlamentar_sms_ativo = user.parlamentar_sms_ativo === 1;
+  // this.parlamentar_arquivo_ativo = user.parlamentar_arquivo_ativo === 1;
+  this._versao = +user.parlamentar_versao!;
+  this.parlamentar_id = user.parlamentar_id!;
+  this.parlamentar_nome = user.parlamentar_nome!;
+  // this.usuario_email = user.usuario_email!;
+  this.usuario_id = user.usuario_id!;
+  this.usuario_local_id = user.usuario_local_id!;
+  this.usuario_nome = user.usuario_nome!;
+  // this.usuario_principal_sn = +user.usuario_principal_sn === 1;
+  // this.usuario_responsavel_sn = +user.usuario_responsavel_sn === 1;
+    this.versao = Versao.getVersao(+user.parlamentar_versao!);
+    this.versao_id = +user.parlamentar_versao!;
+    this.carregaPermissoes1(user.usuario_regras, user);
+  }
+
+  carregaPermissoes3(scope: string) {
+    const acesso = this.descreveAcesso(scope);
+    console.log('carregaPermissoes3', acesso);
+    this.configuracao_incluir = acesso.indexOf('cf_i') !== -1;
+    this.configuracao_alterar = acesso.indexOf('cf_a') !== -1;
+    this.assunto_incluir = acesso.indexOf('as_i') !== -1;
+    this.assunto_alterar = acesso.indexOf('as_a') !== -1;
+    this.municipio_incluir = acesso.indexOf('mu_i') !== -1;
+    this.municipio_alterar = acesso.indexOf('mu_a') !== -1;
+    this.usuario_incluir = acesso.indexOf('us_i') !== -1;
+    this.usuario_alterar = acesso.indexOf('us_a') !== -1;
+    this.usuario_apagar = acesso.indexOf('us_d') !== -1;
+    this.cadastro_incluir = acesso.indexOf('ca_i') !== -1;
+    this.cadastro_alterar = acesso.indexOf('ca_a') !== -1;
+    this.cadastro_apagar = acesso.indexOf('ca_d') !== -1;
+    this.cadastro_listar = acesso.indexOf('ca_l') !== -1;
+    this.solicitacao_incluir = acesso.indexOf('so_i') !== -1;
+    this.solicitacao_alterar = acesso.indexOf('so_a') !== -1;
+    this.solicitacao_apagar = acesso.indexOf('so_d') !== -1;
+    this.solicitacao_listar = acesso.indexOf('so_l') !== -1;
+    this.solicitacao_analisar = acesso.indexOf('so_n') !== -1;
+    this.processo_deferir = acesso.indexOf('pr_df') !== -1;
+    this.processo_indeferir = acesso.indexOf('pr_if') !== -1;
+    this.processo_listar = acesso.indexOf('pr_l') !== -1;
+    this.oficio_incluir = acesso.indexOf('of_i') !== -1;
+    this.oficio_deferir = acesso.indexOf('of_df') !== -1;
+    this.oficio_indeferir = acesso.indexOf('of_id') !== -1;
+    this.oficio_vizualizar = acesso.indexOf('of_l') !== -1;
+    this.oficio_listar = acesso.indexOf('of_l') !== -1;
+    this.oficio_alterar = acesso.indexOf('of_a') !== -1;
+    this.historico_incluir = acesso.indexOf('hi_i') !== -1;
+    this.historico_alterar = acesso.indexOf('hi_a') !== -1;
+    this.historico_apagar = acesso.indexOf('hi_d') !== -1;
+    this.agenda_incluir = acesso.indexOf('ag_i') !== -1;
+    this.agenda_alterar = acesso.indexOf('ag_a') !== -1;
+    this.agenda_apagar = acesso.indexOf('ag_d') !== -1;
+    this.processo_apagar = acesso.indexOf('pr_d') !== -1;
+    this.oficio_apagar = acesso.indexOf('of_d') !== -1;
+    this.assunto_apagar = acesso.indexOf('as_d') !== -1;
+    this.municipio_apagar = acesso.indexOf('mu_d') !== -1;
+    this.agenda_visualizar = acesso.indexOf('ag_v') !== -1;
+    this.agenda2_incluir = acesso.indexOf('a2_i') !== -1;
+    this.agenda2_alterar = acesso.indexOf('a2_a') !== -1;
+    this.agenda2_apagar = acesso.indexOf('a2_d') !== -1;
+    this.agenda2_visualizar = acesso.indexOf('a2_v') !== -1;
+    this.telefone_incluir = acesso.indexOf('te_i') !== -1;
+    this.telefone_alterar = acesso.indexOf('te_a') !== -1;
+    this.telefone_apagar = acesso.indexOf('te_d') !== -1;
+    this.telefone_listar = acesso.indexOf('te_l') !== -1;
+    this.contabilidade_incluir = acesso.indexOf('co_i') !== -1;
+    this.contabilidade_alterar = acesso.indexOf('co_a') !== -1;
+    this.contabilidade_apagar = acesso.indexOf('co_d') !== -1;
+    this.contabilidade_listar = acesso.indexOf('co_l') !== -1;
+    this.contatos_exibir = acesso.indexOf('ct_e') !== -1;
+    this.contatos_gerenciar = acesso.indexOf('ct_g') !== -1;
+    this.configuracao_apagar = acesso.indexOf('cf_d') !== -1;
+    this.emenda_incluir = acesso.indexOf('em_i') !== -1;
+    this.emenda_alterar = acesso.indexOf('em_a') !== -1;
+    this.emenda_apagar = acesso.indexOf('em_d') !== -1;
+    this.emenda_listar = acesso.indexOf('em_l') !== -1;
+    this.historicoemenda_incluir = acesso.indexOf('he_i') !== -1;
+    this.historicoemenda_alterar = acesso.indexOf('he_a') !== -1;
+    this.historicoemenda_apagar = acesso.indexOf('he_d') !== -1;
+    this.historicoemenda_listar = acesso.indexOf('he_l') !== -1;
+    this.cadastrosigilo_incluir = acesso.indexOf('cs_i') !== -1;
+    this.cadastrosigilo_alterar = acesso.indexOf('cs_a') !== -1;
+    this.cadastrosigilo_apagar = acesso.indexOf('cs_d') !== -1;
+    this.cadastrosigilo_listar = acesso.indexOf('cs_l') !== -1;
+    this.proposicao_incluir = acesso.indexOf('pp_i') !== -1;
+    this.proposicao_alterar = acesso.indexOf('pp_a') !== -1;
+    this.proposicao_apagar = acesso.indexOf('pp_d') !== -1;
+    this.proposicao_listar = acesso.indexOf('pp_l') !== -1;
+    this.andamentoproposicao_incluir = acesso.indexOf('ap_i') !== -1;
+    this.andamentoproposicao_alterar = acesso.indexOf('ap_a') !== -1;
+    this.andamentoproposicao_apagar = acesso.indexOf('ap_d') !== -1;
+    this.andamentoproposicao_listar = acesso.indexOf('ap_l') !== -1;
+    this.passagemaerea_incluir = acesso.indexOf('pa_i') !== -1;
+    this.passagemaerea_alterar = acesso.indexOf('pa_a') !== -1;
+    this.passagemaerea_apagar = acesso.indexOf('pa_d') !== -1;
+    this.passagemaerea_listar = acesso.indexOf('pa_l') !== -1;
+    this.sms_incluir = acesso.indexOf('sm_i') !== -1;
+    this.arquivos_anexar = acesso.indexOf('ar_a') !== -1;
+    this.arquivos_baixar = acesso.indexOf('ar_b') !== -1;
+    this.arquivos_apagar = acesso.indexOf('ar_d') !== -1;
+    this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
+    this.usuario_responsavel_sn = (this.usuario_responsavel_sn ||  acesso.indexOf('us_r') !== -1);
+    this.mostraMenuEmiter(true);
   }
 
   cancelaPermissoes() {
@@ -449,21 +751,25 @@ export class AuthenticationService {
         map(user => {
           if (user && user.token) {
             const arq = {
-              'arquivo_ativo': user.arquivo_ativo,
-              'arquivo_cota': user.arquivo_cota,
-              'cota_disponivel': user.cota_disponivel,
-              'cota_utilizada': user.cota_utilizada
+              'config_arquivo_ativo': user.config_arquivo_ativo,
+              'config_arquivo_cota': user.config_arquivo_cota,
+              'config_cota_disponivel': user.config_cota_disponivel,
+              'config_cota_utilizada': user.config_cota_utilizada
             };
             sessionStorage.setItem('arquivo-permissoes', JSON.stringify(arq));
-            delete user.arquivo_ativo;
-            delete user.arquivo_cota;
-            delete user.cota_disponivel;
-            delete user.cota_utilizada;
+            delete user.config_arquivo_ativo;
+            delete user.config_arquivo_cota;
+            delete user.config_cota_disponivel;
+            delete user.config_cota_utilizada;
             localStorage.removeItem('access_token');
             localStorage.removeItem('currentUser');
             localStorage.setItem('currentUser', JSON.stringify(user));
             localStorage.setItem('access_token', user.token);
-            this.carregaPermissoes(user);
+            // this.carregaPermissoes(user);
+            // this.carregaPermissoes1(user.usuario_regras);
+            this.carregaPermissoes2(user);
+            // this.carregaPermissoes3(user.usuario_acesso);
+            console.log('autologin', user);
             this.currentUserSubject?.next(user);
             return true;
           } else {

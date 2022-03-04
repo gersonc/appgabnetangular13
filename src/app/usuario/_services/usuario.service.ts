@@ -95,7 +95,8 @@ export class UsuarioService {
     'ar_a',
     'ar_b',
     'ar_d',
-    'ur_s'
+    'ur_s',
+    'so_an'
   ];
   acessoCompleto: string[] = [];
 
@@ -135,7 +136,7 @@ export class UsuarioService {
   lerAcesso(valor: string): string[] {
     this.usuario!.usuario_acesso2 = [];
     const r: string[] = [];
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 81; i++) {
       if (valor.charAt(i) === '1') {
         this.usuario!.usuario_acesso2[i] = this.acessoStr[i];
         this.acessoCompleto.push(this.acessoStr[i]);
@@ -161,6 +162,17 @@ export class UsuarioService {
       }
     });
     console.log('escreverAcesso2', r);
+    return r;
+  }
+
+  descreveAcesso(valor: string): string[] {
+    const n = valor.length;
+    let r: string[] = [];
+    for (let i = 0; i < n; i++) {
+      if (valor[i] === '1') {
+        r.push(this.acessoStr[i]);
+      }
+    }
     return r;
   }
 

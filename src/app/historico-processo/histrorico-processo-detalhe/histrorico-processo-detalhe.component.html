@@ -10,6 +10,13 @@
 
   <td style="font-weight: normal">{{his.historico_data}}</td>
   <td style="font-weight: normal">
+    <ng-container *ngIf="escolheTipo(his)">
+      <quill-view-html *ngIf="formato==='html'" [content]="his.historico_andamento" class="detalhe"></quill-view-html>
+      <quill-view-html *ngIf="formato==='text'" [content]="his.historico_andamento_texto" class="detalhe"></quill-view-html>
+      <quill-view *ngIf="formato==='object'" [content]="transforma(his.historico_andamento_delta)" format="object" class="detalhe"></quill-view>
+    </ng-container>
+  </td>
+  <!--<td style="font-weight: normal">
     <ng-container *ngIf="escolheCampos(his)===1">
       <quill-view [content]="transforma(his.historico_andamento_delta)" format="object" theme="snow"></quill-view>
     </ng-container>
@@ -19,7 +26,7 @@
     <ng-container *ngIf="escolheCampos(his)===3">
       {{his.historico_andamento}}
     </ng-container>
-  </td>
+  </td>-->
   <td *ngIf="authenticationService.historico_alterar || authenticationService.historico_apagar" style="width: 3em">
     <app-historico-processo-form *ngIf="authenticationService.historico_alterar" [acao]="'alterar'" [dados]="his" (novosDados)="historicos[i]=$event"></app-historico-processo-form>
     <app-historico-processo-excluir *ngIf="authenticationService.historico_apagar" [id]="his.historico_id" [idx]="i" (OnExcluir)="onExluir($event)"></app-historico-processo-excluir>

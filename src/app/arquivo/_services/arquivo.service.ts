@@ -13,10 +13,10 @@ import {ArquivoSpinnerService} from './arquivo-spinner.service';
 export class ArquivoService {
 
   public arquivosPermissoes = new BehaviorSubject<ArquivoPermissaoInterface>({
-    arquivo_ativo: false,
-    arquivo_cota: 0,
-    cota_utilizada: 0,
-    cota_disponivel: 0
+    config_arquivo_ativo: false,
+    config_arquivo_cota: 0,
+    config_cota_utilizada: 0,
+    config_cota_disponivel: 0
   });
   public cotaDisponvel = new BehaviorSubject<number>(0);
   public eventoReset = new BehaviorSubject<boolean>(false);
@@ -186,7 +186,7 @@ export class ArquivoService {
     } else {
       this.arquivosPermissoes.next(JSON.parse(sessionStorage.getItem('arquivo-permissoes')!));
     }
-    this.cotaDisponvel.next(this.arquivosPermissoes.value.cota_disponivel);
+    this.cotaDisponvel.next(this.arquivosPermissoes.value.config_cota_disponivel);
   }
 
   private getArquivosModuloListar(modulo: string, id: number): Observable<ArquivoInterface[]> {
@@ -282,8 +282,8 @@ export class ArquivoService {
 
   public atualisaCotaUpload(valor: number) {
     const dados: ArquivoPermissaoInterface = JSON.parse(sessionStorage.getItem('arquivo-permissoes')!);
-    dados.cota_disponivel -= valor;
-    dados.cota_utilizada += valor;
+    dados.config_cota_disponivel -= valor;
+    dados.config_cota_utilizada += valor;
     sessionStorage.removeItem('arquivo-permissoes');
     sessionStorage.setItem('arquivo-permissoes', JSON.stringify(dados));
     this.arquivosPermissoes.next(dados);
@@ -333,8 +333,8 @@ export class ArquivoService {
 
   public atualisaCotaDelete(valor: number) {
     const dados: ArquivoPermissaoInterface = JSON.parse(sessionStorage.getItem('arquivo-permissoes')!);
-    dados.cota_disponivel += valor;
-    dados.cota_utilizada -= valor;
+    dados.config_cota_disponivel += valor;
+    dados.config_cota_utilizada -= valor;
     sessionStorage.removeItem('arquivo-permissoes');
     sessionStorage.setItem('arquivo-permissoes', JSON.stringify(dados));
     this.arquivosPermissoes.next(dados);
@@ -439,7 +439,7 @@ export class ArquivoService {
   }
 
   cotaDisponiveReset() {
-    this.cotaDisponvel.next(this.arquivosPermissoes.value.cota_disponivel);
+    this.cotaDisponvel.next(this.arquivosPermissoes.value.config_cota_disponivel);
   }
 
   getClassNameForExtension(name: string): string {
