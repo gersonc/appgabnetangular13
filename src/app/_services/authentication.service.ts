@@ -243,6 +243,7 @@ export class AuthenticationService {
   public config_arquivo_cota = 0;
   public config_cota_disponivel = 0;
   public config_cota_utilizada = 0;
+  public dispositivo = 'desktop';
 
 
   private currentUserSubject?: BehaviorSubject<User>;
@@ -330,6 +331,7 @@ export class AuthenticationService {
     const regra = this.descreveRule(user.usuario_regras);
     const acesso = this.descreveAcesso(user.usuario_acesso);
     this._versao = +user.parlamentar_versao!;
+    this.dispositivo = user.dispositivo;
     this.parlamentar_id = user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;
     this.usuario_id = user.usuario_id!;
@@ -571,6 +573,7 @@ export class AuthenticationService {
     this.userRules = [];
     this.userScops = [];
     this.versao = 0;
+    this.dispositivo = 'desktop';
     this.permissoes_carregadas = false;
     this.mostraMenuEmiter(false);
   }

@@ -1,3 +1,5 @@
+import {MenuDatatableService} from "./_services/menu-datatable.service";
+
 declare global {
   interface Window {
     __VERSAOID__: number;
@@ -26,6 +28,9 @@ export class AppComponent implements OnInit {
   public carregadorSN = false;
   recarregamenu = false;
 
+  classe: string = null;
+  mobile = true;
+
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
   public alturaMain: any;
@@ -42,11 +47,16 @@ export class AppComponent implements OnInit {
     private windowsService: WindowsService,
     public cs: CarregadorService,
     private as: ArquivoLoginService,
+    public md: MenuDatatableService
   ) { }
 
   ngOnInit() {
     window.__VERSAOID__ = +this.authenticationService.versao_id;
     window.__VERSAO__ = this.authenticationService.versao;
+    if (this.authenticationService.dispositivo !== 'mobile') {
+      // this.classe = 'mobile';
+      this.mobile = true;
+    }
     this.configPrime();
 
     this.cs.getCarregador().subscribe(vf => {
@@ -136,6 +146,10 @@ export class AppComponent implements OnInit {
 
   abreFechaMenu() {
     this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
+  }
+
+  abreFechaMd() {
+    this.md.mdt = !this.md.mdt;
   }
 }
 

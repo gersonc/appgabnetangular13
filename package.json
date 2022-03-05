@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --configuration development --proxyConfig=proxy.conf.json --port 4300",
     "startOld": "ng serve --configuration development --proxyConfig=proxy.conf.json --port 4300",
+    "startApp": "http-server -p 4100 -c-1 dist/GabNet",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

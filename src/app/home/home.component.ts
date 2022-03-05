@@ -5,8 +5,8 @@ import { User } from '../_models';
 import { CarregadorService } from '../_services';
 import { WindowsService } from '../_layout/_service';
 import { CoordenadaXY } from '../_layout/_service/coordenada-x-y';
-import {HttpClient} from "@angular/common/http";
-import {Subscription} from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { Subscription } from "rxjs";
 
 @Component({
   templateUrl: './home.component.html',
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   coorRodape: CoordenadaXY;
 
   constructor(
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     private cs: CarregadorService,
     public ws: WindowsService,
     public http: HttpClient,

@@ -2,14 +2,15 @@
   <div class="p-fluid formulario-bg-externo" style="padding-top: 5vh; padding-bottom: 5vh">
 
     <div class="p-grid">
-      <div class="p-xl-10 p-lg-12 p-md-12 p-sm-12 p-xl-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
         <div class="p-grid">
           <div class="p-col-12 p-xl-12 p-lg-12 p-md-12 p-sm-12">
             <div class="p-d-flex p-jc-center" style="height: 80vh;">
               <div class="p-as-center" style="color: var(--primary-color)">
                 <h1>GABNET<br>GERENCIADOR DE GABINETES</h1>
-                <br>
-                {{hst}}
+                <p>{{hst}}</p>
+                <p>{{authenticationService.dispositivo}}</p>
+                <p>{{authenticationService._versao}}</p>
               </div>
             </div>
           </div>

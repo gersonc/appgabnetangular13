@@ -41,8 +41,10 @@
 >
 
   <!--*** TOPO *****************************************************************************************************-->
+
   <ng-template pTemplate="caption">
-    <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
+    <div [ngClass]="{'hide-datatable': md.mdt}">
+    <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row" [ngStyle]="{'display': display}">
 
       <div class="p-d-inline-flex">
         <div class="p-mx-1"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
@@ -59,7 +61,7 @@
         <div class="p-mr-1">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
       </div>
     </div>
-
+    </div>
     <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 

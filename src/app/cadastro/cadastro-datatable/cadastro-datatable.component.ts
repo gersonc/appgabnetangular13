@@ -26,6 +26,7 @@ import { CadastroService, CadastroBuscaService } from '../_services';
 import { CadastroDetalheComponent } from '../cadastro-detalhe';
 import { ContextMenu } from 'primeng/contextmenu';
 import {MenuInternoService} from '../../_services';
+import {MenuDatatableService} from "../../_services/menu-datatable.service";
 
 
 @Component({
@@ -78,6 +79,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   camposTextos: string[];
 
+
+
   constructor(
     //private mm: MostraMenuService,
     public mi: MenuInternoService,
@@ -88,7 +91,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private cadastroService: CadastroService,
     private cbs: CadastroBuscaService,
-    private cs: CarregadorService
+    private cs: CarregadorService,
+    public md: MenuDatatableService,
     ) { }
 
   ngOnInit() {

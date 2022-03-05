@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {CarregadorService} from "./carregador.service";
+import {MenuDatatableService} from "./menu-datatable.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class MenuInternoService {
 
 
   constructor(
-    public cs: CarregadorService
+    public cs: CarregadorService,
+    public md: MenuDatatableService
   ) { }
 
   mudaMenuInterno(valor: boolean | null = null) {
@@ -27,6 +29,7 @@ export class MenuInternoService {
       }
       if (valor === false) {
         this.mostraMenuInterno = false;
+        this.md.hide();
       }
       if (valor === null) {
         this.mostraMenuInterno = true;
@@ -63,6 +66,7 @@ export class MenuInternoService {
   hideMenu(): void {
     if (this.mostraMenuInterno) {
       this.mostraMenuInterno = false;
+      this.md.hide();
       this.mostraMenuInternoSource.next(this.mostraMenuInterno);
     }
   }

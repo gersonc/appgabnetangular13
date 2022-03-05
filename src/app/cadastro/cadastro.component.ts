@@ -3,6 +3,7 @@ import { CadastroBuscaService } from './_services';
 import { ArquivoService } from '../arquivo/_services';
 import { Subscription } from 'rxjs';
 import { MenuInternoService } from "../_services";
+import {MenuDatatableService} from "../_services/menu-datatable.service";
 
 @Component({
   selector: 'app-cadastro',
@@ -19,9 +20,11 @@ export class CadastroComponent implements OnInit, OnDestroy {
     public mi: MenuInternoService,
     public cbs: CadastroBuscaService,
     private as: ArquivoService,
+    public md: MenuDatatableService
   ) { }
 
   ngOnInit() {
+    this.md.mdt = false;
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
