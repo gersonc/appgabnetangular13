@@ -25,6 +25,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
 
 import { PanelMenuModule } from 'primeng/panelmenu';
+import {NgHttpLoaderModule} from "ng-http-loader";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -48,6 +49,7 @@ export function tokenGetter() {
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
     }),
+    NgHttpLoaderModule.forRoot(),
     AngularResizeEventModule,
     ToastModule,
     MessagesModule,

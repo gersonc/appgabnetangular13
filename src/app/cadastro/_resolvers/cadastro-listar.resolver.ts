@@ -216,7 +216,6 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
   }
 
   onDestroy(): void {
-    console.log('cadastro resolver destroy');
     this.sub.forEach(s => s.unsubscribe());
   }
 

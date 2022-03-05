@@ -22,11 +22,9 @@ export class CadastroComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('cadastro');
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
-        console.log('mostraMenuInterno', this.mostraMenuInterno);
       })
     );
     this.sub.push(this.cbs.getSmsSN().subscribe( vf => this.smsSN = vf));
@@ -46,7 +44,6 @@ export class CadastroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy cadastro');
     this.sub.forEach(s => s.unsubscribe());
   }
 

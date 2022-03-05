@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SolicitacaoHistoricoInterface} from "../../solocitacao/_models";
 import {AuthenticationService} from "../../_services";
+import {SolicitacaoHistoricoInterface} from "../../solicitacao/_models";
 
 @Component({
   selector: 'app-histrorico-solocitacao-detalhe',

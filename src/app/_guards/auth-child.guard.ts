@@ -13,17 +13,13 @@ export class AuthChildGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {
-      console.log('AuthChildGuard1', route.data.rules);
-      console.log('AuthChildGuard2', this.authenticationService.userScops, this.authenticationService.userScops.indexOf(route.data.rules) === -1);
       if (route.data.rules && this.authenticationService.userScops.indexOf(route.data.rules) === -1) {
         this.router.navigate(['/']);
         return false;
       }
-      console.log('AuthChildGuard3', route.data.scopes);
       if (route.data.scopes) {
         if (route.data.scopes instanceof Array) {
           for (const rota of route.data.scopes) {
-            console.log('AuthChildGuard5', rota);
             if (this.authenticationService.userRules.indexOf(rota) !== -1) {
               return true;
             }

@@ -240,14 +240,12 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   onRowExpand(event): void {
     this.cadastroService.expandidoDados = event.data;
-    console.log(event.data);
     this.dadosExpandidos = this.cadastroService.getColunaExtendida()
       .pipe(take(1))
       .subscribe(
         dados => {
           this.expColunas = dados.pop();
           this.dadosExp = dados;
-          console.log('dadosExp', dados);
         }
       );
     this.cadastroService.montaColunaExpandida(this.cadastroService.expandidoDados);
@@ -676,10 +674,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.sub.forEach(s => s.unsubscribe());
   }
 
-  onRowSelect(ev) {
-    console.log(ev);
-    console.log('selecionados', this.selecionados);
-  }
 
   onFechar(ev: any = null): void {
     if (ev.acao) {

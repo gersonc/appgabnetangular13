@@ -56,7 +56,6 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('CADASTRO MENU');
     this.cadastroService.getCampoCadastro();
     this.formlistarcadastro = this.formBuilder.group({
       cadastro_tipo: [null],

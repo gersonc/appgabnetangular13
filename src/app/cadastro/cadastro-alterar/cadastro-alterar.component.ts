@@ -123,7 +123,6 @@ export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestro
 
   // ***     FORMULARIO      *************************
   criaForm() {
-    console.log('this.cs.cadastro.cadastro_tipo_id', this.cs.cadastro.cadastro_tipo_id, this.ddTipoCadastroId);
     this.formCadAlterar = this.formBuilder.group({
       cadastro_id: [this.cs.cadastro.cadastro_id],
       cadastro_tipo_id: [this.cs.cadastro.cadastro_tipo_id, Validators.required],
@@ -183,43 +182,6 @@ export class CadastroAlterarComponent implements OnInit, AfterViewInit, OnDestro
 
   onSubmit() {
   }
-
-  /*consultaCEP(event) {
-    if (this.formCadIncluir.get('cadastro_cep').value != null) {
-      let cep = this.formCadIncluir.get('cadastro_cep').value;
-      cep = cep.replace(/\D/g, '');
-      // Verifica se campo cep possui valor informado.
-      if (cep !== '') {
-        // Expressão regular para validar o CEP.
-        const validacep = /^[0-9]{8}$/;
-        // Valida o formato do CEP.
-        if (validacep.test(cep)) {
-          // this.resetaDadosForm();
-          this.op.show(event);
-          this.sub.push(
-            this.viacep
-              .buscarPorEndereco("rs", "porto alegre", "domingos")
-              .pipe(
-                catchError((error: CEPError) => {
-                  // Ocorreu algum erro :/
-                  console.log(error.message);
-                  if (error.message === 'CEP_NAO_ENCONTRADO') {
-                    this.messageService.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADOR'});
-                  }
-                  this.op.hide();
-                  return EMPTY;
-                })
-              )
-              .subscribe((enderecos: Endereco[]) => {
-                this.populaEnderecoForm(enderecos[0]);
-                this.op.hide();
-              }));
-        }
-      }
-    } else {
-      this.op.hide();
-    }
-  }*/
 
   consultaCEP(event) {
     if (this.formCadAlterar.get('cadastro_cep').value != null) {

@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {SolicitacaoHistoricoInterface} from "../../solocitacao/_models";
+import {SolicitacaoHistoricoInterface} from "../../solicitacao/_models";
+
 
 @Component({
   selector: 'app-historico-solocitacao-listar',
