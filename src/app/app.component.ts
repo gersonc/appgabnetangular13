@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   recarregamenu = false;
 
   classe: string = null;
-  mobile = true;
+  // mobile = true;
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
@@ -53,10 +53,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     window.__VERSAOID__ = +this.authenticationService.versao_id;
     window.__VERSAO__ = this.authenticationService.versao;
-    if (this.authenticationService.dispositivo !== 'mobile') {
-      // this.classe = 'mobile';
-      this.mobile = true;
-    }
+
     this.configPrime();
 
     this.cs.getCarregador().subscribe(vf => {

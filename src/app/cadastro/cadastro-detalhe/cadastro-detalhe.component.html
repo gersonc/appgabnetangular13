@@ -487,8 +487,8 @@
 <div style="padding-top: 1rem">
   <button pButton pRipple type="button" icon="pi pi-times" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton pRipple type="button" icon="pi pi-file-pdf" label="PDF" class="p-button-rounded p-button-secondary" (click)="getPdf(false)"></button>
+  <button *ngIf="authenticationService.dispositivo!=='mobile'" pButton pRipple type="button" icon="pi pi-file-pdf" label="PDF" class="p-button-rounded p-button-secondary" (click)="getPdf(false)"></button>
   &nbsp;&nbsp;
-  <button pButton pRipple type="button" icon="pi pi-print" label="IMPRIMIR" class="p-button-rounded p-button-secondary" (click)="getPdf(true)"></button>
+  <button *ngIf="authenticationService.dispositivo!=='mobile'" pButton pRipple type="button" icon="pi pi-print" label="IMPRIMIR" class="p-button-rounded p-button-secondary" (click)="getPdf(true)"></button>
 </div>
 </p-scrollPanel>

@@ -8,23 +8,23 @@
         <div class="p-text-right p-text-uppercase" style="padding-right: 1em;">{{authenticationService.usuario_nome}}</div>
       </div>-->
 
-    <div *ngIf="!mobile" class="topo">
+    <div *ngIf="authenticationService.dispositivo !== 'mobile'" class="topo">
       <div class="p-text-left p-text-uppercase" style="float: left; padding-left: 1em;">{{authenticationService.parlamentar_nome}}</div>
       <div class="p-text-right p-text-uppercase" style="padding-right: 1em;">{{authenticationService.usuario_nome}}</div>
     </div>
 
-    <div *ngIf="mobile" class="topo mobile">
+    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
       <div class="p-text-left p-text-uppercase" style="padding-left: 1em; padding-bottom: 0">{{authenticationService.parlamentar_nome}}</div>
       <div class="p-text-left p-text-uppercase" style="padding-left: 1em;">{{authenticationService.usuario_nome}}</div>
     </div>
 
-    <div *ngIf="mobile" class="div-menu-datatable"><i class="btn-menu-datatable pi pi-bell" (click)="abreFechaMd()"></i></div>
+    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable"><i class="btn-menu-datatable pi pi-list" (click)="abreFechaMd()"></i></div>
 
   </header>
 
   <div #main id="main" class="main">
 
-        <app-panelmenu [mostra]="mostraMenuPrincipal" [recarrega]="recarregamenu"></app-panelmenu>
+        <app-panelmenu [mostra]="mostraMenuPrincipal" [recarrega]="authenticationService.dispositivo"></app-panelmenu>
 
     <div style="padding-top: .1em;" #principal id="principal">
       <router-outlet></router-outlet>

@@ -16,6 +16,7 @@ export class ConfiguracaoComponent implements OnInit {
   public cfgItem: ConfiguracaoMenuIntensInterface;
   public componente: string;
   public tipoComp = 0;
+  checked: boolean = this.aut.dispositivo === 'mobile';
 
   constructor(
     private aut: AuthenticationService,
@@ -128,6 +129,14 @@ export class ConfiguracaoComponent implements OnInit {
     console.log('GRAFICOS');
     // this.criaMemu();
     this.cfs.configuracao = null;
+  }
+
+  mudaDispositivo() {
+    if (this.aut.dispositivo !== 'mobile') {
+      this.aut.dispositivo = 'mobile';
+    } else {
+      this.aut.dispositivo = 'desktop';
+    }
   }
 
   selectCfg(event) {

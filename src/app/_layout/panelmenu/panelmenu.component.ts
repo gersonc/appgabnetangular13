@@ -1,8 +1,7 @@
-import {Component, Input, OnChanges, SimpleChanges, OnInit, Output, EventEmitter} from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { MenuService } from '../_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
-
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {MenuItem} from 'primeng/api';
+import {MenuService} from '../_service';
+import {AuthenticationService} from '../../_services';
 
 
 @Component({
@@ -12,7 +11,7 @@ import { AuthenticationService, CarregadorService } from '../../_services';
 })
 export class PanelmenuComponent implements OnInit, OnChanges {
   @Input() mostra = false;
-  @Input() recarrega = false;
+  @Input() recarrega: string = 'desktop';
   public items!: MenuItem[];
   public menuPrincipalClasses = 'menu-principal-fechado';
   public mostraMenuPrincipal = true;
@@ -20,11 +19,15 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   constructor(
     private menuService: MenuService,
     private authenticationService: AuthenticationService,
-  ) { }
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.mostra) {
       this.abreFechaMenuPrincipal();
+    }
+    if (changes.mostra) {
+      this.carregaItens();
     }
   }
 
@@ -42,60 +45,71 @@ export class PanelmenuComponent implements OnInit, OnChanges {
 
   public carregaItens() {
     this.items = [];
+    this.items.push({
+      label: 'Home', icon: 'pi pi-home', command: () => {
+        this.fechaMenuPrincipal();
+      }, routerLink: [''], routerLinkActiveOptions: '{exact: true}'
+    });
     if (this.authenticationService.agenda) {
-      this.items.push({label: 'Home', icon: 'fas fa-home',command: () => { this.fechaMenuPrincipal(); }, routerLink: [''], routerLinkActiveOptions: '{exact: true}'});
-      this.items.push({label: 'Calendario', icon: 'fas fa-home',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/calendario']});
+      this.items.push({
+        label: 'Calendario', icon: 'pi pi-calendar', command: () => {
+          this.fechaMenuPrincipal();
+        }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/calendario']
+      });
     }
     if (this.authenticationService.cadastro) {
       if (this.authenticationService.cadastro_listar) {
         this.items.push(
-          {label: 'Cadastros', icon: 'far fa-address-card',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/cadastro'] });
-      }
-      if (!this.authenticationService.cadastro_listar && this.authenticationService.cadastro_incluir) {
-        this.items.push(
-          {label: 'Cadastro Incluir', icon: 'pi-user-plus',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/cadastro/incluir'] });
+          {
+            label: 'Cadastros', icon: 'pi pi-id-card', command: () => {
+              this.fechaMenuPrincipal();
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/cadastro']
+          });
       }
     }
 
     if (this.authenticationService.solicitacao) {
       if (this.authenticationService.solicitacao_listar) {
         this.items.push(
-          {label: 'Solicitações', icon: 'far fa-address-card',command: () => { this.fechaMenuPrincipal(); },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao/listar'] });
-      }
-      if (!this.authenticationService.solicitacao_listar && this.authenticationService.solicitacao_incluir) {
-        this.items.push(
-          {label: 'Solicitação Incluir', icon: 'pi-user-plus',command: () => { this.fechaMenuPrincipal(); },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao/incluir'] });
+          {
+            label: 'Solicitações', icon: 'pi pi-ticket', command: () => {
+              this.fechaMenuPrincipal();
+            },
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao/listar']
+          });
       }
     }
 
     if (this.authenticationService.oficio) {
       if (this.authenticationService.oficio_vizualizar) {
         this.items.push(
-          {label: 'Ofícios', icon: 'far fa-address-card',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/oficio/listar'] });
-      }
-      if (!this.authenticationService.oficio_vizualizar && this.authenticationService.oficio_incluir) {
-        this.items.push(
-          {label: 'Ofício Incluir', icon: 'pi-user-plus',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/oficio/incluir'] });
+          {
+            label: 'Ofícios', icon: 'pi pi-file-o', command: () => {
+              this.fechaMenuPrincipal();
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/oficio/listar']
+          });
       }
     }
 
     if (this.authenticationService.processo) {
       if (this.authenticationService.processo_listar) {
         this.items.push(
-          {label: 'Processos', icon: 'far fa-address-card',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/processo/listar'] });
+          {
+            label: 'Processos', icon: 'pi pi-book', command: () => {
+              this.fechaMenuPrincipal();
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/processo/listar']
+          });
       }
     }
 
     if (this.authenticationService.emenda) {
       if (this.authenticationService.emenda_listar) {
         this.items.push(
-          {label: 'Emendas', icon: 'far fa-address-card',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/emenda'] });
-      }
-      if (!this.authenticationService.emenda_listar && this.authenticationService.emenda_incluir) {
-        this.items.push(
-          {label: 'Emendas Incluir', icon: 'pi-user-plus',command: () => { this.fechaMenuPrincipal(); }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/emenda/incluir'] });
+          {
+            label: 'Emendas', icon: 'pi pi-credit-card', command: () => {
+              this.fechaMenuPrincipal();
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/emenda']
+          });
       }
     }
 
@@ -104,8 +118,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
         this.items.push(
           {
             label: 'Proposições',
-            icon: 'far fa-address-card',
-            command: () => { this.fechaMenuPrincipal(); },
+            icon: 'pi pi-tags',
+            command: () => {
+              this.fechaMenuPrincipal();
+            },
             routerLinkActiveOptions: '{exact: true}',
             routerLink: ['/proposicao']
           });
@@ -117,8 +133,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
         this.items.push(
           {
             label: 'Telefones',
-            icon: 'far fa-address-card',
-            command: () => { this.fechaMenuPrincipal(); },
+            icon: 'pi pi-phone',
+            command: () => {
+              this.fechaMenuPrincipal();
+            },
             routerLinkActiveOptions: '{exact: true}',
             routerLink: ['/telefone']
           });
@@ -130,8 +148,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
         this.items.push(
           {
             label: 'Contabilidade',
-            icon: 'far fa-address-card',
-            command: () => { this.fechaMenuPrincipal(); },
+            icon: 'pi pi-money-bill',
+            command: () => {
+              this.fechaMenuPrincipal();
+            },
             routerLinkActiveOptions: '{exact: true}',
             routerLink: ['/conta']
           });
@@ -143,8 +163,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
         this.items.push(
           {
             label: 'Passagens Aéreas',
-            icon: 'far fa-address-card',
-            command: () => { this.fechaMenuPrincipal(); },
+            icon: 'pi pi-send',
+            command: () => {
+              this.fechaMenuPrincipal();
+            },
             routerLinkActiveOptions: '{exact: true}',
             routerLink: ['/passagem']
           });
@@ -156,8 +178,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
         this.items.push(
           {
             label: 'Configurações',
-            icon: 'far fa-address-card',
-            command: () => { this.fechaMenuPrincipal(); },
+            icon: 'pi pi-cog',
+            command: () => {
+              this.fechaMenuPrincipal();
+            },
             routerLinkActiveOptions: '{exact: true}',
             routerLink: ['/configuracao']
           });
@@ -170,7 +194,9 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Arquivos',
             icon: 'pi pi-folder',
-            command: () => { this.fechaMenuPrincipal(); },
+            command: () => {
+              this.fechaMenuPrincipal();
+            },
             routerLinkActiveOptions: '{exact: true}',
             routerLink: ['/arquivos']
           });
@@ -180,25 +206,33 @@ export class PanelmenuComponent implements OnInit, OnChanges {
     this.items.push(
       {
         label: 'Tarefa',
-        icon: 'far fa-address-card',
-        command: () => { this.fechaMenuPrincipal(); },
+        icon: 'pi pi-inbox',
+        command: () => {
+          this.fechaMenuPrincipal();
+        },
         routerLinkActiveOptions: '{exact: true}',
         routerLink: ['/tarefa']
       });
 
-    this.items.push(
-      {
-        label: 'Gráficos',
-        icon: 'far fa-address-card',
-        command: () => { this.fechaMenuPrincipal(); },
-        routerLinkActiveOptions: '{exact: true}',
-        routerLink: ['/grafico']
-      });
+    if (this.authenticationService.dispositivo !== 'mobile') {
+      this.items.push(
+        {
+          label: 'Gráficos',
+          icon: 'pi pi-chart-bar',
+          command: () => {
+            this.fechaMenuPrincipal();
+          },
+          routerLinkActiveOptions: '{exact: true}',
+          routerLink: ['/grafico']
+        });
+    }
 
-    this.items.push({label: 'Sair', icon: 'fas fa-sign-out-alt', command: () => {
-      this.authenticationService.logout();
-      this.fechaMenuPrincipal();
-      }, routerLink: ['login'], routerLinkActiveOptions: 'active'});
+    this.items.push({
+      label: 'Sair', icon: 'pi pi-sign-in', command: () => {
+        this.authenticationService.logout();
+        this.fechaMenuPrincipal();
+      }, routerLink: ['login'], routerLinkActiveOptions: 'active'
+    });
     return this.items;
   }
 

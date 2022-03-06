@@ -79,8 +79,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   camposTextos: string[];
 
-
-
   constructor(
     //private mm: MostraMenuService,
     public mi: MenuInternoService,
@@ -96,6 +94,10 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
+
+    /*if (this.authenticationService.dispositivo === 'mobile') {
+      this.altura = `${WindowsService.altura - 250}` + 'px';
+    }*/
 
     this.cols = [
       {field: 'cadastro_id', header: 'ID', sortable: 'true', largura: '80px'},

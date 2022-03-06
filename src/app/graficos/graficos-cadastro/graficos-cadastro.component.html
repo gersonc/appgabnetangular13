@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<p-scrollPanel [styleClass]="'formulario'" [style]="{width: '100%'}">
   <div class="p-grid">
     <div class="p-col-12"></div>
     <div class="p-col-12 formDiv">
       <div class="p-grid">
-        <div class="p-col-2">
+        <div class="p-col-3 p-xl-2 p-lg-3 p-md-12 p-sm-12">
           <p-panel header="CADASTROS">
-            <div class="ui-fluid p-formgrid p-grid">
+            <div class="p-formgrid p-grid">
               <div class="p-field">
                 <p-calendar
                   [(ngModel)]="data1"
@@ -63,7 +63,7 @@
             <button pButton type="button" label="VOLTAR" (click)="voltar()"></button>
           </p-panel>
         </div>
-        <div class="p-col-10">
+        <div class="p-col-9 p-xl-10 p-lg-9 p-md-12 p-sm-12">
           <div id="pdfContent" class="p-grid">
             <div *ngIf="tipoGraf=='horizontalBar' && linhas > 30" class="p-col-12">
               <p-card [header]="titulo">
@@ -72,7 +72,7 @@
                          [data]="dados"
                          [height]="alturaGrafico"
                 ></p-chart>
-                <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+                <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
                         class="p-button-rounded p-button-secondary"
                         (click)="imprimir2(hbar.el)"></button>&nbsp;
                 <button pButton type="button" icon="pi pi-print" label="&nbsp;IMPRIMIR"
@@ -86,7 +86,7 @@
                          type="horizontalBar"
                          [data]="dados"
                 ></p-chart>
-                <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+                <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
                         class="p-button-rounded p-button-secondary"
                         (click)="imprimir(hbar.el)"></button>&nbsp;
                 <button pButton type="button" icon="pi pi-print" label="&nbsp;IMPRIMIR"
@@ -100,7 +100,7 @@
                          type="bar"
                          [data]="dados"
                 ></p-chart>
-                <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+                <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
                         class="p-button-rounded p-button-secondary"
                         (click)="imprimir(hbar.el)"></button>&nbsp;
                 <button pButton type="button" icon="pi pi-print" label="&nbsp;IMPRIMIR"
@@ -114,7 +114,7 @@
                          type="doughnut"
                          [data]="dados"
                 ></p-chart>
-                <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+                <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
                         class="p-button-rounded p-button-secondary"
                         (click)="imprimir(hbar.el)"></button>&nbsp;
                 <button pButton type="button" icon="pi pi-print" label="&nbsp;IMPRIMIR"
@@ -128,7 +128,7 @@
                          type="polarArea"
                          [data]="dados"
                 ></p-chart>
-                <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+                <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
                         class="p-button-rounded p-button-secondary"
                         (click)="imprimir(hbar.el)"></button>&nbsp;
                 <button pButton type="button" icon="pi pi-print" label="&nbsp;IMPRIMIR"
@@ -142,7 +142,7 @@
                          type="pie"
                          [data]="dados"
                 ></p-chart>
-                <button pButton type="button" icon="fas fa-file-pdf" label="PDF"
+                <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
                         class="p-button-rounded p-button-secondary"
                         (click)="imprimir(hbar.el)"></button>&nbsp;
                 <button pButton type="button" icon="pi pi-print" label="&nbsp;IMPRIMIR"
@@ -151,8 +151,9 @@
               </p-card>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   </div>
-</div>
+</p-scrollPanel>

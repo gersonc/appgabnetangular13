@@ -1,4 +1,4 @@
-<p-scrollPanel [styleClass]="'formulario-scroll'">
+<p-scrollPanel [styleClass]="'formulario'" [style]="{width: '100%'}">
   <div class="formulario externo">
 
     <div class="p-fluid formulario-bg-externo">
@@ -11,10 +11,11 @@
 
       <div class="p-grid">
         <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <p-scrollPanel [style]="{width: '100%'}">
           <div class="p-grid">
             <div class="p-col-12"></div>
             <div class="p-col-12">
-              <div class="tabelaborda">
+
                 <table class="detalhefull">
                   <tr>
                     <td>
@@ -390,7 +391,7 @@
                   [registro_id]="cadastro.cadastro_id"
                   (onBlockSubmit)="onBlockSubmit($event)"
                 ></app-arquivo>
-              </div>
+
             </div>
             <div *ngIf="vinculos" class="p-col-12">
               <p-panel header="VÍNCULOS DESTE CADASTRO" class="detalhe">
@@ -537,6 +538,7 @@
               </div>
             </div>
           </div>
+          </p-scrollPanel>
         </div>
         <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
       </div>
@@ -548,7 +550,7 @@
       <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
     </div>
 
-    <div class="p-fluid formulario-bg-externo">
+    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
       <div class="p-grid">
         <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
           <div class="p-grid p-input-filled">

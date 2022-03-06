@@ -26,6 +26,7 @@ import { EtiquetaModule } from '../etiqueta/etiqueta.module';
 import { NucleoModule } from '../nucleo/nucleo.module';
 import { ConfiguracaoTabela2Component } from './configuracao-tabela2/configuracao-tabela2.component';
 import { UsuarioModule } from '../usuario/usuario.module';
+import {InputSwitchModule} from "primeng/inputswitch";
 
 
 
@@ -36,30 +37,31 @@ import { UsuarioModule } from '../usuario/usuario.module';
     ConfiguracaoTabelaComponent,
     ConfiguracaoTabela2Component
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    ConfiguracaoRoutingModule,
-    UtilModule,
-    PanelMenuModule,
-    MenuModule,
-    InputTextModule,
-    ButtonModule,
-    MessagesModule,
-    MessageModule,
-    ToastModule,
-    DropdownModule,
-    ColorPickerModule,
-    TableModule,
-    ConfirmDialogModule,
-    ListboxModule,
-    ScrollPanelModule,
-    EtiquetaModule,
-    NucleoModule,
-    UsuarioModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        ConfiguracaoRoutingModule,
+        UtilModule,
+        PanelMenuModule,
+        MenuModule,
+        InputTextModule,
+        ButtonModule,
+        MessagesModule,
+        MessageModule,
+        ToastModule,
+        DropdownModule,
+        ColorPickerModule,
+        TableModule,
+        ConfirmDialogModule,
+        ListboxModule,
+        ScrollPanelModule,
+        EtiquetaModule,
+        NucleoModule,
+        UsuarioModule,
+        InputSwitchModule
+    ],
   exports: [
     ConfiguracaoComponent
   ],

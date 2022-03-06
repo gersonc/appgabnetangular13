@@ -20,6 +20,7 @@ import {Config} from 'quill-to-word';
 import * as quillToWord from 'quill-to-word';
 import { saveAs } from 'file-saver';
 import { Editor } from 'primeng/editor';
+import {MenuDatatableService} from "../../_services/menu-datatable.service";
 
 @Component({
   selector: 'app-solicitacao-datatable',
@@ -80,7 +81,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private solicitacaoService: SolicitacaoService,
     private sbs: SolicitacaoBuscarService,
-    private cs: CarregadorService
+    private cs: CarregadorService,
+    public md: MenuDatatableService,
   ) {
     this.cfg = aut.versao.solicitacao;
     this.cfgVersao = +aut.versao_id;

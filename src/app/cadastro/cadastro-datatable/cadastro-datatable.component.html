@@ -32,7 +32,7 @@
          contextMenuSelectionMode="joint"
          [contextMenu]="cm"
          [customSort]="true"
-         [tableStyle]="{'font-size':'12px'}"
+         [tableStyle]="{'font-size':'0.865rem'}"
          stateStorage="session"
          stateKey="cadastro-listagem"
          selectionMode="multiple"
@@ -44,23 +44,35 @@
 
   <ng-template pTemplate="caption">
     <div [ngClass]="{'hide-datatable': md.mdt}">
-    <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row" [ngStyle]="{'display': display}">
+      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
 
-      <div class="p-d-inline-flex">
-        <div class="p-mx-1"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
-        <div class="p-mr-1"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
-        <div class="p-mr-1"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
-        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="cadastroIncluir()"></button></div>
-      </div>
+        <div class="p-d-inline-flex">
+          <div class="p-mx-1">
+            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                    (click)="mostraMenu()"></button>
+          </div>
+          <div class="p-mr-1">
+            <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                    (click)="mostraSelectColunas()"></button>
+          </div>
+          <div *ngIf="authenticationService.dispositivo!=='mobile'" class="p-mr-1">
+            <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
+                    (click)="men.toggle($event)"></button>
+          </div>
+          <div class="p-mr-0">
+            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                    (click)="cadastroIncluir()"></button>
+          </div>
+        </div>
 
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-1">CADASTRO</div>
-      </div>
+        <div class="p-d-inline-flex p-ai-center">
+          <div class="p-mx-1">CADASTRO</div>
+        </div>
 
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mr-1">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+        <div class="p-d-inline-flex p-ai-center">
+          <div class="p-mr-1">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+        </div>
       </div>
-    </div>
     </div>
     <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
@@ -88,10 +100,13 @@
   </ng-template>
 
   <!--*** DADOS ****************************************************************************************************-->
-  <ng-template pTemplate="body" let-cad let-cad2=cad let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
+  <ng-template pTemplate="body" let-cad let-cad2=cad let-columns="columns" let-expanded="expanded"
+               let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cad" [pContextMenuRow]="cad" [pSelectableRowIndex]="rowIndex">
       <td>
-        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="cad" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+                [pRowToggler]="cad" class="p-button-rounded  p-button-text p-button-sm"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
       <td *ngFor="let col of columns" [style.width]="col.largura">
         {{cad[col.field]}}
@@ -103,8 +118,8 @@
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
-            <div class="p-fluid">
-              <div class="p-d-flex p-jc-start p-pb-2">
+          <div class="p-fluid">
+            <div class="p-d-flex p-jc-start p-pb-2">
               <div class="p-mr-2">
                 <button
                   pButton
@@ -206,17 +221,16 @@
     [(visible)]="mostraDetalhe"
     [transitionOptions]="'0ms'"
     header="CADASTRO DETALHE"
-    position="top"
-    appendTo="body"
+    [baseZIndex]="0"
     [modal]="true"
     [dismissableMask]="true"
     [closable]="true"
-    styleClass="detalhe"
+    styleClass="tablistagem"
     (onHide)="imprimirFechar()"
-    [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
+    [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-   <app-cadastro-detalhe [dataDetalhe]="cadDetalhe" (onFechar)="onFechar($event)"></app-cadastro-detalhe>
+    <app-cadastro-detalhe [dataDetalhe]="cadDetalhe" (onFechar)="onFechar($event)"></app-cadastro-detalhe>
   </p-dialog>
 </ng-container>
 

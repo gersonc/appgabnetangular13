@@ -22,6 +22,7 @@ import { GraficosSolicitacaoComponent } from './graficos-solicitacao/graficos-so
 import { GraficosOficioComponent } from './graficos-oficio/graficos-oficio.component';
 import { GraficosProcessoComponent } from './graficos-processo/graficos-processo.component';
 import { GraficosEmendaComponent } from './graficos-emenda/graficos-emenda.component';
+import {ScrollPanelModule} from "primeng/scrollpanel";
 
 
 
@@ -36,22 +37,23 @@ import { GraficosEmendaComponent } from './graficos-emenda/graficos-emenda.compo
     GraficosProcessoComponent,
     GraficosEmendaComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    GraficosRoutingModule,
-    ChartModule,
-    RadioButtonModule,
-    PanelModule,
-    CardModule,
-    DropdownModule,
-    ButtonModule,
-    CalendarModule,
-    PanelMenuModule,
-    MenuModule,
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        GraficosRoutingModule,
+        ChartModule,
+        RadioButtonModule,
+        PanelModule,
+        CardModule,
+        DropdownModule,
+        ButtonModule,
+        CalendarModule,
+        PanelMenuModule,
+        MenuModule,
+        ScrollPanelModule,
 
-  ],
+    ],
   exports: [
     GraficosComponent,
     GraficosCadastroComponent

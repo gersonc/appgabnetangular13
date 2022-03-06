@@ -1,43 +1,42 @@
-<div class="container" style="text-align:center">
-  <h4>GRÁFICOS</h4>
+<div class="p-d-flex p-jc-center">
+  <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+    <span class="formulario-titulo">GRÁFICOS</span>
+  </div>
 </div>
-<div class="container-fluid">
-  <div class="p-grid">
-    <div class="p-col-12"></div>
-    <div class="p-col-12 divform">
+<div class="formulario externo">
+  <div class="p-fluid formulario-bg-externo">
+    <div class="p-grid">
 
-      <div class="p-grid formDiv">
-        <div class="p-col-2">
-          <div class="p-grid">
-            <div class="p-col-12"></div>
-            <div class="p-col-12">
-              <p-menu
-                [model]="menugrf"
-                [style]="{'width':'100%'}"
-                [styleClass]="'grafico'"
-              ></p-menu>
+      <div class="p-col-12">
+
+        <div class="p-grid">
+          <div class="p-col-3 p-xl-2 p-lg-3 p-md-12 p-sm-12">
+            <div class="p-grid">
+              <div class="p-col-12"></div>
+              <div class="p-col-12">
+                <p-menu
+                  [model]="menugrf"
+                  [style]="{'width':'100%'}"
+                  [styleClass]="'grafico'"
+                ></p-menu>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-9 p-xl-10 p-lg-9 p-md-12 p-sm-12">
+            <div class="p-grid">
+              <div class="p-col-12"></div>
+              <div class="p-col-12">
+                <p-panel>
+                  Escolha uma das opções.
+
+                </p-panel>
+              </div>
             </div>
           </div>
         </div>
-        <div class="p-col-10">
-          <div class="p-grid">
-            <div class="p-col-12"></div>
-            <div class="p-col-12">
-              <p-panel >
-                <p-header>
-                  Header content here
-                </p-header>
-                Body Content
-                <p-footer>
-                  Footer content here
-                </p-footer>
-              </p-panel>
-            </div>
-          </div>
-        </div>
+
       </div>
 
     </div>
-
   </div>
 </div>

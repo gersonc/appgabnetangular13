@@ -8,9 +8,15 @@
             <div class="p-d-flex p-jc-center" style="height: 80vh;">
               <div class="p-as-center" style="color: var(--primary-color)">
                 <h1>GABNET<br>GERENCIADOR DE GABINETES</h1>
-                <p>{{hst}}</p>
-                <p>{{authenticationService.dispositivo}}</p>
-                <p>{{authenticationService._versao}}</p>
+                <p>Url: {{hst}}</p>
+                <p>Dispositivo: {{authenticationService.dispositivo}} <i *ngIf="authenticationService.dispositivo==='mobile'" class="pi pi-mobile"></i><i *ngIf="authenticationService.dispositivo!=='mobile'" class="pi pi-desktop"></i></p>
+                <p>Versão: {{authenticationService._versao}}</p>
+                <div class="container" style="text-align:center">
+                  <h3><b>TIPO DE DISPOSITIVO</b></h3>
+                  <p>
+                    <i class="pi pi-desktop"></i>&nbsp;&nbsp;<p-inputSwitch [(ngModel)]="checked" (onChange)="mudaDispositivo()"></p-inputSwitch>&nbsp;&nbsp;<i class="pi pi-mobile"></i>
+                  </p>
+                </div>
               </div>
             </div>
           </div>

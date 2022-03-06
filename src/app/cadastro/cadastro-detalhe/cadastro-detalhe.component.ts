@@ -57,7 +57,7 @@ export class CadastroDetalheComponent implements OnInit, OnChanges {
   public vinculos = false;
 
   constructor (
-    private authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService
   ) { }
 
   ngOnInit () {}

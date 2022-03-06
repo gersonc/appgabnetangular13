@@ -3,7 +3,7 @@ import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {JwtModule} from "@auth0/angular-jwt";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
@@ -26,6 +26,7 @@ import { DialogModule } from 'primeng/dialog';
 
 import { PanelMenuModule } from 'primeng/panelmenu';
 import {NgHttpLoaderModule} from "ng-http-loader";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -62,7 +63,9 @@ export function tokenGetter() {
     ProgressSpinnerModule,
     DialogModule,
     PanelMenuModule,
-    RippleModule
+    RippleModule,
+    InputSwitchModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

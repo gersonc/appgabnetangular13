@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   coorTopo: CoordenadaXY;
   coorMain: CoordenadaXY;
   coorRodape: CoordenadaXY;
+  checked: boolean = this.authenticationService.dispositivo === 'mobile';
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -40,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.coorTopo = this.ws.coorTopo;
     this.coorMain = this.ws.coorMain;
     this.coorRodape = this.ws.coorRodape;
+    // this.authenticationService.dispositivo = 'mobile';
   }
 
   mostraMenu() {
@@ -60,6 +62,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       (data) => console.log('ping->', data),
       (err) => console.log('ping-erro->',err)
     ));
+  }
+
+  mudaDispositivo() {
+    if (this.authenticationService.dispositivo !== 'mobile') {
+      this.authenticationService.dispositivo = 'mobile';
+    } else {
+      this.authenticationService.dispositivo = 'desktop';
+    }
   }
 
   ngOnDestroy() {
