@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {JwtModule} from "@auth0/angular-jwt";
+import { JwtModule } from "@auth0/angular-jwt";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
@@ -25,8 +25,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
 
 import { PanelMenuModule } from 'primeng/panelmenu';
-import {NgHttpLoaderModule} from "ng-http-loader";
-import {InputSwitchModule} from "primeng/inputswitch";
+import { NgHttpLoaderModule } from "ng-http-loader";
+import { InputSwitchModule } from "primeng/inputswitch";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");

@@ -17,7 +17,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   public mostraMenuPrincipal = true;
 
   constructor(
-    private menuService: MenuService,
+    // private menuService: MenuService,
     private authenticationService: AuthenticationService,
   ) {
   }

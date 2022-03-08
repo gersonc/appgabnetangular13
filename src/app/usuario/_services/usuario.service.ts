@@ -139,12 +139,12 @@ export class UsuarioService {
     for (let i = 0; i < 81; i++) {
       if (valor.charAt(i) === '1') {
         this.usuario!.usuario_acesso2[i] = this.acessoStr[i];
-        this.acessoCompleto.push(this.acessoStr[i]);
+        this.acessoCompleto!.push(this.acessoStr[i]);
         r.push(this.acessoStr[i]);
       } else {
-        // @ts-ignore
-        this.acessoCompleto.push(null);
-        // @ts-ignore
+
+        this.acessoCompleto!.push(null);
+
         this.usuario!.usuario_acesso2[i] = null;
       }
     }
