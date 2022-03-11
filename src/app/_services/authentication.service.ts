@@ -610,4 +610,12 @@ export class AuthenticationService {
     this.currentUserSubject!.next(null);
     this.cancelaPermissoes();
   }
+
+  verificaPermissaoGravada() {
+    if (localStorage.getItem('currentUser')) {
+      console.log('currentUser', localStorage.getItem('currentUser'));
+    } else {
+      console.log('currentUser FALSE');
+    }
+  }
 }
