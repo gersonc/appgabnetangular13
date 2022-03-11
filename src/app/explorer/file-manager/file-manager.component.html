@@ -1,0 +1,21 @@
+<p-menubar [model]="items">
+</p-menubar>
+
+<div class="p-d-flex p-jc-between">
+  <div class="p-d-inline-flex">
+    <div class="p-grid">
+      <div *ngFor="let element of fileElements" class="p-col-3">
+        <div class="p-mr-2" (click)="openMenu($event, element, rMenu)">
+          Item 1
+          <i *ngIf="element.isFolder" class="pi pi-folder" style="font-size: 2rem"></i>
+          <i *ngIf="!element.isFolder" class="pi pi-file" style="font-size: 2rem"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p-menu #rMenu [popup]="true" [model]="rootMenu"></p-menu>
+
+<p-menu #rMove [model]="moveToMenu"></p-menu>

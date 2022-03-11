@@ -52,7 +52,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
     });
     if (this.authenticationService.agenda) {
       this.items.push({
-        label: 'Calendario', icon: 'pi pi-calendar', command: () => {
+        label: 'Agenda', icon: 'pi pi-calendar', command: () => {
           this.fechaMenuPrincipal();
         }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/calendario']
       });

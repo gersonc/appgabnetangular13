@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --configuration development --proxyConfig=proxy.conf.json --port 4300",
     "startOld": "ng serve --configuration development --proxyConfig=proxy.conf.json --port 4300",
-    "startApp": "http-server -p 4100 -c-1 dist/GabNet",
+    "startApp": "http-server -p 4100 -c-1 dist/GabNet -P http://slimgn08.dv --proxy-options.target http://slimgn08.dv --proxy-options.secure false --proxy-options.logLevel debug --proxy-options.changeOrigin true",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

@@ -62,12 +62,26 @@
           </div>
         </div>
 
-        <div class="p-d-inline-flex p-ai-center">
+        <!--<div class="p-d-inline-flex p-ai-center">
           <div class="p-mx-2">SOLICITAÇÕES</div>
         </div>
         <div class="p-d-inline-flex p-ai-center">
           <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+        </div>-->
+
+        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mx-2">SOLICITAÇÕES</div>
         </div>
+        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+        </div>
+
+        <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
+          <div class="p-mx-2">SOLICITAÇÕES</div>
+          <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+        </div>
+
+
       </div>
     </div>
     <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
