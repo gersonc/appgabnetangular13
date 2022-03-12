@@ -7,6 +7,7 @@ import { WindowsService } from '../_layout/_service';
 import { CoordenadaXY } from '../_layout/_service/coordenada-x-y';
 import { HttpClient } from "@angular/common/http";
 import { Subscription } from "rxjs";
+import {take} from "rxjs/operators";
 
 @Component({
   templateUrl: './home.component.html',
@@ -58,7 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ping() {
-    this.sub.push(this.http.get(this.urls.ping).subscribe(
+    this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe(
       (data) => console.log('ping->', data),
       (err) => console.log('ping-erro->',err)
     ));

@@ -30,9 +30,7 @@ export class JwtInterceptor implements HttpInterceptor {
     }
     return next.handle(request).pipe(map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && (event.status / 100) > 3) {
-          console.log('HttpResponse::event =', event, ';');
-        } else {
-         console.log('JwtInterceptor event =', event, ';');
+          console.log('HttpResponse::event =', event);
         }
         return event;
       }));

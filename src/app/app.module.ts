@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-// import {APP_BASE_HREF} from '@angular/common';
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from "@auth0/angular-jwt";
@@ -47,7 +46,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
+        allowedDomains: ["gn5.dv","192.168.0.10","localhost:4300", "localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
     }),
@@ -69,7 +68,6 @@ export function tokenGetter() {
     FormsModule
   ],
   providers: [
-    /*{ provide: APP_BASE_HREF, useValue: '/gn5/app'},*/
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     MessageService,

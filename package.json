@@ -8,7 +8,8 @@
     "startApp": "http-server -p 4100 -c-1 dist/GabNet -P http://slimgn08.dv --proxy-options.target http://slimgn08.dv --proxy-options.secure false --proxy-options.logLevel debug --proxy-options.changeOrigin true",
     "build": "ng build",
     "buildSubFolder": "ng build --configuration development",
-    "watch": "ng build --watch --configuration development",
+    "watchSubFolder": "ng build --watch --configuration development",
+    "watch": "ng build --watch",
     "test": "ng test"
   },
   "private": true,
