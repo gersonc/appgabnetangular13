@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+// import {APP_BASE_HREF} from '@angular/common';
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from "@auth0/angular-jwt";
@@ -68,6 +69,7 @@ export function tokenGetter() {
     FormsModule
   ],
   providers: [
+    /*{ provide: APP_BASE_HREF, useValue: '/gn5/app'},*/
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     MessageService,

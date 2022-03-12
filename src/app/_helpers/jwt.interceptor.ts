@@ -9,11 +9,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
-
-import { MessageService } from 'primeng/api';
-
 import { AuthenticationService } from '../_services';
-
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -22,8 +18,6 @@ export class JwtInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // add authorization header with jwt token if available
-    // tslint:disable-next-line:max-line-length
     if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1) {
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser && currentUser.token) {
