@@ -8,9 +8,13 @@ import { environment } from '../../environments/environment';
 export class UrlService {
   // private url = `${environment.apiUrl}`;
 
-  url = location.hostname !== 'gn5.gabnet.com.br' ? '/gn5/api/' : '/api/';
+  url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
+
+
+
+  // url = location.hostname !== ('gn5.gabnet.com.br' || 'localhost') ? '/gn5/api/' : '/api/';
   // url = 'http://gn5.gabnet.com.br/api/';
-  // url = '/api/';
+  // url = this.hst + '/api/';
   // url = 'http://slimgn08.dv/';
   dropdown = this.url + 'dropdown';
   autocompleteservice = this.url + 'autocomplete';

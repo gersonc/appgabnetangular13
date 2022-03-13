@@ -8,13 +8,15 @@ export const environment = {
   apiUrl: 'http://slimgn08.dv/',
 };
 */
-
+/*
 export const environment = {
   production: false,
-  apiUrl: 'http://192.168.0.10/gn5/api/',
+  apiUrl: '/api/',
 };
-
-
+*/
+export const environment = {
+  production: false
+};
 
 /*
  * For easier debugging in development mode, you can import the following file
