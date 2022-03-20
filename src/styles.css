@@ -14073,3 +14073,19 @@ h5 {
 .hide-datatable {
   display: none;
 }
+
+.explorer-top {
+  margin-top: 2px;
+  background-color: var(--primary-color);
+  width: 100%;
+  color: var(--primary-color-text);
+}
+
+.explorer-topo-icones {
+  margin-left: .6em;
+  padding: 0.15em 0.3em 0.15em 0.3em;
+  float: left;
+  width: 3rem;
+  font-size: 1.2em;
+  text-align: center;
+}

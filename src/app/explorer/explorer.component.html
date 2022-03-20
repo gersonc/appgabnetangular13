@@ -1,3 +1,12 @@
-<app-file-manager [fileElements]="fileElements | async" [path]="currentPath" [canNavigateUp]="canNavigateUp" (folderAdded)="addFolder($event)"
-              (elementRemoved)="removeElement($event)" (navigatedDown)="navigateToFolder($event)" (navigatedUp)="navigateUp()" (elementRenamed)="renameElement($event)"
-              (elementMoved)="moveElement($event)"></app-file-manager>
+<div class="explorer-top">
+  <div class="p-d-inline p-jc-between p-ai-center p-flex-column p-flex-md-row">
+    <div class="p-d-flex">
+      <div class="p-mx-1">
+        <div class="explorer-topo-icones">
+          <i class="pi pi-home" style="font-size: 1.7rem"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
