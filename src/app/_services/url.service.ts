@@ -47,6 +47,7 @@ export class UrlService {
   historicoProcesso = this.url + 'historicoprocesso';
   historicoSolicitacao = this.url + 'historicosolicitacao';
   ping = this.url + 'ping';
+  explorer = this.url + 'pasta';
 
 
   constructor() {

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ArquivoService} from "../arquivo/_services";
+import {ExplorerService} from "./_services/explorer.service";
 
 
 @Component({
@@ -9,12 +11,14 @@ import { Component, OnInit } from '@angular/core';
 export class ExplorerComponent implements OnInit {
 
 
-  constructor() {}
+  constructor(
+    public ex: ExplorerService,
+  ) {}
 
 
 
   ngOnInit() {
-
+    console.log('this.ex.pastaListagem', this.ex.pastaListagem);
   }
 
 

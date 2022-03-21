@@ -14091,6 +14091,7 @@ h5 {
 }
 
 .explorer-main {
+  display: inline-block;
   padding: 1em;
   background-color: #6ebe71;
   width: 100%;
@@ -14098,21 +14099,44 @@ h5 {
 
 .explorer-folder {
   float: left;
-  background-color: yellow;
-  margin: .5em;
-  width: 6rem;
-  padding-bottom: .5em;
+  /*margin: .5em;*/
+  width: 7rem;
+  /*padding-bottom: .5em;*/
 }
 
 .explorer-icons {
   text-align: center;
-  background-color: #75bef8;
-  padding: 1em 1em .2em 1em;
+  padding: 0 .5em 0;
+}
+
+.explorer-icons2 {
+  width: 7rem;
+  height: 4rem;
+  text-align: center;
+  padding: 0 .5em 0;
+  background: url("/assets/icons/folder.png") no-repeat center;
+  background-size: contain;
+}
+
+.explorer-icons2:hover {
+  cursor: pointer;
+  background: url("/assets/icons/finder.png") no-repeat center;
+  background-size: contain;
 }
 
 .explorer-file-text {
+  position: relative;
+  top: -.5em;
+  padding-top: 0;
   padding-left: .5em;
   padding-right: .5em;
   font-size: .8em;
   font-weight: 600;
+  text-align: center;
+}
+
+img.explorer {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
