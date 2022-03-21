@@ -40,7 +40,8 @@ export class ArquivoService {
     archive: 'zip',
     code: 'php',
     text: 'txt',
-    file: 'exe'
+    file: 'exe',
+    rar: 'rar'
   };
   private imagens = {
     gif: this.icons.image,
@@ -100,7 +101,7 @@ export class ArquivoService {
 
     gz: this.icons.archive,
     zip: this.icons.archive,
-    rar: this.icons.archive,
+    rar: this.icons.rar,
 
     css: this.icons.code,
     html: this.icons.code,

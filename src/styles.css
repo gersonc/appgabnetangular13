@@ -14085,7 +14085,34 @@ h5 {
   margin-left: .6em;
   padding: 0.15em 0.3em 0.15em 0.3em;
   float: left;
-  width: 3rem;
+  width: 1rem;
   font-size: 1.2em;
   text-align: center;
+}
+
+.explorer-main {
+  padding: 1em;
+  background-color: #6ebe71;
+  width: 100%;
+}
+
+.explorer-folder {
+  float: left;
+  background-color: yellow;
+  margin: .5em;
+  width: 6rem;
+  padding-bottom: .5em;
+}
+
+.explorer-icons {
+  text-align: center;
+  background-color: #75bef8;
+  padding: 1em 1em .2em 1em;
+}
+
+.explorer-file-text {
+  padding-left: .5em;
+  padding-right: .5em;
+  font-size: .8em;
+  font-weight: 600;
 }
