@@ -8,7 +8,6 @@ import {Observable, of, Subject, Subscription} from 'rxjs';
 import {PastaListagem} from "../_models/arquivo-pasta.interface";
 import {ExplorerService} from "../_services/explorer.service";
 import {take} from "rxjs/operators";
-import { fontStyle } from 'html2canvas/dist/types/css/property-descriptors/font-style';
 
 @Injectable({
   providedIn: 'root'

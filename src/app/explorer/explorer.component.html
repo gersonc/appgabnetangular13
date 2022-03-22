@@ -14,20 +14,20 @@
 
 
   <div class="explorer-main">
-    <div class="explorer-folder">
+    <!--<div class="explorer-folder">
       <div class="explorer-icons">
-        <!--<img [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>-->
+        &lt;!&ndash;<img [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>&ndash;&gt;
         <img src="/assets/img/icones/folder.png" alt="Pasta" style="width: 65%" class="explorer"/>
       </div>
       <div class="explorer-file-text">
         1 TRDTRDTRTDTDTDT Y TF TFTFY FYT
       </div>
-    </div>
+    </div>-->
 
 
-    <ng-container *ngFor="let pasta of ex.pastaListagem">
+    <ng-container *ngFor="let pasta of exs.pastaListagem">
     <div class="explorer-folder">
-      <div class="explorer-icons2">
+      <div class="explorer-icons">
 
       </div>
       <div class="explorer-file-text">
@@ -36,14 +36,14 @@
     </div>
     </ng-container>
 
-    <div class="explorer-folder">
+    <!--<div class="explorer-folder">
       <div class="explorer-icons">
         <img src="/assets/img/icones/folder.png" alt="Pasta" style="width: 65%" class="explorer"/>
       </div>
       <div class="explorer-file-text">
         3 HJGJ GHJ  JHG JH
       </div>
-    </div>
+    </div>-->
 
 
 

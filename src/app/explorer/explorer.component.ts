@@ -12,13 +12,13 @@ export class ExplorerComponent implements OnInit {
 
 
   constructor(
-    public ex: ExplorerService,
+    public exs: ExplorerService,
   ) {}
 
 
 
   ngOnInit() {
-    console.log('this.ex.pastaListagem', this.ex.pastaListagem);
+    console.log('this.ex.pastaListagem', this.exs.pastaListagem);
   }
 
 

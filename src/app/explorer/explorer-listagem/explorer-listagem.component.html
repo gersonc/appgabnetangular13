@@ -1,0 +1,29 @@
+
+    <div *ngIf="arquivo" class="explorer-arquivo">
+      <div class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround}" (click)="op.toggle($event)">
+      </div>
+      <div class="explorer-file-text" (click)="op.toggle($event)">
+        {{arquivo.arquivo_nome_original}}
+      </div>
+    </div>
+
+    <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true">
+      <ng-template pTemplate>
+        {{arquivo.arquivo_nome_original}} - {{readableBytes(arquivo.arquivo_tamanho)}}
+        <p-avatar icon="pi pi-download" shape="circle" label="Download"></p-avatar>
+        <p-avatar icon="pi pi-trash" shape="circle" label="Apagar"></p-avatar>
+
+      </ng-template>
+    </p-overlayPanel>
+
+
+
+      <div *ngIf="pasta" class="explorer-folder">
+        <div class="explorer-icons" (click)="onClickPasta()">
+
+        </div>
+        <div class="explorer-file-text" (click)="onClickPasta()">
+          {{pasta.arquivo_pasta_titulo}}
+        </div>
+      </div>
+

@@ -14104,12 +14104,12 @@ h5 {
   /*padding-bottom: .5em;*/
 }
 
-.explorer-icons {
+.explorer-icons2 {
   text-align: center;
   padding: 0 .5em 0;
 }
 
-.explorer-icons2 {
+.explorer-icons {
   width: 7rem;
   height: 4rem;
   text-align: center;
@@ -14118,10 +14118,30 @@ h5 {
   background-size: contain;
 }
 
-.explorer-icons2:hover {
+.explorer-icons:hover {
   cursor: pointer;
   background: url("/assets/icons/finder.png") no-repeat center;
   background-size: contain;
+}
+
+.explorer-arquivo-icons {
+  width: 7rem;
+  height: 4rem;
+  text-align: center;
+  padding: 0 .5em 0;
+  background: url("/assets/icons/file.png") no-repeat center;
+  background-size: contain;
+}
+
+.explorer-arquivo-icons:hover {
+  cursor: pointer;
+}
+
+.explorer-arquivo {
+  float: left;
+  /*margin: .5em;*/
+  width: 7rem;
+  /*padding-bottom: .5em;*/
 }
 
 .explorer-file-text {
