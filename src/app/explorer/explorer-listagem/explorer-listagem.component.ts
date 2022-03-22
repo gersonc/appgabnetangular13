@@ -1,7 +1,9 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ExplorerService} from "../_services/explorer.service";
-import {ArquivoListagem, PastaListagem} from "../_models/arquivo-pasta.interface";
+import {ArquivoListagem, Caminho, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {ArquivoService} from "../../arquivo/_services";
+import {Subject, Subscription} from "rxjs";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-explorer-listagem',
@@ -11,6 +13,7 @@ import {ArquivoService} from "../../arquivo/_services";
 export class ExplorerListagemComponent implements OnInit, OnChanges {
   @Input() pasta?: PastaListagem;
   @Input() arquivo?: ArquivoListagem;
+
 
   urlbackGround = '/assets/icons/folder.png';
   arquivoInterno: any = null;
@@ -49,8 +52,9 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
 
   }
 
-  onClickPasta() {
-
+  onClickPasta(id: number) {
+      this.exs.addCaminho(id);
   }
+
 
 }

@@ -12,17 +12,14 @@
         {{arquivo.arquivo_nome_original}} - {{readableBytes(arquivo.arquivo_tamanho)}}
         <p-avatar icon="pi pi-download" shape="circle" label="Download"></p-avatar>
         <p-avatar icon="pi pi-trash" shape="circle" label="Apagar"></p-avatar>
-
       </ng-template>
     </p-overlayPanel>
 
 
 
       <div *ngIf="pasta" class="explorer-folder">
-        <div class="explorer-icons" (click)="onClickPasta()">
-
-        </div>
-        <div class="explorer-file-text" (click)="onClickPasta()">
+        <div class="explorer-icons" (click)="exs.addCaminho(pasta.arquivo_pasta_id)"></div>
+        <div class="explorer-file-text" (click)="exs.addCaminho(pasta.arquivo_pasta_id)">
           {{pasta.arquivo_pasta_titulo}}
         </div>
       </div>

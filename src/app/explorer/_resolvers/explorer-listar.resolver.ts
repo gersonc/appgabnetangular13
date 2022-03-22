@@ -5,7 +5,7 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import {Observable, of, Subject, Subscription} from 'rxjs';
-import {PastaListagem} from "../_models/arquivo-pasta.interface";
+import {Caminho, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {ExplorerService} from "../_services/explorer.service";
 import {take} from "rxjs/operators";
 
@@ -19,16 +19,24 @@ export class ExplorerListarResolver implements Resolve<boolean> {
   public resp$ = this.resp.asObservable();
 
   constructor(
-    private es: ExplorerService,
+    private exs: ExplorerService,
     private router: Router
   ) {}
 
 
   getPastaListagem() {
-    this.es.pastaListagem = [];
-    this.sub.push(this.es.gerListagem().pipe(take(1)).subscribe({
-      next: (dados: PastaListagem[]) => {
-        this.es.pastaListagem = dados;
+    delete this.exs.pastaListagem;
+    this.sub.push(this.exs.gerListagem().pipe(take(1)).subscribe({
+      next: (dados: PastaListagem) => {
+        this.exs.pastaListagem = dados;
+        delete this.exs.caminhoAtual;
+        this.exs.caminhoAtual = [
+          {
+            arquivo_pasta_id: dados.arquivo_pasta_id,
+            arquivo_pasta_nome: dados.arquivo_pasta_nome,
+            arquivo_pasta_titulo: dados.arquivo_pasta_titulo
+          }
+        ];
       },
       error: (err) => {
         console.error(err);

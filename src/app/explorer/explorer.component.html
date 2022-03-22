@@ -2,51 +2,44 @@
   <div class="p-d-inline p-jc-between p-ai-center p-flex-column p-flex-md-row">
     <div class="p-d-flex">
       <div class="p-mx-1">
-        <div class="explorer-topo-icones">
-          <i class="pi pi-home" style="font-size: 1.7rem"></i>
-        </div>
-      </div>
 
+        <div *ngFor="let caminho of exs.caminhoAtual" class="explorer-topo-icones">
+          <ng-container *ngIf="caminho.arquivo_pasta_id === 0">
+            <i class="pi pi-home" style="font-size: 1.7rem" (click)="exs.getBase()"></i>
+          </ng-container>
+          <ng-container *ngIf="caminho.arquivo_pasta_id !== 0">
+            <span (click)="exs.ajustaCaminho(caminho.arquivo_pasta_id)">/{{caminho.arquivo_pasta_titulo}}</span>
+          </ng-container>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
 
+<div class="explorer-main">
 
-  <div class="explorer-main">
-    <!--<div class="explorer-folder">
-      <div class="explorer-icons">
-        &lt;!&ndash;<img [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>&ndash;&gt;
-        <img src="/assets/img/icones/folder.png" alt="Pasta" style="width: 65%" class="explorer"/>
-      </div>
-      <div class="explorer-file-text">
-        1 TRDTRDTRTDTDTDT Y TF TFTFY FYT
-      </div>
-    </div>-->
-
-
-    <ng-container *ngFor="let pasta of exs.pastaListagem">
-    <div class="explorer-folder">
-      <div class="explorer-icons">
-
-      </div>
-      <div class="explorer-file-text">
-        {{pasta.arquivo_pasta_titulo}}
-      </div>
+  <div *ngIf="exs.caminhoAtual.length > 1" class="explorer-folder">
+    <div class="explorer-root-icons" (click)="exs.getVoltar()">
     </div>
-    </ng-container>
-
-    <!--<div class="explorer-folder">
-      <div class="explorer-icons">
-        <img src="/assets/img/icones/folder.png" alt="Pasta" style="width: 65%" class="explorer"/>
-      </div>
-      <div class="explorer-file-text">
-        3 HJGJ GHJ  JHG JH
-      </div>
-    </div>-->
-
-
-
+    <div class="explorer-file-text" (click)="exs.getVoltar()">
+      VOLTAR
+    </div>
   </div>
+
+  <ng-container *ngIf="exs.pastaListagem.pastas">
+    <ng-container *ngFor="let dir of exs.pastaListagem.pastas">
+      <app-explorer-listagem [pasta]="dir"></app-explorer-listagem>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="exs.pastaListagem.arquivo_listagem">
+    <ng-container *ngFor="let arquivo of exs.pastaListagem.arquivo_listagem">
+      <app-explorer-listagem [arquivo]="arquivo"></app-explorer-listagem>
+    </ng-container>
+  </ng-container>
+
+</div>
 
 
