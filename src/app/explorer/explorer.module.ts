@@ -5,6 +5,7 @@ import {ExplorerComponent} from "./explorer.component";
 import {ExplorerListagemComponent} from "./explorer-listagem/explorer-listagem.component";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {AvatarModule} from "primeng/avatar";
+import {CardModule} from "primeng/card";
 
 
 
@@ -14,12 +15,13 @@ import {AvatarModule} from "primeng/avatar";
     ExplorerComponent,
     ExplorerListagemComponent
   ],
-  imports: [
-    CommonModule,
-    ExplorerRoutingModule,
-    OverlayPanelModule,
-    AvatarModule,
-  ],
+    imports: [
+        CommonModule,
+        ExplorerRoutingModule,
+        OverlayPanelModule,
+        AvatarModule,
+        CardModule,
+    ],
   exports: [
     ExplorerComponent
   ]

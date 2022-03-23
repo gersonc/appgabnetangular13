@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
 export class UrlService {
   // private url = `${environment.apiUrl}`;
 
-  url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
+   url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
+   // url = (location.hostname === 'localhost') ? 'http://gn5.gabnet.com.br/api' : 'api/';
 
 
 

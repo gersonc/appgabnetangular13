@@ -17,6 +17,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     public exs: ExplorerService,
   ) {}
 
+/*
   onCaminhoClick(id: number){
       this.exs.ajustaCaminho(id);
   }
@@ -25,6 +26,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     // this.exs.getVoltar();
     this.exs.subCaminho();
   }
+*/
 
   ngOnInit() {
     console.log('this.ex.pastaListagem', this.exs.pastaListagem);

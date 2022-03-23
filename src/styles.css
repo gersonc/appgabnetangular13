@@ -10129,7 +10129,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   background: var(--hover2);
   color: var(--surface-a);
 }
-.p-overlaypanel:after {
+.p-overlaypanel::after {
   border: solid transparent;
   border-color: var(--rgba-preto0);
   border-bottom-color: var(--surface-a);
@@ -14091,19 +14091,18 @@ h5 {
   text-align: center;
 }
 
+.explorer-topo-icones:hover {
+  cursor: pointer;
+  font-style: italic;
+}
+
 .explorer-main {
-  display: inline-block;
+  /*display: inline-block;*/
   padding: 1em;
-  background-color: #6ebe71;
   width: 100%;
 }
 
-.explorer-folder {
-  float: left;
-  /*margin: .5em;*/
-  width: 7rem;
-  /*padding-bottom: .5em;*/
-}
+
 
 .explorer-icons2 {
   text-align: center;
@@ -14124,25 +14123,13 @@ h5 {
   cursor: pointer;
 }
 
-.explorer-icons {
-  width: 7rem;
-  height: 4rem;
-  text-align: center;
-  padding: 0 .5em 0;
-  background: url("/assets/icons/folder.png") no-repeat center;
-  background-size: contain;
-}
 
-.explorer-icons:hover {
-  cursor: pointer;
-  background: url("/assets/icons/finder.png") no-repeat center;
-  background-size: contain;
-}
+
+
 
 .explorer-arquivo-icons {
-  width: 7rem;
+  width: 6rem;
   height: 4rem;
-  text-align: center;
   padding: 0 .5em 0;
   background: url("/assets/icons/file.png") no-repeat center;
   background-size: contain;
@@ -14155,7 +14142,7 @@ h5 {
 .explorer-arquivo {
   float: left;
   /*margin: .5em;*/
-  width: 7rem;
+  width: 6rem;
   /*padding-bottom: .5em;*/
 }
 
@@ -14165,9 +14152,34 @@ h5 {
   padding-top: 0;
   padding-left: .5em;
   padding-right: .5em;
-  font-size: .8em;
-  font-weight: 600;
+  font-size: .7rem;
+  font-weight: 500;
   text-align: center;
+}
+
+.explorer-file-text {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.explorer-folder-icons {
+  width: 6rem;
+  height: 4rem;
+  padding: 0 .5em 0;
+  background: url("/assets/icons/folder.png") no-repeat center;
+  background-size: contain;
+}
+.explorer-folder-icons:hover {
+  cursor: pointer;
+  background: url("/assets/icons/finder.png") no-repeat center;
+  background-size: contain;
+}
+.explorer-folder {
+  float: left;
+  alignment: center;
+  margin: .25em;
+  width: 6rem;
+  /*padding-bottom: .5em;*/
 }
 
 img.explorer {
@@ -14175,3 +14187,4 @@ img.explorer {
   margin-left: auto;
   margin-right: auto;
 }
+

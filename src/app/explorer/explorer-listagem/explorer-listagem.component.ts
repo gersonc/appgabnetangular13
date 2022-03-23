@@ -16,6 +16,7 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
 
 
   urlbackGround = '/assets/icons/folder.png';
+  urlbackGroundButton = '/assets/icons/folder.png';
   arquivoInterno: any = null;
 
   constructor(
@@ -30,6 +31,7 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
     if (changes.arquivo) {
       this.arquivoInterno = changes.arquivo.currentValue;
       this.urlbackGround = 'url("' + this.as.getClassNameForExtension(this.arquivo.arquivo_tipo) + '")' + ' no-repeat center'
+      this.urlbackGroundButton = 'assets/icons/' + this.as.getClassNameForExtension(this.arquivo.arquivo_tipo);
     }
   }
 
@@ -48,8 +50,8 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
     return (neg ? '-' : '') + num + ' ' + unit;
   }
 
-  onClick(){
-
+  onDelete(arquivo: ArquivoListagem){
+    console.log(arquivo);
   }
 
   onClickPasta(id: number) {
