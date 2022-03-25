@@ -2,7 +2,7 @@
 
 
     <div *ngIf="arquivo" class="explorer-arquivo">
-      <div class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround}" (click)="op.toggle($event)">
+      <div class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}" (click)="op.toggle($event)">
       </div>
       <div class="explorer-file-text" (click)="op.toggle($event)">
         {{arquivo.arquivo_nome_original}}
@@ -11,11 +11,13 @@
 
     <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true" class="explorer">
       <ng-template pTemplate>
-        <div>{{arquivo.arquivo_nome_original}}</div>
-        <div>{{readableBytes(arquivo.arquivo_tamanho)}}</div>
-        <div>
-          <a href="{{arquivo.arquivo_url_s3}}" target="_blank"><p-avatar styleClass="p-px-3" icon="pi pi-download" shape="circle"></p-avatar></a>
-        <p-avatar styleClass="p-px-3" icon="pi pi-trash" shape="circle" (click)="onDelete(arquivo)"></p-avatar>
+        <div class="explorer-overlay-text">
+          <div>{{arquivo.arquivo_nome_original}}</div>
+          <div>{{readableBytes(arquivo.arquivo_tamanho)}}</div>
+        </div>
+        <div class="p-d-inline explorer-overlay-content">
+          <a href="{{arquivo.arquivo_url_s3}}"><p-avatar icon="pi pi-download" shape="circle" styleClass="p-shadow-3 explorer-download"></p-avatar></a>
+          <div class="explorer-overlay-buttons"><p-avatar icon="pi pi-trash" shape="circle" (click)="onDelete(arquivo)" styleClass="p-shadow-3 explorer-delete"></p-avatar></div>
         </div>
       </ng-template>
     </p-overlayPanel>
@@ -29,6 +31,9 @@
           {{pasta.arquivo_pasta_titulo}}
         </div>
       </div>
+
+
+
 
 
     <!--<div *ngIf="pasta" class="explorer-folder">

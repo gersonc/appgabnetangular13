@@ -1,6 +1,93 @@
-<div class="explorer-top">
+<p-panel
+  [toggleable]="painelDestravado"
+  [collapsed]="painelFechado"
+  (onBeforeToggle)="onBeforeToggle($event)"
+  (onAfterToggle)="onAfterToggle($event)"
+  #painel
+  class="explorer">
+
+  <ng-template pTemplate="icons">
+
+
+    <button pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreUpload()">
+      <span class="pi pi-upload"></span>
+    </button>
+    <button pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreFormulario()">
+      <span class="pi pi-folder"></span>
+    </button>
+
+    <!--<i class="pi pi-plus" style="font-size: 1.5rem" (click)="showBasicDialog()"></i>-->
+    <!--<i class="pi pi-upload" style="font-size: 1.5rem" (click)="exs.getBase()"></i>&nbsp;&nbsp;&nbsp;-->
+
+  </ng-template>
+
+  <ng-template pTemplate="header">
+
+
+    <div class="p-d-inline p-jc-between p-ai-center p-flex-column p-flex-md-row">
+      <div class="p-d-flex p-jc-between">
+        <div class="p-mx-1">
+
+          <div *ngFor="let caminho of exs.caminhoAtual" class="explorer-topo-icones">
+            <ng-container *ngIf="caminho.arquivo_pasta_id === 0">
+              <span class="explorer"><i class="pi pi-home" style="font-size: 1.7rem" (click)="exs.getBase()"></i></span>
+            </ng-container>
+            <ng-container *ngIf="caminho.arquivo_pasta_id !== 0">
+              <span class="explorer"
+                    (click)="exs.ajustaCaminho(caminho.arquivo_pasta_id)">/{{caminho.arquivo_pasta_titulo}}</span>
+            </ng-container>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+
+
+  <ng-template pTemplate="content">
+
+    <ng-container *ngIf="!uploadPasta">
+
+      <form (ngSubmit)="onSubmit()">
+        <h5>Nova pasta</h5>
+        <div class="p-formgroup-inline">
+          <div class="p-field">
+            <label for="arquivo_pasta_titulo" class="p-sr-only">Nome da pasta</label>
+            <input id="arquivo_pasta_titulo" [pKeyFilter]="blockSpecial" name="arquivo_pasta_titulo"
+                   [(ngModel)]="novaPasta.arquivo_pasta_titulo" type="text" pInputText placeholder="nome" required
+                   minlength="4">
+          </div>
+          <button pButton pRipple type="button" label="Enviar" (click)="incluirPasta()" [disabled]="desabilitado"></button>
+        </div>
+      </form>
+
+    </ng-container>
+
+    <ng-container *ngIf="uploadPasta">
+      <app-arquivo
+        [modulo]="'explorer'"
+        [modelo]="'incluir'"
+        [registro_id]="arquivo_registro_id"
+        [uploadDisabled]="arquivoDesativado"
+        [enviarArquivos]="enviarArquivos"
+        (onBlockSubmit)="onBlockSubmit($event)"
+        (onUpload)="onUpload($event)"
+        (onPossuiArquivos)="onPossuiArquivos($event)"
+        [clearArquivos]="clearArquivos"
+      ></app-arquivo>
+
+    </ng-container>
+
+
+  </ng-template>
+
+
+</p-panel>
+
+<!--<div class="explorer-top">
   <div class="p-d-inline p-jc-between p-ai-center p-flex-column p-flex-md-row">
-    <div class="p-d-flex">
+    <div class="p-d-flex p-jc-between">
       <div class="p-mx-1">
 
         <div *ngFor="let caminho of exs.caminhoAtual" class="explorer-topo-icones">
@@ -13,33 +100,50 @@
         </div>
 
       </div>
+
+      <div class="p-mr-3 p-mt-2">
+        <i class="pi pi-plus" style="font-size: 1.5rem" (click)="showBasicDialog()"></i> &nbsp;&nbsp;&nbsp;
+        <i class="pi pi-upload" style="font-size: 1.5rem" (click)="exs.getBase()"></i>
+      </div>
     </div>
   </div>
-</div>
+</div>-->
 
 
 <!--<div class="explorer-main">-->
 
-  <div *ngIf="exs.caminhoAtual.length > 1" class="explorer-folder">
-    <div class="explorer-root-icons" (click)="exs.getVoltar()">
-    </div>
-    <div class="explorer-file-text" (click)="exs.getVoltar()">
-      VOLTAR
-    </div>
+<div *ngIf="exs.caminhoAtual.length > 1" class="explorer-folder">
+  <div class="explorer-root-icons" (click)="exs.getVoltar()">
   </div>
+  <div class="explorer-file-text" (click)="exs.getVoltar()">
+    VOLTAR
+  </div>
+</div>
 
-  <ng-container *ngIf="exs.pastaListagem.pastas">
-    <ng-container *ngFor="let dir of exs.pastaListagem.pastas">
-      <app-explorer-listagem [pasta]="dir"></app-explorer-listagem>
-    </ng-container>
+<ng-container *ngIf="exs.pastaListagem.pastas">
+  <ng-container *ngFor="let dir of exs.pastaListagem.pastas">
+    <app-explorer-listagem [pasta]="dir"></app-explorer-listagem>
   </ng-container>
+</ng-container>
 
-  <ng-container *ngIf="exs.pastaListagem.arquivo_listagem">
-    <ng-container *ngFor="let arquivo of exs.pastaListagem.arquivo_listagem">
-      <app-explorer-listagem [arquivo]="arquivo"></app-explorer-listagem>
-    </ng-container>
+<ng-container *ngIf="exs.pastaListagem.arquivo_listagem">
+  <ng-container *ngFor="let arquivo of exs.pastaListagem.arquivo_listagem">
+    <app-explorer-listagem [arquivo]="arquivo"></app-explorer-listagem>
   </ng-container>
+</ng-container>
 
 <!--</div>-->
 
+<!--
 
+
+<p-dialog header="Header" [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayBasic=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+-->

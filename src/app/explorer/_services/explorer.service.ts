@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {UrlService} from "../../_services";
 import {HttpClient} from "@angular/common/http";
-import {ArquivoListagem, Caminho, PastaListagem} from "../_models/arquivo-pasta.interface";
+import {ArquivoListagem, Caminho, Pasta, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 
@@ -14,7 +14,7 @@ export class ExplorerService {
   caminhoAtual: PastaListagem[] = [
     {
       arquivo_pasta_id: 0,
-      arquivo_pasta_nome: 'RAIZ',
+      arquivo_pasta_nome: 'pastas',
       arquivo_pasta_titulo: 'RAIZ'
     }
   ];
@@ -29,8 +29,8 @@ export class ExplorerService {
     if (this.caminhoAtual.length === 0 || this.caminhoAtual[0].arquivo_pasta_id !== 0) {
       this.caminhoAtual.unshift({
         arquivo_pasta_id: 0,
-        arquivo_pasta_nome: 'RAIZ',
-        arquivo_pasta_titulo: 'pastas'
+        arquivo_pasta_nome: 'pastas',
+        arquivo_pasta_titulo: 'RAIZ'
       });
     }
     console.log('adicionaBase', this.caminhoAtual);
@@ -131,5 +131,9 @@ export class ExplorerService {
     this.sub.forEach(s => {
       s.unsubscribe()
     });
+  }
+
+  postNovaPasta(pasta: Pasta) {
+    const url = this.url.explorer;
   }
 }

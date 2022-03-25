@@ -21,8 +21,29 @@ export interface PastaListagem {
   pastas?: PastaListagem[];
 }
 
+export class Pasta {
+
+  constructor(
+    public arquivo_pasta_id?: number,
+    public arquivo_pasta_nome?: string,
+    public arquivo_pasta_titulo?: string
+  ) {}
+}
+
 export interface Caminho {
   pasta_id?: number;
   pasta_nome?: string;
   pasta_titulo?: string;
+}
+
+export class KeyFilterDemo {
+
+  blockSpecial: RegExp = /^[^<>*!\s]+$/
+
+  blockSpace: RegExp = /[^\s]/;
+
+  ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
+
+  cc: string;
+
 }

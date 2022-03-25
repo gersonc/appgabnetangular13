@@ -21,7 +21,7 @@ import { TooltipModule } from 'primeng/tooltip';
   declarations: [
     ArquivoComponent,
     ArquivoViewComponent,
-    UploadArquivoComponent,
+    UploadArquivoComponent
   ],
   exports: [
     ArquivoComponent
@@ -40,6 +40,6 @@ import { TooltipModule } from 'primeng/tooltip';
         ToastModule,
         FileUploadModule,
         TooltipModule
-    ]
+    ],
 })
 export class ArquivoModule { }

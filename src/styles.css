@@ -176,6 +176,7 @@
 
   --menuinterno-bg: var(--formularios-bg);
   --menuinterno-close: var(--filled-icons-color);
+  --overlayArrowLeft: 0;
 }
 
 /*!
@@ -14112,10 +14113,10 @@ h5 {
 
 .explorer-root-icons {
   width: 7rem;
-  height: 4rem;
+  height: 4.5rem;
   text-align: center;
   padding: 0 .5em 0;
-  background: url("/assets/icons/arvore.png") no-repeat center;
+  background: url("/assets/icons/open-folder.png") no-repeat center;
   background-size: contain;
 }
 
@@ -14128,8 +14129,8 @@ h5 {
 
 
 .explorer-arquivo-icons {
-  width: 6rem;
-  height: 4rem;
+  width: 7rem;
+  height: 4.5rem;
   padding: 0 .5em 0;
   background: url("/assets/icons/file.png") no-repeat center;
   background-size: contain;
@@ -14141,8 +14142,9 @@ h5 {
 
 .explorer-arquivo {
   float: left;
-  /*margin: .5em;*/
-  width: 6rem;
+  margin-left: .5em;
+  /*margin-right: .5em;*/
+  width: 7rem;
   /*padding-bottom: .5em;*/
 }
 
@@ -14152,7 +14154,7 @@ h5 {
   padding-top: 0;
   padding-left: .5em;
   padding-right: .5em;
-  font-size: .7rem;
+  font-size: .8em;
   font-weight: 500;
   text-align: center;
 }
@@ -14188,3 +14190,161 @@ img.explorer {
   margin-right: auto;
 }
 
+/*
+p-overlayPanel.explorer {
+  position: relative;
+  margin-top: -10px;
+}
+
+*/
+
+.explorer .p-overlaypanel {
+  min-width: 10rem;
+  position: absolute;
+  margin-top: -10px;
+}
+
+
+
+.explorer .p-overlaypanel-flipped {
+  min-width: 10rem;
+  margin-top: 0;
+  margin-bottom: -10px;
+}
+
+.p-overlaypanel-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.explorer .p-overlaypanel:after, .explorer .p-overlaypanel:before {
+  bottom: 100%;
+  left: calc(var(--overlayArrowLeft, 0) + 1.25rem);
+  /*left: -1.25rem;*/
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.explorer .p-overlaypanel:after {
+  border-width: 8px;
+  margin-left: -8px;
+}
+
+.explorer .p-overlaypanel:before {
+  border-width: 10px;
+  margin-left: -10px;
+}
+
+.explorer .p-overlaypanel-shifted:after, .p-overlaypanel-shifted:before {
+  left: auto;
+  right: -1.25rem;
+  margin-left: auto;
+}
+
+.explorer-overlay-content {
+  margin-top: 1rem;
+}
+
+.explorer-overlay-buttons {
+  float: right;
+}
+
+.explorer-overlay-content .p-avatar{
+  width: 2.25rem;
+}
+.explorer .p-overlaypanel-close {
+  width: 2.25rem;
+}
+
+.explorer-download {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+.explorer-delete {
+  background-color: var(--danger);
+  color: var(--primary-color-text);
+}
+
+.explorer .p-overlaypanel-content {
+  font-size: .8em;
+  font-weight: 500;
+}
+
+.explorer-overlay-text {
+  display: block;
+  margin-bottom: .5rem;
+}
+
+
+.explorer .p-panel .p-panel-header {
+  margin-top: 3px;
+  border: 0;
+  background-color: var(--primary-color);
+  width: 100%;
+  color: var(--primary-color-text);
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  padding: 0;
+}
+
+
+.explorer .p-panel .p-panel-header .p-panel-header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary-color-text);
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: unset !important;
+}
+
+.explorer .p-panel .p-panel-header .p-panel-header-icon:last-of-type {
+  margin-left: 1rem;
+}
+
+.explorer .p-panel .p-panel-header .p-panel-header-icon:enabled:hover {
+  color: var(--primary-color-text);
+  border-color: transparent;
+  background: var(--primary-color);
+  transition: unset !important;
+}
+
+.explorer .p-panel .p-panel-header .p-panel-header-icon:focus {
+  outline: 0 none;
+  outline-offset: unset;
+  box-shadow: unset;
+  transition: unset;
+}
+
+.explorer .p-panel .p-link .pi {
+  font-size: 1.5rem;
+}
+
+.explorer .p-panel.p-panel-toggleable .p-panel-header {
+  padding: 0 .5rem 0 .5rem;
+}
+
+.explorer .p-panel .p-panel-content {
+  padding: .5rem 3rem .5rem 2rem;
+  border: 0;
+  background: var(--secondary-bg);
+  color: var(--primary-color-text);
+  border-bottom-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+
+.explorer .p-panel .p-panel-icons {
+  font-size: 1.5rem;
+  color: var(--primary-color-text);
+}
+
+span.explorer {
+  cursor: pointer;
+}
