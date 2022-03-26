@@ -47,6 +47,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   public modo: string = null;
   private incluir = false;
   public disabled = true;
+  public drag = false;
 
   constructor(
     private as: ArquivoService,
@@ -119,6 +120,17 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
           this.incluir = false;
           this.modeloView = changes.modelo.currentValue;
           this.blockSubmit(true);
+          break;
+        }
+        case 'explorer': {
+          this.mostraH6 = false;
+          this.listaArquivos = false;
+          this.showUploadButton = true;
+          this.disabled = false;
+          this.incluir = true;
+          this.modo = 'advanced';
+          this.drag = true;
+          this.modeloView = changes.modelo.currentValue;
           break;
         }
       }

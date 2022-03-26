@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ExplorerRoutingModule} from "./explorer.routing.module";
 import {ExplorerComponent} from "./explorer.component";
 import {ExplorerListagemComponent} from "./explorer-listagem/explorer-listagem.component";
@@ -14,8 +14,11 @@ import {RippleModule} from "primeng/ripple";
 import {FormsModule} from "@angular/forms";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {ArquivoModule} from "../arquivo/arquivo.module";
-
-
+import {ToastModule} from "primeng/toast";
+// import {FileUploadModule} from "primeng/fileupload";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
+import {ContextMenuModule} from "primeng/contextmenu";
 
 
 @NgModule({
@@ -37,10 +40,14 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
     FormsModule,
     KeyFilterModule,
     ArquivoModule,
+    ToastModule,
+    ContextMenuModule,
+    // FileUploadModule,
   ],
   exports: [
     ExplorerComponent,
     ExternalLinkDirective
   ]
 })
-export class ExplorerModule { }
+export class ExplorerModule {
+}

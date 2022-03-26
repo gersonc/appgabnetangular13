@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {AuthenticationService} from "../../_services";
-import {HistoricoSolicitacaoService} from "../_services/historico-solocitacao.service";
 import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
+import {HistoricoSolicitacaoService} from "../_services/historico-solicitacao.service";
 
 @Component({
   selector: 'app-historico-solocitacao-excluir',

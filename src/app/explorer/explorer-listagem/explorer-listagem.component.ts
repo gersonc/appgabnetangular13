@@ -1,9 +1,10 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ExplorerService} from "../_services/explorer.service";
 import {ArquivoListagem, Caminho, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {ArquivoService} from "../../arquivo/_services";
-import {Subject, Subscription} from "rxjs";
-import {take} from "rxjs/operators";
+import {MenuItem} from "primeng/api";
+import { saveAs } from 'file-saver';
+import * as FileSaver from "file-saver";
 
 @Component({
   selector: 'app-explorer-listagem',
@@ -19,12 +20,71 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
   urlbackGroundButton = '/assets/icons/folder.png';
   arquivoInterno: any = null;
 
+  itemsFolder: MenuItem[];
+  itemsFile: MenuItem[];
+
   constructor(
     public exs: ExplorerService,
     public as: ArquivoService
   ) { }
 
   ngOnInit(): void {
+    this.itemsFolder = [
+      {
+        label: 'Renomear',
+        command: event => {
+          console.log(event);
+        }
+      },
+      {
+        label: 'Apagar',
+        command: event => {
+          this.onApagarFolder();
+        }
+      }
+    ];
+
+    this.itemsFile = [
+      {
+        label: 'Download',
+        command: event => {
+          // window.open(this.arquivo.arquivo_url_s3,'_blank', 'noopener');
+          FileSaver(this.arquivo.arquivo_url_s3, this.arquivo.arquivo_nome_original)
+        }
+      },
+      {
+        label: 'Apagar',
+        command: event => {
+          this.onDownload();
+        }
+      }
+    ];
+
+  }
+
+  onDownload() {
+    // saveAs(this.arquivo.arquivo_url_s3, this.arquivo.arquivo_nome_original);
+    // window.open(this.arquivo.arquivo_url_s3,'_blank', 'noopener');
+    /*this.exs.getDownload(this.arquivo.arquivo_url_s3)
+      .subscribe(blob => saveAs(blob, this.arquivo.arquivo_nome_original));*/
+
+    this.exs.getDownload(this.arquivo.arquivo_url_s3)
+      .subscribe(blob => {
+        const a = document.createElement('a')
+        const objectUrl = URL.createObjectURL(blob)
+        a.href = objectUrl
+        a.download = 'archive.zip';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+      })
+  }
+
+  onApagarFolder() {
+    console.log('apagar', this.pasta);
+  }
+
+  onApagarArquivo() {
+    console.log('apagar', this.arquivo);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

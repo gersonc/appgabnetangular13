@@ -14082,14 +14082,20 @@ h5 {
   color: var(--primary-color-text);
 }
 
+
 .explorer-topo-icones {
-  margin-left: .6em;
-  padding: 0.15em 0.3em 0.15em 0.3em;
+  padding: 0.15em 0.3em 0.15em 0;
   float: left;
   /*width: 1rem;*/
   font-size: 1.2em;
   font-weight: 600;
   text-align: center;
+}
+
+.explorer-topo-icones:first-of-type {
+  margin-left: .6em;
+  margin-right: .6em;
+  padding: 0.15em 0.3em 0.15em 0.3em;
 }
 
 .explorer-topo-icones:hover {

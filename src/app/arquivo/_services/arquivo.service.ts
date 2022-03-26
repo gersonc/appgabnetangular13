@@ -27,7 +27,7 @@ export class ArquivoService {
     image: 'jpg',
     pdf: 'pdf',
     word: 'doc',
-    powerpoint: 'pps',
+    powerpoint: 'ppt',
     excel: 'xls',
     visio: 'vsd',
     access: 'mdb',

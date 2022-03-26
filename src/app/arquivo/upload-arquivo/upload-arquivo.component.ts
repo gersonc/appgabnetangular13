@@ -34,6 +34,7 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
   @Input() style: any = null;
   @Input() class: string = null;
   @Input() mode = 'advanced';
+  @Input() drag = false;
   @Input() enviarArquivos = false;
   @Input() clearArquivos = false;
   @Input() showUploadButton = false;
@@ -118,6 +119,10 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
       if (changes.mode.currentValue === 'basic') {
         this.auto = true;
       }
+    }
+    if (changes.drag) {
+      console.log('changes.drag', changes.drag.currentValue);
+      // this.auto = changes.drag.currentValue;
     }
     if (changes.showUploadButton) {
       this.mostraBtnUpload = changes.showUploadButton.currentValue;

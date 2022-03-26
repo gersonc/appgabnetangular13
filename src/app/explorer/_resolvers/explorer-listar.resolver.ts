@@ -33,6 +33,7 @@ export class ExplorerListarResolver implements Resolve<boolean> {
         this.exs.caminhoAtual = [
           {
             arquivo_pasta_id: dados.arquivo_pasta_id,
+            arquivo_pasta_anterior_id: dados.arquivo_pasta_anterior_id,
             arquivo_pasta_nome: dados.arquivo_pasta_nome,
             arquivo_pasta_titulo: dados.arquivo_pasta_titulo
           }

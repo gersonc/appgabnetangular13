@@ -15,6 +15,7 @@ export interface ArquivoListagem {
 
 export interface PastaListagem {
   arquivo_pasta_id?: number;
+  arquivo_pasta_anterior_id?: number,
   arquivo_pasta_nome?: string;
   arquivo_pasta_titulo?: string;
   arquivo_listagem?: ArquivoListagem[];
@@ -25,6 +26,7 @@ export class Pasta {
 
   constructor(
     public arquivo_pasta_id?: number,
+    public arquivo_pasta_anterior_id?: number,
     public arquivo_pasta_nome?: string,
     public arquivo_pasta_titulo?: string
   ) {}
@@ -32,6 +34,7 @@ export class Pasta {
 
 export interface Caminho {
   pasta_id?: number;
+  pasta_anterior_id?: number;
   pasta_nome?: string;
   pasta_titulo?: string;
 }

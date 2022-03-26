@@ -4,12 +4,13 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpResponse, HttpErrorResponse
+  HttpResponse, HttpErrorResponse, HttpHeaders
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
 import { AuthenticationService } from '../_services';
+import * as http from "http";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -28,6 +29,7 @@ export class JwtInterceptor implements HttpInterceptor {
         });
       }
     }
+
     return next.handle(request).pipe(map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && (event.status / 100) > 3) {
           console.log('HttpResponse::event =', event);

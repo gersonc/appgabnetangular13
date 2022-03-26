@@ -1,11 +1,8 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
-import { CommonModule } from '@angular/common';
-import { HistoricoSolicitacaoComponent } from './historico-solocitacao.component';
-import { HistoricoSolicitacaoListarComponent } from './historico-solocitacao-listar/historico-solocitacao-listar.component';
+import {CommonModule} from '@angular/common';
 import {TableModule} from "primeng/table";
 import {QuillModule} from "ngx-quill";
-import { HistoricoSolicitacaoFormComponent } from './historico-solocitacao-form/historico-solocitacao-form.component';
 import {TooltipModule} from "primeng/tooltip";
 import {DialogModule} from "primeng/dialog";
 import {CalendarModule} from "primeng/calendar";
@@ -15,12 +12,19 @@ import {ScrollPanelModule} from "primeng/scrollpanel";
 import {RippleModule} from "primeng/ripple";
 import {PanelModule} from "primeng/panel";
 import {MessageModule} from "primeng/message";
-import { HistroricoSolicitacaoDetalheComponent } from './histrorico-solocitacao-detalhe/histrorico-solocitacao-detalhe.component';
-import { HistoricoSolicitacaoExcluirComponent } from './historico-solocitacao-excluir/historico-solocitacao-excluir.component';
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ToastModule} from "primeng/toast";
-import {ConfirmationService} from "primeng/api";
-
+import {HistoricoSolicitacaoComponent} from "./historico-solicitacao.component";
+import {
+  HistoricoSolicitacaoListarComponent
+} from "./historico-solicitacao-listar/historico-solicitacao-listar.component";
+import {
+  HistroricoSolicitacaoDetalheComponent
+} from "./histrorico-solicitacao-detalhe/histrorico-solicitacao-detalhe.component";
+import {
+  HistoricoSolicitacaoExcluirComponent
+} from "./historico-solicitacao-excluir/historico-solicitacao-excluir.component";
+import {HistoricoSolicitacaoFormComponent} from "./historico-solicitacao-form/historico-solicitacao-form.component";
 
 
 @NgModule({
@@ -56,4 +60,5 @@ import {ConfirmationService} from "primeng/api";
     HistoricoSolicitacaoExcluirComponent
   ]
 })
-export class HistoricoSolicitacaoModule { }
+export class HistoricoSolicitacaoModule {
+}

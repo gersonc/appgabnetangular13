@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {UrlService} from "../../_services";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ArquivoListagem, Caminho, Pasta, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
@@ -14,6 +14,7 @@ export class ExplorerService {
   caminhoAtual: PastaListagem[] = [
     {
       arquivo_pasta_id: 0,
+      arquivo_pasta_anterior_id: 0,
       arquivo_pasta_nome: 'pastas',
       arquivo_pasta_titulo: 'RAIZ'
     }
@@ -29,6 +30,7 @@ export class ExplorerService {
     if (this.caminhoAtual.length === 0 || this.caminhoAtual[0].arquivo_pasta_id !== 0) {
       this.caminhoAtual.unshift({
         arquivo_pasta_id: 0,
+        arquivo_pasta_anterior_id: 0,
         arquivo_pasta_nome: 'pastas',
         arquivo_pasta_titulo: 'RAIZ'
       });
@@ -44,6 +46,7 @@ export class ExplorerService {
         this.caminhoAtual = [
           {
             arquivo_pasta_id: dados.arquivo_pasta_id,
+            arquivo_pasta_anterior_id: dados.arquivo_pasta_anterior_id,
             arquivo_pasta_nome: dados.arquivo_pasta_nome,
             arquivo_pasta_titulo: dados.arquivo_pasta_titulo
           }
@@ -61,6 +64,7 @@ export class ExplorerService {
 
       const caminho: PastaListagem = {
           arquivo_pasta_id: this.pastaListagem.arquivo_pasta_id,
+          arquivo_pasta_anterior_id: this.pastaListagem.arquivo_pasta_anterior_id,
           arquivo_pasta_nome: this.pastaListagem.arquivo_pasta_nome,
           arquivo_pasta_titulo: this.pastaListagem.arquivo_pasta_titulo,
         };
@@ -124,6 +128,16 @@ export class ExplorerService {
     return this.http.get<Caminho[]>(url);
   }
 
+  getPastaId(): number {
+    const idx = this.caminhoAtual.length - 1;
+    return this.caminhoAtual[idx].arquivo_pasta_id;
+  }
+
+  mostraUpload(): boolean {
+    const idx = this.getPastaId();
+    return (idx < 1 || idx > 20);
+  }
+
   onDestroy(): void {
     console.log('onDestroy');
     delete this.pastaListagem;
@@ -133,7 +147,34 @@ export class ExplorerService {
     });
   }
 
-  postNovaPasta(pasta: Pasta) {
-    const url = this.url.explorer;
+  incluirPasta(pasta: Pasta) {
+    let r: {
+      vf: boolean,
+      msg: string
+    };
+    this.sub.push(this.postNovaPasta(pasta).pipe(take(1)).subscribe( dados => {
+      r.vf = dados[0];
+      this.pastaListagem = dados[1];
+      r.msg = dados[2];
+      console.log(r);
+    }));
   }
+
+  postNovaPasta(pasta: Pasta): Observable<any[]> {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.explorer + '/incluir';
+    return this.http.post<any[]>(url, pasta, httpOptions);
+  }
+
+  getUrl(): string {
+    return this.url.uploadlocal + '/explorer/' + this.getPastaId();
+  }
+
+  getDownload(url: string): Observable<Blob> {
+    return this.http.get(url, {
+      responseType: 'blob'
+    })
+  }
+
+
 }
