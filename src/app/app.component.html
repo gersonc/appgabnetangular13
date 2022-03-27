@@ -32,6 +32,14 @@
 
 </div>
 
-<ng-http-loader></ng-http-loader>
+<ng-http-loader
+  [backdrop]="sps.vf"
+  [backgroundColor]="'#007bff'"
+  [debounceDelay]="100"
+  [extraDuration]="300"
+  [minDuration]="300"
+  [backdropBackgroundColor]="'#777777'"
+  [spinner]="sps.modelo">
+</ng-http-loader>
 <p-toast></p-toast>
 

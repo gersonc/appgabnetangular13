@@ -44,6 +44,7 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
   @Output() onAddArquivo = new EventEmitter<number>();
   @Output() onProgresso = new EventEmitter<number>();
   @Output() onEnvioInicio = new EventEmitter<boolean>();
+  @Output() onArquivosEnviados = new EventEmitter<ArquivoInterface[]>()
 
   multiple = true;
 
@@ -186,7 +187,9 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
 
   onEnviado(ev) {
     console.log('onEnviado', ev);
+    let arqs: any[] = [];
     if (ev.originalEvent.body.length > 0) {
+      arqs.push(...ev.originalEvent.body);
       ev.originalEvent.body.forEach( (x: ArquivoInterface) => {
         this.as.atualisaArquivosUpload(x);
       });
@@ -195,6 +198,7 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
     this.id = 0;
     this.ass.escondeCarregador();
     this.onUpload.emit(true);
+    this.onArquivosEnviados.emit(arqs);
   }
 
 

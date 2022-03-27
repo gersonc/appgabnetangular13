@@ -14274,6 +14274,7 @@ p-overlayPanel.explorer {
 }
 
 .explorer-delete {
+  cursor: pointer;
   background-color: var(--danger);
   color: var(--primary-color-text);
 }
@@ -14353,4 +14354,27 @@ p-overlayPanel.explorer {
 
 span.explorer {
   cursor: pointer;
+}
+
+.explorer .atencao {
+  margin: 0;
+  background-color: var(--warning);
+  padding: 0 1rem 0 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.explorer .aviso0 {
+  width: 15rem;
+  padding: .5rem;
+  font-size: 1rem;
+  align-content: center;
+}
+.explorer .aviso1 {
+  width: 15rem;
+  padding: .5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  align-content: center;
+  padding-bottom: .4rem;
 }

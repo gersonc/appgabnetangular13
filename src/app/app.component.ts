@@ -13,6 +13,9 @@ import { ResizedEvent } from 'angular-resize-event';
 import { CoordenadaXY } from './_layout/_service/coordenada-x-y';
 import { ArquivoLoginService } from './arquivo/_services';
 import { PrimeNGConfig } from 'primeng/api';
+import {SpinnerService} from "./_services/spinner.service";
+import { Spinkit } from 'ng-http-loader';
+
 
 @Component({
   selector: 'app-root',
@@ -27,9 +30,13 @@ export class AppComponent implements OnInit {
   carregador = 'carregador';
   public carregadorSN = false;
   recarregamenu = false;
-
+  // public spinkit = Spinkit;
   classe: string = null;
   // mobile = true;
+
+
+
+
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
@@ -47,7 +54,8 @@ export class AppComponent implements OnInit {
     private windowsService: WindowsService,
     public cs: CarregadorService,
     private as: ArquivoLoginService,
-    public md: MenuDatatableService
+    public md: MenuDatatableService,
+    public sps: SpinnerService,
   ) { }
 
   ngOnInit() {

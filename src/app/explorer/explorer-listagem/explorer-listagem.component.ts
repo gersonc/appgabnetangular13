@@ -3,8 +3,7 @@ import {ExplorerService} from "../_services/explorer.service";
 import {ArquivoListagem, Caminho, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {ArquivoService} from "../../arquivo/_services";
 import {MenuItem} from "primeng/api";
-import { saveAs } from 'file-saver';
-import * as FileSaver from "file-saver";
+import {OverlayPanel} from "primeng/overlaypanel";
 
 @Component({
   selector: 'app-explorer-listagem',
@@ -12,10 +11,14 @@ import * as FileSaver from "file-saver";
   styleUrls: ['./explorer-listagem.component.css']
 })
 export class ExplorerListagemComponent implements OnInit, OnChanges {
+  @ViewChild('ovlp', { static: true }) public ovlp: OverlayPanel;
   @Input() pasta?: PastaListagem;
   @Input() arquivo?: ArquivoListagem;
 
-
+  mostraDialog = false;
+  mostraMenu = true;
+  mostraRenomear = false;
+  mostraApagar = true;
   urlbackGround = '/assets/icons/folder.png';
   urlbackGroundButton = '/assets/icons/folder.png';
   arquivoInterno: any = null;
@@ -29,62 +32,11 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-    this.itemsFolder = [
-      {
-        label: 'Renomear',
-        command: event => {
-          console.log(event);
-        }
-      },
-      {
-        label: 'Apagar',
-        command: event => {
-          this.onApagarFolder();
-        }
-      }
-    ];
-
-    this.itemsFile = [
-      {
-        label: 'Download',
-        command: event => {
-          // window.open(this.arquivo.arquivo_url_s3,'_blank', 'noopener');
-          FileSaver(this.arquivo.arquivo_url_s3, this.arquivo.arquivo_nome_original)
-        }
-      },
-      {
-        label: 'Apagar',
-        command: event => {
-          this.onDownload();
-        }
-      }
-    ];
-
   }
 
-  onDownload() {
-    // saveAs(this.arquivo.arquivo_url_s3, this.arquivo.arquivo_nome_original);
-    // window.open(this.arquivo.arquivo_url_s3,'_blank', 'noopener');
-    /*this.exs.getDownload(this.arquivo.arquivo_url_s3)
-      .subscribe(blob => saveAs(blob, this.arquivo.arquivo_nome_original));*/
-
-    this.exs.getDownload(this.arquivo.arquivo_url_s3)
-      .subscribe(blob => {
-        const a = document.createElement('a')
-        const objectUrl = URL.createObjectURL(blob)
-        a.href = objectUrl
-        a.download = 'archive.zip';
-        a.click();
-        URL.revokeObjectURL(objectUrl);
-      })
-  }
-
-  onApagarFolder() {
-    console.log('apagar', this.pasta);
-  }
 
   onApagarArquivo() {
-    console.log('apagar', this.arquivo);
+    this.exs.apagarArquivo(this.arquivo.arquivo_id);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -110,13 +62,26 @@ export class ExplorerListagemComponent implements OnInit, OnChanges {
     return (neg ? '-' : '') + num + ' ' + unit;
   }
 
-  onDelete(arquivo: ArquivoListagem){
-    console.log(arquivo);
+
+  onMostraApagar() {
+    this.mostraApagar = true;
+    this.mostraMenu = false;
   }
 
-  onClickPasta(id: number) {
-      this.exs.addCaminho(id);
+  onRightClickPasta(ev) {
+    ev.preventDefault();
+    if (this.pasta.arquivo_pasta_id <= 20) {
+      this.mostraApagar = false;
+    } else {
+      this.mostraApagar = true;
+    }
+    ev.target.auxclick;
   }
+
+  apagarPasta() {
+    this.exs.apagarPasta(this.pasta.arquivo_pasta_id);
+  }
+
 
 
 }

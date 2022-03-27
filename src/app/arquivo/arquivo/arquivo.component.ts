@@ -28,6 +28,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   @Output() onPossuiArquivos = new EventEmitter<boolean>();
   @Output() onProgress = new EventEmitter<number>();
   @Output() onInicioEnvio = new EventEmitter();
+  @Output() onArquivosGravados = new EventEmitter<ArquivoInterface[]>()
 
   public listaArquivos = false;
   public showCancelButton = true;
@@ -235,6 +236,10 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
 
   onEnvioInicio(ev: boolean) {
     this.onInicioEnvio.emit();
+  }
+
+  onGravados(ev: ArquivoInterface[]) {
+    this.onArquivosGravados.emit(ev);
   }
 
 }

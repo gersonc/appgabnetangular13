@@ -54,6 +54,7 @@ export class ArquivoService {
     jpeg: this.icons.image,
     jpg: this.icons.image,
     png: this.icons.image,
+    bmp: this.icons.image,
 
     vsd: this.icons.visio,
     vdx: this.icons.visio,
@@ -113,6 +114,7 @@ export class ArquivoService {
     'image/gif': this.icons.image,
     'image/jpeg': this.icons.image,
     'image/png': this.icons.image,
+    'image/bmp': this.icons.image,
 
     'application/pdf': this.icons.pdf,
 
@@ -159,7 +161,11 @@ export class ArquivoService {
   public _arquivos: ArquivoInterface[] = [];
 
 
-  constructor(private url: UrlService, private http: HttpClient, public ass: ArquivoSpinnerService) {
+  constructor(
+    private url: UrlService,
+    private http: HttpClient,
+    public ass: ArquivoSpinnerService
+    ) {
     this.verificaPermissoes();
   }
 

@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import {UrlService} from "../../_services";
+import {AuthenticationService, UrlService} from "../../_services";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ArquivoListagem, Caminho, Pasta, PastaListagem} from "../_models/arquivo-pasta.interface";
 import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
+import {MessageService} from "primeng/api";
+import {SpinnerService} from "../../_services/spinner.service";
+import {ArquivoInterface} from "../../arquivo/_models";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +23,14 @@ export class ExplorerService {
     }
   ];
   fVF = true;
+  desligaBtnApagar = false;
 
   constructor(
     private url: UrlService,
-    private http: HttpClient
+    private http: HttpClient,
+    public messageService: MessageService,
+    public aut: AuthenticationService,
+    public sps: SpinnerService
   ) { }
 
   adicionaBase() {
@@ -138,6 +145,11 @@ export class ExplorerService {
     return (idx < 1 || idx > 20);
   }
 
+  mostraDelete(): boolean {
+    const idx = this.getPastaId();
+    return (idx > 20);
+  }
+
   onDestroy(): void {
     console.log('onDestroy');
     delete this.pastaListagem;
@@ -174,6 +186,45 @@ export class ExplorerService {
     return this.http.get(url, {
       responseType: 'blob'
     })
+  }
+
+  apagarArquivo(id: number) {
+    this.sub.push(this.deleteArquivo(id).pipe(take(1)).subscribe( dados => {
+      if (dados[0]) {
+        this.pastaListagem.arquivo_listagem.splice(this.pastaListagem.arquivo_listagem.findIndex( x => x.arquivo_id === id), 1);
+        this.messageService.add({key: 'keyArquivo', severity:'success', summary: 'APAGAR ARQUIVO', detail: dados[2]});
+      } else {
+        this.messageService.add({key: 'keyArquivo', severity:'error', summary: 'APAGAR ARQUIVO', detail: dados[2]});
+      }
+    }));
+  }
+
+  deleteArquivo(id: number): Observable<any[]> {
+    const url = this.url.arquivo + '/' + id;
+    return this.http.delete<any[]>(url);
+  }
+
+  apagarPasta(id: number) {
+    this.desligaBtnApagar = true;
+    this.sub.push(this.deletePasta(id).pipe(take(1)).subscribe( dados => {
+      if (dados) {
+        this.pastaListagem.pastas.splice(this.pastaListagem.pastas.findIndex( x => x.arquivo_pasta_id === id), 1);
+        this.messageService.add({key: 'keyFolder', severity:'success', summary: 'APAGAR PASTA', detail: 'Pasta apagada com sucesso.'});
+        this.desligaBtnApagar = false;
+      } else {
+        this.messageService.add({key: 'keyFolder', severity:'error', summary: 'APAGAR PASTA', detail: 'Erro ocorrido.'});
+        this.desligaBtnApagar = false;
+      }
+    }));
+  }
+
+  deletePasta(id: number): Observable<any[]> {
+    const url = this.url.explorer + '/' + id;
+    return this.http.delete<any[]>(url);
+  }
+
+  atualisaArquivos(arqs: ArquivoInterface[]) {
+    this.pastaListagem.arquivo_listagem.push(...arqs);
   }
 
 

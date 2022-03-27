@@ -1,30 +1,22 @@
 <p-panel
   [toggleable]="painelDestravado"
   [collapsed]="painelFechado"
-  (onBeforeToggle)="onBeforeToggle($event)"
-  (onAfterToggle)="onAfterToggle($event)"
   #painel
   class="explorer">
 
   <ng-template pTemplate="icons">
-
-
     <button *ngIf="exs.mostraUpload() && mostraBtns" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreUpload()">
       <span class="pi pi-upload"></span>
     </button>
-    <button *ngIf="mostraBtns" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreFormulario()">
+    <button *ngIf="exs.mostraUpload() && mostraBtns" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreFormulario()">
       <span class="pi pi-folder"></span>
     </button>
-
   </ng-template>
 
   <ng-template pTemplate="header">
-
-
     <div class="p-d-inline p-jc-between p-ai-center p-flex-column p-flex-md-row">
       <div class="p-d-flex p-jc-between">
         <div class="p-mx-1">
-
           <div *ngFor="let caminho of exs.caminhoAtual" class="explorer-topo-icones">
             <ng-container *ngIf="caminho.arquivo_pasta_id === 0">
               <span class="explorer"><i class="pi pi-home" style="font-size: 1.7rem" (click)="exs.getBase()"></i></span>
@@ -34,18 +26,13 @@
                     (click)="exs.ajustaCaminho(caminho.arquivo_pasta_id)">/{{caminho.arquivo_pasta_titulo}}</span>
             </ng-container>
           </div>
-
         </div>
       </div>
     </div>
-
   </ng-template>
 
-
   <ng-template pTemplate="content">
-
     <ng-container *ngIf="!uploadPasta && !painelFechado">
-
       <form (ngSubmit)="onSubmit()">
         <h5>Nova pasta</h5>
         <div class="p-formgroup-inline">
@@ -58,7 +45,6 @@
           <button pButton pRipple type="button" label="Enviar" (click)="incluirPasta()" [disabled]="desabilitado"></button>
         </div>
       </form>
-
     </ng-container>
 
     <ng-container *ngIf="uploadPasta && !painelFechado">
@@ -69,27 +55,12 @@
         [uploadDisabled]="false"
         (onBlockSubmit)="onBlockSubmit($event)"
         (onUpload)="onUpload($event)"
-        (onPossuiArquivos)="onPossuiArquivos($event)"
         [clearArquivos]="clearArquivos"
+        (onArquivosGravados)="atualisaArquivos($event)"
       ></app-arquivo>
-      <!--<p-fileUpload
-        name="arquivo[]"
-        multiple="multiple"
-        [url]="exs.getUrl()"
-        [accept]="accept"
-        [maxFileSize]="maxFileSize"
-        [fileLimit]="fileLimit"
-        (onUpload)="onUpload($event)"
-        (onBeforeUpload)="onBeforeUpload($event)"
-      ></p-fileUpload>-->
     </ng-container>
-
-
   </ng-template>
-
-
 </p-panel>
-
 
 <div *ngIf="exs.caminhoAtual.length > 1" class="explorer-folder">
   <div class="explorer-root-icons" (click)="exs.getVoltar()">
@@ -111,7 +82,7 @@
   </ng-container>
 </ng-container>
 
-
-
 <p-toast key="key1"></p-toast>
+<p-toast key="keyArquivo"></p-toast>
+<p-toast key="keyFolder"></p-toast>
 
