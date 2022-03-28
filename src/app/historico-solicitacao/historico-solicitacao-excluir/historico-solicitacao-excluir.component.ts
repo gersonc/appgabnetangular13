@@ -7,8 +7,8 @@ import {HistoricoSolicitacaoService} from "../_services/historico-solicitacao.se
 
 @Component({
   selector: 'app-historico-solocitacao-excluir',
-  templateUrl: './historico-solocitacao-excluir.component.html',
-  styleUrls: ['./historico-solocitacao-excluir.component.css'],
+  templateUrl: './historico-solicitacao-excluir.component.html',
+  styleUrls: ['./historico-solicitacao-excluir.component.css'],
   providers: [ConfirmationService,MessageService]
 })
 export class HistoricoSolicitacaoExcluirComponent implements OnInit, OnDestroy {

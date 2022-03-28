@@ -4,8 +4,8 @@ import {SolicitacaoHistoricoInterface} from "../../solicitacao/_models";
 
 @Component({
   selector: 'app-historico-solocitacao-listar',
-  templateUrl: './historico-solocitacao-listar.component.html',
-  styleUrls: ['./historico-solocitacao-listar.component.css']
+  templateUrl: './historico-solicitacao-listar.component.html',
+  styleUrls: ['./historico-solicitacao-listar.component.css']
 })
 export class HistoricoSolicitacaoListarComponent implements OnInit, OnChanges {
   @Input() dados: any[];

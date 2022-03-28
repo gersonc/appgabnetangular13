@@ -13,7 +13,7 @@ import {
   SolicitacaoDetalheInterface,
   SolicitacaoInterfaceExcel,
   SolicitacaoListar12Interface,
-  SolicitacaoListar345Interface, SolicitacaoExcel12, SolicitacaoExcluirInterface
+  SolicitacaoListar345Interface, SolicitacaoExcel12, SolicitacaoExcluirInterface, SolicitacaoHistoricoInterface
 } from '../_models';
 import { SolicitacaoService, SolicitacaoBuscarService } from '../_services';
 import {Config} from 'quill-to-word';
@@ -71,7 +71,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
   deltaquill: any = null;
   showDetalhe = false;
   solDetalhe: SolicitacaoDetalheInterface = null;
-
+  showHistoricoForm = false;
+  solHistForm: any;
 
   constructor(
     public mi: MenuInternoService,
@@ -421,7 +422,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
 
   solicitacaoAlterar(sol: SolicitacaoListar12Interface | SolicitacaoListar345Interface) {
     if (this.aut.solicitacao_alterar) {
-      this.cs.mostraCarregador();
       this.dtsol.saveState();
       if (this.solicitacaoService.expandidoDados) {
         this.solicitacaoService.gravaColunaExpandida(this.solicitacaoService.expandidoDados);
@@ -468,7 +468,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoAnalisar(sol: SolicitacaoListar12Interface | SolicitacaoListar345Interface) {
-    console.log('solicitacaoAnalisar', sol);
     if (sol.solicitacao_posicao !== 'EM ABERTO') {
       this.messageService.add(
         {
@@ -481,7 +480,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.usuario_responsavel_sn
       && this.aut.solicitacao_analisar
       && sol.solicitacao_posicao === 'EM ABERTO') {
-      console.log('solicitacaoAnalisar22222222', sol);
       this.cs.mostraCarregador();
       this.dtsol.saveState();
       if (this.solicitacaoService.expandidoDados) {
@@ -493,6 +491,20 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       this.router.navigate(['/solicitacao/analisar', sol.solicitacao_id]);
     }
 
+  }
+
+  historicoSolicitacao(sol: SolicitacaoListar12Interface | SolicitacaoListar345Interface) {
+    this.solHistForm = sol;
+    this.showHistoricoForm = true;
+  }
+  onHistoricoIncluido(novosDados: any) {
+    this.showHistoricoForm = false;
+    this.solHistForm = null;
+  }
+
+  escondeHistoricoForm() {
+    this.showHistoricoForm = false;
+    this.solHistForm = null;
   }
 
   // FUNCOES RELATORIOS=========================================================
@@ -705,8 +717,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
     return sl;
   }
 
-
-
   constroiExtendida() {
     const v = this.solicitacaoService.recuperaColunaExpandida();
     if (v) {
@@ -754,7 +764,6 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
   }
 
   async exportWord() {
-
     const config: Config = {
       paragraphStyles: {
         header_1: {

@@ -5,6 +5,7 @@ import {take} from "rxjs/operators";
 import {Subscription} from "rxjs";
 import {MessageService} from "primeng/api";
 import {ArquivoInterface} from "../arquivo/_models";
+import {AuthenticationService} from "../_services";
 
 
 @Component({
@@ -30,6 +31,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
 
   constructor(
     public exs: ExplorerService,
+    public aut: AuthenticationService,
     private messageService: MessageService
   ) {}
 

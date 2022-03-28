@@ -1,9 +1,10 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {SolicitacaoHistoricoInterface} from "../solicitacao/_models";
 
 @Component({
   selector: 'app-historico-solocitacao',
-  templateUrl: './historico-solocitacao.component.html',
-  styleUrls: ['./historico-solocitacao.component.css']
+  templateUrl: './historico-solicitacao.component.html',
+  styleUrls: ['./historico-solicitacao.component.css']
 })
 export class HistoricoSolicitacaoComponent implements OnInit, OnChanges {
   @Input() acao: string;
@@ -29,6 +30,12 @@ export class HistoricoSolicitacaoComponent implements OnInit, OnChanges {
       if (a === 'detalhe') {
         this.ac = 'detalhe'
       }
+      if (a === 'alterar') {
+        this.ac = 'alterar'
+      }
+      if (a === 'excluir') {
+        this.ac = 'excluir'
+      }
     }
     if (changes.classeStylos) {
       this.estilo = changes.classeStylos.currentValue;
@@ -37,6 +44,10 @@ export class HistoricoSolicitacaoComponent implements OnInit, OnChanges {
       console.log('changes.dados1', changes.dados.currentValue);
       this.valores = changes.dados.currentValue;
     }
+  }
+
+  onNovosDados(dados: SolicitacaoHistoricoInterface) {
+
   }
 
 }

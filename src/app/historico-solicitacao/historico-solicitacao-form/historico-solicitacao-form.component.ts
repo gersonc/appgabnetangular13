@@ -14,8 +14,8 @@ import {HistoricoSolicitacaoI} from "../_models/historico-solicitacao";
 
 @Component({
   selector: 'app-historico-solocitacao-form',
-  templateUrl: './historico-solocitacao-form.component.html',
-  styleUrls: ['./historico-solocitacao-form.component.css'],
+  templateUrl: './historico-solicitacao-form.component.html',
+  styleUrls: ['./historico-solicitacao-form.component.css'],
 })
 export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() dados?: any;
@@ -255,9 +255,10 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
           },
           complete: () => {
             if (this.resp[0]) {
-              this.historico.historico_id = this.resp[1];
+              this.historico = this.resp[1];
               this.msg[0] = 1;
               this.msg[2] = 'Andamento incluido com sucesso.';
+              this.novosDados.emit(this.historico);
             } else {
               this.enviando = true;
               this.msg[0] = 2;
@@ -297,7 +298,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
           },
           complete: () => {
             if (this.resp[0]) {
-              this.historico.historico_id = this.resp[1];
+              this.historico = this.resp[1];
 
               this.msg[1] = 'Andamento Alterado com sucesso.';
               this.msg[0] = 1;

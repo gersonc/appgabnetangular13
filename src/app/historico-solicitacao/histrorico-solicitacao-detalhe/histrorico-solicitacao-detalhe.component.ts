@@ -4,8 +4,8 @@ import {SolicitacaoHistoricoInterface} from "../../solicitacao/_models";
 
 @Component({
   selector: 'app-histrorico-solocitacao-detalhe',
-  templateUrl: './histrorico-solocitacao-detalhe.component.html',
-  styleUrls: ['./histrorico-solocitacao-detalhe.component.css']
+  templateUrl: './histrorico-solicitacao-detalhe.component.html',
+  styleUrls: ['./histrorico-solicitacao-detalhe.component.css']
 })
 export class HistroricoSolicitacaoDetalheComponent implements OnInit {
   @Input() historicos: SolicitacaoHistoricoInterface[];

@@ -14,17 +14,17 @@ import {PanelModule} from "primeng/panel";
 import {MessageModule} from "primeng/message";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ToastModule} from "primeng/toast";
-import {HistoricoSolicitacaoComponent} from "./historico-solicitacao.component";
-import {
-  HistoricoSolicitacaoListarComponent
-} from "./historico-solicitacao-listar/historico-solicitacao-listar.component";
+import {HistoricoSolicitacaoFormComponent} from "./historico-solicitacao-form/historico-solicitacao-form.component";
 import {
   HistroricoSolicitacaoDetalheComponent
 } from "./histrorico-solicitacao-detalhe/histrorico-solicitacao-detalhe.component";
 import {
   HistoricoSolicitacaoExcluirComponent
 } from "./historico-solicitacao-excluir/historico-solicitacao-excluir.component";
-import {HistoricoSolicitacaoFormComponent} from "./historico-solicitacao-form/historico-solicitacao-form.component";
+import {
+  HistoricoSolicitacaoListarComponent
+} from "./historico-solicitacao-listar/historico-solicitacao-listar.component";
+import {HistoricoSolicitacaoComponent} from "./historico-solicitacao.component";
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import {HistoricoSolicitacaoFormComponent} from "./historico-solicitacao-form/hi
     HistoricoSolicitacaoListarComponent,
     HistoricoSolicitacaoFormComponent,
     HistroricoSolicitacaoDetalheComponent,
-    HistoricoSolicitacaoExcluirComponent,
+    HistoricoSolicitacaoExcluirComponent
   ],
   imports: [
     CommonModule,
@@ -56,6 +56,7 @@ import {HistoricoSolicitacaoFormComponent} from "./historico-solicitacao-form/hi
   exports: [
     HistoricoSolicitacaoComponent,
     HistoricoSolicitacaoFormComponent,
+    HistoricoSolicitacaoListarComponent,
     HistroricoSolicitacaoDetalheComponent,
     HistoricoSolicitacaoExcluirComponent
   ]

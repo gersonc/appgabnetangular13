@@ -1,4 +1,10 @@
-import {SolicitacaoInterface, SolicitacaoListar12Interface, SolicitacaoListar345Interface} from './solicitacao.interface';
+import {
+  SolicitacaoHistoricoInterface,
+  SolicitacaoInterface,
+  SolicitacaoListar12Interface,
+  SolicitacaoListar345Interface
+} from './solicitacao.interface';
+import {HistoricoProcessoI} from "../../historico-processo/_models/historico-processo";
 
 export interface SolicitacaoCadastroInterface {
   cadastro_id?: number;
@@ -61,6 +67,8 @@ export interface SolicitacaoDetalheInterface {
   // solicitacao: SolicitacaoInterface;
   solicitacao: SolicitacaoListar12Interface | SolicitacaoListar345Interface;
   solicitacao_titulo?: any[];
+  solicitacao_historico?: SolicitacaoHistoricoInterface[];
+  solicitacao_historico_titulo?: any[];
   cadastro: SolicitacaoCadastroInterface;
   cadastro_titulo?: any[];
   processo_num?: SolicitacaoProcessoNumInterface[];

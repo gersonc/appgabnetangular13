@@ -5,10 +5,10 @@
   class="explorer">
 
   <ng-template pTemplate="icons">
-    <button *ngIf="exs.mostraUpload() && mostraBtns" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreUpload()">
+    <button *ngIf="exs.mostraUpload() && mostraBtns && aut.arquivos_anexar" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreUpload()">
       <span class="pi pi-upload"></span>
     </button>
-    <button *ngIf="exs.mostraUpload() && mostraBtns" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreFormulario()">
+    <button *ngIf="exs.mostraUpload() && mostraBtns && aut.arquivos_anexar" pButton pRipple class="p-panel-header-icon p-link p-ripple" (click)="abreFormulario()">
       <span class="pi pi-folder"></span>
     </button>
   </ng-template>

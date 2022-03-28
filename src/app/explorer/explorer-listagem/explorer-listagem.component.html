@@ -1,4 +1,4 @@
-<ng-container *ngIf="arquivo">
+<ng-container *ngIf="arquivo && (exs.aut.arquivos_baixar || exs.aut.arquivos_apagar)">
   <div class="explorer-arquivo" #arq>
     <div id="tst" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}"
          (click)="op.toggle($event)">
@@ -17,19 +17,23 @@
         <div>{{readableBytes(arquivo.arquivo_tamanho)}}</div>
       </div>
       <div class="p-d-inline explorer-overlay-content">
+        <ng-container *ngIf="exs.aut.arquivos_baixar">
         <a href="{{arquivo.arquivo_url_s3}}">
           <p-avatar icon="pi pi-download" shape="circle" styleClass="p-shadow-3 explorer-download"></p-avatar>
         </a>
+        </ng-container>
+        <ng-container *ngIf="exs.aut.arquivos_apagar">
         <div class="explorer-overlay-buttons" *ngIf="exs.mostraUpload()">
           <p-avatar icon="pi pi-trash" shape="circle" (click)="onApagarArquivo()"
                     styleClass="p-shadow-3 explorer-delete"></p-avatar>
         </div>
+        </ng-container>
       </div>
   </ng-template>
 </p-overlayPanel>
 
 
-<ng-container *ngIf="pasta">
+<ng-container *ngIf="pasta && exs.aut.arquivos_apagar">
   <div class="explorer-folder">
     <ng-container>
     <div class="explorer-folder-icons"
@@ -48,6 +52,18 @@
     </ng-container>
   </div>
 
+</ng-container>
+
+<ng-container *ngIf="pasta && !exs.aut.arquivos_apagar">
+  <div class="explorer-folder">
+    <ng-container>
+      <div class="explorer-folder-icons">
+      </div>
+      <div class="explorer-file-text">
+        {{pasta.arquivo_pasta_titulo}}
+      </div>
+    </ng-container>
+  </div>
 </ng-container>
 
 <p-overlayPanel #fdr [dismissable]="!exs.desligaBtnApagar" [showCloseIcon]="!exs.desligaBtnApagar" class="explorer">

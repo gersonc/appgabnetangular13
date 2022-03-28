@@ -52,6 +52,7 @@ import {SolicitacaoComponent} from "./solicitacao.component";
 import {UtilModule} from "../util/util.module";
 import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {HistoricoSolicitacaoModule} from "../historico-solicitacao/historico-solicitacao.module";
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
         AccordionModule,
         RippleModule,
         InputTextareaModule,
+        HistoricoSolicitacaoModule,
     ],
   declarations: [
     SolicitacaoComponent,

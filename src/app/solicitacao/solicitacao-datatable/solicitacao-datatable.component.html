@@ -182,6 +182,19 @@
                 >
                 </button>
               </div>
+              <div *ngIf="authApagar" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-bookmark"
+                  class="p-button-rounded"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  (click)="historicoSolicitacao(sol)"
+                >
+                </button>
+              </div>
             </div>
             <div class="p-grid">
               <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
@@ -277,5 +290,18 @@
     (onHide)="escondeDetalhe()"
   >
     <app-solicitacao-detalhe [solDetalhe]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solicitacao-detalhe>
+  </p-dialog>
+</ng-container>
+
+<!--*** HISTORICO SOLICITACAO****************************************************************************************-->
+<ng-container *ngIf="showHistoricoForm">
+  <p-dialog
+    [(visible)]="showHistoricoForm"
+    [dismissableMask]="true"
+    styleClass="tablistagem"
+    header="ANDAMENTO DA SOLICITAÇÃO"
+    (onHide)="escondeHistoricoForm()"
+  >
+    <app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>
   </p-dialog>
 </ng-container>
