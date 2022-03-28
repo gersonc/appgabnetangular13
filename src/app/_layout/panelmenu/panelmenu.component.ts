@@ -80,6 +80,30 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.authenticationService.solicitacao) {
+      if (this.authenticationService.solicitacao_listar) {
+        this.items.push(
+          {
+            label: 'SolicitaçõesT1', icon: 'pi pi-ticket', command: () => {
+              this.fechaMenuPrincipal();
+            },
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaoT1']
+          });
+      }
+    }
+
+    if (this.authenticationService.solicitacao) {
+      if (this.authenticationService.solicitacao_listar) {
+        this.items.push(
+          {
+            label: 'SolicitaçõesT2', icon: 'pi pi-ticket', command: () => {
+              this.fechaMenuPrincipal();
+            },
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaoT2']
+          });
+      }
+    }
+
     if (this.authenticationService.oficio) {
       if (this.authenticationService.oficio_vizualizar) {
         this.items.push(

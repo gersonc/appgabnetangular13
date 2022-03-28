@@ -1,0 +1,487 @@
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">SOLICITAÇÃO - ANALISAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+              <table class="table-hover tabela">
+                <caption>SOLICITAÇÃO</caption>
+                <tr>
+                  <th>
+                    Posição:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_posicao}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Solicitante:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_cadastro_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Tipo de Solicitante:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_cadastro_tipo_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Data:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_data}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Assunto:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_assunto_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Área de interesse:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_area_interesse_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_local_nome">
+                  <th>
+                    Núcleo:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_local_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_indicacao_sn">
+                  <th>
+                    Indicação S/N:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_indicacao_sn}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_indicacao_nome">
+                  <th>
+                    Indicação:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_indicacao_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_reponsavel_analize_nome">
+                  <th>
+                    Responsável:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_reponsavel_analize_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_atendente_cadastro_nome">
+                  <th>
+                    Atendente:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_atendente_cadastro_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_data_atendimento">
+                  <th>
+                    Dt. Atendimento:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_data_atendimento}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_tipo_recebimento_nome">
+                  <th>
+                    Tp. Recebimento:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_tipo_recebimento_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_cadastrante_cadastro_nome">
+                  <th>
+                    Cadastrante:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_cadastrante_cadastro_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_orgao">
+                  <th>
+                    Orgão solicitado:
+                  </th>
+                  <td>
+                    {{solicitacao.solicitacao_orgao}}
+                  </td>
+                </tr>
+                <tr *ngIf="solicitacao.solicitacao_descricao" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Descrição:
+                    <div *ngIf="solicitacao.solicitacao_descricao" style="margin-top: .25em">
+                      <p-editor id="descricao" #descricao [ngModel]="solicitacao.solicitacao_descricao" class="detalhe"
+                                [readonly]="true">
+                        <ng-template pTemplate="header"></ng-template>
+                      </p-editor>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-left: 0; padding-right: 0">
+                    <app-arquivo
+                      [modulo]="'solicitacao'"
+                      [modelo]="'detalhe'"
+                      [registro_id]="solicitacao.solicitacao_id"
+                    ></app-arquivo>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+              <table *ngIf="cadastro" class="table-hover tabela">
+                <caption>SOLICITANTE</caption>
+                <tr>
+                  <th>
+                    Tipo de Cadastro:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_tipo_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Tratamento:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_tratamento_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Nome/Rasão Social:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_responsavel">
+                  <th>
+                    Empresa/Responsável:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_responsavel}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_cargo">
+                  <th>
+                    Cargo:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_cargo}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_endereco">
+                  <th>
+                    Endereço:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_endereco}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_endereco_numero">
+                  <th>
+                    Número:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_endereco_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_endereco_complemento">
+                  <th>
+                    Complemento:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_endereco_complemento}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_bairro">
+                  <th>
+                    Bairro:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_bairro}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Município:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_municipio_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Estado:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_estado_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_cep">
+                  <th>
+                    CEP:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_cep}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_regiao_nome">
+                  <th>
+                    Região:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_regiao_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_grupo_nome">
+                  <th>
+                    Grupo:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_grupo_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_cpfcnpj">
+                  <th>
+                    CPF/CNPJ:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_cpfcnpj}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_telefone">
+                  <th>
+                    Telefone 1:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_telefone}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_telcom">
+                  <th>
+                    Telefone 2:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_telcom}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_telefone2">
+                  <th>
+                    Telefone 3:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_telefone2}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_celular">
+                  <th>
+                    Celular 1:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_celular}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_celular2">
+                  <th>
+                    Celular 2:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_celular2}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_fax">
+                  <th>
+                    WhatsApp:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_fax}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_email">
+                  <th>
+                    E-mail 1:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_email}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_email2">
+                  <th>
+                    E-mail 2:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_email2}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_rede_social">
+                  <th>
+                    Facebook:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_rede_social}}
+                  </td>
+                </tr>
+                <tr *ngIf="cadastro.cadastro_outras_midias">
+                  <th>
+                    Outras mídias:
+                  </th>
+                  <td>
+                    {{cadastro.cadastro_outras_midias}}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+
+
+    <form [formGroup]="formSolicitacaoAnalisar" (ngSubmit)="onSubmit()">
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+              <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+                <div class="p-fluid p-formgrid p-grid formulario">
+                  <div class="p-field p-col-12 formulario-quill">
+                    <label>Observações</label>
+                    <p-editor
+                      formControlName="solicitacao_aceita_recusada"
+                      id="solicitacao_aceita_recusada"
+                      [modules]="modulos"
+                    >
+                      <ng-template pTemplate="header"></ng-template>
+                    </p-editor>
+                  </div>
+                  <div class="p-field p-col-12 formulario-quill">
+                    <label>Carta</label>
+                    <p-editor
+                      formControlName="solicitacao_carta"
+                      id="solicitacao_carta"
+                      [modules]="modulos"
+                    >
+                      <ng-template pTemplate="header"></ng-template>
+                    </p-editor>
+                  </div>
+                  <!--*** acao ***-->
+                  <div class="p-field p-col-4 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('acao')">
+                    <label><span style="color: var(--ativo)">*</span> Ação</label>
+                    <p-dropdown
+                      formControlName="acao"
+                      placeholder="Selecione"
+                      [options]="ddAcao"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Ação é obrigatório."></app-campo-control-erro>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="!formSolicitacaoAnalisar.valid"
+                      (click)="enviarAnaliseSolicitacao()"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Cancelar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Voltar"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid formulario-bg-externo">
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+      </div>
+    </div>
+
+  </div>
+</p-scrollPanel>
+
+<app-form-debug [form]="formSolicitacaoAnalisar"></app-form-debug>
+
+<p-toast key="solicitacaoAnalisarToast" [style]="{marginTop: '80px'}"></p-toast>
+

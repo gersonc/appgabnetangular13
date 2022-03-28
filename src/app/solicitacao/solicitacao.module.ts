@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
 
-// import { UtilModule } from '../util/util.module';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -32,10 +31,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { QuillModule } from 'ngx-quill';
 import { NgxViacepModule } from '@brunoc/ngx-viacep';
 import { AccordionModule } from 'primeng/accordion';
+import { RippleModule } from 'primeng/ripple';
+import { EditorModule } from "primeng/editor";
+import { InputTextareaModule } from "primeng/inputtextarea";
 
 import { ArquivoModule } from '../arquivo/arquivo.module';
+import { UtilModule} from "../util/util.module";
+import { HistoricoSolicitacaoModule } from "../historico-solicitacao/historico-solicitacao.module";
 
-// import { SolicitacaoListarComponent } from './solicitacao-listar/solicitacao-listar.component';
 import { SolicitacaoIncluirComponent } from './solicitacao-incluir/solicitacao-incluir.component';
 import { SolicitacaoDatatableComponent } from './solicitacao-datatable/solicitacao-datatable.component';
 import { SolicitacaoMenuListarComponent } from './solicitacao-menu-listar/solicitacao-menu-listar.component';
@@ -45,25 +48,24 @@ import { SolicitacaoAlterarComponent } from './solicitacao-alterar/solicitacao-a
 import { SolicitacaoExcluirComponent } from './solicitacao-excluir/solicitacao-excluir.component';
 import { SolicitacaoCadastroIncluirComponent } from './solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component';
 import { SolicitacaoCadastroIncluirListaexistenteComponent } from './solicitacao-cadastro-incluir-listaexistente';
-import { RippleModule } from 'primeng/ripple';
-import { EditorModule } from "primeng/editor";
-import {SolicitacaoRoutingModule} from "./solicitacao.routing.module";
-import {SolicitacaoComponent} from "./solicitacao.component";
-import {UtilModule} from "../util/util.module";
-import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
-import {InputTextareaModule} from "primeng/inputtextarea";
-import {HistoricoSolicitacaoModule} from "../historico-solicitacao/historico-solicitacao.module";
+import { SolicitacaoTesteComponent } from "./solicitacao-teste/solicitacao-teste.component";
+
+import { SolicitacaoRoutingModule } from "./solicitacao.routing.module";
+import { SolicitacaoComponent } from "./solicitacao.component";
+
+
+
 
 
 @NgModule({
     imports: [
         CommonModule,
+        SolicitacaoRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        SolicitacaoRoutingModule,
-        ArquivoModule,
-        UtilModule,
+
+
         TableModule,
         InputMaskModule,
         ButtonModule,
@@ -89,17 +91,19 @@ import {HistoricoSolicitacaoModule} from "../historico-solicitacao/historico-sol
         OverlayPanelModule,
         EditorModule,
         QuillModule.forRoot(),
-        TooltipModule,
-//        ExportAsModule,
+        TooltipModule, // ExportAsModule,
         NgxViacepModule,
         AccordionModule,
         RippleModule,
         InputTextareaModule,
+      //        ExportAsModule,
+        ArquivoModule,
+        UtilModule,
         HistoricoSolicitacaoModule,
     ],
   declarations: [
     SolicitacaoComponent,
-    // SolicitacaoListarComponent,
+
     SolicitacaoIncluirComponent,
     SolicitacaoDatatableComponent,
     SolicitacaoMenuListarComponent,
@@ -113,7 +117,7 @@ import {HistoricoSolicitacaoModule} from "../historico-solicitacao/historico-sol
   ],
   exports: [
     SolicitacaoComponent,
-    // SolicitacaoListarComponent,
+
     SolicitacaoIncluirComponent,
     SolicitacaoDatatableComponent,
     SolicitacaoMenuListarComponent,

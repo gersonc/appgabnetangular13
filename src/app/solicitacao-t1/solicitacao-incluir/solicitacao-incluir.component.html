@@ -1,0 +1,383 @@
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <form [formGroup]="formSolicitacaoIncluir" (ngSubmit)="onSubmit()">
+      <div class="p-fluid formulario-bg-externo">
+
+        <div class="p-d-flex p-jc-center">
+          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+            <span class="formulario-titulo">SOLICITAÇÃO - INCLUIR</span>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+
+
+
+              <!--*** COLUNA 1 ***-->
+              <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
+                <div class="p-fluid p-formgrid p-grid formulario">
+
+                  <!--*** Tipo de Cadastro ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_cadastro_tipo_id')">
+                    <label for="solicitacao_cadastro_tipo_id"><span style="color: var(--ativo)">*</span> Tipo de Cadastro</label>
+                    <p-dropdown
+                      id="solicitacao_cadastro_tipo_id"
+                      formControlName="solicitacao_cadastro_tipo_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_cadastro_tipo_id"
+                      [required]="true"
+                      [autofocus]="true"
+                      [group]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Tipo de Cadastro é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** Solicitante ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_cadastro_id')">
+                    <label for="solicitacao_cadastro_id"><span style="color: var(--ativo)">*</span> Solicitante</label>
+                    <div class="p-inputgroup">
+                      <p-autoComplete
+                        id="solicitacao_cadastro_id"
+                        formControlName="solicitacao_cadastro_id"
+                        [suggestions]="sgt"
+                        (completeMethod)="autoComp($event, 'cadastro')"
+                        [dropdown]="true"
+                        dropdownIcon="pi pi-chevron-down"
+                        field="label"
+                        [forceSelection]="true"
+                        [minLength]="3"
+                        [delay]="500"
+                        [size]="30"
+                        dataKey="value"
+                        [maxlength]="50"
+                        [required]="true"
+                        [emptyMessage]="emptyMessage"
+                        placeholder="Solicitante "
+                      ></p-autoComplete>
+                      <button
+                        class="p-button-secondary"
+                        pButton
+                        type="button"
+                        icon="pi pi-plus"
+                        *ngIf="cadastro_incluir"
+                        (click)="goIncluir()"
+                      ></button>
+                    </div>
+                    <app-campo-control-erro msgErro="Solicitante é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_assunto_id ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_assunto_id')">
+                    <label for="solicitacao_assunto_id"><span style="color: var(--ativo)">*</span> Assunto</label>
+                    <p-dropdown
+                      id="solicitacao_assunto_id"
+                      formControlName="solicitacao_assunto_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_assunto_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Assunto é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_area_interesse_id ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_area_interesse_id')">
+                    <label for="solicitacao_area_interesse_id"><span style="color: var(--ativo)">*</span> Área de
+                      interesse</label>
+                    <p-dropdown
+                      id="solicitacao_area_interesse_id"
+                      formControlName="solicitacao_area_interesse_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_area_interesse_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Área de interesse é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_data ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_data')">
+                    <label for="solicitacao_data"><span style="color: var(--ativo)">*</span> Data</label>
+                    <p-calendar
+                      id="solicitacao_data"
+                      formControlName="solicitacao_data"
+                      dateFormat="dd/mm/yy"
+                      placeholder="dd/mm/aaaa"
+                      dataType="string"
+                    ></p-calendar>
+                    <app-campo-control-erro msgErro="Data é obrigatória."></app-campo-control-erro>
+                  </div>
+
+                </div>
+              </div>
+              <!--*** FIM COLUNA 1 ***-->
+              <!--*** COLUNA 2 ***-->
+              <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
+                <div class="p-fluid p-formgrid p-grid">
+
+                  <!--*** solicitacao_indicacao_sn ***-->
+                  <div class="formulario-switch p-field p-col-12">
+                    <h5>Indicação</h5>
+                    <p-inputSwitch formControlName="solicitacao_indicacao_sn"></p-inputSwitch>
+                  </div>
+
+                  <!--*** solicitacao_indicacao_nome ***-->
+                  <div class="p-field p-col-12">
+                    <label for="solicitacao_indicacao_nome">Indicado por</label>
+                    <input
+                      id="solicitacao_indicacao_nome"
+                      formControlName="solicitacao_indicacao_nome"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** solicitacao_atendente_cadastro_id ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_atendente_cadastro_id')">
+                    <label for="solicitacao_atendente_cadastro_id"><span style="color: var(--ativo)">*</span> Atendente</label>
+                    <p-dropdown
+                      id="solicitacao_atendente_cadastro_id"
+                      formControlName="solicitacao_atendente_cadastro_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_atendente_cadastro_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Atendente é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_data_atendimento ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_data_atendimento')">
+                    <label for="solicitacao_data_atendimento"><span style="color: var(--ativo)">*</span> Data do
+                      atendimento</label>
+                    <p-calendar
+                      id="solicitacao_data_atendimento"
+                      formControlName="solicitacao_data_atendimento"
+                      dateFormat="dd/mm/yy"
+                      placeholder="dd/mm/aaaa"
+                      dataType="string"
+                    ></p-calendar>
+                    <app-campo-control-erro msgErro="Data do atendimento é obrigatória."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_cadastrante_cadastro_id ***-->
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_cadastrante_cadastro_id')">
+                    <label for="solicitacao_cadastrante_cadastro_id"><span style="color: var(--ativo)">*</span>
+                      Cadastrante</label>
+                    <p-dropdown
+                      id="solicitacao_cadastrante_cadastro_id"
+                      formControlName="solicitacao_cadastrante_cadastro_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_cadastrante_cadastro_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Cadastrante é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                </div>
+              </div>
+              <!--*** FIM COLUNA 2 ***-->
+              <!--*** COLUNA 3 ***-->
+              <div class="p-sm-12 p-md-12 p-lg-12 p-xl-4 formulario">
+                <div class="p-fluid p-formgrid p-grid">
+
+                  <!--*** solicitacao_tipo_recebimento_id ***-->
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
+                       [ngClass]="aplicaCssErro('solicitacao_tipo_recebimento_id')">
+                    <label for="solicitacao_tipo_recebimento_id"><span style="color: var(--ativo)">*</span> Tipo de
+                      recebimento</label>
+                    <p-dropdown
+                      id="solicitacao_tipo_recebimento_id"
+                      formControlName="solicitacao_tipo_recebimento_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_tipo_recebimento_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Tipo de recebimento é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_local_id ***-->
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12" [ngClass]="aplicaCssErro('solicitacao_local_id')">
+                    <label for="solicitacao_local_id"><span style="color: var(--ativo)">*</span> Núcleo</label>
+                    <p-dropdown
+                      id="solicitacao_local_id"
+                      formControlName="solicitacao_local_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_local_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Núcleo é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** solicitacao_reponsavel_analize_id ***-->
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
+                       [ngClass]="aplicaCssErro('solicitacao_reponsavel_analize_id')">
+                    <label for="solicitacao_reponsavel_analize_id"><span style="color: var(--ativo)">*</span>
+                      Responsável pela análize</label>
+                    <p-dropdown
+                      id="solicitacao_reponsavel_analize_id"
+                      formControlName="solicitacao_reponsavel_analize_id"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_reponsavel_analize_id"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Responsável pela análize é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** Tipo de analise ***-->
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
+                       [ngClass]="aplicaCssErro('solicitacao_tipo_analize')">
+                    <label for="solicitacao_tipo_analize"><span style="color: var(--ativo)">*</span> Tipo de
+                      análise</label>
+                    <p-dropdown
+                      id="solicitacao_tipo_analize"
+                      formControlName="solicitacao_tipo_analize"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_tipo_analize"
+                      [required]="true"
+                    ></p-dropdown>
+                    <app-campo-control-erro msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                </div>
+              </div>
+              <!--*** FIM COLUNA 3 ***-->
+              <!--*** COLUNA 4 ***-->
+              <div class="p-col-12 formulario">
+                <div class="p-fluid p-formgrid p-grid">
+
+                  <ng-container *ngIf="authenticationService.arquivos">
+                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-4">
+                      <app-arquivo
+                        [modulo]="'solicitacao'"
+                        [modelo]="'incluir'"
+                        [registro_id]="arquivo_registro_id"
+                        [uploadDisabled]="arquivoDesativado || !formSolicitacaoIncluir.valid"
+                        [enviarArquivos]="enviarArquivos"
+                        (onBlockSubmit)="onBlockSubmit($event)"
+                        (onUpload)="onUpload($event)"
+                        (onPossuiArquivos)="onPossuiArquivos($event)"
+                        [clearArquivos]="clearArquivos"
+                      ></app-arquivo>
+                    </div>
+                  </ng-container>
+
+
+                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-8  p-as-end">
+                    <p-accordion>
+                      <p-accordionTab header="Descrição da solicitação">
+                        <div class="formulario-quill">
+                          <p-editor
+                            #soldesc
+                            formControlName="solicitacao_descricao"
+                            id="solicitacao_descricao"
+                            [modules]="modulos"
+                          >
+                            <ng-template pTemplate="header"></ng-template>
+                          </p-editor>
+                        </div>
+                      </p-accordionTab>
+                      <p-accordionTab header="Observações">
+                        <div class="formulario-quill">
+                          <p-editor
+                            #solacerecus
+                            formControlName="solicitacao_aceita_recusada"
+                            id="solicitacao_aceita_recusada"
+                            [modules]="modulos"
+                          >
+                            <ng-template pTemplate="header"></ng-template>
+                          </p-editor>
+
+                        </div>
+                      </p-accordionTab>
+
+                      <p-accordionTab header="Histórico">
+                        <div class="formulario-quill">
+                          <p-editor
+                            #solcar
+                            formControlName="solicitacao_carta"
+                            id="solicitacao_carta"
+                            [modules]="modulos"
+                          >
+                            <ng-template pTemplate="header"></ng-template>
+                          </p-editor>
+                        </div>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="!formSolicitacaoIncluir.valid || !mostraForm"
+                      (click)="enviarSolicitacao()"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Cancelar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Voltar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid formulario-bg-externo">
+          <div class="p-col-12"></div>
+          <div class="p-col-12"></div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</p-scrollPanel>
+
+<p-toast key="solicitacaoToast" [style]="{marginTop: '80px'}"></p-toast>
+
+

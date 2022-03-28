@@ -127,6 +127,8 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+  { path: 'solicitacaoT1', loadChildren: () => import('./solicitacao-t1/solicitacao-t1.module').then(m => m.SolicitacaoT1Module) },
+  { path: 'solicitacaoT2', loadChildren: () => import('./solicitacao-t2/solicitacao-t2.module').then(m => m.SolicitacaoT2Module) },
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 ];
