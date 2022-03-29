@@ -783,4 +783,8 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
   onPossuiArquivos(ev) {
     this.possuiArquivos = ev;
   }
+
+  onInicioEnvio() {
+
+  }
 }

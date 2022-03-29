@@ -31,7 +31,7 @@ export class SolicitacaoExcluirResolver implements Resolve<SolicitacaoExcluirInt
           if (dados) {
             return of(dados);
           } else {
-            this.router.navigate(['/solicitacao/listar']);
+            this.router.navigate(['/solicitacaot2/listar']);
             return EMPTY;
           }
         })

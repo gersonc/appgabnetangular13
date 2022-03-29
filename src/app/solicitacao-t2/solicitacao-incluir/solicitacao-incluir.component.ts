@@ -401,11 +401,11 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
 
   voltarListar() {
     if (sessionStorage.getItem('solicitacao-busca')) {
-      this.router.navigate(['/solicitacao/listar/busca']);
+      this.router.navigate(['/solicitacaot2/listar/busca']);
     } else {
       // this.cs.mostraCarregador();
       this.mi.showMenuInterno();
-      this.router.navigate(['/solicitacao/listar']);
+      this.router.navigate(['/solicitacaot2/listar']);
     }
   }
 
@@ -453,7 +453,7 @@ export class SolicitacaoIncluirComponent implements OnInit, AfterViewInit, OnDes
     if (this.authenticationService.cadastro_incluir) {
       this.cs.mostraCarregador();
       sessionStorage.setItem('solicitacao-incluir', JSON.stringify(this.formSolicitacaoIncluir.getRawValue()));
-      this.router.navigate(['/solicitacao/cadastro']);
+      this.router.navigate(['/solicitacaot2/cadastro']);
     } else {
       console.error('SEM PERMISSAO');
     }

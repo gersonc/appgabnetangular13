@@ -40,6 +40,30 @@ export class MenuService {
       }
     }
 
+    if (this.authenticationService.solicitacao) {
+      if (this.authenticationService.solicitacao_listar) {
+        this.items.push(
+          {label: 'SolicitaçõesT1', routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot1/listar'] });
+      }
+      if (!this.authenticationService.solicitacao_listar && this.authenticationService.solicitacao_incluir) {
+        this.items.push(
+          {label: 'Solicitação Incluir', icon: 'pi-user-plus',
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao11/incluir'] });
+      }
+    }
+
+    if (this.authenticationService.solicitacao) {
+      if (this.authenticationService.solicitacao_listar) {
+        this.items.push(
+          {label: 'SolicitaçõesT2', routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot2/listar'] });
+      }
+      if (!this.authenticationService.solicitacao_listar && this.authenticationService.solicitacao_incluir) {
+        this.items.push(
+          {label: 'Solicitação Incluir', icon: 'pi-user-plus',
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot2/incluir'] });
+      }
+    }
+
     if (this.authenticationService.oficio) {
       if (this.authenticationService.oficio_vizualizar) {
         this.items.push(

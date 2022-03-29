@@ -87,7 +87,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             label: 'SolicitaçõesT1', icon: 'pi pi-ticket', command: () => {
               this.fechaMenuPrincipal();
             },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaoT1']
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot1/listar']
           });
       }
     }
@@ -99,7 +99,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             label: 'SolicitaçõesT2', icon: 'pi pi-ticket', command: () => {
               this.fechaMenuPrincipal();
             },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaoT2']
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot2/listar']
           });
       }
     }

@@ -393,7 +393,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacao/incluir']);
+      this.router.navigate(['/solicitacaot1/incluir']);
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -429,7 +429,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacao/alterar', sol.solicitacao_id]);
+      this.router.navigate(['/solicitacaot1/alterar', sol.solicitacao_id]);
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -458,7 +458,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
           },
           complete: () => {
             this.cs.escondeCarregador();
-            this.router.navigate(['/solicitacao/apagar']);
+            this.router.navigate(['/solicitacaot1/apagar']);
           }
         }));
 
@@ -488,7 +488,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacao/analisar', sol.solicitacao_id]);
+      this.router.navigate(['/solicitacaot1/analisar', sol.solicitacao_id]);
     }
 
   }

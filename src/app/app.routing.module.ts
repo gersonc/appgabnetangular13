@@ -40,6 +40,22 @@ const routes: Routes = [
     }
   },
   {
+    path: 'solicitacaot1',
+    loadChildren: () => import('./solicitacao-t1/solicitacao-t1.module').then(m => m.SolicitacaoT1Module),
+    canActivate: [AuthGuard],
+    data: {
+      rules: Rule.solicitacao
+    }
+  },
+  {
+    path: 'solicitacaot2',
+    loadChildren: () => import('./solicitacao-t2/solicitacao-t2.module').then(m => m.SolicitacaoT2Module),
+    canActivate: [AuthGuard],
+    data: {
+      rules: Rule.solicitacao
+    }
+  },
+  {
     path: 'oficio',
     loadChildren: () => import('./oficio/oficio.module').then(m => m.OficioModule),
     canActivate: [AuthGuard],
@@ -127,8 +143,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
-  { path: 'solicitacaoT1', loadChildren: () => import('./solicitacao-t1/solicitacao-t1.module').then(m => m.SolicitacaoT1Module) },
-  { path: 'solicitacaoT2', loadChildren: () => import('./solicitacao-t2/solicitacao-t2.module').then(m => m.SolicitacaoT2Module) },
+
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 ];

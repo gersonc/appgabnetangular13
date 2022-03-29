@@ -39,19 +39,31 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
 import {UtilModule} from "../util/util.module";
 import {HistoricoSolicitacaoModule} from "../historico-solicitacao/historico-solicitacao.module";
 
-import {SolicitacaoIncluirComponent} from "../solicitacao/solicitacao-incluir/solicitacao-incluir.component";
-import {SolicitacaoDatatableComponent} from "../solicitacao/solicitacao-datatable/solicitacao-datatable.component";
-import {SolicitacaoMenuListarComponent} from "../solicitacao/solicitacao-menu-listar/solicitacao-menu-listar.component";
-import {SolicitacaoDetalheComponent} from "../solicitacao/solicitacao-detalhe/solicitacao-detalhe.component";
-import {SolicitacaoAnalisarComponent} from "../solicitacao/solicitacao-analisar/solicitacao-analisar.component";
-import {SolicitacaoAlterarComponent} from "../solicitacao/solicitacao-alterar/solicitacao-alterar.component";
-import {SolicitacaoExcluirComponent} from "../solicitacao/solicitacao-excluir/solicitacao-excluir.component";
-import {SolicitacaoCadastroIncluirComponent } from "../solicitacao/solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component";
-import {SolicitacaoCadastroIncluirListaexistenteComponent} from "../solicitacao/solicitacao-cadastro-incluir-listaexistente";
-import {SolicitacaoTesteComponent} from "../solicitacao/solicitacao-teste/solicitacao-teste.component";
+/*import {SolicitacaoIncluirComponent} from "./solicitacao-incluir/solicitacao-incluir.component";
+import {SolicitacaoDatatableComponent} from "./solicitacao-datatable/solicitacao-datatable.component";
+import {SolicitacaoMenuListarComponent} from "./solicitacao-menu-listar/solicitacao-menu-listar.component";
+import {SolicitacaoDetalheComponent} from "./solicitacao-detalhe/solicitacao-detalhe.component";
+import {SolicitacaoAnalisarComponent} from "./solicitacao-analisar/solicitacao-analisar.component";
+import {SolicitacaoAlterarComponent} from "./solicitacao-alterar/solicitacao-alterar.component";
+import {SolicitacaoExcluirComponent} from "./solicitacao-excluir/solicitacao-excluir.component";
+import {SolicitacaoCadastroIncluirComponent } from "./solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component";
+import {SolicitacaoCadastroIncluirListaexistenteComponent} from "./solicitacao-cadastro-incluir-listaexistente";
+import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";*/
 
 import { SolicitacaoT1RoutingModule } from './solicitacao-t1-routing.module';
 import { SolicitacaoT1Component } from './solicitacao-t1.component';
+import {SolicitacaoIncluirComponent} from "./solicitacao-incluir/solicitacao-incluir.component";
+import {SolicitacaoDatatableComponent} from "./solicitacao-datatable/solicitacao-datatable.component";
+import {SolicitacaoMenuListarComponent} from "./solicitacao-menu-listar/solicitacao-menu-listar.component";
+import {SolicitacaoDetalheComponent} from "./solicitacao-detalhe/solicitacao-detalhe.component";
+import {SolicitacaoAnalisarComponent} from "./solicitacao-analisar/solicitacao-analisar.component";
+import {SolicitacaoAlterarComponent} from "./solicitacao-alterar/solicitacao-alterar.component";
+import {SolicitacaoExcluirComponent} from "./solicitacao-excluir/solicitacao-excluir.component";
+import {
+  SolicitacaoCadastroIncluirComponent
+} from "./solicitacao-cadastro-incluir/solicitacao-cadastro-incluir.component";
+import {SolicitacaoCadastroIncluirListaexistenteComponent} from "./solicitacao-cadastro-incluir-listaexistente";
+import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
 
 
 
@@ -102,12 +114,12 @@ import { SolicitacaoT1Component } from './solicitacao-t1.component';
     OverlayPanelModule,
     EditorModule,
     QuillModule.forRoot(),
-    TooltipModule, // ExportAsModule,
+    TooltipModule,
     NgxViacepModule,
     AccordionModule,
     RippleModule,
     InputTextareaModule,
-//        ExportAsModule,
+    // ExportAsModule,
     ArquivoModule,
     UtilModule,
     HistoricoSolicitacaoModule,

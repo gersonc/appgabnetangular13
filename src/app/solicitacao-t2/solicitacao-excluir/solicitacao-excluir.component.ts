@@ -111,7 +111,7 @@ export class SolicitacaoExcluirComponent implements OnInit, OnDestroy {
   }
 
   voltar() {
-    this.router.navigate(['/solicitacao/listar/busca']);
+    this.router.navigate(['/solicitacaot2/listar/busca']);
   }
 
   excluirSolicitacao() {
@@ -223,7 +223,7 @@ export class SolicitacaoExcluirComponent implements OnInit, OnDestroy {
 
   voltarListar() {
     this.ngZone.run(() => this.voltar());
-    // this.router.navigate(['/solicitacao/listar']);
+    // this.router.navigate(['/solicitacaot2/listar']);
   }
 
   onBlockSubmit(ev) {

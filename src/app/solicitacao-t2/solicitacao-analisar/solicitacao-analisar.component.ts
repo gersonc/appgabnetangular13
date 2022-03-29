@@ -137,7 +137,7 @@ export class SolicitacaoAnalisarComponent implements OnInit, OnDestroy {
               detail: this.resp[2]
             });
             this.resetForm();
-            this.router.navigate(['/solicitacao/listar/busca']);
+            this.router.navigate(['/solicitacaot2/listar/busca']);
           }
         }
       }));
@@ -149,7 +149,7 @@ export class SolicitacaoAnalisarComponent implements OnInit, OnDestroy {
   }
 
   voltarListar(ev?: any) {
-    this.router.navigate(['/solicitacao/listar/busca']);
+    this.router.navigate(['/solicitacaot2/listar/busca']);
   }
 
   ngOnDestroy(): void {

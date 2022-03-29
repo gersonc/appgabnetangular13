@@ -30,7 +30,7 @@ export class SolicitacaoAnaliseResolver implements Resolve<SolicitacaoCadastroAn
             if (dados) {
               return of(dados);
             } else {
-              this.router.navigate(['/solicitacao/listar']);
+              this.router.navigate(['/solicitacaot1/listar']);
               return EMPTY;
             }
           })

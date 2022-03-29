@@ -362,7 +362,7 @@ export class SolicitacaoAlterarComponent implements OnInit, AfterViewInit, OnDes
   onSubmit() {}
 
   voltarListar() {
-    this.router.navigate(['/solicitacao/listar']);
+    this.router.navigate(['/solicitacaot1/listar']);
   }
 
   verificaValidTouched(campo: string) {

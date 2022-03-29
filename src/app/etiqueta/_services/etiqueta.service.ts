@@ -145,13 +145,13 @@ export class EtiquetaService {
 }
 body {
 	font-size: 8.0pt;
-	font-family:"Verdana, Arial, Helvetica, sans-serif";
+	font-family:"Verdana, Arial, Helvetica, sans-serif",'sans-serif';
 }
 div.Section1
 {
 	page:Section1;
 	font-size: 8.0pt;
-	font-family:"Verdana, Arial, Helvetica, sans-serif";
+	font-family:"Verdana, Arial, Helvetica, sans-serif",'sans-serif';
 }
 table {
   page-break-after:always
@@ -180,12 +180,12 @@ table {
 				<td id='${a}_${this.etq_num}'
 				style='font-size: 8.0pt;
 				width:${this.etq_largura}mm;
-				padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>`;
+				padding:0 .75pt 0 .75pt;height:${this.etq_altura}mm'>`;
         this.ht += EtiquetaCelula.montaCelula (cad);
         this.ht += `
 				</td>
 				<td style='width:${this.etq_distancia_horizontal}mm;
-				padding:0cm .75pt 0mm .75pt;
+				padding:0 .75pt 0 .75pt;
 				height:${this.etq_altura}mm'>
 					<p style='margin-top:0mm;
 					margin-right:4.75pt;

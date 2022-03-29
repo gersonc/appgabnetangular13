@@ -41,7 +41,7 @@ export class SolicitacaoService {
   public expandido = new Subject();
 
   constructor(private url: UrlService, private http: HttpClient) {
-    this.solicitacaoUrl = this.url.solicitacao;
+    this.solicitacaoUrl = this.url.solicitacaot2;
   }
 
   buscaMenu() {

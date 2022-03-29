@@ -137,7 +137,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
     if (this.authenticationService.solicitacao_incluir) {
       this.sbs.buscaStateSN = false;
       this.cs.mostraCarregador();
-      this.router.navigate(['/solicitacao/incluir']);
+      this.router.navigate(['/solicitacaot1/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }

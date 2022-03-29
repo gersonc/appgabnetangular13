@@ -16,7 +16,7 @@ import { AuthenticationService } from "../../_services";
 
 export class ChildLoaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() componente: any;
-  private currentUser: any;
+  private readonly currentUser: any;
   constructor(
     private r: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef

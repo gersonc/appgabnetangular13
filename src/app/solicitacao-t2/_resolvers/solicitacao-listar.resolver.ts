@@ -203,7 +203,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
           );
       } else {
         this.cs.escondeCarregador();
-        this.router.navigate(['/solicitacao/listar2']);
+        this.router.navigate(['/solicitacaot2/listar2']);
         return EMPTY;
       }
     }

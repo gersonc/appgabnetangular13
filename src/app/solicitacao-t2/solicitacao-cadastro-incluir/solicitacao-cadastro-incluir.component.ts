@@ -760,7 +760,7 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
 
   voltarModulo() {
     this.cr.mostraCarregador();
-    this.router.navigate(['/solicitacao/incluir/cadastro/cadastro',
+    this.router.navigate(['/solicitacaot2/incluir/cadastro/cadastro',
       {tipo: this.tipo_id, value: this.id, label:  this.nome.toUpperCase()}]);
   }
 
@@ -769,7 +769,7 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
   }
 
   voltarListar(ev?: any) {
-    this.router.navigate(['/solicitacao/incluir']);
+    this.router.navigate(['/solicitacaot2/incluir']);
   }
 
   ngOnDestroy(): void {
@@ -782,5 +782,8 @@ export class SolicitacaoCadastroIncluirComponent implements OnInit, OnDestroy {
 
   onPossuiArquivos(ev) {
     this.possuiArquivos = ev;
+  }
+  onInicioEnvio() {
+
   }
 }
