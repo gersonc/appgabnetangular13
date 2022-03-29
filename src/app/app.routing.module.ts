@@ -48,8 +48,8 @@ const routes: Routes = [
     }
   },
   {
-    path: 'solicitacaot2',
-    loadChildren: () => import('./solicitacao-t2/solicitacao-t2.module').then(m => m.SolicitacaoT2Module),
+    path: 'solic',
+    loadChildren: () => import('./solic/solic.module').then(m => m.SolicModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.solicitacao
@@ -143,6 +143,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+  { path: 'solic', loadChildren: () => import('./solic/solic.module').then(m => m.SolicModule) },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

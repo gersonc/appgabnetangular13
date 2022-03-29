@@ -1,34 +1,40 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { LazyLoadEvent, MenuItem } from 'primeng/api';
-import { MessageService } from 'primeng/api';
-import { WindowsService } from '../../_layout/_service';
-import { CsvService, ExcelService, PrintJSService, TabelaPdfService, AuthenticationService, CarregadorService, MenuInternoService } from '../../_services';;
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Editor} from "primeng/editor";
 import {
-  SolicitacaoTotalInterface,
-  SolicitacaoPaginacaoInterface,
   SolicitacaoBuscaCampoInterface,
   SolicitacaoDetalheInterface,
+  SolicitacaoExcel12,
+  SolicitacaoExcluirInterface,
   SolicitacaoInterfaceExcel,
   SolicitacaoListar12Interface,
-  SolicitacaoListar345Interface, SolicitacaoExcel12, SolicitacaoExcluirInterface, SolicitacaoHistoricoInterface
-} from '../_models';
-import { SolicitacaoService, SolicitacaoBuscarService } from '../_services';
-import {Config} from 'quill-to-word';
-import * as quillToWord from 'quill-to-word';
-import { saveAs } from 'file-saver';
-import { Editor } from 'primeng/editor';
+  SolicitacaoListar345Interface,
+  SolicitacaoPaginacaoInterface,
+  SolicitacaoTotalInterface
+} from "../../solicitacao/_models";
+import {WindowsService} from "../../_layout/_service";
+import {Subscription} from "rxjs";
+import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
+import {
+  AuthenticationService,
+  CarregadorService, CsvService, ExcelService,
+  MenuInternoService,
+  PrintJSService,
+  TabelaPdfService
+} from "../../_services";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SolicitacaoBuscarService, SolicitacaoService} from "../../solicitacao/_services";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
+import {take} from "rxjs/operators";
+import {Config} from "quill-to-word";
+import * as quillToWord from "quill-to-word";
+import {saveAs} from "file-saver";
 
 @Component({
-  selector: 'app-solicitacao-datatable',
-  templateUrl: './solicitacao-datatable.component.html',
-  styleUrls: ['./solicitacao-datatable.component.css'],
+  selector: 'app-solic-datatable',
+  templateUrl: './solic-datatable.component.html',
+  styleUrls: ['./solic-datatable.component.css']
 })
-
-export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
+export class SolicDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtsol', { static: true }) public dtsol: any;
   @ViewChild('edtor', { static: true }) public edtor: Editor;
   loading = false;
@@ -349,8 +355,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
         complete: () => {
           this.sbs.solicitacaoBusca.todos = this.tmp;
           this.currentPage = (
-            parseInt(this.sbs.solicitacaoBusca.inicio, 10) +
-            parseInt(this.sbs.solicitacaoBusca.numlinhas, 10)) /
+              parseInt(this.sbs.solicitacaoBusca.inicio, 10) +
+              parseInt(this.sbs.solicitacaoBusca.numlinhas, 10)) /
             parseInt(this.sbs.solicitacaoBusca.numlinhas, 10);
           this.numerodePaginas = Math.ceil(this.totalRecords / this.rows);
           this.cs.escondeCarregador();
@@ -370,8 +376,8 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
           this.totalRecords = this.total.num;
           this.sbs.solicitacaoBusca.todos = this.tmp;
           this.currentPage = (
-            parseInt(this.sbs.solicitacaoBusca.inicio, 10) +
-            parseInt(this.sbs.solicitacaoBusca.numlinhas, 10)) /
+              parseInt(this.sbs.solicitacaoBusca.inicio, 10) +
+              parseInt(this.sbs.solicitacaoBusca.numlinhas, 10)) /
             parseInt(this.sbs.solicitacaoBusca.numlinhas, 10);
           this.numerodePaginas = Math.ceil(this.totalRecords / this.rows);
           this.sbs.buscaStateSN = false;
@@ -393,7 +399,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacaot2/incluir']);
+      this.router.navigate(['/solicitacao/incluir']);
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -429,7 +435,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacaot2/alterar', sol.solicitacao_id]);
+      this.router.navigate(['/solicitacao/alterar', sol.solicitacao_id]);
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -458,7 +464,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
           },
           complete: () => {
             this.cs.escondeCarregador();
-            this.router.navigate(['/solicitacaot2/apagar']);
+            this.router.navigate(['/solicitacao/apagar']);
           }
         }));
 
@@ -475,7 +481,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
           severity: 'warn',
           summary: 'ANALIISE',
           detail: sol.solicitacao_posicao.toString()}
-        );
+      );
     }
     if (this.aut.usuario_responsavel_sn
       && this.aut.solicitacao_analisar
@@ -488,7 +494,7 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('solicitacao-busca', JSON.stringify(this.sbs.solicitacaoBusca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solicitacaot2/analisar', sol.solicitacao_id]);
+      this.router.navigate(['/solicitacao/analisar', sol.solicitacao_id]);
     }
 
   }

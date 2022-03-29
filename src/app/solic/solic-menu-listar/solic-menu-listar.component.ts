@@ -1,20 +1,22 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { SelectItem } from 'primeng/api';
-import { AuthenticationService, CarregadorService, MenuInternoService, DropdownService } from '../../_services';
-import { SolicitacaoService, SolicitacaoBuscarService, SolicitacaoDropdownMenuService } from '../_services';
-import { SolicitacaoBuscaInterface } from '../_models';
-import { Subscription } from 'rxjs';
-
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {AuthenticationService, CarregadorService, DropdownService, MenuInternoService} from "../../_services";
+import {
+  SolicitacaoBuscarService,
+  SolicitacaoDropdownMenuService,
+  SolicitacaoService
+} from "../../solicitacao/_services";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SelectItem} from "primeng/api";
+import {Subscription} from "rxjs";
+import {SolicitacaoBuscaInterface} from "../../solicitacao/_models";
 
 @Component({
-  selector: 'app-solicitacao-menu-listar',
-  templateUrl: './solicitacao-menu-listar.component.html',
-  styleUrls: ['./solicitacao-menu-listar.component.css']
+  selector: 'app-solic-menu-listar',
+  templateUrl: './solic-menu-listar.component.html',
+  styleUrls: ['./solic-menu-listar.component.css']
 })
-export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
+export class SolicMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public ddSolicitacao_posicao: SelectItem[] = [];
   public ddSolicitacao_cadastro_tipo_id: SelectItem[] = [];
@@ -33,7 +35,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
   public ptBr: any;
   private sub: Subscription[] = [];
 
-
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
@@ -46,7 +47,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
     private cs: CarregadorService,
     private sdd: SolicitacaoDropdownMenuService
   ) { }
-
 
   ngOnInit() {
     this.formListarSolicitacao = this.formBuilder.group({
@@ -97,7 +97,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
       this.cs.escondeCarregador();
     } else {
       console.log('bbbbbb');
-        this.getCarregaDropDown();
+      this.getCarregaDropDown();
     }
   }
 
@@ -137,7 +137,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
     if (this.authenticationService.solicitacao_incluir) {
       this.sbs.buscaStateSN = false;
       this.cs.mostraCarregador();
-      this.router.navigate(['/solicitacaot2/incluir']);
+      this.router.navigate(['/solicitacao/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }
@@ -155,4 +155,5 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
   }
+
 }
