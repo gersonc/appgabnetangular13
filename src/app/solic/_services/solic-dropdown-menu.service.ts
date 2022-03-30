@@ -1,24 +1,16 @@
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
-import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
-import {DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass} from "../../_models";
-// import {SolicitacaoDropdownMenuListar, SolicitacaoPaginacaoInterface} from "../../solicitacao/_models";
-import {CarregadorService, DropdownService} from "../../_services";
-// import {SolicitacaoService} from "../../solicitacao/_services";
-import {mergeMap, take} from "rxjs/operators";
-import {SolicPaginacaoInterface} from "../_models/solic-listar-i";
-import {SolicitacaoDropdownMenuListar} from "../../solicitacao/_models";
-import {SolicService} from "../_services/solic.service";
+import { take } from 'rxjs/operators';
+import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from '../../_models';
+// import { SolicDropdownMenuListarI } from '../_models';
+import {Observable, pipe, Subject, Subscription} from 'rxjs';
+import { DropdownService } from '../../_services';
 import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i";
+// import {SolicitacaoDropdownMenuListar} from "../../solicitacao/_models";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInterface> {
+export class SolicDropdownMenuService {
 
   public ddNomeIdArray = new DropdownnomeidClass();
   public ddSoNomeArray = new DropdownsonomearrayClass();
@@ -45,42 +37,23 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
   inicio = true;
 
 
+
+
+
   constructor(
-    private router: Router,
-    private cs: CarregadorService,
-    private solicitacaoService: SolicService,
     private dd: DropdownService
   ) { }
 
-  private populaDropdown() {
+  private getDropdownMenu() {
     let contador = 0;
-    // contador++;
-
-    this.sub.push(this.dd.getDropdownSolCadTipo()
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          console.log(dados);
-          this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados;
-        },
-        error: (err) => {
-          console.error(err);
-        },
-        complete: () => {
-          contador++;
-          if (contador === 4) {
-            this.gravaDropDown();
-          }
-        }
-      })
-    );
 
     // ****** solicitacao_posicao *****
     this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
     this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
+
     // ****** solicitacao_cadastro_tipo_id *****
-    // this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
+    this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
     // ****** solicitacao_cadastro_id *****
     this.ddNomeIdArray.add('ddSolicitacao_cadastro_id', 'solicitacao', 'solicitacao_cadastro_id', 'solicitacao_cadastro_nome');
     // ****** solicitacao_assunto_id *****
@@ -115,8 +88,9 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 3) {
             this.gravaDropDown();
+            // observer.next(true);
           }
         }
       })
@@ -126,7 +100,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          // this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados['ddSolicitacao_cadastro_tipo_id'];
+          this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados['ddSolicitacao_cadastro_tipo_id'];
           this.ddSolicitacao.ddSolicitacao_cadastro_id = dados['ddSolicitacao_cadastro_id'];
           this.ddSolicitacao.ddSolicitacao_assunto_id = dados['ddSolicitacao_assunto_id'];
           this.ddSolicitacao.ddSolicitacao_atendente_cadastro_id = dados['ddSolicitacao_atendente_cadastro_id'];
@@ -141,8 +115,9 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 3) {
             this.gravaDropDown();
+            // observer.next(true);
           }
         }
       })
@@ -160,8 +135,9 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 3) {
             this.gravaDropDown();
+            // observer.next(true);
           }
         }
       })
@@ -171,62 +147,25 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
 
   gravaDropDown() {
     if (!sessionStorage.getItem('solic-dropdown')) {
-      sessionStorage.setItem('solic-dropdown', JSON.stringify(this.ddSolicitacao));
-    }
-    this.cs.escondeCarregador();
-    this.resp.next(true);
-  }
-
-  onDestroy() {
-    this.sub.forEach(s => {
-      s.unsubscribe()
-    });
-  }
-
-
-
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):
-    Observable<SolicPaginacaoInterface> |
-    Observable<boolean> |
-    Observable<never> {
-    if (!sessionStorage.getItem('solic-dropdown')) {
-      this.cs.mostraCarregador();
-      this.populaDropdown();
-      return this.resp$.pipe(
-        take(1),
-        mergeMap(vf => {
-          this.cs.escondeCarregador();
-          if (vf) {
-            this.onDestroy();
-            return of(vf);
-          } else {
-            this.onDestroy();
-            return EMPTY;
+      if (!this.inicio) {
+        sessionStorage.setItem('solic-dropdown', JSON.stringify(this.ddSolicitacao));
+        let ct = 0;
+        this.sub.forEach(s => {
+          ct++;
+          s.unsubscribe()
+          if (ct === 3) {
+            this.resp.next(true);
+            this.resp.complete();
           }
-        })
-      );
-    } else {
-      if (sessionStorage.getItem('solic-busca')) {
-        this.cs.mostraCarregador();
-        return this.solicitacaoService.postSolicitacaoBusca(JSON.parse(sessionStorage.getItem('solic-busca')))
-          .pipe(
-            take(1),
-            mergeMap(dados => {
-              this.cs.escondeCarregador();
-              if (dados) {
-                return of(dados);
-              } else {
-                return EMPTY;
-              }
-            })
-          );
-      } else {
-        this.cs.escondeCarregador();
-        this.router.navigate(['/solic/listar2']);
-        return EMPTY;
+        });
       }
+      if (this.inicio) {
+        this.inicio = false;
+        this.getDropdownMenu();
+      }
+    } else {
+      this.resp.next(false);
+      this.resp.complete();
     }
-  };
+  }
 }

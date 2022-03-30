@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
-import {SolicitacaoFormService, SolicitacaoService} from "../../solicitacao/_services";
+// import {SolicitacaoFormService, SolicitacaoService} from "../../solicitacao/_services";
 import {DropdownService} from "../../_services";
 import {mergeMap, take} from "rxjs/operators";
 import {DropdownnomeidClass} from "../../_models";
@@ -26,8 +26,8 @@ export class SolicFormResolver implements Resolve<boolean> {
   contador = 3;
 
   constructor(
-    private solicitacaoService: SolicitacaoService,
-    private sfs: SolicitacaoFormService,
+    // private solicitacaoService: SolicitacaoService,
+    // private sfs: SolicitacaoFormService,
     private router: Router,
     private dd: DropdownService
   ) { }

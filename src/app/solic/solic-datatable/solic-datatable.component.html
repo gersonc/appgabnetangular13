@@ -1,18 +1,18 @@
 <!--*** INICIO *****************************************************************************************************-->
-<p-table #dtsol
+<p-table #dtb
          id="tabelasolicitacao"
-         [value]="solicitacoes"
-         [columns]="selectedColumns"
-         [rows]="rows"
+         [value]="ss.solicitacoes"
+         [columns]="sds.selectedColumns"
+         [rows]="sds.rows"
          [lazy]="true"
          [lazyLoadOnInit]="false"
          [loading]="loading"
-         [totalRecords]="totalRecords"
-         [sortField]="sortCampo"
+         [totalRecords]="sds.totalRecords"
+         [sortField]="sds.sortCampo"
          dataKey="solicitacao_id"
          [scrollable]="true"
          [scrollHeight]="altura"
-         [(selection)]="selecionados"
+         [(selection)]="ss.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
          [autoLayout]="false"
@@ -26,15 +26,15 @@
          [rowsPerPageOptions]="[50,100,200,500,1000]"
          (onLazyLoad)="onLazyLoad($event)"
          (onColReorder)="onColReorder($event)"
-         (onRowExpand)="onRowExpand($event)"
-         [(contextMenuSelection)]="solContexto"
+         (onRowExpand)="sds.onRowExpand($event)"
+         [(contextMenuSelection)]="ss.Contexto"
          contextMenuSelectionMode="joint"
          [contextMenu]="cm"
          (onContextMenuSelect)="onContextMenuSelect($event)"
          [customSort]="true"
          [tableStyle]="{'font-size':'12px'}"
          stateStorage="session"
-         stateKey="solicitacao-listagem"
+         stateKey="solic-listagem"
          selectionMode="multiple"
          styleClass="tablistagem p-datatable-sm p-datatable-striped"
          [loadingIcon]="'pi pi-spin pi-spinner'"
@@ -73,18 +73,18 @@
           <div class="p-mx-2">SOLICITAÇÕES</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+          <div class="p-mr-2">Página {{sds.currentPage}} de {{sds.numerodePaginas}} - Num. Registros: {{sds.totalRecords}}</div>
         </div>
 
         <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
           <div class="p-mx-2">SOLICITAÇÕES</div>
-          <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+          <div class="p-mr-2">Página {{sds.currentPage}} de {{sds.numerodePaginas}} - Num. Registros: {{sds.totalRecords}}</div>
         </div>
 
 
       </div>
     </div>
-    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <p-menu #men [popup]="true" [model]="sds.itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -143,7 +143,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="authAnalisar && sol.solicitacao_posicao =='EM ABERTO'" class="p-mr-2">
+              <div *ngIf="aut.solicitacao_analisar && sol.solicitacao_posicao =='EM ABERTO'" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -156,7 +156,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="authAlterar" class="p-mr-2">
+              <div *ngIf="aut.solicitacao_alterar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -169,7 +169,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="authApagar" class="p-mr-2">
+              <div *ngIf="aut.solicitacao_apagar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -182,7 +182,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="authApagar" class="p-mr-2">
+              <div *ngIf="aut.solicitacao_listar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -197,8 +197,8 @@
               </div>
             </div>
             <div class="p-grid">
-              <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div *ngIf="!linhas[2]" class="registros p-shadow-1">
+              <div *ngFor="let linhas of sds.dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div *ngIf="!linhas[2] || linhas[1].length < 30" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   {{linhas[1]}}
                 </div>
@@ -236,7 +236,7 @@
 
 <p-dialog
   header="Selecione as colunas."
-  [(visible)]="mostraSeletor"
+  [(visible)]="sds.mostraSeletor"
   [modal]="true"
   styleClass="tablistagem"
   [style]="{width: '400px'}"
@@ -244,8 +244,8 @@
   (onHide)="hideSeletor($event)"
 >
   <p-listbox
-    [options]="cols"
-    [(ngModel)]="selectedColumns"
+    [options]="sds.cols"
+    [(ngModel)]="sds.selectedColumns"
     [multiple]="true"
     [checkbox]="true"
     [filter]="true"
@@ -255,7 +255,7 @@
   ></p-listbox>
 </p-dialog>
 
-<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+<p-contextMenu #cm [model]="sds.contextoMenu" styleClass="tablistagem"></p-contextMenu>
 <p-toast key="solicitacaoToast" position="center"></p-toast>
 
 <!--*** EDITOR *****************************************************************************************************-->

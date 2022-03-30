@@ -1,15 +1,25 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthenticationService, CarregadorService, DropdownService, MenuInternoService} from "../../_services";
+
+/*
+
 import {
   SolicitacaoBuscarService,
-  SolicitacaoDropdownMenuService,
+  // SolicitacaoDropdownMenuService,
   SolicitacaoService
 } from "../../solicitacao/_services";
+
+*/
+
 import {ActivatedRoute, Router} from "@angular/router";
 import {SelectItem} from "primeng/api";
 import {Subscription} from "rxjs";
 import {SolicitacaoBuscaInterface} from "../../solicitacao/_models";
+import {SolicBuscaService} from "../_services/solic-busca.service";
+import {SolicService} from "../_services/solic.service";
+import {SolicBuscaI} from "../_models/solic-busca-i";
+import {SolicDropdownMenuService} from "../_services/solic-dropdown-menu.service";
 
 @Component({
   selector: 'app-solic-menu-listar',
@@ -38,14 +48,16 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private solicitacaoService: SolicitacaoService,
-    private sbs: SolicitacaoBuscarService,
+    // private solicitacaoService: SolicitacaoService,
+    private solicitacaoService: SolicService,
+    // private sbs: SolicitacaoBuscarService,
+    private sbs: SolicBuscaService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cs: CarregadorService,
-    private sdd: SolicitacaoDropdownMenuService
+    // private cs: CarregadorService,
+    private sdd: SolicDropdownMenuService
   ) { }
 
   ngOnInit() {
@@ -69,17 +81,17 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     this.carregaDropDown();
 
     if (!this.sbs.buscaStateSN) {
-      if (sessionStorage.getItem('solicitacao-listagem')) {
-        sessionStorage.removeItem('solicitacao-listagem');
+      if (sessionStorage.getItem('solic-listagem')) {
+        sessionStorage.removeItem('solic-listagem');
       }
       this.mi.showMenuInterno();
     }
   }
 
   carregaDropDown() {
-    if (sessionStorage.getItem('solicitacao-dropdown')) {
+    if (sessionStorage.getItem('solic-dropdown')) {
       console.log('aaaaaaa');
-      let dd = JSON.parse(sessionStorage.getItem('solicitacao-dropdown'));
+      let dd = JSON.parse(sessionStorage.getItem('solic-dropdown'));
       this.ddSolicitacao_posicao = dd['ddSolicitacao_posicao'];
       this.ddSolicitacao_cadastro_tipo_id = dd['ddSolicitacao_cadastro_tipo_id'];
       this.ddSolicitacao_cadastro_id = dd['ddSolicitacao_cadastro_id'];
@@ -94,7 +106,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
       this.ddSolicitacao_reponsavel_analize_id = dd['ddSolicitacao_reponsavel_analize_id'];
       this.ddSolicitacao_data = dd['ddSolicitacao_data'];
       dd = null;
-      this.cs.escondeCarregador();
+      // this.cs.escondeCarregador();
     } else {
       console.log('bbbbbb');
       this.getCarregaDropDown();
@@ -117,7 +129,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
 
   onMudaForm() {
     this.sbs.resetSolicitacaoBusca();
-    let solBusca: SolicitacaoBuscaInterface;
+    let solBusca: SolicBuscaI;
     solBusca = this.formListarSolicitacao.getRawValue();
     for (const propName in solBusca ) {
       if (solBusca[propName] == null) {
@@ -126,17 +138,17 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
       if ( typeof solBusca[propName] === 'object' ) {
         solBusca[propName] = solBusca[propName].value;
       }
-      this.sbs.solicitacaoBusca[propName] = solBusca[propName].toString();
+      this.sbs.busca[propName] = solBusca[propName].toString();
     }
     this.sbs.buscaMenu();
     this.mi.hideMenu();
-    this.cs.mostraCarregador();
+    // this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       this.sbs.buscaStateSN = false;
-      this.cs.mostraCarregador();
+      // this.cs.mostraCarregador();
       this.router.navigate(['/solicitacao/incluir']);
     } else {
       console.error('SEM PERMISSAO');
@@ -149,7 +161,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   }
 
   fechar() {
-    this.cs.mostraEscondeCarregador(false);
+    // this.cs.mostraEscondeCarregador(false);
   }
 
   ngOnDestroy(): void {

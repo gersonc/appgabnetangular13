@@ -21,7 +21,7 @@ export class UrlService {
   autocompleteservice = this.url + 'autocomplete';
   cadastro = this.url + 'cadastro';
   solicitacao = this.url + 'solicitacao';
-  solicitacaot1 = this.url + 'solicitacaot1';
+  solic = this.url + 'solic';
   solicitacaot2 = this.url + 'solicitacaot2';
   oficio = this.url + 'oficio';
   processo = this.url + 'processo';

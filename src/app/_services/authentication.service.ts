@@ -224,6 +224,7 @@ export class AuthenticationService {
   public arquivos_anexar = false;
   public arquivos_baixar = false;
   public arquivos_apagar = false;
+  // public _versao = 0; // 1-COMPLETO / 2-SIMPLES / 3-LITE
   public _versao = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
   public usuario_id = 0;
   public parlamentar_id = 0;
@@ -237,6 +238,7 @@ export class AuthenticationService {
   public parlamentar_arquivo_ativo = false;
   public versao: any = null;
   public versao_id = 0;
+  public versaoN = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
   public userRules: any[];
   public userScops: any[];
   public config_arquivo_ativo = false;
@@ -331,6 +333,7 @@ export class AuthenticationService {
     const regra = this.descreveRule(user.usuario_regras);
     const acesso = this.descreveAcesso(user.usuario_acesso);
     this._versao = +user.parlamentar_versao!;
+    this.versao = +user.parlamentar_versao!;
     this.dispositivo = user.dispositivo;
     this.parlamentar_id = user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;
@@ -339,6 +342,7 @@ export class AuthenticationService {
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
     this.versao_id = +user.parlamentar_versao!;
+    this.versaoN = +user.parlamentar_versao!;
     this.config_arquivo_ativo = user.config_arquivo_ativo;
     this.config_arquivo_cota = +user.config_arquivo_cota;
     this.config_cota_disponivel = +user.config_cota_disponivel;
@@ -573,6 +577,7 @@ export class AuthenticationService {
     this.userRules = [];
     this.userScops = [];
     this.versao = 0;
+    this.versaoN = 0;
     this.dispositivo = 'desktop';
     this.permissoes_carregadas = false;
     this.mostraMenuEmiter(false);

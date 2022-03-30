@@ -13,7 +13,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import { CoordenadaXY } from './_layout/_service/coordenada-x-y';
 import { ArquivoLoginService } from './arquivo/_services';
 import { PrimeNGConfig } from 'primeng/api';
-import {SpinnerService} from "./_services/spinner.service";
+import { SpinnerService } from "./_services/spinner.service";
 import { Spinkit } from 'ng-http-loader';
 
 
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    window.__VERSAOID__ = +this.authenticationService.versao_id;
+    window.__VERSAOID__ = +this.authenticationService.versao;
     window.__VERSAO__ = this.authenticationService.versao;
 
     this.configPrime();

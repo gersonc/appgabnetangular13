@@ -31,7 +31,7 @@ export class SolicitacaoService {
   buscaStateSN = false;
   listagemState: any;
   expandidoDados: any = false;
-  cfg: any;
+  cfg: number;
   cfgVersao: number;
   campos: string[];
   titulos: string[];
