@@ -4,8 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {
   SolicListarI,
   SolicPaginacaoInterface,
-  solicSolicitacaoCamposTexto,
-  SolicTotalInterface
+  solicSolicitacaoCamposTexto
 } from "../_models/solic-listar-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {SolicDatatableService} from "./solic-datatable.service";
@@ -13,6 +12,7 @@ import {take} from "rxjs/operators";
 import {SolicBuscaService} from "./solic-busca.service";
 import {Subscription} from "rxjs";
 import {SolicBuscaCampoI} from "../_models/solic-busca-campo-i";
+import {SolicTotalI} from "../_models/solic-total-i";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +20,11 @@ import {SolicBuscaCampoI} from "../_models/solic-busca-campo-i";
 export class SolicService {
   solicitacaoUrl = this.url.solic;
   sub: Subscription[] = [];
+  // solicitacoes: SolicListarI[];
   solicitacoes: SolicListarI[];
   camposSelecionados: SolicBuscaCampoI[];
   selecionados: SolicListarI[] = [];
-  total: SolicTotalInterface;
+  total: SolicTotalI;
   Contexto: SolicListarI;
   // expandidoDados: any = false;
 

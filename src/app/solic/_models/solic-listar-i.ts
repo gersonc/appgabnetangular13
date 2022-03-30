@@ -1,5 +1,6 @@
 import {SolicHistoricoSolicitacao} from "./solic-historico-solicitacao";
 import {SolicHistoricoProcesso} from "./solic-historico-processo";
+import {SolicTotalI} from "./solic-total-i";
 
 export interface SolicListarI {
   solicitacao_id?: number;
@@ -75,13 +76,13 @@ export interface SolicListarI {
   historico_processo?: SolicHistoricoProcesso[];
 }
 
-export interface SolicTotalInterface {
+/*export interface SolicTotalInterface {
   num: number;
-}
+}*/
 
 export interface SolicPaginacaoInterface {
   solicitacao: SolicListarI[];
-  total: SolicTotalInterface;
+  total: SolicTotalI;
 }
 
 export const solicSolicitacaoCamposTexto = [

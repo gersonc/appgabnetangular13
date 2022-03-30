@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {SolicListarI, SolicTotalInterface} from "../_models/solic-listar-i";
+// import {SolicTotalInterface} from "../_models/solic-listar-i";
 import {Observable, Subject, Subscription} from "rxjs";
-
+import {SolicBuscaCampoI} from "../_models/solic-busca-campo-i";
 import {MenuItem} from "primeng/api";
+import {SolicTotalI} from "../_models/solic-total-i";
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,10 @@ export class SolicDatatableService {
   campos: string[];
   titulos: string[];
   camposTexto: string[];
-  // camposSelecionados: SolicBuscaCampoI[];
+  camposSelecionados: SolicBuscaCampoI[];
+
   // selecionados: SolicListarI[] = [];
-  total: SolicTotalInterface;
+  total: SolicTotalI;
   totalRecords = 0;
   currentPage = 1;
   cols: any[];

@@ -26,7 +26,7 @@ import {take} from "rxjs/operators";
 import {Config} from "quill-to-word";
 import * as quillToWord from "quill-to-word";
 import {saveAs} from "file-saver";
-import {SolicListarI, SolicPaginacaoInterface, SolicTotalInterface} from "../_models/solic-listar-i";
+import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
 // import {SolicBuscaCampoI} from "../_models/solic-busca-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicBuscaService} from "../_services/solic-busca.service";
