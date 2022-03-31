@@ -22,6 +22,7 @@ import {ToastModule} from "primeng/toast";
 import {QuillModule} from "ngx-quill";
 import {InputTextModule} from "primeng/inputtext";
 import { SolicIncluirComponent } from './solic-incluir/solic-incluir.component';
+import { SolicDetalheComponent } from './solic-detalhe/solic-detalhe.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { SolicIncluirComponent } from './solic-incluir/solic-incluir.component';
     SolicComponent,
     SolicMenuListarComponent,
     SolicDatatableComponent,
-    SolicIncluirComponent
+    SolicIncluirComponent,
+    SolicDetalheComponent
   ],
   imports: [
     CommonModule,

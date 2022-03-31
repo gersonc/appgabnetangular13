@@ -16,7 +16,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SelectItem} from "primeng/api";
 import {Subscription} from "rxjs";
 import {SolicitacaoBuscaInterface} from "../../solicitacao/_models";
-import {SolicBuscaService} from "../_services/solic-busca.service";
+import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {SolicService} from "../_services/solic.service";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {SolicDropdownMenuService} from "../_services/solic-dropdown-menu.service";
@@ -51,7 +51,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     // private solicitacaoService: SolicitacaoService,
     private solicitacaoService: SolicService,
     // private sbs: SolicitacaoBuscarService,
-    private sbs: SolicBuscaService,
+    private sbs: BuscaService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
@@ -81,8 +81,8 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     this.carregaDropDown();
 
     if (!this.sbs.buscaStateSN) {
-      if (sessionStorage.getItem('solic-listagem')) {
-        sessionStorage.removeItem('solic-listagem');
+      if (sessionStorage.getItem('datatable-listagem')) {
+        sessionStorage.removeItem('datatable-listagem');
       }
       this.mi.showMenuInterno();
     }

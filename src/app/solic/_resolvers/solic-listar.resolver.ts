@@ -47,7 +47,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
 
   constructor(
     private router: Router,
-    private cs: CarregadorService,
+    // private cs: CarregadorService,
     private solicitacaoService: SolicService,
     private dd: DropdownService
   ) { }
@@ -173,7 +173,6 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     if (!sessionStorage.getItem('solic-dropdown')) {
       sessionStorage.setItem('solic-dropdown', JSON.stringify(this.ddSolicitacao));
     }
-    this.cs.escondeCarregador();
     this.resp.next(true);
   }
 
@@ -191,13 +190,12 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     Observable<SolicPaginacaoInterface> |
     Observable<boolean> |
     Observable<never> {
+    this.solicitacaoService.getTitulos();
     if (!sessionStorage.getItem('solic-dropdown')) {
-      this.cs.mostraCarregador();
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),
         mergeMap(vf => {
-          this.cs.escondeCarregador();
           if (vf) {
             this.onDestroy();
             return of(vf);
@@ -208,13 +206,11 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         })
       );
     } else {
-      if (sessionStorage.getItem('solic-busca')) {
-        this.cs.mostraCarregador();
-        return this.solicitacaoService.postSolicitacaoBusca(JSON.parse(sessionStorage.getItem('solic-busca')))
+      if (sessionStorage.getItem('datatable-busca')) {
+        return this.solicitacaoService.postSolicitacaoBusca(JSON.parse(sessionStorage.getItem('datatable-busca')))
           .pipe(
             take(1),
             mergeMap(dados => {
-              this.cs.escondeCarregador();
               if (dados) {
                 return of(dados);
               } else {
@@ -223,7 +219,6 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
             })
           );
       } else {
-        this.cs.escondeCarregador();
         this.router.navigate(['/solic/listar2']);
         return EMPTY;
       }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 // import {SolicTotalInterface} from "../_models/solic-listar-i";
 import {Observable, Subject, Subscription} from "rxjs";
-import {SolicBuscaCampoI} from "../_models/solic-busca-campo-i";
+import {BuscaCampoI} from "../models/busca-campo-i";
 import {MenuItem} from "primeng/api";
-import {SolicTotalI} from "../_models/solic-total-i";
+import {TotalI} from "../models/total-i";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SolicDatatableService {
+export class DatatableService {
   sub: Subscription[] = [];
   // solicitacoes: SolicListarI[];
   buscaState: any;
@@ -20,10 +20,10 @@ export class SolicDatatableService {
   campos: string[];
   titulos: string[];
   camposTexto: string[];
-  camposSelecionados: SolicBuscaCampoI[];
+  camposSelecionados: BuscaCampoI[];
 
   // selecionados: SolicListarI[] = [];
-  total: SolicTotalI;
+  total: TotalI;
   totalRecords = 0;
   currentPage = 1;
   cols: any[];
@@ -39,10 +39,12 @@ export class SolicDatatableService {
   expColunas = 0;
   dadosExpandidos: Subscription;
   dadosExp: any[];
+  dadosExpRaw: any;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   tmp = false;
   camposEditor?: string[];
+
 
   public expandido = new Subject();
 
@@ -62,11 +64,14 @@ export class SolicDatatableService {
   }
 
 
+
+
   onRowExpand(evento){
     // this.expColunas = dados.pop();
     let a = 0;
     const b: any[] = [];
     let ev = evento.data;
+    this.dadosExpRaw = evento.data;
     for (const v in ev) {
       if (ev[v] !== null) {
         if (ev[v].toString().length > 0) {
@@ -99,7 +104,7 @@ export class SolicDatatableService {
         }
       }
     }
-    console.log('montaColunaExpandida1', b);
+    console.log('montaColunaExpandida1', this.dadosExpRaw);
     //let d = b.pop();
     console.log('montaColunaExpandida2', b);
     this.dadosExp = b;
@@ -108,33 +113,35 @@ export class SolicDatatableService {
 
 
   gravaColunaExpandida(dados) {
-    sessionStorage.setItem('solic-expandido', JSON.stringify(dados));
+    sessionStorage.setItem('datatable-expandido', JSON.stringify(dados));
   }
 
 
   recuperaColunaExpandida() {
     let resp: any;
-    if (!sessionStorage.getItem('solic-expandido')) {
+    if (!sessionStorage.getItem('datatable-expandido')) {
       resp = false;
     } else {
-      resp = JSON.parse(sessionStorage.getItem('solic-expandido'));
-      sessionStorage.removeItem('solic-expandido');
+      resp = JSON.parse(sessionStorage.getItem('datatable-expandido'));
+      sessionStorage.removeItem('datatable-expandido');
     }
     return resp;
   }
 
   excluirColunaExpandida() {
-    if (sessionStorage.getItem('solic-expandido')) {
-      sessionStorage.removeItem('solic-expandido');
+    if (sessionStorage.getItem('datatable-expandido')) {
+      sessionStorage.removeItem('datatable-expandido');
     }
-    if (sessionStorage.getItem('solic-listagem')) {
-      const resp = JSON.parse(sessionStorage.getItem('solic-listagem'));
+    if (sessionStorage.getItem('datatable-listagem')) {
+      const resp = JSON.parse(sessionStorage.getItem('datatable-listagem'));
       if (resp.expandedRowKeys) {
         delete resp.expandedRowKeys;
-        sessionStorage.setItem('solic-listagem', JSON.stringify(resp));
+        sessionStorage.setItem('datatable-listagem', JSON.stringify(resp));
       }
     }
   }
+
+
 
 
 

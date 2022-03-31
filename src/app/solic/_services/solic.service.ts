@@ -7,12 +7,13 @@ import {
   solicSolicitacaoCamposTexto
 } from "../_models/solic-listar-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
-import {SolicDatatableService} from "./solic-datatable.service";
+import {DatatableService} from "../../shared-datatables/services/datatable.service";
 import {take} from "rxjs/operators";
-import {SolicBuscaService} from "./solic-busca.service";
+import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {Subscription} from "rxjs";
-import {SolicBuscaCampoI} from "../_models/solic-busca-campo-i";
-import {SolicTotalI} from "../_models/solic-total-i";
+import {BuscaCampoI} from "../../shared-datatables/models/busca-campo-i";
+import {TotalI} from "../../shared-datatables/models/total-i";
+import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,11 @@ export class SolicService {
   sub: Subscription[] = [];
   // solicitacoes: SolicListarI[];
   solicitacoes: SolicListarI[];
-  camposSelecionados: SolicBuscaCampoI[];
+  camposSelecionados: BuscaCampoI[];
   selecionados: SolicListarI[] = [];
-  total: SolicTotalI;
+  total: TotalI;
   Contexto: SolicListarI;
+  titulos: any;
   // expandidoDados: any = false;
 
 
@@ -33,8 +35,8 @@ export class SolicService {
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private sds: SolicDatatableService,
-    private sbs: SolicBuscaService
+    private sds: DatatableService,
+    private sbs: BuscaService
   ) {
     this.solicitacaoUrl = this.url.solic;
     this.sds.sortCampo = 'solicitacao_posicao2';
@@ -67,10 +69,34 @@ export class SolicService {
   }
 
 
+
+
+
   postSolicitacaoBusca(busca: SolicBuscaI) {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     const url = this.solicitacaoUrl + '/listar';
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
+  }
+
+
+  getTitulos(): void {
+    if (!this.titulos) {
+      if (!sessionStorage.getItem('solic-listagem-titulos')) {
+        this.sub.push(this.getTitulosDetalhe()
+          .pipe(take(1))
+          .subscribe(dados => {
+            sessionStorage.setItem('solic-listagem-titulos', JSON.stringify(dados));
+            this.titulos = dados;
+          }));
+      } else {
+        this.titulos = JSON.parse(sessionStorage.getItem('solic-listagem-titulos'));
+      }
+    }
+  }
+
+  getTitulosDetalhe() {
+    const url = this.solicitacaoUrl + '/titulosdetalhe';
+    return this.http.get<any[]>(url);
   }
 
 

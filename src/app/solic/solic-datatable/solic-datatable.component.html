@@ -34,7 +34,7 @@
          [customSort]="true"
          [tableStyle]="{'font-size':'12px'}"
          stateStorage="session"
-         stateKey="solic-listagem"
+         stateKey="datatable-listagem"
          selectionMode="multiple"
          styleClass="tablistagem p-datatable-sm p-datatable-striped"
          [loadingIcon]="'pi pi-spin pi-spinner'"
@@ -289,7 +289,7 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <!--<app-solicitacao-detalhe [solDetalhe]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solicitacao-detalhe>-->
+    <app-solic-detalhe [detalhe]="sds.dadosExpRaw" (hideDetalhe)="escondeDetalhe()"></app-solic-detalhe>
   </p-dialog>
 </ng-container>
 

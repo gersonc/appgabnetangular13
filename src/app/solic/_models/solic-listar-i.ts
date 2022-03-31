@@ -1,6 +1,7 @@
 import {SolicHistoricoSolicitacao} from "./solic-historico-solicitacao";
 import {SolicHistoricoProcesso} from "./solic-historico-processo";
-import {SolicTotalI} from "./solic-total-i";
+import {TotalI} from "../../shared-datatables/models/total-i";
+import {SolicOficioI} from "./solic-oficio-i";
 
 export interface SolicListarI {
   solicitacao_id?: number;
@@ -67,6 +68,7 @@ export interface SolicListarI {
   cadastro_telcom?: string;
   cadastro_fax?: string;
   cadastro_estado_nome?: string;
+  oficio?: SolicOficioI[];
   processo_id?: number;
   processo_status2?: number;
   processo_status?: string;
@@ -82,7 +84,7 @@ export interface SolicListarI {
 
 export interface SolicPaginacaoInterface {
   solicitacao: SolicListarI[];
-  total: SolicTotalI;
+  total: TotalI;
 }
 
 export const solicSolicitacaoCamposTexto = [

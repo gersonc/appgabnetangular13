@@ -29,8 +29,8 @@ import {saveAs} from "file-saver";
 import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
 // import {SolicBuscaCampoI} from "../_models/solic-busca-i";
 import {SolicService} from "../_services/solic.service";
-import {SolicBuscaService} from "../_services/solic-busca.service";
-import {SolicDatatableService} from "../_services/solic-datatable.service";
+import {BuscaService} from "../../shared-datatables/services/busca.service";
+import {DatatableService} from "../../shared-datatables/services/datatable.service";
 
 
 @Component({
@@ -91,9 +91,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     private router: Router,
     private messageService: MessageService,
     // private solicitacaoService: SolicitacaoService,
-    private sbs: SolicBuscaService,
+    private sbs: BuscaService,
     public ss: SolicService,
-    public sds: SolicDatatableService,
+    public sds: DatatableService,
     public md: MenuDatatableService,
   ) {
     this.cfg = aut.versaoN;
@@ -127,7 +127,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     // this.constroiExtendida();
 
     if (this.sbs.buscaStateSN) {
-      this.getState();
+      this.sbs.getState();
     } else {
       this.sbs.busca.todos = false;
     }
@@ -266,6 +266,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     /*if (this.solicitacaoService.buscaStateSN) {
 
     }*/
+    if (this.sbs.buscaStateSN) {
+      // this.postSolicitacaoBusca();
+      this.sbs.getState();
+    }
     if (!this.sbs.buscaStateSN) {
       // this.postSolicitacaoBusca();
       this.ss.solicitacaoBusca();
@@ -384,7 +388,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   getState(): void {
     this.sbs.criarBusca();
-    this.sbs.busca = JSON.parse(sessionStorage.getItem('solic-busca'));
+    this.sbs.busca = JSON.parse(sessionStorage.getItem('datatable-busca'));
     if (this.sbs.buscaStateSN) {
       this.sub.push(this.activatedRoute.data.subscribe(
         (data: { dados: SolicPaginacaoInterface }) => {
@@ -398,7 +402,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
             parseInt(this.sbs.busca.numlinhas, 10);
           this.sds.numerodePaginas = Math.ceil(this.sds.totalRecords / this.sds.rows);
           this.sbs.buscaStateSN = false;
-          sessionStorage.removeItem('solic-busca');
+          sessionStorage.removeItem('datatable-busca');
           // this.cs.escondeCarregador();
         }));
     }
@@ -413,7 +417,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       if (this.sds.expandidoDados) {
         this.sds.gravaColunaExpandida(this.sds.expandidoDados);
       }
-      sessionStorage.setItem('solic-busca', JSON.stringify(this.sbs.busca));
+      sessionStorage.setItem('datatable-busca', JSON.stringify(this.sbs.busca));
       sessionStorage.setItem('solic-selectedColumns', JSON.stringify(this.sds.selectedColumns));
       this.sbs.buscaStateSN = true;
       this.router.navigate(['/solic/incluir']);
@@ -451,7 +455,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       if (this.solicitacaoService.expandidoDados) {
         this.solicitacaoService.gravaColunaExpandida(this.solicitacaoService.expandidoDados);
       }
-      sessionStorage.setItem('solic-busca', JSON.stringify(this.sbs.busca));
+      sessionStorage.setItem('datatable-busca', JSON.stringify(this.sbs.busca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.sds.selectedColumns));
       this.sbs.buscaStateSN = true;
       this.router.navigate(['/solicitacao/alterar', sol.solicitacao_id]);
@@ -470,7 +474,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       if (this.solicitacaoService.expandidoDados) {
         this.solicitacaoService.gravaColunaExpandida(this.solicitacaoService.expandidoDados);
       }
-      sessionStorage.setItem('solic-busca', JSON.stringify(this.sbs.busca));
+      sessionStorage.setItem('datatable-busca', JSON.stringify(this.sbs.busca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.sds.selectedColumns));
       this.sbs.buscaStateSN = true;
       this.sub.push(this.solicitacaoService.getSolicitacaoExcluir(sol.solicitacao_id)
@@ -514,7 +518,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       if (this.solicitacaoService.expandidoDados) {
         this.solicitacaoService.gravaColunaExpandida(this.solicitacaoService.expandidoDados);
       }
-      sessionStorage.setItem('solic-busca', JSON.stringify(this.sbs.busca));
+      sessionStorage.setItem('datatable-busca', JSON.stringify(this.sbs.busca));
       sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.sds.selectedColumns));
       this.sbs.buscaStateSN = true;
       this.router.navigate(['/solicitacao/analisar', sol.solicitacao_id]);

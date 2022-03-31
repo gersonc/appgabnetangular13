@@ -1,4 +1,4 @@
-import {SolicBuscaCampoI} from "./solic-busca-campo-i";
+import {BuscaCampoI} from "../../shared-datatables/models/busca-campo-i";
 
 export interface SolicBuscaI {
   solicitacao_posicao?: string;
@@ -23,6 +23,6 @@ export interface SolicBuscaI {
   sortorder?: string;
   sortcampo?: string;
   todos?: boolean;
-  campos?: SolicBuscaCampoI[];
-  ids?: SolicBuscaCampoI[];
+  campos?: BuscaCampoI[];
+  ids?: BuscaCampoI[];
 }

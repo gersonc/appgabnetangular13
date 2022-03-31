@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {SolicBuscaI} from "../_models/solic-busca-i";
-import {SolicBuscaCampoI} from "../_models/solic-busca-campo-i";
+// import {SolicBuscaI} from "../_models/solic-busca-i";
+import {BuscaCampoI} from "../models/busca-campo-i";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SolicBuscaService {
+export class BuscaService {
 
   buscaSubject = new BehaviorSubject<boolean>(true);
   busca$ = this.buscaSubject.asObservable();
@@ -58,9 +58,14 @@ export class SolicBuscaService {
     }
   }
 
+  getState(): void {
+    this.state = JSON.parse(sessionStorage.getItem('datatable-listagem'));
+    console.log('state-->', this.state);
+  }
+
   resetSolicitacaoBusca() {
     this.busca = {};
     this.buscaStateSN = false;
-    sessionStorage.removeItem('solic-busca');
+    sessionStorage.removeItem('datatable-busca');
   }
 }

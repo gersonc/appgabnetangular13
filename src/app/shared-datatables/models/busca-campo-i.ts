@@ -1,4 +1,4 @@
-export interface SolicBuscaCampoI {
+export interface BuscaCampoI {
   field: string;
   header: string;
 }
