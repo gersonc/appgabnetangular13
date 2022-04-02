@@ -1,5 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AuthenticationService} from "../../_services";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  AuthenticationService,
+  CarregadorService,
+  CsvService,
+  ExcelService, MenuInternoService,
+  PrintJSService,
+  TabelaPdfService
+} from "../../_services";
 
 import html2canvas from "html2canvas";
 import {SolicDetalheI} from "../_models/solic-detalhe-i";
@@ -8,6 +15,17 @@ import {jsPDF} from "jspdf";
 import autoTable, {applyPlugin} from "jspdf-autotable";
 import {ColumnsInterface} from "../../_models";
 import {SolicService} from "../_services/solic.service";
+import {
+  SolicitacaoCadastroInterface,
+  SolicitacaoDetalheInterface,
+  SolicitacaoListar12Interface,
+  SolicitacaoListar345Interface, SolicitacaoOficioInterface,
+  SolicitacaoOficioNumInterface,
+  SolicitacaoProcessoInterface,
+  SolicitacaoProcessoNumInterface
+} from "../../solicitacao/_models";
+import {SolicSeparaSolicitaca} from "../_services/solic-separa-solicitaca";
+import {TSMap} from "typescript-map";
 
 applyPlugin(jsPDF);
 
@@ -24,48 +42,124 @@ export class SolicDetalheComponent implements OnInit {
   @Input() solicitacaoListagem: any[] = [];
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
+  public solicitacao: any;
+  public solicitacao_titulo: any[];
+  public cadastro: SolicitacaoCadastroInterface;
+  public cadastro_titulo: any[];
+  public processo_num: SolicitacaoProcessoNumInterface[] = null;
+  public processo: SolicitacaoProcessoInterface[];
+  public processo_titulo: any[];
+  public oficio_num: SolicitacaoOficioNumInterface[] = null;
+  public oficio: SolicitacaoOficioInterface[];
+  public oficio_titulo: any[];
+  public erro: any[] = null;
+  public vinculos = false;
+  private campos: string[] = [];
   private alturas: number[] = [];
   private larguras: number[] = [];
   public textoEditor = false;
-  jsPDFCustom: jsPDF;
+  titulos: TSMap<string, TSMap<string, string>>;
 
-  constructor(
+  constructor (
     private authenticationService: AuthenticationService,
     public ss: SolicService
-  ) {
-  }
+
+  ) { }
 
   ngOnInit() {
+
+    console.log('detalhe->', this.detalhe);
+    console.log('detalhe->solicitacao->', this.detalhe.solicitacao);
+    this.getTeste();
+
   }
+
+  getTeste() {
+    let t = new SolicSeparaSolicitaca(
+      this.detalhe,
+      [
+        'solicitacao',
+        'cadastro',
+        'historico_solicitacao',
+        'processo',
+        'oficio',
+        'historico_processo'
+      ],
+      [
+        'solicitacao_descricao',
+        'solicitacao_aceita_recusada',
+        'solicitacao_carta',
+        'historico_andamento',
+        'oficio_descricao_acao'
+      ]
+      );
+    t.getSeparaSolicitacao();
+  }
+
+  montagem() {
+    const k: string[] = Object.keys(this.solicitacao_titulo);
+    const t: string[] = Object.values(this.solicitacao_titulo);
+    const s: string[] = Object.keys(this.solicitacao);
+    const v: any[] = Object.values(this.solicitacao);
+  }
+
+
+  /*ngOnInit() {
+    this.solicitacao = this.solDetalhe.solicitacao;
+    this.solicitacao_titulo = this.solDetalhe.solicitacao_titulo;
+
+    if (this.authenticationService.cadastro_listar) {
+      this.cadastro = this.solDetalhe.cadastro;
+      this.cadastro_titulo = this.solDetalhe.cadastro_titulo;
+      this.textoEditor = true;
+    }
+    if (this.authenticationService.processo_listar && this.solDetalhe.processo.length > 0) {
+      this.processo = this.solDetalhe.processo;
+      this.processo_titulo = this.solDetalhe.processo_titulo;
+      this.textoEditor = true;
+    }
+    if (this.authenticationService.oficio_vizualizar && this.solDetalhe.oficio.length > 0) {
+      this.oficio = this.solDetalhe.oficio;
+      this.oficio_titulo = this.solDetalhe.oficio_titulo;
+      this.textoEditor = true;
+    }
+    if (this.solDetalhe.processo_num.length > 0 || this.solDetalhe.oficio_num.length > 0) {
+      this.vinculos = true;
+      if (this.solDetalhe.processo_num.length > 0) {
+        this.processo_num = this.solDetalhe.processo_num;
+      }
+      if (this.solDetalhe.oficio_num.length > 0) {
+        this.oficio_num = this.solDetalhe.oficio_num;
+      }
+    }
+    this.erro = this.solDetalhe.erro;
+  }*/
 
   fechar() {
     this.hideDetalhe.emit(true);
   }
 
-  getPdf(imprimir = false) {
-    const k: string[] = Object.keys(this.ss.titulos);
-    const t: string[] = Object.values(this.ss.titulos);
-    const s: string[] = Object.keys(this.detalhe);
-    const v: any[] = Object.values(this.detalhe);
-
-
+  getPdf (imprimir = false) {
 
     let linha = 0;
-    let doc = new jsPDF(
+    let doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
         putOnlyUsedFonts: true
       }
-    );
-    const pageNumber = doc.getNumberOfPages();
+    ) as jsPDFCustom;
+    const pageNumber = doc.getNumberOfPages ();
 
     doc.setFontSize(15);
     doc.text('SOLICITAÇÃO', 15, 15);
     doc.setFontSize(10);
 
-
+    const k: string[] = Object.keys(this.solicitacao_titulo);
+    const t: string[] = Object.values(this.solicitacao_titulo);
+    const s: string[] = Object.keys(this.solicitacao);
+    const v: any[] = Object.values(this.solicitacao);
 
     const sol: string[] = [];
     const tit: string[] = [];
@@ -83,7 +177,7 @@ export class SolicDetalheComponent implements OnInit {
       }
     }
 
-    for (let i = 0; i < this.soli.length; i++) {
+    for (let i = 0; i < k.length; i++) {
       if (k[i] !== 'solicitacao_descricao' && k[i] !== 'solicitacao_aceita_recusada' && k[i] !== 'solicitacao_carta') {
         solicitacao.push([tit[k[i]], sol[k[i]]]);
       }
@@ -95,7 +189,7 @@ export class SolicDetalheComponent implements OnInit {
       body: solicitacao,
       startY: 20,
       pageBreak: 'avoid',
-      styles: {cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8},
+      styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
       headStyles: {
         textColor: 255,
         fillColor: '#007bff',
@@ -106,10 +200,9 @@ export class SolicDetalheComponent implements OnInit {
           top: 1,
           right: 0.5,
           bottom: 0.5,
-          left: 2
-        }
+          left: 2}
       },
-      bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1},
+      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
       didDrawPage: (d) => {
         linha = d.cursor.y;
       },
@@ -119,13 +212,13 @@ export class SolicDetalheComponent implements OnInit {
     doc.setFontSize(10);
 
 
-    if ("solicitacao_descricao" in this.solicitacao && this.solicitacao.solicitacao_descricao) {
+    if (this.solicitacao.solicitacao_descricao) {
       this.campos.push('descricao');
     }
-    if ("solicitacao_aceita_recusada" in this.solicitacao && this.solicitacao.solicitacao_aceita_recusada) {
+    if (this.solicitacao.solicitacao_aceita_recusada) {
       this.campos.push('observacao');
     }
-    if ("solicitacao_carta" in this.solicitacao && this.solicitacao.solicitacao_carta) {
+    if (this.solicitacao.solicitacao_carta) {
       this.campos.push('carta');
     }
 
@@ -159,7 +252,7 @@ export class SolicDetalheComponent implements OnInit {
         body: cadastro,
         startY: linha,
         pageBreak: 'avoid',
-        styles: {cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8},
+        styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
           textColor: 255,
           fillColor: '#007bff',
@@ -170,10 +263,9 @@ export class SolicDetalheComponent implements OnInit {
             top: 1,
             right: 0.5,
             bottom: 0.5,
-            left: 2
-          }
+            left: 2}
         },
-        bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1},
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
           linha = d.cursor.y;
         },
@@ -184,12 +276,12 @@ export class SolicDetalheComponent implements OnInit {
 
 
     if (this.vinculos) {
-      if (this.solDetalhe.processo_num.num > 0) {
+      if (this.solDetalhe.processo_num.length > 0) {
         linha += 8;
         const txtpro = 'Esta solicitaçãoo está vinculada ao processo ' + this.processo_num + '.';
         doc.text(txtpro, 15, linha);
       }
-      if (this.solDetalhe.oficio_num.num > 0) {
+      if (this.solDetalhe.oficio_num.length > 0) {
         linha += 8;
         const txtofi = 'Esta solicitaçãoo está vinculada a ' + this.oficio_num + ' ofício(s).';
         doc.text(txtofi, 15, linha);
@@ -204,10 +296,9 @@ export class SolicDetalheComponent implements OnInit {
       ];
       linha += 12;
       let pc: any[] = [];
-      /*this.processo.forEach( p => {
+      this.processo.forEach( p => {
         pc.push([p.processo_numero, p.processo_status]);
-      });*/
-      pc.push([this.solDetalhe.processo.processo_numero, this.solDetalhe.processo.processo_status])
+      })
       doc.text('PROCESSO - Esta solicitação está vinculada ao seguinte processo.', 15, linha);
       linha += 2;
       autoTable(doc, {
@@ -215,7 +306,7 @@ export class SolicDetalheComponent implements OnInit {
         body: pc,
         startY: linha,
         pageBreak: 'avoid',
-        styles: {cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8},
+        styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
           textColor: 255,
           fillColor: '#007bff',
@@ -226,10 +317,9 @@ export class SolicDetalheComponent implements OnInit {
             top: 1,
             right: 0.5,
             bottom: 0.5,
-            left: 2
-          }
+            left: 2}
         },
-        bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1},
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
           linha = d.cursor.y;
         },
@@ -247,7 +337,7 @@ export class SolicDetalheComponent implements OnInit {
       ];
 
       let oficio: any[] = [];
-      this.oficio.forEach(p => {
+      this.oficio.forEach( p => {
         oficio.push([p.oficio_status, p.oficio_codigo, p.oficio_numero, p.oficio_data_emissao, p.oficio_orgao_solicitado_nome]);
       });
 
@@ -258,7 +348,7 @@ export class SolicDetalheComponent implements OnInit {
         body: oficio,
         startY: linha,
         pageBreak: 'avoid',
-        styles: {cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8},
+        styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
         headStyles: {
           textColor: 255,
           fillColor: '#007bff',
@@ -269,10 +359,9 @@ export class SolicDetalheComponent implements OnInit {
             top: 1,
             right: 0.5,
             bottom: 0.5,
-            left: 2
-          }
+            left: 2}
         },
-        bodyStyles: {fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1},
+        bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 },
         didDrawPage: (d) => {
           linha = d.cursor.y;
         },
@@ -285,10 +374,8 @@ export class SolicDetalheComponent implements OnInit {
       promises.push(this.getCanvasData(document.getElementById(page)));
     });
 
-    let nome = 'solicitacao';
-    if ("solicitacao_cadastro_nome" in this.solicitacao) {
-      nome = this.solicitacao.solicitacao_cadastro_nome.replace(' ', '_').toLowerCase();
-    }
+
+    const nome = this.solicitacao.solicitacao_cadastro_nome.replace(' ', '_').toLowerCase();
     const fileName = `solicitacao_${nome}_${new Date().getTime()}.pdf`;
 
 
@@ -336,7 +423,7 @@ export class SolicDetalheComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const self = this;
       html2canvas(element)
-        .then(function (canvas) {
+        .then(function(canvas) {
           let imgWidth = 190;
           if ((canvas.width / 3.779528) <= 190) {
             imgWidth = (canvas.width / 3.779528);
@@ -348,11 +435,13 @@ export class SolicDetalheComponent implements OnInit {
           self.larguras.push(imgWidth);
           resolve(canvas.toDataURL('image/png', 1));
         })
-        .catch(function (error) {
+        .catch(function(error) {
           reject(
             'Error while creating canvas for element with ID: ' + element.id
           );
         });
     });
   }
+
+
 }

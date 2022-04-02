@@ -18,3 +18,4 @@ export * from './user.service';
 export * from './uuid.service';
 export * from './v';
 export * from './versao';
+export * from './titulo-helper';

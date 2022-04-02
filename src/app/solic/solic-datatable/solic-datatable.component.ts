@@ -31,6 +31,7 @@ import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
 import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {DatatableService} from "../../shared-datatables/services/datatable.service";
+import {SolicDetalheI} from "../_models/solic-detalhe-i";
 
 
 @Component({
@@ -80,7 +81,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   showCampoTexto = false;
   deltaquill: any = null;
   showDetalhe = false;
-  solDetalhe: SolicitacaoDetalheInterface = null;
+  solDetalhe?: SolicDetalheI;
   showHistoricoForm = false;
   solHistForm: any;
 
@@ -327,7 +328,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   resetSelectedColumns(): void {
-      this.sds.selectedColumns = [
+    this.sds.selectedColumns = [
         {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', largura: '230px'},
         {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', largura: '300px'},
         {field: 'solicitacao_data', header: 'DATA', sortable: 'true', largura: '230px'},
@@ -426,7 +427,25 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  solicitacaoDetalheCompleto(sol: SolicListarI){}
+  solicitacaoDetalheCompleto(sol: SolicListarI){
+    // console.log('titulos', this.ss.titulos);
+    this.sub.push(this.ss.getSolicitacaoDetalhe(sol.solicitacao_id)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          console.log('getSolicitacaoDetalhe',dados);
+          this.solDetalhe = dados;
+        },
+        error: (err) => {
+          console.error('erro', err.toString ());
+        },
+        complete: () => {
+          this.showDetalhe = true;
+        }
+      }));
+    // this.showDetalhe = true;
+    // this.ss.getSeparaSolicitacao(sol);
+  }
   /*solicitacaoDetalheCompleto(sol: SolicListarI) {
     this.sub.push(this.ss.getSolicitacaoDetalhe(sol.solicitacao_id)
       .pipe(take(1))

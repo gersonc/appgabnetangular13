@@ -1,5 +1,6 @@
 export interface SolicCadastro {
   cadastro_id?: number;
+  cadastro_nome?: string;
   cadastro_nome_limpo?: string;
   cadastro_endereco?: string;
   cadastro_endereco_numero?: string;

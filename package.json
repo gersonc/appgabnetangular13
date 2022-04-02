@@ -57,6 +57,7 @@
     "rxjs-compat": "^6.6.7",
     "tslib": "^2.3.0",
     "txt-reader": "^1.4.5",
+    "typescript-map": "^0.1.0",
     "url-polyfill": "^1.1.12",
     "util": "^0.12.4",
     "uuid": "^8.3.2",

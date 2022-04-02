@@ -1,10 +1,7 @@
-import {SolicHistoricoSolicitacao} from "./solic-historico-solicitacao";
-import {SolicHistoricoProcesso} from "./solic-historico-processo";
-import {TotalI} from "../../shared-datatables/models/total-i";
-import {SolicOficioI} from "./solic-oficio-i";
 import {SolicCadastro} from "./solic-cadastro";
+import {SolicOficioI} from "./solic-oficio-i";
 
-export interface SolicListarI {
+export interface SolicSolicitacaoI {
   solicitacao_id?: number;
   solicitacao_posicao?: string;
   solicitacao_data?: string;
@@ -50,47 +47,4 @@ export interface SolicListarI {
   solicitacao_aceita_sn2?: number;
   solicitacao_posicao2?: number;
   solicitacao_processo_id?: number;
-  cadastro: SolicCadastro;
-  cadastro_id?: number;
-  cadastro_nome_limpo?: string;
-  cadastro_endereco?: string;
-  cadastro_endereco_numero?: string;
-  cadastro_endereco_complemento?: string;
-  cadastro_bairro?: string;
-  cadastro_regiao_id?: number;
-  cadastro_regiao_nome?: string;
-  cadastro_municipio_id?: number;
-  cadastro_municipio_nome?: string;
-  cadastro_email?: string;
-  cadastro_email2?: string;
-  cadastro_telefone?: string;
-  cadastro_telefone2?: string;
-  cadastro_celular?: string;
-  cadastro_celular2?: string;
-  cadastro_telcom?: string;
-  cadastro_fax?: string;
-  cadastro_estado_nome?: string;
-  oficio?: SolicOficioI[];
-  processo_id?: number;
-  processo_status2?: number;
-  processo_status?: string;
-  processo_numero?: string;
-  processo_numero2?: string;
-  historico_solicitcao?: SolicHistoricoSolicitacao[];
-  historico_processo?: SolicHistoricoProcesso[];
 }
-
-/*export interface SolicTotalInterface {
-  num: number;
-}*/
-
-export interface SolicPaginacaoInterface {
-  solicitacao: SolicListarI[];
-  total: TotalI;
-}
-
-export const solicSolicitacaoCamposTexto = [
-  'solicitacao_descricao',
-  'solicitacao_aceita_recusada',
-  'solicitacao_carta'
-];

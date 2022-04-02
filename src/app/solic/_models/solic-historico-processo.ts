@@ -1,6 +1,4 @@
 export interface SolicHistoricoProcesso {
-  solicitacao_id?: number;
-  processo_id?: number;
   historico_id?: number;
   historico_data2?: string;
   historico_data?: string;

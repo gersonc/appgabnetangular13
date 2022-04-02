@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {UrlService} from "../../_services";
+import {TituloHelper, UrlService} from "../../_services";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {
   SolicListarI,
@@ -14,6 +14,8 @@ import {Subscription} from "rxjs";
 import {BuscaCampoI} from "../../shared-datatables/models/busca-campo-i";
 import {TotalI} from "../../shared-datatables/models/total-i";
 import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
+import {SolicDetalheI} from "../_models/solic-detalhe-i";
+import {TSMap} from "typescript-map";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,7 @@ export class SolicService {
   selecionados: SolicListarI[] = [];
   total: TotalI;
   Contexto: SolicListarI;
-  titulos: any;
+  titulos: TSMap<string, TSMap<string, string>>;
   // expandidoDados: any = false;
 
 
@@ -80,18 +82,20 @@ export class SolicService {
 
 
   getTitulos(): void {
-    if (!this.titulos) {
-      if (!sessionStorage.getItem('solic-listagem-titulos')) {
+    if (typeof(this.titulos) === 'undefined') {
+      if (!sessionStorage.getItem('solic-detalhe-titulos')) {
         this.sub.push(this.getTitulosDetalhe()
           .pipe(take(1))
           .subscribe(dados => {
-            sessionStorage.setItem('solic-listagem-titulos', JSON.stringify(dados));
-            this.titulos = dados;
+              this.titulos = TituloHelper.set(dados, 'solic-detalhe-titulos');
+              console.log('TituloHelper.set', this.titulos);
           }));
       } else {
-        this.titulos = JSON.parse(sessionStorage.getItem('solic-listagem-titulos'));
+        this.titulos = TituloHelper.get('solic-detalhe-titulos');
+        console.log('TituloHelper.get', this.titulos);
       }
     }
+
   }
 
   getTitulosDetalhe() {
@@ -101,8 +105,10 @@ export class SolicService {
 
 
   getSolicitacaoDetalhe(id: number) {
-
+    const url = this.solicitacaoUrl + '/detalhe/' + id;
+    return this.http.get<SolicDetalheI>(url);
   }
+
 
 
 
