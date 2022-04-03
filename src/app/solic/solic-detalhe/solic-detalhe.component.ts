@@ -71,7 +71,7 @@ export class SolicDetalheComponent implements OnInit {
   ngOnInit() {
     /// this.detalhes = this.montaDetalhes();
     // console.log('this.detalhes', this.detalhes.entries());
-    this.teste();
+    // this.teste();
   }
 
   teste() {
