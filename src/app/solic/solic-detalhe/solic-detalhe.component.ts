@@ -42,7 +42,7 @@ export class SolicDetalheComponent implements OnInit {
   @Input() solicitacaoListagem: any[] = [];
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
-  public solicitacao: any;
+/*  public solicitacao: any;
   public solicitacao_titulo: any[];
   public cadastro: SolicitacaoCadastroInterface;
   public cadastro_titulo: any[];
@@ -53,12 +53,14 @@ export class SolicDetalheComponent implements OnInit {
   public oficio: SolicitacaoOficioInterface[];
   public oficio_titulo: any[];
   public erro: any[] = null;
-  public vinculos = false;
+  public vinculos = false;*/
   private campos: string[] = [];
   private alturas: number[] = [];
   private larguras: number[] = [];
   public textoEditor = false;
+
   titulos: TSMap<string, TSMap<string, string>>;
+  public detalhes = new TSMap<string, string[] | string[][]>();
 
   constructor (
     private authenticationService: AuthenticationService,
@@ -67,14 +69,21 @@ export class SolicDetalheComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    console.log('detalhe->', this.detalhe);
-    console.log('detalhe->solicitacao->', this.detalhe.solicitacao);
-    this.getTeste();
-
+    /// this.detalhes = this.montaDetalhes();
+    // console.log('this.detalhes', this.detalhes.entries());
+    this.teste();
   }
 
-  getTeste() {
+  teste() {
+    console.log(this.detalhe);
+    let z: any = JSON.stringify(this.detalhe);
+    console.log(z)
+
+    let w = new TSMap().fromJSON(JSON.parse(z));
+    console.log(w)
+  }
+
+  montaDetalhes(): TSMap<string, string[] | string[][]> {
     let t = new SolicSeparaSolicitaca(
       this.detalhe,
       [
@@ -86,22 +95,38 @@ export class SolicDetalheComponent implements OnInit {
         'historico_processo'
       ],
       [
+        'vertical',
+        'vertical',
+        'horizontal',
+        'vertical',
+        'vertical',
+        'horizontal'
+      ],
+      this.ss.titulos,
+      [
         'solicitacao_descricao',
         'solicitacao_aceita_recusada',
         'solicitacao_carta',
         'historico_andamento',
         'oficio_descricao_acao'
+      ],
+      [
+        true,
+        true,
+        true,
+        false,
+        true
       ]
       );
-    t.getSeparaSolicitacao();
+    return t.getSeparaSolicitacao();
   }
 
-  montagem() {
+  /*montagem() {
     const k: string[] = Object.keys(this.solicitacao_titulo);
     const t: string[] = Object.values(this.solicitacao_titulo);
     const s: string[] = Object.keys(this.solicitacao);
     const v: any[] = Object.values(this.solicitacao);
-  }
+  }*/
 
 
   /*ngOnInit() {
@@ -135,11 +160,14 @@ export class SolicDetalheComponent implements OnInit {
     this.erro = this.solDetalhe.erro;
   }*/
 
+
+  getPdf(aa) {}
+
   fechar() {
     this.hideDetalhe.emit(true);
   }
 
-  getPdf (imprimir = false) {
+  /*getPdf (imprimir = false) {
 
     let linha = 0;
     let doc = new jsPDF (
@@ -417,7 +445,7 @@ export class SolicDetalheComponent implements OnInit {
         }
       }, tempo);
     });
-  }
+  }*/
 
   getCanvasData = element => {
     return new Promise((resolve, reject) => {

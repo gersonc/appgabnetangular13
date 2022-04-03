@@ -10,7 +10,7 @@ export interface SolicDetalheI {
   solicitacao: SolicSolicitacaoI;
   cadastro: SolicCadastro;
   processo?: SolicProcessoI;
-  oficio?: SolicOficioI;
+  oficio?: SolicOficioI[];
   historico_solicitcao?: SolicHistoricoSolicitacao[];
   historico_processo?: SolicHistoricoProcesso[];
 }

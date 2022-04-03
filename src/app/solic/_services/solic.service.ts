@@ -71,9 +71,6 @@ export class SolicService {
   }
 
 
-
-
-
   postSolicitacaoBusca(busca: SolicBuscaI) {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     const url = this.solicitacaoUrl + '/listar';
@@ -88,11 +85,11 @@ export class SolicService {
           .pipe(take(1))
           .subscribe(dados => {
               this.titulos = TituloHelper.set(dados, 'solic-detalhe-titulos');
-              console.log('TituloHelper.set', this.titulos);
+              // console.log('TituloHelper.set', this.titulos);
           }));
       } else {
         this.titulos = TituloHelper.get('solic-detalhe-titulos');
-        console.log('TituloHelper.get', this.titulos);
+        // console.log('TituloHelper.get', this.titulos);
       }
     }
 
@@ -108,9 +105,6 @@ export class SolicService {
     const url = this.solicitacaoUrl + '/detalhe/' + id;
     return this.http.get<SolicDetalheI>(url);
   }
-
-
-
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

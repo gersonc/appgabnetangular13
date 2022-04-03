@@ -104,9 +104,9 @@ export class DatatableService {
         }
       }
     }
-    console.log('montaColunaExpandida1', this.dadosExpRaw);
+    // console.log('montaColunaExpandida1', this.dadosExpRaw);
     //let d = b.pop();
-    console.log('montaColunaExpandida2', b);
+    // console.log('montaColunaExpandida2', b);
     this.dadosExp = b;
   }
 

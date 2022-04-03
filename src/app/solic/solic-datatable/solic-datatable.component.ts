@@ -433,7 +433,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          console.log('getSolicitacaoDetalhe',dados);
+          // console.log('getSolicitacaoDetalhe',dados);
           this.solDetalhe = dados;
         },
         error: (err) => {

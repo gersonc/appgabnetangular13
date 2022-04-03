@@ -23,6 +23,7 @@ import {QuillModule} from "ngx-quill";
 import {InputTextModule} from "primeng/inputtext";
 import { SolicIncluirComponent } from './solic-incluir/solic-incluir.component';
 import { SolicDetalheComponent } from './solic-detalhe/solic-detalhe.component';
+import {ArquivoModule} from "../arquivo/arquivo.module";
 
 
 @NgModule({
@@ -33,25 +34,26 @@ import { SolicDetalheComponent } from './solic-detalhe/solic-detalhe.component';
     SolicIncluirComponent,
     SolicDetalheComponent
   ],
-  imports: [
-    CommonModule,
-    SolicRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    TableModule,
-    MenuModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    ListboxModule,
-    ContextMenuModule,
-    ToastModule,
-    QuillModule,
-    FormsModule,
-    InputTextModule,
-  ]
+    imports: [
+        CommonModule,
+        SolicRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        TableModule,
+        MenuModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        ListboxModule,
+        ContextMenuModule,
+        ToastModule,
+        QuillModule,
+        FormsModule,
+        InputTextModule,
+        ArquivoModule,
+    ]
 })
 export class SolicModule { }
