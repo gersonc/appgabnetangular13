@@ -24,6 +24,7 @@ import {InputTextModule} from "primeng/inputtext";
 import { SolicIncluirComponent } from './solic-incluir/solic-incluir.component';
 import { SolicDetalheComponent } from './solic-detalhe/solic-detalhe.component';
 import {ArquivoModule} from "../arquivo/arquivo.module";
+import {ExplorerModule} from "../explorer/explorer.module";
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
         FormsModule,
         InputTextModule,
         ArquivoModule,
+        ExplorerModule,
     ]
 })
 export class SolicModule { }

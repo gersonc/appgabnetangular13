@@ -143,44 +143,55 @@
 
           <tr *ngIf="detalhe.solicitacao.solicitacao_descricao" class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              <span style="font-weight: bold">Descrição:</span>
-              <div *ngIf="detalhe.solicitacao.solicitacao_descricao">
-                <quill-view-html id="descricao" #descricao [content]="detalhe.solicitacao.solicitacao_descricao"
-                                 class="detalhe"></quill-view-html>
-              </div>
+              Descrição:
             </th>
+          </tr>
+          <tr *ngIf="detalhe.solicitacao.solicitacao_descricao" class="novaPagina">
+            <td colspan="2">
+              <quill-view-html id="descricao" #descricao [content]="detalhe.solicitacao.solicitacao_descricao"
+                               class="detalhe"></quill-view-html>
+            </td>
           </tr>
           <tr *ngIf="detalhe.solicitacao.solicitacao_aceita_recusada" class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              <span style="font-weight: bold">Observações:</span>
-              <div>
-                <quill-view-html id="observacao" #observacao [content]="detalhe.solicitacao.solicitacao_aceita_recusada"
-                                 class="detalhe"></quill-view-html>
-              </div>
+              Observações:
             </th>
+          </tr>
+          <tr *ngIf="detalhe.solicitacao.solicitacao_aceita_recusada" class="novaPagina">
+            <td colspan="2">
+              <quill-view-html id="observacao" #observacao [content]="detalhe.solicitacao.solicitacao_aceita_recusada"
+                               class="detalhe"></quill-view-html>
+            </td>
           </tr>
           <tr *ngIf="detalhe.solicitacao.solicitacao_carta" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
-              <span style="font-weight: bold">Resposta:</span>
-              <div>
-                <quill-view-html id="carta" #carta [content]="detalhe.solicitacao.solicitacao_carta"
-                                 class="detalhe"></quill-view-html>
-              </div>
-            </th>
+            <td colspan="2" class="tituloEditor">
+              Resposta:
+            </td>
           </tr>
+          <tr *ngIf="detalhe.solicitacao.solicitacao_carta">
+            <td colspan="2">
+              <quill-view-html id="carta" #carta [content]="detalhe.solicitacao.solicitacao_carta"
+                               class="detalhe"></quill-view-html>
+            </td>
+          </tr>
+
         </table>
 
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="detalhe.arquivos">
       <td>
         <br>
+        <div class="arquivolista">
 
-        <app-arquivo
+            <app-detalhe-explorer [arquivos]="detalhe.arquivos" [modulo]="'solicitacao'" [registro_id]="detalhe.solicitacao.solicitacao_id" (onBloqueiaBotoes)="botoesVF($event)"></app-detalhe-explorer>
+
+        <!--<app-arquivo
           [modulo]="'solicitacao'"
           [modelo]="'detalhe'"
           [registro_id]="detalhe.solicitacao.solicitacao_id"
-        ></app-arquivo>
+        ></app-arquivo>-->
+        </div>
       </td>
     </tr>
     <tr *ngIf="textoEditor" class="novaPagina">
@@ -435,11 +446,11 @@
     <tr>
       <td>
         <br>
-        <app-arquivo
+        <!--<app-arquivo
           [modulo]="'cadastro'"
           [modelo]="'detalhe'"
           [registro_id]="detalhe.cadastro.cadastro_id"
-        ></app-arquivo>
+        ></app-arquivo>-->
       </td>
     </tr>
     <tr *ngIf="detalhe.processo">
@@ -680,11 +691,11 @@
                 <tr>
                   <th colspan="2">
                     <br>
-                    <app-arquivo
+                    <!--<app-arquivo
                       [modulo]="'oficio'"
                       [modelo]="'detalhe'"
                       [registro_id]="ofi.oficio_id"
-                    ></app-arquivo>
+                    ></app-arquivo>-->
                   </th>
                 </tr>
               </table>

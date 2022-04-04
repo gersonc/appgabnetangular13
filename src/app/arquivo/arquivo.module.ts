@@ -15,16 +15,19 @@ import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { UploadArquivoComponent } from './upload-arquivo/upload-arquivo.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { ArquivoDetalheComponent } from './arquivo-detalhe/arquivo-detalhe.component';
 
 
 @NgModule({
   declarations: [
     ArquivoComponent,
     ArquivoViewComponent,
-    UploadArquivoComponent
+    UploadArquivoComponent,
+    ArquivoDetalheComponent
   ],
   exports: [
-    ArquivoComponent
+    ArquivoComponent,
+    ArquivoDetalheComponent
   ],
     imports: [
         BlockUIModule,

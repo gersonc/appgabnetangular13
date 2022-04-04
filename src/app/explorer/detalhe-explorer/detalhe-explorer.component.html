@@ -1,0 +1,5 @@
+<ng-container *ngIf="arquivos" >
+  <ng-container *ngFor="let arquivo of arqs">
+    <app-explorer-detalhe [arquivo]="arquivo" (onBlockSubmit)="onBlockSubmit($event)"></app-explorer-detalhe>
+  </ng-container>
+</ng-container>

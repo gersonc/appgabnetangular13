@@ -1,0 +1,77 @@
+<!--<div class="arquivolista">
+
+  <div *ngIf="arquivo" class="fileclassView p-d-flex p-flex-row p-ai-center p-jc-between p-mx-1 p-my-2 p-p-1 p-shadow-1">
+    <div class="p-d-flex p-flex-row p-jc-end p-ai-center p-m-0 p-p-0">
+      <div *ngIf="authenticationService.arquivos_apagar" class="p-mr-3 p-p-1">
+        <button pButton pRipple type="button" pTooltip="Excluir" tooltipPosition="left" icon="pi pi-trash" class="p-button-rounded p-button-secondary p-button-text" (click)="excluir(arquivo)"></button>
+      </div>
+
+      <div *ngIf="!authenticationService.arquivos_baixar"  class="arquivoNaolinkview p-m-0 p-p-0">
+        <img [src]="getIcone(arquivo.arquivo_nome_original)" [alt]="arquivo.arquivo_nome_original" [width]="50"/>
+      </div>
+      <div *ngIf="authenticationService.arquivos_baixar" (click)="clickArquivo(arquivo)" class="arquivolinkview p-m-0 p-p-0">
+        <img pTooltip="Download" tooltipPosition="top" [src]="getIcone(arquivo.arquivo_nome_original)" [alt]="arquivo.arquivo_nome_original" [width]="50"/>
+      </div>
+    </div>
+  </div>
+
+</div>-->
+
+
+<ng-container *ngIf="arquivos.length > 0">
+  <!--<p-panel header="ARQUIVOS" class="arquivolistahorizontal">-->
+  <p-panel class="arquivolistahorizontal">
+    <div class="p-d-inline-flex arquivolistahorizontal">
+
+      <div *ngFor="let arq of arquivos" class="fileclassView p-ai-center p-mx-1 p-my-2 p-p-1 p-shadow-1">
+        <ng-container *ngIf="!authenticationService.arquivos_baixar">
+          <div>
+            <div class="arquivolinkexcluir" *ngIf="authenticationService.arquivos_apagar">
+              <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-danger"
+                pTooltip="Apagar"
+                tooltipPosition="top"
+                (click)="excluir(arq)"
+              >
+              </button>
+            </div>
+            <div class="arquivoNaolinkview">
+              <img [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>
+            </div>
+          </div>
+          <div class="arquivoNaolinkview">
+            {{arq.arquivo_nome_original}} - {{readableBytes(arq.arquivo_tamanho)}}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="authenticationService.arquivos_baixar">
+          <div>
+            <div class="arquivolinkexcluir" *ngIf="authenticationService.arquivos_apagar">
+              <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-danger"
+                pTooltip="Apagar"
+                tooltipPosition="top"
+                (click)="excluir(arq)"
+              >
+              </button>
+            </div>
+            <div (click)="clickArquivo(arq)" class="arquivolinkview p-mx-1 p-my-1">
+              <img pTooltip="Download" tooltipPosition="top" [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>
+            </div>
+          </div>
+          <div (click)="clickArquivo(arq)" pTooltip="Download" tooltipPosition="top" class="arquivolinkview p-mx-1 p-my-1">
+            {{arq.arquivo_nome_original}} - {{readableBytes(arq.arquivo_tamanho)}}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <p-message severity="warn" text="{{msg}}" *ngIf="msg"></p-message>
+  </p-panel>
+</ng-container>

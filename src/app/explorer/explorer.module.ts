@@ -16,13 +16,17 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
 import {ToastModule} from "primeng/toast";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
+import {ExplorerDetalheComponent} from "./explorer-detalhe/explorer-detalhe.component";
+import { DetalheExplorerComponent } from './detalhe-explorer/detalhe-explorer.component';
 
 
 @NgModule({
   declarations: [
     ExplorerComponent,
     ExplorerListagemComponent,
-    ExternalLinkDirective
+    ExternalLinkDirective,
+    ExplorerDetalheComponent,
+    DetalheExplorerComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,9 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
   ],
   exports: [
     ExplorerComponent,
-    ExternalLinkDirective
+    ExternalLinkDirective,
+    ExplorerDetalheComponent,
+    DetalheExplorerComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

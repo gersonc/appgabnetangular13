@@ -74,6 +74,10 @@ export class SolicDetalheComponent implements OnInit {
     // this.teste();
   }
 
+  botoesVF(ev: boolean){
+
+  }
+
   teste() {
     console.log(this.detalhe);
     let z: any = JSON.stringify(this.detalhe);
@@ -82,6 +86,8 @@ export class SolicDetalheComponent implements OnInit {
     let w = new TSMap().fromJSON(JSON.parse(z));
     console.log(w)
   }
+
+
 
   montaDetalhes(): TSMap<string, string[] | string[][]> {
     let t = new SolicSeparaSolicitaca(

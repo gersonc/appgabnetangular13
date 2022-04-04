@@ -4,6 +4,7 @@ import {SolicProcessoI} from "./solic-processo-i";
 import {SolicHistoricoSolicitacao} from "./solic-historico-solicitacao";
 import {SolicHistoricoProcesso} from "./solic-historico-processo";
 import {SolicOficioI} from "./solic-oficio-i";
+import {ArquivoInterface} from "../../arquivo/_models";
 
 
 export interface SolicDetalheI {
@@ -13,5 +14,6 @@ export interface SolicDetalheI {
   oficio?: SolicOficioI[];
   historico_solicitcao?: SolicHistoricoSolicitacao[];
   historico_processo?: SolicHistoricoProcesso[];
+  arquivos?: ArquivoInterface[];
 }
 
