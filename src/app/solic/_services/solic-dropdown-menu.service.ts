@@ -5,6 +5,7 @@ import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } fro
 import {Observable, pipe, Subject, Subscription} from 'rxjs';
 import { DropdownService } from '../../_services';
 import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i";
+import {SolicitacaoDropdownMenuListarInterface} from "../../solicitacao/_models";
 // import {SolicitacaoDropdownMenuListar} from "../../solicitacao/_models";
 
 @Injectable({
@@ -16,7 +17,7 @@ export class SolicDropdownMenuService {
   public ddSoNomeArray = new DropdownsonomearrayClass();
   public ddSoDataArray = new DropdownsonomearrayClass();
   public ddNomeIdJoinArray = new DropdownNomeIdJoin();
-  private ddSolicitacao: SolicDropdownMenuListarI = {
+  /*private ddSolicitacao: SolicDropdownMenuListarI = {
     ddCadastro_municipio_id: [],
     ddCadastro_regiao_id: [],
     ddSolicitacao_area_interesse_id: [],
@@ -30,7 +31,8 @@ export class SolicDropdownMenuService {
     ddSolicitacao_posicao: [],
     ddSolicitacao_reponsavel_analize_id: [],
     ddSolicitacao_tipo_recebimento_id: []
-  };
+  };*/
+  private ddSolicitacao: SolicitacaoDropdownMenuListarInterface;
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
@@ -44,7 +46,23 @@ export class SolicDropdownMenuService {
     private dd: DropdownService
   ) { }
 
-  private getDropdownMenu() {
+
+  getDropdownMenu() {
+      this.sub.push(this.dd.getDropdownSolicitacaoMenuTodos()
+        .pipe(take(1))
+        .subscribe((dados) => {
+            this.ddSolicitacao = dados;
+          },
+          (err) => console.error(err),
+          () => {
+            this.gravaDropDown();
+          }
+        )
+      );
+  }
+
+
+  /*private getDropdownMenu() {
     let contador = 0;
 
     // ****** solicitacao_posicao *****
@@ -143,7 +161,7 @@ export class SolicDropdownMenuService {
       })
     );
 
-  }
+  }*/
 
   gravaDropDown() {
     if (!sessionStorage.getItem('solic-dropdown')) {
@@ -168,4 +186,8 @@ export class SolicDropdownMenuService {
       this.resp.complete();
     }
   }
+
+
+
+
 }

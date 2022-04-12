@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges, TemplateRef, ViewChild, ViewContainerRef
+} from '@angular/core';
 import {
   AuthenticationService,
   CarregadorService,
@@ -26,6 +36,7 @@ import {
 } from "../../solicitacao/_models";
 import {SolicSeparaSolicitaca} from "../_services/solic-separa-solicitaca";
 import {TSMap} from "typescript-map";
+import {ArquivoInterface} from "../../arquivo/_models";
 
 applyPlugin(jsPDF);
 
@@ -37,9 +48,11 @@ applyPlugin(jsPDF);
   templateUrl: './solic-detalhe.component.html',
   styleUrls: ['./solic-detalhe.component.css']
 })
-export class SolicDetalheComponent implements OnInit {
+export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
+  @ViewChild('dtlh', { static: true }) dtlh:TemplateRef<any>;
   @Input() detalhe: SolicDetalheI = null;
   @Input() solicitacaoListagem: any[] = [];
+  @Input() arquivoOficio: TSMap<number, ArquivoInterface[]>;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
 /*  public solicitacao: any;
@@ -59,33 +72,65 @@ export class SolicDetalheComponent implements OnInit {
   private larguras: number[] = [];
   public textoEditor = false;
 
+  z = 0;
+  w = 0;
+  // arquivoOficio: TSMap<number, ArquivoInterface[]>;
+
   titulos: TSMap<string, TSMap<string, string>>;
   public detalhes = new TSMap<string, string[] | string[][]>();
 
   constructor (
+    private vref: ViewContainerRef,
     private authenticationService: AuthenticationService,
     public ss: SolicService
 
-  ) { }
+  ) {
+    console.log('constructor');
+  }
+
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges - z', this.z);
+    this.z++;
+    if (changes.arquivoOficio) {
+      console.log('ngOnChanges - w', this.w);
+      this.w++;
+      this.vref.createEmbeddedView(this.dtlh);
+    }
+  }
 
   ngOnInit() {
-    /// this.detalhes = this.montaDetalhes();
-    // console.log('this.detalhes', this.detalhes.entries());
-    // this.teste();
+    console.log('ngOnInit');
+    // this.arquivoOficio = this.getArquivos();
+  }
+
+  getArquivos(): TSMap<number, ArquivoInterface[]> {
+    let af = new TSMap<number, ArquivoInterface[]>();
+    if (this.detalhe.arquivos) {
+      const arqt: ArquivoInterface[]  = this.detalhe.arquivos.filter( a =>  a.arquivo_modulo === 'oficio');
+      if (arqt.length > 0) {
+        this.detalhe.oficio.forEach(b => {
+          const arqt2 = arqt.filter(a => a.arquivo_registro_id === b.oficio_id);
+          if (arqt2.length > 0) {
+            af.set(b.oficio_id, arqt2);
+          }
+        });
+        return af;
+      } else {
+        return af.set(0,[]);
+      }
+    } else {
+      return af.set(0,[]);
+    }
   }
 
   botoesVF(ev: boolean){
 
   }
 
-  teste() {
-    console.log(this.detalhe);
-    let z: any = JSON.stringify(this.detalhe);
-    console.log(z)
-
-    let w = new TSMap().fromJSON(JSON.parse(z));
-    console.log(w)
-  }
 
 
 

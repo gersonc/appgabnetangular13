@@ -1,4 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewContainerRef
+} from '@angular/core';
 import {ArquivoInterface} from "../../arquivo/_models";
 
 @Component({
@@ -6,42 +12,25 @@ import {ArquivoInterface} from "../../arquivo/_models";
   templateUrl: './detalhe-explorer.component.html',
   styleUrls: ['./detalhe-explorer.component.css']
 })
-export class DetalheExplorerComponent implements OnInit, OnChanges {
+export class DetalheExplorerComponent implements OnChanges {
   @Input() arquivos?: ArquivoInterface[];
   @Input() modulo?: string;
   @Input() registro_id?: number;
-  @Output() onBloqueiaBotoes = new EventEmitter<boolean>();
 
-  arqs: ArquivoInterface[] = [];
-
+  arqs: ArquivoInterface[];
+  ref: ViewContainerRef;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if( changes.modulo) {
       this.filtarArquivos(changes.modulo.currentValue)
     }
-    console.log('arquivos', this.arquivos);
-    console.log('modulo', this.modulo);
-    console.log('registro_id', this.registro_id);
-  }
-
-  onBlockSubmit(ev: boolean) {
-    this.onBloqueiaBotoes.emit(ev);
   }
 
   filtarArquivos(modulo: string) {
-    this.arqs = [];
-    this.arquivos.forEach( a => {
-      if (a.arquivo_registro_id === this.registro_id && a.arquivo_modulo === modulo) {
-        this.arqs.push(a);
-      }
-    });
+    this.arqs = this.arquivos.filter( a => a.arquivo_modulo === modulo && a.arquivo_registro_id === this.registro_id)
     console.log('arqs', this.arqs);
-
   }
 
 }

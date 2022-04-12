@@ -32,6 +32,8 @@ import {SolicService} from "../_services/solic.service";
 import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {DatatableService} from "../../shared-datatables/services/datatable.service";
 import {SolicDetalheI} from "../_models/solic-detalhe-i";
+import {TSMap} from "typescript-map";
+import {ArquivoInterface} from "../../arquivo/_models";
 
 
 @Component({
@@ -84,6 +86,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solDetalhe?: SolicDetalheI;
   showHistoricoForm = false;
   solHistForm: any;
+  arquivoOficio: TSMap<number, ArquivoInterface[]>;
 
   constructor(
     public mi: MenuInternoService,
@@ -433,7 +436,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
+          console.log('table5');
           // console.log('getSolicitacaoDetalhe',dados);
+          this.arquivoOficio = this.getArquivos(dados);
           this.solDetalhe = dados;
         },
         error: (err) => {
@@ -441,26 +446,34 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.showDetalhe = true;
+          console.log('table6');
         }
       }));
-    // this.showDetalhe = true;
-    // this.ss.getSeparaSolicitacao(sol);
   }
-  /*solicitacaoDetalheCompleto(sol: SolicListarI) {
-    this.sub.push(this.ss.getSolicitacaoDetalhe(sol.solicitacao_id)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.solDetalhe = dados;
-        },
-        error: (err) => {
-          console.error('erro', err.toString ());
-        },
-        complete: () => {
-          this.showDetalhe = true;
-        }
-      }));
-  }*/
+
+  getArquivos(detalhe: SolicDetalheI): TSMap<number, ArquivoInterface[]> {
+
+    let af = new TSMap<number, ArquivoInterface[]>();
+    if (detalhe.arquivos) {
+      const arqt: ArquivoInterface[]  = detalhe.arquivos.filter( a =>  a.arquivo_modulo === 'oficio');
+      if (arqt.length > 0) {
+        detalhe.oficio.forEach(b => {
+          const arqt2 = arqt.filter(a => a.arquivo_registro_id === b.oficio_id);
+          if (arqt2.length > 0) {
+            af.set(b.oficio_id, arqt2);
+          }
+        });
+        console.log('table1');
+        return af;
+      } else {
+        console.log('table2');
+        return af.set(0,[]);
+      }
+    } else {
+      console.log('table3');
+      return af.set(0,[]);
+    }
+  }
 
   escondeDetalhe() {
     this.showDetalhe = false;

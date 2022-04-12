@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { SelectItemGroup } from 'primeng/api';
 import { UrlService } from './url.service';
+import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
 
 
 @Injectable({
@@ -264,6 +265,11 @@ export class DropdownService {
   public getDropdownTipoCadastroConcat(): Observable<any[]> {
     const url = this.url.dropdown + '/ddtipocadastroconcat';
     return this.http.get<any[]>(url);
+  }
+
+  public getDropdownSolicitacaoMenuTodos(): Observable<SolicitacaoDropdownMenuListarInterface> {
+    const url = this.url.dropdown + '/solicitacaomenutodos';
+    return this.http.get<SolicitacaoDropdownMenuListarInterface>(url);
   }
 
 

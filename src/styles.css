@@ -14154,7 +14154,7 @@ h5 {
   /*padding-bottom: .5em;*/
 }
 
-.explorer-file-text {
+.explorer-file-text, .explorer-file-text:visited {
   position: relative;
   top: -.5em;
   padding-top: 0;
@@ -14163,6 +14163,12 @@ h5 {
   font-size: .8em;
   font-weight: 500;
   text-align: center;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.explorer-file-text:hover {
+  text-decoration: underline;
 }
 
 .explorer-file-text {
@@ -14218,7 +14224,7 @@ p-overlayPanel.explorer {
   margin-bottom: -10px;
 }
 
-.p-overlaypanel-close {
+.explorer .p-overlaypanel-close {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14377,4 +14383,12 @@ span.explorer {
   font-weight: 500;
   align-content: center;
   padding-bottom: .4rem;
+}
+
+.explorer-detalhe, .explorer-detalhe:visited {
+  text-decoration: none;
+}
+
+.explorer-detalhe:hover {
+  text-decoration: underline;
 }

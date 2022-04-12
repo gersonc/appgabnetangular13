@@ -1,3 +1,4 @@
+<ng-template #dtlh>
 <p-scrollPanel class="detalhe">
   <table class="detalhefull">
     <tr>
@@ -175,23 +176,13 @@
             </td>
           </tr>
 
+          <tr *ngIf="detalhe.arquivos" >
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="detalhe.arquivos" [modulo]="'solicitacao'" [registro_id]="detalhe.solicitacao.solicitacao_id"></app-detalhe-explorer>
+            </td>
+          </tr>
         </table>
 
-      </td>
-    </tr>
-    <tr *ngIf="detalhe.arquivos">
-      <td>
-        <br>
-        <div class="arquivolista">
-
-            <app-detalhe-explorer [arquivos]="detalhe.arquivos" [modulo]="'solicitacao'" [registro_id]="detalhe.solicitacao.solicitacao_id" (onBloqueiaBotoes)="botoesVF($event)"></app-detalhe-explorer>
-
-        <!--<app-arquivo
-          [modulo]="'solicitacao'"
-          [modelo]="'detalhe'"
-          [registro_id]="detalhe.solicitacao.solicitacao_id"
-        ></app-arquivo>-->
-        </div>
       </td>
     </tr>
     <tr *ngIf="textoEditor" class="novaPagina">
@@ -438,21 +429,17 @@
               {{detalhe.cadastro.cadastro_outras_midias}}
             </td>
           </tr>
+          <tr *ngIf="detalhe.arquivos" >
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="detalhe.arquivos" [modulo]="'cadastro'" [registro_id]="detalhe.cadastro.cadastro_id"></app-detalhe-explorer>
+            </td>
+          </tr>
 
         </table>
 
       </td>
     </tr>
-    <tr>
-      <td>
-        <br>
-        <!--<app-arquivo
-          [modulo]="'cadastro'"
-          [modelo]="'detalhe'"
-          [registro_id]="detalhe.cadastro.cadastro_id"
-        ></app-arquivo>-->
-      </td>
-    </tr>
+
     <tr *ngIf="detalhe.processo">
       <td>
         <br>
@@ -473,6 +460,11 @@
             </th>
             <td>
               {{detalhe.processo.processo_numero}}.
+            </td>
+          </tr>
+          <tr *ngIf="detalhe.arquivos" >
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="detalhe.arquivos" [modulo]="'cadastro'" [registro_id]="detalhe.processo.processo_id"></app-detalhe-explorer>
             </td>
           </tr>
         </table>
@@ -688,24 +680,20 @@
                                      [content]="ofi.oficio_descricao_acao" class="detalhe"></quill-view-html>
                   </td>
                 </tr>
-                <tr>
-                  <th colspan="2">
-                    <br>
-                    <!--<app-arquivo
-                      [modulo]="'oficio'"
-                      [modelo]="'detalhe'"
-                      [registro_id]="ofi.oficio_id"
-                    ></app-arquivo>-->
-                  </th>
-                </tr>
+                <ng-container *ngIf="arquivoOficio.has(ofi.oficio_id)">
+                  <tr>
+                    <th colspan="2">Arquivos:</th>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                        <app-detalhe-explorer [arquivos]="arquivoOficio.get(ofi.oficio_id)" [modulo]="'oficio'" [registro_id]="ofi.oficio_id"></app-detalhe-explorer>
+                    </td>
+                  </tr>
+                </ng-container>
               </table>
-
               <br>
-
             </td>
           </tr>
-
-
         </table>
 
       </td>
@@ -725,4 +713,4 @@
           class="p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 </div>
-
+</ng-template>

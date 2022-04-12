@@ -5,13 +5,10 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
-import {DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass} from "../../_models";
-// import {SolicitacaoDropdownMenuListar, SolicitacaoPaginacaoInterface} from "../../solicitacao/_models";
-import {CarregadorService, DropdownService} from "../../_services";
-// import {SolicitacaoService} from "../../solicitacao/_services";
+import {DropdownService} from "../../_services";
 import {mergeMap, take} from "rxjs/operators";
 import {SolicPaginacaoInterface} from "../_models/solic-listar-i";
-import {SolicitacaoDropdownMenuListar} from "../../solicitacao/_models";
+import {SolicitacaoDropdownMenuListar, SolicitacaoDropdownMenuListarInterface} from "../../solicitacao/_models";
 import {SolicService} from "../_services/solic.service";
 import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i";
 
@@ -20,25 +17,7 @@ import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i"
 })
 export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInterface> {
 
-  public ddNomeIdArray = new DropdownnomeidClass();
-  public ddSoNomeArray = new DropdownsonomearrayClass();
-  public ddSoDataArray = new DropdownsonomearrayClass();
-  public ddNomeIdJoinArray = new DropdownNomeIdJoin();
-  private ddSolicitacao: SolicDropdownMenuListarI = {
-    ddCadastro_municipio_id: [],
-    ddCadastro_regiao_id: [],
-    ddSolicitacao_area_interesse_id: [],
-    ddSolicitacao_assunto_id: [],
-    ddSolicitacao_atendente_cadastro_id: [],
-    ddSolicitacao_cadastrante_cadastro_id: [],
-    ddSolicitacao_cadastro_id: [],
-    ddSolicitacao_cadastro_tipo_id: [],
-    ddSolicitacao_data: [],
-    ddSolicitacao_local_id: [],
-    ddSolicitacao_posicao: [],
-    ddSolicitacao_reponsavel_analize_id: [],
-    ddSolicitacao_tipo_recebimento_id: []
-  };
+  private solicitacaoDropdownMenu: SolicitacaoDropdownMenuListarInterface;
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
@@ -52,6 +31,34 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     private dd: DropdownService
   ) { }
 
+  populaDropdown() {
+    if (!sessionStorage.getItem('solic-dropdown')) {
+      this.sub.push(this.dd.getDropdownSolicitacaoMenuTodos()
+        .pipe(take(1))
+        .subscribe((dados) => {
+            this.solicitacaoDropdownMenu = dados;
+          },
+          (err) => console.error(err),
+          () => {
+            this.gravaDropDown();
+          }
+        )
+      );
+    }
+  }
+
+  gravaDropDown() {
+    if (!sessionStorage.getItem('solic-dropdown')) {
+      sessionStorage.setItem('solic-dropdown', JSON.stringify(this.solicitacaoDropdownMenu));
+    }
+    this.resp.next(true);
+  }
+
+
+  onDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
+  }
+/*
   private populaDropdown() {
     let contador = 0;
     // contador++;
@@ -182,6 +189,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     });
   }
 
+*/
 
 
   resolve(
