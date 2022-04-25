@@ -1,59 +1,59 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+      import { Router, ActivatedRoute } from '@angular/router';
+      import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+      import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '../_services';
-import { Subscription } from 'rxjs';
+      import { AuthenticationService } from '../_services';
+      import { Subscription } from 'rxjs';
 
-@Component({
-  templateUrl: 'login.component.html',
-  styleUrls: ['login.component.css'],
-  // encapsulation: ViewEncapsulation.None
-})
+      @Component({
+        templateUrl: 'login.component.html',
+        styleUrls: ['login.component.css'],
+        // encapsulation: ViewEncapsulation.None
+      })
 
-export class LoginComponent implements OnInit, OnDestroy {
-  loginForm: FormGroup;
-  loading = false;
-  // submitted = false;
-  returnUrl: string;
-  error = '';
-  sub: Subscription[] = [];
-  mostraForm = false;
+      export class LoginComponent implements OnInit, OnDestroy {
+        loginForm: FormGroup;
+        loading = false;
+        // submitted = false;
+        returnUrl: string;
+        error = '';
+        sub: Subscription[] = [];
+        mostraForm = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {
-    // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
-  }
+        constructor(
+          private formBuilder: FormBuilder,
+          private route: ActivatedRoute,
+          private router: Router,
+          private authenticationService: AuthenticationService
+        ) {
+          // redirect to home if already logged in
+          if (this.authenticationService.currentUserValue) {
+            this.router.navigate(['/']);
+          }
+        }
 
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.min(7), Validators.max(50)]],
-      password: ['', [Validators.required, Validators.min(7), Validators.max(50)]]
-    });
+        ngOnInit() {
+          this.loginForm = this.formBuilder.group({
+            username: ['', [Validators.required, Validators.min(7), Validators.max(50)]],
+            password: ['', [Validators.required, Validators.min(7), Validators.max(50)]]
+          });
 
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  }
+          // get return url from route parameters or default to '/'
+          this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        }
 
-  // convenience getter for easy access to form fields
-  // get f() { return this.loginForm.controls; }
+        // convenience getter for easy access to form fields
+        // get f() { return this.loginForm.controls; }
 
-  onSubmit() {
-    // this.submitted = true;
+        onSubmit() {
+          // this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.loginForm.valid) {
+          // stop here if form is invalid
+          if (this.loginForm.valid) {
 
-      this.loading = true;
-      this.sub.push(this.authenticationService.login(
+            this.loading = true;
+            this.sub.push(this.authenticationService.login(
         this.loginForm.controls.username.value,
         this.loginForm.controls.password.value)
         .pipe(first())

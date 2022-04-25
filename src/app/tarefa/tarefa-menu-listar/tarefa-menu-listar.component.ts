@@ -3,7 +3,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
+import {
+  MostraMenuService,
+  DropdownService,
+  AutocompleteService,
+  MenuInternoService,
+  AuthenticationService
+} from '../../_services';
 import { CarregadorService } from '../../_services';
 import { TarefaBuscaService } from '../_services';
 
@@ -25,11 +31,8 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   public ddTarefa_situacao_id: SelectItem[] = [];
   public ddTarefa_autor_id1: SelectItem[] = [];
   public ddTarefa_autor_id2: SelectItem[] = [];
-  public tpListagem = 'recebidas';
-  public ddTipo_listagem: SelectItem[] = [
-    {label: 'Enviadas', value: 'enviadas'},
-    {label: 'Recebidas', value: 'recebidas'}
-  ];
+  public tpListagem = 'Recebidas';
+  public ddTipo_listagem: string[] = ['Enviadas', 'Recebidas'];
   public altura = (window.innerHeight) + 'px';
   public altura2 = ((window.innerHeight) - 130) + 'px';
   estilo1 = {width: '100%'};
@@ -45,10 +48,15 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     public dialogService: DialogService,
     private router: Router,
     private cs: CarregadorService,
-    private tbs: TarefaBuscaService
+    private tbs: TarefaBuscaService,
+    private aut: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+    if(this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      this.tpListagem = 'Enviadas'
+    }
+
     this.configuraCalendario();
 
     this.formMenuTarefa = this.formBuilder.group({

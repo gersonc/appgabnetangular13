@@ -31,9 +31,15 @@
         <div class="p-col-12">
           <div class="p-fluid p-formgrid p-grid formulario">
 
+            <!-- tp_listagem -->
+            <div class="p-field p-col-12">
+              <label for="tpListagem">De (Autor)</label>
+              <p-selectButton id="tpListagem" [options]="ddTipo_listagem" [(ngModel)]="tpListagem"></p-selectButton>
+            </div>
+
 
             <!-- tarefa_usuario_autor_id -->
-            <div *ngIf="tpListagem=='recebidas'" class="p-field p-col-12">
+            <div *ngIf="tpListagem=='Recebidas'" class="p-field p-col-12">
               <label for="tarefa_usuario_autor_id">De (Autor)</label>
               <p-dropdown
                 id="tarefa_usuario_autor_id"
@@ -46,7 +52,7 @@
             </div>
 
             <!-- tarefa_usuario_id -->
-            <div *ngIf="tpListagem=='enviadas'" class="p-field p-col-12">
+            <div *ngIf="tpListagem=='Enviadas'" class="p-field p-col-12">
               <label for="tarefa_usuario_id">Para (Demandados)</label>
               <p-dropdown
                 id="tarefa_usuario_id"
