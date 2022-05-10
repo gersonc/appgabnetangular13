@@ -333,7 +333,7 @@ export class AuthenticationService {
     const regra = this.descreveRule(user.usuario_regras);
     const acesso = this.descreveAcesso(user.usuario_acesso);
     this._versao = +user.parlamentar_versao!;
-    this.versao = +user.parlamentar_versao!;
+    // this.versao = +user.parlamentar_versao!;
     this.dispositivo = user.dispositivo;
     this.parlamentar_id = user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;

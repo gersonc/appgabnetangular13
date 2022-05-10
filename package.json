@@ -8,7 +8,12 @@
     "build": "ng build",
     "watchSubFolder": "ng build --watch --configuration development",
     "watch": "ng build --watch",
-    "test": "ng test"
+    "test": "ng test",
+    "build:stats": "ng build --configuration development --stats-json",
+    "analize": "webpack-bundle-analyzer dist/www/stats.json",
+    "compodoc:build": "compodoc -p tsconfig.doc.json",
+    "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
+    "compodoc:serve": "compodoc -s"
   },
   "private": true,
   "dependencies": {
@@ -69,6 +74,7 @@
     "@angular-devkit/build-angular": "~12.2.10",
     "@angular/cli": "~12.2.10",
     "@angular/compiler-cli": "~12.2.0",
+    "@compodoc/compodoc": "^1.1.19",
     "@types/file-saver": "^2.0.3",
     "@types/jasmine": "~3.8.0",
     "@types/jspdf": "~2.0.0",
@@ -81,6 +87,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "rxjs-watcher": "^1.1.3",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

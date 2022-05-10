@@ -79,7 +79,7 @@ export class UsuarioIncluirComponent implements OnInit, OnDestroy {
       usuario_responsavel_sn: [this.us.usuario?.usuario_responsavel_sn],
       usuario_principal_sn: [this.us.usuario?.usuario_principal_sn],
       usuario_acesso: [this.us.usuario?.usuario_acesso2],
-      usuario_senha: [this.us.usuario?.usuario_senha],
+      usuario_senha: [this.us.usuario?.usuario_senha, [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
     });
   }
 

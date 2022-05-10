@@ -25,6 +25,12 @@ import { SolicIncluirComponent } from './solic-incluir/solic-incluir.component';
 import { SolicDetalheComponent } from './solic-detalhe/solic-detalhe.component';
 import {ArquivoModule} from "../arquivo/arquivo.module";
 import {ExplorerModule} from "../explorer/explorer.module";
+import {UtilModule} from "../util/util.module";
+import {AutoCompleteModule} from "primeng/autocomplete";
+import {CalendarModule} from "primeng/calendar";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {AccordionModule} from "primeng/accordion";
+import {EditorModule} from "primeng/editor";
 
 
 @NgModule({
@@ -35,27 +41,33 @@ import {ExplorerModule} from "../explorer/explorer.module";
     SolicIncluirComponent,
     SolicDetalheComponent
   ],
-    imports: [
-        CommonModule,
-        SolicRoutingModule,
-        SidebarModule,
-        ScrollPanelModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        TableModule,
-        MenuModule,
-        RippleModule,
-        TooltipModule,
-        DialogModule,
-        ListboxModule,
-        ContextMenuModule,
-        ToastModule,
-        QuillModule,
-        FormsModule,
-        InputTextModule,
-        ArquivoModule,
-        ExplorerModule,
-    ]
+  imports: [
+    CommonModule,
+    SolicRoutingModule,
+    SidebarModule,
+    ScrollPanelModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    TableModule,
+    MenuModule,
+    RippleModule,
+    TooltipModule,
+    DialogModule,
+    ListboxModule,
+    ContextMenuModule,
+    ToastModule,
+    QuillModule,
+    FormsModule,
+    InputTextModule,
+    ArquivoModule,
+    ExplorerModule,
+    UtilModule,
+    AutoCompleteModule,
+    CalendarModule,
+    InputSwitchModule,
+    AccordionModule,
+    EditorModule,
+  ]
 })
 export class SolicModule { }

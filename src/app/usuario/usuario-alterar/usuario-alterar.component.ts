@@ -15,7 +15,7 @@ import { Usuario } from "../_models/usuario";
 })
 export class UsuarioAlterarComponent implements OnInit {
 
-  formUsuario: FormGroup | undefined;
+  formUsuario: FormGroup;
   ddUsuario_local_id: SelectItem[] = [];
   ddSimNao: SelectItem[] = [];
   sub: Subscription[] = [];
@@ -74,9 +74,10 @@ export class UsuarioAlterarComponent implements OnInit {
       usuario_celular: [this.us.usuario?.usuario_celular, Validators.required],
       usuario_cargo: [this.us.usuario?.usuario_cargo, Validators.required],
       usuario_local_id: [this.us.usuario?.usuario_local_id, Validators.required],
-      usuario_responsavel_sn: [this.us.usuario?.usuario_responsavel_sn],
-      usuario_principal_sn: [this.us.usuario?.usuario_principal_sn],
+      usuario_responsavel_sn: [+this.us.usuario?.usuario_responsavel_sn],
+      usuario_principal_sn: [+this.us.usuario?.usuario_principal_sn],
       usuario_acesso: [this.us.usuario?.usuario_acesso2],
+      usuario_senha: [this.us.usuario?.usuario_senha, [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
     });
   }
 
@@ -148,16 +149,16 @@ export class UsuarioAlterarComponent implements OnInit {
     user.usuario_local_id = this.formUsuario?.get('usuario_local_id')?.value;
     user.usuario_login = this.formUsuario?.get('usuario_login')?.value;
     user.usuario_email = this.formUsuario?.get('usuario_email')?.value;
+    user.usuario_senha = this.formUsuario!.get('usuario_senha')!.value;
     user.usuario_cargo = this.formUsuario?.get('usuario_cargo')?.value;
-    user.usuario_responsavel_sn = this.formUsuario?.get('usuario_responsavel_sn')?.value;
-    user.usuario_principal_sn = this.formUsuario?.get('usuario_principal_sn')?.value;
+    user.usuario_responsavel_sn = +this.formUsuario?.get('usuario_responsavel_sn')?.value;
+    user.usuario_principal_sn = +this.formUsuario?.get('usuario_principal_sn')?.value;
     user.usuario_acesso = this.us.escreverAcesso(this.formUsuario?.get('usuario_acesso')?.value);
     user.usuario_cargo = this.formUsuario?.get('usuario_cargo')?.value;
     user.usuario_celular = this.formUsuario?.get('usuario_celular')?.value;
     delete user.usuario_acesso2;
     delete user.local_nome;
     user.usuario_id = this.us.usuario?.usuario_id;
-    delete user.usuario_senha;
     return user;
   }
 

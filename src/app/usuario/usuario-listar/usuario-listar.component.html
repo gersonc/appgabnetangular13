@@ -46,8 +46,8 @@
           {{strSn(usu.usuario_principal_sn)}}
         </td>
         <td style="text-align:center; padding-bottom: 0; padding-top: .3em;">
-          <button pButton type="button" icon="pi pi-pencil" (click)="onAlterar(usu)" class="p-button-raised p-button-rounded" [disabled]="(!alt.usuario_responsavel_sn || !alt.usuario_principal_sn) || !alt.usuario_alterar"></button>&nbsp;
-          <button pButton type="button" icon="pi pi-trash" (click)="onApagar(usu)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="(!alt.usuario_responsavel_sn || !alt.usuario_principal_sn) || !alt.usuario_apagar"></button>
+          <button pButton type="button" icon="pi pi-pencil" (click)="onAlterar(usu)" class="p-button-raised p-button-rounded" [disabled]="(!alt.usuario_responsavel_sn && !alt.usuario_principal_sn) && !alt.usuario_alterar"></button>&nbsp;
+          <button pButton type="button" icon="pi pi-trash" (click)="onApagar(usu)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="(!alt.usuario_responsavel_sn && !alt.usuario_principal_sn) && !alt.usuario_apagar"></button>
         </td>
       </tr>
     </ng-template>

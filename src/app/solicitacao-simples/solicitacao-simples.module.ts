@@ -47,6 +47,7 @@ import { SolicitacaoSimplesCadastroIncluirListaexistenteComponent } from './soli
 import { SolicitacaoSimplesDetalheComponent } from './solicitacao-simples-detalhe/solicitacao-simples-detalhe.component';
 import { SolicitacaoSimplesExcluirComponent } from './solicitacao-simples-excluir/solicitacao-simples-excluir.component';
 import { SolicitacaoSimplesIncluirComponent } from './solicitacao-simples-incluir/solicitacao-simples-incluir.component';
+import {SolicitacaoSimplesRoutingModule} from "./solicitacao-simples.routing.module";
 
 
 
@@ -69,7 +70,7 @@ import { SolicitacaoSimplesIncluirComponent } from './solicitacao-simples-inclui
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    SolicitacaoSimplesRoutingModule,
 
     TableModule,
     InputMaskModule,
@@ -108,6 +109,8 @@ import { SolicitacaoSimplesIncluirComponent } from './solicitacao-simples-inclui
   ],
   exports: [
     SolicitacaoSimplesComponent,
+    SolicitacaoSimplesMenuListarComponent,
+    SolicitacaoSimplesDatatableComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

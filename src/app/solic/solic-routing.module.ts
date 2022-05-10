@@ -5,6 +5,9 @@ import {SolicDatatableComponent} from "./solic-datatable/solic-datatable.compone
 import {AuthChildGuard} from "../_guards";
 import {Rule, Scope} from "../_models";
 import {SolicListarResolver} from "./_resolvers/solic-listar.resolver";
+import {SolicitacaoIncluirComponent} from "../solicitacao/solicitacao-incluir/solicitacao-incluir.component";
+import {SolicitacaoFormResolver} from "../solicitacao/_resolvers";
+import {SolicIncluirComponent} from "./solic-incluir/solic-incluir.component";
 
 const routes: Routes = [
   {
@@ -54,6 +57,36 @@ const routes: Routes = [
         data: {
           rules: Rule.solicitacao,
           scopes: Scope.solicitacao_listar
+        }
+      },
+      {
+        path: 'incluir/cadastro/:modulo',
+        component: SolicIncluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_incluir
+        }
+      },
+      {
+        path: 'incluir',
+        component: SolicIncluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_incluir
+        },
+        resolve: {
+          dados: SolicitacaoFormResolver
+        }
+      },
+      {
+        path: 'incluir2',
+        component: SolicIncluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_incluir
         }
       },
     ]

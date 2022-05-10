@@ -171,6 +171,9 @@ export class Versao {
       case 1:
         rsp = Versao.versao1;
         break;
+      case 2:
+        rsp = Versao.versao3;
+        break;
       case 3:
         rsp = Versao.versao3;
         break;

@@ -1,1 +1,14 @@
-<p>solicitacao-simples works!</p>
+<p-sidebar
+  id="sidebar-menuinterno"
+  [(visible)]="mi.mostraMenuInterno"
+  [blockScroll]="true"
+  [dismissible]="true"
+  styleClass="menuinterno"
+  appendTo="body"
+>
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
+    <app-solicitacao-simples-menu-listar></app-solicitacao-simples-menu-listar>
+  </p-scrollPanel>
+</p-sidebar>
+
+<router-outlet></router-outlet>

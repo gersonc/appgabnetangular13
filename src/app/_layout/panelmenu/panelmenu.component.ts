@@ -84,6 +84,18 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       if (this.authenticationService.solicitacao_listar) {
         this.items.push(
           {
+            label: 'Solicitação Simples', icon: 'pi pi-ticket', command: () => {
+              this.fechaMenuPrincipal();
+            },
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaosimples/listar']
+          });
+      }
+    }
+
+    if (this.authenticationService.solicitacao) {
+      if (this.authenticationService.solicitacao_listar) {
+        this.items.push(
+          {
             label: 'SolicitaçõesT1', icon: 'pi pi-ticket', command: () => {
               this.fechaMenuPrincipal();
             },
