@@ -67,6 +67,7 @@ export class DatatableService {
 
 
   onRowExpand(evento){
+    console.log('onRowExpand', evento);
     // this.expColunas = dados.pop();
     let a = 0;
     const b: any[] = [];

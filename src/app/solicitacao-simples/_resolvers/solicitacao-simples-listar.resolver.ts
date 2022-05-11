@@ -68,7 +68,7 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
     // ****** solicitacao_data *****
     this.ddSoDataArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data', 'desc');
     // ****** solicitacao_cadastro_tipo_id *****
-    // this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
+    this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
     // ****** solicitacao_cadastro_id *****
     this.ddNomeIdArray.add('ddSolicitacao_cadastro_id', 'solicitacao', 'solicitacao_cadastro_id', 'solicitacao_cadastro_nome');
     // ****** solicitacao_assunto_id *****
@@ -134,7 +134,7 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          // this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados['ddSolicitacao_cadastro_tipo_id'];
+          this.ddSolicitacao.ddSolicitacao_cadastro_tipo_id = dados['ddSolicitacao_cadastro_tipo_id'];
           this.ddSolicitacao.ddSolicitacao_cadastro_id = dados['ddSolicitacao_cadastro_id'];
           this.ddSolicitacao.ddSolicitacao_assunto_id = dados['ddSolicitacao_assunto_id'];
           this.ddSolicitacao.ddSolicitacao_atendente_cadastro_id = dados['ddSolicitacao_atendente_cadastro_id'];

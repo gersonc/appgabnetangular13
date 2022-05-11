@@ -76,8 +76,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   authAnalisar = false;
   authApagar = false;
   authIncluir = false;
-  cfg: any;
-  // cfgVersao: number;
+  versao: any;
+  // versaoVersao: number;
   campoTexto: string = null;
   campoTitulo: string = null;
   showCampoTexto = false;
@@ -100,8 +100,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     public sds: DatatableService,
     public md: MenuDatatableService,
   ) {
-    this.cfg = aut.versaoN;
-    // this.solicitacaoService.cfg = aut.versaoN;
+    this.versao = aut.versaoN;
+    // this.solicitacaoService.versao = aut.versaoN;
   }
 
   ngOnInit() {
@@ -173,19 +173,20 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', largura: '300px'},
       {field: 'solicitacao_numero_oficio', header: 'Nº OFÍCIO', sortable: 'false', largura: '80px'}
     ];
-    if (this.cfg === 1) {
+    if (this.versao === 1) {
       this.sds.cols.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', largura: '80px'},
-        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', largura: '80px'}
+        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', largura: '80px'},
+        {field: 'solicitacao_indicacao_sn', header: 'INDICADO S/N', sortable: 'true', largura: '120px'},
       );
     }
     this.sds.cols.push(
-      {field: 'solicitacao_indicacao_sn', header: 'INDICADO S/N', sortable: 'true', largura: '120px'},
       {field: 'solicitacao_indicacao_nome', header: 'INDICAÇÃO', sortable: 'true', largura: '250px'},
-      {field: 'solicitacao_reponsavel_analize_nome', header: 'RESPONSÁVEL', sortable: 'true', largura: '200px'}
+
     );
-    if (this.cfg < 3) {
+    if (this.versao < 3) {
       this.sds.cols.push(
+        {field: 'solicitacao_reponsavel_analize_nome', header: 'RESPONSÁVEL', sortable: 'true', largura: '200px'},
         {field: 'solicitacao_local_nome', header: 'NÚCLEO', sortable: 'true', largura: '200px'}
       );
     }
@@ -193,7 +194,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_data_atendimento', header: 'DT ATENDIMENTO', sortable: 'true', largura: '230px'},
       {field: 'solicitacao_atendente_cadastro_nome', header: 'ATENDENTE', sortable: 'true', largura: '200px'}
     );
-    if (this.cfg === 1) {
+    if (this.versao === 1) {
       this.sds.cols.push(
         {field: 'solicitacao_cadastrante_cadastro_nome', header: 'CADASTRANTE', sortable: 'true', largura: '200px'},
         {field: 'solicitacao_tipo_recebimento_nome', header: 'TP. RECEBIMENTO', sortable: 'true', largura: '150px'}
@@ -203,7 +204,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_descricao', header: 'DESCRIÇÃO', sortable: 'false', largura: '400px'},
       {field: 'solicitacao_aceita_recusada', header: 'OBSERVAÇÕES', sortable: 'false', largura: '400px'}
     );
-    if (this.cfg === 1) {
+    if (this.versao === 1) {
       this.sds.cols.push(
         {field: 'solicitacao_carta', header: 'RESPOSTA', sortable: 'true', largura: '400px'}
       );
@@ -310,9 +311,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   hideSeletor(ev): void {
-    if (this.sds.selectedColumnsOld !== this.sds.selectedColumns) {
+    /*if (this.sds.selectedColumnsOld !== this.sds.selectedColumns) {
       this.ss.solicitacaoBusca();
-    }
+    }*/
     this.sds.selectedColumnsOld = [];
   }
 
@@ -338,7 +339,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', largura: '300px'},
         {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', largura: '300px'},
       ];
-    if (this.cfg === 1) {
+    if (this.versao === 1) {
       this.sds.selectedColumns.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', largura: '80px'},
         {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', largura: '80px'}

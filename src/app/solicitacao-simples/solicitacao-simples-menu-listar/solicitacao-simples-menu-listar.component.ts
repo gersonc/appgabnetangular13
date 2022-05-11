@@ -23,11 +23,11 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
   public ddSolicitacao_cadastro_id: SelectItem[] = [];
   public ddSolicitacao_assunto_id: SelectItem[] = [];
   public ddSolicitacao_atendente_cadastro_id: SelectItem[] = [];
-  public ddSolicitacao_cadastrante_cadastro_id: SelectItem[] = [];
+  // public ddSolicitacao_cadastrante_cadastro_id: SelectItem[] = [];
   public ddCadastro_municipio_id: SelectItem[] = [];
   public ddCadastro_regiao_id: SelectItem[] = [];
   public ddSolicitacao_local_id: SelectItem[] = [];
-  public ddSolicitacao_tipo_recebimento_id: SelectItem[] = [];
+  // public ddSolicitacao_tipo_recebimento_id: SelectItem[] = [];
   public ddSolicitacao_area_interesse_id: SelectItem[] = [];
   public ddSolicitacao_reponsavel_analize_id: SelectItem[] = [];
   public ddSolicitacao_data: SelectItem[] = [];
@@ -46,7 +46,7 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cs: CarregadorService,
+    // private cs: CarregadorService,
     private sdd: SolicitacaoDropdownMenuService
   ) {
     this.versao = this.authenticationService.versao_id;
@@ -60,7 +60,7 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
       solicitacao_cadastro_id: [null],
       solicitacao_assunto_id: [null],
       solicitacao_atendente_cadastro_id: [null],
-      solicitacao_cadastrante_cadastro_id: [null],
+      // solicitacao_cadastrante_cadastro_id: [null],
       cadastro_municipio_id: [null],
       cadastro_regiao_id: [null],
       solicitacao_local_id: [null],
@@ -89,17 +89,17 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
       this.ddSolicitacao_cadastro_tipo_id = dd['ddSolicitacao_cadastro_tipo_id'];
       this.ddSolicitacao_cadastro_id = dd['ddSolicitacao_cadastro_id'];
       this.ddSolicitacao_assunto_id = dd['ddSolicitacao_assunto_id'];
-      // this.ddSolicitacao_atendente_cadastro_id = dd['ddSolicitacao_atendente_cadastro_id'];
+      this.ddSolicitacao_atendente_cadastro_id = dd['ddSolicitacao_atendente_cadastro_id'];
       // this.ddSolicitacao_cadastrante_cadastro_id = dd['ddSolicitacao_cadastrante_cadastro_id'];
       this.ddCadastro_municipio_id = dd['ddCadastro_municipio_id'];
       this.ddCadastro_regiao_id = dd['ddCadastro_regiao_id'];
       this.ddSolicitacao_local_id = dd['ddSolicitacao_local_id'];
-      this.ddSolicitacao_tipo_recebimento_id = dd['ddSolicitacao_tipo_recebimento_id'];
+      // this.ddSolicitacao_tipo_recebimento_id = dd['ddSolicitacao_tipo_recebimento_id'];
       this.ddSolicitacao_area_interesse_id = dd['ddSolicitacao_area_interesse_id'];
       this.ddSolicitacao_reponsavel_analize_id = dd['ddSolicitacao_reponsavel_analize_id'];
       this.ddSolicitacao_data = dd['ddSolicitacao_data'];
       dd = null;
-      this.cs.escondeCarregador();
+      // this.cs.escondeCarregador();
     } else {
       console.log('bbbbbb');
       this.getCarregaDropDown();
@@ -135,13 +135,13 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
     }
     this.sbs.buscaMenu();
     this.mi.hideMenu();
-    this.cs.mostraCarregador();
+    // this.cs.mostraCarregador();
   }
 
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       this.sbs.buscaStateSN = false;
-      this.cs.mostraCarregador();
+      // this.cs.mostraCarregador();
       this.router.navigate(['/solicitacao-simples/incluir']);
     } else {
       console.error('SEM PERMISSAO');
@@ -154,7 +154,7 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
   }
 
   fechar() {
-    this.cs.mostraEscondeCarregador(false);
+    // this.cs.mostraEscondeCarregador(false);
   }
 
   ngOnDestroy(): void {

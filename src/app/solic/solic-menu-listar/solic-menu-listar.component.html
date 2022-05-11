@@ -89,7 +89,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_cadastrante_cadastro_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id && vs.versao === 1" class="p-field p-col-12">
               <label for="solicitacao_cadastrante_cadastro_id">Cadastrante</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id"
@@ -99,6 +99,12 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
+
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <div class="p-fluid p-formgrid p-grid formulario">
             <!-- cadastro_municipio_id -->
             <div *ngIf="ddSolicitacao.ddCadastro_municipio_id" class="p-field p-col-12">
               <label for="cadastro_municipio_id">Município</label>
@@ -111,13 +117,8 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
-          </div>
-        </div>
-
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-          <div class="p-fluid p-formgrid p-grid formulario">
             <!-- ddCadastro_bairro -->
-            <div *ngIf="ddSolicitacao.ddCadastro_bairro" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddCadastro_bairro && vs.versao > 1" class="p-field p-col-12">
               <label for="cadastro_regiao_id">Bairro</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddCadastro_bairro"
@@ -139,7 +140,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_local_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_local_id" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_local_id && vs.versao < 3" class="p-field p-col-12">
               <label for="solicitacao_local_id">Núcleo</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_local_id"
@@ -150,7 +151,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_tipo_recebimento_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id && vs.versao === 1" class="p-field p-col-12">
               <label for="solicitacao_tipo_recebimento_id">Tipo de recebimento</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_tipo_recebimento_id"
@@ -173,7 +174,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_reponsavel_analize_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id && vs.versao < 3" class="p-field p-col-12">
               <label for="solicitacao_reponsavel_analize_id">Resp. p/ Análise</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_reponsavel_analize_id"

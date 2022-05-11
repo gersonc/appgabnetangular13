@@ -9,6 +9,7 @@ import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {SolicService} from "../_services/solic.service";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {SolicDropdownMenuService} from "../_services/solic-dropdown-menu.service";
+import {VersaoService} from "../../_services/versao.service";
 
 @Component({
   selector: 'app-solic-menu-listar',
@@ -23,6 +24,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   private sub: Subscription[] = [];
 
   constructor(
+    public vs: VersaoService,
     private formBuilder: FormBuilder,
     private dd: DropdownService,
     private solicitacaoService: SolicService,
