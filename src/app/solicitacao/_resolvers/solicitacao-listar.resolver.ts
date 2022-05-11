@@ -5,7 +5,12 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@a
 import { CarregadorService, DropdownService} from '../../_services';
 import { SolicitacaoDropdownMenuListar, SolicitacaoPaginacaoInterface } from '../_models';
 import { SolicitacaoService } from '../_services';
-import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } from "../../_models";
+import {
+  DropdownnomeidClass,
+  DropdownNomeIdJoin,
+  DropdownSoDataArrayClass,
+  DropdownsonomearrayClass
+} from "../../_models";
 
 
 @Injectable({
@@ -15,7 +20,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
 
   public ddNomeIdArray = new DropdownnomeidClass();
   public ddSoNomeArray = new DropdownsonomearrayClass();
-  public ddSoDataArray = new DropdownsonomearrayClass();
+  public ddSoDataArray = new DropdownSoDataArrayClass();
   public ddNomeIdJoinArray = new DropdownNomeIdJoin();
   private ddSolicitacao = new SolicitacaoDropdownMenuListar();
   private resp = new Subject<boolean>();
@@ -47,7 +52,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
@@ -57,7 +62,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
     // ****** solicitacao_posicao *****
     this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
-    this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
+    this.ddSoDataArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data', 'desc');
     // ****** solicitacao_cadastro_tipo_id *****
     // this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
     // ****** solicitacao_cadastro_id *****
@@ -87,6 +92,23 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
       .subscribe({
         next: (dados) => {
           this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+        },
+        error: (err) => {
+          console.error(err);
+        },
+        complete: () => {
+          contador++;
+          if (contador === 5) {
+            this.gravaDropDown();
+          }
+        }
+      })
+    );
+
+    this.sub.push(this.dd.postDropdownSoDataArray(this.ddSoDataArray.get())
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
           this.ddSolicitacao.ddSolicitacao_data = dados['ddSolicitacao_data'];
         },
         error: (err) => {
@@ -94,7 +116,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
@@ -120,7 +142,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
@@ -139,7 +161,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }

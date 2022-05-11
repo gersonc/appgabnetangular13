@@ -7,6 +7,7 @@ import { catchError, map, take} from 'rxjs/operators';
 import { User } from '../_models';
 import { UrlService} from '../_services';
 import {Versao} from './versao';
+import {VersaoService} from "./versao.service";
 
 @Injectable({providedIn: 'root'})
 
@@ -256,6 +257,7 @@ export class AuthenticationService {
 
 
   constructor(
+    private versaoService: VersaoService,
     private urlService: UrlService,
     private http: HttpClient,
     private router: Router
@@ -341,6 +343,7 @@ export class AuthenticationService {
     this.usuario_local_id = user.usuario_local_id!;
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
+    this.versaoService.versao = +user.parlamentar_versao!;
     this.versao_id = +user.parlamentar_versao!;
     this.versaoN = +user.parlamentar_versao!;
     this.config_arquivo_ativo = user.config_arquivo_ativo;
@@ -576,6 +579,7 @@ export class AuthenticationService {
     this.versao_id = 0;
     this.userRules = [];
     this.userScops = [];
+    this.versaoService.versao = 0;
     this.versao = 0;
     this.versaoN = 0;
     this.dispositivo = 'desktop';

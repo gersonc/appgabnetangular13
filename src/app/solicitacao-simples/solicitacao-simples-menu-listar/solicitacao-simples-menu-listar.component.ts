@@ -34,6 +34,7 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
   public formListarSolicitacao: FormGroup;
   public ptBr: any;
   private sub: Subscription[] = [];
+  public versao = 0;
 
 
   constructor(
@@ -47,7 +48,9 @@ export class SolicitacaoSimplesMenuListarComponent implements OnInit, OnDestroy 
     private router: Router,
     private cs: CarregadorService,
     private sdd: SolicitacaoDropdownMenuService
-  ) { }
+  ) {
+    this.versao = this.authenticationService.versao_id;
+  }
 
 
   ngOnInit() {

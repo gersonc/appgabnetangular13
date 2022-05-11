@@ -89,7 +89,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_cadastrante_cadastro_id -->
-            <div class="p-field p-col-12">
+            <!--<div class="p-field p-col-12">
               <label for="solicitacao_cadastrante_cadastro_id">Cadastrante</label>
               <p-dropdown
                 [options]="ddSolicitacao_cadastrante_cadastro_id"
@@ -98,7 +98,23 @@
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>
+            </div>-->
+            <!-- solicitacao_local_id -->
+            <div *ngIf="versao === 2" class="p-field p-col-12">
+              <label for="solicitacao_local_id">Núcleo</label>
+              <p-dropdown
+                [options]="ddSolicitacao_local_id"
+                id="solicitacao_local_id"
+                formControlName="solicitacao_local_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
             </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <div class="p-fluid p-formgrid p-grid formulario">
             <!-- cadastro_municipio_id -->
             <div class="p-field p-col-12">
               <label for="cadastro_municipio_id">Município</label>
@@ -111,11 +127,6 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
-          </div>
-        </div>
-
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-          <div class="p-fluid p-formgrid p-grid formulario">
             <!-- cadastro_municipio_id -->
             <div class="p-field p-col-12">
               <label for="cadastro_regiao_id">Região</label>
@@ -127,19 +138,9 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
-            <!-- solicitacao_local_id -->
-            <div class="p-field p-col-12">
-              <label for="solicitacao_local_id">Núcleo</label>
-              <p-dropdown
-                [options]="ddSolicitacao_local_id"
-                id="solicitacao_local_id"
-                formControlName="solicitacao_local_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
+
             <!-- solicitacao_tipo_recebimento_id -->
-            <div class="p-field p-col-12">
+            <!--<div class="p-field p-col-12">
               <label for="solicitacao_tipo_recebimento_id">Tipo de recebimento</label>
               <p-dropdown
                 [options]="ddSolicitacao_tipo_recebimento_id"
@@ -149,7 +150,7 @@
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>
-            </div>
+            </div>-->
             <!-- solicitacao_area_interesse_id -->
             <div class="p-field p-col-12">
               <label for="solicitacao_area_interesse_id">Área de interesse</label>
@@ -162,7 +163,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_reponsavel_analize_id -->
-            <div class="p-field p-col-12">
+            <div *ngIf="versao === 2"  class="p-field p-col-12">
               <label for="solicitacao_reponsavel_analize_id">Resp. p/ Análise</label>
               <p-dropdown
                 [options]="ddSolicitacao_reponsavel_analize_id"

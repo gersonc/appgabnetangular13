@@ -5,11 +5,17 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
-import {DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass} from "../../_models";
+import {
+  DropdownnomeidClass,
+  DropdownNomeIdJoin,
+  DropdownSoDataArrayClass,
+  DropdownsonomearrayClass
+} from "../../_models";
 import {SolicitacaoDropdownMenuListar, SolicitacaoPaginacaoInterface} from "../../solicitacao/_models";
 import {CarregadorService, DropdownService} from "../../_services";
 import {SolicitacaoService} from "../../solicitacao/_services";
 import {mergeMap, take} from "rxjs/operators";
+import {VersaoService} from "../../_services/versao.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +23,7 @@ import {mergeMap, take} from "rxjs/operators";
 export class SolicitacaoSimplesListarResolver implements Resolve<boolean | SolicitacaoPaginacaoInterface> {
   public ddNomeIdArray = new DropdownnomeidClass();
   public ddSoNomeArray = new DropdownsonomearrayClass();
-  public ddSoDataArray = new DropdownsonomearrayClass();
+  public ddSoDataArray = new DropdownSoDataArrayClass();
   public ddNomeIdJoinArray = new DropdownNomeIdJoin();
   private ddSolicitacao = new SolicitacaoDropdownMenuListar();
   private resp = new Subject<boolean>();
@@ -30,7 +36,8 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
     private router: Router,
     private cs: CarregadorService,
     private solicitacaoService: SolicitacaoService,
-    private dd: DropdownService
+    private dd: DropdownService,
+    private vs: VersaoService
   ) { }
 
   private populaDropdown() {
@@ -49,7 +56,7 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
@@ -59,7 +66,7 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
     // ****** solicitacao_posicao *****
     this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
-    this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
+    this.ddSoDataArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data', 'desc');
     // ****** solicitacao_cadastro_tipo_id *****
     // this.ddNomeIdArray.add('ddSolicitacao_cadastro_tipo_id', 'solicitacao', 'solicitacao_cadastro_tipo_id', 'solicitacao_cadastro_tipo_nome');
     // ****** solicitacao_cadastro_id *****
@@ -69,16 +76,19 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
     // ****** solicitacao_atendente_cadastro_id *****
     this.ddNomeIdArray.add('ddSolicitacao_atendente_cadastro_id', 'solicitacao', 'solicitacao_atendente_cadastro_id', 'solicitacao_atendente_cadastro_nome');
     // ****** ddSolicitacao_cadastrante_cadastro *****
-    this.ddNomeIdArray.add('ddSolicitacao_cadastrante_cadastro_id', 'solicitacao', 'solicitacao_cadastrante_cadastro_id', 'solicitacao_cadastrante_cadastro_nome');
+    // this.ddNomeIdArray.add('ddSolicitacao_cadastrante_cadastro_id', 'solicitacao', 'solicitacao_cadastrante_cadastro_id', 'solicitacao_cadastrante_cadastro_nome');
     // ****** solicitacao_local*****
-    this.ddNomeIdArray.add('ddSolicitacao_local_id', 'solicitacao', 'solicitacao_local_id', 'solicitacao_local_nome');
+    if (this.vs.versao < 3) {
+      this.ddNomeIdArray.add('ddSolicitacao_local_id', 'solicitacao', 'solicitacao_local_id', 'solicitacao_local_nome');
+    }
     // ****** solicitacao_tipo_recebimento *****
-    this.ddNomeIdArray.add('ddSolicitacao_tipo_recebimento_id', 'solicitacao', 'solicitacao_tipo_recebimento_id', 'solicitacao_tipo_recebimento_nome');
+    // this.ddNomeIdArray.add('ddSolicitacao_tipo_recebimento_id', 'solicitacao', 'solicitacao_tipo_recebimento_id', 'solicitacao_tipo_recebimento_nome');
     // ****** solicitacao_area_interesse *****
     this.ddNomeIdArray.add('ddSolicitacao_area_interesse_id', 'solicitacao', 'solicitacao_area_interesse_id', 'solicitacao_area_interesse_nome');
     // ****** solicitacao_reponsavel_analize *****
-    this.ddNomeIdArray.add('ddSolicitacao_reponsavel_analize_id', 'solicitacao', 'solicitacao_reponsavel_analize_id', 'solicitacao_reponsavel_analize_nome');
-
+    if (this.vs.versao < 3) {
+      this.ddNomeIdArray.add('ddSolicitacao_reponsavel_analize_id', 'solicitacao', 'solicitacao_reponsavel_analize_id', 'solicitacao_reponsavel_analize_nome');
+    }
     // ****** solicitacao_assunto_id *****
     this.ddNomeIdJoinArray.add('ddCadastro_municipio_id', 'cadastro', 'cadastro_municipio_id', 'cadastro_id', 'cadastro_municipio_nome', 'solicitacao', 'solicitacao_cadastro_id');
     // ****** cadastro_regiao *****
@@ -89,6 +99,23 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
       .subscribe({
         next: (dados) => {
           this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+        },
+        error: (err) => {
+          console.error(err);
+        },
+        complete: () => {
+          contador++;
+          if (contador === 5) {
+            this.gravaDropDown();
+          }
+        }
+      })
+    );
+
+    this.sub.push(this.dd.postDropdownSoDataArray(this.ddSoDataArray.get())
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
           this.ddSolicitacao.ddSolicitacao_data = dados['ddSolicitacao_data'];
         },
         error: (err) => {
@@ -96,7 +123,7 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
@@ -111,18 +138,21 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
           this.ddSolicitacao.ddSolicitacao_cadastro_id = dados['ddSolicitacao_cadastro_id'];
           this.ddSolicitacao.ddSolicitacao_assunto_id = dados['ddSolicitacao_assunto_id'];
           this.ddSolicitacao.ddSolicitacao_atendente_cadastro_id = dados['ddSolicitacao_atendente_cadastro_id'];
-          this.ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id = dados['ddSolicitacao_cadastrante_cadastro_id'];
-          this.ddSolicitacao.ddSolicitacao_local_id = dados['ddSolicitacao_local_id'];
-          this.ddSolicitacao.ddSolicitacao_tipo_recebimento_id = dados['ddSolicitacao_tipo_recebimento_id'];
+          // this.ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id = dados['ddSolicitacao_cadastrante_cadastro_id'];
+          if (this.vs.versao < 3) {
+            this.ddSolicitacao.ddSolicitacao_local_id = dados['ddSolicitacao_local_id'];
+            this.ddSolicitacao.ddSolicitacao_reponsavel_analize_id = dados['ddSolicitacao_reponsavel_analize_id'];
+          }
+          // this.ddSolicitacao.ddSolicitacao_tipo_recebimento_id = dados['ddSolicitacao_tipo_recebimento_id'];
           this.ddSolicitacao.ddSolicitacao_area_interesse_id = dados['ddSolicitacao_area_interesse_id'];
-          this.ddSolicitacao.ddSolicitacao_reponsavel_analize_id = dados['ddSolicitacao_reponsavel_analize_id'];
+
         },
         error: (err) => {
           console.error(err);
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
@@ -141,7 +171,7 @@ export class SolicitacaoSimplesListarResolver implements Resolve<boolean | Solic
         },
         complete: () => {
           contador++;
-          if (contador === 4) {
+          if (contador === 5) {
             this.gravaDropDown();
           }
         }
