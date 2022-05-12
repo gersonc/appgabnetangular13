@@ -68,6 +68,7 @@ import {EditorModule} from "primeng/editor";
     InputSwitchModule,
     AccordionModule,
     EditorModule,
+    UtilModule
   ]
 })
 export class SolicModule { }

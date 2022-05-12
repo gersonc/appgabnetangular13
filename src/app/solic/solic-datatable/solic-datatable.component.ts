@@ -83,7 +83,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   showCampoTexto = false;
   deltaquill: any = null;
   showDetalhe = false;
-  solDetalhe?: SolicDetalheI;
+  solDetalhe?: SolicListarI;
   showHistoricoForm = false;
   solHistForm: any;
   arquivoOficio: TSMap<number, ArquivoInterface[]>;
@@ -152,27 +152,40 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', largura: '230px'},
       {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', largura: '300px'},
       {field: 'solicitacao_cadastro_tipo_nome', header: 'TIPO SOLICITANTE', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', largura: '300px'},
-      {field: 'cadastro_endereco_numero', header: 'END.Nº', sortable: 'false', largura: '20px'},
-      {field: 'cadastro_endereco_complemento', header: 'END.COMPL.', sortable: 'false', largura: '20px'},
+    ];
+    if (this.aut.cadastro_listar) {
+      this.sds.cols.push(
+        {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', largura: '300px'},
+        {field: 'cadastro_endereco_numero', header: 'END.Nº', sortable: 'false', largura: '20px'},
+        {field: 'cadastro_endereco_complemento', header: 'END.COMPL.', sortable: 'false', largura: '20px'},
+      );
+    }
+    this.sds.cols.push(
       {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', largura: '100px'},
       {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', largura: '300px'},
       {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', largura: '300px'},
       {field: 'cadastro_estado_nome', header: 'UF', sortable: 'true', largura: '20px'},
-      {field: 'cadastro_email', header: 'E-MAIL1', sortable: 'false', largura: '200px'},
-      {field: 'cadastro_email2', header: 'E-MAIL2', sortable: 'false', largura: '200px'},
-      {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'false', largura: '80px'},
-      {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'false', largura: '80px'},
-      {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'false', largura: '80px'},
-      {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'false', largura: '80px'},
-      {field: 'cadastro_telcom', header: 'TEL.COM.', sortable: 'false', largura: '80px'},
-      {field: 'cadastro_fax', header: 'FAX', sortable: 'false', largura: '80px'},
+    );
+    if (this.aut.cadastro_listar) {
+      this.sds.cols.push(
+        {field: 'cadastro_email', header: 'E-MAIL1', sortable: 'false', largura: '200px'},
+        {field: 'cadastro_email2', header: 'E-MAIL2', sortable: 'false', largura: '200px'},
+        {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'false', largura: '80px'},
+        {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'false', largura: '80px'},
+        {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'false', largura: '80px'},
+        {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'false', largura: '80px'},
+        {field: 'cadastro_telcom', header: 'TEL.COM.', sortable: 'false', largura: '80px'},
+        {field: 'cadastro_fax', header: 'FAX', sortable: 'false', largura: '80px'},
+      );
+    }
+    this.sds.cols.push(
       {field: 'solicitacao_data', header: 'DATA', sortable: 'true', largura: '230px'},
       {field: 'solicitacao_orgao', header: 'ORGÃO SOLIC.', sortable: 'false', largura: '300px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', largura: '300px'},
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', largura: '300px'},
       {field: 'solicitacao_numero_oficio', header: 'Nº OFÍCIO', sortable: 'false', largura: '80px'}
-    ];
+    );
+
     if (this.versao === 1) {
       this.sds.cols.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', largura: '80px'},
@@ -281,22 +294,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*onRowExpand(event): void {
-
-  }*/
-
-  /*onRowExpand(event): void {
-    this.solicitacaoService.expandidoDados = event.data;
-    this.sub.push(this.dadosExpandidos = this.ss.getColunaExtendida()
-      .pipe(take(1))
-      .subscribe(
-        dados => {
-          this.expColunas = dados.pop();
-          this.dadosExp = dados;
-        }
-      ));
-    this.solicitacaoService.montaColunaExpandida(this.solicitacaoService.expandidoDados);
-  }*/
 
   onChangeSeletorColunas(changes): void {
     this.dtb.saveState();
@@ -311,9 +308,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   hideSeletor(ev): void {
-    /*if (this.sds.selectedColumnsOld !== this.sds.selectedColumns) {
-      this.ss.solicitacaoBusca();
-    }*/
     this.sds.selectedColumnsOld = [];
   }
 
@@ -432,48 +426,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoDetalheCompleto(sol: SolicListarI){
-    // console.log('titulos', this.ss.titulos);
-    this.sub.push(this.ss.getSolicitacaoDetalhe(sol.solicitacao_id)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          console.log('table5');
-          // console.log('getSolicitacaoDetalhe',dados);
-          this.arquivoOficio = this.getArquivos(dados);
-          this.solDetalhe = dados;
-        },
-        error: (err) => {
-          console.error('erro', err.toString ());
-        },
-        complete: () => {
-          this.showDetalhe = true;
-          console.log('table6');
-        }
-      }));
-  }
-
-  getArquivos(detalhe: SolicDetalheI): TSMap<number, ArquivoInterface[]> {
-
-    let af = new TSMap<number, ArquivoInterface[]>();
-    if (detalhe.arquivos) {
-      const arqt: ArquivoInterface[]  = detalhe.arquivos.filter( a =>  a.arquivo_modulo === 'oficio');
-      if (arqt.length > 0) {
-        detalhe.oficio.forEach(b => {
-          const arqt2 = arqt.filter(a => a.arquivo_registro_id === b.oficio_id);
-          if (arqt2.length > 0) {
-            af.set(b.oficio_id, arqt2);
-          }
-        });
-        console.log('table1');
-        return af;
-      } else {
-        console.log('table2');
-        return af.set(0,[]);
-      }
-    } else {
-      console.log('table3');
-      return af.set(0,[]);
-    }
+    console.log('solicitacaoDetalheCompleto', sol);
+    this.showDetalhe = true;
+    this.solDetalhe = sol;
   }
 
   escondeDetalhe() {

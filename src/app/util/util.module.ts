@@ -19,6 +19,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import { CampoErroComponent } from './campo-erro/campo-erro.component';
+import { TextoViewComponent } from './texto-view/texto-view.component';
+import {QuillModule} from "ngx-quill";
 
 @NgModule({
   imports: [
@@ -32,7 +34,8 @@ import { CampoErroComponent } from './campo-erro/campo-erro.component';
     DropdownModule,
     InputTextareaModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    QuillModule.forRoot()
   ],
   declarations: [
     CampoControlErroComponent,
@@ -41,7 +44,8 @@ import { CampoErroComponent } from './campo-erro/campo-erro.component';
     ChildLoaderComponent,
     MenuContextoComponent,
     CampoEditorComponent,
-    CampoErroComponent
+    CampoErroComponent,
+    TextoViewComponent
   ],
   exports: [
     FormDebugComponent,
@@ -50,7 +54,8 @@ import { CampoErroComponent } from './campo-erro/campo-erro.component';
     ChildLoaderComponent,
     MenuContextoComponent,
     CampoEditorComponent,
-    CampoErroComponent
+    CampoErroComponent,
+    TextoViewComponent
   ],
   providers: [
     /*DropdownService,

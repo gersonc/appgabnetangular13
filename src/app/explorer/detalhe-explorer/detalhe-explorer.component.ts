@@ -14,8 +14,8 @@ import {ArquivoInterface} from "../../arquivo/_models";
 })
 export class DetalheExplorerComponent implements OnChanges {
   @Input() arquivos?: ArquivoInterface[];
-  @Input() modulo?: string;
-  @Input() registro_id?: number;
+  // @Input() modulo?: string;
+  // @Input() registro_id?: number;
 
   arqs: ArquivoInterface[];
   ref: ViewContainerRef;
@@ -23,14 +23,14 @@ export class DetalheExplorerComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if( changes.modulo) {
-      this.filtarArquivos(changes.modulo.currentValue)
+    if( changes.arquivos) {
+      this.arqs = changes.arquivos.currentValue;
     }
   }
 
-  filtarArquivos(modulo: string) {
+  /*filtarArquivos(modulo: string) {
     this.arqs = this.arquivos.filter( a => a.arquivo_modulo === modulo && a.arquivo_registro_id === this.registro_id)
     console.log('arqs', this.arqs);
-  }
+  }*/
 
 }

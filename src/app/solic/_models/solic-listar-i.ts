@@ -3,6 +3,7 @@ import {SolicHistoricoProcesso} from "./solic-historico-processo";
 import {TotalI} from "../../shared-datatables/models/total-i";
 import {SolicOficioI} from "./solic-oficio-i";
 import {SolicCadastro} from "./solic-cadastro";
+import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
 
 export interface SolicListarI {
   solicitacao_id?: number;
@@ -50,9 +51,14 @@ export interface SolicListarI {
   solicitacao_aceita_sn2?: number;
   solicitacao_posicao2?: number;
   solicitacao_processo_id?: number;
-  cadastro: SolicCadastro;
+  solicitacao_arquivos?: ArquivoListagem[];
+  // cadastro: SolicCadastro;
   cadastro_id?: number;
   cadastro_nome_limpo?: string;
+  cadastro_tratamento_nome?: string;
+  cadastro_responsavel?: string;
+  cadastro_cargo?: string;
+  cadastro_profissao?: string;
   cadastro_endereco?: string;
   cadastro_endereco_numero?: string;
   cadastro_endereco_complemento?: string;
@@ -61,6 +67,7 @@ export interface SolicListarI {
   cadastro_regiao_nome?: string;
   cadastro_municipio_id?: number;
   cadastro_municipio_nome?: string;
+  cadastro_cep?: string;
   cadastro_email?: string;
   cadastro_email2?: string;
   cadastro_telefone?: string;
@@ -70,12 +77,18 @@ export interface SolicListarI {
   cadastro_telcom?: string;
   cadastro_fax?: string;
   cadastro_estado_nome?: string;
+  cadastro_grupo_nome?: string;
+  cadastro_cpfcnpj?: string;
+  cadastro_rede_social?: string;
+  cadastro_outras_midias?: string;
+  cadastro_arquivos?: ArquivoListagem[];
   oficio?: SolicOficioI[];
   processo_id?: number;
   processo_status2?: number;
   processo_status?: string;
   processo_numero?: string;
   processo_numero2?: string;
+  processo_arquivos?: ArquivoListagem[];
   historico_solicitcao?: SolicHistoricoSolicitacao[];
   historico_processo?: SolicHistoricoProcesso[];
 }

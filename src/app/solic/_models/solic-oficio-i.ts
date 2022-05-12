@@ -1,3 +1,5 @@
+import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
+
 export interface SolicOficioI {
   oficio_id?: number;
   oficio_numero?: string;
@@ -22,6 +24,7 @@ export interface SolicOficioI {
   oficio_descricao_acao?: string;
   oficio_descricao_acao_delta?: string;
   oficio_descricao_acao_texto?: string;
+  oficio_arquivos?: ArquivoListagem[];
 }
 
 export const oficio_titulo = [

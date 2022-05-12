@@ -25,11 +25,18 @@ import {jsPDF} from "jspdf";
 import autoTable, {applyPlugin} from "jspdf-autotable";
 import {ColumnsInterface} from "../../_models";
 import {SolicService} from "../_services/solic.service";
+import {
+  SolicitacaoCadastroInterface,
+  SolicitacaoDetalheInterface,
+  SolicitacaoListar12Interface,
+  SolicitacaoListar345Interface, SolicitacaoOficioInterface,
+  SolicitacaoOficioNumInterface,
+  SolicitacaoProcessoInterface,
+  SolicitacaoProcessoNumInterface
+} from "../../solicitacao/_models";
 import {SolicSeparaSolicitaca} from "../_services/solic-separa-solicitaca";
 import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
-import {SolicListarI} from "../_models/solic-listar-i";
-import {VersaoService} from "../../_services/versao.service";
 
 applyPlugin(jsPDF);
 
@@ -43,16 +50,27 @@ applyPlugin(jsPDF);
 })
 export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('dtlh', { static: true }) dtlh:TemplateRef<any>;
-  @Input() solicitacao: SolicListarI;
+  @Input() detalhe: SolicDetalheI = null;
+  @Input() solicitacaoListagem: any[] = [];
+  @Input() arquivoOficio: TSMap<number, ArquivoInterface[]>;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
+/*  public solicitacao: any;
+  public solicitacao_titulo: any[];
+  public cadastro: SolicitacaoCadastroInterface;
+  public cadastro_titulo: any[];
+  public processo_num: SolicitacaoProcessoNumInterface[] = null;
+  public processo: SolicitacaoProcessoInterface[];
+  public processo_titulo: any[];
+  public oficio_num: SolicitacaoOficioNumInterface[] = null;
+  public oficio: SolicitacaoOficioInterface[];
+  public oficio_titulo: any[];
+  public erro: any[] = null;
+  public vinculos = false;*/
   private campos: string[] = [];
   private alturas: number[] = [];
   private larguras: number[] = [];
   public textoEditor = false;
-  impressao = false;
-  detalhe:  SolicDetalheI;
-  sol: SolicListarI;
 
   z = 0;
   w = 0;
@@ -63,12 +81,11 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor (
     private vref: ViewContainerRef,
-    public aut: AuthenticationService,
-    public ss: SolicService,
-    public vs: VersaoService
+    private authenticationService: AuthenticationService,
+    public ss: SolicService
 
   ) {
-    console.log('sol', this.sol);
+    console.log('constructor');
   }
 
   ngAfterViewInit() {
@@ -76,8 +93,11 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.solicitacao) {
-      this.sol = changes.solicitacao.currentValue;
+    console.log('ngOnChanges - z', this.z);
+    this.z++;
+    if (changes.arquivoOficio) {
+      console.log('ngOnChanges - w', this.w);
+      this.w++;
       this.vref.createEmbeddedView(this.dtlh);
     }
   }

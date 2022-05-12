@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class VersaoService {
 
   versao = 0;
+  solicitacaoVersao = 0;
 
   constructor() { }
 }
