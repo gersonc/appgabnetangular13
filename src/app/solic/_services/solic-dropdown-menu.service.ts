@@ -164,9 +164,9 @@ export class SolicDropdownMenuService {
   }*/
 
   gravaDropDown() {
-    if (!sessionStorage.getItem('solic-dropdown')) {
+    if (!sessionStorage.getItem('solic-menu-dropdown')) {
       if (!this.inicio) {
-        sessionStorage.setItem('solic-dropdown', JSON.stringify(this.ddSolicitacao));
+        sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(this.ddSolicitacao));
         let ct = 0;
         this.sub.forEach(s => {
           ct++;
