@@ -31,6 +31,8 @@ import {CalendarModule} from "primeng/calendar";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {AccordionModule} from "primeng/accordion";
 import {EditorModule} from "primeng/editor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 
 
 @NgModule({
@@ -69,6 +71,14 @@ import {EditorModule} from "primeng/editor";
     AccordionModule,
     EditorModule,
     UtilModule
+  ],
+  exports: [
+    SolicComponent,
+    SolicIncluirComponent
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ]
 })
 export class SolicModule { }

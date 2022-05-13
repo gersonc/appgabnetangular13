@@ -10,12 +10,12 @@ import {SolicBuscaI} from "../_models/solic-busca-i";
 import {DatatableService} from "../../shared-datatables/services/datatable.service";
 import {take} from "rxjs/operators";
 import {BuscaService} from "../../shared-datatables/services/busca.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {BuscaCampoI} from "../../shared-datatables/models/busca-campo-i";
 import {TotalI} from "../../shared-datatables/models/total-i";
-import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
 import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {TSMap} from "typescript-map";
+import {SolicFormI} from "../_models/solic-form-i";
 
 @Injectable({
   providedIn: 'root'
@@ -70,13 +70,11 @@ export class SolicService {
     );
   }
 
-
   postSolicitacaoBusca(busca: SolicBuscaI) {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     const url = this.solicitacaoUrl + '/listar';
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
   }
-
 
   getTitulos(): void {
     if (typeof(this.titulos) === 'undefined') {
@@ -100,10 +98,16 @@ export class SolicService {
     return this.http.get<any[]>(url);
   }
 
-
   getSolicitacaoDetalhe(id: number) {
     const url = this.solicitacaoUrl + '/detalhe/' + id;
     return this.http.get<SolicDetalheI>(url);
+  }
+
+  incluirSolicitacao(dados: SolicFormI): Observable<any> {
+    let url: string;
+    url = this.url.solicitacao + '/incluir';
+    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any[]> (url, dados, httpOptions);
   }
 
   onDestroy(): void {

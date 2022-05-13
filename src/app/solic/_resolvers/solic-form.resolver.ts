@@ -10,17 +10,19 @@ import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
 import {DropdownService} from "../../_services";
 import {mergeMap, take} from "rxjs/operators";
 import {DropdownnomeidClass} from "../../_models";
+import {SolicFormI} from "../_models/solic-form-i";
+import {VersaoService} from "../../_services/versao.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicFormResolver implements Resolve<boolean> {
-  private resp: Subject<boolean>;
-  private resp$: Observable<boolean>;
+  private resp = new Subject<boolean>();
+  private resp$ = this.resp.asObservable();
   sub: Subscription[] = [];
   esperar = 0;
   solicitacao_id = 0;
-  solicitacao: SolicitacaoAlterarInterface;
+  solicitacao: SolicFormI;
   dados = true;
   cf = true;
   contador = 3;
@@ -29,25 +31,30 @@ export class SolicFormResolver implements Resolve<boolean> {
     // private solicitacaoService: SolicitacaoService,
     // private sfs: SolicitacaoFormService,
     private router: Router,
-    private dd: DropdownService
-  ) { }
+    private dd: DropdownService,
+    private vs: VersaoService
+  ) {
+    console.log('resolver');
+  }
 
   espera() {
+    console.log('contador', this.contador);
     this.contador--;
     if (this.contador < 1) {
       this.resp.next(this.cf);
+      console.log('resolver2');
       this.resp.complete();
     }
   }
 
   carregaDados() {
     this.cf = true;
-    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
+    if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
       this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dados));
+            sessionStorage.setItem('dropdown-tipo_cadastro-incluir', JSON.stringify(dados));
           },
           error: (err) => {
             console.error(err);
@@ -71,17 +78,17 @@ export class SolicFormResolver implements Resolve<boolean> {
     if (!sessionStorage.getItem('dropdown-atendente')) {
       ddNomeIdArray.add('solicitacao_atendente_cadastro_id', 'usuario', 'usuario_id', 'usuario_nome');
     }
-    // ****** solicitacao_cadastrante_cadastro_id *****
-    if (!sessionStorage.getItem('dropdown-cadastrante')) {
-      ddNomeIdArray.add('solicitacao_cadastrante_cadastro_id', 'usuario', 'usuario_id', 'usuario_nome');
+    if (this.vs.versao === 1) {
+      // ****** solicitacao_tipo_recebimento_id *****
+      if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
+        ddNomeIdArray.add('solicitacao_tipo_recebimento_id', 'tipo_recebimento', 'tipo_recebimento_id', 'tipo_recebimento_nome');
+      }
     }
-    // ****** solicitacao_tipo_recebimento_id *****
-    if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
-      ddNomeIdArray.add('solicitacao_tipo_recebimento_id', 'tipo_recebimento', 'tipo_recebimento_id', 'tipo_recebimento_nome');
-    }
-    // ****** solicitacao_local_id *****
-    if (!sessionStorage.getItem('dropdown-local')) {
-      ddNomeIdArray.add('solicitacao_local_id', 'local', 'local_id', 'local_nome');
+    if (this.vs.versao < 3) {
+      // ****** solicitacao_local_id *****
+      if (!sessionStorage.getItem('dropdown-local')) {
+        ddNomeIdArray.add('solicitacao_local_id', 'local', 'local_id', 'local_nome');
+      }
     }
     // ****** solicitacao_area_interesse_id *****
     if (!sessionStorage.getItem('dropdown-area_interesse')) {
@@ -99,14 +106,15 @@ export class SolicFormResolver implements Resolve<boolean> {
             if (dados['solicitacao_atendente_cadastro_id']) {
               sessionStorage.setItem('dropdown-atendente', JSON.stringify(dados['solicitacao_atendente_cadastro_id']));
             }
-            if (dados['solicitacao_cadastrante_cadastro_id']) {
-              sessionStorage.setItem('dropdown-cadastrante', JSON.stringify(dados['solicitacao_cadastrante_cadastro_id']));
+            if (this.vs.versao === 1) {
+              if (dados['solicitacao_tipo_recebimento_id']) {
+                sessionStorage.setItem('dropdown-tipo_recebimento', JSON.stringify(dados['solicitacao_tipo_recebimento_id']));
+              }
             }
-            if (dados['solicitacao_tipo_recebimento_id']) {
-              sessionStorage.setItem('dropdown-tipo_recebimento', JSON.stringify(dados['solicitacao_tipo_recebimento_id']));
-            }
-            if (dados['solicitacao_local_id']) {
-              sessionStorage.setItem('dropdown-local', JSON.stringify(dados['solicitacao_local_id']));
+            if (this.vs.versao < 3) {
+              if (dados['solicitacao_local_id']) {
+                sessionStorage.setItem('dropdown-local', JSON.stringify(dados['solicitacao_local_id']));
+              }
             }
             if (dados['solicitacao_area_interesse_id']) {
               sessionStorage.setItem('dropdown-area_interesse', JSON.stringify(dados['solicitacao_area_interesse_id']));
@@ -124,17 +132,10 @@ export class SolicFormResolver implements Resolve<boolean> {
       this.espera();
     }
 
-    // ****** solicitacao_reponsavel_analize_id *****
-    if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
-      this.sub.push(this.dd.postDropdownNomeIdWhere(
-          'usuario',
-          'usuario_id',
-          'usuario_nome',
-          'usuario_responsavel_sn',
-          '=',
-          '1',
-          'ASC'
-        )
+    if (this.vs.versao < 3) {
+      // ****** solicitacao_reponsavel_analize_id *****
+      if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
+        this.sub.push(this.dd.getDropdownResponsavel()
           .pipe(take(1))
           .subscribe({
             next: (dados) => {
@@ -147,13 +148,17 @@ export class SolicFormResolver implements Resolve<boolean> {
               this.espera();
             }
           })
-      );
+        );
+      } else {
+        this.espera();
+      }
     } else {
       this.espera();
     }
   }
 
   onDestroy(): void {
+    this.contador = 3;
     this.sub.forEach(s => s.unsubscribe());
   }
 
@@ -161,18 +166,14 @@ export class SolicFormResolver implements Resolve<boolean> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):Observable<boolean> |
     Observable<never> {
-    if ( !sessionStorage.getItem('dropdown-tipo_cadastro') ||
+    if (
+      !sessionStorage.getItem('dropdown-tipo_cadastro-incluir') ||
       !sessionStorage.getItem('dropdown-assunto') ||
       !sessionStorage.getItem('dropdown-atendente') ||
-      !sessionStorage.getItem('dropdown-cadastrante') ||
-      !sessionStorage.getItem('dropdown-tipo_recebimento') ||
-      !sessionStorage.getItem('dropdown-local') ||
+      (this.vs.versao === 1 && !sessionStorage.getItem('dropdown-tipo_recebimento')) ||
+      (this.vs.versao < 3 && !sessionStorage.getItem('dropdown-local')) ||
       !sessionStorage.getItem('dropdown-area_interesse') ||
-      !sessionStorage.getItem('dropdown-reponsavel_analize') ) {
-      this.resp = null;
-      this.resp = new Subject<boolean>();
-      this.resp$ = this.resp.asObservable();
-      this.contador = 3;
+      (this.vs.versao < 3 && !sessionStorage.getItem('dropdown-reponsavel_analize')) ) {
       this.carregaDados();
       return this.resp$.pipe(
         take(1),

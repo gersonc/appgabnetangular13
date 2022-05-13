@@ -272,5 +272,10 @@ export class DropdownService {
     return this.http.get<SolicitacaoDropdownMenuListarInterface>(url);
   }
 
+  public getDropdownResponsavel(): Observable<SelectItem[]> {
+    const url = this.url.dropdown + '/responsavel';
+    return this.http.get<SelectItem[]>(url);
+  }
+
 
 }

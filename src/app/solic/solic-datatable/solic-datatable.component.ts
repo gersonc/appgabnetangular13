@@ -1,14 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Editor} from "primeng/editor";
-import {
-  SolicitacaoDetalheInterface,
-  SolicitacaoExcel12,
-  SolicitacaoExcluirInterface,
-  SolicitacaoInterfaceExcel,
-  SolicitacaoListar12Interface,
-  SolicitacaoListar345Interface,
-  SolicitacaoTotalInterface
-} from "../../solicitacao/_models";
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
 import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
@@ -20,18 +11,14 @@ import {
   TabelaPdfService
 } from "../../_services";
 import {ActivatedRoute, Router} from "@angular/router";
-import {SolicitacaoBuscarService, SolicitacaoService} from "../../solicitacao/_services";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
-import {take} from "rxjs/operators";
 import {Config} from "quill-to-word";
 import * as quillToWord from "quill-to-word";
 import {saveAs} from "file-saver";
 import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
-// import {SolicBuscaCampoI} from "../_models/solic-busca-i";
 import {SolicService} from "../_services/solic.service";
 import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {DatatableService} from "../../shared-datatables/services/datatable.service";
-import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
 

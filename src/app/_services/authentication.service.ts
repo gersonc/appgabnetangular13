@@ -337,10 +337,10 @@ export class AuthenticationService {
     this._versao = +user.parlamentar_versao!;
     // this.versao = +user.parlamentar_versao!;
     this.dispositivo = user.dispositivo;
-    this.parlamentar_id = user.parlamentar_id!;
+    this.parlamentar_id = +user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;
-    this.usuario_id = user.usuario_id!;
-    this.usuario_local_id = user.usuario_local_id!;
+    this.usuario_id = +user.usuario_id!;
+    this.usuario_local_id = +user.usuario_local_id!;
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
     this.versaoService.versao = +user.parlamentar_versao!;

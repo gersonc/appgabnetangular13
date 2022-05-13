@@ -96,7 +96,6 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
       dd = null;
       this.cs.escondeCarregador();
     } else {
-      console.log('bbbbbb');
         this.getCarregaDropDown();
     }
   }

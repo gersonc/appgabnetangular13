@@ -65,8 +65,8 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   }
 
   carregaDropDown() {
-    if (sessionStorage.getItem('solic-dropdown')) {
-      this.ddSolicitacao = JSON.parse(sessionStorage.getItem('solic-dropdown'));
+    if (sessionStorage.getItem('solic-menu-dropdown')) {
+      this.ddSolicitacao = JSON.parse(sessionStorage.getItem('solic-menu-dropdown'));
     } else {
       this.getCarregaDropDown();
     }
@@ -104,9 +104,11 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   }
 
   goIncluir() {
+    console.log('aaaaaaa');
     if (this.authenticationService.solicitacao_incluir) {
+      console.log('ccccc');
       this.sbs.buscaStateSN = false;
-      this.router.navigate(['/solicitacao/incluir']);
+      this.router.navigate(['solic/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }

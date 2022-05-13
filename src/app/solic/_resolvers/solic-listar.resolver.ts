@@ -32,7 +32,12 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
   ) { }
 
   populaDropdown() {
-    if (!sessionStorage.getItem('solic-dropdown')) {
+    if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
+      this.sub.push(this.dd.getDropdownResponsavel()
+        .pipe(take(1))
+        .subscribe(dados => sessionStorage.setItem('dropdown-reponsavel_analize', JSON.stringify(dados))));
+    }
+    if (!sessionStorage.getItem('solic-menu-dropdown')) {
       this.sub.push(this.dd.getDropdownSolicitacaoMenuTodos()
         .pipe(take(1))
         .subscribe((dados) => {
@@ -48,8 +53,8 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
   }
 
   gravaDropDown() {
-    if (!sessionStorage.getItem('solic-dropdown')) {
-      sessionStorage.setItem('solic-dropdown', JSON.stringify(this.solicitacaoDropdownMenu));
+    if (!sessionStorage.getItem('solic-menu-dropdown')) {
+      sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(this.solicitacaoDropdownMenu));
     }
     this.resp.next(true);
   }
@@ -177,8 +182,8 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
   }
 
   gravaDropDown() {
-    if (!sessionStorage.getItem('solic-dropdown')) {
-      sessionStorage.setItem('solic-dropdown', JSON.stringify(this.ddSolicitacao));
+    if (!sessionStorage.getItem('solic-menu-dropdown')) {
+      sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(this.ddSolicitacao));
     }
     this.resp.next(true);
   }
@@ -199,7 +204,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     Observable<boolean> |
     Observable<never> {
     this.solicitacaoService.getTitulos();
-    if (!sessionStorage.getItem('solic-dropdown')) {
+    if (!sessionStorage.getItem('solic-menu-dropdown')) {
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),

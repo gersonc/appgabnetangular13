@@ -15,11 +15,11 @@
 
 
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12 formulario">
+              <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
                 <div class="p-fluid p-formgrid p-grid formulario">
 
                   <!--*** Tipo de Cadastro ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_cadastro_tipo_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_cadastro_tipo_id')">
                     <label for="solicitacao_cadastro_tipo_id"><span style="color: var(--ativo)">*</span> Tipo de Cadastro</label>
                     <p-dropdown
                       id="solicitacao_cadastro_tipo_id"
@@ -29,15 +29,12 @@
                       [required]="true"
                       [autofocus]="true"
                       [group]="true"
-                      name="solicitacao_cadastro_tipo_id"
                     ></p-dropdown>
-                    <!--suppress TypeScriptValidateTypes -->
-                    <app-error-msg [control]="formSol.get('solicitacao_cadastro_tipo_id')" label="Tipo de Cadastro é obrigatório."></app-error-msg>
                     <app-campo-control-erro msgErro="Tipo de Cadastro é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** Solicitante ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_cadastro_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_cadastro_id')">
                     <label for="solicitacao_cadastro_id"><span style="color: var(--ativo)">*</span> Solicitante</label>
                     <div class="p-inputgroup">
                       <p-autoComplete
@@ -71,7 +68,7 @@
                   </div>
 
                   <!--*** solicitacao_assunto_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_assunto_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_assunto_id')">
                     <label for="solicitacao_assunto_id"><span style="color: var(--ativo)">*</span> Assunto</label>
                     <p-dropdown
                       id="solicitacao_assunto_id"
@@ -79,14 +76,12 @@
                       placeholder="Selecione"
                       [options]="ddSolicitacao_assunto_id"
                       [required]="true"
-                      name="Assunto"
-                      [ngClass]="aplicaCssErro('solicitacao_assunto_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('solicitacao_assunto_id')" msgErro="Assunto é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro msgErro="Assunto é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** solicitacao_area_interesse_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_area_interesse_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_area_interesse_id')">
                     <label for="solicitacao_area_interesse_id"><span style="color: var(--ativo)">*</span> Área de
                       interesse</label>
                     <p-dropdown
@@ -99,34 +94,8 @@
                     <app-campo-control-erro msgErro="Área de interesse é obrigatório."></app-campo-control-erro>
                   </div>
 
-                  <!--*** solicitacao_orgao ***-->
-                  <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="solicitacao_orgao">Orgão solicitado</label>
-                    <input
-                      id="solicitacao_orgao"
-                      formControlName="solicitacao_orgao"
-                      type="text"
-                      [size]="40"
-                      [maxlength]="150"
-                      pInputText
-                    />
-                  </div>
-
-                  <!--*** solicitacao_numero_oficio ***-->
-                  <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="solicitacao_numero_oficio">Número do ofício / Processo</label>
-                    <input
-                      id="solicitacao_numero_oficio"
-                      formControlName="solicitacao_numero_oficio"
-                      type="text"
-                      [size]="40"
-                      [maxlength]="100"
-                      pInputText
-                    />
-                  </div>
-
                   <!--*** solicitacao_data ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_data')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_data')">
                     <label for="solicitacao_data"><span style="color: var(--ativo)">*</span> Data</label>
                     <p-calendar
                       id="solicitacao_data"
@@ -138,10 +107,34 @@
                     <app-campo-control-erro msgErro="Data é obrigatória."></app-campo-control-erro>
                   </div>
 
+                </div>
+              </div>
+              <!--*** FIM COLUNA 1 ***-->
+              <!--*** COLUNA 2 ***-->
+              <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
+                <div class="p-fluid p-formgrid p-grid">
 
+                  <!--*** solicitacao_indicacao_sn ***-->
+                  <div class="formulario-switch p-field p-col-12">
+                    <h5>Indicação</h5>
+                    <p-inputSwitch #indsn formControlName="solicitacao_indicacao_sn" (onChange)="trocaIndicacaoSV($event)"></p-inputSwitch>
+                  </div>
+
+                  <!--*** solicitacao_indicacao_nome ***-->
+                  <div *ngIf="indsn.checked" class="p-field p-col-12">
+                    <label for="solicitacao_indicacao_nome">Indicado por</label>
+                    <input
+                      id="solicitacao_indicacao_nome"
+                      formControlName="solicitacao_indicacao_nome"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
 
                   <!--*** solicitacao_atendente_cadastro_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_atendente_cadastro_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_atendente_cadastro_id')">
                     <label for="solicitacao_atendente_cadastro_id"><span style="color: var(--ativo)">*</span> Atendente</label>
                     <p-dropdown
                       id="solicitacao_atendente_cadastro_id"
@@ -154,7 +147,7 @@
                   </div>
 
                   <!--*** solicitacao_data_atendimento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_data_atendimento')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('solicitacao_data_atendimento')">
                     <label for="solicitacao_data_atendimento"><span style="color: var(--ativo)">*</span> Data do
                       atendimento</label>
                     <p-calendar
@@ -167,10 +160,15 @@
                     <app-campo-control-erro msgErro="Data do atendimento é obrigatória."></app-campo-control-erro>
                   </div>
 
-
+                </div>
+              </div>
+              <!--*** FIM COLUNA 2 ***-->
+              <!--*** COLUNA 3 ***-->
+              <div class="p-sm-12 p-md-12 p-lg-12 p-xl-4 formulario">
+                <div class="p-fluid p-formgrid p-grid">
 
                   <!--*** solicitacao_tipo_recebimento_id ***-->
-                  <div *ngIf="vs.versao === 1" class="p-field p-col-12  p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
                        [ngClass]="aplicaCssErro('solicitacao_tipo_recebimento_id')">
                     <label for="solicitacao_tipo_recebimento_id"><span style="color: var(--ativo)">*</span> Tipo de
                       recebimento</label>
@@ -185,7 +183,7 @@
                   </div>
 
                   <!--*** solicitacao_local_id ***-->
-                  <div *ngIf="vs.versao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('solicitacao_local_id')">
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12" [ngClass]="aplicaCssErro('solicitacao_local_id')">
                     <label for="solicitacao_local_id"><span style="color: var(--ativo)">*</span> Núcleo</label>
                     <p-dropdown
                       id="solicitacao_local_id"
@@ -198,7 +196,7 @@
                   </div>
 
                   <!--*** solicitacao_reponsavel_analize_id ***-->
-                  <div *ngIf="vs.versao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
                        [ngClass]="aplicaCssErro('solicitacao_reponsavel_analize_id')">
                     <label for="solicitacao_reponsavel_analize_id"><span style="color: var(--ativo)">*</span>
                       Responsável pela análize</label>
@@ -212,31 +210,11 @@
                     <app-campo-control-erro msgErro="Responsável pela análize é obrigatório."></app-campo-control-erro>
                   </div>
 
-
-
-                  <!--*** solicitacao_indicacao_sn ***-->
-                  <div class="formulario-switch p-field" [ngClass]=stl>
-                    <h5>Indicação</h5>
-                    <p-inputSwitch #indsn formControlName="solicitacao_indicacao_sn" (onChange)="trocaIndicacaoSV($event)"></p-inputSwitch>
-                  </div>
-
-                  <!--*** solicitacao_indicacao_nome ***-->
-                  <div *ngIf="indsn.checked" class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-3">
-                    <label for="solicitacao_indicacao_nome">Indicado por</label>
-                    <input
-                      id="solicitacao_indicacao_nome"
-                      formControlName="solicitacao_indicacao_nome"
-                      type="text"
-                      [size]="40"
-                      [maxlength]="150"
-                      pInputText
-                    />
-                  </div>
-
                   <!--*** Tipo de analise ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="p-field p-col-12 p-md-6 p-lg-6 p-xl-12"
                        [ngClass]="aplicaCssErro('solicitacao_tipo_analize')">
-                    <label for="solicitacao_tipo_analize"><span style="color: var(--ativo)">*</span> {{tpAnalizeTitulo}}</label>
+                    <label for="solicitacao_tipo_analize"><span style="color: var(--ativo)">*</span> Tipo de
+                      análise</label>
                     <p-dropdown
                       id="solicitacao_tipo_analize"
                       formControlName="solicitacao_tipo_analize"
@@ -250,12 +228,6 @@
                 </div>
               </div>
               <!--*** FIM COLUNA 3 ***-->
-
-
-
-
-
-
               <!--*** COLUNA 4 ***-->
               <div class="p-col-12 formulario">
                 <div class="p-fluid p-formgrid p-grid">

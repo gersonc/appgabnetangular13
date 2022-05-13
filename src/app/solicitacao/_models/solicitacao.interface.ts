@@ -176,6 +176,7 @@ export interface SolicitacaoFormularioInterface {
   solicitacao_assunto_nome?: string;
   solicitacao_indicacao_sn?: number;
   solicitacao_orgao?: string;
+  solicitacao_numero_oficio?: string;
   solicitacao_indicacao_nome?: string;
   solicitacao_atendente_cadastro_id?: number;
   solicitacao_atendente_cadastro_nome?: string;

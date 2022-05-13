@@ -5,9 +5,8 @@ import {SolicDatatableComponent} from "./solic-datatable/solic-datatable.compone
 import {AuthChildGuard} from "../_guards";
 import {Rule, Scope} from "../_models";
 import {SolicListarResolver} from "./_resolvers/solic-listar.resolver";
-import {SolicitacaoIncluirComponent} from "../solicitacao/solicitacao-incluir/solicitacao-incluir.component";
-import {SolicitacaoFormResolver} from "../solicitacao/_resolvers";
 import {SolicIncluirComponent} from "./solic-incluir/solic-incluir.component";
+import {SolicFormResolver} from "./_resolvers/solic-form.resolver";
 
 const routes: Routes = [
   {
@@ -77,7 +76,7 @@ const routes: Routes = [
           scopes: Scope.solicitacao_incluir
         },
         resolve: {
-          dados: SolicitacaoFormResolver
+          dados: SolicFormResolver
         }
       },
       {

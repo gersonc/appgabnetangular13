@@ -12,8 +12,8 @@ export class ErrorMsgComponent implements OnInit {
   // @Input() msgErro: string;
   // @Input() mostrarErro: boolean;
 
-  @Input() control: FormControl | undefined;
-  @Input() label: string | undefined;
+  @Input() control: FormControl;
+  @Input() label: string;
 
   constructor() { }
 
@@ -22,10 +22,10 @@ export class ErrorMsgComponent implements OnInit {
 
   get errorMessage() {
 
-    for (const propertyName in this.control?.errors) {
-      if (this.control?.errors.hasOwnProperty(propertyName) &&
-        this.control?.touched) {
-          return FormValidations.getErrorMsg(this.label!, propertyName, this.control.errors[propertyName]);
+    for (const propertyName in this.control.errors) {
+      if (this.control.errors.hasOwnProperty(propertyName) &&
+        this.control.touched) {
+          return FormValidations.getErrorMsg(this.label, propertyName, this.control.errors[propertyName]);
         }
     }
 

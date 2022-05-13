@@ -1,4 +1,3 @@
-import {SolicitacaoBuscaCampoInterface} from "../../solicitacao/_models";
 
 export interface SolicI {
   solicitacao_aceita_recusada?: string;
