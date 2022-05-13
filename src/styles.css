@@ -14392,3 +14392,8 @@ span.explorer {
 .explorer-detalhe:hover {
   text-decoration: underline;
 }
+
+span.atencao {
+  color: var(--danger);
+  font-weight: bold;
+}

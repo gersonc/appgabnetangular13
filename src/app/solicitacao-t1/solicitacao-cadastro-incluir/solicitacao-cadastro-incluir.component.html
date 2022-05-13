@@ -16,7 +16,7 @@
                 <div class="p-fluid p-formgrid p-grid formulario">
                   <!--*** Tipo de Cadastro ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('cadastro_tipo_id')">
-                    <label for="cadastro_tipo_id"><span style="color: var(--ativo)">*</span> Tipo de Cadastro</label>
+                    <label for="cadastro_tipo_id"><span class="atencao">*</span> Tipo de Cadastro</label>
                     <p-dropdown
                       id="cadastro_tipo_id"
                       formControlName="cadastro_tipo_id"
@@ -32,7 +32,7 @@
                   <!--*** Tratamento ***-->
                   <div class="p-field p-col-12"
                        [ngClass]="aplicaCssErroAsync('cadastro_tratamento_id', validaTratamento)">
-                    <label for="cadastro_tratamento_id"><span style="color: var(--ativo)">*</span> Tratamento</label>
+                    <label for="cadastro_tratamento_id"><span class="atencao">*</span> Tratamento</label>
                     <p-dropdown
                       id="cadastro_tratamento_id"
                       formControlName="cadastro_tratamento_id"
@@ -47,7 +47,7 @@
                   </div>
                   <!--*** Nome / Razão Social ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErroAsync('cadastro_nome', validaNome)">
-                    <label for="cadastro_nome"><span style="color: var(--ativo)">*</span> Nome / Razão Social</label>
+                    <label for="cadastro_nome"><span class="atencao">*</span> Nome / Razão Social</label>
                     <input
                       id="cadastro_nome"
                       formControlName="cadastro_nome"
@@ -176,7 +176,7 @@
                   <!--*** Município ***-->
                   <div class="p-field p-col-12"
                        [ngClass]="aplicaCssErroAsync('cadastro_municipio_id', validaMunicipio)">
-                    <label for="cadastro_municipio_id"><span style="color: var(--ativo)">*</span> Município</label>
+                    <label for="cadastro_municipio_id"><span class="atencao">*</span> Município</label>
                     <div #vmunicipio class="p-inputgroup">
                       <p-dropdown
                         [style]="{width:'100%'}"
@@ -245,7 +245,7 @@
                   </p-dialog>
                   <!--*** Estado ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)">
-                    <label for="cadastro_estado_id"><span style="color: var(--ativo)">*</span> Estado</label>
+                    <label for="cadastro_estado_id"><span class="atencao">*</span> Estado</label>
                     <p-dropdown
                       id="cadastro_estado_id"
                       formControlName="cadastro_estado_id"

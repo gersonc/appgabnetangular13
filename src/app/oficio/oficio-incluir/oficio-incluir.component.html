@@ -20,7 +20,7 @@
                   <!--*** ddOficio_processo_id ***-->
                   <div *ngIf="!solicitacao" class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_processo_id')">
                     <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
-                    <label for="oficio_processo_id"><span style="color: var(--ativo)">*</span> Processo</label>
+                    <label for="oficio_processo_id"><span class="atencao">*</span> Processo</label>
                     <p-listbox
                       id="oficio_processo_id"
                       [options]="ddOficio_processo_id"
@@ -89,7 +89,7 @@
 
                   <!--*** oficio_orgao_solicitado_nome ***-->
                   <div class="p-field p-col-12">
-                    <label for="oficio_orgao_solicitado_nome"><span style="color: var(--ativo)">*</span>Orgão solicitado</label>
+                    <label for="oficio_orgao_solicitado_nome"><span class="atencao">*</span>Orgão solicitado</label>
                     <input
                       id="oficio_orgao_solicitado_nome"
                       formControlName="oficio_orgao_solicitado_nome"
@@ -184,7 +184,7 @@
                 <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_orgao_protocolante_nome ***-->
                   <div class="p-field p-col-12">
-                    <label for="oficio_orgao_protocolante_nome"><span style="color: var(--ativo)">*</span>Orgão
+                    <label for="oficio_orgao_protocolante_nome"><span class="atencao">*</span>Orgão
                       protocolante</label>
                     <input
                       id="oficio_orgao_protocolante_nome"
@@ -216,7 +216,7 @@
                 <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_prioridade_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_prioridade_id')">
-                    <label for="oficio_prioridade_id"><span style="color: var(--ativo)">*</span> Prioridade</label>
+                    <label for="oficio_prioridade_id"><span class="atencao">*</span> Prioridade</label>
                     <p-dropdown
                       id="oficio_prioridade_id"
                       formControlName="oficio_prioridade_id"
@@ -247,7 +247,7 @@
                 <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_tipo_andamento_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
-                    <label for="oficio_tipo_andamento_id"><span style="color: var(--ativo)">*</span>
+                    <label for="oficio_tipo_andamento_id"><span class="atencao">*</span>
                       Encaminhamento</label>
                     <p-dropdown
                       id="oficio_tipo_andamento_id"
@@ -323,7 +323,7 @@
                   </div>
                   <!--*** oficio_tipo_recebimento_id ***-->
                   <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
-                    <label for="oficio_tipo_recebimento_id"><span style="color: var(--ativo)">*</span>
+                    <label for="oficio_tipo_recebimento_id"><span class="atencao">*</span>
                       Recebimento</label>
                     <p-dropdown
                       id="oficio_tipo_recebimento_id"

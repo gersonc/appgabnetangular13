@@ -15,7 +15,7 @@
 
                 <!--*** Tipo de Cadastro ***-->
                 <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('cadastro_tipo_id')">
-                  <h6><span style="color: var(--ativo)">*</span> Tipo de Cadastro</h6>
+                  <h6><span class="atencao">*</span> Tipo de Cadastro</h6>
                   <p-dropdown
                     formControlName="cadastro_tipo_id"
                     dataKey="cadastro_tipo_id[0]"
@@ -35,7 +35,7 @@
                   class="p-col-12 campoLabel"
                   [ngClass]="aplicaCssErroAsync('cadastro_tratamento_id', validaTratamento)"
                 >
-                  <h6><span style="color: var(--ativo)">*</span> Tratamento</h6>
+                  <h6><span class="atencao">*</span> Tratamento</h6>
                   <p-dropdown
                     formControlName="cadastro_tratamento_id"
                     placeholder="Selecione"
@@ -52,7 +52,7 @@
 
                 <!--*** Nome / Razão Social ***-->
                 <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErroAsync('cadastro_nome', validaNome)">
-                  <h6><span style="color: var(--ativo)">*</span> Nome / Razão Social</h6>
+                  <h6><span class="atencao">*</span> Nome / Razão Social</h6>
                   <input
                     formControlName="cadastro_nome"
                     type="text"
@@ -187,7 +187,7 @@
                   class="p-col-12 campoLabel"
                   [ngClass]="aplicaCssErroAsync('cadastro_municipio_id', validaMunicipio)"
                 >
-                  <h6><span style="color: var(--ativo)">*</span> Município</h6>
+                  <h6><span class="atencao">*</span> Município</h6>
                   <div class="ui-inputgroup">
                     <p-dropdown
                       formControlName="cadastro_municipio_id"
@@ -253,7 +253,7 @@
                   class="p-col-12 campoLabel"
                   [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)"
                 >
-                  <h6><span style="color: var(--ativo)">*</span> Estado</h6>
+                  <h6><span class="atencao">*</span> Estado</h6>
                   <p-dropdown
                     formControlName="cadastro_estado_id"
                     placeholder="Selecione"

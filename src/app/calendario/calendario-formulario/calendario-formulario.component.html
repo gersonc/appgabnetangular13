@@ -188,7 +188,7 @@
           <!-- SEMANAL ********************************************************************** -->
           <!-- weekdaySelect -->
           <div *ngIf="semanaDiasLiteral" class="p-field p-col-12  p-flex-wrap" [ngClass]="aplicaCssErro('semanaDiasLiteral')">
-            <label><span style="color: var(--ativo)">*</span> Dias da semana para ocorrência(s)</label>
+            <label><span class="atencao">*</span> Dias da semana para ocorrência(s)</label>
 
             <p-selectButton
               id="semanaDiasLiteral"
@@ -218,7 +218,7 @@
           <!-- monthdaySelect -->
           <ng-container *ngIf="frequencia==1">
             <div class="p-field p-col-6">
-              <h5><span style="color: var(--ativo)">*</span> Dia(s) do mês para ocorrência(s)</h5>
+              <h5><span class="atencao">*</span> Dia(s) do mês para ocorrência(s)</h5>
                 <p-radioButton
                   id="rmesDia"
                   value="mesDia"
