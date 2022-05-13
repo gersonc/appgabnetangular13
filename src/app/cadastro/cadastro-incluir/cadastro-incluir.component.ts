@@ -64,6 +64,7 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
   altura = (WindowsService.altura - 150) + 'px';
   block = true;
   moduloAnterior = '';
+  componenteAnterior = '';
   id: number;
   nome: string;
   tipo_id: number;
@@ -102,6 +103,7 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit() {
     if (this.activatedRoute.snapshot.params['modulo']) {
       this.moduloAnterior = this.activatedRoute.snapshot.params['modulo'];
+      this.componenteAnterior = this.activatedRoute.snapshot.params['componente'];
     }
     // this.carregaDropDown();
     this.carregaDropdownSessionStorage();
@@ -195,7 +197,7 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
         c++;
         this.sub.push(this.dd.getDropdown3campos(
           'cadastro',
-          'cadastro_tipo',
+          'cadastro_tipo_id',
           'cadastro_tipo_nome',
           'cadastro_tipo_tipo',
           String(b)

@@ -155,7 +155,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
       for (const b of a) {
         this.sub.push(this.dd.getDropdown3campos(
           'cadastro',
-          'cadastro_tipo',
+          'cadastro_tipo_id',
           'cadastro_tipo_nome',
           'cadastro_tipo_tipo',
           String(b)

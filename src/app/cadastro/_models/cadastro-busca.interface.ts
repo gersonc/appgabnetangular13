@@ -1,7 +1,7 @@
 import { CadastroBuscaCampoInterface } from './cadastro-busca-campo.interface';
 
 export interface CadastroBuscaInterface {
-  cadastro_tipo?: number;
+  cadastro_tipo_id?: number;
   cadastro_nome?: string;
   cadastro_sigla?: string;
   cadastro_apelido?: string;

@@ -477,7 +477,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   goIncluir() {
     if (this.aut.cadastro_incluir) {
       sessionStorage.setItem('solicitacao-incluir', JSON.stringify(this.formSol.getRawValue()));
-      this.router.navigate(['/solic/cadastro']);
+      this.router.navigate(['/cadastro/incluir/solic/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }

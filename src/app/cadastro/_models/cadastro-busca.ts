@@ -1,7 +1,7 @@
 import { CadastroBuscaInterface } from './cadastro-busca.interface';
 
 export class CadastroBusca implements CadastroBuscaInterface {
-  cadastro_tipo = 0;
+  cadastro_tipo_id = 0;
   cadastro_nome = '';
   cadastro_sigla = '';
   cadastro_apelido = '';

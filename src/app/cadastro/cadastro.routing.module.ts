@@ -84,7 +84,7 @@ const cadastroRoutes: Routes = [
         }
       },
       {
-        path: 'incluir/:modulo',
+        path: 'incluir/:modulo/:componente',
         component: CadastroIncluirComponent,
         canActivate: [AuthChildGuard],
         data: {

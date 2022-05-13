@@ -63,7 +63,7 @@ export class CadastroSmsMenuListarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formlistarcadastro = this.formBuilder.group({
-      cadastro_tipo: [null],
+      cadastro_tipo_id: [null],
       cadastro_nome: [null],
       cadastro_sigla: [null],
       cadastro_apelido: [null],

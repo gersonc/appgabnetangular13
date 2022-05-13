@@ -41,7 +41,7 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
     SolicMenuListarComponent,
     SolicDatatableComponent,
     SolicIncluirComponent,
-    SolicDetalheComponent
+    SolicDetalheComponent,
   ],
   imports: [
     CommonModule,
