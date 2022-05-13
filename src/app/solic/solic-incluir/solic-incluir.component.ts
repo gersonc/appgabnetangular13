@@ -101,7 +101,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('bbbbbbbb');
     this.cadastro_incluir = this.aut.cadastro_incluir;
     if (sessionStorage.getItem('solicitacao-incluir')) {
       this.sfs.solicitacao = JSON.parse(sessionStorage.getItem('solicitacao-incluir'));

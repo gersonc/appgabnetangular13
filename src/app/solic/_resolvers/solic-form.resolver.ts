@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import {Observable, of, Subject, Subscription} from 'rxjs';
+import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
 import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
 // import {SolicitacaoFormService, SolicitacaoService} from "../../solicitacao/_services";
 import {DropdownService} from "../../_services";
@@ -12,24 +12,27 @@ import {mergeMap, take} from "rxjs/operators";
 import {DropdownnomeidClass} from "../../_models";
 import {SolicFormI} from "../_models/solic-form-i";
 import {VersaoService} from "../../_services/versao.service";
+import {SolicFormService} from "../_services/solic-form.service";
+import {SolicForm} from "../_models/solic-form";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SolicFormResolver implements Resolve<boolean> {
-  private resp = new Subject<boolean>();
+export class SolicFormResolver implements Resolve<SolicFormI> {
+  private resp = new Subject<SolicFormI>();
   private resp$ = this.resp.asObservable();
   sub: Subscription[] = [];
   esperar = 0;
   solicitacao_id = 0;
   solicitacao: SolicFormI;
   dados = true;
-  cf = true;
+  cf = new SolicForm();
   contador = 3;
 
   constructor(
     // private solicitacaoService: SolicitacaoService,
     // private sfs: SolicitacaoFormService,
+    private solicFormService: SolicFormService,
     private router: Router,
     private dd: DropdownService,
     private vs: VersaoService
@@ -48,7 +51,6 @@ export class SolicFormResolver implements Resolve<boolean> {
   }
 
   carregaDados() {
-    this.cf = true;
     if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
       this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
         .pipe(take(1))
@@ -164,26 +166,26 @@ export class SolicFormResolver implements Resolve<boolean> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):Observable<boolean> |
+    state: RouterStateSnapshot):Observable<SolicFormI> |
     Observable<never> {
-    if (
-      !sessionStorage.getItem('dropdown-tipo_cadastro-incluir') ||
-      !sessionStorage.getItem('dropdown-assunto') ||
-      !sessionStorage.getItem('dropdown-atendente') ||
-      (this.vs.versao === 1 && !sessionStorage.getItem('dropdown-tipo_recebimento')) ||
-      (this.vs.versao < 3 && !sessionStorage.getItem('dropdown-local')) ||
-      !sessionStorage.getItem('dropdown-area_interesse') ||
-      (this.vs.versao < 3 && !sessionStorage.getItem('dropdown-reponsavel_analize')) ) {
+    if (route.paramMap.has('id')) {
+      this.solicitacao_id = +route.paramMap.get('id');
+    } else {
+      this.solicFormService.resetSolicitacao();
+      this.solicitacao_id = 0;
+    }
       this.carregaDados();
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
-          this.onDestroy();
-          return of(dados);
+          if (dados) {
+            this.onDestroy();
+            return of(dados);
+          } else {
+            this.onDestroy();
+            return EMPTY;
+          }
         })
       );
-    } else {
-      this.router.navigate(['/solic/incluir2']);
-    }
   }
 }

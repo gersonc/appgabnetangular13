@@ -17,15 +17,15 @@ export class CadastroFormResolver implements Resolve<CadastroFormularioInterface
   private sub: Subscription[] = [];
   private resp = new Subject<CadastroFormularioInterface>();
   private resp$ = this.resp.asObservable();
-  private cf = new CadastroFormulario;
+  private cf = new CadastroFormulario();
   private cadastro_id = 0;
 
   constructor(
-    private cs: CarregadorService,
     private router: Router,
     private dd: DropdownService,
     private cadastroService: CadastroService,
   ) { }
+
 
   populaDados() {
     if (!sessionStorage.getItem('dropdown-sexo')) {
@@ -37,7 +37,31 @@ export class CadastroFormResolver implements Resolve<CadastroFormularioInterface
       sessionStorage.setItem('dropdown-sexo', JSON.stringify(ddSexo));
     }
 
-    let contador = 3;
+    let contador = 4;
+
+    if (!sessionStorage.getItem('cadastro-dropdown')) {
+      this.sub.push(this.dd.getDropdownCadastroMenuTodos()
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            sessionStorage.setItem('cadastro-dropdown', JSON.stringify(dados));
+          },
+          error: (err) => {
+            console.error(err);
+          },
+          complete: () => {
+            contador--;
+            if (contador === 0) {
+              this.resp.next(this.cf);
+            }
+          }
+        }));
+    } else {
+      contador--;
+      if (contador === 0) {
+        this.resp.next(this.cf);
+      }
+    }
 
     // ***     Cadastro     *******************************
     if ( this.cadastro_id > 0) {
@@ -212,7 +236,6 @@ export class CadastroFormResolver implements Resolve<CadastroFormularioInterface
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
-          this.cs.escondeCarregador();
           if (dados) {
             this.onDestroy();
             return of(dados);

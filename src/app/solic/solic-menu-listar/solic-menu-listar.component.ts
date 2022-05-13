@@ -104,9 +104,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   }
 
   goIncluir() {
-    console.log('aaaaaaa');
     if (this.authenticationService.solicitacao_incluir) {
-      console.log('ccccc');
       this.sbs.buscaStateSN = false;
       this.router.navigate(['solic/incluir']);
     } else {

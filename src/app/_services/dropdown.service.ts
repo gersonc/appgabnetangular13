@@ -5,6 +5,7 @@ import { SelectItem } from 'primeng/api';
 import { SelectItemGroup } from 'primeng/api';
 import { UrlService } from './url.service';
 import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
+import {CadastroMenuDropdown, CadastroMenuDropdownInterface} from "../cadastro/_models";
 
 
 @Injectable({
@@ -275,6 +276,11 @@ export class DropdownService {
   public getDropdownResponsavel(): Observable<SelectItem[]> {
     const url = this.url.dropdown + '/responsavel';
     return this.http.get<SelectItem[]>(url);
+  }
+
+  public getDropdownCadastroMenuTodos(): Observable<CadastroMenuDropdown> {
+    const url = this.url.dropdown + '/cadastromenutodos';
+    return this.http.get<CadastroMenuDropdown>(url);
   }
 
 

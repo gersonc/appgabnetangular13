@@ -65,7 +65,7 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
   block = true;
   moduloAnterior = '';
   componenteAnterior = '';
-  id: number;
+  id = 0;
   nome: string;
   tipo_id: number;
   sub: Subscription[] = [];
@@ -104,6 +104,7 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
     if (this.activatedRoute.snapshot.params['modulo']) {
       this.moduloAnterior = this.activatedRoute.snapshot.params['modulo'];
       this.componenteAnterior = this.activatedRoute.snapshot.params['componente'];
+      console.log('cadastro',this.moduloAnterior, this.componenteAnterior);
     }
     // this.carregaDropDown();
     this.carregaDropdownSessionStorage();
@@ -711,17 +712,17 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
               if (sessionStorage.getItem('cadastro-dropdown')) {
                 sessionStorage.removeItem('cadastro-dropdown');
               }
+              if (this.moduloAnterior !== '') {
+                this.id = +this.resp[1];
+                this.nome = this.cs.cadastro.cadastro_nome;
+                this.tipo_id = this.cs.cadastro.cadastro_tipo_id;
+              }
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
               } else {
                 this.cr.escondeCarregador();
                 this.messageService.add({ key: 'cadastroToast', severity: 'success', summary: 'INCLUIR CADASTRO', detail: this.resp[2] });
-                if (this.moduloAnterior !== '') {
-                  this.id = +this.resp[1];
-                  this.nome = this.cs.cadastro.cadastro_nome;
-                  this.tipo_id = this.cs.cadastro.cadastro_tipo_id;
-                }
                 this.arquivo_registro_id = 0;
                 this.cs.resetCadastro();
                 this.resetForm();
@@ -770,11 +771,25 @@ export class CadastroIncluirComponent implements OnInit, AfterViewInit, OnDestro
     if (this.moduloAnterior === 'solicitacao') {
       this.router.navigate(['/solicitacao/incluir/cadastro', {tipo: this.tipo_id, value: this.id, label:  this.nome.toUpperCase()}]);
     }
+    if (this.moduloAnterior === 'solic') {
+      if (this.id !== 0) {
+        const url = '/' + this.moduloAnterior + '/' + this.componenteAnterior + '/cadastro';
+        this.router.navigate([url, {tipo: this.tipo_id, value: this.id, label: this.nome.toUpperCase()}]);
+      } else  {
+        const url = '/' + this.moduloAnterior + '/' + this.componenteAnterior + '2';
+        this.router.navigate([url]);
+      }
+    }
   }
 
   voltarListar(ev?: any) {
     this.arquivo_registro_id = 0;
-    this.router.navigate(['/cadastro/listar/busca']);
+    if (this.moduloAnterior !== '') {
+      const url = '/' + this.moduloAnterior + '/' + this.componenteAnterior + '2';
+      this.router.navigate([url]);
+    } else {
+      this.router.navigate(['/cadastro/listar/busca']);
+    }
   }
 
   ngOnDestroy(): void {
