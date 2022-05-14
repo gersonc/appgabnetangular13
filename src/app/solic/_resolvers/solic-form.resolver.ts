@@ -51,6 +51,7 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
   }
 
   carregaDados() {
+    this.contador = 3;
     if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
       this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
         .pipe(take(1))
@@ -168,24 +169,28 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):Observable<SolicFormI> |
     Observable<never> {
+
     if (route.paramMap.has('id')) {
       this.solicitacao_id = +route.paramMap.get('id');
     } else {
       this.solicFormService.resetSolicitacao();
       this.solicitacao_id = 0;
     }
-      this.carregaDados();
+    this.carregaDados();
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
           if (dados) {
+            console.log('resolver3');
             this.onDestroy();
             return of(dados);
           } else {
+            console.log('resolver4');
             this.onDestroy();
             return EMPTY;
           }
         })
       );
+
   }
 }

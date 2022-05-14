@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { SelectItem } from 'primeng/api';
-import { SelectItemGroup } from 'primeng/api';
-import { UrlService } from './url.service';
+import {Observable, Subscription} from 'rxjs';
+import {SelectItem, SelectItemGroup} from 'primeng/api';
+import {UrlService} from './url.service';
 import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
-import {CadastroMenuDropdown, CadastroMenuDropdownInterface} from "../cadastro/_models";
+import {CadastroMenuDropdown} from "../cadastro/_models";
+import {take} from "rxjs/operators";
 
 
 @Injectable({
@@ -13,6 +13,7 @@ import {CadastroMenuDropdown, CadastroMenuDropdownInterface} from "../cadastro/_
 })
 export class DropdownService {
 
+  private sub: Subscription[] = [];
   private dropdownSimples$: Observable<SelectItem[]> | undefined;
   private dropdownAgrupado$: Observable<SelectItemGroup> | undefined;
   private dropdownAgrupados$: Observable<SelectItemGroup[]> | undefined;
@@ -24,7 +25,7 @@ export class DropdownService {
   ) {
   }
 
-  public getDropdownSimple(tabela: string, campo_id: string, campo_nome: string, campo_sort: string ): Observable<SelectItem[]> {
+  public getDropdownSimple(tabela: string, campo_id: string, campo_nome: string, campo_sort: string): Observable<SelectItem[]> {
     let dd: string;
     dd = this.url.dropdown + '/simples'
       + '/' + tabela
@@ -71,7 +72,7 @@ export class DropdownService {
   public postDropdown3campos(dados: any): Observable<SelectItem[]> {
     let dd: string;
     dd = this.url.dropdown + '/dd3campos';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     this.dropdownSimples$ = this.http.post<any[]>(dd, dados, httpOptions);
     return this.dropdownSimples$;
   }
@@ -89,7 +90,7 @@ export class DropdownService {
     return this.dropdownSimples$;
   }
 
-  public getDropdownNomeId(tabela: string, campo_id: string, campo_nome: string, params?: string ): Observable<SelectItem[]> {
+  public getDropdownNomeId(tabela: string, campo_id: string, campo_nome: string, params?: string): Observable<SelectItem[]> {
     let dd: string;
     dd = this.url.dropdown + '/nomeid'
       + '/' + tabela
@@ -145,7 +146,7 @@ export class DropdownService {
   public postDropdownSoNomeArray(dados: any[]): Observable<any[]> {
     let dd: string;
     dd = this.url.dropdown + '/sonomearray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
     return this.dropdownArray$;
   }
@@ -153,21 +154,21 @@ export class DropdownService {
   public postDropdownSoNome(dados: any): Observable<any[]> {
     let dd: string;
     dd = this.url.dropdown + '/sonome';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(dd, dados, httpOptions);
   }
 
   public postDropdownSoNome2(dados: any): Observable<any[]> {
     let dd: string;
     dd = this.url.dropdown + '/sonome2';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(dd, dados, httpOptions);
   }
 
   public postDropdownSoDataArray(dados: any[]): Observable<any[]> {
     let dd: string;
     dd = this.url.dropdown + '/sodataarray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
     return this.dropdownArray$;
   }
@@ -175,7 +176,7 @@ export class DropdownService {
   public postDropdownSoDataFormatadoArray(dados: any[]): Observable<any[]> {
     let dd: string;
     dd = this.url.dropdown + '/sodataformatarray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
     return this.dropdownArray$;
   }
@@ -185,7 +186,7 @@ export class DropdownService {
     campo_id: string,
     campo_nome1: string,
     campo_nome2: string,
-    params?: string ): Observable<SelectItem[]> {
+    params?: string): Observable<SelectItem[]> {
     let dd: string;
     dd = this.url.dropdown + '/dd3camposconcat'
       + '/' + tabela
@@ -199,7 +200,7 @@ export class DropdownService {
     return this.dropdownSimples$;
   }
 
-  public getDropdownSoNome(tabela: string, campo_nome: string, params?: string ): Observable<SelectItem[]> {
+  public getDropdownSoNome(tabela: string, campo_nome: string, params?: string): Observable<SelectItem[]> {
     let dd: string;
     dd = this.url.dropdown + '/sonome'
       + '/' + tabela
@@ -231,7 +232,7 @@ export class DropdownService {
     const dados = [{tipo, id}];
     let dd: string;
     dd = this.url.dropdown + '/oficiotipoid';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     this.dropdownSimples$ = this.http.post<any[]>(dd, dados, httpOptions);
     return this.dropdownSimples$;
   }
@@ -281,6 +282,27 @@ export class DropdownService {
   public getDropdownCadastroMenuTodos(): Observable<CadastroMenuDropdown> {
     const url = this.url.dropdown + '/cadastromenutodos';
     return this.http.get<CadastroMenuDropdown>(url);
+  }
+
+  public getDdCadastroMenuTodos() {
+    if (sessionStorage.getItem('solic-menu-dropdown')) {
+      sessionStorage.removeItem('solic-menu-dropdown');
+    }
+    this.sub.push(this.getDropdownSolicitacaoMenuTodos()
+      .pipe(take(1))
+      .subscribe((dados) => {
+          sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(dados));
+        },
+        (err) => console.error(err),
+        () => {
+          this.onDestroy();
+        }
+      )
+    );
+  }
+
+  onDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 
 

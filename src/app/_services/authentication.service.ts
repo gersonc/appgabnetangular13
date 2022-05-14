@@ -344,6 +344,7 @@ export class AuthenticationService {
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
     this.versaoService.versao = +user.parlamentar_versao!;
+    this.versaoService.solicitacaoVersao = +user.solicitacao_versao!;
     this.versao_id = +user.parlamentar_versao!;
     this.versaoN = +user.parlamentar_versao!;
     this.config_arquivo_ativo = user.config_arquivo_ativo;

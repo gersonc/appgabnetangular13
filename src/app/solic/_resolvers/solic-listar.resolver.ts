@@ -32,11 +32,11 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
   ) { }
 
   populaDropdown() {
-    if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
+    /*if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
       this.sub.push(this.dd.getDropdownResponsavel()
         .pipe(take(1))
         .subscribe(dados => sessionStorage.setItem('dropdown-reponsavel_analize', JSON.stringify(dados))));
-    }
+    }*/
     if (!sessionStorage.getItem('solic-menu-dropdown')) {
       this.sub.push(this.dd.getDropdownSolicitacaoMenuTodos()
         .pipe(take(1))

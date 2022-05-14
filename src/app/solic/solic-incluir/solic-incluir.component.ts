@@ -19,6 +19,7 @@ import {VersaoService} from "../../_services/versao.service";
 import {SolicFormI} from "../_models/solic-form-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
+import {SolicForm} from "../_models/solic-form";
 
 @Component({
   selector: 'app-solic-incluir',
@@ -66,6 +67,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   possuiArquivos = false;
   indicacao_sn = false;
   tpAnalizeTitulo = 'Tipo de análise';
+  solAceitaTitulo = 'Historico'
   stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
 
   fc: any;
@@ -110,7 +112,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       const hoje = dt.toLocaleString('pt-BR');
       this.sfs.solicitacao.solicitacao_atendente_cadastro_id = this.aut.usuario_id;
       this.sfs.solicitacao.solicitacao_reponsavel_analize_id = (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) ? this.aut.usuario_id : null;
-      this.sfs.solicitacao.solicitacao_tipo_analize = 1;
+      // this.sfs.solicitacao.solicitacao_tipo_analize = 1;
       this.sfs.solicitacao.solicitacao_local_id = (this.vs.versao < 3) ? this.aut.usuario_local_id : 0;
       this.sfs.solicitacao.solicitacao_data = hoje;
       this.sfs.solicitacao.solicitacao_data_atendimento = hoje;
@@ -164,7 +166,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   carregaDropDown() {
     this.ddSolicitacao_tipo_analize = [];
     if (this.vs.versao === 1) {
-      this.tpAnalizeTitulo = 'Tipo de análise';
       this.ddSolicitacao_tipo_analize.push(
         {label: 'Enviar para análise', value: 1},
         {label: 'Solicitar análise por e-mail', value: 3}
@@ -172,7 +173,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (this.aut.solicitacao_analisar) {
         this.ddSolicitacao_tipo_analize.push(
-          {label: 'Abrir processo sem sequência', value: 2},
           {label: 'Solicitação resolvida', value: 4},
           {label: 'Abrir processo', value: 5}
         );
@@ -189,9 +189,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       {label: 'Em andamento', value: 10},
       {label: 'Suspenso', value: 11}
     );
-    if (this.vs.versao > 1) {
-      this.tpAnalizeTitulo = 'Posição';
-    }
 
   }
 
@@ -205,27 +202,79 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
 
   criaForm() {
     this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
-    this.formSol = this.formBuilder.group({
-      solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
-      solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
-      solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
-      solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
-      solicitacao_indicacao_sn: [this.indicacao_sn],
-      solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
-      solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
-      solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
-      solicitacao_data_atendimento: [this.sfs.solicitacao.solicitacao_data_atendimento, Validators.required],
-      solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
-      solicitacao_tipo_recebimento_id: [this.sfs.solicitacao.solicitacao_tipo_recebimento_id, Validators.required],
-      solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
-      solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
-      solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-      solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
-      // processo_numero: [this.sfs.solicitacao.processo_numero],
-      solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
-      solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-      solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
-    });
+    if (this.vs.solicitacaoVersao === 1) {
+      this.tpAnalizeTitulo = 'Tipo de análise';
+      this.solAceitaTitulo = 'Carta'
+      this.formSol = this.formBuilder.group({
+        solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
+        solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
+        solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
+        solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
+        solicitacao_indicacao_sn: [this.indicacao_sn],
+        solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
+        solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
+        solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
+        solicitacao_data_atendimento: [this.sfs.solicitacao.solicitacao_data_atendimento, Validators.required],
+        solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
+        solicitacao_tipo_recebimento_id: [this.sfs.solicitacao.solicitacao_tipo_recebimento_id, Validators.required],
+        solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
+        solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
+        solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
+        solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
+        // processo_numero: [this.sfs.solicitacao.processo_numero],
+        solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
+        solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
+        solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+      });
+    }
+
+    if (this.vs.solicitacaoVersao === 2) {
+      this.tpAnalizeTitulo = 'Posição';
+      this.formSol = this.formBuilder.group({
+        solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
+        solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
+        solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
+        solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
+        solicitacao_indicacao_sn: [this.indicacao_sn],
+        solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
+        solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
+        solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
+        solicitacao_data_atendimento: [this.sfs.solicitacao.solicitacao_data_atendimento, Validators.required],
+        solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
+        solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
+        solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
+        solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
+        solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
+        // processo_numero: [this.sfs.solicitacao.processo_numero],
+        solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
+        solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
+        solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+      });
+    }
+
+    if (this.vs.solicitacaoVersao === 3) {
+      this.tpAnalizeTitulo = 'Posição';
+      this.formSol = this.formBuilder.group({
+        solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
+        solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
+        solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
+        solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
+        solicitacao_indicacao_sn: [this.indicacao_sn],
+        solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
+        solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
+        solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
+        solicitacao_data_atendimento: [this.sfs.solicitacao.solicitacao_data_atendimento, Validators.required],
+        solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
+        solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
+        solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
+        solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
+        // processo_numero: [this.sfs.solicitacao.processo_numero],
+        solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
+        solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
+        solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+      });
+    }
+
   }
 
   configuraEditor() {
@@ -311,9 +360,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           complete: () => {
             if (this.resp[0]) {
-              if (sessionStorage.getItem('solicitacao-dropdown')) {
-                sessionStorage.removeItem('solicitacao-dropdown');
-              }
+              this.dd.getDdCadastroMenuTodos();
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
@@ -342,6 +389,8 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         })
       );
+    } else {
+      this.verificaValidacoesForm(this.formSol);
     }
   }
 
@@ -356,8 +405,12 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.sfs.resetSolicitacao();
       this.resetForm();
-      this.botaoEnviarVF = false;
-      this.mostraForm = true;
+      if (this.resp[3]) {
+        this.router.navigate(['../oficio/processo', this.resp[3]]);
+      } else {
+        this.botaoEnviarVF = false;
+        this.mostraForm = true;
+      }
       // this.voltarListar();
     }
   }
@@ -370,36 +423,43 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     this.possuiArquivos = ev;
   }
 
-  criaSolicitacao(): SolicitacaoFormularioInterface {
-    const solicitacao = new SolicitacaoFormulario();
+  criaSolicitacao(): SolicFormI {
+    const solicitacao = new SolicForm();
+    if (this.vs.solicitacaoVersao < 3) {
+      solicitacao.solicitacao_reponsavel_analize_id = this.formSol.get('solicitacao_reponsavel_analize_id').value;
+      solicitacao.solicitacao_local_id = this.formSol.get('solicitacao_local_id').value;
+    }
+    if (this.vs.solicitacaoVersao === 1) {
+      solicitacao.solicitacao_tipo_recebimento_id = this.formSol.get('solicitacao_tipo_recebimento_id').value;
+    }
     solicitacao.solicitacao_cadastro_tipo_id = this.formSol.get('solicitacao_cadastro_tipo_id').value;
     solicitacao.solicitacao_cadastro_id = this.formSol.get('solicitacao_cadastro_id').value.value;
     solicitacao.solicitacao_data = this.formSol.get('solicitacao_data').value;
     solicitacao.solicitacao_assunto_id = this.formSol.get('solicitacao_assunto_id').value;
-    solicitacao.solicitacao_indicacao_sn = this.formSol.get('solicitacao_indicacao_sn').value;
-    if (this.formSol.get('solicitacao_indicacao_nome').value) {
+    solicitacao.solicitacao_indicacao_sn = this.sfs.solicitacao.solicitacao_indicacao_sn;
+    if (this.sfs.solicitacao.solicitacao_indicacao_sn) {
       solicitacao.solicitacao_indicacao_nome = this.formSol.get('solicitacao_indicacao_nome').value;
     }
     solicitacao.solicitacao_atendente_cadastro_id = this.formSol.get('solicitacao_atendente_cadastro_id').value;
     solicitacao.solicitacao_data_atendimento = this.formSol.get('solicitacao_data_atendimento').value;
-    // solicitacao.solicitacao_cadastrante_cadastro_id = this.formSol.get('solicitacao_cadastrante_cadastro_id').value;
-    solicitacao.solicitacao_local_id = this.formSol.get('solicitacao_local_id').value;
-    solicitacao.solicitacao_tipo_recebimento_id = this.formSol.get('solicitacao_tipo_recebimento_id').value;
     solicitacao.solicitacao_area_interesse_id = this.formSol.get('solicitacao_area_interesse_id').value;
     if (this.formSol.get('solicitacao_descricao').value) {
       const ql: any = this.soldesc.getQuill();
-      const txt1 = ql.getContents();
-      const txt2 = ql.getText();
       solicitacao.solicitacao_descricao = this.formSol.get('solicitacao_descricao').value;
       solicitacao.solicitacao_descricao_delta = JSON.stringify(ql.getContents());
       solicitacao.solicitacao_descricao_texto = ql.getText();
     }
-    solicitacao.solicitacao_reponsavel_analize_id = this.formSol.get('solicitacao_reponsavel_analize_id').value;
     if (this.formSol.get('solicitacao_aceita_recusada').value) {
+      const ql2: any = this.solacerecus.getQuill();
       solicitacao.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
+      solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
+      solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
     }
     if (this.formSol.get('solicitacao_carta').value) {
+      const ql3: any = this.solacerecus.getQuill();
       solicitacao.solicitacao_carta = this.formSol.get('solicitacao_carta').value;
+      solicitacao.solicitacao_carta_delta = JSON.stringify(ql3.getContents());
+      solicitacao.solicitacao_carta_texto = ql3.getText();
     }
     solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
 

@@ -106,7 +106,11 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       this.sbs.buscaStateSN = false;
-      this.router.navigate(['solic/incluir']);
+      if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
+        this.router.navigate(['solic/incluir']);
+      } else {
+        this.router.navigate(['solic/incluir2']);
+      }
     } else {
       console.error('SEM PERMISSAO');
     }
