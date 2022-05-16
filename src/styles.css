@@ -14397,3 +14397,9 @@ span.atencao {
   color: var(--danger);
   font-weight: bold;
 }
+
+.p-atencao {
+  padding-left: .5em;
+  padding-right: .5em;
+  background-color: var(--yellow-200);
+}

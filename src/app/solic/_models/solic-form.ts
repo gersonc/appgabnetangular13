@@ -28,4 +28,7 @@ export class SolicForm implements SolicFormI{
   solicitacao_carta_delta?: string;
   solicitacao_carta_texto?: string;
   solicitacao_tipo_analize?: number;
+  historico_andamento?: string;
+  historico_andamento_delta?: string;
+  historico_andamento_texto?: string;
 }

@@ -110,6 +110,13 @@ export class SolicService {
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
+  postVerificarNumOficio(dados: any): Observable<any> {
+    let url: string;
+    url = this.url.solicitacao + '/verificanumoficio';
+    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any[]> (url, dados, httpOptions);
+  }
+
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
   }

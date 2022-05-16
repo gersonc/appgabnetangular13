@@ -67,8 +67,10 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   possuiArquivos = false;
   indicacao_sn = false;
   tpAnalizeTitulo = 'Tipo de análise';
-  solAceitaTitulo = 'Historico'
   stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
+  solNumOfi = false;
+  msgSolNumOfi = 'Já existe ofício(s) com esse número.';
+  tituloNumOfi = 'Número do ofício';
 
   fc: any;
   toolbarEditor = [
@@ -204,7 +206,8 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
     if (this.vs.solicitacaoVersao === 1) {
       this.tpAnalizeTitulo = 'Tipo de análise';
-      this.solAceitaTitulo = 'Carta'
+      this.msgSolNumOfi = 'Já existe processo(s) com esse número.'
+      this.tituloNumOfi = 'Número do processo';
       this.formSol = this.formBuilder.group({
         solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
@@ -225,6 +228,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+        historico_andamento: [this.sfs.solicitacao.historico_andamento],
       });
     }
 
@@ -248,7 +252,8 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
         // processo_numero: [this.sfs.solicitacao.processo_numero],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+        // solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+        historico_andamento: [this.sfs.solicitacao.historico_andamento],
       });
     }
 
@@ -271,7 +276,8 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
         // processo_numero: [this.sfs.solicitacao.processo_numero],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+        // solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
+        historico_andamento: [this.sfs.solicitacao.historico_andamento],
       });
     }
 
@@ -431,10 +437,17 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.vs.solicitacaoVersao === 1) {
       solicitacao.solicitacao_tipo_recebimento_id = this.formSol.get('solicitacao_tipo_recebimento_id').value;
+      if (this.formSol.get('solicitacao_carta').value) {
+        const ql3: any = this.solacerecus.getQuill();
+        solicitacao.solicitacao_carta = this.formSol.get('solicitacao_carta').value;
+        solicitacao.solicitacao_carta_delta = JSON.stringify(ql3.getContents());
+        solicitacao.solicitacao_carta_texto = ql3.getText();
+      }
     }
     solicitacao.solicitacao_cadastro_tipo_id = this.formSol.get('solicitacao_cadastro_tipo_id').value;
     solicitacao.solicitacao_cadastro_id = this.formSol.get('solicitacao_cadastro_id').value.value;
     solicitacao.solicitacao_data = this.formSol.get('solicitacao_data').value;
+    solicitacao.solicitacao_numero_oficio = this.formSol.get('solicitacao_numero_oficio').value;
     solicitacao.solicitacao_assunto_id = this.formSol.get('solicitacao_assunto_id').value;
     solicitacao.solicitacao_indicacao_sn = this.sfs.solicitacao.solicitacao_indicacao_sn;
     if (this.sfs.solicitacao.solicitacao_indicacao_sn) {
@@ -455,12 +468,14 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
       solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
     }
-    if (this.formSol.get('solicitacao_carta').value) {
+
+    if (this.formSol.get('historico_andamento').value) {
       const ql3: any = this.solacerecus.getQuill();
-      solicitacao.solicitacao_carta = this.formSol.get('solicitacao_carta').value;
-      solicitacao.solicitacao_carta_delta = JSON.stringify(ql3.getContents());
-      solicitacao.solicitacao_carta_texto = ql3.getText();
+      solicitacao.historico_andamento = this.formSol.get('historico_andamento').value;
+      solicitacao.historico_andamento_delta = JSON.stringify(ql3.getContents());
+      solicitacao.historico_andamento_texto = ql3.getText();
     }
+
     solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
 
     for (const key in solicitacao) {
@@ -531,6 +546,27 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       'has-error': this.validaAsync(campo, situacao),
       'has-feedback': this.validaAsync(campo, situacao)
     };
+  }
+
+  verificaNumOficio(ev) {
+    console.log(this.formSol.get('solicitacao_numero_oficio').value);
+    if (this.formSol.get('solicitacao_numero_oficio').value) {
+      let of = this.formSol.get('solicitacao_numero_oficio').value;
+      if (of.length > 0) {
+        let resp: any[] = [];
+        const dados: any = {
+          solicitacao_numero_oficio: of
+        }
+        this.sub.push(this.solicitacaoService.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
+          resp = r;
+          console.log(resp);
+          if (resp[0]) {
+            this.solNumOfi = true;
+          }
+        } ));
+
+      }
+    }
   }
 
   goIncluir() {

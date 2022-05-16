@@ -115,7 +115,7 @@
 
                   <!--*** solicitacao_numero_oficio ***-->
                   <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="solicitacao_numero_oficio">Número do ofício / Processo</label>
+                    <label for="solicitacao_numero_oficio">{{tituloNumOfi}}</label>
                     <input
                       id="solicitacao_numero_oficio"
                       formControlName="solicitacao_numero_oficio"
@@ -123,7 +123,11 @@
                       [size]="40"
                       [maxlength]="100"
                       pInputText
+                      (blur)="verificaNumOficio($event)"
                     />
+                    <div *ngIf="solNumOfi" >
+                      <small class="p-atencao">{{ msgSolNumOfi }}</small>
+                    </div>
                   </div>
 
                   <!--*** solicitacao_data ***-->
@@ -287,7 +291,7 @@
                         </div>
                       </p-accordionTab>
 
-                      <p-accordionTab [header]="solAceitaTitulo">
+                      <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Resposta / Carta">
                         <div class="formulario-quill">
                           <p-editor
                             #solcar
@@ -299,6 +303,20 @@
                           </p-editor>
                         </div>
                       </p-accordionTab>
+
+                      <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Histórico / Andamento">
+                        <div class="formulario-quill">
+                          <p-editor
+                            #solcar
+                            formControlName="historico_andamento"
+                            id="historico_andamento"
+                            [modules]="modulos"
+                          >
+                            <ng-template pTemplate="header"></ng-template>
+                          </p-editor>
+                        </div>
+                      </p-accordionTab>
+
                     </p-accordion>
                   </div>
 
