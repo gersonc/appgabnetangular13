@@ -19,19 +19,17 @@ import {SolicFormService} from "../_services/solic-form.service";
 import {SolicForm} from "../_models/solic-form";
 
 @Component({
-  selector: 'app-solic-incluir',
-  templateUrl: './solic-incluir.component.html',
-  styleUrls: ['./solic-incluir.component.css'],
-  providers: [MessageService]
+  selector: 'app-solic-form',
+  templateUrl: './solic-form.component.html',
+  styleUrls: ['./solic-form.component.css']
 })
-export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SolicFormComponent implements OnInit {
   @ViewChild('soldesc', { static: true }) soldesc: Editor;
   @ViewChild('solacerecus', { static: true }) solacerecus: Editor;
   @ViewChild('histand', { static: true }) histand: Editor;
   @ViewChild('solcar', { static: true }) solcar: Editor;
   formSol: FormGroup;
   solicitacao: SolicFormI;
-  // ddNomeIdArray = new DropdownnomeidClass();
   ddSolicitacao_cadastro_tipo_id: SelectItemGroup[] = [];
   ddSolicitacao_assunto_id: SelectItem[] = [];
   ddSolicitacao_atendente_cadastro_id: SelectItem[] = [];
@@ -69,6 +67,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   solNumOfi = false;
   msgSolNumOfi = 'Já existe ofício(s) com esse número.';
   tituloNumOfi = 'Número do ofício';
+  titulo = 'SOLICITAÇÃO - INCLUIR';
 
   fc: any;
   toolbarEditor = [
@@ -93,7 +92,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     public mi: MenuInternoService,
     private autocompleteservice: AutocompleteService,
     private location: Location,
-    private sfs: SolicFormService,
+    public sfs: SolicFormService,
     private solicitacaoService: SolicService,
     public aut: AuthenticationService,
     private router: Router,
@@ -104,20 +103,31 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.cadastro_incluir = this.aut.cadastro_incluir;
-    if (sessionStorage.getItem('solicitacao-incluir')) {
-      this.sfs.solicitacao = JSON.parse(sessionStorage.getItem('solicitacao-incluir'));
-      sessionStorage.removeItem('solicitacao-incluir');
+    if (sessionStorage.getItem('solicitacao-incluir') || sessionStorage.getItem('solicitacao-alterar')) {
+      if (sessionStorage.getItem('solicitacao-incluir')) {
+        this.sfs.acao = 'incluir';
+        this.sfs.solicitacao = JSON.parse(sessionStorage.getItem('solicitacao-incluir'));
+        sessionStorage.removeItem('solicitacao-incluir');
+      }
+      if (sessionStorage.getItem('solicitacao-alterar')) {
+        this.sfs.acao = 'alterar';
+        this.sfs.solicitacao = JSON.parse(sessionStorage.getItem('solicitacao-alterar'));
+        sessionStorage.removeItem('solicitacao-alterar');
+      }
+
     } else {
-      const dt = new Date();
-      const hoje = dt.toLocaleString('pt-BR');
-      this.sfs.solicitacao.solicitacao_atendente_cadastro_id = this.aut.usuario_id;
-      this.sfs.solicitacao.solicitacao_reponsavel_analize_id = (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) ? this.aut.usuario_id : null;
-      // this.sfs.solicitacao.solicitacao_tipo_analize = 1;
-      this.sfs.solicitacao.solicitacao_local_id = (this.vs.versao < 3) ? this.aut.usuario_local_id : 0;
-      this.sfs.solicitacao.solicitacao_data = hoje;
-      this.sfs.solicitacao.solicitacao_data_atendimento = hoje;
-      this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
+      if (this.sfs.acao === 'incluir') {
+        const dt = new Date();
+        const hoje = dt.toLocaleString('pt-BR');
+        this.sfs.solicitacao.solicitacao_atendente_cadastro_id = this.aut.usuario_id;
+        this.sfs.solicitacao.solicitacao_reponsavel_analize_id = (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) ? this.aut.usuario_id : null;
+        this.sfs.solicitacao.solicitacao_local_id = (this.vs.versao < 3) ? this.aut.usuario_local_id : 0;
+        this.sfs.solicitacao.solicitacao_data = hoje;
+        this.sfs.solicitacao.solicitacao_data_atendimento = hoje;
+        this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
+      }
     }
+
     this.carregaDropdownSessionStorage();
     this.carregaDropDown();
     this.criaForm();
@@ -126,12 +136,20 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     if (typeof this.activatedRoute.snapshot.params['modulo'] !== 'undefined') {
       this.moduloRecebido = this.activatedRoute.snapshot.params['modulo'];
       this.cadastroTipoIdRecebido = +this.activatedRoute.snapshot.params['tipo'];
+      this.sfs.solicitacao.solicitacao_cadastro_tipo_id = +this.activatedRoute.snapshot.params['tipo'];
+      this.sfs.solicitacao.solicitacao_cadastro_id = +this.activatedRoute.snapshot.params['value'];
       this.novoRegistro = {
         label: this.activatedRoute.snapshot.params['label'],
         value: +this.activatedRoute.snapshot.params['value']
       };
       this.adicionaDadosIncluidos();
     }
+    if (this.sfs.acao === 'incluir') {
+      this.titulo = 'SOLICITAÇÃO - INCLUIR';
+    } else {
+      this.titulo = 'SOLICITAÇÃO - ALTERAR';
+    }
+
   }
 
   ngAfterViewInit() {
@@ -139,7 +157,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mi.hideMenu();
     }, 500);
   }
-
 
   adicionaDadosIncluidos() {
     if (this.moduloRecebido === 'cadastro') {
@@ -222,7 +239,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
         solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
-        // processo_numero: [this.sfs.solicitacao.processo_numero],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
@@ -247,10 +263,8 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
         solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
-        // processo_numero: [this.sfs.solicitacao.processo_numero],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        // solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
         historico_andamento: [this.sfs.solicitacao.historico_andamento],
       });
     }
@@ -271,10 +285,8 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
         solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
-        // processo_numero: [this.sfs.solicitacao.processo_numero],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        // solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
         historico_andamento: [this.sfs.solicitacao.historico_andamento],
       });
     }
@@ -348,7 +360,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mostraModulos3 = 'inline-block';
   }*/
 
-  enviarSolicitacao() {
+  incluirSolicitacao() {
     if (this.formSol.valid) {
       this.arquivoDesativado = true;
       const sol = this.criaSolicitacao();
@@ -383,6 +395,49 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             } else {
               console.error('ERRO - INCLUIR ', this.resp[2]);
+              this.messageService.add({
+                key: 'solicitacaoToast',
+                severity: 'warn',
+                summary: 'ATENÇÃO - ERRO',
+                detail: this.resp[2]
+              });
+            }
+          }
+        })
+      );
+    } else {
+      this.verificaValidacoesForm(this.formSol);
+    }
+  }
+
+  alterarSolicitacao() {
+    if (this.formSol.valid) {
+      this.arquivoDesativado = true;
+      const sol = this.criaSolicitacao();
+      this.sub.push(this.solicitacaoService.alterarSolicitacao(sol)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.messageService.add({key: 'solicitacaoToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
+            console.error(err);
+          },
+          complete: () => {
+            if (this.resp[0]) {
+              this.dd.getDdCadastroMenuTodos();
+                this.messageService.add({
+                  key: 'solicitacaoToast',
+                  severity: 'success',
+                  summary: 'ALTERAR SOLICITAÇÃO',
+                  detail: this.resp[2]
+                });
+                this.sfs.resetSolicitacao();
+                this.resetForm();
+              this.voltarListar();
+            } else {
+              console.error('ERRO - ALTERAR ', this.resp[2]);
               this.messageService.add({
                 key: 'solicitacaoToast',
                 severity: 'warn',
@@ -504,9 +559,17 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     window.scrollTo(0, 0);
   }
 
-  onSubmit() {}
+  onSubmit() {
+    if (this.sfs.acao === 'incluir') {
+      this.incluirSolicitacao();
+    } else {
+      this.alterarSolicitacao();
+    }
+  }
 
   voltarListar() {
+    this.sfs.solicListar = {};
+    this.sfs.resetSolicitacao();
     if (sessionStorage.getItem('solicitacao-busca')) {
       this.router.navigate(['/solic/listar/busca']);
     } else {

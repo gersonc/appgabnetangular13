@@ -322,7 +322,7 @@
 
                   <ng-container *ngIf="aut.arquivos">
                     <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-4">
-                      <app-arquivo
+                      <app-arquivo *ngIf="sfs.acao === 'incluir'"
                         [modulo]="'solicitacao'"
                         [modelo]="'incluir'"
                         [registro_id]="arquivo_registro_id"
@@ -333,6 +333,14 @@
                         (onPossuiArquivos)="onPossuiArquivos($event)"
                         [clearArquivos]="clearArquivos"
                       ></app-arquivo>
+                        <app-arquivo *ngIf="sfs.acao === 'alterar'"
+                          [modulo]="'solicitacao'"
+                          [uploadDisabled]="arquivoDesativado"
+                          [registro_id]="sfs.solicitacao.solicitacao_id"
+                          (onPossuiArquivos)="onPossuiArquivos($event)"
+                          [modelo]="'alterar'"
+                          [stiloClass]="'formulario'"
+                        ></app-arquivo>
                     </div>
                   </ng-container>
 
@@ -363,11 +371,11 @@
                       type="button"
                       class="p-button-rounded"
                       [disabled]="!formSol.valid || !mostraForm"
-                      (click)="enviarSolicitacao()"
+                      (click)="onSubmit()"
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="p-mr-2" *ngIf="sfs.acao === 'incluir'">
                     <button
                       pButton
                       type="button"

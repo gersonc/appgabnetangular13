@@ -21,6 +21,9 @@ import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {DatatableService} from "../../shared-datatables/services/datatable.service";
 import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
+import {SolicForm} from "../_models/solic-form";
+import {SolicFormService} from "../_services/solic-form.service";
+import {SolicBuscaService} from "../_services/solic-busca.service";
 
 
 @Component({
@@ -82,10 +85,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     private router: Router,
     private messageService: MessageService,
     // private solicitacaoService: SolicitacaoService,
-    private sbs: BuscaService,
+    private sbs: SolicBuscaService,
     public ss: SolicService,
     public sds: DatatableService,
     public md: MenuDatatableService,
+    private sfs: SolicFormService
   ) {
     this.versao = aut.versaoN;
     // this.solicitacaoService.versao = aut.versaoN;
@@ -398,6 +402,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   solicitacaoIncluir(): void {
     if (this.aut.solicitacao_incluir) {
+      this.sfs.acao = 'incluir';
       // this.cs.mostraCarregador();
       this.dtb.saveState();
       if (this.sds.expandidoDados) {
@@ -406,7 +411,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('datatable-busca', JSON.stringify(this.sbs.busca));
       sessionStorage.setItem('solic-selectedColumns', JSON.stringify(this.sds.selectedColumns));
       this.sbs.buscaStateSN = true;
-      this.router.navigate(['/solic/incluir']);
+      this.router.navigate(['/solic/form']);
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -423,7 +428,18 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.solDetalhe = null;
   }
 
-  solicitacaoAlterar(sol: SolicListarI) {}
+  solicitacaoAlterar(sol: SolicListarI) {
+    if (this.aut.solicitacao_alterar) {
+      console.log('solicitacaoAlterar', sol);
+      this.sfs.acao = 'alterar';
+      this.sfs.solicListar = sol;
+      this.sfs.parseListagemForm(sol);
+      this.router.navigate(['/solic/form']);
+    } else {
+      console.log('SEM PERMISSAO');
+    }
+
+  }
   /*solicitacaoAlterar(sol: SolicListarI) {
     if (this.aut.solicitacao_alterar) {
       this.dtb.saveState();

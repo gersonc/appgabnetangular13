@@ -33,6 +33,7 @@ import {AccordionModule} from "primeng/accordion";
 import {EditorModule} from "primeng/editor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
+import { SolicFormComponent } from './solic-form/solic-form.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
     SolicDatatableComponent,
     SolicIncluirComponent,
     SolicDetalheComponent,
+    SolicFormComponent,
   ],
   imports: [
     CommonModule,

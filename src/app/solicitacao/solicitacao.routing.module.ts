@@ -15,6 +15,7 @@ import { SolicitacaoCadastroIncluirComponent } from './solicitacao-cadastro-incl
 import { SolicitacaoCadastroFormResolver } from './_resolvers/solicitacao-cadastro-form.resolver';
 import { SolicitacaoAlterarResolver } from './_resolvers/solicitacao-alterar.resolver';
 import {SolicitacaoTesteComponent} from "./solicitacao-teste/solicitacao-teste.component";
+import {SolicFormComponent} from "../solic/solic-form/solic-form.component";
 
 const solicitacaoRoutes: Routes = [
   {
@@ -103,6 +104,27 @@ const solicitacaoRoutes: Routes = [
       {
         path: 'incluir2',
         component: SolicitacaoIncluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_incluir
+        }
+      },
+      {
+        path: 'form',
+        component: SolicFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_incluir
+        },
+        resolve: {
+          dados: SolicitacaoFormResolver
+        }
+      },
+      {
+        path: 'form2',
+        component: SolicFormComponent,
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.solicitacao,

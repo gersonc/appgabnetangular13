@@ -181,7 +181,7 @@ export class SolicitacaoFormResolver implements Resolve<boolean> {
         })
       );
     } else {
-      this.router.navigate(['/solicitacao/incluir2']);
+      this.router.navigate(['/solicitacao/form2']);
     }
   }
 }

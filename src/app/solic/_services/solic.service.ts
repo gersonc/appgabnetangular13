@@ -16,6 +16,7 @@ import {TotalI} from "../../shared-datatables/models/total-i";
 import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {TSMap} from "typescript-map";
 import {SolicFormI} from "../_models/solic-form-i";
+import {SolicBuscaService} from "./solic-busca.service";
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +33,11 @@ export class SolicService {
   titulos: TSMap<string, TSMap<string, string>>;
   // expandidoDados: any = false;
 
-
-
   constructor(
     private url: UrlService,
     private http: HttpClient,
     private sds: DatatableService,
-    private sbs: BuscaService
+    private sbs: SolicBuscaService
   ) {
     this.solicitacaoUrl = this.url.solic;
     this.sds.sortCampo = 'solicitacao_posicao2';
@@ -108,6 +107,13 @@ export class SolicService {
     url = this.url.solicitacao + '/incluir';
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, dados, httpOptions);
+  }
+
+  alterarSolicitacao(dados: SolicFormI): Observable<any> {
+    let url: string;
+    url = this.url.solicitacao + '/alterar';
+    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any[]> (url, dados, httpOptions);
   }
 
   postVerificarNumOficio(dados: any): Observable<any> {

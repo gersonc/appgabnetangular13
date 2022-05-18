@@ -31,7 +31,7 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
 
   constructor(
     // private solicitacaoService: SolicitacaoService,
-    // private sfs: SolicitacaoFormService,
+    // private sfs: SolicFormService,
     private solicFormService: SolicFormService,
     private router: Router,
     private dd: DropdownService,

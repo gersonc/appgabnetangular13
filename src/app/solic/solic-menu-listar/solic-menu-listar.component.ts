@@ -10,6 +10,8 @@ import {SolicService} from "../_services/solic.service";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {SolicDropdownMenuService} from "../_services/solic-dropdown-menu.service";
 import {VersaoService} from "../../_services/versao.service";
+import {SolicBuscaService} from "../_services/solic-busca.service";
+import {SolicFormService} from "../_services/solic-form.service";
 
 @Component({
   selector: 'app-solic-menu-listar',
@@ -28,11 +30,12 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dd: DropdownService,
     private solicitacaoService: SolicService,
-    private sbs: BuscaService,
+    private sbs: SolicBuscaService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private router: Router,
-    private sdd: SolicDropdownMenuService
+    private sdd: SolicDropdownMenuService,
+    private sfs: SolicFormService
   ) { }
 
   ngOnInit() {
@@ -57,8 +60,8 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     this.carregaDropDown();
 
     if (!this.sbs.buscaStateSN) {
-      if (sessionStorage.getItem('datatable-listagem')) {
-        sessionStorage.removeItem('datatable-listagem');
+      if (sessionStorage.getItem('solicitacao-listagem')) {
+        sessionStorage.removeItem('solicitacao-listagem');
       }
       this.mi.showMenuInterno();
     }
@@ -105,11 +108,12 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
 
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
+      this.sfs.acao = 'incluir';
       this.sbs.buscaStateSN = false;
       if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
-        this.router.navigate(['solic/incluir']);
+        this.router.navigate(['solic/form']);
       } else {
-        this.router.navigate(['solic/incluir2']);
+        this.router.navigate(['solic/form2']);
       }
     } else {
       console.error('SEM PERMISSAO');
