@@ -241,7 +241,7 @@
                   </div>
 
                   <!--*** Tipo de analise ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="sfs.acao==='incluir'">
                     <label for="solicitacao_tipo_analize"><span class="atencao">*</span> {{tpAnalizeTitulo}}</label>
                     <p-dropdown
                       id="solicitacao_tipo_analize"
