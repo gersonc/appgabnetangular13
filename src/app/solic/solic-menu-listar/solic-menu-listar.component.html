@@ -106,10 +106,10 @@
         <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <div class="p-fluid p-formgrid p-grid formulario">
             <!-- cadastro_municipio_id -->
-            <div *ngIf="ddSolicitacao.ddCadastro_municipio_id" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_municipio_id" class="p-field p-col-12">
               <label for="cadastro_municipio_id">Município</label>
               <p-dropdown
-                [options]="ddSolicitacao.ddCadastro_municipio_id"
+                [options]="ddSolicitacao.ddSolicitacao_cadastro_municipio_id"
                 optionLabel="label"
                 id="cadastro_municipio_id"
                 formControlName="cadastro_municipio_id"
@@ -117,22 +117,22 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
-            <!-- ddCadastro_bairro -->
-            <div *ngIf="ddSolicitacao.ddCadastro_bairro && vs.versao > 1" class="p-field p-col-12">
+            <!-- ddSolicitacao_cadastro_bairro -->
+            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_bairro && vs.versao > 1" class="p-field p-col-12">
               <label for="cadastro_regiao_id">Bairro</label>
               <p-dropdown
-                [options]="ddSolicitacao.ddCadastro_bairro"
-                id="ddCadastro_bairro"
+                [options]="ddSolicitacao.ddSolicitacao_cadastro_bairro"
+                id="ddSolicitacao_cadastro_bairro"
                 formControlName="cadastro_bairro"
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>
             </div>
             <!-- cadastro_regiao_id -->
-            <div *ngIf="ddSolicitacao.ddCadastro_regiao_id" class="p-field p-col-12">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_regiao_id" class="p-field p-col-12">
               <label for="cadastro_regiao_id">Região</label>
               <p-dropdown
-                [options]="ddSolicitacao.ddCadastro_regiao_id"
+                [options]="ddSolicitacao.ddSolicitacao_cadastro_regiao_id"
                 id="cadastro_regiao_id"
                 formControlName="cadastro_regiao_id"
                 placeholder="TODOS"

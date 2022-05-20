@@ -14,6 +14,7 @@ import {SolicFormI} from "../_models/solic-form-i";
 import {VersaoService} from "../../_services/versao.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {SolicForm} from "../_models/solic-form";
+import {DdService} from "../../_services/dd.service";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
   dados = true;
   cf = new SolicForm();
   contador = 3;
+  dds: string[] = [];
 
   constructor(
     // private solicitacaoService: SolicitacaoService,
@@ -35,29 +37,33 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
     private solicFormService: SolicFormService,
     private router: Router,
     private dd: DropdownService,
+    private dd2: DdService,
     private vs: VersaoService
   ) {
     console.log('resolver');
   }
 
   espera() {
-    console.log('contador', this.contador);
+    /*console.log('contador', this.contador);
     this.contador--;
     if (this.contador < 1) {
       this.resp.next(this.cf);
       console.log('resolver2');
       this.resp.complete();
-    }
+    }*/
+    this.resp.next(this.cf);
+    console.log('dds', this.dds);
+    this.resp.complete();
   }
 
-  carregaDados() {
+  carregaDados2() {
     this.contador = 3;
-    if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
+    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
       this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            sessionStorage.setItem('dropdown-tipo_cadastro-incluir', JSON.stringify(dados));
+            sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dados));
           },
           error: (err) => {
             console.error(err);
@@ -158,6 +164,65 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
     } else {
       this.espera();
     }
+  }
+
+  carregaDados() {
+    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
+      this.dds.push('dropdown-tipo_cadastro');
+    }
+    // ****** solicitacao_assunto_id *****
+    if (!sessionStorage.getItem('dropdown-assunto')) {
+      this.dds.push('dropdown-assunto');
+    }
+    // ****** solicitacao_atendente_cadastro_id *****
+    if (!sessionStorage.getItem('dropdown-atendente')) {
+      this.dds.push('dropdown-atendente');
+    }
+    if (this.vs.versao === 1) {
+      // ****** solicitacao_tipo_recebimento_id *****
+      if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
+        this.dds.push('dropdown-tipo_recebimento');
+      }
+    }
+    if (this.vs.versao < 3) {
+      // ****** solicitacao_local_id *****
+      if (!sessionStorage.getItem('dropdown-local')) {
+        this.dds.push('dropdown-local');
+      }
+    }
+    // ****** solicitacao_area_interesse_id *****
+    if (!sessionStorage.getItem('dropdown-area_interesse')) {
+      this.dds.push('dropdown-area_interesse');
+    }
+
+    if (this.vs.versao < 3) {
+      // ****** solicitacao_reponsavel_analize_id *****
+      if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
+        this.dds.push('dropdown-reponsavel_analize');
+      }
+    }
+
+    if (this.dds.length > 0) {
+      this.sub.push(this.dd2.getDd(this.dds)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.dds.forEach( nome => {
+              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
+            });
+          },
+          error: (err) => {
+            console.error(err);
+          },
+          complete: () => {
+            this.espera();
+          }
+        })
+      );
+    } else {
+      this.espera();
+    }
+
   }
 
   onDestroy(): void {

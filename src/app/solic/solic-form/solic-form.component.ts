@@ -166,7 +166,7 @@ export class SolicFormComponent implements OnInit {
   }
 
   carregaDropdownSessionStorage() {
-    this.ddSolicitacao_cadastro_tipo_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro-incluir'));
+    this.ddSolicitacao_cadastro_tipo_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro'));
     this.ddSolicitacao_assunto_id = JSON.parse(sessionStorage.getItem('dropdown-assunto'));
     this.ddSolicitacao_atendente_cadastro_id = JSON.parse(sessionStorage.getItem('dropdown-atendente'));
     if (this.vs.versao === 1) {
@@ -376,7 +376,7 @@ export class SolicFormComponent implements OnInit {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.dd.getDdCadastroMenuTodos();
+              this.dd.getDdSolicitacaoMenuTodos();
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
@@ -426,7 +426,7 @@ export class SolicFormComponent implements OnInit {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.dd.getDdCadastroMenuTodos();
+              this.dd.getDdSolicitacaoMenuTodos();
                 this.messageService.add({
                   key: 'solicitacaoToast',
                   severity: 'success',

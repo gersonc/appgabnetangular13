@@ -40,14 +40,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'solicitacaosimples',
-    loadChildren: () => import('./solicitacao-simples/solicitacao-simples.module').then(m => m.SolicitacaoSimplesModule),
-    canActivate: [AuthGuard],
-    data: {
-      rules: Rule.solicitacao
-    }
-  },
-  {
     path: 'solic',
     loadChildren: () => import('./solic/solic.module').then(m => m.SolicModule),
     canActivate: [AuthGuard],

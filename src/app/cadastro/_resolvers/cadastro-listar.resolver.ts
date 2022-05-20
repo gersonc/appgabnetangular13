@@ -31,83 +31,26 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
   ) { }
 
 
-  populaDropdown() {
+  /*populaDropdown() {
 
     if (!sessionStorage.getItem('cadastro-dropdown')) {
 
       let contador = 0;
 
       // ****** aniversario ******
-      this.ddCadastro.ddAniversario = [
-        { label: 'JANEIRO', value: '01' },
-        { label: 'FEVEREIRO', value: '02' },
-        { label: 'MARÇO', value: '03' },
-        { label: 'ABRIL', value: '04' },
-        { label: 'MAIO', value: '05' },
-        { label: 'JUNHO', value: '06' },
-        { label: 'JULHO', value: '07' },
-        { label: 'AGOSTO', value: '08' },
-        { label: 'SETEMBRO', value: '09' },
-        { label: 'OUTUBRO', value: '10' },
-        { label: 'NOVEMBRO', value: '11' },
-        { label: 'DEZEMBRO', value: '12' }
-      ];
+      this.ddCadastro.ddCadastroAniversario = this.dd.meses;
 
       // ***** anidia ******
-      this.ddCadastro.ddAnidia = [
-        { label: '01', value: '01' },
-        { label: '02', value: '02' },
-        { label: '03', value: '03' },
-        { label: '04', value: '04' },
-        { label: '05', value: '05' },
-        { label: '06', value: '06' },
-        { label: '07', value: '07' },
-        { label: '08', value: '08' },
-        { label: '09', value: '09' },
-        { label: '10', value: '10' },
-        { label: '11', value: '11' },
-        { label: '12', value: '12' },
-        { label: '13', value: '13' },
-        { label: '14', value: '14' },
-        { label: '15', value: '15' },
-        { label: '16', value: '16' },
-        { label: '17', value: '17' },
-        { label: '18', value: '18' },
-        { label: '19', value: '19' },
-        { label: '20', value: '20' },
-        { label: '21', value: '21' },
-        { label: '22', value: '22' },
-        { label: '23', value: '23' },
-        { label: '24', value: '24' },
-        { label: '25', value: '25' },
-        { label: '26', value: '26' },
-        { label: '27', value: '27' },
-        { label: '28', value: '28' },
-        { label: '29', value: '29' },
-        { label: '30', value: '30' },
-        { label: '31', value: '31' }
-      ];
+      this.ddCadastro.ddCadastroAnidia = this.dd.dias;
 
       // ***** quinzena *****
-      this.ddCadastro.ddQuinzena = [
-        { label: '1' + decodeURI('\xAA'), value: '15' },
-        { label: '2' + decodeURI('\xAA'), value: '31' }
-      ];
+      this.ddCadastro.ddCadastroQuinzena = this.dd.quinzena;
 
       // ***** cadastro_sexo *****
-      this.ddCadastro.ddSexo = [
-        { label: 'MASCULINO', value: 'M' },
-        { label: 'FEMININO', value: 'F' },
-        { label: 'OUTROS', value: 'O' },
-        { label: 'PJ', value: 'P' }
-      ];
+      this.ddCadastro.ddCadastroSexo = this.dd.sexo;
 
       // ****** campos SN *********
-      this.ddCadastro.ddSn = [
-        { label: 'TODOS', value: '0' },
-        { label: 'SIM', value: '1' },
-        { label: 'NÃO', value: '2' }
-      ];
+      this.ddCadastro.ddCadastroSn = this.dd.snTodos;
 
       // ****** cadastro_municipio *****
       this.ddNomeIdArray.add('cadastro_municipio', 'cadastro', 'cadastro_municipio_id', 'cadastro_municipio_nome');
@@ -128,13 +71,13 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddCadastro.ddMunicipioId = dados['cadastro_municipio'];
-            this.ddCadastro.ddEstadoId = dados['cadastro_estado'];
-            this.ddCadastro.ddRegiaoId = dados['cadastro_regiao_nome'];
-            this.ddCadastro.ddGrupoId = dados['cadastro_grupo_nome'];
-            this.ddCadastro.ddCampo4Id = dados['cadastro_campo4'];
-            this.ddCadastro.ddEstadoCivilId = dados['cadastro_estado_civil'];
-            this.ddCadastro.ddEscolaridadeId = dados['cadastro_escolaridade'];
+            this.ddCadastro.ddCadastroMunicipioId = dados['cadastro_municipio'];
+            this.ddCadastro.ddCadastroEstadoId = dados['cadastro_estado'];
+            this.ddCadastro.ddCadastroRegiaoId = dados['cadastro_regiao_nome'];
+            this.ddCadastro.ddCadastroGrupoId = dados['cadastro_grupo_nome'];
+            this.ddCadastro.ddCadastroCampo4Id = dados['cadastro_campo4'];
+            this.ddCadastro.ddCadastroEstadoCivilId = dados['cadastro_estado_civil'];
+            this.ddCadastro.ddCadastroEscolaridadeId = dados['cadastro_escolaridade'];
           },
           error: (err) => {
             console.error(err);
@@ -150,7 +93,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
       // ****** cadastro_tipo *****
       const a = [1, 2];
       let tipo: SelectItemGroup;
-      this.ddCadastro.ddTipoCadastroId = [];
+      this.ddCadastro.ddCadastroTipoId = [];
       for (const b of a) {
         this.sub.push(this.dd.getDropdown3campos(
           'cadastro',
@@ -166,7 +109,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
                 value: null,
                 items: dados['items']
               };
-              this.ddCadastro.ddTipoCadastroId.push(tipo);
+              this.ddCadastro.ddCadastroTipoId.push(tipo);
             },
             error: (err) => {
               console.error(err);
@@ -188,8 +131,8 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddCadastro.ddUsuario = dados['cadastro_usuario'];
-            this.ddCadastro.ddZona = dados['cadastro_zona'];
+            this.ddCadastro.ddCadastroUsuario = dados['cadastro_usuario'];
+            this.ddCadastro.ddCadastroZona = dados['cadastro_zona'];
           },
           error: (err) => {
             console.error(err);
@@ -204,7 +147,7 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
     } else {
       this.gravaDropDown();
     }
-  }
+  }*/
 
   populaDropdownTodos() {
     if (!sessionStorage.getItem('cadastro-dropdown')) {
@@ -213,6 +156,20 @@ export class CadastroListarResolver implements Resolve<CadastroPaginacaoInterfac
         .subscribe({
           next: (dados) => {
             this.ddCadastro = dados;
+            // ****** aniversario ******
+            this.ddCadastro.ddCadastroAniversario = this.dd.meses;
+
+            // ***** anidia ******
+            this.ddCadastro.ddCadastroAnidia = this.dd.dias;
+
+            // ***** quinzena *****
+            this.ddCadastro.ddCadastroQuinzena = this.dd.quinzena;
+
+            // ***** cadastro_sexo *****
+            this.ddCadastro.ddCadastroSexo = this.dd.sexo;
+
+            // ****** campos SN *********
+            this.ddCadastro.ddCadastroSn = this.dd.snTodos;
           },
           error: (err) => {
             console.error(err);

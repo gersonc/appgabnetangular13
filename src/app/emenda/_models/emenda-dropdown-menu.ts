@@ -8,7 +8,7 @@ export interface EmendaDropdownMenuInterface {
   dd_emenda_funcional_programatica: SelectItem[];
   dd_emenda_cadastro: SelectItem[];
   dd_emenda_autor: SelectItem[];
-  dd_cadastro_cpfcnpj: SelectItem[];
+  dd_emenda_cpfcnpj: SelectItem[];
   dd_emenda_orgao_solicitado: SelectItem[];
   dd_emenda_numero: SelectItem[];
   dd_emenda_assunto: SelectItem[];
@@ -37,7 +37,7 @@ export class EmendaDropdownMenu implements EmendaDropdownMenuInterface {
   dd_emenda_funcional_programatica = null;
   dd_emenda_cadastro = null;
   dd_emenda_autor = null;
-  dd_cadastro_cpfcnpj = null;
+  dd_emenda_cpfcnpj = null;
   dd_emenda_orgao_solicitado = null;
   dd_emenda_numero = null;
   dd_emenda_assunto = null;

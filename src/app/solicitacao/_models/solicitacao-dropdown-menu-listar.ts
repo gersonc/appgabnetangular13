@@ -7,14 +7,14 @@ export interface SolicitacaoDropdownMenuListarInterface {
   ddSolicitacao_assunto_id?: SelectItem[];
   ddSolicitacao_atendente_cadastro_id?: SelectItem[];
   ddSolicitacao_cadastrante_cadastro_id?: SelectItem[];
-  ddCadastro_municipio_id?: SelectItem[];
-  ddCadastro_regiao_id?: SelectItem[];
+  ddSolicitacao_cadastro_municipio_id?: SelectItem[];
+  ddSolicitacao_cadastro_regiao_id?: SelectItem[];
   ddSolicitacao_local_id?: SelectItem[];
   ddSolicitacao_tipo_recebimento_id?: SelectItem[];
   ddSolicitacao_area_interesse_id?: SelectItem[];
   ddSolicitacao_reponsavel_analize_id?: SelectItem[];
   ddSolicitacao_data?: SelectItem[];
-  ddCadastro_bairro?: SelectItem[];
+  ddSolicitacao_cadastro_bairro?: SelectItem[];
 }
 
 export class SolicitacaoDropdownMenuListar {
@@ -24,11 +24,12 @@ export class SolicitacaoDropdownMenuListar {
   ddSolicitacao_assunto_id = null;
   ddSolicitacao_atendente_cadastro_id = null;
   ddSolicitacao_cadastrante_cadastro_id = null;
-  ddCadastro_municipio_id = null;
-  ddCadastro_regiao_id = null;
+  ddSolicitacao_cadastro_municipio_id = null;
+  ddSolicitacao_cadastro_regiao_id = null;
   ddSolicitacao_local_id = null;
   ddSolicitacao_tipo_recebimento_id = null;
   ddSolicitacao_area_interesse_id = null;
   ddSolicitacao_reponsavel_analize_id = null;
   ddSolicitacao_data = null;
+  ddSolicitacao_cadastro_bairro = null;
 }

@@ -20,18 +20,18 @@ export class ProcessoMenuListarComponent implements OnInit {
   public formMenuProcesso: FormGroup;
   public items: Array<any> = [];
   public ddNomeIdArray = new DropdownnomeidClass();
-  public ddCadastro_regiao_id: SelectItem[] = [];
+  public ddProcesso_cadastro_regiao_id: SelectItem[] = [];
   public ddProcesso_numero: SelectItem[] = [];
-  public ddCadastro_municipio_id: SelectItem[] = [];
-  public ddCadastro_tipo_id: SelectItem[] = [];
-  public ddSolicitacao_reponsavel_analize_id: SelectItem[] = [];
+  public ddProcesso_cadastro_municipio_id: SelectItem[] = [];
+  public ddProcesso_cadastro_tipo_id: SelectItem[] = [];
+  public ddProcesso_solicitacao_reponsavel_analize_id: SelectItem[] = [];
   public ddProcesso_cadastro_id: SelectItem[] = [];
-  public ddSolicitacao_assunto_id: SelectItem[] = [];
-  public ddSolicitacao_area_interesse_id: SelectItem[] = [];
-  public ddSolicitacao_local_id: SelectItem[] = [];
+  public ddProcesso_solicitacao_assunto_id: SelectItem[] = [];
+  public ddProcesso_solicitacao_area_interesse_id: SelectItem[] = [];
+  public ddProcesso_solicitacao_local_id: SelectItem[] = [];
   public ddProcesso_status_nome: SelectItem[] = [];
-  public ddSolicitacao_data1: SelectItem[] = [];
-  public ddSolicitacao_data2: SelectItem[] = [];
+  public ddProcesso_solicitacao_data1: SelectItem[] = [];
+  public ddProcesso_solicitacao_data2: SelectItem[] = [];
 
 
   constructor(
@@ -71,18 +71,18 @@ export class ProcessoMenuListarComponent implements OnInit {
 
   carregaDropDown() {
     let dr = JSON.parse(sessionStorage.getItem('processo-dropdown'));
-    this.ddCadastro_regiao_id = dr.cadastro_regiao_id;
-    this.ddProcesso_numero = dr.processo_numero;
-    this.ddCadastro_municipio_id = dr.cadastro_municipio_id;
-    this.ddCadastro_tipo_id = dr.cadastro_tipo_id;
-    this.ddProcesso_cadastro_id = dr.processo_cadastro_id;
-    this.ddSolicitacao_reponsavel_analize_id = dr.solicitacao_reponsavel_analize_id;
-    this.ddSolicitacao_assunto_id = dr.solicitacao_assunto_id;
-    this.ddSolicitacao_area_interesse_id = dr.solicitacao_area_interesse_id;
-    this.ddSolicitacao_local_id = dr.solicitacao_local_id;
-    this.ddProcesso_status_nome = dr.processo_status_nome;
-    this.ddSolicitacao_data1 = dr.solicitacao_data1;
-    this.ddSolicitacao_data2 = dr.solicitacao_data2;
+    this.ddProcesso_cadastro_regiao_id = dr.ddProcesso_cadastro_regiao_id;
+    this.ddProcesso_numero = dr.ddProcesso_numero;
+    this.ddProcesso_cadastro_municipio_id = dr.ddProcesso_cadastro_municipio_id;
+    this.ddProcesso_cadastro_tipo_id = dr.ddProcesso_cadastro_tipo_id;
+    this.ddProcesso_cadastro_id = dr.ddProcesso_cadastro_id;
+    this.ddProcesso_solicitacao_reponsavel_analize_id = dr.ddProcesso_solicitacao_reponsavel_analize_id;
+    this.ddProcesso_solicitacao_assunto_id = dr.ddProcesso_solicitacao_assunto_id;
+    this.ddProcesso_solicitacao_area_interesse_id = dr.ddProcesso_solicitacao_area_interesse_id;
+    this.ddProcesso_solicitacao_local_id = dr.ddProcesso_solicitacao_local_id;
+    this.ddProcesso_status_nome = dr.ddProcesso_status_nome;
+    this.ddProcesso_solicitacao_data1 = dr.ddProcesso_solicitacao_data1;
+    this.ddProcesso_solicitacao_data2 = dr.ddProcesso_solicitacao_data2;
     dr = null;
     this.cs.escondeCarregador();
   }

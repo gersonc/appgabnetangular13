@@ -25,8 +25,8 @@ export interface OficioDropdownMenuListarInterface {
   ddOficio_area_interesse_id: SelectItem[];
   ddOficio_prioridade_id: SelectItem[];
   ddOficio_tipo_andamento_id: SelectItem[];
-  ddSolicitacao_reponsavel_analize_id: SelectItem[];
-  ddSolicitacao_local_id: SelectItem[];
+  ddOficio_reponsavel_analize_id: SelectItem[];
+  ddOficio_local_id: SelectItem[];
   ddOficio_status: SelectItem[];
 }
 
@@ -55,7 +55,7 @@ export class OficioDropdownMenuListar implements OficioDropdownMenuListarInterfa
   ddOficio_area_interesse_id = null;
   ddOficio_prioridade_id = null;
   ddOficio_tipo_andamento_id = null;
-  ddSolicitacao_reponsavel_analize_id = null;
-  ddSolicitacao_local_id = null;
+  ddOficio_reponsavel_analize_id = null;
+  ddOficio_local_id = null;
   ddOficio_status = null;
 }

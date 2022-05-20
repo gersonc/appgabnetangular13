@@ -30,8 +30,8 @@ export class OficioMenuListarComponent implements OnInit {
   public ddOficio_cadastro_id: SelectItem[] = [];
   public ddOficio_assunto_id: SelectItem[] = [];
   public ddOficio_area_interesse_id: SelectItem[] = [];
-  public ddSolicitacao_reponsavel_analize_id: SelectItem[] = [];
-  public ddSolicitacao_local_id: SelectItem[] = [];
+  public ddOficio_reponsavel_analize_id: SelectItem[] = [];
+  public ddOficio_local_id: SelectItem[] = [];
   public ddOficio_status: SelectItem[] = [];
   public ddOficio_prioridade_id: SelectItem[] = [];
   public ddOficio_tipo_andamento_id: SelectItem[] = [];
@@ -127,8 +127,8 @@ export class OficioMenuListarComponent implements OnInit {
     this.ddOficio_prioridade_id = dr.ddOficio_prioridade_id;
     this.ddOficio_tipo_andamento_id = dr.ddOficio_tipo_andamento_id;
     this.ddOficio_assunto_id = dr.ddOficio_assunto_id;
-    this.ddSolicitacao_reponsavel_analize_id = dr.ddSolicitacao_reponsavel_analize_id;
-    this.ddSolicitacao_local_id = dr.ddSolicitacao_local_id;
+    this.ddOficio_reponsavel_analize_id = dr.ddOficio_reponsavel_analize_id;
+    this.ddOficio_local_id = dr.ddOficio_local_id;
     this.ddOficio_status = dr.ddOficio_status;
     dr = null;
     this.cs.escondeCarregador();

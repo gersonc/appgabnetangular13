@@ -364,7 +364,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.dd.getDdCadastroMenuTodos();
+              this.dd.getDdSolicitacaoMenuTodos();
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;

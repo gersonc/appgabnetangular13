@@ -54,7 +54,6 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
       this.ddSoNomeArray.add('ddOficio_orgao_solicitado_nome', 'oficio', 'oficio_orgao_solicitado_nome');
       // ****** oficio_orgao_protocolante_nome *****
       this.ddSoNomeArray.add('ddOficio_orgao_protocolante_nome', 'oficio', 'oficio_orgao_protocolante_nome');
-
       // ****** oficio_data_emissao1 *****
       this.ddSoDataArray.add('ddOficio_data_emissao1', 'oficio', 'oficio_data_emissao');
       // ****** oficio_data_emissao2 *****
@@ -75,7 +74,6 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
       this.ddSoDataArray.add('ddOficio_prazo1', 'oficio', 'oficio_prazo');
       // ****** oficio_prazo2 *****
       this.ddSoDataArray.add('ddOficio_prazo2', 'oficio', 'oficio_prazo', 'DESC');
-
       // ****** oficio_municipio_id *****
       this.ddNomeIdArray.add('ddOficio_municipio_id', 'oficio', 'oficio_municipio_id', 'oficio_municipio_nome');
       // ****** oficio_tipo_solicitante_id *****
@@ -91,54 +89,10 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
       // ****** oficio_tipo_andamento_id*****
       this.ddNomeIdArray.add('ddOficio_tipo_andamento_id', 'oficio', 'oficio_tipo_andamento_id', 'oficio_tipo_andamento_nome');
 
-      // ****** oficio_municipio_id *****
-      this.ddNomeIdArray.add('ddOficio_municipio_id', 'oficio', 'oficio_municipio_id', 'oficio_municipio_nome');
-      // ****** oficio_tipo_solicitante_id *****
-      this.ddNomeIdArray.add('ddOficio_tipo_solicitante_id', 'oficio', 'oficio_tipo_solicitante_id', 'oficio_tipo_solicitante_nome');
-      // ****** oficio_cadastro_id *****
-      this.ddNomeIdArray.add('ddOficio_cadastro_id', 'oficio', 'oficio_cadastro_id', 'oficio_cadastro_nome');
-      // ****** oficio_assunto_id *****
-      this.ddNomeIdArray.add('ddOficio_assunto_id', 'oficio', 'oficio_assunto_id', 'oficio_assunto_nome');
-      // ****** oficio_area_interesse_id *****
-      this.ddNomeIdArray.add('ddOficio_area_interesse_id', 'oficio', 'oficio_area_interesse_id', 'oficio_area_interesse_nome');
-      // ****** oficio_prioridade_id *****
-      this.ddNomeIdArray.add('ddOficio_prioridade_id', 'oficio', 'oficio_prioridade_id', 'oficio_prioridade_nome');
-      // ****** oficio_tipo_andamento_id*****
-      this.ddNomeIdArray.add('ddOficio_tipo_andamento_id', 'oficio', 'oficio_tipo_andamento_id', 'oficio_tipo_andamento_nome');
-
-      // ****** oficio_municipio_id *****
-      this.ddNomeIdArray.add('ddOficio_municipio_id', 'oficio', 'oficio_municipio_id', 'oficio_municipio_nome');
-      // ****** oficio_tipo_solicitante_id *****
-      this.ddNomeIdArray.add('ddOficio_tipo_solicitante_id', 'oficio', 'oficio_tipo_solicitante_id', 'oficio_tipo_solicitante_nome');
-      // ****** oficio_cadastro_id *****
-      this.ddNomeIdArray.add('ddOficio_cadastro_id', 'oficio', 'oficio_cadastro_id', 'oficio_cadastro_nome');
-      // ****** oficio_assunto_id *****
-      this.ddNomeIdArray.add('ddOficio_assunto_id', 'oficio', 'oficio_assunto_id', 'oficio_assunto_nome');
-      // ****** oficio_area_interesse_id *****
-      this.ddNomeIdArray.add('ddOficio_area_interesse_id', 'oficio', 'oficio_area_interesse_id', 'oficio_area_interesse_nome');
-      // ****** oficio_prioridade_id *****
-      this.ddNomeIdArray.add('ddOficio_prioridade_id', 'oficio', 'oficio_prioridade_id', 'oficio_prioridade_nome');
-      // ****** oficio_tipo_andamento_id*****
-      this.ddNomeIdArray.add('ddOficio_tipo_andamento_id', 'oficio', 'oficio_tipo_andamento_id', 'oficio_tipo_andamento_nome');
-
-      // ****** oficio_municipio_id *****
-      this.ddNomeIdArray.add('ddOficio_municipio_id', 'oficio', 'oficio_municipio_id', 'oficio_municipio_nome');
-      // ****** oficio_tipo_solicitante_id *****
-      this.ddNomeIdArray.add('ddOficio_tipo_solicitante_id', 'oficio', 'oficio_tipo_solicitante_id', 'oficio_tipo_solicitante_nome');
-      // ****** oficio_cadastro_id *****
-      this.ddNomeIdArray.add('ddOficio_cadastro_id', 'oficio', 'oficio_cadastro_id', 'oficio_cadastro_nome');
-      // ****** oficio_assunto_id *****
-      this.ddNomeIdArray.add('ddOficio_assunto_id', 'oficio', 'oficio_assunto_id', 'oficio_assunto_nome');
-      // ****** oficio_area_interesse_id *****
-      this.ddNomeIdArray.add('ddOficio_area_interesse_id', 'oficio', 'oficio_area_interesse_id', 'oficio_area_interesse_nome');
-      // ****** oficio_prioridade_id *****
-      this.ddNomeIdArray.add('ddOficio_prioridade_id', 'oficio', 'oficio_prioridade_id', 'oficio_prioridade_nome');
-      // ****** oficio_tipo_andamento_id*****
-      this.ddNomeIdArray.add('ddOficio_tipo_andamento_id', 'oficio', 'oficio_tipo_andamento_id', 'oficio_tipo_andamento_nome');
 
       // ****** solicitacao_reponsavel_analize_id *****
       this.ddNomeIdJoinArray.add(
-        'ddSolicitacao_reponsavel_analize_id',
+        'ddOficio_reponsavel_analize_id',
         'solicitacao',
         'solicitacao_reponsavel_analize_id',
         'solicitacao_id',
@@ -148,7 +102,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
         'LEFT OUTER JOIN');
       // ****** solicitacao_local_id *****
       this.ddNomeIdJoinArray.add(
-        'ddSolicitacao_local_id',
+        'ddOficio_local_id',
         'solicitacao',
         'solicitacao_local_id',
         'solicitacao_id',
@@ -260,8 +214,8 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddOficio.ddSolicitacao_reponsavel_analize_id = dados['ddSolicitacao_reponsavel_analize_id'];
-            this.ddOficio.ddSolicitacao_local_id = dados['ddSolicitacao_local_id'];
+            this.ddOficio.ddOficio_reponsavel_analize_id = dados['ddOficio_reponsavel_analize_id'];
+            this.ddOficio.ddOficio_local_id = dados['ddOficio_local_id'];
           },
           error: (err) => {
             console.error(err);

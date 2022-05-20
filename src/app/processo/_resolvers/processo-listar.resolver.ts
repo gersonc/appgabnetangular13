@@ -43,40 +43,40 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
 
 
       // ****** solicitacao_data1 *****
-      this.ddSoDataArray.add('solicitacao_data1', 'processo_dropdown', 'solicitacao_data');
+      this.ddSoDataArray.add('ddProcesso_solicitacao_data1', 'processo_dropdown', 'solicitacao_data');
       // ****** solicitacao_data2 *****
-      this.ddSoDataArray.add('solicitacao_data2', 'processo_dropdown', 'solicitacao_data', 'desc');
+      this.ddSoDataArray.add('ddProcesso_solicitacao_data2', 'processo_dropdown', 'solicitacao_data', 'desc');
 
       // ****** processo_status *****
-      this.ddSoNomeArray.add('processo_status_nome', 'processo_dropdown', 'processo_status_nome', 'desc');
+      this.ddSoNomeArray.add('ddProcesso_status_nome', 'processo_dropdown', 'processo_status_nome', 'desc');
 
       // ****** processo_numero *****
-      this.ddNomeIdArray.add('processo_numero', 'processo_dropdown', 'processo_id', 'processo_numero');
+      this.ddNomeIdArray.add('ddProcesso_numero', 'processo_dropdown', 'processo_id', 'processo_numero');
       // ****** processo_status *****
       // this.ddNomeIdArray.add('processo_status', 'processo_dropdown', 'processo_status_id', 'processo_status_nome');
       // ****** solicitacao_cadastro_tipo_id *****
-      this.ddNomeIdArray.add('cadastro_tipo_id', 'processo_dropdown', 'cadastro_tipo_id', 'cadastro_tipo_nome');
+      this.ddNomeIdArray.add('ddProcesso_cadastro_tipo_id', 'processo_dropdown', 'cadastro_tipo_id', 'cadastro_tipo_nome');
       // ****** processo_cadastro_id *****
-      this.ddNomeIdArray.add('processo_cadastro_id', 'processo_dropdown', 'processo_cadastro_id', 'cadastro_nome');
+      this.ddNomeIdArray.add('ddProcesso_cadastro_id', 'processo_dropdown', 'processo_cadastro_id', 'cadastro_nome');
       // ****** cadastro_municipio_id *****
-      this.ddNomeIdArray.add('cadastro_municipio_id', 'processo_dropdown', 'cadastro_municipio_id', 'cadastro_municipio_nome');
+      this.ddNomeIdArray.add('ddProcesso_cadastro_municipio_id', 'processo_dropdown', 'cadastro_municipio_id', 'cadastro_municipio_nome');
       // ****** cadastro_regiao_id *****
-      this.ddNomeIdArray.add('cadastro_regiao_id', 'processo_dropdown', 'cadastro_regiao_id', 'cadastro_regiao_nome');
+      this.ddNomeIdArray.add('ddProcesso_cadastro_regiao_id', 'processo_dropdown', 'cadastro_regiao_id', 'cadastro_regiao_nome');
       // ****** solicitacao_local_id*****
-      this.ddNomeIdArray.add('solicitacao_local_id', 'processo_dropdown', 'solicitacao_local_id', 'solicitacao_local_nome');
+      this.ddNomeIdArray.add('ddProcesso_solicitacao_local_id', 'processo_dropdown', 'solicitacao_local_id', 'solicitacao_local_nome');
       // ****** solicitacao_reponsavel_analize_id *****
-      this.ddNomeIdArray.add('solicitacao_reponsavel_analize_id', 'processo_dropdown', 'solicitacao_reponsavel_analize_id', 'solicitacao_reponsavel_analize_nome');
+      this.ddNomeIdArray.add('ddProcesso_solicitacao_reponsavel_analize_id', 'processo_dropdown', 'solicitacao_reponsavel_analize_id', 'solicitacao_reponsavel_analize_nome');
       // ****** solicitacao_assunto_id *****
-      this.ddNomeIdArray.add('solicitacao_assunto_id', 'processo_dropdown', 'solicitacao_assunto_id', 'solicitacao_assunto_nome');
+      this.ddNomeIdArray.add('ddProcesso_solicitacao_assunto_id', 'processo_dropdown', 'solicitacao_assunto_id', 'solicitacao_assunto_nome');
       // ****** solicitacao_area_interesse_id *****
-      this.ddNomeIdArray.add('solicitacao_area_interesse_id', 'processo_dropdown', 'solicitacao_area_interesse_id', 'solicitacao_area_interesse_nome');
+      this.ddNomeIdArray.add('ddProcesso_solicitacao_area_interesse_id', 'processo_dropdown', 'solicitacao_area_interesse_id', 'solicitacao_area_interesse_nome');
 
 
       this.sub.push(this.dd.postDropdownSoDataFormatadoArray(this.ddSoDataArray.get())
         .pipe(take(1))
         .subscribe((dados) => {
-            this.ddProcesso.solicitacao_data1 = dados['solicitacao_data1'];
-            this.ddProcesso.solicitacao_data2 = dados['solicitacao_data2'];
+            this.ddProcesso.ddProcesso_solicitacao_data1 = dados['ddProcesso_solicitacao_data1'];
+            this.ddProcesso.ddProcesso_solicitacao_data2 = dados['ddProcesso_solicitacao_data2'];
           },
           (err) => console.error(err),
           () => {
@@ -91,7 +91,7 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
       this.sub.push(this.dd.postDropdownSoNomeArray(this.ddSoNomeArray.get())
         .pipe(take(1))
         .subscribe((dados) => {
-            this.ddProcesso.processo_status_nome = dados['processo_status_nome'];
+            this.ddProcesso.ddProcesso_status_nome = dados['ddProcesso_status_nome'];
           },
           (err) => console.error(err),
           () => {
@@ -107,15 +107,15 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddProcesso.processo_numero = dados['processo_numero'];
-            this.ddProcesso.cadastro_tipo_id = dados['cadastro_tipo_id'];
-            this.ddProcesso.processo_cadastro_id = dados['processo_cadastro_id'];
-            this.ddProcesso.cadastro_municipio_id = dados['cadastro_municipio_id'];
-            this.ddProcesso.cadastro_regiao_id = dados['cadastro_regiao_id'];
-            this.ddProcesso.solicitacao_local_id = dados['solicitacao_local_id'];
-            this.ddProcesso.solicitacao_reponsavel_analize_id = dados['solicitacao_reponsavel_analize_id'];
-            this.ddProcesso.solicitacao_area_interesse_id = dados['solicitacao_area_interesse_id'];
-            this.ddProcesso.solicitacao_assunto_id = dados['solicitacao_assunto_id'];
+            this.ddProcesso.ddProcesso_numero = dados['ddProcesso_numero'];
+            this.ddProcesso.ddProcesso_cadastro_tipo_id = dados['ddProcesso_cadastro_tipo_id'];
+            this.ddProcesso.ddProcesso_cadastro_id = dados['ddProcesso_cadastro_id'];
+            this.ddProcesso.ddProcesso_cadastro_municipio_id = dados['ddProcesso_cadastro_municipio_id'];
+            this.ddProcesso.ddProcesso_cadastro_regiao_id = dados['ddProcesso_cadastro_regiao_id'];
+            this.ddProcesso.ddProcesso_solicitacao_local_id = dados['ddProcesso_solicitacao_local_id'];
+            this.ddProcesso.ddProcesso_solicitacao_reponsavel_analize_id = dados['ddProcesso_solicitacao_reponsavel_analize_id'];
+            this.ddProcesso.ddProcesso_solicitacao_area_interesse_id = dados['ddProcesso_solicitacao_area_interesse_id'];
+            this.ddProcesso.ddProcesso_solicitacao_assunto_id = dados['solicitacao_assunto_id'];
           },
           error: (err) => {
             console.error(err);

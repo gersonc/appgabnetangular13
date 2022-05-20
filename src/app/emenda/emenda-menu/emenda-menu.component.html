@@ -76,11 +76,11 @@
             </div>
 
             <!-- emenda_cadastro_id2 -->
-            <div *ngIf="drd.dd_cadastro_cpfcnpj" class="p-field p-col-12">
+            <div *ngIf="drd.dd_emenda_cpfcnpj" class="p-field p-col-12">
               <label for="emenda_cadastro_id2">C.N.P.J. (solicitante)</label>
                 <p-dropdown
                   id="emenda_cadastro_id2"
-                  [options]="drd.dd_cadastro_cpfcnpj"
+                  [options]="drd.dd_emenda_cpfcnpj"
                   [style]="{'width':'100%'}"
                   optionLabel="label"
                   formControlName="emenda_cadastro_id2"

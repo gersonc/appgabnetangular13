@@ -153,8 +153,8 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          this.ddSolicitacao.ddCadastro_municipio_id = dados['ddCadastro_municipio_id'];
-          this.ddSolicitacao.ddCadastro_regiao_id = dados['ddCadastro_regiao_id'];
+          this.ddSolicitacao.ddSolicitacao_cadastro_municipio_id = dados['ddCadastro_municipio_id'];
+          this.ddSolicitacao.ddSolicitacao_cadastro_regiao_id = dados['ddCadastro_regiao_id'];
         },
         error: (err) => {
           console.error(err);

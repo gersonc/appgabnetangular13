@@ -71,7 +71,7 @@ export class SolicService {
 
   postSolicitacaoBusca(busca: SolicBuscaI) {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.solicitacaoUrl + '/listar';
+    const url = this.url.solic + '/listar';
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
   }
 
@@ -93,25 +93,25 @@ export class SolicService {
   }
 
   getTitulosDetalhe() {
-    const url = this.solicitacaoUrl + '/titulosdetalhe';
+    const url = this.url.solic + '/titulosdetalhe';
     return this.http.get<any[]>(url);
   }
 
   getSolicitacaoDetalhe(id: number) {
-    const url = this.solicitacaoUrl + '/detalhe/' + id;
+    const url = this.url.solic + '/detalhe/' + id;
     return this.http.get<SolicDetalheI>(url);
   }
 
   incluirSolicitacao(dados: SolicFormI): Observable<any> {
     let url: string;
-    url = this.url.solicitacao + '/incluir';
+    url = this.url.solic + '/incluir';
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
   alterarSolicitacao(dados: SolicFormI): Observable<any> {
     let url: string;
-    url = this.url.solicitacao + '/alterar';
+    url = this.url.solic + '/alterar';
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.put<any[]> (url, dados, httpOptions);
   }

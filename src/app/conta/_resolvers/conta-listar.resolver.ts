@@ -56,7 +56,7 @@ export class ContaListarResolver implements Resolve<ContaPaginacaoInterface | bo
     }
 
     const busca2  = {tabela: 'contas', campo_id: 'conta_local_id', campo_nome: 'conta_local_nome'};
-    if (!sessionStorage.getItem('conta-dropdown')) {
+    if (!sessionStorage.getItem('dropdown-conta')) {
       this.dd.postDropdownNomeId(busca2)
         .pipe(take(1))
         .subscribe((dados) => {
@@ -66,7 +66,7 @@ export class ContaListarResolver implements Resolve<ContaPaginacaoInterface | bo
             console.log('erro');
           },
           () => {
-            sessionStorage.setItem('conta-dropdown', JSON.stringify(this.drop2));
+            sessionStorage.setItem('dropdown-conta', JSON.stringify(this.drop2));
             a++;
             if (a === 2) {
               this.resp.next(true);
@@ -85,7 +85,7 @@ export class ContaListarResolver implements Resolve<ContaPaginacaoInterface | bo
     state: RouterStateSnapshot):
     Observable<ContaPaginacaoInterface | boolean> |
     Observable<never> {
-    if (!sessionStorage.getItem('dropdown-local') || !sessionStorage.getItem('conta-dropdown')) {
+    if (!sessionStorage.getItem('dropdown-local') || !sessionStorage.getItem('dropdown-conta')) {
       this.dropdown = true;
       this.cs.mostraCarregador();
       this.populaDropdown();

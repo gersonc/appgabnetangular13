@@ -87,7 +87,7 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
   }
 
   carregaDropDown() {
-    this.ddConta_local_id = JSON.parse(sessionStorage.getItem('conta-dropdown'));
+    this.ddConta_local_id = JSON.parse(sessionStorage.getItem('dropdown-conta'));
     this.cs.escondeCarregador();
   }
 

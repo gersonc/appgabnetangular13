@@ -51,6 +51,7 @@ export class UrlService {
   historicoSolicitacao = this.url + 'historicosolicitacao';
   ping = this.url + 'ping';
   explorer = this.url + 'pasta';
+  dd = this.url + 'dd';
 
 
   constructor() {

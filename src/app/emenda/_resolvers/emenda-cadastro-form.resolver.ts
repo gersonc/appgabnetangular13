@@ -80,7 +80,7 @@ export class EmendaCadastroFormResolver implements Resolve<number[]> {
       this.ddNomeIdArray.add('tratamento_nome', 'tratamento', 'tratamento_id', 'tratamento_nome');
     }
     // ****** grupo_nome *****
-    if (!sessionStorage.getItem('dropdown-gupo')) {
+    if (!sessionStorage.getItem('dropdown-grupo')) {
       this.ddNomeIdArray.add('grupo_nome', 'grupo', 'grupo_id', 'grupo_nome');
     }
     // ****** municipio_nome *****
