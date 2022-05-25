@@ -2,15 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
 import {Router} from "@angular/router";
-import {SelectItem} from "primeng/api";
 import {Subscription} from "rxjs";
 import {SolicitacaoDropdownMenuListarInterface} from "../../solicitacao/_models";
-import {BuscaService} from "../../shared-datatables/services/busca.service";
 import {SolicService} from "../_services/solic.service";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {SolicDropdownMenuService} from "../_services/solic-dropdown-menu.service";
 import {VersaoService} from "../../_services/versao.service";
-import {SolicBuscaService} from "../_services/solic-busca.service";
 import {SolicFormService} from "../_services/solic-form.service";
 
 @Component({
@@ -29,7 +26,6 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     public vs: VersaoService,
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    // private solicitacaoService: SolicService,
     private ss: SolicService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
@@ -41,7 +37,6 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.ss.criaBusca();
     this.formListarSolicitacao = this.formBuilder.group({
       solicitacao_posicao: [null],
       solicitacao_cadastro_tipo_id: [null],
@@ -61,13 +56,6 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     });
 
     this.carregaDropDown();
-
-    /*if (!this.ss.buscaStateSN) {
-      if (sessionStorage.getItem(this.solicitacaoService.sessaoListagem)) {
-        sessionStorage.removeItem(this.solicitacaoService.sessaoListagem);
-      }
-      this.mi.showMenuInterno();
-    }*/
 
     this.mi.showMenuInterno();
   }
@@ -107,7 +95,6 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       this.sfs.acao = 'incluir';
-      // this.ss.buscaStateSN = false;
       if (this.ss.solicitacoes !== undefined) {
         if (this.ss.solicitacoes.length > 1) {
           this.ss.setState();

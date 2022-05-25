@@ -260,11 +260,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.ss.setState()
   }
 
-  onStateRestore(ev) {
-    this.ss.getState(ev);
-  }
-
-
   onChangeSeletorColunas(changes): void {
     this.dtb.saveState();
   }

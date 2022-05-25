@@ -71,7 +71,6 @@ export class SolicService {
   }
 
   resetSolicitacaoBusca() {
-    console.log('resetSolicitacaoBusca');
     this.busca = undefined;
     this.criaBusca();
   }
@@ -82,7 +81,7 @@ export class SolicService {
     sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
   }
 
-  getState(tableSession: any) {
+  onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
       this.parseSession(tableSession);
     }
@@ -179,89 +178,6 @@ export class SolicService {
     this.busca.processo_numero = (b.processo_numero !== undefined)? b.processo_numero : undefined;
   }
 
-  solicitacaoBusca(): void {
-    if (this.busca.rows === undefined) {
-      this.busca.rows = this.tabela.rows;
-    } else {
-      this.tabela.rows = this.busca.rows;
-    }
-    if (this.busca.first === undefined) {
-      this.busca.first = this.tabela.first;
-    } else {
-      this.tabela.first = this.busca.first;
-    }
-    if (this.busca.sortOrder === undefined) {
-      this.busca.sortOrder = this.tabela.sortOrder;
-    } else {
-      this.tabela.sortOrder = this.busca.sortOrder;
-    }
-    if (this.busca.sortField === undefined) {
-      this.busca.sortField = this.tabela.sortField;
-    } else {
-      this.tabela.sortField = this.busca.sortField;
-    }
-    if (this.busca.todos === undefined && this.tabela.todos === undefined) {
-      this.busca.todos = false;
-      this.tabela.todos = false;
-    } else {
-      if (this.busca.todos === undefined) {
-        this.busca.sortField = this.tabela.sortField;
-      } else {
-        this.tabela.sortField = this.busca.sortField;
-      }
-    }
-    this.tabela.ids = this.busca.ids;
-    this.sub.push(this.postSolicitacaoBusca(this.busca)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          // this.resetSolicitacaoBusca();
-          this.solicitacoes = dados.solicitacao;
-          this.tabela.total = dados.total;
-          this.tabela.totalRecords = this.tabela.total.num;
-        },
-        error: err => console.error('ERRO-->', err),
-        complete: () => {
-          this.tabela.currentPage = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
-          this.tabela.pageCount = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
-          // this.cs.escondeCarregador();
-        }
-      })
-    );
-  }
-
-  postSolicitacaoBusca(busca: SolicBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.url.solic + '/listar';
-    return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
-  }
-
-  getSolicitacaoDetalhe(id: number) {
-    const url = this.url.solic + '/detalhe/' + id;
-    return this.http.get<SolicDetalheI>(url);
-  }
-
-  incluirSolicitacao(dados: SolicFormI): Observable<any> {
-    let url: string;
-    url = this.url.solic + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(url, dados, httpOptions);
-  }
-
-  alterarSolicitacao(dados: SolicFormI): Observable<any> {
-    let url: string;
-    url = this.url.solic + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.put<any[]>(url, dados, httpOptions);
-  }
-
-  postVerificarNumOficio(dados: any): Observable<any> {
-    let url: string;
-    url = this.url.solicitacao + '/verificanumoficio';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(url, dados, httpOptions);
-  }
-
   onRowExpand(evento) {
     console.log('onRowExpand', evento.data);
     let a = 0;
@@ -352,10 +268,94 @@ export class SolicService {
     }
   }
 
+  solicitacaoBusca(): void {
+    if (this.busca.rows === undefined) {
+      this.busca.rows = this.tabela.rows;
+    } else {
+      this.tabela.rows = this.busca.rows;
+    }
+    if (this.busca.first === undefined) {
+      this.busca.first = this.tabela.first;
+    } else {
+      this.tabela.first = this.busca.first;
+    }
+    if (this.busca.sortOrder === undefined) {
+      this.busca.sortOrder = this.tabela.sortOrder;
+    } else {
+      this.tabela.sortOrder = this.busca.sortOrder;
+    }
+    if (this.busca.sortField === undefined) {
+      this.busca.sortField = this.tabela.sortField;
+    } else {
+      this.tabela.sortField = this.busca.sortField;
+    }
+    if (this.busca.todos === undefined && this.tabela.todos === undefined) {
+      this.busca.todos = false;
+      this.tabela.todos = false;
+    } else {
+      if (this.busca.todos === undefined) {
+        this.busca.sortField = this.tabela.sortField;
+      } else {
+        this.tabela.sortField = this.busca.sortField;
+      }
+    }
+    this.tabela.ids = this.busca.ids;
+    this.sub.push(this.postSolicitacaoBusca(this.busca)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          // this.resetSolicitacaoBusca();
+          this.solicitacoes = dados.solicitacao;
+          this.tabela.total = dados.total;
+          this.tabela.totalRecords = this.tabela.total.num;
+        },
+        error: err => console.error('ERRO-->', err),
+        complete: () => {
+          this.tabela.currentPage = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
+          this.tabela.pageCount = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
+          // this.cs.escondeCarregador();
+        }
+      })
+    );
+  }
+
+  postSolicitacaoBusca(busca: SolicBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.solic + '/listar';
+    return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
+  }
+
+  getSolicitacaoDetalhe(id: number) {
+    const url = this.url.solic + '/detalhe/' + id;
+    return this.http.get<SolicDetalheI>(url);
+  }
+
+  incluirSolicitacao(dados: SolicFormI): Observable<any> {
+    let url: string;
+    url = this.url.solic + '/incluir';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, dados, httpOptions);
+  }
+
+  alterarSolicitacao(dados: SolicFormI): Observable<any> {
+    let url: string;
+    url = this.url.solic + '/alterar';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, dados, httpOptions);
+  }
+
+  postVerificarNumOficio(dados: any): Observable<any> {
+    let url: string;
+    url = this.url.solicitacao + '/verificanumoficio';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, dados, httpOptions);
+  }
+
   onDestroy(): void {
     console.log('onDestroy');
     sessionStorage.removeItem('solic-busca');
     sessionStorage.removeItem('solic-tabela');
+    sessionStorage.removeItem('solic-solic-table');
     this.tabela = undefined;
     this.busca = undefined;
     this.selecionados = undefined;

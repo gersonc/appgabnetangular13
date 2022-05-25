@@ -18,12 +18,9 @@ export class SolicComponent implements OnInit, OnDestroy {
     public mi: MenuInternoService,
     private ss: SolicService,
     private as: ArquivoService,
-  ) {
-    // this.ss.criaTabela();
-  }
+  ) { }
 
   ngOnInit() {
-    // this.ss.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
