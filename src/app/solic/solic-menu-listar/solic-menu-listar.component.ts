@@ -29,16 +29,19 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     public vs: VersaoService,
     private formBuilder: FormBuilder,
     private dd: DropdownService,
-    private solicitacaoService: SolicService,
-    private sbs: SolicBuscaService,
+    // private solicitacaoService: SolicService,
+    private ss: SolicService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private router: Router,
     private sdd: SolicDropdownMenuService,
     private sfs: SolicFormService
-  ) { }
+  ) {
+    console.log('mi');
+  }
 
   ngOnInit() {
+    // this.ss.criaBusca();
     this.formListarSolicitacao = this.formBuilder.group({
       solicitacao_posicao: [null],
       solicitacao_cadastro_tipo_id: [null],
@@ -59,12 +62,14 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
 
     this.carregaDropDown();
 
-    if (!this.sbs.buscaStateSN) {
-      if (sessionStorage.getItem('solicitacao-listagem')) {
-        sessionStorage.removeItem('solicitacao-listagem');
+    /*if (!this.ss.buscaStateSN) {
+      if (sessionStorage.getItem(this.solicitacaoService.sessaoListagem)) {
+        sessionStorage.removeItem(this.solicitacaoService.sessaoListagem);
       }
       this.mi.showMenuInterno();
-    }
+    }*/
+
+    this.mi.showMenuInterno();
   }
 
   carregaDropDown() {
@@ -90,31 +95,26 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   }
 
   onMudaForm() {
-    this.sbs.resetSolicitacaoBusca();
+    this.ss.resetSolicitacaoBusca();
     let solBusca: SolicBuscaI;
     solBusca = this.formListarSolicitacao.getRawValue();
-    for (const propName in solBusca ) {
-      if (solBusca[propName] == null) {
-        solBusca[propName] = '';
-      }
-      if ( typeof solBusca[propName] === 'object' ) {
-        solBusca[propName] = solBusca[propName].value;
-      }
-      this.sbs.busca[propName] = solBusca[propName].toString();
-    }
-    this.sbs.buscaMenu();
+    this.ss.busca = solBusca;
+    this.ss.busca.rows = this.ss.tabela.rows;
+    this.ss.buscaMenu();
     this.mi.hideMenu();
   }
 
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       this.sfs.acao = 'incluir';
-      this.sbs.buscaStateSN = false;
-      if (!sessionStorage.getItem('dropdown-tipo_cadastro-incluir')) {
-        this.router.navigate(['solic/form']);
-      } else {
-        this.router.navigate(['solic/form2']);
+      // this.ss.buscaStateSN = false;
+      if (this.ss.solicitacoes !== undefined) {
+        if (this.ss.solicitacoes.length > 1) {
+          this.ss.setState();
+        }
       }
+      this.mi.mudaMenuInterno(false);
+      this.router.navigate(['solic/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }

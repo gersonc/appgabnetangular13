@@ -6,6 +6,7 @@ import {Observable, pipe, Subject, Subscription} from 'rxjs';
 import { DropdownService } from '../../_services';
 import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i";
 import {SolicitacaoDropdownMenuListarInterface} from "../../solicitacao/_models";
+import {DdService} from "../../_services/dd.service";
 // import {SolicitacaoDropdownMenuListar} from "../../solicitacao/_models";
 
 @Injectable({
@@ -13,26 +14,8 @@ import {SolicitacaoDropdownMenuListarInterface} from "../../solicitacao/_models"
 })
 export class SolicDropdownMenuService {
 
-  public ddNomeIdArray = new DropdownnomeidClass();
-  public ddSoNomeArray = new DropdownsonomearrayClass();
-  public ddSoDataArray = new DropdownsonomearrayClass();
-  public ddNomeIdJoinArray = new DropdownNomeIdJoin();
-  /*private ddSolicitacao: SolicDropdownMenuListarI = {
-    ddCadastro_municipio_id: [],
-    ddCadastro_regiao_id: [],
-    ddSolicitacao_area_interesse_id: [],
-    ddSolicitacao_assunto_id: [],
-    ddSolicitacao_atendente_cadastro_id: [],
-    ddSolicitacao_cadastrante_cadastro_id: [],
-    ddSolicitacao_cadastro_id: [],
-    ddSolicitacao_cadastro_tipo_id: [],
-    ddSolicitacao_data: [],
-    ddSolicitacao_local_id: [],
-    ddSolicitacao_posicao: [],
-    ddSolicitacao_reponsavel_analize_id: [],
-    ddSolicitacao_tipo_recebimento_id: []
-  };*/
-  private ddSolicitacao: SolicitacaoDropdownMenuListarInterface;
+
+  private ddSolicitacao: any[];
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
@@ -43,12 +26,12 @@ export class SolicDropdownMenuService {
 
 
   constructor(
-    private dd: DropdownService
+    private dd: DdService
   ) { }
 
 
   getDropdownMenu() {
-      this.sub.push(this.dd.getDropdownSolicitacaoMenuTodos()
+      this.sub.push(this.dd.getDd('solic-menu-dropdown')
         .pipe(take(1))
         .subscribe((dados) => {
             this.ddSolicitacao = dados;
@@ -167,15 +150,11 @@ export class SolicDropdownMenuService {
     if (!sessionStorage.getItem('solic-menu-dropdown')) {
       if (!this.inicio) {
         sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(this.ddSolicitacao));
-        let ct = 0;
         this.sub.forEach(s => {
-          ct++;
           s.unsubscribe()
-          if (ct === 3) {
-            this.resp.next(true);
-            this.resp.complete();
-          }
         });
+        this.resp.next(true);
+        this.resp.complete();
       }
       if (this.inicio) {
         this.inicio = false;

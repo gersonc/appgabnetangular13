@@ -18,11 +18,11 @@ export interface SolicBuscaI {
   solicitacao_descricao?: string;
   solicitacao_orgao?: string;
   processo_numero?: string;
-  numlinhas?: string;
-  inicio?: string;
-  sortorder?: string;
-  sortcampo?: string;
+  rows?: number;
+  first?: number;
+  sortOrder?: number;
+  sortField?: string;
   todos?: boolean;
   campos?: BuscaCampoI[];
-  ids?: BuscaCampoI[];
+  ids?: number[];
 }

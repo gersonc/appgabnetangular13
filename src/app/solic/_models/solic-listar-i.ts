@@ -49,7 +49,7 @@ export interface SolicListarI {
   solicitacao_reponsavel_analize_id?: number;
   solicitacao_reponsavel_analize_nome?: string;
   solicitacao_aceita_sn2?: number;
-  solicitacao_posicao2?: number;
+  solicitacao_posicao1?: number;
   solicitacao_processo_id?: number;
   solicitacao_arquivos?: ArquivoListagem[];
   // cadastro: SolicCadastro;

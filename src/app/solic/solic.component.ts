@@ -1,38 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {MenuInternoService} from "../_services";
-import {SolicitacaoBuscarService} from "../solicitacao/_services";
 import {ArquivoService} from "../arquivo/_services";
+import {SolicService} from "./_services/solic.service";
 
 @Component({
   selector: 'app-solic',
   templateUrl: './solic.component.html',
   styleUrls: ['./solic.component.css']
 })
-export class SolicComponent implements OnInit {
+export class SolicComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   sub: Subscription[] = [];
   public mostraMenuInterno = false;
 
   constructor(
     public mi: MenuInternoService,
-    private sbs: SolicitacaoBuscarService,
+    private ss: SolicService,
     private as: ArquivoService,
-  ) {  }
+  ) {
+    // this.ss.criaTabela();
+  }
 
   ngOnInit() {
+    // this.ss.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
       })
     );
     this.as.getPermissoes();
-    this.sbs.criarSolicitacaoBusca();
-    if (!sessionStorage.getItem('solicitacao-busca')) {
-      this.sbs.buscaStateSN = false;
+    if (!sessionStorage.getItem('solic-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
-      if (this.sbs.buscaStateSN) {
+      if (this.ss.stateSN) {
         this.mi.mudaMenuInterno(false);
       } else {
         this.mi.mudaMenuInterno(true);
@@ -45,6 +46,7 @@ export class SolicComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
+    this.ss.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }
 }

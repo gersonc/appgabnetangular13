@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {SolicBuscaI} from "../_models/solic-busca-i";
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +16,16 @@ export class SolicBuscaService {
   state: any;
   ct = 0;
 
+  campos: string[];
+  titulos: string[];
+  cols: any[] = [];
+
   // solicitacaoBusca: SolicBuscaI;
-  busca: any = {};
+  busca?: SolicBuscaI;
   expandidoDados: any = false;
 
   constructor() {
-    this.busca = {
-      todos: true,
-      campos: [],
-      ids: []
-    }
+    this.criarBusca();
     this.buscaStateSN$.subscribe(vf => {
       this.stateSN = vf;
     });
@@ -49,13 +50,17 @@ export class SolicBuscaService {
     this.buscaStateSubject.next(dados);
   }
 
-  get buscaState() {
+  get buscaState(): any {
     return this.state;
   }
 
   criarBusca() {
     if (!this.busca) {
-      this.busca = {};
+      this.busca = {
+        todos: false,
+        campos: [],
+        ids: []
+      }
     }
   }
 
@@ -65,9 +70,22 @@ export class SolicBuscaService {
   }
 
   resetSolicitacaoBusca() {
-    this.busca = {};
+    this.busca = {
+      todos: false,
+      campos: [],
+      ids: []
+    };
     this.buscaStateSN = false;
     sessionStorage.removeItem('solicitacao-listagem');
+  }
+
+  definirCampo() {
+    this.campos = [];
+    this.titulos = [];
+    this.cols.forEach( x => {
+      this.campos.push(x.field);
+      this.titulos.push(x.header);
+    });
   }
 
 }

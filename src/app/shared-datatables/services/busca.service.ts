@@ -19,15 +19,16 @@ export class BuscaService {
   ct = 0;
 
   // solicitacaoBusca: SolicBuscaI;
-  busca: any = {};
+  busca: any;
   expandidoDados: any = false;
 
   constructor() {
-    this.busca = {
+    /*this.busca = {
       todos: true,
       campos: [],
       ids: []
-    }
+    }*/
+
     this.buscaStateSN$.subscribe( vf => { this.stateSN = vf; });
     this.buscaState$.subscribe( dados => {this.state = dados; });
   }
@@ -58,14 +59,14 @@ export class BuscaService {
     }
   }
 
-  getState(): void {
-    this.state = JSON.parse(sessionStorage.getItem('datatable-listagem'));
+  getState(sessaoListagem: string): void {
+    this.state = JSON.parse(sessionStorage.getItem(sessaoListagem));
     console.log('state-->', this.state);
   }
 
-  resetSolicitacaoBusca() {
+  resetSolicitacaoBusca(sessaoListagem: string) {
     this.busca = {};
     this.buscaStateSN = false;
-    sessionStorage.removeItem('datatable-busca');
+    sessionStorage.removeItem(sessaoListagem);
   }
 }

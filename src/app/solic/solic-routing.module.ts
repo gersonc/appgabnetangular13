@@ -7,6 +7,7 @@ import {Rule, Scope} from "../_models";
 import {SolicListarResolver} from "./_resolvers/solic-listar.resolver";
 import {SolicIncluirComponent} from "./solic-incluir/solic-incluir.component";
 import {SolicFormResolver} from "./_resolvers/solic-form.resolver";
+import {SolicFormComponent} from "./solic-form/solic-form.component";
 
 const routes: Routes = [
   {
@@ -60,7 +61,7 @@ const routes: Routes = [
       },
       {
         path: 'incluir/cadastro/:modulo',
-        component: SolicIncluirComponent,
+        component: SolicFormComponent,
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.solicitacao,
@@ -68,8 +69,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'alterar/cadastro/:modulo',
+        component: SolicFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_alterar
+        }
+      },
+      {
         path: 'incluir',
-        component: SolicIncluirComponent,
+        component: SolicFormComponent,
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.solicitacao,
@@ -80,8 +90,20 @@ const routes: Routes = [
         }
       },
       {
+        path: 'alterar',
+        component: SolicFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_alterar
+        },
+        resolve: {
+          dados: SolicFormResolver
+        }
+      },
+      {
         path: 'incluir2',
-        component: SolicIncluirComponent,
+        component: SolicFormComponent,
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.solicitacao,

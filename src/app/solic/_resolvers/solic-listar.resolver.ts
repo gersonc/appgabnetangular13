@@ -60,7 +60,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     Observable<SolicPaginacaoInterface> |
     Observable<boolean> |
     Observable<never> {
-    this.solicitacaoService.getTitulos();
+    // this.solicitacaoService.getTitulos();
     if (!sessionStorage.getItem('solic-menu-dropdown')) {
       this.populaDropdown();
       return this.resp$.pipe(

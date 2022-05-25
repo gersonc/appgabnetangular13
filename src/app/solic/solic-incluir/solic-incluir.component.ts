@@ -104,6 +104,12 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.cadastro_incluir = this.aut.cadastro_incluir;
+    if (this.sfs.acao === 'alterar') {
+      this.novoRegistro = {
+        label: this.sfs.solicListar.solicitacao_cadastro_nome,
+        value: +this.sfs.solicListar.solicitacao_cadastro_id
+      };
+    }
     if (sessionStorage.getItem('solicitacao-incluir')) {
       this.sfs.solicitacao = JSON.parse(sessionStorage.getItem('solicitacao-incluir'));
       sessionStorage.removeItem('solicitacao-incluir');
@@ -279,6 +285,10 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
+    if (this.sfs.acao === 'alterar') {
+      this.formSol.get('solicitacao_cadastro_id').patchValue(this.novoRegistro);
+    }
+
   }
 
   configuraEditor() {
@@ -331,22 +341,6 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stl =  ev.checked ? 'p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1' : 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
     // return this.stl
   }
-
-  /*focus1(event) {
-    this.mostraModulos1 = 'inline-block';
-    this.mostraModulos2 = 'none';
-    this.mostraModulos3 = 'none';
-  }
-  focus2(event) {
-    this.mostraModulos1 = 'none';
-    this.mostraModulos2 = 'inline-block';
-    this.mostraModulos3 = 'none';
-  }
-  focus3(event) {
-    this.mostraModulos1 = 'none';
-    this.mostraModulos2 = 'none';
-    this.mostraModulos3 = 'inline-block';
-  }*/
 
   enviarSolicitacao() {
     if (this.formSol.valid) {

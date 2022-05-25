@@ -173,9 +173,9 @@ export class DatatableService {
   }
 
   excluirColunaExpandida() {
-      sessionStorage.removeItem(this.sessaoLinhaExpandida);
-      this.dadosExpandidos = [];
-      this.expandedRowKeys = null;
+    sessionStorage.removeItem(this.sessaoLinhaExpandida);
+    this.dadosExpandidos = [];
+    this.expandedRowKeys = null;
   }
 
 
@@ -256,20 +256,20 @@ export class DatatableService {
     this.recuperaColunaExpandida()
     this.busca = JSON.parse(sessionStorage.getItem(this.sessaobusca));
     const sessao = JSON.parse(sessionStorage.getItem(this.sessaotabela));
-      this.cols = sessao.cols;
-      this.dadosExpandidos = sessao.dadosExpandidos;
-      this.dadosExpandidosRaw = sessao.dadosExpandidosRaw;
-      // this.cfg = +sessao.cfg;
-      // this.cfgVersao = +sessao.cfgVersao;
-      this.campos = sessao.campos;
-      this.titulos = sessao.titulos;
-      this.camposTexto = sessao.camposTexto;
-      this.selectedColumns = sessao.selectedColumns;
-      this.selectedColumnsOld = sessao.selectedColumnsOld;
-      this.camposSelecionados = sessao.camposSelecionados;
-      this.total = sessao.total;
-      sessionStorage.removeItem(this.sessaotabela);
-      // sessionStorage.removeItem(this.sessaotable);
+    this.cols = sessao.cols;
+    this.dadosExpandidos = sessao.dadosExpandidos;
+    this.dadosExpandidosRaw = sessao.dadosExpandidosRaw;
+    // this.cfg = +sessao.cfg;
+    // this.cfgVersao = +sessao.cfgVersao;
+    this.campos = sessao.campos;
+    this.titulos = sessao.titulos;
+    this.camposTexto = sessao.camposTexto;
+    this.selectedColumns = sessao.selectedColumns;
+    this.selectedColumnsOld = sessao.selectedColumnsOld;
+    this.camposSelecionados = sessao.camposSelecionados;
+    this.total = sessao.total;
+    sessionStorage.removeItem(this.sessaotabela);
+    // sessionStorage.removeItem(this.sessaotable);
   }
 
 

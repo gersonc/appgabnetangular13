@@ -29,6 +29,7 @@
                       [required]="true"
                       [autofocus]="true"
                       [group]="true"
+                      (onChange)="cadastro_tipo_change()"
                       name="solicitacao_cadastro_tipo_id"
                       [ngClass]="aplicaCssErro('solicitacao_cadastro_tipo_id')"
                     ></p-dropdown>
@@ -224,7 +225,7 @@
                   <!--*** solicitacao_indicacao_sn ***-->
                   <div class="formulario-switch p-field" [ngClass]=stl>
                     <h5>Indicação</h5>
-                    <p-inputSwitch #indsn formControlName="solicitacao_indicacao_sn" (onChange)="trocaIndicacaoSV($event)"></p-inputSwitch>
+                    <p-inputSwitch #indsn formControlName="solicitacao_indicacao_sn" (onChange)="trocaIndicacaoSV($event)" ></p-inputSwitch>
                   </div>
 
                   <!--*** solicitacao_indicacao_nome ***-->
@@ -263,7 +264,7 @@
               <div class="p-col-12 formulario">
                 <div class="p-fluid p-formgrid p-grid">
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-8  p-as-end">
+                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                     <p-accordion>
                       <p-accordionTab header="Descrição da solicitação">
                         <div class="formulario-quill">
@@ -321,7 +322,7 @@
                   </div>
 
                   <ng-container *ngIf="aut.arquivos">
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-4">
+                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                       <app-arquivo *ngIf="sfs.acao === 'incluir'"
                         [modulo]="'solicitacao'"
                         [modelo]="'incluir'"

@@ -1,0 +1,1147 @@
+{
+  "aerolinha_nome": {
+    "field": "aerolinha_nome",
+    "mtitulo": "COMPANHIA AÉREA",
+    "titulo": "Companhia Aérea"
+  },
+  "andamento_nome": {
+    "field": "andamento_nome",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
+  "andamento_proposicao_data": {
+    "field": "andamento_proposicao_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "andamento_proposicao_orgao_nome": {
+    "field": "andamento_proposicao_orgao_nome",
+    "mtitulo": "ORGÃO",
+    "titulo": "Orgão"
+  },
+  "andamento_proposicao_relator_atual": {
+    "field": "andamento_proposicao_relator_atual",
+    "mtitulo": "RELATOR ATUAL",
+    "titulo": "Relator Atual"
+  },
+  "andamento_proposicao_situacao_nome": {
+    "field": "andamento_proposicao_situacao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "ano": {
+    "field": "ano",
+    "mtitulo": "ANO",
+    "titulo": "Ano"
+  },
+  "area_interesse_nome": {
+    "field": "area_interesse_nome",
+    "mtitulo": "ÁREA DE INTERESSE",
+    "titulo": "Área de Interesse"
+  },
+  "assunto_nome": {
+    "field": "assunto_nome",
+    "mtitulo": "ASSUNTO",
+    "titulo": "Assunto"
+  },
+  "cadastro_agenda": {
+    "field": "cadastro_agenda",
+    "mtitulo": "CONTATO",
+    "titulo": "Contato"
+  },
+  "cadastro_apelido": {
+    "field": "cadastro_apelido",
+    "mtitulo": "APELIDO",
+    "titulo": "Apelido"
+  },
+  "cadastro_bairro": {
+    "field": "cadastro_bairro",
+    "mtitulo": "BAIRRO",
+    "titulo": "Bairro"
+  },
+  "cadastro_campo1": {
+    "field": "cadastro_campo1",
+    "mtitulo": "CAMPO 1",
+    "titulo": "Campo 1"
+  },
+  "cadastro_campo2": {
+    "field": "cadastro_campo2",
+    "mtitulo": "CAMPO 2",
+    "titulo": "Campo 2"
+  },
+  "cadastro_campo3": {
+    "field": "cadastro_campo3",
+    "mtitulo": "CAMPO 3",
+    "titulo": "Campo 3"
+  },
+  "cadastro_campo4_nome": {
+    "field": "cadastro_campo4_nome",
+    "mtitulo": "CAMPO 4",
+    "titulo": "Campo 4"
+  },
+  "cadastro_cargo": {
+    "field": "cadastro_cargo",
+    "mtitulo": "CARGO",
+    "titulo": "Cargo"
+  },
+  "cadastro_celular": {
+    "field": "cadastro_celular",
+    "mtitulo": "CELULAR 1",
+    "titulo": "Celular 1"
+  },
+  "cadastro_celular2": {
+    "field": "cadastro_celular2",
+    "mtitulo": "CELULAR 2",
+    "titulo": "Celular 2"
+  },
+  "cadastro_cep": {
+    "field": "cadastro_cep",
+    "mtitulo": "CEP",
+    "titulo": "Cep"
+  },
+  "cadastro_conjuge": {
+    "field": "cadastro_conjuge",
+    "mtitulo": "CONJUGE",
+    "titulo": "Conjuge"
+  },
+  "cadastro_cpfcnpj": {
+    "field": "cadastro_cpfcnpj",
+    "mtitulo": "CPF/CNPJ",
+    "titulo": "Cpf/Cnpj"
+  },
+  "cadastro_data_atualizacao": {
+    "field": "cadastro_data_atualizacao",
+    "mtitulo": "DT. ATUALIZAÇÃO",
+    "titulo": "Dt. Atualização"
+  },
+  "cadastro_data_cadastramento": {
+    "field": "cadastro_data_cadastramento",
+    "mtitulo": "DT. CADASTRAMENTO",
+    "titulo": "Dt. Cadastramento"
+  },
+  "cadastro_data_nascimento": {
+    "field": "cadastro_data_nascimento",
+    "mtitulo": "DT. NASC. / FUNDAÇÃO",
+    "titulo": "Dt. Nasc. / Fundação"
+  },
+  "cadastro_email": {
+    "field": "cadastro_email",
+    "mtitulo": "E-MAIL",
+    "titulo": "E-Mail"
+  },
+  "cadastro_email2": {
+    "field": "cadastro_email2",
+    "mtitulo": "E-MAIL 2",
+    "titulo": "E-Mail 2"
+  },
+  "cadastro_endereco": {
+    "field": "cadastro_endereco",
+    "mtitulo": "ENDEREÇO",
+    "titulo": "Endereço"
+  },
+  "cadastro_endereco_complemento": {
+    "field": "cadastro_endereco_complemento",
+    "mtitulo": "END. COMPLEMENTO",
+    "titulo": "End. Complemento"
+  },
+  "cadastro_endereco_numero": {
+    "field": "cadastro_endereco_numero",
+    "mtitulo": "END. NÚMERO",
+    "titulo": "End. Número"
+  },
+  "cadastro_escolaridade_nome": {
+    "field": "cadastro_escolaridade_nome",
+    "mtitulo": "ESCOLARIDADE",
+    "titulo": "Escolaridade"
+  },
+  "cadastro_estado_civil_nome": {
+    "field": "cadastro_estado_civil_nome",
+    "mtitulo": "ESTADO CIVIL",
+    "titulo": "Estado Civil"
+  },
+  "cadastro_estado_nome": {
+    "field": "cadastro_estado_nome",
+    "mtitulo": "ESTADO",
+    "titulo": "Estado"
+  },
+  "cadastro_fax": {
+    "field": "cadastro_fax",
+    "mtitulo": "WHATSAPP",
+    "titulo": "Whatsapp"
+  },
+  "cadastro_grupo_nome": {
+    "field": "cadastro_grupo_nome",
+    "mtitulo": "GRUPO",
+    "titulo": "Grupo"
+  },
+  "cadastro_jornal": {
+    "field": "cadastro_jornal",
+    "mtitulo": "BOLETIM",
+    "titulo": "Boletim"
+  },
+  "cadastro_mala": {
+    "field": "cadastro_mala",
+    "mtitulo": "MALA DIRETA",
+    "titulo": "Mala Direta"
+  },
+  "cadastro_municipio_nome": {
+    "field": "cadastro_municipio_nome",
+    "mtitulo": "MUNICÍPIO",
+    "titulo": "Município"
+  },
+  "cadastro_nome": {
+    "field": "cadastro_nome",
+    "mtitulo": "NOME / RAZÃO SOCIAL",
+    "titulo": "Nome / Razão Social"
+  },
+  "cadastro_observacao": {
+    "field": "cadastro_observacao",
+    "mtitulo": "OBS",
+    "titulo": "Obs"
+  },
+  "cadastro_outras_midias": {
+    "field": "cadastro_outras_midias",
+    "mtitulo": "OUTRAS MÍDIAS",
+    "titulo": "Outras Mídias"
+  },
+  "cadastro_profissao": {
+    "field": "cadastro_profissao",
+    "mtitulo": "PROFISSÃO",
+    "titulo": "Profissão"
+  },
+  "cadastro_rede_social": {
+    "field": "cadastro_rede_social",
+    "mtitulo": "FACEBOOK",
+    "titulo": "Facebook"
+  },
+  "cadastro_regiao_nome": {
+    "field": "cadastro_regiao_nome",
+    "mtitulo": "REGIÃO",
+    "titulo": "Região"
+  },
+  "cadastro_responsavel": {
+    "field": "cadastro_responsavel",
+    "mtitulo": "EMPRESA / RESPONSÁVEL",
+    "titulo": "Empresa / Responsável"
+  },
+  "cadastro_rg": {
+    "field": "cadastro_rg",
+    "mtitulo": "RG",
+    "titulo": "Rg"
+  },
+  "cadastro_secao": {
+    "field": "cadastro_secao",
+    "mtitulo": "SEÇÃO",
+    "titulo": "Seção"
+  },
+  "cadastro_sexo": {
+    "field": "cadastro_sexo",
+    "mtitulo": "GENERO",
+    "titulo": "Genero"
+  },
+  "cadastro_sigilo": {
+    "field": "cadastro_sigilo",
+    "mtitulo": "SIGILO",
+    "titulo": "Sigilo"
+  },
+  "cadastro_sigla": {
+    "field": "cadastro_sigla",
+    "mtitulo": "SIGLA",
+    "titulo": "Sigla"
+  },
+  "cadastro_telcom": {
+    "field": "cadastro_telcom",
+    "mtitulo": "TELEFONE 2",
+    "titulo": "Telefone 2"
+  },
+  "cadastro_telefone": {
+    "field": "cadastro_telefone",
+    "mtitulo": "TELEFONE 1",
+    "titulo": "Telefone 1"
+  },
+  "cadastro_telefone2": {
+    "field": "cadastro_telefone2",
+    "mtitulo": "TELEFONE 3",
+    "titulo": "Telefone 3"
+  },
+  "cadastro_tipo_nome": {
+    "field": "cadastro_tipo_nome",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
+  "cadastro_titulo": {
+    "field": "cadastro_titulo",
+    "mtitulo": "TITULO",
+    "titulo": "Titulo"
+  },
+  "cadastro_tratamento_nome": {
+    "field": "cadastro_tratamento_nome",
+    "mtitulo": "TRATAMENTO",
+    "titulo": "Tratamento"
+  },
+  "cadastro_usuario": {
+    "field": "cadastro_usuario",
+    "mtitulo": "CADASTRANTE",
+    "titulo": "Cadastrante"
+  },
+  "cadastro_zona": {
+    "field": "cadastro_zona",
+    "mtitulo": "PARTIDO",
+    "titulo": "Partido"
+  },
+  "calendario_status_nome": {
+    "field": "calendario_status_nome",
+    "mtitulo": "STATUS",
+    "titulo": "Status"
+  },
+  "campo4_nome": {
+    "field": "campo4_nome",
+    "mtitulo": "CAMPO4",
+    "titulo": "Campo4"
+  },
+  "conta_cedente": {
+    "field": "conta_cedente",
+    "mtitulo": "CEDENTE",
+    "titulo": "Cedente"
+  },
+  "conta_debito_automatico": {
+    "field": "conta_debito_automatico",
+    "mtitulo": "DEBITO AUTOMÁTICO",
+    "titulo": "Debito Automático"
+  },
+  "conta_local_nome": {
+    "field": "conta_local_nome",
+    "mtitulo": "NÚCLEO",
+    "titulo": "Núcleo"
+  },
+  "conta_observacao": {
+    "field": "conta_observacao",
+    "mtitulo": "OBSERVAÇÃO",
+    "titulo": "Observação"
+  },
+  "conta_paga": {
+    "field": "conta_paga",
+    "mtitulo": "PAGA",
+    "titulo": "Paga"
+  },
+  "conta_pagamento": {
+    "field": "conta_pagamento",
+    "mtitulo": "PAGAMENTO",
+    "titulo": "Pagamento"
+  },
+  "conta_tipo": {
+    "field": "conta_tipo",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
+  "conta_valor": {
+    "field": "conta_valor",
+    "mtitulo": "VALOR",
+    "titulo": "Valor"
+  },
+  "conta_vencimento": {
+    "field": "conta_vencimento",
+    "mtitulo": "VENCIMENTO",
+    "titulo": "Vencimento"
+  },
+  "data": {
+    "field": "data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "emenda_assunto_nome": {
+    "field": "emenda_assunto_nome",
+    "mtitulo": "ASSUNTO",
+    "titulo": "Assunto"
+  },
+  "emenda_autor_nome": {
+    "field": "emenda_autor_nome",
+    "mtitulo": "AUTOR",
+    "titulo": "Autor"
+  },
+  "emenda_autor_tipo_nome": {
+    "field": "emenda_autor_tipo_nome",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
+  "emenda_cadastro_nome": {
+    "field": "emenda_cadastro_nome",
+    "mtitulo": "SOLICITANTE",
+    "titulo": "Solicitante"
+  },
+  "emenda_cadastro_tipo_nome": {
+    "field": "emenda_cadastro_tipo_nome",
+    "mtitulo": "TIPO DE SOLICITANTE",
+    "titulo": "Tipo de Solicitante"
+  },
+  "emenda_contrato": {
+    "field": "emenda_contrato",
+    "mtitulo": "CONTRATO CAIXA",
+    "titulo": "Contrato Caixa"
+  },
+  "emenda_crnr": {
+    "field": "emenda_crnr",
+    "mtitulo": "CR.NR.",
+    "titulo": "Cr.Nr."
+  },
+  "emenda_data_empenho": {
+    "field": "emenda_data_empenho",
+    "mtitulo": "DT. EMPENHO",
+    "titulo": "Dt. Empenho"
+  },
+  "emenda_data_pagamento": {
+    "field": "emenda_data_pagamento",
+    "mtitulo": "DT. PAGAMENTO",
+    "titulo": "Dt. Pagamento"
+  },
+  "emenda_data_solicitacao": {
+    "field": "emenda_data_solicitacao",
+    "mtitulo": "DT. SOLICITAÇÃO",
+    "titulo": "Dt. Solicitação"
+  },
+  "emenda_funcional_programatica": {
+    "field": "emenda_funcional_programatica",
+    "mtitulo": "FUNC. PROGRAMÁTICA",
+    "titulo": "Func. Programática"
+  },
+  "emenda_gmdna": {
+    "field": "emenda_gmdna",
+    "mtitulo": "GND/MA",
+    "titulo": "Gnd/Ma"
+  },
+  "emenda_justificativa": {
+    "field": "emenda_justificativa",
+    "mtitulo": "JUSTIFICATIVA",
+    "titulo": "Justificativa"
+  },
+  "emenda_local_nome": {
+    "field": "emenda_local_nome",
+    "mtitulo": "NÚCLEO",
+    "titulo": "Núcleo"
+  },
+  "emenda_numero": {
+    "field": "emenda_numero",
+    "mtitulo": "NÚM EMENDA",
+    "titulo": "Núm Emenda"
+  },
+  "emenda_numero_empenho": {
+    "field": "emenda_numero_empenho",
+    "mtitulo": "NUM EMPENHO",
+    "titulo": "Num Empenho"
+  },
+  "emenda_numero_ordem_bancaria": {
+    "field": "emenda_numero_ordem_bancaria",
+    "mtitulo": "ORD. BANCÁRIA",
+    "titulo": "Ord. Bancária"
+  },
+  "emenda_numero_protocolo": {
+    "field": "emenda_numero_protocolo",
+    "mtitulo": "NUM. PROTOCOLO",
+    "titulo": "Num. Protocolo"
+  },
+  "emenda_observacao_pagamento": {
+    "field": "emenda_observacao_pagamento",
+    "mtitulo": "INFO. PGTO",
+    "titulo": "Info. Pgto"
+  },
+  "emenda_ogu_nome": {
+    "field": "emenda_ogu_nome",
+    "mtitulo": "O.G.U.",
+    "titulo": "O.G.U."
+  },
+  "emenda_orgao_solicitado_nome": {
+    "field": "emenda_orgao_solicitado_nome",
+    "mtitulo": "ORGÃO SOLICITADO",
+    "titulo": "Orgão Solicitado"
+  },
+  "emenda_porcentagem": {
+    "field": "emenda_porcentagem",
+    "mtitulo": "% CONCLUIDA",
+    "titulo": "% Concluida"
+  },
+  "emenda_processo": {
+    "field": "emenda_processo",
+    "mtitulo": "CONTRATO/PROCESSO",
+    "titulo": "Contrato/Processo"
+  },
+  "emenda_proposicao_nome": {
+    "field": "emenda_proposicao_nome",
+    "mtitulo": "PROPOSIÇÃO",
+    "titulo": "Proposição"
+  },
+  "emenda_regiao": {
+    "field": "emenda_regiao",
+    "mtitulo": "REGIÃO",
+    "titulo": "Região"
+  },
+  "emenda_siconv": {
+    "field": "emenda_siconv",
+    "mtitulo": "SICONV",
+    "titulo": "Siconv"
+  },
+  "emenda_situacao": {
+    "field": "emenda_situacao",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "emenda_tipo_emenda_nome": {
+    "field": "emenda_tipo_emenda_nome",
+    "mtitulo": "TIPO DE EMENDA",
+    "titulo": "Tipo de Emenda"
+  },
+  "emenda_uggestao": {
+    "field": "emenda_uggestao",
+    "mtitulo": "UG/GESTÃO",
+    "titulo": "Ug/Gestão"
+  },
+  "emenda_valor_empenhado": {
+    "field": "emenda_valor_empenhado",
+    "mtitulo": "VL. EMPENHADO",
+    "titulo": "Vl. Empenhado"
+  },
+  "emenda_valor_pago": {
+    "field": "emenda_valor_pago",
+    "mtitulo": "VL PAGAMENTO",
+    "titulo": "Vl Pagamento"
+  },
+  "emenda_valor_solicitadado": {
+    "field": "emenda_valor_solicitadado",
+    "mtitulo": "VL. SOLICITADO",
+    "titulo": "Vl. Solicitado"
+  },
+  "escolaridade_nome": {
+    "field": "escolaridade_nome",
+    "mtitulo": "ESCOLARIDADE",
+    "titulo": "Escolaridade"
+  },
+  "estado_civil_nome": {
+    "field": "estado_civil_nome",
+    "mtitulo": "ESTADO CIVIL",
+    "titulo": "Estado Civil"
+  },
+  "estado_nome": {
+    "field": "estado_nome",
+    "mtitulo": "ESTADO",
+    "titulo": "Estado"
+  },
+  "grupo_nome": {
+    "field": "grupo_nome",
+    "mtitulo": "GRUPO",
+    "titulo": "Grupo"
+  },
+  "his_data": {
+    "field": "his_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "his_usuario": {
+    "field": "his_usuario",
+    "mtitulo": "USUÁRIO",
+    "titulo": "Usuário"
+  },
+  "historico_andamento": {
+    "field": "historico_andamento",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
+  "historico_data": {
+    "field": "historico_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "local_nome": {
+    "field": "local_nome",
+    "mtitulo": "NÚCLEO",
+    "titulo": "Núcleo"
+  },
+  "municipio_nome": {
+    "field": "municipio_nome",
+    "mtitulo": "MUNICÍPIO",
+    "titulo": "Município"
+  },
+  "nome": {
+    "field": "nome",
+    "mtitulo": "NOME",
+    "titulo": "Nome"
+  },
+  "obs": {
+    "field": "obs",
+    "mtitulo": "OBS.",
+    "titulo": "Obs."
+  },
+  "observacao": {
+    "field": "observacao",
+    "mtitulo": "OBSERVAÇÃO",
+    "titulo": "Observação"
+  },
+  "oficio_area_interesse_nome": {
+    "field": "oficio_area_interesse_nome",
+    "mtitulo": "ÁREA DE INTERESSE",
+    "titulo": "Área de Interesse"
+  },
+  "oficio_assunto_nome": {
+    "field": "oficio_assunto_nome",
+    "mtitulo": "ASSUNTO",
+    "titulo": "Assunto"
+  },
+  "oficio_cadastro_nome": {
+    "field": "oficio_cadastro_nome",
+    "mtitulo": "SOLICITANTE",
+    "titulo": "Solicitante"
+  },
+  "oficio_codigo": {
+    "field": "oficio_codigo",
+    "mtitulo": "CÓDIGO",
+    "titulo": "Código"
+  },
+  "oficio_convenio": {
+    "field": "oficio_convenio",
+    "mtitulo": "CONVENIO",
+    "titulo": "Convenio"
+  },
+  "oficio_data_emissao": {
+    "field": "oficio_data_emissao",
+    "mtitulo": "DATA EMISSÃO",
+    "titulo": "Data de Emissão"
+  },
+  "oficio_data_empenho": {
+    "field": "oficio_data_empenho",
+    "mtitulo": "DATA DO EMPENHO",
+    "titulo": "Data do Empenho"
+  },
+  "oficio_data_pagamento": {
+    "field": "oficio_data_pagamento",
+    "mtitulo": "DATA DO PAGAMENTO",
+    "titulo": "Data do Pagamento"
+  },
+  "oficio_data_protocolo": {
+    "field": "oficio_data_protocolo",
+    "mtitulo": "DATA DO PROTOCOLO",
+    "titulo": "Data do Protocolo"
+  },
+  "oficio_data_recebimento": {
+    "field": "oficio_data_recebimento",
+    "mtitulo": "DATA DO RECEBIMENTO",
+    "titulo": "Data do Recebimento"
+  },
+  "oficio_descricao_acao": {
+    "field": "oficio_descricao_acao",
+    "mtitulo": "DESCRIÇÃO",
+    "titulo": "Descrição"
+  },
+  "oficio_municipio_nome": {
+    "field": "oficio_municipio_nome",
+    "mtitulo": "MUNICÍPIO",
+    "titulo": "Município"
+  },
+  "oficio_numero": {
+    "field": "oficio_numero",
+    "mtitulo": "NÚMERO DO OFÍCIO",
+    "titulo": "Número do Ofício"
+  },
+  "oficio_orgao_protocolante_nome": {
+    "field": "oficio_orgao_protocolante_nome",
+    "mtitulo": "ORGÃO PROTOCOLANTE",
+    "titulo": "Orgão Protocolante"
+  },
+  "oficio_orgao_solicitado_nome": {
+    "field": "oficio_orgao_solicitado_nome",
+    "mtitulo": "ORGÃO SOLICITADO",
+    "titulo": "Orgão Solicitado"
+  },
+  "oficio_prazo": {
+    "field": "oficio_prazo",
+    "mtitulo": "PRAZO DA AÇÃO",
+    "titulo": "Prazo da Ação"
+  },
+  "oficio_prioridade_nome": {
+    "field": "oficio_prioridade_nome",
+    "mtitulo": "PRIORIDADE",
+    "titulo": "Prioridade"
+  },
+  "oficio_processo_numero": {
+    "field": "oficio_processo_numero",
+    "mtitulo": "NÚMERO DO PROCESSO",
+    "titulo": "Número do Processo"
+  },
+  "oficio_protocolante_funcionario": {
+    "field": "oficio_protocolante_funcionario",
+    "mtitulo": "FUNCIONÁRIO DO ORGÃO",
+    "titulo": "Funcionário do Orgão"
+  },
+  "oficio_protocolo_numero": {
+    "field": "oficio_protocolo_numero",
+    "mtitulo": "NÚMERO DO PROTOCOLO",
+    "titulo": "Número do Protocolo"
+  },
+  "oficio_solicitacao_descricao": {
+    "field": "oficio_solicitacao_descricao",
+    "mtitulo": "DESC. DA SOLICITAÇÃO",
+    "titulo": "Desc. da Solicitação"
+  },
+  "oficio_status": {
+    "field": "oficio_status",
+    "mtitulo": "POSIÇÃO",
+    "titulo": "Posição"
+  },
+  "oficio_status_nome": {
+    "field": "oficio_status_nome",
+    "mtitulo": "STATUS",
+    "titulo": "Status"
+  },
+  "oficio_tipo_andamento_nome": {
+    "field": "oficio_tipo_andamento_nome",
+    "mtitulo": "TP ANDAMENTO",
+    "titulo": "Tp Andamento"
+  },
+  "oficio_tipo_recebimento_nome": {
+    "field": "oficio_tipo_recebimento_nome",
+    "mtitulo": "TP RECEBIMENTO",
+    "titulo": "Tp Recebimento"
+  },
+  "oficio_tipo_solicitante_nome": {
+    "field": "oficio_tipo_solicitante_nome",
+    "mtitulo": "TP SOLICITANTE",
+    "titulo": "Tp Solicitante"
+  },
+  "oficio_valor_recebido": {
+    "field": "oficio_valor_recebido",
+    "mtitulo": "VALOR RECEBIDO",
+    "titulo": "Valor Recebido"
+  },
+  "oficio_valor_solicitado": {
+    "field": "oficio_valor_solicitado",
+    "mtitulo": "VALOR SOLICITADO",
+    "titulo": "Valor Solicitado"
+  },
+  "ogu_nome": {
+    "field": "ogu_nome",
+    "mtitulo": "O.G.U.",
+    "titulo": "O.G.U."
+  },
+  "orgao_proposicao_nome": {
+    "field": "orgao_proposicao_nome",
+    "mtitulo": "ÓRGÃO",
+    "titulo": "Órgão"
+  },
+  "origem_proposicao_nome": {
+    "field": "origem_proposicao_nome",
+    "mtitulo": "ORIGEM",
+    "titulo": "Origem"
+  },
+  "passagem_aerolinha_nome": {
+    "field": "passagem_aerolinha_nome",
+    "mtitulo": "COMPANHIA AÉREA",
+    "titulo": "Companhia Aérea"
+  },
+  "passagem_beneficiario": {
+    "field": "passagem_beneficiario",
+    "mtitulo": "BENEFICIÁRIO",
+    "titulo": "Beneficiário"
+  },
+  "passagem_data": {
+    "field": "passagem_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "passagem_hora": {
+    "field": "passagem_hora",
+    "mtitulo": "HORA",
+    "titulo": "Hora"
+  },
+  "passagem_localizador": {
+    "field": "passagem_localizador",
+    "mtitulo": "LOCALIZADOR",
+    "titulo": "Localizador"
+  },
+  "passagem_observacao": {
+    "field": "passagem_observacao",
+    "mtitulo": "OBSERVAÇÃO",
+    "titulo": "Observação"
+  },
+  "passagem_trecho": {
+    "field": "passagem_trecho",
+    "mtitulo": "TRECHO",
+    "titulo": "Trecho"
+  },
+  "passagem_valor": {
+    "field": "passagem_valor",
+    "mtitulo": "VALOR",
+    "titulo": "Valor"
+  },
+  "passagem_voado_sn": {
+    "field": "passagem_voado_sn",
+    "mtitulo": "VOADO S/N",
+    "titulo": "Voado S/N"
+  },
+  "passagem_voo": {
+    "field": "passagem_voo",
+    "mtitulo": "VOO",
+    "titulo": "Voo"
+  },
+  "prioridade": {
+    "field": "prioridade",
+    "mtitulo": "PRIORIDADE",
+    "titulo": "Prioridade"
+  },
+  "prioridade_nome": {
+    "field": "prioridade_nome",
+    "mtitulo": "PRIORIDADE",
+    "titulo": "Prioridade"
+  },
+  "processo_carta": {
+    "field": "processo_carta",
+    "mtitulo": "CARTA",
+    "titulo": "Carta"
+  },
+  "processo_numero": {
+    "field": "processo_numero",
+    "mtitulo": "NÚMERO",
+    "titulo": "Número"
+  },
+  "processo_status": {
+    "field": "processo_status",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "processo_status_nome": {
+    "field": "processo_status_nome",
+    "mtitulo": "STATUS",
+    "titulo": "Status"
+  },
+  "proposicao_area_interesse_nome": {
+    "field": "proposicao_area_interesse_nome",
+    "mtitulo": "ÁREA DE INTERESSE",
+    "titulo": "Área de Interesse"
+  },
+  "proposicao_autor": {
+    "field": "proposicao_autor",
+    "mtitulo": "AUTOR",
+    "titulo": "Autor"
+  },
+  "proposicao_data_apresentacao": {
+    "field": "proposicao_data_apresentacao",
+    "mtitulo": "DT. APRESENTAÇÃO",
+    "titulo": "Dt. Apresentação"
+  },
+  "proposicao_emenda_tipo_nome": {
+    "field": "proposicao_emenda_tipo_nome",
+    "mtitulo": "TP. EMENDA",
+    "titulo": "Tp. Emenda"
+  },
+  "proposicao_ementa": {
+    "field": "proposicao_ementa",
+    "mtitulo": "EMENTA",
+    "titulo": "Ementa"
+  },
+  "proposicao_numero": {
+    "field": "proposicao_numero",
+    "mtitulo": "NÚMERO",
+    "titulo": "Número"
+  },
+  "proposicao_orgao_nome": {
+    "field": "proposicao_orgao_nome",
+    "mtitulo": "ORGÃO ATUAL",
+    "titulo": "Orgão Atual"
+  },
+  "proposicao_origem_nome": {
+    "field": "proposicao_origem_nome",
+    "mtitulo": "ORGÃO ORIGEM",
+    "titulo": "Orgão Origem"
+  },
+  "proposicao_parecer": {
+    "field": "proposicao_parecer",
+    "mtitulo": "PARECER",
+    "titulo": "Parecer"
+  },
+  "proposicao_relator": {
+    "field": "proposicao_relator",
+    "mtitulo": "RELATOR",
+    "titulo": "Relator"
+  },
+  "proposicao_relator_atual": {
+    "field": "proposicao_relator_atual",
+    "mtitulo": "RELATOR ATUAL",
+    "titulo": "Relator Atual"
+  },
+  "proposicao_situacao_nome": {
+    "field": "proposicao_situacao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "proposicao_tipo_nome": {
+    "field": "proposicao_tipo_nome",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
+  "regiao_nome": {
+    "field": "regiao_nome",
+    "mtitulo": "REGIÃO",
+    "titulo": "Região"
+  },
+  "situacao_proposicao_nome": {
+    "field": "situacao_proposicao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "solicitacao_aceita_recusada": {
+    "field": "solicitacao_aceita_recusada",
+    "mtitulo": "OBSERVAÇÕES",
+    "titulo": "Observações"
+  },
+  "solicitacao_aceita_sn": {
+    "field": "solicitacao_aceita_sn",
+    "mtitulo": "ACEITA S/N",
+    "titulo": "Aceita S/N"
+  },
+  "solicitacao_area_interesse_nome": {
+    "field": "solicitacao_area_interesse_nome",
+    "mtitulo": "ÁREA DE INTERESSE",
+    "titulo": "Área De Interesse"
+  },
+  "solicitacao_assunto_nome": {
+    "field": "solicitacao_assunto_nome",
+    "mtitulo": "ASSUNTO",
+    "titulo": "Assunto"
+  },
+  "solicitacao_atendente_cadastro_nome": {
+    "field": "solicitacao_atendente_cadastro_nome",
+    "mtitulo": "ATENDENTE",
+    "titulo": "Atendente"
+  },
+  "solicitacao_cadastrante_cadastro_nome": {
+    "field": "solicitacao_cadastrante_cadastro_nome",
+    "mtitulo": "CADASTRANTE",
+    "titulo": "Cadastrante"
+  },
+  "solicitacao_cadastro_nome": {
+    "field": "solicitacao_cadastro_nome",
+    "mtitulo": "SOLICITANTE",
+    "titulo": "Solicitante"
+  },
+  "solicitacao_cadastro_tipo_nome": {
+    "field": "solicitacao_cadastro_tipo_nome",
+    "mtitulo": "TIPO DE CADASTRO",
+    "titulo": "Tipo de Cadastro"
+  },
+  "solicitacao_carta": {
+    "field": "solicitacao_carta",
+    "mtitulo": "CARTA",
+    "titulo": "Carta"
+  },
+  "solicitacao_data": {
+    "field": "solicitacao_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "solicitacao_data_atendimento": {
+    "field": "solicitacao_data_atendimento",
+    "mtitulo": "DT DE ATENDIMENTO",
+    "titulo": "Dt Atendimento"
+  },
+  "solicitacao_descricao": {
+    "field": "solicitacao_descricao",
+    "mtitulo": "DESCRIÇÃO",
+    "titulo": "Descrição"
+  },
+  "solicitacao_indicacao_nome": {
+    "field": "solicitacao_indicacao_nome",
+    "mtitulo": "INDICADO POR",
+    "titulo": "Indicado Por"
+  },
+  "solicitacao_indicacao_sn": {
+    "field": "solicitacao_indicacao_sn",
+    "mtitulo": "INDICAÇÃO",
+    "titulo": "Indicação"
+  },
+  "solicitacao_local_nome": {
+    "field": "solicitacao_local_nome",
+    "mtitulo": "NÚCLEO",
+    "titulo": "Núcleo"
+  },
+  "solicitacao_numero_oficio": {
+    "field": "solicitacao_numero_oficio",
+    "mtitulo": "NUMERO DO OFÍCIO",
+    "titulo": "Número do Ofício"
+  },
+  "solicitacao_orgao": {
+    "field": "solicitacao_orgao",
+    "mtitulo": "ORGÃO SOLICITADO",
+    "titulo": "Orgão Solicitado"
+  },
+  "solicitacao_posicao": {
+    "field": "solicitacao_posicao",
+    "mtitulo": "POSIÇÃO",
+    "titulo": "Posição"
+  },
+  "solicitacao_reponsavel_analize_nome": {
+    "field": "solicitacao_reponsavel_analize_nome",
+    "mtitulo": "RESP. ANALISE",
+    "titulo": "Resp. Análise"
+  },
+  "solicitacao_tipo_recebimento_nome": {
+    "field": "solicitacao_tipo_recebimento_nome",
+    "mtitulo": "TP RECEBIMENTO",
+    "titulo": "Tp Recebimento"
+  },
+  "status": {
+    "field": "status",
+    "mtitulo": "STATUS",
+    "titulo": "Status"
+  },
+  "tarefa_data": {
+    "field": "tarefa_data",
+    "mtitulo": "PRAZO",
+    "titulo": "Prazo"
+  },
+  "tarefa_datahora": {
+    "field": "tarefa_datahora",
+    "mtitulo": "DT. PEDIDO",
+    "titulo": "Dt. Pedido"
+  },
+  "tarefa_hora": {
+    "field": "tarefa_hora",
+    "mtitulo": "HORA",
+    "titulo": "Hora"
+  },
+  "tarefa_situacao_nome": {
+    "field": "tarefa_situacao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "tarefa_tarefa": {
+    "field": "tarefa_tarefa",
+    "mtitulo": "TAREFA",
+    "titulo": "Tarefa"
+  },
+  "tarefa_titulo": {
+    "field": "tarefa_titulo",
+    "mtitulo": "TITULO",
+    "titulo": "Titulo"
+  },
+  "tarefa_usuario_autor_nome": {
+    "field": "tarefa_usuario_autor_nome",
+    "mtitulo": "AUTOR",
+    "titulo": "Autor"
+  },
+  "telefone_assunto": {
+    "field": "telefone_assunto",
+    "mtitulo": "ASSUNTO",
+    "titulo": "Assunto"
+  },
+  "telefone_data": {
+    "field": "telefone_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "telefone_ddd": {
+    "field": "telefone_ddd",
+    "mtitulo": "DDD",
+    "titulo": "Ddd"
+  },
+  "telefone_de": {
+    "field": "telefone_de",
+    "mtitulo": "DE",
+    "titulo": "De"
+  },
+  "telefone_local_nome": {
+    "field": "telefone_local_nome",
+    "mtitulo": "NÚCLEO",
+    "titulo": "Núcleo"
+  },
+  "telefone_observacao": {
+    "field": "telefone_observacao",
+    "mtitulo": "OBSERVAÇÃO",
+    "titulo": "Observação"
+  },
+  "telefone_para": {
+    "field": "telefone_para",
+    "mtitulo": "PARA",
+    "titulo": "Para"
+  },
+  "telefone_resolvido": {
+    "field": "telefone_resolvido",
+    "mtitulo": "RESOLVIDO",
+    "titulo": "Resolvido"
+  },
+  "telefone_telefone": {
+    "field": "telefone_telefone",
+    "mtitulo": "TELEFONE",
+    "titulo": "Telefone"
+  },
+  "telefone_tipo": {
+    "field": "telefone_tipo",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
+  "telefone_usuario_nome": {
+    "field": "telefone_usuario_nome",
+    "mtitulo": "USUÁRIO",
+    "titulo": "Usuário"
+  },
+  "th_data": {
+    "field": "th_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "th_historico": {
+    "field": "th_historico",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
+  "th_hora": {
+    "field": "th_hora",
+    "mtitulo": "HORA",
+    "titulo": "Hora"
+  },
+  "th_usuario_nome": {
+    "field": "th_usuario_nome",
+    "mtitulo": "USUÁRIO",
+    "titulo": "Usuário"
+  },
+  "tipo_cadastro_nome": {
+    "field": "tipo_cadastro_nome",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
+  "tipo_emenda_nome": {
+    "field": "tipo_emenda_nome",
+    "mtitulo": "TIPO DE EMENDA",
+    "titulo": "Tipo de Emenda"
+  },
+  "tipo_proposicao_nome": {
+    "field": "tipo_proposicao_nome",
+    "mtitulo": "TIPO DE PROPOSIÇÃO",
+    "titulo": "Tipo de Proposição"
+  },
+  "tipo_recebimento_nome": {
+    "field": "tipo_recebimento_nome",
+    "mtitulo": "TIPO DE RECEBIMENTO",
+    "titulo": "Tipo de Recebimento"
+  },
+  "tratamento_nome": {
+    "field": "tratamento_nome",
+    "mtitulo": "TRATAMENTO",
+    "titulo": "Tratamento"
+  },
+  "tu_usuario_nome": {
+    "field": "tu_usuario_nome",
+    "mtitulo": "NOME",
+    "titulo": "Nome"
+  },
+  "tus_situacao_nome": {
+    "field": "tus_situacao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "url": {
+    "field": "url",
+    "mtitulo": "URL",
+    "titulo": "Url"
+  },
+  "usuario_nome": {
+    "field": "usuario_nome",
+    "mtitulo": "USUÁRIO",
+    "titulo": "Usuário"
+  }
+}

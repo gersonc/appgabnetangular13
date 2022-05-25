@@ -4,12 +4,8 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
-import {SolicitacaoAlterarInterface} from "../../solicitacao/_models";
-// import {SolicitacaoFormService, SolicitacaoService} from "../../solicitacao/_services";
-import {DropdownService} from "../../_services";
+import {Observable, of, Subject, Subscription} from 'rxjs';
 import {mergeMap, take} from "rxjs/operators";
-import {DropdownnomeidClass} from "../../_models";
 import {SolicFormI} from "../_models/solic-form-i";
 import {VersaoService} from "../../_services/versao.service";
 import {SolicFormService} from "../_services/solic-form.service";
@@ -19,154 +15,32 @@ import {DdService} from "../../_services/dd.service";
 @Injectable({
   providedIn: 'root'
 })
-export class SolicFormResolver implements Resolve<SolicFormI> {
-  private resp = new Subject<SolicFormI>();
-  private resp$ = this.resp.asObservable();
+export class SolicFormResolver implements Resolve<boolean | never> {
+  resp: Subject<boolean>;
+  resp$: Observable<boolean>
   sub: Subscription[] = [];
-  esperar = 0;
   solicitacao_id = 0;
   solicitacao: SolicFormI;
   dados = true;
-  cf = new SolicForm();
-  contador = 3;
   dds: string[] = [];
 
   constructor(
-    // private solicitacaoService: SolicitacaoService,
-    // private sfs: SolicFormService,
-    private solicFormService: SolicFormService,
+    private sfs: SolicFormService,
     private router: Router,
-    private dd: DropdownService,
-    private dd2: DdService,
+    private dd: DdService,
     private vs: VersaoService
-  ) {
-    console.log('resolver');
-  }
+  ) { }
 
-  espera() {
-    /*console.log('contador', this.contador);
-    this.contador--;
-    if (this.contador < 1) {
-      this.resp.next(this.cf);
-      console.log('resolver2');
-      this.resp.complete();
-    }*/
-    this.resp.next(this.cf);
-    console.log('dds', this.dds);
+  espera(v: boolean) {
+    this.resp.next(v);
     this.resp.complete();
   }
 
-  carregaDados2() {
-    this.contador = 3;
-    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      this.sub.push(this.dd.getDropdownCadastroTipoIncluir()
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dados));
-          },
-          error: (err) => {
-            console.error(err);
-          },
-          complete: () => {
-            this.espera();
-          }
-        })
-      );
-    } else {
-      this.espera();
-    }
 
-    const ddNomeIdArray = new DropdownnomeidClass();
-
-    // ****** solicitacao_assunto_id *****
-    if (!sessionStorage.getItem('dropdown-assunto')) {
-      ddNomeIdArray.add('solicitacao_assunto_id', 'assunto', 'assunto_id', 'assunto_nome');
-    }
-    // ****** solicitacao_atendente_cadastro_id *****
-    if (!sessionStorage.getItem('dropdown-atendente')) {
-      ddNomeIdArray.add('solicitacao_atendente_cadastro_id', 'usuario', 'usuario_id', 'usuario_nome');
-    }
-    if (this.vs.versao === 1) {
-      // ****** solicitacao_tipo_recebimento_id *****
-      if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
-        ddNomeIdArray.add('solicitacao_tipo_recebimento_id', 'tipo_recebimento', 'tipo_recebimento_id', 'tipo_recebimento_nome');
-      }
-    }
-    if (this.vs.versao < 3) {
-      // ****** solicitacao_local_id *****
-      if (!sessionStorage.getItem('dropdown-local')) {
-        ddNomeIdArray.add('solicitacao_local_id', 'local', 'local_id', 'local_nome');
-      }
-    }
-    // ****** solicitacao_area_interesse_id *****
-    if (!sessionStorage.getItem('dropdown-area_interesse')) {
-      ddNomeIdArray.add('solicitacao_area_interesse_id', 'area_interesse', 'area_interesse_id', 'area_interesse_nome');
-    }
-
-    if (ddNomeIdArray.count() > 0) {
-      this.sub.push(this.dd.postDropdownNomeIdArray(ddNomeIdArray.get())
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            if (dados['solicitacao_assunto_id']) {
-              sessionStorage.setItem('dropdown-assunto', JSON.stringify(dados['solicitacao_assunto_id']));
-            }
-            if (dados['solicitacao_atendente_cadastro_id']) {
-              sessionStorage.setItem('dropdown-atendente', JSON.stringify(dados['solicitacao_atendente_cadastro_id']));
-            }
-            if (this.vs.versao === 1) {
-              if (dados['solicitacao_tipo_recebimento_id']) {
-                sessionStorage.setItem('dropdown-tipo_recebimento', JSON.stringify(dados['solicitacao_tipo_recebimento_id']));
-              }
-            }
-            if (this.vs.versao < 3) {
-              if (dados['solicitacao_local_id']) {
-                sessionStorage.setItem('dropdown-local', JSON.stringify(dados['solicitacao_local_id']));
-              }
-            }
-            if (dados['solicitacao_area_interesse_id']) {
-              sessionStorage.setItem('dropdown-area_interesse', JSON.stringify(dados['solicitacao_area_interesse_id']));
-            }
-          },
-          error: err => {
-            console.log(err);
-          },
-          complete: () => {
-            this.espera();
-          }
-        })
-      );
-    } else {
-      this.espera();
-    }
-
-    if (this.vs.versao < 3) {
-      // ****** solicitacao_reponsavel_analize_id *****
-      if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
-        this.sub.push(this.dd.getDropdownResponsavel()
-          .pipe(take(1))
-          .subscribe({
-            next: (dados) => {
-              sessionStorage.setItem('dropdown-reponsavel_analize', JSON.stringify(dados));
-            },
-            error: err => {
-              console.log(err);
-            },
-            complete: () => {
-              this.espera();
-            }
-          })
-        );
-      } else {
-        this.espera();
-      }
-    } else {
-      this.espera();
-    }
-  }
-
-  carregaDados() {
+  carregaDados(): boolean {
+    this.dds = [];
+    this.resp = new Subject<boolean>();
+    this.resp$ = this.resp.asObservable();
     if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
       this.dds.push('dropdown-tipo_cadastro');
     }
@@ -203,7 +77,7 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
     }
 
     if (this.dds.length > 0) {
-      this.sub.push(this.dd2.getDd(this.dds)
+      this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -215,47 +89,45 @@ export class SolicFormResolver implements Resolve<SolicFormI> {
             console.error(err);
           },
           complete: () => {
-            this.espera();
+            this.espera(true);
           }
         })
       );
+      return true;
     } else {
-      this.espera();
+      // this.espera(false);
+      return false
     }
 
   }
 
   onDestroy(): void {
-    this.contador = 3;
+    this.dds = [];
     this.sub.forEach(s => s.unsubscribe());
   }
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):Observable<SolicFormI> |
-    Observable<never> {
+    state: RouterStateSnapshot):Observable<boolean | never> {
 
-    if (route.paramMap.has('id')) {
-      this.solicitacao_id = +route.paramMap.get('id');
-    } else {
-      this.solicFormService.resetSolicitacao();
+    if (this.sfs.acao === 'incluir') {
+      this.sfs.resetSolicitacao();
       this.solicitacao_id = 0;
     }
-    this.carregaDados();
+    if (this.carregaDados()) {
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
-          if (dados) {
             console.log('resolver3');
             this.onDestroy();
             return of(dados);
-          } else {
-            console.log('resolver4');
-            this.onDestroy();
-            return EMPTY;
-          }
         })
       );
+    } else {
+      console.log('resolver4');
+      this.onDestroy();
+      return of(false);
+    }
 
   }
 }

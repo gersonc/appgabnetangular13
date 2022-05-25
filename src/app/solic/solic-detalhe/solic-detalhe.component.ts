@@ -114,7 +114,7 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
 
 
 
-  montaDetalhes(): TSMap<string, string[] | string[][]> {
+  /*montaDetalhes(): TSMap<string, string[] | string[][]> {
     let t = new SolicSeparaSolicitaca(
       this.detalhe,
       [
@@ -133,7 +133,7 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
         'vertical',
         'horizontal'
       ],
-      this.ss.titulos,
+      this.ss.tabela.titulos,
       [
         'solicitacao_descricao',
         'solicitacao_aceita_recusada',
@@ -150,7 +150,7 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
       ]
       );
     return t.getSeparaSolicitacao();
-  }
+  }*/
 
   /*montagem() {
     const k: string[] = Object.keys(this.solicitacao_titulo);

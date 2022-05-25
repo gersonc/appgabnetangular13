@@ -17,13 +17,14 @@ import {SolicFormI} from "../_models/solic-form-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {SolicForm} from "../_models/solic-form";
+import {DdService} from "../../_services/dd.service";
 
 @Component({
   selector: 'app-solic-form',
   templateUrl: './solic-form.component.html',
   styleUrls: ['./solic-form.component.css']
 })
-export class SolicFormComponent implements OnInit {
+export class SolicFormComponent implements OnInit, AfterViewInit {
   @ViewChild('soldesc', { static: true }) soldesc: Editor;
   @ViewChild('solacerecus', { static: true }) solacerecus: Editor;
   @ViewChild('histand', { static: true }) histand: Editor;
@@ -38,7 +39,7 @@ export class SolicFormComponent implements OnInit {
   ddSolicitacao_reponsavel_analize_id: SelectItem[] = [];
   ddSolicitacao_area_interesse_id: SelectItem[] = [];
   ddSolicitacao_tipo_analize: SelectItem[] = [];
-  sgt: SelectItem[];
+  sgt: SelectItem[] = [];
   ptBr: any;
 
   emptyMessage = 'Nenhum registro encontrado.';
@@ -68,6 +69,8 @@ export class SolicFormComponent implements OnInit {
   msgSolNumOfi = 'Já existe ofício(s) com esse número.';
   tituloNumOfi = 'Número do ofício';
   titulo = 'SOLICITAÇÃO - INCLUIR';
+  readonly = false;
+  checked: boolean = false;
 
   fc: any;
   toolbarEditor = [
@@ -88,7 +91,7 @@ export class SolicFormComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    private dd: DropdownService,
+    private dd: DdService,
     public mi: MenuInternoService,
     private autocompleteservice: AutocompleteService,
     private location: Location,
@@ -126,6 +129,13 @@ export class SolicFormComponent implements OnInit {
         this.sfs.solicitacao.solicitacao_data_atendimento = hoje;
         this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
       }
+      if (this.sfs.acao === 'alterar') {
+        this.novoRegistro = {
+          label: this.sfs.solicListar.solicitacao_cadastro_nome,
+          value: +this.sfs.solicListar.solicitacao_cadastro_id
+        };
+        this.sgt.push(this.novoRegistro);
+      }
     }
 
     this.carregaDropdownSessionStorage();
@@ -154,8 +164,11 @@ export class SolicFormComponent implements OnInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.mi.hideMenu();
-    }, 500);
+      if (this.sfs.acao === 'alterar') {
+        // this.mi.hideMenu();
+        this.verificaValidacoesForm(this.formSol);
+      }
+    }, 1000);
   }
 
   adicionaDadosIncluidos() {
@@ -218,7 +231,7 @@ export class SolicFormComponent implements OnInit {
   }
 
   criaForm() {
-    this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
+
     if (this.vs.solicitacaoVersao === 1) {
       this.tpAnalizeTitulo = 'Tipo de análise';
       this.msgSolNumOfi = 'Já existe processo(s) com esse número.'
@@ -228,7 +241,7 @@ export class SolicFormComponent implements OnInit {
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
         solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
         solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
-        solicitacao_indicacao_sn: [this.indicacao_sn],
+        solicitacao_indicacao_sn: [this.sfs.solicitacao.solicitacao_indicacao_sn === 1],
         solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
         solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
         solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
@@ -253,7 +266,7 @@ export class SolicFormComponent implements OnInit {
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
         solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
         solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
-        solicitacao_indicacao_sn: [this.indicacao_sn],
+        solicitacao_indicacao_sn: [this.sfs.solicitacao.solicitacao_indicacao_sn === 1],
         solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
         solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
         solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
@@ -276,7 +289,7 @@ export class SolicFormComponent implements OnInit {
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
         solicitacao_assunto_id: [this.sfs.solicitacao.solicitacao_assunto_id, Validators.required],
         solicitacao_data: [this.sfs.solicitacao.solicitacao_data, Validators.required],
-        solicitacao_indicacao_sn: [this.indicacao_sn],
+        solicitacao_indicacao_sn: [this.sfs.solicitacao.solicitacao_indicacao_sn === 1],
         solicitacao_indicacao_nome: [this.sfs.solicitacao.solicitacao_indicacao_nome],
         solicitacao_numero_oficio: [this.sfs.solicitacao.solicitacao_numero_oficio],
         solicitacao_orgao: [this.sfs.solicitacao.solicitacao_orgao],
@@ -289,6 +302,20 @@ export class SolicFormComponent implements OnInit {
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         historico_andamento: [this.sfs.solicitacao.historico_andamento],
       });
+    }
+    if (this.sfs.acao === 'alterar') {
+      if (this.sfs.solicitacao.solicitacao_indicacao_nome) {
+        this.formSol.get('solicitacao_indicacao_sn').patchValue(true);
+        this.formSol.get('solicitacao_indicacao_nome').patchValue(this.sfs.solicitacao.solicitacao_indicacao_nome);
+      }
+      this.sgt.push(this.novoRegistro);
+      this.formSol.get('solicitacao_cadastro_id').patchValue(this.novoRegistro);
+      if (this.vs.solicitacaoVersao === 1) {
+        if (this.sfs.solicListar.processo_id > 0 && this.sfs.solicListar.solicitacao_aceita_sn2 > 5) {
+          this.formSol.get('solicitacao_numero_oficio').patchValue(this.sfs.solicListar.processo_numero2);
+          this.readonly = true;
+        }
+      }
     }
 
   }
@@ -341,24 +368,11 @@ export class SolicFormComponent implements OnInit {
   trocaIndicacaoSV(ev) {
     this.sfs.solicitacao.solicitacao_indicacao_sn = ev.checked ? 1 : 0;
     this.stl =  ev.checked ? 'p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1' : 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
-    // return this.stl
   }
 
-  /*focus1(event) {
-    this.mostraModulos1 = 'inline-block';
-    this.mostraModulos2 = 'none';
-    this.mostraModulos3 = 'none';
+  cadastro_tipo_change() {
+    this.sgt = [];
   }
-  focus2(event) {
-    this.mostraModulos1 = 'none';
-    this.mostraModulos2 = 'inline-block';
-    this.mostraModulos3 = 'none';
-  }
-  focus3(event) {
-    this.mostraModulos1 = 'none';
-    this.mostraModulos2 = 'none';
-    this.mostraModulos3 = 'inline-block';
-  }*/
 
   incluirSolicitacao() {
     if (this.formSol.valid) {
@@ -376,7 +390,7 @@ export class SolicFormComponent implements OnInit {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.dd.getDdSolicitacaoMenuTodos();
+              this.dd.ddSubscription('solic-menu-dropdown');
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
@@ -426,7 +440,7 @@ export class SolicFormComponent implements OnInit {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.dd.getDdSolicitacaoMenuTodos();
+              this.dd.ddSubscription('solic-menu-dropdown');
                 this.messageService.add({
                   key: 'solicitacaoToast',
                   severity: 'success',
@@ -502,6 +516,7 @@ export class SolicFormComponent implements OnInit {
     solicitacao.solicitacao_cadastro_id = this.formSol.get('solicitacao_cadastro_id').value.value;
     solicitacao.solicitacao_data = this.formSol.get('solicitacao_data').value;
     solicitacao.solicitacao_numero_oficio = this.formSol.get('solicitacao_numero_oficio').value;
+    solicitacao.solicitacao_orgao = this.formSol.get('solicitacao_orgao').value;
     solicitacao.solicitacao_assunto_id = this.formSol.get('solicitacao_assunto_id').value;
     solicitacao.solicitacao_indicacao_sn = this.sfs.solicitacao.solicitacao_indicacao_sn;
     if (this.sfs.solicitacao.solicitacao_indicacao_sn) {
@@ -573,8 +588,7 @@ export class SolicFormComponent implements OnInit {
     if (sessionStorage.getItem('solicitacao-busca')) {
       this.router.navigate(['/solic/listar/busca']);
     } else {
-      // this.cs.mostraCarregador();
-      this.mi.showMenuInterno();
+      // this.mi.showMenuInterno();
       this.router.navigate(['/solic/listar']);
     }
   }
@@ -614,8 +628,8 @@ export class SolicFormComponent implements OnInit {
 
   aplicaCssErroAsync(campo: string, situacao: boolean) {
     return {
-      'has-error': this.validaAsync(campo, situacao),
-      'has-feedback': this.validaAsync(campo, situacao)
+      'ng-invalid': this.validaAsync(campo, situacao),
+      'ng-dirty': this.validaAsync(campo, situacao)
     };
   }
 
