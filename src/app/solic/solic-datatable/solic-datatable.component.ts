@@ -273,10 +273,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.ss.tabela.selectedColumnsOld = [];
   }
 
-  onContextMenuSelect(event) {
-    this.ss.Contexto = event.data;
-  }
-
   // FUNCOES DO COMPONENTE =====================================================
 
   mostraMenu(): void {

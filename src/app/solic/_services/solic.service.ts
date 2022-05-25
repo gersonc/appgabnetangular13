@@ -75,10 +75,87 @@ export class SolicService {
     this.criaBusca();
   }
 
-  setState() {
-    this.stateSN = true;
-    sessionStorage.setItem('solic-busca', JSON.stringify(this.busca));
-    sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
+  onContextMenuSelect(event) {
+    this.Contexto = event.data;
+  }
+
+  onRowExpand(evento) {
+    console.log('onRowExpand', evento.data);
+    let a = 0;
+    const b: any[] = [];
+    let ev = evento.data;
+    // this.tabela.dadosExpandidos = evento.data;
+    this.tabela.titulos.forEach((t, i, tt) => {
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].toString().length > 0) {
+          const m = this.tabela.camposTexto.indexOf(t.field);
+          // let jj: any[] = [];
+          const tit = t.titulo;
+          let vf = false;
+          let txtdelta: string = null;
+          let txt: string = null;
+          let tst = '';
+          // jj.push(this.tabela.titulos[n].toString());
+          if (m >= 0) {
+            let keyidx: string[] = [
+              this.tabela.camposTexto[m],
+              this.tabela.camposTexto[m] + '_texto',
+              this.tabela.camposTexto[m] + '_delta'
+            ];
+            tst = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[keyidx[1]] : ev[keyidx[0]];
+            txt = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[ev[keyidx[1]]] : null;
+            txtdelta = (ev[keyidx[2]] !== undefined && ev[keyidx[2]] !== null) ? ev[ev[keyidx[2]]] : null;
+            vf = true;
+          } else {
+            tst = ev[t.field].toString();
+          }
+          b.push([tit, tst, vf, txt, txtdelta]);
+          a++;
+        }
+      }
+    });
+    this.tabela.dadosExpandidos = b;
+
+    /*for (const v in this.tabela.campos) {
+      console.log('v1', v);
+      if (ev[v] !== undefined || ev[v] !== null) {
+        console.log('(ev[v]', ev[v]);
+        if (ev[v].toString().length > 0) {
+          const n = this.tabela.campos.indexOf(v);
+          const m = this.tabela.camposTexto.indexOf(v);
+          console.log('n m ', n, m);
+          if (n >= 0) {
+            // let jj: any[] = [];
+            const tit = this.tabela.titulos[n].titulo;
+            let vf = false;
+            let txtdelta: string = null;
+            let txt: string = null;
+            let tst = '';
+            // jj.push(this.tabela.titulos[n].toString());
+            if (m >= 0) {
+              let keyidx: string[] = [
+                this.tabela.camposTexto[m],
+                this.tabela.camposTexto[m] + '_texto',
+                this.tabela.camposTexto[m] + '_delta'
+              ];
+              tst = (ev[keyidx[1]]) ? ev[keyidx[1]] : ev[keyidx[0]];
+              txt = (ev[keyidx[1]]) ? ev[ev[keyidx[1]]] : null;
+              txtdelta = (ev[keyidx[2]]) ? ev[ev[keyidx[2]]] : null;
+              vf = true;
+            } else {
+              tst = ev[v].toString();
+            }
+            b.push([tit, tst, vf, txt, txtdelta]);
+            a++;
+          }
+        }
+      }
+    }*/
+
+  }
+
+  onRowCollapse(ev) {
+    this.tabela.dadosExpandidos = undefined;
   }
 
   onStateRestore(tableSession: any) {
@@ -90,6 +167,12 @@ export class SolicService {
     const b: any = JSON.parse(sessionStorage.getItem('solic-busca'));
     this.parseTabela(t);
     this.parseBusca(b);
+  }
+
+  setState() {
+    this.stateSN = true;
+    sessionStorage.setItem('solic-busca', JSON.stringify(this.busca));
+    sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
   }
 
   parseTabela(t: any) {
@@ -176,85 +259,6 @@ export class SolicService {
     this.busca.solicitacao_descricao = (b.solicitacao_descricao !== undefined)? b.solicitacao_descricao : undefined;
     this.busca.solicitacao_orgao = (b.solicitacao_orgao !== undefined)? b.solicitacao_orgao : undefined;
     this.busca.processo_numero = (b.processo_numero !== undefined)? b.processo_numero : undefined;
-  }
-
-  onRowExpand(evento) {
-    console.log('onRowExpand', evento.data);
-    let a = 0;
-    const b: any[] = [];
-    let ev = evento.data;
-    // this.tabela.dadosExpandidos = evento.data;
-    this.tabela.titulos.forEach((t, i, tt) => {
-      if (ev[t.field] !== undefined && ev[t.field] !== null) {
-        if (ev[t.field].toString().length > 0) {
-          const m = this.tabela.camposTexto.indexOf(t.field);
-            // let jj: any[] = [];
-            const tit = t.titulo;
-            let vf = false;
-            let txtdelta: string = null;
-            let txt: string = null;
-            let tst = '';
-            // jj.push(this.tabela.titulos[n].toString());
-            if (m >= 0) {
-              let keyidx: string[] = [
-                this.tabela.camposTexto[m],
-                this.tabela.camposTexto[m] + '_texto',
-                this.tabela.camposTexto[m] + '_delta'
-              ];
-              tst = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[keyidx[1]] : ev[keyidx[0]];
-              txt = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[ev[keyidx[1]]] : null;
-              txtdelta = (ev[keyidx[2]] !== undefined && ev[keyidx[2]] !== null) ? ev[ev[keyidx[2]]] : null;
-              vf = true;
-            } else {
-              tst = ev[t.field].toString();
-            }
-            b.push([tit, tst, vf, txt, txtdelta]);
-            a++;
-        }
-      }
-    });
-    this.tabela.dadosExpandidos = b;
-
-    /*for (const v in this.tabela.campos) {
-      console.log('v1', v);
-      if (ev[v] !== undefined || ev[v] !== null) {
-        console.log('(ev[v]', ev[v]);
-        if (ev[v].toString().length > 0) {
-          const n = this.tabela.campos.indexOf(v);
-          const m = this.tabela.camposTexto.indexOf(v);
-          console.log('n m ', n, m);
-          if (n >= 0) {
-            // let jj: any[] = [];
-            const tit = this.tabela.titulos[n].titulo;
-            let vf = false;
-            let txtdelta: string = null;
-            let txt: string = null;
-            let tst = '';
-            // jj.push(this.tabela.titulos[n].toString());
-            if (m >= 0) {
-              let keyidx: string[] = [
-                this.tabela.camposTexto[m],
-                this.tabela.camposTexto[m] + '_texto',
-                this.tabela.camposTexto[m] + '_delta'
-              ];
-              tst = (ev[keyidx[1]]) ? ev[keyidx[1]] : ev[keyidx[0]];
-              txt = (ev[keyidx[1]]) ? ev[ev[keyidx[1]]] : null;
-              txtdelta = (ev[keyidx[2]]) ? ev[ev[keyidx[2]]] : null;
-              vf = true;
-            } else {
-              tst = ev[v].toString();
-            }
-            b.push([tit, tst, vf, txt, txtdelta]);
-            a++;
-          }
-        }
-      }
-    }*/
-
-  }
-
-  onRowCollapse(ev) {
-    this.tabela.dadosExpandidos = undefined;
   }
 
   montaTitulos(cps: string[]) {
