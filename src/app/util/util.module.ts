@@ -21,22 +21,25 @@ import {MessageModule} from 'primeng/message';
 import { CampoErroComponent } from './campo-erro/campo-erro.component';
 import { TextoViewComponent } from './texto-view/texto-view.component';
 import {QuillModule} from "ngx-quill";
+import { SeletorColunasComponent } from './seletor-colunas/seletor-colunas.component';
+import {PickListModule} from "primeng/picklist";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    DialogModule,
-    ScrollPanelModule,
-    ButtonModule,
-    EditorModule,
-    FormsModule,
-    DropdownModule,
-    InputTextareaModule,
-    MessagesModule,
-    MessageModule,
-    QuillModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        DialogModule,
+        ScrollPanelModule,
+        ButtonModule,
+        EditorModule,
+        FormsModule,
+        DropdownModule,
+        InputTextareaModule,
+        MessagesModule,
+        MessageModule,
+        QuillModule.forRoot(),
+        PickListModule
+    ],
   declarations: [
     CampoControlErroComponent,
     FormDebugComponent,
@@ -45,7 +48,8 @@ import {QuillModule} from "ngx-quill";
     MenuContextoComponent,
     CampoEditorComponent,
     CampoErroComponent,
-    TextoViewComponent
+    TextoViewComponent,
+    SeletorColunasComponent
   ],
   exports: [
     FormDebugComponent,
@@ -55,7 +59,8 @@ import {QuillModule} from "ngx-quill";
     MenuContextoComponent,
     CampoEditorComponent,
     CampoErroComponent,
-    TextoViewComponent
+    TextoViewComponent,
+    SeletorColunasComponent
   ],
   providers: [
     /*DropdownService,

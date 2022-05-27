@@ -24,7 +24,9 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     private router: Router,
     private solicitacaoService: SolicService,
     private dd: DdService
-  ) { }
+  ) {
+    this.solicitacaoService.criaTabela();
+  }
 
   populaDropdown() {
     if (!sessionStorage.getItem('solic-menu-dropdown')) {

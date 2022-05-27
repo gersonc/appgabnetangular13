@@ -791,8 +791,8 @@
   },
   "processo_carta": {
     "field": "processo_carta",
-    "mtitulo": "CARTA",
-    "titulo": "Carta"
+    "mtitulo": "RESPOSTA",
+    "titulo": "Resposta"
   },
   "processo_numero": {
     "field": "processo_numero",
@@ -926,8 +926,8 @@
   },
   "solicitacao_carta": {
     "field": "solicitacao_carta",
-    "mtitulo": "CARTA",
-    "titulo": "Carta"
+    "mtitulo": "RESPOSTA",
+    "titulo": "Resposta"
   },
   "solicitacao_data": {
     "field": "solicitacao_data",

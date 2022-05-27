@@ -50,10 +50,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   colteste: string[];
+  mostraSeletor = false;
 
   cols: any[] = [];
-  selectedColumns: any[] = [];
-  selectedColumnsOld: any[] = [];
 
   constructor(
     public mi: MenuInternoService,
@@ -102,48 +101,48 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   montaColunas() {
     this.cols = [
       {field: 'solicitacao_id', header: 'ID', sortable: 'true', width: '80px'},
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '230px'},
+      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '130px'},
       {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
       {field: 'solicitacao_cadastro_tipo_nome', header: 'TIPO SOLICITANTE', sortable: 'true', width: '200px'},
     ];
     if (this.aut.cadastro_listar) {
       this.cols.push(
         {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', width: '300px'},
-        {field: 'cadastro_endereco_numero', header: 'END.Nº', sortable: 'false', width: '20px'},
-        {field: 'cadastro_endereco_complemento', header: 'END.COMPL.', sortable: 'false', width: '20px'},
+        {field: 'cadastro_endereco_numero', header: 'END.Nº', sortable: 'false', width: '130px'},
+        {field: 'cadastro_endereco_complemento', header: 'END.COMPL.', sortable: 'false', width: '130px'},
       );
     }
     this.cols.push(
-      {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', width: '100px'},
-      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '300px'},
+      {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '200px'},
       {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '300px'},
-      {field: 'cadastro_estado_nome', header: 'UF', sortable: 'true', width: '20px'},
+      {field: 'cadastro_estado_nome', header: 'UF', sortable: 'true', width: '70px'},
     );
     if (this.aut.cadastro_listar) {
       this.cols.push(
         {field: 'cadastro_email', header: 'E-MAIL1', sortable: 'false', width: '200px'},
         {field: 'cadastro_email2', header: 'E-MAIL2', sortable: 'false', width: '200px'},
-        {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'false', width: '80px'},
-        {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'false', width: '80px'},
-        {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'false', width: '80px'},
-        {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'false', width: '80px'},
-        {field: 'cadastro_telcom', header: 'TEL.COM.', sortable: 'false', width: '80px'},
-        {field: 'cadastro_fax', header: 'FAX', sortable: 'false', width: '80px'},
+        {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'false', width: '150px'},
+        {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'false', width: '150px'},
+        {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'false', width: '150px'},
+        {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'false', width: '150px'},
+        {field: 'cadastro_telcom', header: 'TEL.COM.', sortable: 'false', width: '150px'},
+        {field: 'cadastro_fax', header: 'WHATSAPP', sortable: 'false', width: '150px'},
       );
     }
     this.cols.push(
-      {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '230px'},
+      {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '130px'},
       {field: 'solicitacao_orgao', header: 'ORGÃO SOLIC.', sortable: 'false', width: '300px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', width: '300px'},
-      {field: 'solicitacao_numero_oficio', header: 'Nº OFÍCIO', sortable: 'false', width: '80px'}
+      {field: 'solicitacao_numero_oficio', header: 'Nº OFÍCIO', sortable: 'false', width: '150px'}
     );
 
     if (this.versao === 1) {
       this.cols.push(
-        {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '80px'},
-        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '80px'},
-        {field: 'solicitacao_indicacao_sn', header: 'INDICADO S/N', sortable: 'true', width: '120px'},
+        {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
+        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'},
+        {field: 'solicitacao_indicacao_sn', header: 'INDICADO S/N', sortable: 'true', width: '140px'},
       );
     }
     this.cols.push(
@@ -163,7 +162,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.versao === 1) {
       this.cols.push(
         {field: 'solicitacao_cadastrante_cadastro_nome', header: 'CADASTRANTE', sortable: 'true', width: '200px'},
-        {field: 'solicitacao_tipo_recebimento_nome', header: 'TP. RECEBIMENTO', sortable: 'true', width: '150px'}
+        {field: 'solicitacao_tipo_recebimento_nome', header: 'TP. RECEBIMENTO', sortable: 'true', width: '165px'}
       );
     }
     this.cols.push(
@@ -179,17 +178,19 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   resetSelectedColumns(): void {
+    this.ss.criaTabela();
+    console.log('resetSelectedColumns');
     this.ss.tabela.selectedColumns = [
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '230px'},
+      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '130px'},
       {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
-      {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '230px'},
+      {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '130px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', width: '300px'},
     ];
     if (this.versao === 1) {
       this.ss.tabela.selectedColumns.push(
-        {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '80px'},
-        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '80px'}
+        {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
+        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'}
       );
     }
     this.ss.tabela.selectedColumns.push(
@@ -260,17 +261,12 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.ss.setState()
   }
 
-  onChangeSeletorColunas(changes): void {
-    this.dtb.saveState();
-  }
-
-  mostraSelectColunas(): void {
-    this.ss.tabela.selectedColumnsOld = this.ss.tabela.selectedColumns;
+  mostraSelectColunas(): void {// this
     this.ss.tabela.mostraSeletor = true;
   }
 
   hideSeletor(ev): void {
-    this.ss.tabela.selectedColumnsOld = [];
+      this.mostraSeletor = false;
   }
 
   // FUNCOES DO COMPONENTE =====================================================
@@ -389,7 +385,15 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   }
 
-  solicitacaoApagar(sol: SolicListarI) {}
+  solicitacaoApagar(sol: SolicListarI) {
+    if (this.aut.solicitacao_apagar) {
+      this.ss.solicitacaoApagar = sol;
+      this.dtb.saveState();
+      this.router.navigate(['/solic/apagar']);
+    } else {
+      console.log('SEM PERMISSAO');
+    }
+  }
   /*solicitacaoApagar(sol: SolicListarI) {
     let soldel: SolicitacaoExcluirInterface;
     if (this.aut.solicitacao_apagar) {
@@ -423,7 +427,15 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }*/
 
 
-  solicitacaoAnalisar(sol: SolicListarI) {}
+  solicitacaoAnalisar(sol: SolicListarI) {
+    if (this.aut.solicitacao_analisar) {
+      this.dtb.saveState();
+      this.sfs.parseListagemAnalisarForm(sol);
+      this.router.navigate(['/solic/analisar']);
+    } else {
+      console.log('SEM PERMISSAO');
+    }
+  }
   /*solicitacaoAnalisar(sol: SolicListarI) {
     if (sol.solicitacao_posicao !== 'EM ABERTO') {
       this.messageService.add(

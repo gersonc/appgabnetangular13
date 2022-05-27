@@ -25,6 +25,8 @@ export class SolicService {
   busca?: SolicBuscaI;
   tabela?: DatatableI;
   stateSN = false;
+  solicitacaoApagar?: SolicListarI;
+  solicitacaoAnalisar?: SolicListarI;
 
   constructor(
     private url: UrlService,
@@ -43,6 +45,7 @@ export class SolicService {
     this.ts.titulosSN();
     if (this.tabela === undefined) {
       this.tabela = new Datatable();
+      console.log('criaTabela');
       if (this.stateSN) {
         this.criaBusca();
       } else {
@@ -359,7 +362,7 @@ export class SolicService {
     console.log('onDestroy');
     sessionStorage.removeItem('solic-busca');
     sessionStorage.removeItem('solic-tabela');
-    sessionStorage.removeItem('solic-solic-table');
+    sessionStorage.removeItem('solic-table');
     this.tabela = undefined;
     this.busca = undefined;
     this.selecionados = undefined;

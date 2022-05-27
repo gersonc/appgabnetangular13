@@ -88,6 +88,9 @@ export interface SolicListarI {
   processo_status?: string;
   processo_numero?: string;
   processo_numero2?: string;
+  processo_carta?: string;
+  processo_carta_texto?: string;
+  processo_carta_delta?: string;
   processo_arquivos?: ArquivoListagem[];
   historico_solicitcao?: SolicHistoricoSolicitacao[];
   historico_processo?: SolicHistoricoProcesso[];

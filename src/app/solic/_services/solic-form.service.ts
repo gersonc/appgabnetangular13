@@ -1,13 +1,19 @@
 import {Injectable} from '@angular/core';
 import {SolicForm} from "../_models/solic-form";
 import {SolicListarI} from "../_models/solic-listar-i";
+import {SolicFormAnalisar, SolicFormAnalisarI} from "../_models/solic-form-analisar-i";
+import {SolicHistoricoSolicitacao} from "../_models/solic-historico-solicitacao";
+import {SolicHistoricoProcesso} from "../_models/solic-historico-processo";
+import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
+import {SolicFormI} from "../_models/solic-form-i";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicFormService {
-  public solicitacao = new SolicForm();
-  public solicListar?: SolicListarI = null;
+  public solicitacao?: SolicFormI;
+  public solA?: SolicFormAnalisarI;
+  public solicListar?: SolicListarI;
   public acao?: string = null;
 
   constructor() {
@@ -17,7 +23,19 @@ export class SolicFormService {
     this.solicitacao = new SolicForm();
   }
 
+  resetSolicitacaoAnalise() {
+    this.solA = new SolicFormAnalisar();
+  }
+
+  criarAnalisar() {
+    if (this.solA === undefined) {
+      this.solA = new SolicFormAnalisar();
+    }
+  }
+
   parseListagemForm(s: SolicListarI): SolicForm {
+    this.solicitacao = new SolicForm();
+    this.solicListar = s;
     this.resetSolicitacao();
     const r = new SolicForm();
     r.solicitacao_id = s.solicitacao_id;
@@ -47,6 +65,22 @@ export class SolicFormService {
     r.solicitacao_carta_delta = s.solicitacao_carta_delta;
     r.solicitacao_carta_texto = s.solicitacao_carta_texto;
     this.solicitacao = r;
-    return r
+    return r;
+  }
+
+  parseListagemAnalisarForm(s: SolicListarI): SolicFormAnalisar {
+    this.resetSolicitacaoAnalise();
+    this.solicListar = s;
+    const r = new SolicFormAnalisar();
+    r.solicitacao_id = s.solicitacao_id;
+    r.solicitacao_cadastro_id = s.solicitacao_cadastro_id;
+    r.solicitacao_aceita_recusada = s.solicitacao_aceita_recusada;
+    r.solicitacao_aceita_recusada_delta = s.solicitacao_aceita_recusada_delta;
+    r.solicitacao_aceita_recusada_texto = s.solicitacao_aceita_recusada_texto;
+    r.solicitacao_carta = s.solicitacao_carta;
+    r.solicitacao_carta_delta = s.solicitacao_carta_delta;
+    r.solicitacao_carta_texto = s.solicitacao_carta_texto;
+    this.solA = r;
+    return r;
   }
 }

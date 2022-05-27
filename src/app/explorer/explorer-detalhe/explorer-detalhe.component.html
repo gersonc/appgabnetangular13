@@ -1,6 +1,6 @@
 
-<ng-container #arq *ngIf="arquivo && alt.arquivos_baixar">
-  <div class="explorer-arquivo" #arq>
+<ng-container #arq *ngIf="arquivo">
+  <div *ngIf="alt.arquivos_baixar" class="explorer-arquivo" #arq>
     <a href="{{arquivo.arquivo_url_s3}}" class="explorer-detalhe">
     <div id="tst" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}">
     </div>
@@ -8,6 +8,15 @@
       {{arquivo.arquivo_nome_original}}
     </div>
     </a>
+  </div>
+  <div *ngIf="!alt.arquivos_baixar" class="explorer-arquivo" #arq>
+    <div class="explorer-detalhe"  pTooltip="SEM PERMISSÃO.">
+      <div id="tst" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}">
+      </div>
+      <div class="explorer-file-text">
+        {{arquivo.arquivo_nome_original}}
+      </div>
+    </div>
   </div>
 
 

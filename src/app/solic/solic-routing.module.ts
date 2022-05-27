@@ -8,6 +8,8 @@ import {SolicListarResolver} from "./_resolvers/solic-listar.resolver";
 import {SolicIncluirComponent} from "./solic-incluir/solic-incluir.component";
 import {SolicFormResolver} from "./_resolvers/solic-form.resolver";
 import {SolicFormComponent} from "./solic-form/solic-form.component";
+import {SolicExcluirComponent} from "./solic-excluir/solic-excluir.component";
+import {SolicAnalisarComponent} from "./solic-analisar/solic-analisar.component";
 
 const routes: Routes = [
   {
@@ -108,6 +110,24 @@ const routes: Routes = [
         data: {
           rules: Rule.solicitacao,
           scopes: Scope.solicitacao_incluir
+        }
+      },
+      {
+        path: 'analisar',
+        component: SolicAnalisarComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_analisar
+        }
+      },
+      {
+        path: 'apagar',
+        component: SolicExcluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.solicitacao,
+          scopes: Scope.solicitacao_apagar
         }
       },
     ]

@@ -34,6 +34,9 @@ import {EditorModule} from "primeng/editor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import { SolicFormComponent } from './solic-form/solic-form.component';
+import { SolicExcluirComponent } from './solic-excluir/solic-excluir.component';
+import { SolicAnalisarComponent } from './solic-analisar/solic-analisar.component';
+import {CardModule} from "primeng/card";
 
 
 @NgModule({
@@ -44,36 +47,39 @@ import { SolicFormComponent } from './solic-form/solic-form.component';
     SolicIncluirComponent,
     SolicDetalheComponent,
     SolicFormComponent,
+    SolicExcluirComponent,
+    SolicAnalisarComponent,
   ],
-  imports: [
-    CommonModule,
-    SolicRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    TableModule,
-    MenuModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    ListboxModule,
-    ContextMenuModule,
-    ToastModule,
-    QuillModule,
-    FormsModule,
-    InputTextModule,
-    ArquivoModule,
-    ExplorerModule,
-    UtilModule,
-    AutoCompleteModule,
-    CalendarModule,
-    InputSwitchModule,
-    AccordionModule,
-    EditorModule,
-    UtilModule
-  ],
+    imports: [
+        CommonModule,
+        SolicRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        TableModule,
+        MenuModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        ListboxModule,
+        ContextMenuModule,
+        ToastModule,
+        QuillModule,
+        FormsModule,
+        InputTextModule,
+        ArquivoModule,
+        ExplorerModule,
+        UtilModule,
+        AutoCompleteModule,
+        CalendarModule,
+        InputSwitchModule,
+        AccordionModule,
+        EditorModule,
+        UtilModule,
+        CardModule
+    ],
   exports: [
     SolicComponent,
     SolicIncluirComponent

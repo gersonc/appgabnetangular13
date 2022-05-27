@@ -19,7 +19,7 @@
          columnResizeMode="expand"
          [rowHover]="true"
          [paginator]="true"
-         [alwaysShowPaginator]="true"
+         [alwaysShowPaginator]="false"
          [pageLinks]="5"
          [responsive]="false"
          rowExpandMode="single"
@@ -40,7 +40,7 @@
          stateStorage="session"
          stateKey="solic-table"
          selectionMode="multiple"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines"
          [loadingIcon]="'pi pi-spin pi-spinner'"
 >
   <!--*** TOPO *****************************************************************************************************-->
@@ -110,7 +110,7 @@
   <ng-template pTemplate="body" let-sol let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="sol" [pContextMenuRow]="sol" [pSelectableRowIndex]="rowIndex">
       <td>
-        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="sol" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
@@ -186,7 +186,7 @@
                   type="button"
                   icon="pi pi-bookmark"
                   class="p-button-rounded"
-                  pTooltip="Apagar"
+                  pTooltip="Histórico"
                   tooltipPosition="top"
                   (click)="historicoSolicitacao(sol)"
                 >
@@ -231,25 +231,16 @@
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 
-<p-dialog
+<p-dialog *ngIf="ss.tabela.mostraSeletor"
+  id="seletor"
   header="Selecione as colunas."
   [(visible)]="ss.tabela.mostraSeletor"
   [modal]="true"
   styleClass="tablistagem"
-  [style]="{width: '400px'}"
+  [style]="{width: '40rem'}"
   [dismissableMask]="true"
-  (onHide)="hideSeletor($event)"
 >
-  <p-listbox
-    [options]="cols"
-    [(ngModel)]="ss.tabela.selectedColumns"
-    [multiple]="true"
-    [checkbox]="true"
-    [filter]="true"
-    optionLabel="header"
-
-    (onChange)="onChangeSeletorColunas($event)"
-  ></p-listbox>
+  <app-seletor-colunas [todas]="cols" [(ativas)]="ss.tabela.selectedColumns"></app-seletor-colunas>
 </p-dialog>
 
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>

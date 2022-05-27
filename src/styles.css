@@ -14403,3 +14403,41 @@ span.atencao {
   padding-right: .5em;
   background-color: var(--yellow-200);
 }
+
+.vinculos {
+  background-color: var(--yellow-200);
+  padding: 1rem 2rem;
+  border-radius: .8rem;
+}
+.vinculos-interno {
+  background-color: var(--formulario-bg-interno-color);
+  padding: .4rem .4rem;
+  border-radius: .4rem;
+}
+
+.fundo-claro {
+  border-color: var(--formulario-bg-interno-color) !important;
+  background-color: var(--formulario-bg-interno-color);
+}
+
+.seletor .p-picklist-list{
+  font-size: .8rem;
+  width: 12.5rem;
+}
+
+.seletor .p-picklist-header {
+  width: 12.5rem;
+}
+
+
+.seletor .p-picklist-item {
+  padding: 0.3rem .5rem !important;
+}
+
+
+
+#seletor .tablistagem.p-dialog {
+  position: fixed;
+  bottom: unset !important;
+  top: 5rem;
+}

@@ -18,6 +18,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {ExplorerDetalheComponent} from "./explorer-detalhe/explorer-detalhe.component";
 import { DetalheExplorerComponent } from './detalhe-explorer/detalhe-explorer.component';
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -28,20 +29,21 @@ import { DetalheExplorerComponent } from './detalhe-explorer/detalhe-explorer.co
     ExplorerDetalheComponent,
     DetalheExplorerComponent
   ],
-  imports: [
-    CommonModule,
-    ExplorerRoutingModule,
-    OverlayPanelModule,
-    AvatarModule,
-    ButtonModule,
-    PanelModule,
-    InputTextModule,
-    RippleModule,
-    FormsModule,
-    KeyFilterModule,
-    ArquivoModule,
-    ToastModule,
-  ],
+    imports: [
+        CommonModule,
+        ExplorerRoutingModule,
+        OverlayPanelModule,
+        AvatarModule,
+        ButtonModule,
+        PanelModule,
+        InputTextModule,
+        RippleModule,
+        FormsModule,
+        KeyFilterModule,
+        ArquivoModule,
+        ToastModule,
+        TooltipModule,
+    ],
   exports: [
     ExplorerComponent,
     ExternalLinkDirective,
