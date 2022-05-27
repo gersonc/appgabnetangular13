@@ -1,0 +1,21 @@
+<p-pickList
+  #pl
+  [source]="disponiveis"
+  [target]="ativas"
+  sourceHeader="Disponíveis"
+  targetHeader="Selecionadas"
+  [dragdrop]="true"
+  [responsive]="true"
+  [sourceStyle]="{'height':altura}"
+  [targetStyle]="{'height':altura}"
+  [showSourceFilter]="false"
+  [showTargetFilter]="false"
+  filterBy="header"
+  styleClass="seletor"
+>
+  <ng-template let-col pTemplate="item">
+    <div class="seletor-item">
+      {{col.header}}
+    </div>
+  </ng-template>
+</p-pickList>
