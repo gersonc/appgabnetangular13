@@ -38,7 +38,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   authAnalisar = false;
   authApagar = false;
   authIncluir = false;
-  versao: any;
+  solicitacaoVersao: number;
   campoTexto: string = null;
   campoTitulo: string = null;
   showCampoTexto = false;
@@ -64,7 +64,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     public md: MenuDatatableService,
     private sfs: SolicFormService
   ) {
-    this.versao = aut.versaoN;
+    this.solicitacaoVersao = aut.solicitacaoVersao;
   }
 
   ngOnInit() {
@@ -138,7 +138,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_numero_oficio', header: 'Nº OFÍCIO', sortable: 'false', width: '150px'}
     );
 
-    if (this.versao === 1) {
+    if (this.solicitacaoVersao === 1) {
       this.cols.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
         {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'},
@@ -149,7 +149,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_indicacao_nome', header: 'INDICAÇÃO', sortable: 'true', width: '250px'},
 
     );
-    if (this.versao < 3) {
+    if (this.solicitacaoVersao < 3) {
       this.cols.push(
         {field: 'solicitacao_reponsavel_analize_nome', header: 'RESPONSÁVEL', sortable: 'true', width: '200px'},
         {field: 'solicitacao_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'}
@@ -159,7 +159,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_data_atendimento', header: 'DT ATENDIMENTO', sortable: 'true', width: '230px'},
       {field: 'solicitacao_atendente_cadastro_nome', header: 'ATENDENTE', sortable: 'true', width: '200px'}
     );
-    if (this.versao === 1) {
+    if (this.solicitacaoVersao === 1) {
       this.cols.push(
         {field: 'solicitacao_cadastrante_cadastro_nome', header: 'CADASTRANTE', sortable: 'true', width: '200px'},
         {field: 'solicitacao_tipo_recebimento_nome', header: 'TP. RECEBIMENTO', sortable: 'true', width: '165px'}
@@ -169,7 +169,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_descricao', header: 'DESCRIÇÃO', sortable: 'false', width: '400px'},
       {field: 'solicitacao_aceita_recusada', header: 'OBSERVAÇÕES', sortable: 'false', width: '400px'}
     );
-    if (this.versao === 1) {
+    if (this.solicitacaoVersao === 1) {
       this.cols.push(
         {field: 'solicitacao_carta', header: 'RESPOSTA', sortable: 'true', width: '400px'}
       );
@@ -187,7 +187,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', width: '300px'},
     ];
-    if (this.versao === 1) {
+    if (this.solicitacaoVersao === 1) {
       this.ss.tabela.selectedColumns.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
         {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'}
@@ -353,6 +353,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solicitacaoIncluir(): void {
     if (this.aut.solicitacao_incluir) {
       this.sfs.acao = 'incluir';
+      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.dtb.saveState();
       this.router.navigate(['/solic/incluir']);
     } else {
@@ -376,6 +377,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       this.ss.setState();
       console.log('solicitacaoAlterar', sol);
       this.sfs.acao = 'alterar';
+      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.sfs.solicListar = sol;
       this.sfs.parseListagemForm(sol);
       this.router.navigate(['/solic/alterar']);
@@ -388,6 +390,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solicitacaoApagar(sol: SolicListarI) {
     if (this.aut.solicitacao_apagar) {
       this.ss.solicitacaoApagar = sol;
+      this.sfs.acao = 'alterar';
+      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.dtb.saveState();
       this.router.navigate(['/solic/apagar']);
     } else {
@@ -430,7 +434,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solicitacaoAnalisar(sol: SolicListarI) {
     if (this.aut.solicitacao_analisar) {
       this.dtb.saveState();
+      this.sfs.acao = 'analisar';
+      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.sfs.parseListagemAnalisarForm(sol);
+      this.sfs.criaTipoAnalise(this.aut.usuario_responsavel_sn);
       this.router.navigate(['/solic/analisar']);
     } else {
       console.log('SEM PERMISSAO');

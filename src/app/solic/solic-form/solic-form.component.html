@@ -241,8 +241,30 @@
                     />
                   </div>
 
-                  <!--*** Tipo de analise ***-->
+                  <!--&lt;!&ndash;*** Tipo de analise ***&ndash;&gt;
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="sfs.acao==='incluir'">
+                    <label for="solicitacao_tipo_analize"><span class="atencao">*</span> {{tpAnalizeTitulo}}</label>
+                    <p-dropdown
+                      id="solicitacao_tipo_analize"
+                      formControlName="solicitacao_tipo_analize"
+                      placeholder="Selecione"
+                      [options]="ddSolicitacao_tipo_analize"
+                      [required]="true"
+                      [ngClass]="aplicaCssErro('solicitacao_tipo_analize')"
+                    ></p-dropdown>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('solicitacao_tipo_analize')" msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
+                  </div>-->
+
+                </div>
+              </div>
+              <!--*** FIM COLUNA 1 ***-->
+
+              <!--*** COLUNA 2 ***-->
+              <div class="p-col-12 formulario">
+                <div class="p-fluid p-formgrid p-grid formulario">
+
+                  <!--*** Tipo de analise ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" *ngIf="sfs.acao==='incluir'">
                     <label for="solicitacao_tipo_analize"><span class="atencao">*</span> {{tpAnalizeTitulo}}</label>
                     <p-dropdown
                       id="solicitacao_tipo_analize"
@@ -255,9 +277,15 @@
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('solicitacao_tipo_analize')" msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
                   </div>
 
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                    <p-card header="header">
+                      Content
+                    </p-card>
+                  </div>
+
                 </div>
               </div>
-              <!--*** FIM COLUNA 3 ***-->
+              <!--*** FIM COLUNA 2 ***-->
 
 
               <!--*** COLUNA 4 ***-->

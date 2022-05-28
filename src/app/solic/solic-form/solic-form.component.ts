@@ -18,6 +18,7 @@ import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {SolicForm} from "../_models/solic-form";
 import {DdService} from "../../_services/dd.service";
+import {SolicInformacao} from "../_models/solic-informacao";
 
 @Component({
   selector: 'app-solic-form',
@@ -71,6 +72,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
   titulo = 'SOLICITAÇÃO - INCLUIR';
   readonly = false;
   checked: boolean = false;
+  textosAnalise: SolicInformacao[] = [];
 
   fc: any;
   toolbarEditor = [
@@ -220,7 +222,11 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
       {label: 'Suspenso', value: 11}
     );
 
+
+
   }
+
+
 
   parseAssunto(assunto: SelectItem[]) {
     assunto.forEach( (a) => {
@@ -671,4 +677,6 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
   onSolicitacaoAceita(ev) {
     this.formSol.get('solicitacao_aceita_recusada').setValue(ev);
   }
+
+
 }

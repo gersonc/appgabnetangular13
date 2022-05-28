@@ -10,6 +10,7 @@ import {VersaoService} from "../../_services/versao.service";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {Editor} from "primeng/editor";
+import {SolicInformacao} from "../_models/solic-informacao";
 
 @Component({
   selector: 'app-solic-analisar',
@@ -33,6 +34,8 @@ export class SolicAnalisarComponent implements OnInit {
   // processo_id = 0;
   sol?: SolicListarI;
   arquivoDesativado = false;
+  info?: SolicInformacao;
+
 
 
   modulos = {
@@ -65,8 +68,9 @@ export class SolicAnalisarComponent implements OnInit {
 
   ngOnInit() {
     // this.sol = this.sfs.solicListar;
+    this.info = this.sfs.info[0];
     this.solicitacao = this.sfs.solA;
-    this.carregaDropdown();
+    // this.carregaDropdown();
     this.criaForm();
   }
 
@@ -244,7 +248,12 @@ export class SolicAnalisarComponent implements OnInit {
   }
 
   onChangeAcao(ev: any) {
-    console.log('onChangeAcao', ev);
+    if (ev.value !== undefined) {
+      this.info = this.sfs.info[+ev.value];
+    } else {
+      this.info = this.sfs.info[0];
+    }
+
   }
 
   /*focus1(event) {
@@ -259,5 +268,7 @@ export class SolicAnalisarComponent implements OnInit {
   onPossuiArquivos(ev) {
 
   }
+
+
 
 }

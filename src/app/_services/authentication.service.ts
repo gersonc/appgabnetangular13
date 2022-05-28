@@ -239,6 +239,7 @@ export class AuthenticationService {
   public parlamentar_arquivo_ativo = false;
   public versao: any = null;
   public versao_id = 0;
+  public solicitacaoVersao = 0;
   public versaoN = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
   public userRules: any[];
   public userScops: any[];
@@ -344,6 +345,7 @@ export class AuthenticationService {
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
     this.versaoService.versao = +user.parlamentar_versao!;
+    this.solicitacaoVersao = +user.solicitacao_versao!;
     this.versaoService.solicitacaoVersao = +user.solicitacao_versao!;
     this.versao_id = +user.parlamentar_versao!;
     this.versaoN = +user.parlamentar_versao!;
@@ -382,7 +384,7 @@ export class AuthenticationService {
     this.telefone = regra?.indexOf('te') !== -1;
     this.usuario = regra?.indexOf('us') !== -1;
     this.usuario_principal_sn = regra?.indexOf('up') !== -1;
-    this.usuario_responsavel_sn = regra?.indexOf('ur') !== -1;
+    // this.usuario_responsavel_sn = regra?.indexOf('ur') !== -1;
     this.userScops = regra;
 
     this.configuracao_incluir = acesso.indexOf('cf_i') !== -1;
@@ -467,7 +469,7 @@ export class AuthenticationService {
     this.arquivos_baixar = acesso.indexOf('ar_b') !== -1;
     this.arquivos_apagar = acesso.indexOf('ar_d') !== -1;
     // this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
-    this.usuario_responsavel_sn = (this.usuario_responsavel_sn ||  acesso.indexOf('us_r') !== -1);
+    this.usuario_responsavel_sn = (regra?.indexOf('ur') !== -1 ||  acesso.indexOf('us_r') !== -1 || regra?.indexOf('up') !== -1);
     this.userRules = acesso;
     this.currentUserSubject!.next(JSON.parse(<string>localStorage.getItem('currentUser')));
     this.mostraMenuEmiter(true);

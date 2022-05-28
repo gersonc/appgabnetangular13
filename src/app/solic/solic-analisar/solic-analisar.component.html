@@ -892,7 +892,7 @@
                 <p-dropdown
                   formControlName="acao"
                   placeholder="Selecione"
-                  [options]="ddAcao"
+                  [options]="sfs.ddSolicitacao_tipo_analize"
                   [required]="true"
                   (onChange)="onChangeAcao($event)"
                 ></p-dropdown>
@@ -901,7 +901,10 @@
 
               <div class="p-field p-col-12 p-md-4 p-lg-6 p-xl-6">
                 <p-card header="header">
-                  Content
+                  <div>{{info.posicao}}</div>
+                  <div>{{info.status}}</div>
+                  <div>{{info.texto}}</div>
+                  <div>{{info.situacao}}</div>
                 </p-card>
               </div>
 
