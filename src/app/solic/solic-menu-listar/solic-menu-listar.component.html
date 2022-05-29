@@ -88,7 +88,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_cadastrante_cadastro_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id && vs.versao === 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id && vs.solicitacaoVersao === 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="solicitacao_cadastrante_cadastro_id">Cadastrante</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id"
@@ -113,7 +113,7 @@
               ></p-dropdown>
             </div>
             <!-- ddSolicitacao_cadastro_bairro -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_bairro && vs.versao > 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_bairro && vs.solicitacaoVersao > 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="cadastro_regiao_id">Bairro</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_cadastro_bairro"
@@ -135,7 +135,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_local_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_local_id && vs.versao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_local_id && vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="solicitacao_local_id">Núcleo</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_local_id"
@@ -146,7 +146,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_tipo_recebimento_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id && vs.versao === 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id && vs.solicitacaoVersao === 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="solicitacao_tipo_recebimento_id">Tipo de recebimento</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_tipo_recebimento_id"
@@ -169,7 +169,7 @@
               ></p-dropdown>
             </div>
             <!-- solicitacao_reponsavel_analize_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id && vs.versao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+            <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id && vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="solicitacao_reponsavel_analize_id">Resp. p/ Análise</label>
               <p-dropdown
                 [options]="ddSolicitacao.ddSolicitacao_reponsavel_analize_id"

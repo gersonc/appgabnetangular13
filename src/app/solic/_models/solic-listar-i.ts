@@ -29,7 +29,6 @@ export interface SolicListarI {
   solicitacao_descricao?: string;
   solicitacao_descricao_texto?: string;
   solicitacao_descricao_delta?: string;
-  solicitacao_aceita_sn?: string;
   solicitacao_aceita_recusada?: string;
   solicitacao_aceita_recusada_delta?: string;
   solicitacao_aceita_recusada_texto?: string;
@@ -48,8 +47,7 @@ export interface SolicListarI {
   solicitacao_area_interesse_nome?: string;
   solicitacao_reponsavel_analize_id?: number;
   solicitacao_reponsavel_analize_nome?: string;
-  solicitacao_aceita_sn2?: number;
-  solicitacao_posicao1?: number;
+  solicitacao_aceita_sn?: number;
   solicitacao_processo_id?: number;
   solicitacao_arquivos?: ArquivoListagem[];
   // cadastro: SolicCadastro;

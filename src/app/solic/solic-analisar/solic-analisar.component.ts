@@ -34,8 +34,7 @@ export class SolicAnalisarComponent implements OnInit {
   // processo_id = 0;
   sol?: SolicListarI;
   arquivoDesativado = false;
-  info?: SolicInformacao;
-
+  info: number = 0;
 
 
   modulos = {
@@ -68,13 +67,12 @@ export class SolicAnalisarComponent implements OnInit {
 
   ngOnInit() {
     // this.sol = this.sfs.solicListar;
-    this.info = this.sfs.info[0];
     this.solicitacao = this.sfs.solA;
     // this.carregaDropdown();
     this.criaForm();
   }
 
-  carregaDropdown() {
+  /*carregaDropdown() {
     this.ddAcao = [];
     if (this.vs.solicitacaoVersao === 1) {
       this.ddAcao.push(
@@ -101,7 +99,7 @@ export class SolicAnalisarComponent implements OnInit {
       );
     }
 
-  }
+  }*/
 
   /*carregaDropdown() {
     if (this.aut.solicitacao_analisar) {
@@ -126,8 +124,8 @@ export class SolicAnalisarComponent implements OnInit {
       const ql2delta = JSON.parse(this.solicitacao.solicitacao_aceita_recusada_delta);
       this.solacerecus.getQuill().setContents(ql2delta);
     } else {
-      if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada)) {
-        this.formSol.get('solicitacao_aceita_recusada').patchValue(this.solicitacao.solicitacao_aceita_recusada);
+      if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada!)) {
+        this.formSol.get('solicitacao_aceita_recusada').patchValue(this.solicitacao.solicitacao_aceita_recusada!);
       }
     }
 
@@ -136,7 +134,7 @@ export class SolicAnalisarComponent implements OnInit {
       this.solcar.getQuill().setContents(ql3delta);
     } else {
       if (this.testaCampoQuill(this.solicitacao.solicitacao_carta)) {
-        this.formSol.get('solicitacao_carta').patchValue(this.solicitacao.solicitacao_carta);
+        this.formSol.get('solicitacao_carta').patchValue(this.solicitacao!.solicitacao_carta);
       }
     }
   }
@@ -248,10 +246,11 @@ export class SolicAnalisarComponent implements OnInit {
   }
 
   onChangeAcao(ev: any) {
+    console.log(ev);
     if (ev.value !== undefined) {
-      this.info = this.sfs.info[+ev.value];
+      this.info = this.sfs.info.findIndex(v => +v.id === ev.value);
     } else {
-      this.info = this.sfs.info[0];
+      this.info = 0;
     }
 
   }

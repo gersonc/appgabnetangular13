@@ -14441,3 +14441,48 @@ span.atencao {
   bottom: unset !important;
   top: 5rem;
 }
+
+.analise .p-card {
+  background: var(--surface-b);
+}
+
+
+element.style {
+}
+.analise .p-card .p-card-body {
+  padding: 0 1rem 1rem 1rem;
+}
+
+.analise .p-card .p-card-content {
+  padding: 0;
+}
+
+.analise .p-card .p-card-header {
+  background: var(--surface-b);
+  padding: 1.5rem 1rem 0 1rem;
+}
+
+
+.analise-header{
+  padding: .5rem;
+  background: var(--surface-a);
+  font-size: 1rem;
+  font-weight: var(--formulario-field-label-font-weight);
+  border-radius: .5em .5em 0 0;
+}
+
+
+.analise-corpo {
+  padding: .5rem;
+  background: var(--surface-a);
+  font-size: 1rem;
+  border-radius: 0 .5em .5em .5em;
+}
+
+/*
+.analise .p-card .p-card-title {
+  font-size: 1rem;
+  font-weight: var(--formulario-field-label-font-weight) !important;
+  margin-bottom: 0.5rem;
+}
+*/

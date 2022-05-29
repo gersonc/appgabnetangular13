@@ -3,7 +3,6 @@ export interface SolicI {
   solicitacao_aceita_recusada?: string;
   solicitacao_aceita_recusada_delta?: string;
   solicitacao_aceita_recusada_texto?: string;
-  solicitacao_aceita_sn2?: string;
   solicitacao_aceita_sn?: number;
   solicitacao_area_interesse_id?: number;
   solicitacao_area_interesse_nome?: string;

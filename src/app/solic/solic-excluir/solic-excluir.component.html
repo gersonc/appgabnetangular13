@@ -144,15 +144,6 @@
                           {{sol.solicitacao_tipo_recebimento_nome}}
                         </td>
                       </tr>
-                      <tr *ngIf="sol.solicitacao_aceita_sn">
-                        <th>
-                          Aceita S/N:
-                        </th>
-                        <td>
-                          {{sol.solicitacao_aceita_sn}}
-                        </td>
-                      </tr>
-
                       <tr
                         *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta"
                       >
@@ -468,7 +459,7 @@
                 </ng-container>
 
 
-                <tr *ngIf="vs.versao === 1 && sol.processo_id">
+                <tr *ngIf="vs.solicitacaoVersao === 1 && sol.processo_id">
                   <td>
                     <br>
 
@@ -514,7 +505,7 @@
                                   </td>
                                 </tr>
                               </table>
-                              <ng-container *ngIf="vs.versao === 1 && sol.historico_processo && aut.processo_listar">
+                              <ng-container *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo && aut.processo_listar">
 
                                 <table *ngIf="sol.historico_processo.length > 0" class="table-hover tabela">
                                   <caption>ANDAMENTOS DO PROCESSO</caption>
@@ -541,7 +532,7 @@
                                 </table>
 
                               </ng-container>
-                              <ng-container *ngIf="vs.versao === 1 && sol.oficio && aut.oficio_listar">
+                              <ng-container *ngIf="vs.solicitacaoVersao === 1 && sol.oficio && aut.oficio_listar">
                                 <ng-container *ngIf="sol.oficio.length > 0">
                                   <ng-container *ngFor="let ofi of sol.oficio">
                                     <br>
@@ -734,7 +725,7 @@
                                   </ng-container>
                                 </ng-container>
                               </ng-container>
-                              <ng-container *ngIf="vs.versao === 1 && sol.oficio && !aut.oficio_listar">
+                              <ng-container *ngIf="vs.solicitacaoVersao === 1 && sol.oficio && !aut.oficio_listar">
                                 <table *ngIf="sol.oficio.length > 0" class="table-hover tabela">
                                   <caption>OFÍCIO(S)</caption>
                                   <tr>

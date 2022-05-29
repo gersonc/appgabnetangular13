@@ -52,13 +52,13 @@ export class SolicFormResolver implements Resolve<boolean | never> {
     if (!sessionStorage.getItem('dropdown-atendente')) {
       this.dds.push('dropdown-atendente');
     }
-    if (this.vs.versao === 1) {
+    if (this.vs.solicitacaoVersao === 1) {
       // ****** solicitacao_tipo_recebimento_id *****
       if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
         this.dds.push('dropdown-tipo_recebimento');
       }
     }
-    if (this.vs.versao < 3) {
+    if (this.vs.solicitacaoVersao < 3) {
       // ****** solicitacao_local_id *****
       if (!sessionStorage.getItem('dropdown-local')) {
         this.dds.push('dropdown-local');
@@ -69,7 +69,7 @@ export class SolicFormResolver implements Resolve<boolean | never> {
       this.dds.push('dropdown-area_interesse');
     }
 
-    if (this.vs.versao < 3) {
+    if (this.vs.solicitacaoVersao < 3) {
       // ****** solicitacao_reponsavel_analize_id *****
       if (!sessionStorage.getItem('dropdown-reponsavel_analize')) {
         this.dds.push('dropdown-reponsavel_analize');

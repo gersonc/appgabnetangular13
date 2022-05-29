@@ -179,7 +179,7 @@
 
 
                   <!--*** solicitacao_tipo_recebimento_id ***-->
-                  <div *ngIf="vs.versao === 1" class="p-field p-col-12  p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="vs.solicitacaoVersao === 1" class="p-field p-col-12  p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="solicitacao_tipo_recebimento_id"><span class="atencao">*</span> Tipo de recebimento</label>
                     <p-dropdown
                       id="solicitacao_tipo_recebimento_id"
@@ -193,7 +193,7 @@
                   </div>
 
                   <!--*** solicitacao_local_id ***-->
-                  <div *ngIf="vs.versao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="solicitacao_local_id"><span class="atencao">*</span> Núcleo</label>
                     <p-dropdown
                       id="solicitacao_local_id"
@@ -207,7 +207,7 @@
                   </div>
 
                   <!--*** solicitacao_reponsavel_analize_id ***-->
-                  <div *ngIf="vs.versao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="solicitacao_reponsavel_analize_id"><span class="atencao">*</span> Responsável pela análize</label>
                     <p-dropdown
                       id="solicitacao_reponsavel_analize_id"

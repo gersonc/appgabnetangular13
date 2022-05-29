@@ -25,7 +25,6 @@ export interface SolicSolicitacaoI {
   solicitacao_descricao?: string;
   solicitacao_descricao_texto?: string;
   solicitacao_descricao_delta?: string;
-  solicitacao_aceita_sn?: string;
   solicitacao_aceita_recusada?: string;
   solicitacao_aceita_recusada_delta?: string;
   solicitacao_aceita_recusada_texto?: string;
@@ -44,7 +43,7 @@ export interface SolicSolicitacaoI {
   solicitacao_area_interesse_nome?: string;
   solicitacao_reponsavel_analize_id?: number;
   solicitacao_reponsavel_analize_nome?: string;
-  solicitacao_aceita_sn2?: number;
+  solicitacao_aceita_sn?: number;
   solicitacao_posicao2?: number;
   solicitacao_processo_id?: number;
 }

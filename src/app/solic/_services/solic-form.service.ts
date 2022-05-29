@@ -18,8 +18,30 @@ export class SolicFormService {
   public solicListar?: SolicListarI;
   public acao?: string = null;
   public solicitacaoVersao = 0;
-  public info?: SolicInformacao[];
   public ddSolicitacao_tipo_analize?: SelectItem[];
+  public info: SolicInformacao[] = [
+    {id: 0, posicao: 'EM ABERTO', status: null,  texto:'Informações sobre as ações que podem ser tomadas.', situacao: null, textoProcesso: null},
+    {id: 1, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Aguardar análise.', situacao: null, textoProcesso: null},
+    {id: 2, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Enviar para análise por e-mail para o responsável pela análise.', situacao: null, textoProcesso: null},
+    {id: 3, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem criação de processo.'},
+    {id: 4, posicao: 'RESOLVIDA', status: 'DEFERIDO', texto: 'Concluida imediatamente.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem criação de processo.'},
+    {id: 5, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Cria processo.'},
+    {id: 6, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Cria processo e inclui ofício'},
+    {id: 7, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação recusada.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+    {id: 8, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+    {id: 9, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: 'SUSPENSO', textoProcesso: 'O processo é colocado em situação SUSPENSO.'},
+    {id: 10, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Se o processo estiver em andamento será redirecionado a ele.'},
+    {id: 11, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Aguardar análise.', situacao: null, textoProcesso: null},
+    {id: 12, posicao: 'DEFERIDO', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: null, textoProcesso: null},
+    {id: 13, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: null, textoProcesso: null},
+    {id: 14, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: null, textoProcesso: null},
+    {id: 15, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: null, textoProcesso: null},
+    {id: 16, posicao: 'COMCLUIDA', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+    {id: 17, posicao: 'COMCLUIDA', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+  ];
+  public informacao: SolicInformacao = this.info[0];
+
+
 
   constructor() {
   }
@@ -62,7 +84,7 @@ export class SolicFormService {
     r.solicitacao_descricao_delta = s.solicitacao_descricao_delta;
     r.solicitacao_descricao_texto = s.solicitacao_descricao_texto;
     r.solicitacao_reponsavel_analize_id = s.solicitacao_reponsavel_analize_id;
-    r.solicitacao_aceita_sn = s.solicitacao_aceita_sn2;
+    r.solicitacao_aceita_sn = s.solicitacao_aceita_sn;
     r.solicitacao_aceita_recusada = s.solicitacao_aceita_recusada;
     r.solicitacao_aceita_recusada_delta = s.solicitacao_aceita_recusada_delta;
     r.solicitacao_aceita_recusada_texto = s.solicitacao_aceita_recusada_texto;
@@ -92,46 +114,25 @@ export class SolicFormService {
 
   criaTipoAnalise(principal = false) {
     this.ddSolicitacao_tipo_analize = [];
-    this.info = [];
 
-    const info: SolicInformacao[] = [
-      {id: 0, posicao: 'ATENÇÃO', status: null,  texto:'Informações sobre os tipos de análises.', situacao: null, textoProcesso: null},
-      {id: 1, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Aguardar análise.', situacao: null, textoProcesso: null},
-      {id: 2, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Enviar para análise por e-mail para o responsável pela análise.', situacao: null, textoProcesso: null},
-      {id: 3, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem criação de processo.'},
-      {id: 4, posicao: 'RESOLVIDA', status: 'DEFERIDO', texto: 'Concluida imediatamente.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem criação de processo.'},
-      {id: 5, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Cria processo.'},
-      {id: 6, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Cria processo e inclui ofício'},
-      {id: 7, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação recusada.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-      {id: 8, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-      {id: 9, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: 'SUSPENSO', textoProcesso: 'O processo é colocado em situação SUSPENSO.'},
-      {id: 10, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Se o processo estiver em andamento será redirecionado a ele.'},
-      {id: 11, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Aguardar análise.', situacao: null, textoProcesso: null},
-      {id: 12, posicao: 'DEFERIDO', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: null, textoProcesso: null},
-      {id: 13, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: null, textoProcesso: null},
-      {id: 14, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: null, textoProcesso: null},
-      {id: 15, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: null, textoProcesso: null},
-      {id: 16, posicao: 'COMCLUIDA', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-      {id: 17, posicao: 'COMCLUIDA', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-    ];
 
     const dd: SelectItem[] = [
-      {label: '', value: 99},
-      {label: 'Enviar para análise', value: 1},
-      {label: 'Solicitar análise por e-mail', value: 2},
-      {label: 'Aceitar solicitação sem processo', value: 3},
-      {label: 'Solicitação resolvida', value: 4},
-      {label: 'Abrir processo', value: 5},
-      {label: 'Abrir processo e incluir dados', value: 6},
-      {label: 'Recusar solicitação', value: 7},
-      {label: 'Suspender solicitação', value: 8},
-      {label: 'Suspender solicitação e processo', value: 9},
-      {label: 'Analisar processo em andamento', value: 10},
-      {label: 'Em aberto', value: 11},
-      {label: 'Deferido', value: 12},
-      {label: 'Indeferido', value: 13},
-      {label: 'Em andamento', value: 14},
-      {label: 'Suspenso', value: 15},
+      {label: 'EM ABERTO', value: 0},
+      {label: 'EM ABERTO - Enviar para análise', value: 1},
+      {label: 'EM ABERTO - Solicitar análise por e-mail', value: 2},
+      {label: 'EM ANDAMENTO - Aceitar solicitação sem processo', value: 3},
+      {label: 'DEFERIDO - Solicitação resolvida', value: 4},
+      {label: 'ACEITA - Abrir processo', value: 5},
+      {label: 'ACEITA - Abrir processo e incluir dados', value: 6},
+      {label: 'INDEFERIDO - Recusar solicitação', value: 7},
+      {label: 'SUSPENSO - Suspender solicitação', value: 8},
+      {label: 'SUSPENSO - Suspender solicitação e processo', value: 9},
+      {label: ' -- / -- - Analisar processo em andamento', value: 10},
+      {label: 'EM ABERTO', value: 11},
+      {label: 'DEFERIDO', value: 12},
+      {label: 'INDEFERIDO', value: 13},
+      {label: 'EM ANDAMENTO', value: 14},
+      {label: 'SUSPENSO', value: 15},
 
 
       /*{label: 'Analisar processo', value: 12},
@@ -146,21 +147,13 @@ export class SolicFormService {
       if (this.solicitacaoVersao === 1) {
         if (principal) {
           this.ddSolicitacao_tipo_analize = [
+            dd[0],
             dd[3],
             dd[4],
             dd[5],
             dd[6],
             dd[7],
             dd[8]
-          ];
-          this.info = [
-            info[0],
-            info[3],
-            info[4],
-            info[5],
-            info[6],
-            info[7],
-            info[8]
           ];
           if (
             this.solicListar.processo_id !== undefined &&
@@ -169,33 +162,37 @@ export class SolicFormService {
           ) {
             if (this.solicListar.processo_status2 === 0) {
               this.ddSolicitacao_tipo_analize.push(dd[9]);
-              this.info.push(info[9]);
+              // this.info.push(info[9]);
             }
             if (this.solicListar.processo_status2 === 0 || this.solicListar.processo_status2 === 3) {
               this.ddSolicitacao_tipo_analize.push(dd[10]);
-              this.info.push(info[10]);
+              // this.info.push(info[10]);
             }
           }
         }
       } else {
         this.ddSolicitacao_tipo_analize = [
+          dd[0],
           dd[11],
           dd[12],
           dd[13],
           dd[14],
           dd[15]
         ];
-        this.info = [
-          info[0],
-          info[11],
-          info[12],
-          info[13],
-          info[14],
-          info[15]
-        ];
       }
     }
+  }
 
+  onChangeAcao(ev: any) {
+    if (ev.value !== undefined) {
+      // this.informacao = this.info.findIndex(v => +v.id === ev.value);
+      this.informacao = this.info[ev.value];
+    } else {
+      this.informacao = this.info[0];;
+    }
 
   }
+
+
+
 }

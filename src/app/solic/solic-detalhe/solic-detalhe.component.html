@@ -133,15 +133,6 @@
               {{sol.solicitacao_tipo_recebimento_nome}}
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_aceita_sn">
-            <th>
-              Aceita S/N:
-            </th>
-            <td>
-              {{sol.solicitacao_aceita_sn}}
-            </td>
-          </tr>
-
           <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta" class="novaPagina">
             <th colspan="2" class="tituloEditor">
               Descrição:
@@ -455,7 +446,7 @@
     </tr>
 
 
-    <tr *ngIf="vs.versao === 1 && sol.processo_id && aut.processo_listar">
+    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.processo_id && aut.processo_listar">
       <td>
         <br>
         <table class="table-hover tabela">
@@ -484,7 +475,7 @@
         </table>
       </td>
     </tr>
-    <tr *ngIf="vs.versao === 1 && sol.historico_processo && aut.processo_listar" class="novaPagina">
+    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo && aut.processo_listar" class="novaPagina">
       <td>
         <br>
         <table class="table-hover tabela">
@@ -513,7 +504,7 @@
         </table>
       </td>
     </tr>
-    <tr *ngIf="vs.versao === 1 && sol.oficio && aut.oficio">
+    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.oficio && aut.oficio">
       <td>
         <br>
         <table class="table-hover tabela">

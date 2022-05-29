@@ -119,7 +119,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sfs.solicitacao.solicitacao_atendente_cadastro_id = this.aut.usuario_id;
       this.sfs.solicitacao.solicitacao_reponsavel_analize_id = (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) ? this.aut.usuario_id : null;
       // this.sfs.solicitacao.solicitacao_tipo_analize = 1;
-      this.sfs.solicitacao.solicitacao_local_id = (this.vs.versao < 3) ? this.aut.usuario_local_id : 0;
+      this.sfs.solicitacao.solicitacao_local_id = (this.vs.solicitacaoVersao < 3) ? this.aut.usuario_local_id : 0;
       this.sfs.solicitacao.solicitacao_data = hoje;
       this.sfs.solicitacao.solicitacao_data_atendimento = hoje;
       this.sfs.solicitacao.solicitacao_indicacao_sn = 0;
@@ -158,10 +158,10 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ddSolicitacao_cadastro_tipo_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro-incluir'));
     this.ddSolicitacao_assunto_id = JSON.parse(sessionStorage.getItem('dropdown-assunto'));
     this.ddSolicitacao_atendente_cadastro_id = JSON.parse(sessionStorage.getItem('dropdown-atendente'));
-    if (this.vs.versao === 1) {
+    if (this.vs.solicitacaoVersao === 1) {
       this.ddSolicitacao_tipo_recebimento_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'));
     }
-    if (this.vs.versao < 3) {
+    if (this.vs.solicitacaoVersao < 3) {
       this.ddSolicitacao_local_id = JSON.parse(sessionStorage.getItem('dropdown-local'));
       this.ddSolicitacao_reponsavel_analize_id = JSON.parse(sessionStorage.getItem('dropdown-reponsavel_analize'));
     }
@@ -171,7 +171,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
   // ***     FORMULARIO      *************************
   carregaDropDown() {
     this.ddSolicitacao_tipo_analize = [];
-    if (this.vs.versao === 1) {
+    if (this.vs.solicitacaoVersao === 1) {
       this.ddSolicitacao_tipo_analize.push(
         {label: 'Enviar para análise', value: 1},
         {label: 'Solicitar análise por e-mail', value: 3}

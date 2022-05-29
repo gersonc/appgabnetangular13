@@ -147,15 +147,6 @@
                             {{sfs.solicListar.solicitacao_tipo_recebimento_nome}}
                           </td>
                         </tr>
-                        <tr *ngIf="sfs.solicListar.solicitacao_aceita_sn">
-                          <th>
-                            Aceita S/N:
-                          </th>
-                          <td>
-                            {{sfs.solicListar.solicitacao_aceita_sn}}
-                          </td>
-                        </tr>
-
                         <tr
                           *ngIf="sfs.solicListar.solicitacao_descricao || sfs.solicListar.solicitacao_descricao_texto || sfs.solicListar.solicitacao_descricao_delta"
                         >
@@ -471,7 +462,7 @@
                   </ng-container>
 
 
-                  <tr *ngIf="vs.versao === 1 && sfs.solicListar.processo_id">
+                  <tr *ngIf="vs.solicitacaoVersao === 1 && sfs.solicListar.processo_id">
                     <td>
                       <br>
 
@@ -521,7 +512,7 @@
                                   </tr>
                                 </table>
                                 <ng-container
-                                  *ngIf="vs.versao === 1 && sfs.solicListar.historico_processo && aut.processo_listar">
+                                  *ngIf="vs.solicitacaoVersao === 1 && sfs.solicListar.historico_processo && aut.processo_listar">
 
                                   <table *ngIf="sfs.solicListar.historico_processo.length > 0"
                                          class="table-hover tabela">
@@ -549,7 +540,7 @@
                                   </table>
 
                                 </ng-container>
-                                <ng-container *ngIf="vs.versao === 1 && sfs.solicListar.oficio && aut.oficio_listar">
+                                <ng-container *ngIf="vs.solicitacaoVersao === 1 && sfs.solicListar.oficio && aut.oficio_listar">
                                   <ng-container *ngIf="sfs.solicListar.oficio.length > 0">
                                     <ng-container *ngFor="let ofi of sfs.solicListar.oficio">
                                       <br>
@@ -742,7 +733,7 @@
                                     </ng-container>
                                   </ng-container>
                                 </ng-container>
-                                <ng-container *ngIf="vs.versao === 1 && sfs.solicListar.oficio && !aut.oficio_listar">
+                                <ng-container *ngIf="vs.solicitacaoVersao === 1 && sfs.solicListar.oficio && !aut.oficio_listar">
                                   <table *ngIf="sfs.solicListar.oficio.length > 0" class="table-hover tabela">
                                     <caption>OFÍCIO(S)</caption>
                                     <tr>
@@ -890,21 +881,35 @@
               <div class="p-field p-col-12 p-md-8 p-lg-6 p-xl-6">
                 <label><span class="atencao">*</span> Ação</label>
                 <p-dropdown
+                  #ddac
                   formControlName="acao"
                   placeholder="Selecione"
                   [options]="sfs.ddSolicitacao_tipo_analize"
                   [required]="true"
-                  (onChange)="onChangeAcao($event)"
+                  (onChange)="sfs.onChangeAcao($event)"
                 ></p-dropdown>
 
               </div>
 
               <div class="p-field p-col-12 p-md-4 p-lg-6 p-xl-6">
-                <p-card header="header">
-                  <div>{{info.posicao}}</div>
-                  <div>{{info.status}}</div>
-                  <div>{{info.texto}}</div>
-                  <div>{{info.situacao}}</div>
+                <p-card class="analise">
+                  <ng-template pTemplate="header">
+                    <div class="p-d-inline analise-header">Teste</div>
+                  </ng-template>
+                  <div class="p-d-block analise-corpo">
+                    <div>id{{sfs.informacao.id}}</div>
+                    <div>ddac{{ddac.value}}</div>
+
+                    <div>posicao{{sfs.informacao.posicao}}</div>
+                    <div>status{{sfs.informacao.status}}</div>
+                    <div>texto{{sfs.informacao.texto}}</div>
+                    <div>situacao{{sfs.informacao.situacao}}</div>
+                    <div>{{sfs.informacao.textoProcesso}}</div>
+                  </div>
+                  <ng-template pTemplate="footer">
+                    Footer content here
+                  </ng-template>
+
                 </p-card>
               </div>
 
