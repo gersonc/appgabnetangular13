@@ -38,7 +38,9 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formListarSolicitacao = this.formBuilder.group({
-      solicitacao_posicao: [null],
+      solicitacao_situacao: [null],
+      solicitacao_status_id: [null],
+      processo_status_id: [null],
       solicitacao_cadastro_tipo_id: [null],
       solicitacao_cadastro_id: [null],
       solicitacao_assunto_id: [null],

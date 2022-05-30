@@ -52,7 +52,7 @@ export class SolicitacaoService {
     if (this.cfgVersao <= 2) {
       this.campos = [
         'solicitacao_id',
-        'solicitacao_posicao',
+        'solicitacao_situacao',
         'solicitacao_aceita_sn',
         'solicitacao_cadastro_tipo_nome',
         'solicitacao_cadastro_nome',
@@ -88,7 +88,7 @@ export class SolicitacaoService {
       ];
       this.titulos = [
         'ID',
-        'POSIÇÃO',
+        'SITUAÇÃO',
         'SOL. ACEITA',
         'TP. SOLICITANTE',
         'SOLICITANTE',
@@ -125,7 +125,7 @@ export class SolicitacaoService {
     } else {
       this.campos = [
         'solicitacao_id',
-        'solicitacao_posicao',
+        'solicitacao_situacao',
         'solicitacao_cadastro_tipo_nome',
         'solicitacao_cadastro_nome',
         'solicitacao_data',

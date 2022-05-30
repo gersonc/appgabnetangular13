@@ -101,7 +101,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   montaColunas() {
     this.cols = [
       {field: 'solicitacao_id', header: 'ID', sortable: 'true', width: '80px'},
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '130px'},
+      {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '130px'},
+      {field: 'solicitacao_status', header: 'STATUS', sortable: 'true', width: '130px'},
       {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
       {field: 'solicitacao_cadastro_tipo_nome', header: 'TIPO SOLICITANTE', sortable: 'true', width: '200px'},
     ];
@@ -141,7 +142,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.solicitacaoVersao === 1) {
       this.cols.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
-        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'},
+        {field: 'processo_status_nome', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'},
         {field: 'solicitacao_indicacao_sn', header: 'INDICADO S/N', sortable: 'true', width: '140px'},
       );
     }
@@ -181,7 +182,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.ss.criaTabela();
     console.log('resetSelectedColumns');
     this.ss.tabela.selectedColumns = [
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '130px'},
+      {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '130px'},
       {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
       {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '130px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
@@ -190,7 +191,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.solicitacaoVersao === 1) {
       this.ss.tabela.selectedColumns.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
-        {field: 'processo_status', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'}
+        {field: 'processo_status_nome', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'}
       );
     }
     this.ss.tabela.selectedColumns.push(
@@ -444,18 +445,18 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
   /*solicitacaoAnalisar(sol: SolicListarI) {
-    if (sol.solicitacao_posicao !== 'EM ABERTO') {
+    if (sol.solicitacao_situacao !== 'EM ABERTO') {
       this.messageService.add(
         {
           key: 'solicitacaoToast',
           severity: 'warn',
           summary: 'ANALIISE',
-          detail: sol.solicitacao_posicao.toString()}
+          detail: sol.solicitacao_situacao.toString()}
       );
     }
     if (this.aut.usuario_responsavel_sn
       && this.aut.solicitacao_analisar
-      && sol.solicitacao_posicao === 'EM ABERTO') {
+      && sol.solicitacao_situacao === 'EM ABERTO') {
       // this.cs.mostraCarregador();
       this.dtb.saveState();
       if (this.solicitacaoService.expandidoDados) {
@@ -677,13 +678,13 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     });
     // sl = (dados as  unknown[]) as SolicitacaoInterfaceExcel[];
     /!*sl.unshift =  {
-      solicitacao_posicao:                    'POSIÇÃO',
+      solicitacao_situacao:                    'POSIÇÃO',
       solicitacao_cadastro_nome:              'SOLICITANTE',
       solicitacao_data:                       'DATA',
       solicitacao_assunto_nome:               'ASSUNTO',
       solicitacao_area_interesse_nome:        'ÁREA DE INTERESSE',
       processo_numero:                        'Nº PROCESSO',
-      processo_status:                        'SIT. PROCESSO',
+      processo_status_nome:                        'SIT. PROCESSO',
       cadastro_municipio_nome:                'MUNICÍPIO',
       cadastro_regiao_nome:                   'REGIÃO',
       solicitacao_indicacao_sn:               'INDICADO S/N',

@@ -36,8 +36,8 @@ export class SolicFormService {
     {id: 13, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: null, textoProcesso: null},
     {id: 14, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: null, textoProcesso: null},
     {id: 15, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: null, textoProcesso: null},
-    {id: 16, posicao: 'COMCLUIDA', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-    {id: 17, posicao: 'COMCLUIDA', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+    {id: 16, posicao: 'CONCLUIDA', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+    {id: 17, posicao: 'CONCLUIDA', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
   ];
   public informacao: SolicInformacao = this.info[0];
 
@@ -160,11 +160,11 @@ export class SolicFormService {
             this.solicListar.processo_id !== null &&
             this.solicListar.processo_id !== 0
           ) {
-            if (this.solicListar.processo_status2 === 0) {
+            if (this.solicListar.processo_status_nome_id === 0) {
               this.ddSolicitacao_tipo_analize.push(dd[9]);
               // this.info.push(info[9]);
             }
-            if (this.solicListar.processo_status2 === 0 || this.solicListar.processo_status2 === 3) {
+            if (this.solicListar.processo_status_nome_id === 0 || this.solicListar.processo_status_nome_id === 3) {
               this.ddSolicitacao_tipo_analize.push(dd[10]);
               // this.info.push(info[10]);
             }

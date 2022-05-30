@@ -21,10 +21,18 @@
                         <caption>SOLICITAÇÃO</caption>
                         <tr>
                           <th style="width: 3%;" nowrap>
-                            Posição:
+                            Situação:
                           </th>
                           <td>
-                            {{sfs.solicListar.solicitacao_posicao}}
+                            {{sfs.solicListar.solicitacao_situacao}}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th style="width: 3%;" nowrap>
+                            Status:
+                          </th>
+                          <td>
+                            {{sfs.solicListar.solicitacao_status_nome}}
                           </td>
                         </tr>
                         <tr>
@@ -478,12 +486,12 @@
 
                                 <table class="table-hover tabela">
                                   <caption>PROCESSO</caption>
-                                  <tr *ngIf="sfs.solicListar.processo_status">
+                                  <tr *ngIf="sfs.solicListar.processo_status_nome">
                                     <th style="width: 3%;" nowrap>
                                       Situação:
                                     </th>
                                     <td>
-                                      {{sfs.solicListar.processo_status}}.
+                                      {{sfs.solicListar.processo_status_nome}}.
                                     </td>
                                   </tr>
                                   <tr *ngIf="sfs.solicListar.processo_numero">
@@ -566,7 +574,7 @@
 
                                         <tr *ngIf="ofi.oficio_status">
                                           <th style="width: 3%;" nowrap>
-                                            Posição:
+                                            Situação:
                                           </th>
                                           <td>
                                             {{ofi.oficio_status}}
@@ -894,12 +902,11 @@
               <div class="p-field p-col-12 p-md-4 p-lg-6 p-xl-6">
                 <p-card class="analise">
                   <ng-template pTemplate="header">
-                    <div class="p-d-inline analise-header">Teste</div>
+                    <div class="p-d-inline analise-header">
+                      <i class="pi pi-exclamation-circle" style="color: var(--yellow-500);font-size: 1rem"></i> AÇÕES
+                    </div>
                   </ng-template>
                   <div class="p-d-block analise-corpo">
-                    <div>id{{sfs.informacao.id}}</div>
-                    <div>ddac{{ddac.value}}</div>
-
                     <div>posicao{{sfs.informacao.posicao}}</div>
                     <div>status{{sfs.informacao.status}}</div>
                     <div>texto{{sfs.informacao.texto}}</div>

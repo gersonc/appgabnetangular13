@@ -24,8 +24,8 @@ export class SolicitacaoDropdownMenuService {
     if (!sessionStorage.getItem('solicitacao-dropdown')) {
       let contador = 0;
 
-      // ****** solicitacao_posicao *****
-      this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
+      // ****** solicitacao_situacao *****
+      this.ddSoNomeArray.add('ddSolicitacao_situacao', 'solicitacao', 'solicitacao_situacao');
       // ****** solicitacao_data *****
       this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
 
@@ -57,7 +57,7 @@ export class SolicitacaoDropdownMenuService {
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+            this.ddSolicitacao.ddSolicitacao_situacao = dados['ddSolicitacao_situacao'];
             this.ddSolicitacao.ddSolicitacao_data = dados['ddSolicitacao_data'];
           },
           error: (err) => {
@@ -143,8 +143,8 @@ export class SolicitacaoDropdownMenuService {
   private getDropdownMenu() {
       let contador = 0;
 
-      // ****** solicitacao_posicao *****
-      this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
+      // ****** solicitacao_situacao *****
+      this.ddSoNomeArray.add('ddSolicitacao_situacao', 'solicitacao', 'solicitacao_situacao');
       // ****** solicitacao_data *****
       this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
 
@@ -176,7 +176,7 @@ export class SolicitacaoDropdownMenuService {
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+            this.ddSolicitacao.ddSolicitacao_situacao = dados['ddSolicitacao_situacao'];
             this.ddSolicitacao.ddSolicitacao_data = dados['ddSolicitacao_data'];
           },
           error: (err) => {

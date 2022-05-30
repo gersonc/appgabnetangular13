@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  public ddSolicitacao_posicao: SelectItem[] = [];
+  public ddSolicitacao_situacao: SelectItem[] = [];
   public ddSolicitacao_cadastro_tipo_id: SelectItem[] = [];
   public ddSolicitacao_cadastro_id: SelectItem[] = [];
   public ddSolicitacao_assunto_id: SelectItem[] = [];
@@ -80,7 +80,7 @@ export class SolicitacaoMenuListarComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('solicitacao-dropdown')) {
       console.log('aaaaaaa');
       let dd = JSON.parse(sessionStorage.getItem('solicitacao-dropdown'));
-      this.ddSolicitacao_posicao = dd['ddSolicitacao_posicao'];
+      this.ddSolicitacao_situacao = dd['ddSolicitacao_situacao'];
       this.ddSolicitacao_cadastro_tipo_id = dd['ddSolicitacao_cadastro_tipo_id'];
       this.ddSolicitacao_cadastro_id = dd['ddSolicitacao_cadastro_id'];
       this.ddSolicitacao_assunto_id = dd['ddSolicitacao_assunto_id'];

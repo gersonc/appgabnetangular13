@@ -49,7 +49,7 @@ export class SolicService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        this.tabela.sortField = 'solicitacao_posicao, solicitacao_cadastro_nome';
+        this.tabela.sortField = 'solicitacao_situacao, solicitacao_cadastro_nome';
         this.tabela.camposTexto = solicSolicitacaoCamposTexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -245,7 +245,7 @@ export class SolicService {
 
   parseBusca(b: SolicBuscaI) {
     sessionStorage.removeItem('solic-busca');
-    this.busca.solicitacao_posicao = (b.solicitacao_posicao !== undefined)? b.solicitacao_posicao : undefined;
+    this.busca.solicitacao_situacao = (b.solicitacao_situacao !== undefined)? b.solicitacao_situacao : undefined;
     this.busca.solicitacao_cadastro_tipo_id = (b.solicitacao_cadastro_tipo_id !== undefined)? +b.solicitacao_cadastro_tipo_id : undefined;
     this.busca.solicitacao_cadastro_id = (b.solicitacao_cadastro_id !== undefined)? +b.solicitacao_cadastro_id : undefined;
     this.busca.solicitacao_assunto_id = (b.solicitacao_assunto_id !== undefined)? +b.solicitacao_assunto_id : undefined;

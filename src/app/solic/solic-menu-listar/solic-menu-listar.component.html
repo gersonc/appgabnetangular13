@@ -31,177 +31,216 @@
       <div class="p-fluid p-formgrid p-grid formulario">
 
 
-            <!-- solicitacao_posicao -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_posicao" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_posicao">Posição</label>
-              <p-dropdown
-                id="solicitacao_posicao"
-                [options]="ddSolicitacao.ddSolicitacao_posicao"
-                placeholder="TODOS"
-                formControlName="solicitacao_posicao"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_cadastro_tipo_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_tipo_id"  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_cadastro_tipo_id">Tipo de Cadastro</label>
-              <p-dropdown
-                id="solicitacao_cadastro_tipo_id"
-                [options]="ddSolicitacao.ddSolicitacao_cadastro_tipo_id"
-                formControlName="solicitacao_cadastro_tipo_id"
-                [group]="true"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_cadastro_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_id"  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_cadastro_id">Solicitante</label>
-              <p-dropdown
-                id="solicitacao_cadastro_id"
-                [options]="ddSolicitacao.ddSolicitacao_cadastro_id"
-                formControlName="solicitacao_cadastro_id"
-                placeholder="TODAS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_assunto_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_assunto_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_assunto_id">Assunto</label>
-              <p-dropdown
-                id="solicitacao_assunto_id"
-                [options]="ddSolicitacao.ddSolicitacao_assunto_id"
-                formControlName="solicitacao_assunto_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_atendente_cadastro_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_atendente_cadastro_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_atendente_cadastro_id">Atendente</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_atendente_cadastro_id"
-                id="solicitacao_atendente_cadastro_id"
-                formControlName="solicitacao_atendente_cadastro_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_cadastrante_cadastro_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id && vs.solicitacaoVersao === 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_cadastrante_cadastro_id">Cadastrante</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id"
-                id="solicitacao_cadastrante_cadastro_id"
-                formControlName="solicitacao_cadastrante_cadastro_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
+        <!-- solicitacao_situacao -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_situacao"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_situacao">Situação</label>
+          <p-dropdown
+            id="solicitacao_situacao"
+            [options]="ddSolicitacao.ddSolicitacao_situacao"
+            placeholder="TODOS"
+            formControlName="solicitacao_situacao"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_status_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_situacao"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_status_id">Status</label>
+          <p-dropdown
+            id="solicitacao_status_id"
+            [options]="ddSolicitacao.ddSolicitacao_status_id"
+            placeholder="TODOS"
+            formControlName="solicitacao_status_id"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- processo_status_id -->
+        <div *ngIf="vs.solicitacaoVersao === 1 && ddSolicitacao.ddProcesso_status_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="processo_status_id">Status dos processo</label>
+          <p-dropdown
+            id="processo_status_id"
+            [options]="ddSolicitacao.ddProcesso_status_id"
+            placeholder="TODOS"
+            formControlName="processo_status_id"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <!-- solicitacao_cadastro_tipo_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_tipo_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_cadastro_tipo_id">Tipo de Cadastro</label>
+          <p-dropdown
+            id="solicitacao_cadastro_tipo_id"
+            [options]="ddSolicitacao.ddSolicitacao_cadastro_tipo_id"
+            formControlName="solicitacao_cadastro_tipo_id"
+            [group]="true"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_cadastro_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_cadastro_id">Solicitante</label>
+          <p-dropdown
+            id="solicitacao_cadastro_id"
+            [options]="ddSolicitacao.ddSolicitacao_cadastro_id"
+            formControlName="solicitacao_cadastro_id"
+            placeholder="TODAS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_assunto_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_assunto_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_assunto_id">Assunto</label>
+          <p-dropdown
+            id="solicitacao_assunto_id"
+            [options]="ddSolicitacao.ddSolicitacao_assunto_id"
+            formControlName="solicitacao_assunto_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_atendente_cadastro_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_atendente_cadastro_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_atendente_cadastro_id">Atendente</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_atendente_cadastro_id"
+            id="solicitacao_atendente_cadastro_id"
+            formControlName="solicitacao_atendente_cadastro_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_cadastrante_cadastro_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id && vs.solicitacaoVersao === 1"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_cadastrante_cadastro_id">Cadastrante</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id"
+            id="solicitacao_cadastrante_cadastro_id"
+            formControlName="solicitacao_cadastrante_cadastro_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
 
 
-            <!-- cadastro_municipio_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_municipio_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="cadastro_municipio_id">Município</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_cadastro_municipio_id"
-                optionLabel="label"
-                id="cadastro_municipio_id"
-                formControlName="cadastro_municipio_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- ddSolicitacao_cadastro_bairro -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_bairro && vs.solicitacaoVersao > 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="cadastro_regiao_id">Bairro</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_cadastro_bairro"
-                id="ddSolicitacao_cadastro_bairro"
-                formControlName="cadastro_bairro"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- cadastro_regiao_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_regiao_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="cadastro_regiao_id">Região</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_cadastro_regiao_id"
-                id="cadastro_regiao_id"
-                formControlName="cadastro_regiao_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_local_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_local_id && vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_local_id">Núcleo</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_local_id"
-                id="solicitacao_local_id"
-                formControlName="solicitacao_local_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_tipo_recebimento_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id && vs.solicitacaoVersao === 1" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_tipo_recebimento_id">Tipo de recebimento</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_tipo_recebimento_id"
-                optionLabel="label"
-                id="solicitacao_tipo_recebimento_id"
-                formControlName="solicitacao_tipo_recebimento_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_area_interesse_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_area_interesse_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_area_interesse_id">Área de interesse</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_area_interesse_id"
-                id="solicitacao_area_interesse_id"
-                formControlName="solicitacao_area_interesse_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_reponsavel_analize_id -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id && vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_reponsavel_analize_id">Resp. p/ Análise</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_reponsavel_analize_id"
-                id="solicitacao_reponsavel_analize_id"
-                formControlName="solicitacao_reponsavel_analize_id"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_data -->
-            <div *ngIf="ddSolicitacao.ddSolicitacao_data" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_cadastro_tipo_id">Data</label>
-              <p-dropdown
-                [options]="ddSolicitacao.ddSolicitacao_data"
-                optionLabel="label"
-                id="solicitacao_data"
-                formControlName="solicitacao_data"
-                placeholder="TODOS"
-                [showClear]="true"
-              ></p-dropdown>
-            </div>
-            <!-- solicitacao_descricao -->
-            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-              <label for="solicitacao_cadastro_tipo_id">Descrição Contém</label>
-              <input
-                type="text"
-                pInputText
-                placeholder="Descrição"
-                formControlName="solicitacao_descricao"
-                size="40"
-              >
-            </div>
+        <!-- cadastro_municipio_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_municipio_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="cadastro_municipio_id">Município</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_cadastro_municipio_id"
+            optionLabel="label"
+            id="cadastro_municipio_id"
+            formControlName="cadastro_municipio_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- ddSolicitacao_cadastro_bairro -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_bairro && vs.solicitacaoVersao > 1"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="cadastro_regiao_id">Bairro</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_cadastro_bairro"
+            id="ddSolicitacao_cadastro_bairro"
+            formControlName="cadastro_bairro"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- cadastro_regiao_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_regiao_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="cadastro_regiao_id">Região</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_cadastro_regiao_id"
+            id="cadastro_regiao_id"
+            formControlName="cadastro_regiao_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_local_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_local_id && vs.solicitacaoVersao < 3"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_local_id">Núcleo</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_local_id"
+            id="solicitacao_local_id"
+            formControlName="solicitacao_local_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_tipo_recebimento_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id && vs.solicitacaoVersao === 1"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_tipo_recebimento_id">Tipo de recebimento</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_tipo_recebimento_id"
+            optionLabel="label"
+            id="solicitacao_tipo_recebimento_id"
+            formControlName="solicitacao_tipo_recebimento_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_area_interesse_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_area_interesse_id"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_area_interesse_id">Área de interesse</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_area_interesse_id"
+            id="solicitacao_area_interesse_id"
+            formControlName="solicitacao_area_interesse_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_reponsavel_analize_id -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id && vs.solicitacaoVersao < 3"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_reponsavel_analize_id">Resp. p/ Análise</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_reponsavel_analize_id"
+            id="solicitacao_reponsavel_analize_id"
+            formControlName="solicitacao_reponsavel_analize_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_data -->
+        <div *ngIf="ddSolicitacao.ddSolicitacao_data"
+             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_cadastro_tipo_id">Data</label>
+          <p-dropdown
+            [options]="ddSolicitacao.ddSolicitacao_data"
+            optionLabel="label"
+            id="solicitacao_data"
+            formControlName="solicitacao_data"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+        <!-- solicitacao_descricao -->
+        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="solicitacao_cadastro_tipo_id">Descrição Contém</label>
+          <input
+            type="text"
+            pInputText
+            placeholder="Descrição"
+            formControlName="solicitacao_descricao"
+            size="40"
+          >
+        </div>
 
 
       </div>

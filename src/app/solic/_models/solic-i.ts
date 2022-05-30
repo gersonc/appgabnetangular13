@@ -33,8 +33,9 @@ export interface SolicI {
   solicitacao_local_id?: number;
   solicitacao_local_nome?: string;
   solicitacao_orgao?: string;
-  solicitacao_posicao2?: string;
-  solicitacao_posicao?: string;
+  solicitacao_situacao?: string;
+  solicitacao_status_id?: number;
+  solicitacao_status_nome?: string;
   solicitacao_processo_id?: number;
   solicitacao_reponsavel_analize_id?: number;
   solicitacao_reponsavel_analize_nome?: string;

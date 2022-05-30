@@ -237,7 +237,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.vs.solicitacaoVersao === 2) {
-      this.tpAnalizeTitulo = 'Posição';
+      this.tpAnalizeTitulo = 'Situação';
       this.formSol = this.formBuilder.group({
         solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
@@ -262,7 +262,7 @@ export class SolicIncluirComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.vs.solicitacaoVersao === 3) {
-      this.tpAnalizeTitulo = 'Posição';
+      this.tpAnalizeTitulo = 'Situação';
       this.formSol = this.formBuilder.group({
         solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],

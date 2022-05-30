@@ -120,23 +120,25 @@ export class SolicAnalisarComponent implements OnInit {
       historico_andamento: [null]
     });
 
-    if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada_delta)) {
-      const ql2delta = JSON.parse(this.solicitacao.solicitacao_aceita_recusada_delta);
-      this.solacerecus.getQuill().setContents(ql2delta);
-    } else {
-      if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada!)) {
-        this.formSol.get('solicitacao_aceita_recusada').patchValue(this.solicitacao.solicitacao_aceita_recusada!);
-      }
-    }
 
-    if (this.testaCampoQuill(this.solicitacao.solicitacao_carta_delta)) {
-      const ql3delta = JSON.parse(this.solicitacao.solicitacao_carta_delta);
-      this.solcar.getQuill().setContents(ql3delta);
-    } else {
-      if (this.testaCampoQuill(this.solicitacao.solicitacao_carta)) {
-        this.formSol.get('solicitacao_carta').patchValue(this.solicitacao!.solicitacao_carta);
+      if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada_delta)) {
+        const ql2delta = JSON.parse(this.solicitacao.solicitacao_aceita_recusada_delta);
+        this.solacerecus.getQuill().setContents(ql2delta);
+      } else {
+        if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada!)) {
+          this.formSol.get('solicitacao_aceita_recusada').patchValue(this.solicitacao.solicitacao_aceita_recusada!);
+        }
       }
-    }
+
+      if (this.testaCampoQuill(this.solicitacao.solicitacao_carta_delta)) {
+        const ql3delta = JSON.parse(this.solicitacao.solicitacao_carta_delta);
+        this.solcar.getQuill().setContents(ql3delta);
+      } else {
+        if (this.testaCampoQuill(this.solicitacao.solicitacao_carta)) {
+          this.formSol.get('solicitacao_carta').patchValue(this.solicitacao!.solicitacao_carta);
+        }
+      }
+
   }
 
   onSubmit() {
@@ -245,24 +247,6 @@ export class SolicAnalisarComponent implements OnInit {
     }
   }
 
-  onChangeAcao(ev: any) {
-    console.log(ev);
-    if (ev.value !== undefined) {
-      this.info = this.sfs.info.findIndex(v => +v.id === ev.value);
-    } else {
-      this.info = 0;
-    }
-
-  }
-
-  /*focus1(event) {
-    this.mostraModulos1 = 'inline-block';
-    this.mostraModulos2 = 'none';
-  }
-  focus2(event) {
-    this.mostraModulos1 = 'none';
-    this.mostraModulos2 = 'inline-block';
-  }*/
 
   onPossuiArquivos(ev) {
 

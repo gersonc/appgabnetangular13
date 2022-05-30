@@ -46,9 +46,9 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
   emptyMessage = 'Nenhum registro encontrado.';
   modulos: any;
   formatos: any;
-  mostraModulos1 = 'none';
-  mostraModulos2 = 'none';
-  mostraModulos3 = 'none';
+  // mostraModulos1 = 'none';
+  // mostraModulos2 = 'none';
+  // mostraModulos3 = 'none';
   icone = 'pi pi-chevron-down';
   cadastro_incluir = false;
   novoRegistro: SelectItem;
@@ -266,7 +266,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
     }
 
     if (this.vs.solicitacaoVersao === 2) {
-      this.tpAnalizeTitulo = 'Posição';
+      this.tpAnalizeTitulo = 'Situação';
       this.formSol = this.formBuilder.group({
         solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
@@ -289,7 +289,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
     }
 
     if (this.vs.solicitacaoVersao === 3) {
-      this.tpAnalizeTitulo = 'Posição';
+      this.tpAnalizeTitulo = 'Situação';
       this.formSol = this.formBuilder.group({
         solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],

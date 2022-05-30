@@ -1,7 +1,7 @@
 import {SelectItem, SelectItemGroup} from "primeng/api";
 
 export interface SolicDropdownMenuListarI {
-  ddSolicitacao_posicao: SelectItem[];
+  ddsolicitacao_situacao: SelectItem[];
   ddSolicitacao_cadastro_tipo_id: SelectItemGroup[];
   ddSolicitacao_cadastro_id: SelectItem[];
   ddSolicitacao_assunto_id: SelectItem[];

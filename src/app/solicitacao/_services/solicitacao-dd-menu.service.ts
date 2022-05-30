@@ -26,7 +26,7 @@ export class SolicitacaoDdMenuService {
     let contador = 0;
 
     // ****** solicitacao_posicao *****
-    this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
+    this.ddSoNomeArray.add('ddSolicitacao_situacao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
     this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
 
@@ -59,7 +59,7 @@ export class SolicitacaoDdMenuService {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+          this.ddSolicitacao.ddSolicitacao_situacao = dados['ddSolicitacao_situacao'];
           this.ddSolicitacao.ddSolicitacao_data = dados['ddSolicitacao_data'];
         },
         error: (err) => {
@@ -106,8 +106,8 @@ export class SolicitacaoDdMenuService {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          this.ddSolicitacao.ddCadastro_municipio_id = dados['ddCadastro_municipio_id'];
-          this.ddSolicitacao.ddCadastro_regiao_id = dados['ddCadastro_regiao_id'];
+          this.ddSolicitacao.ddSolicitacao_cadastro_municipio_id = dados['ddCadastro_municipio_id'];
+          this.ddSolicitacao.ddSolicitacao_cadastro_regiao_id = dados['ddCadastro_regiao_id'];
         },
         error: (err) => {
           console.error(err);

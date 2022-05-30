@@ -1,7 +1,9 @@
 import {SelectItem, SelectItemGroup} from 'primeng/api';
 
 export interface SolicitacaoDropdownMenuListarInterface {
-  ddSolicitacao_posicao?: SelectItem[];
+  ddSolicitacao_situacao?: SelectItem[];
+  ddSolicitacao_status_id?: SelectItem[];
+  ddProcesso_status_id?: SelectItem[];
   ddSolicitacao_cadastro_tipo_id?: SelectItemGroup[];
   ddSolicitacao_cadastro_id?: SelectItem[];
   ddSolicitacao_assunto_id?: SelectItem[];
@@ -18,7 +20,9 @@ export interface SolicitacaoDropdownMenuListarInterface {
 }
 
 export class SolicitacaoDropdownMenuListar {
-  ddSolicitacao_posicao = null;
+  ddSolicitacao_situacao = null;
+  ddSolicitacao_status_id = null;
+  ddProcesso_status_id = null;
   ddSolicitacao_cadastro_tipo_id = null;
   ddSolicitacao_cadastro_id = null;
   ddSolicitacao_assunto_id = null;

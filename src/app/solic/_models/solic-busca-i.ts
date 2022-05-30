@@ -1,7 +1,7 @@
 import {BuscaCampoI} from "../../shared-datatables/models/busca-campo-i";
 
 export interface SolicBuscaI {
-  solicitacao_posicao?: string;
+  solicitacao_situacao?: string;
   solicitacao_cadastro_tipo_id?: number;
   solicitacao_cadastro_id?: number;
   solicitacao_assunto_id?: number;

@@ -7,7 +7,9 @@ import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
 
 export interface SolicListarI {
   solicitacao_id?: number;
-  solicitacao_posicao?: string;
+  solicitacao_situacao?: string;
+  solicitacao_status_id?: number;
+  solicitacao_status_nome?: string;
   solicitacao_data?: string;
   solicitacao_cadastro_tipo_id?: number;
   solicitacao_cadastro_tipo_nome?: string;
@@ -82,8 +84,8 @@ export interface SolicListarI {
   cadastro_arquivos?: ArquivoListagem[];
   oficio?: SolicOficioI[];
   processo_id?: number;
-  processo_status2?: number;
-  processo_status?: string;
+  processo_status_nome_id?: number;
+  processo_status_nome?: string;
   processo_numero?: string;
   processo_numero2?: string;
   processo_carta?: string;

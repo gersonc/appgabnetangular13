@@ -7,10 +7,18 @@
           <caption>SOLICITAÇÃO</caption>
           <tr>
             <th style="width: 3%;" nowrap>
-              Posição:
+              Situação:
             </th>
             <td>
-              {{sol.solicitacao_posicao}}
+              {{sol.solicitacao_situacao}}
+            </td>
+          </tr>
+          <tr>
+            <th style="width: 3%;" nowrap>
+              Status:
+            </th>
+            <td>
+              {{sol.solicitacao_status_nome}}
             </td>
           </tr>
           <tr>
@@ -451,12 +459,12 @@
         <br>
         <table class="table-hover tabela">
           <caption>PROCESSO</caption>
-          <tr *ngIf="sol.processo_status">
+          <tr *ngIf="sol.processo_status_nome">
             <th style="width: 3%;" nowrap>
               Situação:
             </th>
             <td>
-              {{sol.processo_status}}.
+              {{sol.processo_status_nome}}.
             </td>
           </tr>
           <tr *ngIf="sol.processo_numero">
@@ -533,7 +541,7 @@
 
                 <tr *ngIf="ofi.oficio_status">
                   <th style="width: 3%;" nowrap>
-                    Posição:
+                    Situação:
                   </th>
                   <td>
                     {{ofi.oficio_status}}

@@ -90,8 +90,8 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         })
       );
 
-      // ****** solicitacao_posicao *****
-      this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
+      // ****** solicitacao_situacao *****
+      this.ddSoNomeArray.add('ddsolicitacao_situacao', 'solicitacao', 'solicitacao_situacao');
       // ****** solicitacao_data *****
       this.ddSoNomeArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data');
       // ****** solicitacao_cadastro_tipo_id *****
@@ -122,7 +122,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+            this.ddSolicitacao.ddsolicitacao_situacao = dados['ddsolicitacao_situacao'];
             this.ddSolicitacao.ddSolicitacao_data = dados['ddSolicitacao_data'];
           },
           error: (err) => {

@@ -60,7 +60,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
     );
 
     // ****** solicitacao_posicao *****
-    this.ddSoNomeArray.add('ddSolicitacao_posicao', 'solicitacao', 'solicitacao_posicao');
+    this.ddSoNomeArray.add('ddSolicitacao_situacao', 'solicitacao', 'solicitacao_posicao');
     // ****** solicitacao_data *****
     this.ddSoDataArray.add('ddSolicitacao_data', 'solicitacao', 'solicitacao_data', 'desc');
     // ****** solicitacao_cadastro_tipo_id *****
@@ -91,7 +91,7 @@ export class SolicitacaoListarResolver implements  Resolve<boolean | Solicitacao
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          this.ddSolicitacao.ddSolicitacao_posicao = dados['ddSolicitacao_posicao'];
+          this.ddSolicitacao.ddSolicitacao_situacao = dados['ddSolicitacao_situacao'];
         },
         error: (err) => {
           console.error(err);

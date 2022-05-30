@@ -356,7 +356,7 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
       linha += 12;
       let pc: any[] = [];
       this.processo.forEach( p => {
-        pc.push([p.processo_numero, p.processo_status]);
+        pc.push([p.processo_numero, p.processo_status_nome]);
       })
       doc.text('PROCESSO - Esta solicitação está vinculada ao seguinte processo.', 15, linha);
       linha += 2;
