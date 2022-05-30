@@ -1,8 +1,8 @@
 export class SolicInformacao {
   id: number;
-  posicao: string;
+  situacao: string;
   status: string | null;
   texto: string;
-  situacao: string | null;
+  informacao: string | null;
   textoProcesso: string | null;
 }

@@ -99,13 +99,21 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   montaColunas() {
+
     this.cols = [
       {field: 'solicitacao_id', header: 'ID', sortable: 'true', width: '80px'},
       {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '130px'},
-      {field: 'solicitacao_status', header: 'STATUS', sortable: 'true', width: '130px'},
-      {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
-      {field: 'solicitacao_cadastro_tipo_nome', header: 'TIPO SOLICITANTE', sortable: 'true', width: '200px'},
+      {field: 'solicitacao_status_nome', header: 'STATUS', sortable: 'true', width: '130px'},
     ];
+    if (this.solicitacaoVersao === 1) {
+      this.cols.push(
+        {field: 'processo_status_nome', header: 'ST. PROCESSO', sortable: 'true', width: '150px'}
+      );
+    }
+    this.cols.push(
+      {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
+      {field: 'solicitacao_cadastro_tipo_nome', header: 'TIPO SOLICITANTE', sortable: 'true', width: '200px'}
+    );
     if (this.aut.cadastro_listar) {
       this.cols.push(
         {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', width: '300px'},
@@ -183,6 +191,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     console.log('resetSelectedColumns');
     this.ss.tabela.selectedColumns = [
       {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '130px'},
+      {field: 'solicitacao_status_nome', header: 'STATUS', sortable: 'true', width: '130px'},
       {field: 'solicitacao_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
       {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '130px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
@@ -191,7 +200,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.solicitacaoVersao === 1) {
       this.ss.tabela.selectedColumns.push(
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'false', width: '150px'},
-        {field: 'processo_status_nome', header: 'SIT. PROCESSO', sortable: 'true', width: '210px'}
+        {field: 'processo_status_nome', header: 'ST. PROCESSO', sortable: 'true', width: '150px'}
       );
     }
     this.ss.tabela.selectedColumns.push(
@@ -354,7 +363,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solicitacaoIncluir(): void {
     if (this.aut.solicitacao_incluir) {
       this.sfs.acao = 'incluir';
-      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
+      this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
       this.dtb.saveState();
       this.router.navigate(['/solic/incluir']);
     } else {
@@ -378,8 +387,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       this.ss.setState();
       console.log('solicitacaoAlterar', sol);
       this.sfs.acao = 'alterar';
-      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.sfs.solicListar = sol;
+      this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
       this.sfs.parseListagemForm(sol);
       this.router.navigate(['/solic/alterar']);
     } else {
@@ -392,7 +401,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.solicitacao_apagar) {
       this.ss.solicitacaoApagar = sol;
       this.sfs.acao = 'alterar';
-      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.dtb.saveState();
       this.router.navigate(['/solic/apagar']);
     } else {
@@ -436,9 +444,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.solicitacao_analisar) {
       this.dtb.saveState();
       this.sfs.acao = 'analisar';
-      this.sfs.solicitacaoVersao = this.solicitacaoVersao;
       this.sfs.parseListagemAnalisarForm(sol);
-      this.sfs.criaTipoAnalise(this.aut.usuario_responsavel_sn);
+      this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
       this.router.navigate(['/solic/analisar']);
     } else {
       console.log('SEM PERMISSAO');

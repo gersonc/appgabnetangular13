@@ -14479,6 +14479,22 @@ element.style {
   border-radius: 0 .5em .5em .5em;
 }
 
+.analise-corpo table {
+  width: 100%;
+  font-size: .8rem;
+}
+
+.analise-corpo th {
+  width: 3%;
+  font-size: .8rem;
+  text-align: left;
+}
+
+.analise-corpo td {
+  font-size: .8rem;
+  text-align: left;
+}
+
 /*
 .analise .p-card .p-card-title {
   font-size: 1rem;

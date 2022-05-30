@@ -806,8 +806,8 @@
   },
   "processo_status_nome": {
     "field": "processo_status_nome",
-    "mtitulo": "STATUS",
-    "titulo": "Status"
+    "mtitulo": "ST. PROCESSO",
+    "titulo": "St. Processo"
   },
   "proposicao_area_interesse_nome": {
     "field": "proposicao_area_interesse_nome",
@@ -969,10 +969,15 @@
     "mtitulo": "ORGÃO SOLICITADO",
     "titulo": "Orgão Solicitado"
   },
-  "solicitacao_posicao": {
-    "field": "solicitacao_posicao",
-    "mtitulo": "POSIÇÃO",
-    "titulo": "Posição"
+  "solicitacao_situacao": {
+    "field": "solicitacao_situacao",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "solicitacao_status_nome": {
+    "field": "solicitacao_status_nome",
+    "mtitulo": "STATUS",
+    "titulo": "Status"
   },
   "solicitacao_reponsavel_analize_nome": {
     "field": "solicitacao_reponsavel_analize_nome",

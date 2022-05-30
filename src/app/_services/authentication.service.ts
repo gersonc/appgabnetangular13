@@ -345,6 +345,7 @@ export class AuthenticationService {
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
     this.versaoService.versao = +user.parlamentar_versao!;
+    this.versaoService.powerUser = (regra?.indexOf('ur') !== -1 || regra?.indexOf('up') !== -1 ||  acesso.indexOf('us_r') !== -1);
     this.solicitacaoVersao = +user.solicitacao_versao!;
     this.versaoService.solicitacaoVersao = +user.solicitacao_versao!;
     this.versao_id = +user.parlamentar_versao!;
@@ -402,7 +403,7 @@ export class AuthenticationService {
     this.cadastro_listar = acesso.indexOf('ca_l') !== -1;
     this.solicitacao_incluir = acesso.indexOf('so_i') !== -1;
     this.solicitacao_alterar = acesso.indexOf('so_a') !== -1;
-    this.solicitacao_apagar = acesso.indexOf('so_d') !== -1;
+    this.solicitacao_apagar = (acesso.indexOf('so_d') !== -1 || regra?.indexOf('ur') !== -1 || regra?.indexOf('up') !== -1 ||  acesso.indexOf('us_r') !== -1);
     this.solicitacao_listar = acesso.indexOf('so_l') !== -1;
     this.solicitacao_analisar = (acesso.indexOf('so_an') !== -1 || regra?.indexOf('ur') !== -1 || regra?.indexOf('up') !== -1 ||  acesso.indexOf('us_r') !== -1);
     this.processo_deferir = acesso.indexOf('pr_df') !== -1;

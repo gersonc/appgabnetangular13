@@ -890,7 +890,7 @@
                 <label><span class="atencao">*</span> Ação</label>
                 <p-dropdown
                   #ddac
-                  formControlName="acao"
+                  formControlName="solicitacao_tipo_analize"
                   placeholder="Selecione"
                   [options]="sfs.ddSolicitacao_tipo_analize"
                   [required]="true"
@@ -907,14 +907,32 @@
                     </div>
                   </ng-template>
                   <div class="p-d-block analise-corpo">
-                    <div>posicao{{sfs.informacao.posicao}}</div>
-                    <div>status{{sfs.informacao.status}}</div>
-                    <div>texto{{sfs.informacao.texto}}</div>
-                    <div>situacao{{sfs.informacao.situacao}}</div>
-                    <div>{{sfs.informacao.textoProcesso}}</div>
+                    <table>
+                      <tr>
+                        <th nowrap>STATUS: </th>
+                        <td>{{sfs.informacao.status}}</td>
+                      </tr>
+                      <tr>
+                        <th nowrap>SITUAÇÃO: </th>
+                        <td>
+                          {{sfs.informacao.situacao}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="sfs.informacao.texto">
+                        <td colspan="2">
+                          {{sfs.informacao.texto}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="sfs.informacao.informacao">
+                        <td colspan="2">
+                          {{sfs.informacao.informacao}}
+                        </td>
+                      </tr>
+
+                    </table>
                   </div>
                   <ng-template pTemplate="footer">
-                    Footer content here
+                    {{sfs.informacao.textoProcesso}}
                   </ng-template>
 
                 </p-card>

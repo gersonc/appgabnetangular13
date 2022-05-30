@@ -2,12 +2,10 @@ import {Injectable} from '@angular/core';
 import {SolicForm} from "../_models/solic-form";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {SolicFormAnalisar, SolicFormAnalisarI} from "../_models/solic-form-analisar-i";
-import {SolicHistoricoSolicitacao} from "../_models/solic-historico-solicitacao";
-import {SolicHistoricoProcesso} from "../_models/solic-historico-processo";
-import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
 import {SolicFormI} from "../_models/solic-form-i";
 import {SolicInformacao} from "../_models/solic-informacao";
 import {SelectItem} from "primeng/api";
+import {VersaoService} from "../../_services/versao.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,33 +15,193 @@ export class SolicFormService {
   public solA?: SolicFormAnalisarI;
   public solicListar?: SolicListarI;
   public acao?: string = null;
-  public solicitacaoVersao = 0;
+  // public solicitacaoVersao = 0;
   public ddSolicitacao_tipo_analize?: SelectItem[];
   public info: SolicInformacao[] = [
-    {id: 0, posicao: 'EM ABERTO', status: null,  texto:'Informações sobre as ações que podem ser tomadas.', situacao: null, textoProcesso: null},
-    {id: 1, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Aguardar análise.', situacao: null, textoProcesso: null},
-    {id: 2, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Enviar para análise por e-mail para o responsável pela análise.', situacao: null, textoProcesso: null},
-    {id: 3, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem criação de processo.'},
-    {id: 4, posicao: 'RESOLVIDA', status: 'DEFERIDO', texto: 'Concluida imediatamente.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem criação de processo.'},
-    {id: 5, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Cria processo.'},
-    {id: 6, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Cria processo e inclui ofício'},
-    {id: 7, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação recusada.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-    {id: 8, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-    {id: 9, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: 'SUSPENSO', textoProcesso: 'O processo é colocado em situação SUSPENSO.'},
-    {id: 10, posicao: 'ACEITA', status: 'ACEITA', texto:'Solicitação aceita.', situacao: 'EM ANDAMENTO', textoProcesso: 'Se o processo estiver em andamento será redirecionado a ele.'},
-    {id: 11, posicao: 'EM ABERTO', status: 'EM ABERTO', texto:'Aguardar análise.', situacao: null, textoProcesso: null},
-    {id: 12, posicao: 'DEFERIDO', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: null, textoProcesso: null},
-    {id: 13, posicao: 'INDEFERIDO', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: null, textoProcesso: null},
-    {id: 14, posicao: 'EM ANDAMENTO', status: 'EM ANDAMENTO', texto:'Solicitação aceita.', situacao: null, textoProcesso: null},
-    {id: 15, posicao: 'SUSPENSO', status: 'SUSPENSO', texto:'Solicitação suspensa.', situacao: null, textoProcesso: null},
-    {id: 16, posicao: 'CONCLUIDA', status: 'DEFERIDO', texto:'Solicitação deferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
-    {id: 17, posicao: 'CONCLUIDA', status: 'INDEFERIDO', texto:'Solicitação indeferida.', situacao: 'SEM PROCESSO', textoProcesso: 'Solicitação sem processo.'},
+    {
+      id: 0,
+      situacao: 'EM ABERTO',
+      status: 'EM ABERTO',
+      texto: 'Informações sobre as ações que podem ser tomadas.',
+      informacao: null,
+      textoProcesso: null
+    },
+    {
+      id: 1,
+      situacao: 'EM ABERTO',
+      status: 'EM ABERTO',
+      texto: 'Aguardar análise.',
+      informacao: 'A solicitação fica em aberto aguardando análise futura pelo responável.',
+      textoProcesso: null
+    },
+    {
+      id: 2,
+      situacao: 'EM ABERTO',
+      status: 'EM ABERTO',
+      texto: 'Enviar solicitação por e-mail para o responsável pela análise.',
+      informacao: 'A solicitação fica em aberto aguardando análise futura pelo responável.',
+      textoProcesso: null
+    },
+    {
+      id: 3,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Solicitação é aceita.',
+      informacao: 'Esse tipo de solicitação não irá gerar um processo.',
+      textoProcesso: 'SEM PROCESSO NEM OFÍCIOS.'
+    },
+    {
+      id: 4,
+      situacao: 'CONCLUIDO',
+      status: 'DEFERIDO',
+      texto: 'Concluida e deferida.',
+      informacao: 'Essa solicitação é concluida imediatamente com o status de DEFERIDO sem gerar processo.',
+      textoProcesso: 'SEM PROCESSO NEM OFÍCIOS.'
+    },
+    {
+      id: 5,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Solicitação aceita.',
+      informacao: 'Essa solicitação é aceita é criado um processo (pode-se anexar futuramente oficios),  e entra em situação e status de EM ANDAMENTO.',
+      textoProcesso: 'CRIA UM PROCESSO.'
+    },
+    {
+      id: 6,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Solicitação aceita.',
+      informacao: 'Essa solicitação é aceita é criado um processo, entra em situação e status de EM ANDAMENTO e redireciona para inclusão de ofício.',
+      textoProcesso: 'CRIA UM PROCESSO E INCLUI OFÍCIO'
+    },
+    {
+      id: 7,
+      situacao: 'CONCLUIDA',
+      status: 'INDEFERIDO',
+      texto: 'Solicitação recusada.',
+      informacao: 'Essa solicitação é concluida imediatamente com o status de INDEFERIDO sem gerar processo.',
+      textoProcesso: 'SEM PROCESSO NEM OFÍCIOS.'
+    },
+    {
+      id: 8,
+      situacao: 'SUSPENSO',
+      status: 'SUSPENSO',
+      texto: 'Solicitação suspensa.',
+      informacao: 'A solicitação entra em situação e status de SUSPENSO',
+      textoProcesso: 'SEM PROCESSO NEM OFÍCIOS.'
+    },
+    {
+      id: 9,
+      situacao: 'SUSPENSO',
+      status: 'SUSPENSO',
+      texto: 'Solicitação suspensa.',
+      informacao: 'A solicitação e o processo entram em situação e status de SUSPENSO',
+      textoProcesso: 'SOLICITAÇÃO E PROCESSO SUSPENSOS.'
+    },
+    {
+      id: 10,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Solicitação aceita.',
+      informacao: 'EM ANDAMENTO',
+      textoProcesso: 'Se o processo estiver em andamento será redirecionado a ele.'
+    },
+    {
+      id: 11,
+      situacao: 'EM ABERTO',
+      status: 'EM ABERTO',
+      texto: 'Aguardar análise.',
+      informacao: null,
+      textoProcesso: null
+    },
+    {
+      id: 12,
+      situacao: 'CONCLUIDA',
+      status: 'DEFERIDO',
+      texto: 'Solicitação deferida.',
+      informacao: null,
+      textoProcesso: null
+    },
+    {
+      id: 13,
+      situacao: 'CONCLUIDA',
+      status: 'INDEFERIDO',
+      texto: 'Solicitação indeferida.',
+      informacao: null,
+      textoProcesso: null
+    },
+    {
+      id: 14,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Solicitação aceita.',
+      informacao: null,
+      textoProcesso: null
+    },
+    {
+      id: 15,
+      situacao: 'SUSPENSO',
+      status: 'SUSPENSO',
+      texto: 'Solicitação suspensa.',
+      informacao: null,
+      textoProcesso: null
+    },
+    {
+      id: 16,
+      situacao: 'CONCLUIDO',
+      status: 'DEFERIDO',
+      texto: 'Concluida e deferida.',
+      informacao: 'Essa solicitação é concluida imediatamente com o status de DEFERIDO.',
+      textoProcesso: null
+    },
+    {
+      id: 17,
+      situacao: 'CONCLUIDO',
+      status: 'INDEFERIDO',
+      texto: 'Solicitação recusada.',
+      informacao: 'Essa solicitação é concluida imediatamente com o status de INDEFERIDO.',
+      textoProcesso: null
+    },
+    {
+      id: 18,
+      situacao: 'CONCLUIDO',
+      status: 'DEFERIDO',
+      texto: 'Solicitação e processo concluidos e deferidos.',
+      informacao: 'Essa solicitação e seu processo são concluidos imediatamente com o status de DEFERIDO.',
+      textoProcesso: null
+    },
+    {
+      id: 19,
+      situacao: 'CONCLUIDO',
+      status: 'INDEFERIDO',
+      texto: 'Solicitação e processo concluidos e indeferidos.',
+      informacao: 'Essa solicitação e seu processo são concluidos imediatamente com o status de INDEFERIDO.',
+      textoProcesso: null
+    },
+    {
+      id: 20,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Reabrir solicitação.',
+      informacao: 'A solicitação é reaberta com o status de EM ANDAMENTO',
+      textoProcesso: null
+    },
+    {
+      id: 21,
+      situacao: 'EM ANDAMENTO',
+      status: 'EM ANDAMENTO',
+      texto: 'Reabrir solicitação e processo.',
+      informacao: 'A solicitação e o processo são reaberts com o status de EM ANDAMENTO',
+      textoProcesso: null
+    }
+
   ];
   public informacao: SolicInformacao = this.info[0];
 
 
-
-  constructor() {
+  constructor(
+    private vs: VersaoService
+  ) {
   }
 
   resetSolicitacao() {
@@ -91,6 +249,7 @@ export class SolicFormService {
     r.solicitacao_carta = s.solicitacao_carta;
     r.solicitacao_carta_delta = s.solicitacao_carta_delta;
     r.solicitacao_carta_texto = s.solicitacao_carta_texto;
+    r.solicitacao_tipo_analize = 0;
     this.solicitacao = r;
     return r;
   }
@@ -108,17 +267,29 @@ export class SolicFormService {
     r.solicitacao_carta = s.solicitacao_carta;
     r.solicitacao_carta_delta = s.solicitacao_carta_delta;
     r.solicitacao_carta_texto = s.solicitacao_carta_texto;
+    r.solicitacao_tipo_analize = 0;
     this.solA = r;
     return r;
   }
 
   criaTipoAnalise(principal = false) {
+    if (this.acao !== 'incluir') {
+      this.info[0] = {
+        id: 0,
+        situacao: this.solicListar.solicitacao_situacao,
+        status: this.solicListar.solicitacao_status_nome,
+        texto: 'SEM ALTERAÇÃO',
+        informacao: null,
+        textoProcesso: null
+      };
+    }
+    this.informacao = this.info[0];
     this.ddSolicitacao_tipo_analize = [];
 
 
     const dd: SelectItem[] = [
-      {label: 'EM ABERTO', value: 0},
-      {label: 'EM ABERTO - Enviar para análise', value: 1},
+      {label: 'SEM ALTERAÇÃO', value: 0},
+      {label: 'EM ABERTO - Aguardar análise', value: 1},
       {label: 'EM ABERTO - Solicitar análise por e-mail', value: 2},
       {label: 'EM ANDAMENTO - Aceitar solicitação sem processo', value: 3},
       {label: 'DEFERIDO - Solicitação resolvida', value: 4},
@@ -133,54 +304,154 @@ export class SolicFormService {
       {label: 'INDEFERIDO', value: 13},
       {label: 'EM ANDAMENTO', value: 14},
       {label: 'SUSPENSO', value: 15},
-
-
-      /*{label: 'Analisar processo', value: 12},
-      {label: 'Deferido', value: 13},
-      {label: 'Indeferido', value: 14},
-      {label: 'Suspenso', value: 15},
-      {label: 'Suspenso', value: 16},*/
+      {label: 'DEFERIR', value: 16},
+      {label: 'INDEFERIR', value: 17},
+      {label: 'DEFERIR - Deferir a solicitação e o processo.', value: 18},
+      {label: 'INDEFERIR - Indeferir a solicitação e o processo.', value: 19},
+      {label: 'REABRIR - Reabrir solicitação suspensa ou concluida.', value: 20},
+      {label: 'REABRIR - Reabrir solicitação e processo suspensos ou concluidos.', value: 21},
+      {label: 'SEM ALTERAÇÃO', value: 22},
     ];
 
 
     if (this.acao === 'analisar') {
-      if (this.solicitacaoVersao === 1) {
-        if (principal) {
-          this.ddSolicitacao_tipo_analize = [
-            dd[0],
-            dd[3],
-            dd[4],
-            dd[5],
-            dd[6],
-            dd[7],
-            dd[8]
-          ];
+      let processo = false;
+      this.ddSolicitacao_tipo_analize.push(dd[0]);
+      if (this.vs.solicitacaoVersao === 1) {
+        if (
+          this.solicListar.processo_id !== undefined &&
+          this.solicListar.processo_id !== null &&
+          this.solicListar.processo_id !== 0
+        ) {
+          processo = true;
+        }
+
+        if (!processo) {
+          if (this.solicListar.solicitacao_status_id === 0) {
+            this.ddSolicitacao_tipo_analize.push(dd[5], dd[6], dd[3], dd[4], dd[7], dd[8]);
+          }
+          if (this.solicListar.solicitacao_status_id === 1) {
+            this.ddSolicitacao_tipo_analize.push(dd[16], dd[17], dd[8]);
+          }
           if (
-            this.solicListar.processo_id !== undefined &&
-            this.solicListar.processo_id !== null &&
-            this.solicListar.processo_id !== 0
+            this.solicListar.solicitacao_status_id === 2 ||
+            this.solicListar.solicitacao_status_id === 3 ||
+            this.solicListar.solicitacao_status_id === 4
           ) {
-            if (this.solicListar.processo_status_nome_id === 0) {
-              this.ddSolicitacao_tipo_analize.push(dd[9]);
-              // this.info.push(info[9]);
+            this.ddSolicitacao_tipo_analize.push(dd[20]);
+          }
+        } else {
+          if (this.solicListar.solicitacao_status_id === 1) {
+            this.ddSolicitacao_tipo_analize.push(dd[18], dd[19], dd[9], dd[10]);
+          }
+          if (
+            this.solicListar.solicitacao_status_id === 2 ||
+            this.solicListar.solicitacao_status_id === 3 ||
+            this.solicListar.solicitacao_status_id === 4
+          ) {
+            this.ddSolicitacao_tipo_analize.push(dd[21]);
+          }
+        }
+
+      } else {
+        if (this.solicListar.solicitacao_status_id === 0) {
+          this.ddSolicitacao_tipo_analize.push(dd[14], dd[12], dd[13], dd[15]);
+        }
+        if (this.solicListar.solicitacao_status_id === 1) {
+          this.ddSolicitacao_tipo_analize.push(dd[12], dd[13], dd[15]);
+        }
+        if (
+          this.solicListar.solicitacao_status_id === 2 ||
+          this.solicListar.solicitacao_status_id === 3 ||
+          this.solicListar.solicitacao_status_id === 4
+        ) {
+          this.ddSolicitacao_tipo_analize.push(dd[20]);
+        }
+
+      }
+    }
+
+
+    if (this.acao === 'incluir') {
+      if (this.vs.solicitacaoVersao === 1) {
+        if (principal) {
+          this.ddSolicitacao_tipo_analize = [ dd[1], dd[2], dd[5], dd[6], dd[3], dd[4], dd[7], dd[8] ];
+        } else {
+          this.ddSolicitacao_tipo_analize = [ dd[1], dd[2] ];
+        }
+      } else {
+        if (principal) {
+          this.ddSolicitacao_tipo_analize = [dd[11], dd[14], dd[12], dd[13], dd[15]];
+        } else {
+          this.ddSolicitacao_tipo_analize = [dd[11]];
+        }
+      }
+    }
+
+    if (this.acao === 'alterar') {
+      let processo = false;
+      this.ddSolicitacao_tipo_analize.push(dd[0]);
+      if (this.vs.solicitacaoVersao === 1) {
+        if (
+          this.solicListar.processo_id !== undefined &&
+          this.solicListar.processo_id !== null &&
+          this.solicListar.processo_id !== 0
+        ) {
+          processo = true;
+        }
+
+        if (!processo) {
+          if (principal) {
+            if (this.solicListar.solicitacao_status_id === 0) {
+              this.ddSolicitacao_tipo_analize.push(dd[5], dd[6], dd[3], dd[4], dd[7], dd[8]);
             }
-            if (this.solicListar.processo_status_nome_id === 0 || this.solicListar.processo_status_nome_id === 3) {
-              this.ddSolicitacao_tipo_analize.push(dd[10]);
-              // this.info.push(info[10]);
+            if (this.solicListar.solicitacao_status_id === 1) {
+              this.ddSolicitacao_tipo_analize.push(dd[16], dd[17], dd[8]);
+            }
+            if (
+              this.solicListar.solicitacao_status_id === 2 ||
+              this.solicListar.solicitacao_status_id === 3 ||
+              this.solicListar.solicitacao_status_id === 4
+            ) {
+              this.ddSolicitacao_tipo_analize.push(dd[20]);
+            }
+          }
+          } else {
+          if (principal) {
+            if (this.solicListar.solicitacao_status_id === 1) {
+              this.ddSolicitacao_tipo_analize.push(dd[18], dd[19], dd[9], dd[10]);
+            }
+            if (
+              this.solicListar.solicitacao_status_id === 2 ||
+              this.solicListar.solicitacao_status_id === 3 ||
+              this.solicListar.solicitacao_status_id === 4
+            ) {
+              this.ddSolicitacao_tipo_analize.push(dd[21]);
             }
           }
         }
+
       } else {
-        this.ddSolicitacao_tipo_analize = [
-          dd[0],
-          dd[11],
-          dd[12],
-          dd[13],
-          dd[14],
-          dd[15]
-        ];
+        if (principal) {
+          if (this.solicListar.solicitacao_status_id === 0) {
+            this.ddSolicitacao_tipo_analize.push(dd[14], dd[12], dd[13], dd[15]);
+          }
+          if (this.solicListar.solicitacao_status_id === 1) {
+            this.ddSolicitacao_tipo_analize.push( dd[14],dd[12], dd[13], dd[15]);
+          }
+          if (
+            this.solicListar.solicitacao_status_id === 2 ||
+            this.solicListar.solicitacao_status_id === 3 ||
+            this.solicListar.solicitacao_status_id === 4
+          ) {
+            this.ddSolicitacao_tipo_analize.push(dd[20]);
+          }
+        }
       }
     }
+
+    this.informacao = this.info[0];
+
   }
 
   onChangeAcao(ev: any) {
@@ -188,11 +459,21 @@ export class SolicFormService {
       // this.informacao = this.info.findIndex(v => +v.id === ev.value);
       this.informacao = this.info[ev.value];
     } else {
-      this.informacao = this.info[0];;
+
+      if (this.acao !== 'incluir') {
+        this.info[0] = {
+          id: 0,
+          situacao: this.solicListar.solicitacao_situacao,
+          status: this.solicListar.solicitacao_status_nome,
+          texto: 'SEM ALTERAÇÃO',
+          informacao: null,
+          textoProcesso: null
+        };
+      }
+      this.informacao = this.info[0];
     }
 
   }
-
 
 
 }

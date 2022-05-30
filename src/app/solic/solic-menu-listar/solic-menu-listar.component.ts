@@ -97,6 +97,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   goIncluir() {
     if (this.authenticationService.solicitacao_incluir) {
       this.sfs.acao = 'incluir';
+      this.sfs.criaTipoAnalise(this.authenticationService.solicitacao_analisar);
       if (this.ss.solicitacoes !== undefined) {
         if (this.ss.solicitacoes.length > 1) {
           this.ss.setState();

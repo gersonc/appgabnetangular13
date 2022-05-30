@@ -107,6 +107,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.sfs.solicitacao, this.sfs.acao);
     this.cadastro_incluir = this.aut.cadastro_incluir;
     if (sessionStorage.getItem('solicitacao-incluir') || sessionStorage.getItem('solicitacao-alterar')) {
       if (sessionStorage.getItem('solicitacao-incluir')) {
@@ -161,6 +162,8 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
     } else {
       this.titulo = 'SOLICITAÇÃO - ALTERAR';
     }
+
+    console.log(this.sfs.solicitacao, this.sfs.acao);
 
   }
 

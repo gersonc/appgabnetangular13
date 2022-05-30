@@ -114,28 +114,28 @@ export class SolicAnalisarComponent implements OnInit {
 
   criaForm() {
     this.formSol = this.formBuilder.group({
-      acao: [null, Validators.required],
+      solicitacao_tipo_analize: [this.sfs.solA.solicitacao_tipo_analize, Validators.required],
       solicitacao_aceita_recusada: [null],
       solicitacao_carta: [null],
       historico_andamento: [null]
     });
 
 
-      if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada_delta)) {
-        const ql2delta = JSON.parse(this.solicitacao.solicitacao_aceita_recusada_delta);
+      if (this.testaCampoQuill(this.sfs.solA.solicitacao_aceita_recusada_delta)) {
+        const ql2delta = JSON.parse(this.sfs.solA.solicitacao_aceita_recusada_delta);
         this.solacerecus.getQuill().setContents(ql2delta);
       } else {
-        if (this.testaCampoQuill(this.solicitacao.solicitacao_aceita_recusada!)) {
-          this.formSol.get('solicitacao_aceita_recusada').patchValue(this.solicitacao.solicitacao_aceita_recusada!);
+        if (this.testaCampoQuill(this.sfs.solA.solicitacao_aceita_recusada!)) {
+          this.formSol.get('solicitacao_aceita_recusada').patchValue(this.sfs.solA.solicitacao_aceita_recusada!);
         }
       }
 
-      if (this.testaCampoQuill(this.solicitacao.solicitacao_carta_delta)) {
-        const ql3delta = JSON.parse(this.solicitacao.solicitacao_carta_delta);
+      if (this.testaCampoQuill(this.sfs.solA.solicitacao_carta_delta)) {
+        const ql3delta = JSON.parse(this.sfs.solA.solicitacao_carta_delta);
         this.solcar.getQuill().setContents(ql3delta);
       } else {
-        if (this.testaCampoQuill(this.solicitacao.solicitacao_carta)) {
-          this.formSol.get('solicitacao_carta').patchValue(this.solicitacao!.solicitacao_carta);
+        if (this.testaCampoQuill(this.sfs.solA.solicitacao_carta)) {
+          this.formSol.get('solicitacao_carta').patchValue(this.sfs.solA.solicitacao_carta);
         }
       }
 
