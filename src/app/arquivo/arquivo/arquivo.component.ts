@@ -17,6 +17,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() uploadDisabled = true; // Botao upload desativado?
   @Input() enviarArquivos = false;
   @Input() modulo: string;
+  @Input() arqs: ArquivoInterface[] = [];
   @Input() registro_id = 0;
   // @Input() classe: string = null;
   @Input() stiloClass: string = null;
@@ -134,6 +135,17 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
           this.modeloView = changes.modelo.currentValue;
           break;
         }
+        case 'solicalterar': {
+          this.mostraH6 = false;
+          this.listaArquivos = true;
+          this.showUploadButton = true;
+          this.disabled = false;
+          this.incluir = true;
+          this.modo = 'basic';
+          this.drag = true;
+          this.modeloView = changes.modelo.currentValue;
+          break;
+        }
       }
     }
     /*if (changes.registro_id) {
@@ -179,7 +191,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
         /// this.uploadAtivo = false;
       }
     }
-    if (this.listaArquivos && this.registro_id ) {
+    if (this.listaArquivos && this.registro_id && this.modulo !== 'solicitacao' ) {
       this.as.getArquivos(this.modulo, this.registro_id );
     }
     /*

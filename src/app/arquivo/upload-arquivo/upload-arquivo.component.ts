@@ -109,6 +109,11 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.modulo) {
+      if (changes.modulo.currentValue === 'solicalterar') {
+        this.modulo = 'solicitacao';
+      }
+    }
     if (changes.disabled) {
       this.disabled = changes.disabled.currentValue;
     }

@@ -339,6 +339,7 @@
                         <app-arquivo *ngIf="sfs.acao === 'alterar'"
                           [modulo]="'solicitacao'"
                           [uploadDisabled]="arquivoDesativado"
+                          [arqs]="sfs.solicListar.solicitacao_arquivos"
                           [registro_id]="sfs.solicitacao.solicitacao_id"
                           (onPossuiArquivos)="onPossuiArquivos($event)"
                           [modelo]="'alterar'"
@@ -352,7 +353,7 @@
 
 
               <!--*** COLUNA 2 ***-->
-              <div class="p-col-12 formulario">
+              <div *ngIf="sfs.acao==='incluir'" class="p-col-12 formulario">
                 <div class="p-fluid p-formgrid p-grid formulario">
 
                   <!--*** Tipo de analise ***-->

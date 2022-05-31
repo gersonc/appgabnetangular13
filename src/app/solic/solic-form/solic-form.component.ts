@@ -142,7 +142,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
     }
 
     this.carregaDropdownSessionStorage();
-    this.carregaDropDown();
+    // this.carregaDropDown();
     this.criaForm();
     this.configuraEditor();
 
@@ -198,7 +198,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
   }
 
   // ***     FORMULARIO      *************************
-  carregaDropDown() {
+  /*carregaDropDown() {
     this.ddSolicitacao_tipo_analize = [];
     if (this.vs.solicitacaoVersao === 1) {
       this.ddSolicitacao_tipo_analize.push(
@@ -227,7 +227,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
 
 
 
-  }
+  }*/
 
 
 
@@ -260,11 +260,11 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-        solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
         historico_andamento: [this.sfs.solicitacao.historico_andamento],
+        solicitacao_tipo_analize: (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
     }
 
@@ -284,10 +284,10 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-        solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         historico_andamento: [this.sfs.solicitacao.historico_andamento],
+        solicitacao_tipo_analize:  (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
     }
 
@@ -306,10 +306,10 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-        solicitacao_tipo_analize: [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required],
         solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
         solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         historico_andamento: [this.sfs.solicitacao.historico_andamento],
+        solicitacao_tipo_analize:  (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
     }
     if (this.sfs.acao === 'alterar') {
@@ -320,7 +320,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
       this.sgt.push(this.novoRegistro);
       this.formSol.get('solicitacao_cadastro_id').patchValue(this.novoRegistro);
       if (this.vs.solicitacaoVersao === 1) {
-        if (this.sfs.solicListar.processo_id > 0 && this.sfs.solicListar.solicitacao_aceita_sn > 5) {
+        if (this.sfs.solicListar.processo_id > 0 && this.sfs.solicListar.processo_numero2 !== undefined) {
           this.formSol.get('solicitacao_numero_oficio').patchValue(this.sfs.solicListar.processo_numero2);
           this.readonly = true;
         }
@@ -561,8 +561,12 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao.solicitacao_carta_texto = ql4.getText();
       }
     }
+    if (this.sfs.acao==='incluir') {
+      solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
+    } else {
+      delete solicitacao.solicitacao_tipo_analize;
+    }
 
-    solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
 
     for (const key in solicitacao) {
       if (solicitacao[key] === null) {
@@ -644,21 +648,23 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
 
   verificaNumOficio(ev) {
     console.log(this.formSol.get('solicitacao_numero_oficio').value);
-    if (this.formSol.get('solicitacao_numero_oficio').value) {
-      let of = this.formSol.get('solicitacao_numero_oficio').value;
-      if (of.length > 0) {
-        let resp: any[] = [];
-        const dados: any = {
-          solicitacao_numero_oficio: of
-        }
-        this.sub.push(this.solicitacaoService.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
-          resp = r;
-          console.log(resp);
-          if (resp[0]) {
-            this.solNumOfi = true;
+    if (this.sfs.acao === 'incluir') {
+      if (this.formSol.get('solicitacao_numero_oficio').value) {
+        let of = this.formSol.get('solicitacao_numero_oficio').value;
+        if (of.length > 0) {
+          let resp: any[] = [];
+          const dados: any = {
+            solicitacao_numero_oficio: of
           }
-        } ));
+          this.sub.push(this.solicitacaoService.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
+            resp = r;
+            console.log(resp);
+            if (resp[0]) {
+              this.solNumOfi = true;
+            }
+          }));
 
+        }
       }
     }
   }

@@ -17,6 +17,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() apagar = false; // apagar
   @Input() modulo: string;
   @Input() registro_id = 0;
+  @Input() arqs: ArquivoInterface[] = [];
   @Input() modelo = 'detalhe'; // Onde irá aparecer (Formilário, Detalhe etc.
   @Output() onBlockSubmit = new EventEmitter<boolean>();
 
@@ -28,6 +29,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   public msg: string = null;
   private sub: Subscription[] = [];
   public mostraExcluir = false;
+  modeloNovo = false;
 
   constructor(
     public as: ArquivoService,
@@ -57,6 +59,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
           this.mostraExcluir = true;
           break;
         }
+
         default: {
           this.horizontal = false;
           break;
@@ -68,12 +71,15 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-
-    this.sub.push(this.as.getArquivloListagem().subscribe({
-      next: value => {
-        this.arquivos = value;
-      }
-    }));
+    if(this.modulo !== 'solicitacao') {
+      this.sub.push(this.as.getArquivloListagem().subscribe({
+        next: value => {
+          this.arquivos = value;
+        }
+      }));
+    } else {
+      this.arquivos = this.arqs;
+    }
 
     if (this.horizontal && this.modeloExcluir) {
       this.mostraAvisoExcluir();
