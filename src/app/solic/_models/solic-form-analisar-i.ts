@@ -14,6 +14,7 @@ export interface SolicFormAnalisarI {
   historico_andamento?: string;
   historico_andamento_delta?: string;
   historico_andamento_texto?: string;
+  solicitacao_numero_oficio?: string;
   solicitacao_tipo_analize?: number;
 }
 
@@ -30,4 +31,6 @@ export class SolicFormAnalisar implements SolicFormAnalisarI {
   historico_andamento?: string;
   historico_andamento_delta?: string;
   historico_andamento_texto?: string;
+  solicitacao_numero_oficio?: string;
+
 }

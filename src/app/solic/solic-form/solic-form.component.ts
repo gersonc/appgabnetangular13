@@ -260,10 +260,10 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-        solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
-        solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        solicitacao_carta: [this.sfs.solicitacao.solicitacao_carta],
-        historico_andamento: [this.sfs.solicitacao.historico_andamento],
+        solicitacao_descricao: [null],
+        solicitacao_aceita_recusada: [null],
+        solicitacao_carta: [null],
+        historico_andamento: [null],
         solicitacao_tipo_analize: (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
     }
@@ -284,9 +284,9 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-        solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
-        solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        historico_andamento: [this.sfs.solicitacao.historico_andamento],
+        solicitacao_descricao: [null],
+        // solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
+        historico_andamento: [null],
         solicitacao_tipo_analize:  (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
     }
@@ -306,12 +306,13 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
         solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
-        solicitacao_descricao: [this.sfs.solicitacao.solicitacao_descricao],
-        solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
-        historico_andamento: [this.sfs.solicitacao.historico_andamento],
+        solicitacao_descricao: [null],
+        // solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
+        historico_andamento: [null],
         solicitacao_tipo_analize:  (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
     }
+
     if (this.sfs.acao === 'alterar') {
       if (this.sfs.solicitacao.solicitacao_indicacao_nome) {
         this.formSol.get('solicitacao_indicacao_sn').patchValue(true);
@@ -325,6 +326,38 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
           this.readonly = true;
         }
       }
+
+      if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_descricao)) {
+        const ql1delta = JSON.parse(this.sfs.solicitacao.solicitacao_descricao);
+        this.solacerecus.getQuill().setContents(ql1delta);
+      } else {
+        if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_descricao!)) {
+          this.formSol.get('solicitacao_descricao').patchValue(this.sfs.solicitacao.solicitacao_descricao!);
+        }
+      }
+
+      if (this.vs.solicitacaoVersao === 1) {
+
+        if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_aceita_recusada_delta)) {
+          const ql2delta = JSON.parse(this.sfs.solicitacao.solicitacao_aceita_recusada_delta);
+          this.solacerecus.getQuill().setContents(ql2delta);
+        } else {
+          if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_aceita_recusada!)) {
+            this.formSol.get('solicitacao_aceita_recusada').patchValue(this.sfs.solicitacao.solicitacao_aceita_recusada!);
+          }
+        }
+
+        if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_carta_delta)) {
+          const ql3delta = JSON.parse(this.sfs.solicitacao.solicitacao_carta_delta);
+          this.solcar.getQuill().setContents(ql3delta);
+        } else {
+          if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_carta)) {
+            this.formSol.get('solicitacao_carta').patchValue(this.sfs.solicitacao.solicitacao_carta);
+          }
+        }
+
+      }
+
     }
 
   }
@@ -514,11 +547,18 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
     }
     if (this.vs.solicitacaoVersao === 1) {
       solicitacao.solicitacao_tipo_recebimento_id = this.formSol.get('solicitacao_tipo_recebimento_id').value;
+
+      if (this.formSol.get('solicitacao_aceita_recusada').value) {
+        const ql2: any = this.solacerecus.getQuill();
+        solicitacao.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
+        solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
+        solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
+      }
       if (this.formSol.get('solicitacao_carta').value) {
-        const ql3: any = this.solacerecus.getQuill();
-        solicitacao.solicitacao_carta = this.formSol.get('solicitacao_carta').value;
-        solicitacao.solicitacao_carta_delta = JSON.stringify(ql3.getContents());
-        solicitacao.solicitacao_carta_texto = ql3.getText();
+        const ql4: any = this.solacerecus.getQuill();
+        solicitacao.solicitacao_carta = this.formSol.get('solicitacao_aceita_recusada').value;
+        solicitacao.solicitacao_carta_delta = JSON.stringify(ql4.getContents());
+        solicitacao.solicitacao_carta_texto = ql4.getText();
       }
     }
     solicitacao.solicitacao_cadastro_tipo_id = this.formSol.get('solicitacao_cadastro_tipo_id').value;
@@ -540,12 +580,6 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
       solicitacao.solicitacao_descricao_delta = JSON.stringify(ql.getContents());
       solicitacao.solicitacao_descricao_texto = ql.getText();
     }
-    if (this.formSol.get('solicitacao_aceita_recusada').value) {
-      const ql2: any = this.solacerecus.getQuill();
-      solicitacao.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
-      solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
-      solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
-    }
 
     if (this.formSol.get('historico_andamento').value) {
       const ql3: any = this.histand.getQuill();
@@ -553,14 +587,7 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
       solicitacao.historico_andamento_delta = JSON.stringify(ql3.getContents());
       solicitacao.historico_andamento_texto = ql3.getText();
     }
-    if (this.vs.solicitacaoVersao === 1) {
-      if (this.formSol.get('solicitacao_carta').value) {
-        const ql4: any = this.solacerecus.getQuill();
-        solicitacao.solicitacao_carta = this.formSol.get('solicitacao_aceita_recusada').value;
-        solicitacao.solicitacao_carta_delta = JSON.stringify(ql4.getContents());
-        solicitacao.solicitacao_carta_texto = ql4.getText();
-      }
-    }
+
     if (this.sfs.acao==='incluir') {
       solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
     } else {
@@ -675,6 +702,14 @@ export class SolicFormComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/cadastro/incluir/solic/incluir']);
     } else {
       console.error('SEM PERMISSAO');
+    }
+  }
+
+  testaCampoQuill(v: string | null | undefined): boolean {
+    if (v === null || v === undefined) {
+      return false;
+    } else {
+      return v.length !== 0;
     }
   }
 

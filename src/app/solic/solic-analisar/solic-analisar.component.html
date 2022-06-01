@@ -831,7 +831,7 @@
 
               <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                 <p-accordion>
-                  <p-accordionTab header="Observações">
+                  <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
                     <div class="formulario-quill">
                       <p-editor
                         #solacerecus
@@ -879,12 +879,31 @@
                   <app-arquivo *ngIf="sfs.acao === 'analisar'"
                                [modulo]="'solicitacao'"
                                [uploadDisabled]="arquivoDesativado"
-                               [registro_id]="solicitacao.solicitacao_id"
+                               [registro_id]="sfs.solA.solicitacao_id"
                                [modelo]="'analisar'"
                                [stiloClass]="'formulario'"
                   ></app-arquivo>
                 </div>
               </ng-container>
+
+              <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                <label for="solicitacao_numero_oficio">{{tituloNumOfi}}</label>
+                <input
+                  id="solicitacao_numero_oficio"
+                  formControlName="solicitacao_numero_oficio"
+                  type="text"
+                  [size]="40"
+                  [maxlength]="100"
+                  pInputText
+                  (blur)="verificaNumOficio($event)"
+                />
+                <div *ngIf="solNumOfi" >
+                  <small class="p-atencao">{{ msgSolNumOfi }}</small>
+                </div>
+              </div>
+              <div class="p-field p-md-6 p-lg-6 p-xl-8">
+
+              </div>
 
               <div class="p-field p-col-12 p-md-8 p-lg-6 p-xl-6">
                 <label><span class="atencao">*</span> Ação</label>
@@ -961,10 +980,9 @@
                     <div class="p-mr-2">
                       <button
                         pButton
-                        type="button"
+                        type="submit"
                         class="p-button-rounded"
-                        [disabled]="!formSol.valid"
-                        (click)="enviarAnaliseSolicitacao()"
+                        [disabled]="!formSol.valid && !formAtivo"
                         label="Enviar"
                       ></button>
                     </div>

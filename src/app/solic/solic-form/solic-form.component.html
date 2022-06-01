@@ -280,7 +280,7 @@
                           </p-editor>
                         </div>
                       </p-accordionTab>
-                      <p-accordionTab header="Observações">
+                      <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
                         <div class="formulario-quill">
                           <p-editor
                             #solacerecus

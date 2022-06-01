@@ -9,6 +9,7 @@ import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
 import {UrlService} from "../../_services";
+import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 
 @Injectable({
   providedIn: 'root'
@@ -351,9 +352,21 @@ export class SolicService {
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
+  analisarSolicitacao(dados: SolicFormAnalisar): Observable<any> {
+    let url: string;
+    url = this.url.solic + '/analisar';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, dados, httpOptions);
+  }
+
+  excluirSolicitacao(id: number): Observable<any> {
+    const url = this.url.solic + '/' + id;
+    return this.http.delete<any>(url);
+  }
+
   postVerificarNumOficio(dados: any): Observable<any> {
     let url: string;
-    url = this.url.solicitacao + '/verificanumoficio';
+    url = this.url.solic + '/verificanumoficio';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }

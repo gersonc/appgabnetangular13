@@ -267,6 +267,7 @@ export class SolicFormService {
     r.solicitacao_carta = s.solicitacao_carta;
     r.solicitacao_carta_delta = s.solicitacao_carta_delta;
     r.solicitacao_carta_texto = s.solicitacao_carta_texto;
+    r.solicitacao_numero_oficio = s.solicitacao_numero_oficio;
     r.solicitacao_tipo_analize = 0;
     this.solA = r;
     return r;
