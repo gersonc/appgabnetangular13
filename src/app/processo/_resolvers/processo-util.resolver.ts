@@ -13,7 +13,6 @@ import {CarregadorService} from "../../_services";
 export class ProcessoUtilResolver implements Resolve<ProcessoDetalheInterface> {
 
   constructor(
-    private cs: CarregadorService,
     private router: Router,
     private processoService: ProcessoService
   ) {}
@@ -27,10 +26,8 @@ export class ProcessoUtilResolver implements Resolve<ProcessoDetalheInterface> {
         take(1),
         mergeMap(dados => {
           if (dados) {
-            this.cs.escondeCarregador();
             return of(dados);
           } else {
-            this.cs.escondeCarregador();
             this.router.navigate(['/processo/listar2']);
             return EMPTY;
           }

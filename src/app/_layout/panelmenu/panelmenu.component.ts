@@ -138,6 +138,17 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.authenticationService.processo) {
+      if (this.authenticationService.processo_listar) {
+        this.items.push(
+          {
+            label: 'Proce', icon: 'pi pi-book', command: () => {
+              this.fechaMenuPrincipal();
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/proce/listar']
+          });
+      }
+    }
+
     if (this.authenticationService.emenda) {
       if (this.authenticationService.emenda_listar) {
         this.items.push(

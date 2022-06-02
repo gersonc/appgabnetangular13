@@ -1,6 +1,4 @@
-import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
-import {SolicHistoricoSolicitacao} from "./solic-historico-solicitacao";
-import {SolicHistoricoProcesso} from "./solic-historico-processo";
+
 
 export interface SolicFormAnalisarI {
   solicitacao_id?: number;

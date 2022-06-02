@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs/operators';
-import {Subject, Subscription} from 'rxjs';
+import {Subject, Subscription} from "rxjs";
 import {DdService} from "../../_services/dd.service";
+import {take} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SolicDropdownMenuService {
+export class ProceDropdownMenuService {
 
-
-  private ddSolicitacao: any[];
+  private ddProce: any[];
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
@@ -21,23 +20,23 @@ export class SolicDropdownMenuService {
 
 
   getDropdownMenu() {
-      this.sub.push(this.dd.getDd('solic-menu-dropdown')
-        .pipe(take(1))
-        .subscribe((dados) => {
-            this.ddSolicitacao = dados;
-          },
-          (err) => console.error(err),
-          () => {
-            this.gravaDropDown();
-          }
-        )
-      );
+    this.sub.push(this.dd.getDd('solic-menu-dropdown')
+      .pipe(take(1))
+      .subscribe((dados) => {
+          this.ddProce = dados;
+        },
+        (err) => console.error(err),
+        () => {
+          this.gravaDropDown();
+        }
+      )
+    );
   }
 
   gravaDropDown() {
-    if (!sessionStorage.getItem('solic-menu-dropdown')) {
+    if (!sessionStorage.getItem('proce-menu-dropdown')) {
       if (!this.inicio) {
-        sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(this.ddSolicitacao));
+        sessionStorage.setItem('proce-menu-dropdown', JSON.stringify(this.ddProce));
         this.sub.forEach(s => {
           s.unsubscribe()
         });

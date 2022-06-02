@@ -1,0 +1,15 @@
+<p-sidebar
+  id="sidebar-menuinterno"
+  [(visible)]="mi.mostraMenuInterno"
+  [blockScroll]="true"
+  [dismissible]="true"
+  styleClass="menuinterno"
+  appendTo="body"
+>
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
+    <app-proce-menu-listar></app-proce-menu-listar>
+  </p-scrollPanel>
+
+</p-sidebar>
+
+<router-outlet></router-outlet>

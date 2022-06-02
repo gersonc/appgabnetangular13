@@ -25,6 +25,7 @@ export class UrlService {
   solicitacaot2 = this.url + 'solicitacaot2';
   oficio = this.url + 'oficio';
   processo = this.url + 'processo';
+  proce = this.url + 'processo';
   login = this.url + 'login';
   autologin = this.url + 'autoloagin';
   municipio = this.url + 'auxiliar/municipio';

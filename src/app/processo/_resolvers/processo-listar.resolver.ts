@@ -11,6 +11,7 @@ import {
   ProcessoPaginacaoInterface
 } from '../_models';
 import { ProcessoBuscaService, ProcessoService } from '../_services';
+import {DdService} from "../../_services/dd.service";
 
 
 
@@ -29,13 +30,12 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
 
   constructor(
     private router: Router,
-    private dd: DropdownService,
-    private cs: CarregadorService,
+    private dd: DdService,
     private processoService: ProcessoService,
     private pbs: ProcessoBuscaService
   ) { }
 
-  populaDropdown() {
+  /*populaDropdown2() {
 
     if (!sessionStorage.getItem('processo-dropdown')) {
 
@@ -46,10 +46,8 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
       this.ddSoDataArray.add('ddProcesso_solicitacao_data1', 'processo_dropdown', 'solicitacao_data');
       // ****** solicitacao_data2 *****
       this.ddSoDataArray.add('ddProcesso_solicitacao_data2', 'processo_dropdown', 'solicitacao_data', 'desc');
-
-      // ****** processo_status *****
-      this.ddSoNomeArray.add('ddProcesso_status_nome', 'processo_dropdown', 'processo_status_nome', 'desc');
-
+      // ****** ddProcesso_status_id *****
+      this.ddNomeIdArray.add('ddProcesso_status_id', 'processo_dropdown', 'ddProcesso_status_id', 'processo_status_nome');
       // ****** processo_numero *****
       this.ddNomeIdArray.add('ddProcesso_numero', 'processo_dropdown', 'processo_id', 'processo_numero');
       // ****** processo_status *****
@@ -88,20 +86,6 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
         )
       );
 
-      this.sub.push(this.dd.postDropdownSoNomeArray(this.ddSoNomeArray.get())
-        .pipe(take(1))
-        .subscribe((dados) => {
-            this.ddProcesso.ddProcesso_status_nome = dados['ddProcesso_status_nome'];
-          },
-          (err) => console.error(err),
-          () => {
-            contador++;
-            if (contador === 3) {
-              this.gravaDropDown();
-            }
-          }
-        )
-      );
 
       this.sub.push(this.dd.postDropdownNomeIdArray(this.ddNomeIdArray.get())
         .pipe(take(1))
@@ -109,6 +93,7 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
           next: (dados) => {
             this.ddProcesso.ddProcesso_numero = dados['ddProcesso_numero'];
             this.ddProcesso.ddProcesso_cadastro_tipo_id = dados['ddProcesso_cadastro_tipo_id'];
+            this.ddProcesso.ddProcesso_status_id = dados['ddProcesso_status_id'];
             this.ddProcesso.ddProcesso_cadastro_id = dados['ddProcesso_cadastro_id'];
             this.ddProcesso.ddProcesso_cadastro_municipio_id = dados['ddProcesso_cadastro_municipio_id'];
             this.ddProcesso.ddProcesso_cadastro_regiao_id = dados['ddProcesso_cadastro_regiao_id'];
@@ -129,6 +114,24 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
         })
       );
     }
+  }*/
+
+  populaDropdown() {
+    if (!sessionStorage.getItem('processo-dropdown')) {
+      this.sub.push(this.dd.getDd('processo-dropdown')
+        .pipe(take(1))
+        .subscribe((dados) => {
+            sessionStorage.setItem('processo-dropdown', JSON.stringify(dados));
+          },
+          (err) => console.error(err),
+          () => {
+            this.gravaDropDown();
+          }
+        )
+      );
+    } else {
+      this.gravaDropDown();
+    }
   }
 
   gravaDropDown() {
@@ -140,7 +143,6 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
-    this.cs.escondeCarregador();
   }
 
   resolve(
@@ -153,7 +155,6 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
 
     if (!sessionStorage.getItem('processo-dropdown')) {
       this.dropdown = true;
-      this.cs.mostraCarregador();
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),
@@ -169,7 +170,6 @@ export class ProcessoListarResolver implements Resolve<ProcessoDropdownMenuLista
       );
     } else {
       if (sessionStorage.getItem('processo-busca')) {
-        this.cs.mostraCarregador();
         this.pbs.buscaState = JSON.parse(sessionStorage.getItem('processo-busca'));
         return this.processoService.postProcessoBusca(JSON.parse(sessionStorage.getItem('processo-busca')))
           .pipe(

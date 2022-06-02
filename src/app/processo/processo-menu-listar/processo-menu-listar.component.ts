@@ -29,7 +29,7 @@ export class ProcessoMenuListarComponent implements OnInit {
   public ddProcesso_solicitacao_assunto_id: SelectItem[] = [];
   public ddProcesso_solicitacao_area_interesse_id: SelectItem[] = [];
   public ddProcesso_solicitacao_local_id: SelectItem[] = [];
-  public ddProcesso_status_nome: SelectItem[] = [];
+  public ddProcesso_status_id: SelectItem[] = [];
   public ddProcesso_solicitacao_data1: SelectItem[] = [];
   public ddProcesso_solicitacao_data2: SelectItem[] = [];
 
@@ -57,7 +57,7 @@ export class ProcessoMenuListarComponent implements OnInit {
       solicitacao_area_interesse_id: [null],
       solicitacao_reponsavel_analize_id: [null],
       solicitacao_local_id: [null],
-      processo_status_nome: [null],
+      processo_status_id: [null],
       solicitacao_data1: [null],
       solicitacao_data2: [null],
     });
@@ -80,7 +80,7 @@ export class ProcessoMenuListarComponent implements OnInit {
     this.ddProcesso_solicitacao_assunto_id = dr.ddProcesso_solicitacao_assunto_id;
     this.ddProcesso_solicitacao_area_interesse_id = dr.ddProcesso_solicitacao_area_interesse_id;
     this.ddProcesso_solicitacao_local_id = dr.ddProcesso_solicitacao_local_id;
-    this.ddProcesso_status_nome = dr.ddProcesso_status_nome;
+    this.ddProcesso_status_id = dr.ddProcesso_status_id;
     this.ddProcesso_solicitacao_data1 = dr.ddProcesso_solicitacao_data1;
     this.ddProcesso_solicitacao_data2 = dr.ddProcesso_solicitacao_data2;
     dr = null;

@@ -3,12 +3,12 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {SolicitacaoDropdownMenuListarInterface} from "../../solicitacao/_models";
 import {SolicService} from "../_services/solic.service";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {SolicDropdownMenuService} from "../_services/solic-dropdown-menu.service";
 import {VersaoService} from "../../_services/versao.service";
 import {SolicFormService} from "../_services/solic-form.service";
+import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i";
 
 @Component({
   selector: 'app-solic-menu-listar',
@@ -17,7 +17,7 @@ import {SolicFormService} from "../_services/solic-form.service";
 })
 export class SolicMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  public ddSolicitacao: SolicitacaoDropdownMenuListarInterface;
+  public ddSolicitacao: SolicDropdownMenuListarI;
   public formListarSolicitacao: FormGroup;
   public ptBr: any;
   private sub: Subscription[] = [];

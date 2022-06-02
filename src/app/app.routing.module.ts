@@ -6,6 +6,7 @@ import { Rule } from './_models';
 
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
+import {ProceModule} from "./proce/proce.module";
 
 const routes: Routes = [
   {
@@ -58,6 +59,14 @@ const routes: Routes = [
   {
     path: 'processo',
     loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule),
+    canActivate: [AuthGuard],
+    data: {
+      rules: Rule.processo
+    }
+  },
+  {
+    path: 'proce',
+    loadChildren: () => import('./proce/proce.module').then(m => m.ProceModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.processo
