@@ -1,1 +1,265 @@
-<p>proce-datatable works!</p>
+<!--*** INICIO *****************************************************************************************************-->
+<p-table #dtpr
+         id="tabelaprocesso"
+         [value]="processo"
+         [columns]="selectedColumns"
+         [rows]="rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="totalRecords"
+         [sortField]="sortCampo"
+         dataKey="processo_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [paginator]="true"
+         [alwaysShowPaginator]="false"
+         [pageLinks]="5"
+         [responsive]="false"
+         rowExpandMode="single"
+         [rowsPerPageOptions]="[50,100,200,500,1000]"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="onRowExpand($event)"
+         [(contextMenuSelection)]="prContexto"
+         contextMenuSelectionMode="joint"
+         [contextMenu]="cm"
+         (onContextMenuSelect)="onContextMenuSelect($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'12px'}"
+         stateStorage="session"
+         stateKey="processo-listagem"
+         selectionMode="multiple"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         [loadingIcon]="'pi pi-spin pi-spinner'"
+>
+
+  <!--*** TOPO *****************************************************************************************************-->
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <div class="p-d-inline-flex">
+        <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
+        <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
+        <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mx-2">PROCESSO</div>
+      </div>
+      <div class="p-d-inline-flex p-ai-center">
+        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+      </div>
+    </div>
+    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+  </ng-template>
+
+  <!--*** TITULOS **************************************************************************************************-->
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns">
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th></th>
+      <th *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          [style.width]="col.largura"
+          pReorderableColumn
+          pResizableColumn
+      >
+        {{col.header}}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!--*** DADOS ****************************************************************************************************-->
+  <ng-template pTemplate="body" let-pro let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="pro" [pContextMenuRow]="pro">
+
+      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="pro" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+      </td>
+
+      <td *ngFor="let col of columns" [style.width]="col.largura" [style.background-color]="pro[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
+        <ng-container *ngIf="col.field=='solicitacao_descricao'">
+          <quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>
+          <!--<span [innerHTML]="pro['solicitacao_descricao']"></span>-->
+        </ng-container>
+        <ng-container *ngIf="col.field=='solicitacao_aceita_recusada'">
+          <quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>
+          <!--<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>-->
+        </ng-container>
+        <ng-container *ngIf="col.field=='oficio_descricao_acao'">
+          <quill-view-html [content]="pro['oficio_descricao_acao']"></quill-view-html>
+          <!--<span [innerHTML]="pro['oficio_descricao_acao']"></span>-->
+        </ng-container>
+        <ng-container *ngIf="col.field=='oficio'">
+          <!--<app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>-->
+        </ng-container>
+        <ng-container *ngIf="col.field=='historico'">
+          <!--<app-historico-processo *ngIf="pro['historico']" [acao]="'listar'" [dados]="pro['historico']"></app-historico-processo>-->
+          <!--<app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>-->
+        </ng-container>
+        <ng-container *ngIf="col.field!='oficio' && col.field!='historico'">
+          {{pro[col.field]}}
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** EXPANDIDO ************************************************************************************************-->
+  <ng-template pTemplate="rowexpansion" let-pro let-indice="rowIndex" let-columns="columns">
+    <tr class="expandido">
+      <td [attr.colspan]="columns.length + 1" class="expandido">
+        <div class="rowexpansion-corpo">
+          <div class="p-fluid">
+            <div class="p-d-flex p-jc-start p-pb-2">
+              <div class="p-mr-2">
+                <button
+                  (click)="processoDetalheCompleto(pro)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                >
+                </button>
+              </div>
+              <div *ngIf="(authenticationService.processo_deferir || authenticationService.processo_indeferir) && (pro.processo_status_nome =='EM ABERTO' || pro.processo_status_nome =='EM ANDAMENTO' || pro.processo_status_nome =='SUSPENSO')" class="p-mr-2">
+                <button
+                  (click)="processoAnalisar(pro)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-exclamation-circle"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Analisar"
+                  tooltipPosition="top"
+                ></button>
+              </div>
+              <div *ngIf="authenticationService.processo_apagar" class="p-mr-2">
+                <button
+                  (click)="processoApagar(pro)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                >
+                </button>
+              </div>
+              <!--<app-historico-processo-form [acao]="'incluir'" [dados]="pro.processo_id"></app-historico-processo-form>-->
+            </div>
+
+
+            <div class="p-grid">
+              <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div *ngIf="!linhas[2]" class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  {{linhas[1]}}
+                </div>
+                <div *ngIf="linhas[2] && linhas[1].length > 30" class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0,26)}}...</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!--*** TABELA VAZIA *********************************************************************************************-->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+1" id="tabela-vazia">
+        <div class="tabela-vazia-a">
+          <div class="tabela-vazia-b">
+            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--*** MENU *****************************************************************************************************-->
+</p-table>
+<!--*** FIM ********************************************************************************************************-->
+
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+<p-dialog
+  header="Selecione as colunas."
+  [(visible)]="mostraSeletor"
+  [modal]="true"
+  [style]="{width: '350px'}"
+  [dismissableMask]="true"
+  (onHide)="hideSeletor($event)"
+>
+  <p-listbox
+    [options]="cols"
+    [(ngModel)]="selectedColumns"
+    [multiple]="true"
+    [checkbox]="true"
+    [filter]="true"
+    optionLabel="header"
+    [style]="{width: '320px'}"
+    [listStyle]="{'max-height':'300px', 'width':'300px'}"
+    (onChange)="onChangeSeletorColunas($event)"
+  ></p-listbox>
+</p-dialog>
+<p-contextMenu #cm [model]="contextoMenu3" styleClass="tablistagem"></p-contextMenu>
+<p-toast key="processoToast" position="center"></p-toast>
+<!--*** EDITOR *****************************************************************************************************-->
+<p-dialog
+  [(visible)]="showCampoTexto"
+  [dismissableMask]="true"
+  styleClass="tablistagem"
+  [header]="campoTitulo"
+  [modal]="true"
+  (onHide)="escondeTexto()"
+>
+  <div *ngIf="campoTexto" style="margin-top: .25em">
+    <quill-view-html id="edtor" #edtor [content]="campoTexto" class="detalhe"></quill-view-html>
+  </div>
+  <p-footer *ngIf="deltaquill">
+    <button
+      pButton
+      type="button"
+      class="p-button-rounded p-button-sm"
+      icon="pi pi-book"
+      (click)="exportWord()"
+      label="Word"
+    ></button>
+  </p-footer>
+</p-dialog>
+<!--*** DETALHE ****************************************************************************************************-->
+<ng-container *ngIf="showDetalhe">
+  <p-dialog
+    [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
+    [style]="{width: '60vw'}"
+    [(visible)]="showDetalhe"
+    styleClass="tablistagem"
+    header="DETALHE"
+    [modal]="true"
+    [dismissableMask]="true"
+    (onHide)="escondeDetalhe()"
+    [baseZIndex]="0"
+  >
+    <!--<app-processo-detalhe [proDetalhe]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-processo-detalhe>-->
+  </p-dialog>
+</ng-container>
+
+
+

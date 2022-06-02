@@ -120,42 +120,6 @@ export class SolicService {
     });
     this.tabela.dadosExpandidos = b;
 
-    /*for (const v in this.tabela.campos) {
-      console.log('v1', v);
-      if (ev[v] !== undefined || ev[v] !== null) {
-        console.log('(ev[v]', ev[v]);
-        if (ev[v].toString().length > 0) {
-          const n = this.tabela.campos.indexOf(v);
-          const m = this.tabela.camposTexto.indexOf(v);
-          console.log('n m ', n, m);
-          if (n >= 0) {
-            // let jj: any[] = [];
-            const tit = this.tabela.titulos[n].titulo;
-            let vf = false;
-            let txtdelta: string = null;
-            let txt: string = null;
-            let tst = '';
-            // jj.push(this.tabela.titulos[n].toString());
-            if (m >= 0) {
-              let keyidx: string[] = [
-                this.tabela.camposTexto[m],
-                this.tabela.camposTexto[m] + '_texto',
-                this.tabela.camposTexto[m] + '_delta'
-              ];
-              tst = (ev[keyidx[1]]) ? ev[keyidx[1]] : ev[keyidx[0]];
-              txt = (ev[keyidx[1]]) ? ev[ev[keyidx[1]]] : null;
-              txtdelta = (ev[keyidx[2]]) ? ev[ev[keyidx[2]]] : null;
-              vf = true;
-            } else {
-              tst = ev[v].toString();
-            }
-            b.push([tit, tst, vf, txt, txtdelta]);
-            a++;
-          }
-        }
-      }
-    }*/
-
   }
 
   onRowCollapse(ev) {
