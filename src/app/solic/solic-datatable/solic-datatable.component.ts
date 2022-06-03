@@ -51,7 +51,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   contextoMenu: MenuItem[];
   colteste: string[];
   mostraSeletor = false;
-
   cols: any[] = [];
 
   constructor(
@@ -84,7 +83,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
-    this.montaNenuContexto();
+    this.montaMenuContexto();
 
     this.sub.push(this.ss.busca$.subscribe(
       () => {
@@ -209,7 +208,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     );
   }
 
-  montaNenuContexto() {
+  montaMenuContexto() {
     this.contextoMenu = [
       {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {this.solicitacaoDetalheCompleto(this.ss.Contexto); }}];

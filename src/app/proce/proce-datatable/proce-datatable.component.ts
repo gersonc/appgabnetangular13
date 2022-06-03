@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Editor} from "primeng/editor";
 import {
   ProcessoArray,
@@ -26,16 +26,18 @@ import * as quillToWord from "quill-to-word";
 import {saveAs} from "file-saver";
 import {ProceListarI} from "../_model/proc-i";
 import {ProceService} from "../_services/proce.service";
+import {MenuDatatableService} from "../../_services/menu-datatable.service";
+import {ProceFormService} from "../_services/proce-form.service";
 
 @Component({
   selector: 'app-proce-datatable',
   templateUrl: './proce-datatable.component.html',
   styleUrls: ['./proce-datatable.component.css']
 })
-export class ProceDatatableComponent implements OnInit {
-  @ViewChild('dtpr', { static: true }) public dtpr: any;
+export class ProceDatatableComponent implements OnInit, OnDestroy {
+  @ViewChild('dtb', { static: true }) public dtb: any;
   @ViewChild('edtor', { static: true }) public edtor: Editor;
-  loading = false;
+/*  loading = false;
   cols: any[];
   currentPage = 1;
   processo: ProceListarI[];
@@ -74,132 +76,52 @@ export class ProceDatatableComponent implements OnInit {
   showCampoTexto = false;
   deltaquill: any = null;
   showDetalhe = false;
-  proDetalhe: ProcessoDetalheInterface = null;
+  proDetalhe: ProcessoDetalheInterface = null;*/
+
+  loading = false;
+  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
+  meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
+  sub: Subscription[] = [];
+  authAlterar = false;
+  authAnalisar = false;
+  authApagar = false;
+  authIncluir = false;
+  solicitacaoVersao: number;
+  campoTexto: string = null;
+  campoTitulo: string = null;
+  showCampoTexto = false;
+  deltaquill: any = null;
+  showDetalhe = false;
+  solDetalhe?: ProceListarI;
+  showHistoricoForm = false;
+  solHistForm: any;
+  itemsAcao: MenuItem[];
+  contextoMenu: MenuItem[];
+  contextoMenu2: MenuItem[];
+  contextoMenu3: MenuItem[];
+  colteste: string[];
+  mostraSeletor = false;
+  cols: any[] = [];
+  proceDetalhe?: any;
 
   constructor(
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
-    public dialogService: DialogService,
+    public aut: AuthenticationService,
+    public md: MenuDatatableService,
+    // public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
-    private processoService: ProceService,
-    private pbs: ProcessoBuscaService,
-    private cs: CarregadorService
+    public ps: ProceService,
+    public pfs: ProceFormService,
+    // private pbs: ProcessoBuscaService,
   ) { }
 
   ngOnInit() {
-
-    this.cols = [
-      {field: 'processo_id', header: 'ID', sortable: 'true', largura: '60px'},
-      {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', largura: '150px'},
-      {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', largura: '150px'},
-
-      {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', largura: '400px'},
-      {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'true', largura: '300px'},
-      {field: 'cadastro_endereco_numero', header: 'END. NÚMERO', sortable: 'true', largura: '170px'},
-      {field: 'cadastro_endereco_complemento', header: 'END. COMPLEMENTO', sortable: 'true', largura: '170px'},
-      {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', largura: '300px'},
-      {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', largura: '300px'},
-      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', largura: '300px'},
-      {field: 'cadastro_cep', header: 'CEP', sortable: 'true', largura: '100px'},
-      {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', largura: '100px'},
-      {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_telcom', header: 'TELEFONE3', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_fax', header: 'FAX', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_email', header: 'E-MAIL1', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_email2', header: 'E-MAIL2', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_rede_social', header: 'FACEBOOK', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_outras_midias', header: 'OUTRAS MÍDIAS', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_data_nascimento', header: 'DT. NASC./FUNDAÇÃO', sortable: 'true', largura: '200px'},
-
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', largura: '100px'},
-      {field: 'solicitacao_data', header: 'DATA', sortable: 'true', largura: '200px'},
-      {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', largura: '400px'},
-      {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', largura: '400px'},
-      {field: 'solicitacao_indicacao_sn', header: 'INDICAÇÃO S/N', sortable: 'true', largura: '150px'},
-      {field: 'solicitacao_indicacao_nome', header: 'INDICAÇÃO', sortable: 'true', largura: '300px'},
-      {field: 'solicitacao_orgao', header: 'ORGÃO SOLICITADO', sortable: 'true', largura: '300px'},
-      {field: 'solicitacao_local_nome', header: 'NÚCLEO', sortable: 'true', largura: '250px'},
-      {field: 'solicitacao_tipo_recebimento_nome', header: 'TP. RECEBIMENTO', sortable: 'true', largura: '200px'},
-      {field: 'solicitacao_descricao', header: 'DESCRIÇÃO', sortable: 'true', largura: '400px'},
-      {field: 'solicitacao_aceita_recusada', header: 'OBSERVAÇÕES', sortable: 'true', largura: '400px'},
-
-      {field: 'oficio_codigo', header: 'OF. CÓDIGO', sortable: 'true', largura: '150px'},
-      {field: 'oficio_numero', header: 'OF. Nº', sortable: 'true', largura: '100px'},
-      {field: 'oficio_prioridade_nome', header: 'OF. PRIORIDADE', sortable: 'true', largura: '150px'},
-      {field: 'oficio_convenio', header: 'OF. TP. CONVÊNIO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_data_emissao', header: 'OF. DT. EMISSÃO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_data_recebimento', header: 'OF. DT. RECEBIMENTO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_orgao_solicitado_nome', header: 'OF. ORG. SOLICITADO', sortable: 'true', largura: '300px'},
-      {field: 'oficio_descricao_acao', header: 'OF. DESC. AÇÃO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_data_protocolo', header: 'OF. DT. PROTOCOLO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_protocolo_numero', header: 'OF. Nº PROTOCOLO', sortable: 'true', largura: '300px'},
-      {field: 'oficio_orgao_protocolante_nome', header: 'OF. ORG. PROTOCOLANTE', sortable: 'true', largura: '300px'},
-      {field: 'oficio_protocolante_funcionario', header: 'OF. ORG. PROT. FUNCIONÁRIO', sortable: 'true', largura: '300px'},
-      {field: 'oficio_prazo', header: 'OF. PRAZO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_tipo_andamento_nome', header: 'OF. TIPO ANDAMENTO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_status_nome', header: 'OF. SITUAÇÃO', sortable: 'true', largura: '150px'},
-      {field: 'oficio_valor_solicitado', header: 'OF. VL. SOLICITADO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_valor_recebido', header: 'OF. VL. RECEBIDO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_data_pagamento', header: 'OF. DT. PAGAMENTO', sortable: 'true', largura: '200px'},
-      {field: 'oficio_data_empenho', header: 'OF. DT. EMPENHO', sortable: 'true', largura: '200px'},
-
-      {field: 'oficio', header: 'OFÍCIOS', sortable: 'false', largura: '3000px'},
-
-      {field: 'historico_data', header: 'HIST. DT.', sortable: 'true', largura: '200px'},
-      {field: 'historico_andamento', header: 'HIST. ANDAMENTO', sortable: 'true', largura: '400px'},
-
-      {field: 'historico', header: 'HISTÓRICOS', sortable: 'false', largura: '1000px'}
-
-    ];
-
-    if (sessionStorage.getItem('processo-selectedColumns')) {
-      this.selectedColumns = JSON.parse(sessionStorage.getItem('processo-selectedColumns'));
-      this.mapeiaColunasSelecionadas();
-      sessionStorage.removeItem('processo-selectedColumns');
-    } else {
+    this.montaColunas();
+    if(!this.ps.stateSN) {
       this.resetSelectedColumns();
     }
-
-    this.mapeiaColunasSelecionadas();
-
-    this.contextoMenu = [
-      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
-        command: () => {this.processoDetalheCompleto(this.prContexto); }}];
-
-    if (this.authenticationService.usuario_responsavel_sn
-      && (this.authenticationService.processo_indeferir
-        || this.authenticationService.processo_deferir)) {
-      this.authAnalisar = true;
-      this.contextoMenu.push(
-        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
-          command: () => { this.processoAnalisar(this.prContexto); }});
-    }
-
-    if (this.authenticationService.processo_apagar) {
-      this.authApagar = true;
-      this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-          command: () => { this.processoApagar(this.prContexto); }});
-    }
-
-    this.contextoMenu2 = [
-      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
-        command: () => {this.processoDetalheCompleto(this.prContexto); }}];
-
-    if (this.authenticationService.processo_apagar) {
-      this.authApagar = true;
-      this.contextoMenu2.push(
-        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-          command: () => { this.processoApagar(this.prContexto); }});
-    }
-
-    this.contextoMenu3 = this.contextoMenu;
 
     this.itemsAcao = [
       {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
@@ -212,55 +134,182 @@ export class ProceDatatableComponent implements OnInit {
       {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
     ];
 
-    if (this.pbs.buscaStateSN) {
-      this.getState();
-    } else {
-      this.cs.escondeCarregador();
-      this.pbs.processoBusca.todos = false;
-    }
+    this.montaMenuContexto();
 
-    this.sub.push(this.pbs.busca$.subscribe(
+    this.sub.push(this.ps.busca$.subscribe(
       () => {
-        this.pbs.processoBusca.todos = false;
-        this.dtpr.reset();
-        this.dtpr.selectionKeys = [];
-        this.selecionados = [];
+        if (this.ps.tabela.titulos === undefined) {
+          this.mapeiaColunas();
+        }
+        this.ps.busca.todos = false;
+        this.dtb.reset();
       }
     ));
+  }
 
+  montaColunas() {
+    this.cols = [
+      {field: 'processo_id', header: 'ID', sortable: 'true', width: '60px'},
+      {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
+      {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+
+      {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', width: '150px'},
+      {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '400px'},
+      {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'true', width: '300px'},
+      {field: 'cadastro_endereco_numero', header: 'END. NÚMERO', sortable: 'true', width: '170px'},
+      {field: 'cadastro_endereco_complemento', header: 'END. COMPLEMENTO', sortable: 'true', width: '170px'},
+      {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', width: '300px'},
+      {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '300px'},
+      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '300px'},
+      {field: 'cadastro_cep', header: 'CEP', sortable: 'true', width: '100px'},
+      {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', width: '100px'},
+      {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'true', width: '150px'},
+      {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'true', width: '150px'},
+      {field: 'cadastro_telcom', header: 'TELEFONE3', sortable: 'true', width: '150px'},
+      {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'true', width: '150px'},
+      {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'true', width: '150px'},
+      {field: 'cadastro_fax', header: 'FAX', sortable: 'true', width: '150px'},
+      {field: 'cadastro_email', header: 'E-MAIL1', sortable: 'true', width: '200px'},
+      {field: 'cadastro_email2', header: 'E-MAIL2', sortable: 'true', width: '200px'},
+      {field: 'cadastro_rede_social', header: 'FACEBOOK', sortable: 'true', width: '200px'},
+      {field: 'cadastro_outras_midias', header: 'OUTRAS MÍDIAS', sortable: 'true', width: '200px'},
+      {field: 'cadastro_data_nascimento', header: 'DT. NASC./FUNDAÇÃO', sortable: 'true', width: '200px'},
+
+      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '100px'},
+      {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '200px'},
+      {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '400px'},
+      {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', width: '400px'},
+      {field: 'solicitacao_indicacao_sn', header: 'INDICAÇÃO S/N', sortable: 'true', width: '150px'},
+      {field: 'solicitacao_indicacao_nome', header: 'INDICAÇÃO', sortable: 'true', width: '300px'},
+      {field: 'solicitacao_orgao', header: 'ORGÃO SOLICITADO', sortable: 'true', width: '300px'},
+      {field: 'solicitacao_local_nome', header: 'NÚCLEO', sortable: 'true', width: '250px'},
+      {field: 'solicitacao_tipo_recebimento_nome', header: 'TP. RECEBIMENTO', sortable: 'true', width: '200px'},
+      {field: 'solicitacao_descricao', header: 'DESCRIÇÃO', sortable: 'true', width: '400px'},
+      {field: 'solicitacao_aceita_recusada', header: 'OBSERVAÇÕES', sortable: 'true', width: '400px'},
+
+      {field: 'oficio_codigo', header: 'OF. CÓDIGO', sortable: 'true', width: '150px'},
+      {field: 'oficio_numero', header: 'OF. Nº', sortable: 'true', width: '100px'},
+      {field: 'oficio_prioridade_nome', header: 'OF. PRIORIDADE', sortable: 'true', width: '150px'},
+      {field: 'oficio_convenio', header: 'OF. TP. CONVÊNIO', sortable: 'true', width: '200px'},
+      {field: 'oficio_data_emissao', header: 'OF. DT. EMISSÃO', sortable: 'true', width: '200px'},
+      {field: 'oficio_data_recebimento', header: 'OF. DT. RECEBIMENTO', sortable: 'true', width: '200px'},
+      {field: 'oficio_orgao_solicitado_nome', header: 'OF. ORG. SOLICITADO', sortable: 'true', width: '300px'},
+      {field: 'oficio_descricao_acao', header: 'OF. DESC. AÇÃO', sortable: 'true', width: '200px'},
+      {field: 'oficio_data_protocolo', header: 'OF. DT. PROTOCOLO', sortable: 'true', width: '200px'},
+      {field: 'oficio_protocolo_numero', header: 'OF. Nº PROTOCOLO', sortable: 'true', width: '300px'},
+      {field: 'oficio_orgao_protocolante_nome', header: 'OF. ORG. PROTOCOLANTE', sortable: 'true', width: '300px'},
+      {field: 'oficio_protocolante_funcionario', header: 'OF. ORG. PROT. FUNCIONÁRIO', sortable: 'true', width: '300px'},
+      {field: 'oficio_prazo', header: 'OF. PRAZO', sortable: 'true', width: '200px'},
+      {field: 'oficio_tipo_andamento_nome', header: 'OF. TIPO ANDAMENTO', sortable: 'true', width: '200px'},
+      {field: 'oficio_status_nome', header: 'OF. SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'oficio_valor_solicitado', header: 'OF. VL. SOLICITADO', sortable: 'true', width: '200px'},
+      {field: 'oficio_valor_recebido', header: 'OF. VL. RECEBIDO', sortable: 'true', width: '200px'},
+      {field: 'oficio_data_pagamento', header: 'OF. DT. PAGAMENTO', sortable: 'true', width: '200px'},
+      {field: 'oficio_data_empenho', header: 'OF. DT. EMPENHO', sortable: 'true', width: '200px'},
+
+      {field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '3000px'},
+
+      {field: 'historico_data', header: 'HIST. DT.', sortable: 'true', width: '200px'},
+      {field: 'historico_andamento', header: 'HIST. ANDAMENTO', sortable: 'true', width: '400px'},
+
+      {field: 'historico', header: 'HISTÓRICOS', sortable: 'false', width: '1000px'}
+
+    ];
+  }
+
+  resetSelectedColumns(): void {
+    this.ps.criaTabela();
+    this.ps.tabela.selectedColumns = [
+        {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
+        {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+        {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '100px'},
+        {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', width: '150px'},
+        {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '400px'},
+        {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '300px'},
+        {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '300px'},
+        {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', width: '100px'},
+        {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '200px'},
+        {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '400px'},
+        {field: 'solicitacao_orgao', header: 'ORGÃO SOLICITADO', sortable: 'true', width: '300px'},
+        {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', width: '400px'}
+      ];
+  }
+
+  montaMenuContexto() {
+    this.contextoMenu = [
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
+        command: () => {this.proceDetalheCompleto(this.ps.Contexto); }}];
+
+    if (this.aut.usuario_responsavel_sn
+      && (this.aut.processo_indeferir
+        || this.aut.processo_deferir)) {
+      this.authAnalisar = true;
+      this.contextoMenu.push(
+        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
+          command: () => { this.processoAnalisar(this.ps.Contexto); }});
+    }
+
+    if (this.aut.processo_apagar) {
+      this.authApagar = true;
+      this.contextoMenu.push(
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
+          command: () => { this.processoApagar(this.ps.Contexto); }});
+    }
+
+    this.contextoMenu2 = [
+      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
+        command: () => {this.proceDetalheCompleto(this.ps.Contexto); }}];
+
+    if (this.aut.processo_apagar) {
+      this.authApagar = true;
+      this.contextoMenu2.push(
+        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
+          command: () => { this.processoApagar(this.ps.Contexto); }});
+    }
+
+    this.contextoMenu3 = this.contextoMenu;
   }
 
   // EVENTOS ===================================================================
 
-  ngOnChanges() { }
+  // ngOnChanges() { }
 
   onColReorder(event): void {
-    this.mapeiaColunasSelecionadas();
+    this.mapeiaColunas();
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
     if (event.sortField) {
-      if (this.pbs.processoBusca.sortcampo !== event.sortField.toString ()) {
-        this.pbs.processoBusca.sortcampo = event.sortField.toString ();
+      if (this.ps.busca.sortField !== event.sortField?.toString ()) {
+        this.ps.busca.sortField = event.sortField?.toString ();
       }
     }
-    if (this.pbs.processoBusca.inicio !== event.first.toString()) {
-      this.pbs.processoBusca.inicio = event.first.toString();
+    if (this.ps.busca.first !== event.first) {
+      this.ps.busca.first = event.first;
     }
-    if (this.pbs.processoBusca.numlinhas !== event.rows.toString()) {
-      this.pbs.processoBusca.numlinhas = event.rows.toString();
-      this.rows = event.rows;
+    if (event.rows !== undefined && this.ps.busca.rows !== event.rows) {
+      this.ps.busca.rows = event.rows;
     }
-    if (this.pbs.processoBusca.sortorder !== event.sortOrder.toString()) {
-      this.pbs.processoBusca.sortorder = event.sortOrder.toString();
+    if (this.ps.busca.sortOrder !== event.sortOrder) {
+      this.ps.busca.sortOrder = event.sortOrder;
     }
-    if (!this.pbs.buscaStateSN) {
-      this.postProcessoBusca();
-    }
+    this.ps.proceBusca();
   }
 
-  onRowExpand(event): void {
-    this.sub.push(this.dadosExpandidos = this.processoService.getColunaExtendida()
+  onStateSave(ev) {
+    this.ps.setState()
+  }
+
+  mostraSelectColunas(): void {
+    this.ps.tabela.mostraSeletor = true;
+  }
+
+  hideSeletor(ev): void {
+    this.mostraSeletor = false;
+  }
+
+  /*onRowExpand(event): void {
+    this.sub.push(this.dadosExpandidos = this.ps.getColunaExtendida()
       .pipe(take(1))
       .subscribe(
         dados => {
@@ -268,36 +317,31 @@ export class ProceDatatableComponent implements OnInit {
           this.dadosExp = dados;
         }
       ));
-    this.processoService.montaColunaExpandida(event.data);
-  }
+    this.ps.montaColunaExpandida(event.data);
+  }*/
 
-  onChangeSeletorColunas(changes): void {
-    this.dtpr.saveState();
+  /*onChangeSeletorColunas(changes): void {
+    this.dtb.saveState();
     this.camposSelecionados = null;
     this.camposSelecionados = changes.value.map(
       function (val) { return { field: val.field, header: val.header }; });
-  }
+  }*/
 
-  mostraSelectColunas(): void {
-    this.selectedColumnsOld = this.selectedColumns;
-    this.mostraSeletor = true;
-  }
-
-  hideSeletor(ev): void {
+  /*hideSeletor(ev): void {
     if (this.selectedColumnsOld !== this.selectedColumns) {
       this.postProcessoBusca();
     }
     this.selectedColumnsOld = [];
-  }
+  }*/
 
-  onContextMenuSelect(event) {
-    this.prContexto = event.data;
+  /*onContextMenuSelect(event) {
+    this.ps.Contexto = event.data;
     if (event.data.processo_status_nome.toString() !== 'EM ANDAMENTO') {
       this.contextoMenu3 = this.contextoMenu2;
     } else {
       this.contextoMenu3 = this.contextoMenu;
     }
-  }
+  }*/
 
   // FUNCOES DO COMPONENTE =====================================================
 
@@ -309,39 +353,39 @@ export class ProceDatatableComponent implements OnInit {
     this.loading = vf;
   }
 
-  resetSelectedColumns(): void {
-    if (this.selectedColumns.length <= 1) {
-      this.selectedColumns = [
-        {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', largura: '150px'},
-        {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', largura: '150px'},
-        {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', largura: '100px'},
-        {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', largura: '150px'},
-        {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', largura: '400px'},
-        {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', largura: '300px'},
-        {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', largura: '300px'},
-        {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', largura: '100px'},
-        {field: 'solicitacao_data', header: 'DATA', sortable: 'true', largura: '200px'},
-        {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', largura: '400px'},
-        {field: 'solicitacao_orgao', header: 'ORGÃO SOLICITADO', sortable: 'true', largura: '300px'},
-        {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', largura: '400px'}
-      ];
-    }
+  mapeiaColunas() {
+    let cp: string[] = [];
+    const n = this.cols.length;
+    let ct = 1
+    this.cols.forEach(c => {
+      if (c.field !== 'processo_id') {
+        cp.push(c.field);
+      }
+      ct++;
+      if (ct === n) {
+        this.ps.montaTitulos(cp);
+      }
+    });
   }
 
-  mapeiaColunasSelecionadas(): void {
+  achaValor(pro: ProceListarI): number {
+    return this.ps.processos.indexOf(pro);
+  }
+
+  /*mapeiaColunasSelecionadas(): void {
     this.camposSelecionados = [];
     this.camposSelecionados.push({field: 'processo_id', header: 'ID'});
     this.selectedColumns.forEach( (c) => {
       this.camposSelecionados.push({field: c.field, header: c.header});
     });
-  }
+  }*/
 
   // FUNCOES DE BUSCA ==========================================================
 
-  postProcessoBusca(): void {
+  /*postProcessoBusca(): void {
     this.pbs.processoBusca['campos'] = this.camposSelecionados;
     this.cs.mostraCarregador();
-    this.sub.push(this.processoService.postProcessoBusca(this.pbs.processoBusca)
+    this.sub.push(this.ps.postProcessoBusca(this.pbs.processoBusca)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
@@ -361,9 +405,9 @@ export class ProceDatatableComponent implements OnInit {
         }
       })
     );
-  }
+  }*/
 
-  getState(): void {
+  /*getState(): void {
     this.pbs.criarProcessoBusca();
     this.pbs.processoBusca = JSON.parse(sessionStorage.getItem('processo-busca'));
     if (this.pbs.buscaStateSN) {
@@ -383,45 +427,45 @@ export class ProceDatatableComponent implements OnInit {
           this.cs.escondeCarregador();
         }));
     }
-  }
+  }*/
 
   // FUNCOES DE CRUD ===========================================================
 
 
-  processoDetalheCompleto(pr: ProcessoListagemInterface) {
-    this.cs.mostraCarregador();
-    this.sub.push(this.processoService.getProcessoDetalhe(pr.processo_id)
+  proceDetalheCompleto(pro: ProceListarI) {
+    this.proceDetalhe = this.ps.parceDetalhe(pro);
+    this.showDetalhe = true;
+    /*this.sub.push(this.ps.getProceDetalhe(pr.processo_id)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          this.proDetalhe = dados;
+          this.proceDetalhe = dados;
         },
         error: (err) => {
           console.log ('erro', err.toString ());
         },
         complete: () => {
           this.showDetalhe = true;
-          this.cs.escondeCarregador();
         }
-      }));
+      }));*/
   }
 
 
   processoApagar(pr: ProcessoListagemInterface) {
-    if (this.authenticationService.processo_apagar) {
+    /*if (this.aut.processo_apagar) {
       this.cs.mostraCarregador();
-      this.dtpr.saveState();
+      this.dtb.saveState();
       sessionStorage.setItem('processo-busca', JSON.stringify(this.pbs.processoBusca));
       sessionStorage.setItem('processo-selectedColumns', JSON.stringify(this.selectedColumns));
       this.pbs.buscaStateSN = true;
       this.router.navigate(['/processo/excluir', pr.processo_id]);
     } else {
       console.log('SEM PERMISSAO');
-    }
+    }*/
   }
 
   processoAnalisar(pr: ProcessoListagemInterface) {
-    if (pr.processo_status_nome !== 'EM ANDAMENTO') {
+    /*if (pr.processo_status_nome !== 'EM ANDAMENTO') {
       this.messageService.add(
         {
           key: 'processoToast',
@@ -430,33 +474,33 @@ export class ProceDatatableComponent implements OnInit {
           detail: pr.processo_status_nome.toString()}
       );
     }
-    if (this.authenticationService.usuario_responsavel_sn
-      && (this.authenticationService.processo_deferir
-        || this.authenticationService.processo_indeferir)
+    if (this.aut.usuario_responsavel_sn
+      && (this.aut.processo_deferir
+        || this.aut.processo_indeferir)
       && pr.processo_status_nome === 'EM ANDAMENTO') {
       // let proDetalhe: ProcessoDetalheInterface;
       this.cs.mostraCarregador();
-      this.dtpr.saveState();
+      this.dtb.saveState();
       sessionStorage.setItem('processo-busca', JSON.stringify(this.pbs.processoBusca));
       sessionStorage.setItem('processo-selectedColumns', JSON.stringify(this.selectedColumns));
       this.pbs.buscaStateSN = true;
       this.router.navigate(['/processo/analisar', pr.processo_id]);
-    }
+    }*/
 
   }
 
   // FUNCOES RELATORIOS=========================================================
 
   mostraTabelaPdf(td: boolean = false) {
-    this.tmp = this.pbs.processoBusca.todos;
-    this.pbs.processoBusca.todos = td;
+    /*this.tmp = this.ps.busca.todos;
+    this.pbs.busca.todos = td;
     if (this.pbs.processoBusca.todos === true) {
       let prPdf: ProcessoListagemInterface[];
       let totalPdf: ProcessoTotalInterface;
       let numTotalRegs: number;
       this.pbs.processoBusca['campos'] = this.camposSelecionados;
       this.cs.mostraCarregador();
-      this.sub.push(this.processoService.postProcessoBusca(this.pbs.processoBusca)
+      this.sub.push(this.ps.postProcessoBusca(this.pbs.processoBusca)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -483,12 +527,12 @@ export class ProceDatatableComponent implements OnInit {
       return true;
     }
     TabelaPdfService.autoTabela('processo', this.camposSelecionados, this.processo);
-    this.pbs.processoBusca.todos = this.tmp;
+    this.pbs.processoBusca.todos = this.tmp;*/
     return true;
   }
 
   imprimirTabela(td: boolean = false) {
-    this.tmp = this.pbs.processoBusca.todos;
+    /*this.tmp = this.pbs.processoBusca.todos;
     this.pbs.processoBusca.todos = td;
     if (this.pbs.processoBusca.todos === true) {
       let prprint: ProcessoListagemInterface[];
@@ -496,7 +540,7 @@ export class ProceDatatableComponent implements OnInit {
       let numTotalRegs: number;
       this.pbs.processoBusca['campos'] = this.camposSelecionados;
       this.cs.mostraCarregador();
-      this.sub.push(this.processoService.postProcessoBusca(this.pbs.processoBusca)
+      this.sub.push(this.ps.postProcessoBusca(this.pbs.processoBusca)
         .subscribe({
           next: (dados) => {
             prprint = dados.processo;
@@ -524,12 +568,12 @@ export class ProceDatatableComponent implements OnInit {
     }
 
     PrintJSService.imprimirTabela(this.camposSelecionados, this.processo);
-    this.pbs.processoBusca.todos = this.tmp;
+    this.pbs.processoBusca.todos = this.tmp;*/
     return true;
   }
 
   exportToCsv(td: boolean = false) {
-    this.tmp = this.pbs.processoBusca.todos;
+    /*this.tmp = this.pbs.processoBusca.todos;
     this.pbs.processoBusca.todos = td;
     if (this.pbs.processoBusca.todos === true) {
       let prcsv: ProcessoListagemInterface[];
@@ -537,7 +581,7 @@ export class ProceDatatableComponent implements OnInit {
       let numTotalRegs: number;
       this.pbs.processoBusca['campos'] = this.camposSelecionados;
       this.cs.mostraCarregador();
-      this.sub.push(this.processoService.postProcessoBusca (this.pbs.processoBusca)
+      this.sub.push(this.ps.postProcessoBusca (this.pbs.processoBusca)
         .subscribe ({
           next: (dados) => {
             prcsv = dados.processo;
@@ -565,12 +609,12 @@ export class ProceDatatableComponent implements OnInit {
     }
 
     CsvService.jsonToCsv ('processo', this.camposSelecionados, this.processo);
-    this.pbs.processoBusca.todos = this.tmp;
+    this.pbs.processoBusca.todos = this.tmp;*/
     return true;
   }
 
   exportToXLSX(td: boolean = false) {
-    this.tmp = this.pbs.processoBusca.todos;
+    /*this.tmp = this.pbs.processoBusca.todos;
     this.pbs.processoBusca.todos = td;
     if (this.pbs.processoBusca.todos === true) {
       let prcsv: ProcessoListagemInterface[];
@@ -578,7 +622,7 @@ export class ProceDatatableComponent implements OnInit {
       let numTotalRegs: number;
       this.pbs.processoBusca['campos'] = this.selectedColumns;
       this.cs.mostraCarregador();
-      this.sub.push(this.processoService.postProcessoBusca (this.pbs.processoBusca)
+      this.sub.push(this.ps.postProcessoBusca (this.pbs.processoBusca)
         .subscribe ({
           next: (dados) => {
             prcsv = dados.processo;
@@ -605,7 +649,7 @@ export class ProceDatatableComponent implements OnInit {
       return true;
     }
     ExcelService.exportAsExcelFile ('processo', this.processo, ProcessoArray.getArrayTitulo());
-    this.pbs.processoBusca.todos = this.tmp;
+    this.pbs.processoBusca.todos = this.tmp;*/
     return true;
   }
 
@@ -637,7 +681,7 @@ export class ProceDatatableComponent implements OnInit {
 
   escondeDetalhe() {
     this.showDetalhe = false;
-    this.proDetalhe = null;
+    this.proceDetalhe = null;
   }
 
   toWord() {

@@ -15,7 +15,7 @@
         </div>
         <div class="p-mr-2">
           <button
-            *ngIf="authenticationService.oficio_incluir"
+            *ngIf="aut.oficio_incluir"
             pButton
             type="button"
             icon="pi pi-times"
@@ -35,11 +35,11 @@
           <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- oficio_processo_id -->
-            <div *ngIf="ddProcesso_numero" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_numero.length > 0" class="p-field p-col-12">
               <label for="processo_id">Número do processo</label>
               <p-dropdown
                 id="processo_id"
-                [options]="ddProcesso_numero"
+                [options]="ddProceMenu.ddProcesso_numero"
                 [style]="{'width':'100%'}"
                 placeholder="TODOS"
                 formControlName="processo_id"
@@ -48,10 +48,24 @@
             </div>
 
             <!-- processo_status -->
-            <div *ngIf="ddProcesso_status_id" class="p-field p-col-12">
-              <label for="processo_status_nome">Situação</label>
+            <div *ngIf="ddProceMenu.ddProcesso_solicitacao_situacao.length > 0" class="p-field p-col-12">
+              <label for="solicitacao_situacao">Situação</label>
               <p-dropdown
-                [options]="ddProcesso_status_id"
+                [options]="ddProceMenu.ddProcesso_solicitacao_situacao"
+                id="solicitacao_situacao"
+                optionLabel="label"
+                formControlName="solicitacao_situacao"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+
+            <!-- processo_status -->
+            <div *ngIf="ddProceMenu.ddProcesso_status_id.length > 0" class="p-field p-col-12">
+              <label for="processo_status_nome">Status</label>
+              <p-dropdown
+                [options]="ddProceMenu.ddProcesso_status_id"
                 id="processo_status_nome"
                 optionLabel="label"
                 formControlName="processo_status_id"
@@ -62,11 +76,11 @@
 
 
             <!-- solicitacao_cadastro_tipo_id -->
-            <div *ngIf="ddProcesso_cadastro_tipo_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_cadastro_tipo_id.length > 0" class="p-field p-col-12">
               <label for="solicitacao_cadastro_tipo_id">Tipo de cadastro</label>
               <p-dropdown
                 id="solicitacao_cadastro_tipo_id"
-                [options]="ddProcesso_cadastro_tipo_id"
+                [options]="ddProceMenu.ddProcesso_cadastro_tipo_id"
                 optionLabel="label"
                 formControlName="solicitacao_cadastro_tipo_id"
                 placeholder="TODOS"
@@ -75,11 +89,11 @@
             </div>
 
             <!-- processo_cadastro_id -->
-            <div *ngIf="ddProcesso_cadastro_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_cadastro_id.length > 0" class="p-field p-col-12">
               <label for="processo_cadastro_id">Solicitante</label>
               <p-dropdown
                 id="processo_cadastro_id"
-                [options]="ddProcesso_cadastro_id"
+                [options]="ddProceMenu.ddProcesso_cadastro_id"
                 optionLabel="label"
                 formControlName="processo_cadastro_id"
                 placeholder="TODOS"
@@ -88,10 +102,10 @@
             </div>
 
             <!-- solicitacao_area_interesse_id -->
-            <div *ngIf="ddProcesso_solicitacao_area_interesse_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_solicitacao_area_interesse_id.length > 0" class="p-field p-col-12">
               <label for="solicitacao_area_interesse_id">Área de interesse</label>
               <p-dropdown
-                [options]="ddProcesso_solicitacao_area_interesse_id"
+                [options]="ddProceMenu.ddProcesso_solicitacao_area_interesse_id"
                 optionLabel="label"
                 id="solicitacao_area_interesse_id"
                 formControlName="solicitacao_area_interesse_id"
@@ -101,10 +115,10 @@
             </div>
 
             <!-- solicitacao_assunto_id -->
-            <div *ngIf="ddProcesso_solicitacao_assunto_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_solicitacao_assunto_id.length > 0" class="p-field p-col-12">
               <label for="solicitacao_assunto_id">Assunto</label>
               <p-dropdown
-                [options]="ddProcesso_solicitacao_assunto_id"
+                [options]="ddProceMenu.ddProcesso_solicitacao_assunto_id"
                 optionLabel="label"
                 id="solicitacao_assunto_id"
                 formControlName="solicitacao_assunto_id"
@@ -121,11 +135,11 @@
           <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- cadastro_municipio_id -->
-            <div *ngIf="ddProcesso_cadastro_municipio_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_cadastro_municipio_id.length > 0" class="p-field p-col-12">
               <label for="cadastro_municipio_id">Município</label>
               <p-dropdown
                 id="cadastro_municipio_id"
-                [options]="ddProcesso_cadastro_municipio_id"
+                [options]="ddProceMenu.ddProcesso_cadastro_municipio_id"
                 optionLabel="label"
                 formControlName="cadastro_municipio_id"
                 placeholder="TODOS"
@@ -134,11 +148,11 @@
             </div>
 
             <!-- cadastro_regiao_id -->
-            <div *ngIf="ddProcesso_cadastro_regiao_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_cadastro_regiao_id.length > 0" class="p-field p-col-12">
               <label for="cadastro_regiao_id">Região</label>
               <p-dropdown
                 id="cadastro_regiao_id"
-                [options]="ddProcesso_cadastro_regiao_id"
+                [options]="ddProceMenu.ddProcesso_cadastro_regiao_id"
                 optionLabel="label"
                 formControlName="cadastro_regiao_id"
                 placeholder="TODOS"
@@ -147,10 +161,10 @@
             </div>
 
             <!-- solicitacao_local_id -->
-            <div *ngIf="ddProcesso_solicitacao_local_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_solicitacao_local_id.length > 0" class="p-field p-col-12">
               <label for="solicitacao_local_id">Núcleo</label>
               <p-dropdown
-                [options]="ddProcesso_solicitacao_local_id"
+                [options]="ddProceMenu.ddProcesso_solicitacao_local_id"
                 optionLabel="label"
                 id="solicitacao_local_id"
                 formControlName="solicitacao_local_id"
@@ -160,10 +174,10 @@
             </div>
 
             <!-- solicitacao_reponsavel_analize_id -->
-            <div *ngIf="ddProcesso_solicitacao_reponsavel_analize_id" class="p-field p-col-12">
+            <div *ngIf="ddProceMenu.ddProcesso_solicitacao_reponsavel_analize_id.length > 0" class="p-field p-col-12">
               <label for="solicitacao_reponsavel_analize_id">Responsável pela analise</label>
               <p-dropdown
-                [options]="ddProcesso_solicitacao_reponsavel_analize_id"
+                [options]="ddProceMenu.ddProcesso_solicitacao_reponsavel_analize_id"
                 optionLabel="label"
                 id="solicitacao_reponsavel_analize_id"
                 formControlName="solicitacao_reponsavel_analize_id"
@@ -173,11 +187,11 @@
             </div>
 
             <!-- solicitacao_data1 -->
-            <ng-container *ngIf="ddProcesso_solicitacao_data1 && ddProcesso_solicitacao_data2">
+            <ng-container *ngIf="ddProceMenu.ddProcesso_solicitacao_data1.length > 0 && ddProceMenu.ddProcesso_solicitacao_data2.length > 0">
               <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
                 <label for="solicitacao_data1">De</label>
                 <p-dropdown
-                  [options]="ddProcesso_solicitacao_data1"
+                  [options]="ddProceMenu.ddProcesso_solicitacao_data1"
                   optionLabel="label"
                   optionValue="value"
                   id="solicitacao_data1"
@@ -191,7 +205,7 @@
               <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
                 <label for="solicitacao_data2">até</label>
                 <p-dropdown
-                  [options]="ddProcesso_solicitacao_data2"
+                  [options]="ddProceMenu.ddProcesso_solicitacao_data2"
                   optionLabel="label"
                   id="solicitacao_data2"
                   formControlName="solicitacao_data2"
@@ -223,7 +237,7 @@
         </div>
         <div class="p-mr-2">
           <button
-            *ngIf="authenticationService.oficio_incluir"
+            *ngIf="aut.oficio_incluir"
             pButton
             type="button"
             icon="pi pi-times"

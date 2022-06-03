@@ -48,22 +48,10 @@
     <div [ngClass]="{'hide-datatable': md.mdt}">
       <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
         <div class="p-d-inline-flex">
-          <div class="p-mx-2">
-            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
-                    (click)="mostraMenu()"></button>
-          </div>
-          <div class="p-mr-2">
-            <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
-                    (click)="mostraSelectColunas()"></button>
-          </div>
-          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
-            <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
-                    (click)="men.toggle($event)"></button>
-          </div>
-          <div class="p-mr-0">
-            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
-                    (click)="solicitacaoIncluir()"></button>
-          </div>
+          <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
+          <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
+          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
+          <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="solicitacaoIncluir()"></button></div>
         </div>
 
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
@@ -114,6 +102,7 @@
                 [pRowToggler]="sol" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
+
       <td *ngFor="let col of columns" [style.width]="col.width">
         {{sol[col.field]}}
       </td>
@@ -230,7 +219,6 @@
 <!--*** FIM ********************************************************************************************************-->
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
-
 <p-dialog *ngIf="ss.tabela.mostraSeletor"
   id="seletor"
   header="Selecione as colunas."
@@ -242,7 +230,6 @@
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="ss.tabela.selectedColumns"></app-seletor-colunas>
 </p-dialog>
-
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 <p-toast key="solicitacaoToast" position="center"></p-toast>
 

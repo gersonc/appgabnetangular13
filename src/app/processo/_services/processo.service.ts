@@ -51,12 +51,13 @@ export class ProcessoService {
     'solicitacao_area_interesse_nome',
     'solicitacao_descricao',
     'solicitacao_aceita_recusada',
-    'solicitacao_posicao'
+    'solicitacao_situacao',
+    'solicitacao_status_nome',
   ];
   titulos = [
     'Id',
     'Nº processo',
-    'Situação',
+    'P. Status',
     'Carta',
     'Tp. solicitante',
     'Solicitante',
@@ -90,7 +91,8 @@ export class ProcessoService {
     'Área de interesse',
     'Descrição',
     'Observações',
-    'Posição'
+    'Situação',
+    'Sl. Status',
   ];
 
   camposTexto = [
@@ -175,14 +177,16 @@ export class ProcessoService {
       'solicitacao_area_interesse_nome',
       'solicitacao_descricao',
       'solicitacao_aceita_recusada',
-      'solicitacao_posicao',
+      'solicitacao_situacao',
+      'solicitacao_status_id',
+      'solicitacao_status_nome',
       'solicitacao_aceita_sn'
     ];
     const titulo = [
       'Id',
       'Nº processo',
-      'Situação',
-      'Situação',
+      'P. Status',
+      'p. Status',
       'Solicitante',
       'Carta',
       'Tp. solicitante',
@@ -216,7 +220,9 @@ export class ProcessoService {
       'Área de interesse',
       'Descrição',
       'Observações',
-      'Posição',
+      'Situação',
+      'S. Status',
+      'S. Status',
       'Aceita S/N'
     ];
 

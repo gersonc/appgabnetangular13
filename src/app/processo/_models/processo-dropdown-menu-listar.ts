@@ -2,6 +2,7 @@ import { SelectItem } from "primeng/api";
 
 export interface ProcessoDropdownMenuListarInterface {
   ddProcesso_numero?: SelectItem[];
+  ddProcesso_solicitacao_situacao?: SelectItem[];
   ddProcesso_status_id?: SelectItem[];
   ddProcesso_cadastro_tipo_id?: SelectItem[];
   ddProcesso_cadastro_id?: SelectItem[];
@@ -17,6 +18,7 @@ export interface ProcessoDropdownMenuListarInterface {
 
 export class ProcessoDropdownMenuListar {
   ddProcesso_numero = null;
+  ddProcesso_solicitacao_situacao = null;
   ddProcesso_status_id = null;
   ddProcesso_cadastro_tipo_id = null;
   ddProcesso_cadastro_id = null;

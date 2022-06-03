@@ -9,6 +9,7 @@ import { AuthenticationService, CarregadorService } from '../../_services';
 
 import { ProcessoBuscaService } from '../_services';
 import { ProcessoBuscaInterface, ProcessoDropdownMenuListar } from '../_models';
+import {ProceDropdownMenuI} from "../../proce/_model/proc-i";
 
 @Component({
   selector: 'app-processo-menu-listar',
@@ -18,8 +19,10 @@ import { ProcessoBuscaInterface, ProcessoDropdownMenuListar } from '../_models';
 export class ProcessoMenuListarComponent implements OnInit {
 
   public formMenuProcesso: FormGroup;
+  public ddProceMenu?: ProceDropdownMenuI;
+
   public items: Array<any> = [];
-  public ddNomeIdArray = new DropdownnomeidClass();
+  /*public ddNomeIdArray = new DropdownnomeidClass();
   public ddProcesso_cadastro_regiao_id: SelectItem[] = [];
   public ddProcesso_numero: SelectItem[] = [];
   public ddProcesso_cadastro_municipio_id: SelectItem[] = [];
@@ -31,22 +34,20 @@ export class ProcessoMenuListarComponent implements OnInit {
   public ddProcesso_solicitacao_local_id: SelectItem[] = [];
   public ddProcesso_status_id: SelectItem[] = [];
   public ddProcesso_solicitacao_data1: SelectItem[] = [];
-  public ddProcesso_solicitacao_data2: SelectItem[] = [];
+  public ddProcesso_solicitacao_data2: SelectItem[] = [];*/
 
 
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
+    public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public pbs: ProcessoBuscaService,
-    private cs: CarregadorService
   ) { }
 
   ngOnInit() {
-
     this.formMenuProcesso = this.formBuilder.group({
       cadastro_regiao_id: [null],
       processo_id: [null],
@@ -57,6 +58,7 @@ export class ProcessoMenuListarComponent implements OnInit {
       solicitacao_area_interesse_id: [null],
       solicitacao_reponsavel_analize_id: [null],
       solicitacao_local_id: [null],
+      solicitacao_situacao: [null],
       processo_status_id: [null],
       solicitacao_data1: [null],
       solicitacao_data2: [null],
@@ -70,7 +72,8 @@ export class ProcessoMenuListarComponent implements OnInit {
   }
 
   carregaDropDown() {
-    let dr = JSON.parse(sessionStorage.getItem('processo-dropdown'));
+    this.ddProceMenu = JSON.parse(sessionStorage.getItem('processo-dropdown'));
+    /*let dr = JSON.parse(sessionStorage.getItem('processo-dropdown'));
     this.ddProcesso_cadastro_regiao_id = dr.ddProcesso_cadastro_regiao_id;
     this.ddProcesso_numero = dr.ddProcesso_numero;
     this.ddProcesso_cadastro_municipio_id = dr.ddProcesso_cadastro_municipio_id;
@@ -83,8 +86,7 @@ export class ProcessoMenuListarComponent implements OnInit {
     this.ddProcesso_status_id = dr.ddProcesso_status_id;
     this.ddProcesso_solicitacao_data1 = dr.ddProcesso_solicitacao_data1;
     this.ddProcesso_solicitacao_data2 = dr.ddProcesso_solicitacao_data2;
-    dr = null;
-    this.cs.escondeCarregador();
+    dr = null;*/
   }
 
   onMudaForm() {
@@ -102,7 +104,6 @@ export class ProcessoMenuListarComponent implements OnInit {
     }
     this.pbs.buscaMenu();
     this.mi.hideMenu();
-    this.cs.mostraCarregador();
   }
 
   limpar() {

@@ -80,7 +80,9 @@ export interface ProcessoListagemInterface {
   solicitacao_area_interesse_nome?: string;
   solicitacao_descricao?: string;
   solicitacao_aceita_recusada?: string;
-  solicitacao_posicao?: string;
+  solicitacao_situacao?: string;
+  solicitacao_status_id?: number;
+  solicitacao_status_nome?: string;
   solicitacao_aceita_sn?: string;
   oficio_id?: number;
   oficio_processo_id?: number;
@@ -128,7 +130,7 @@ export interface ProcessoListagemInterface {
   solicitacao_carta_texto?: string;
   cadastro_grupo_id?: number;
   cadastro_grupo_nome?: string;
-  solicitacao_posicao2?: string;
+  solicitacao_situacao2?: string;
   solicitacao_data2?: string;
   oficio_data_pagamento2?: string;
   oficio_data_empenho2?: string;
@@ -168,7 +170,7 @@ export interface ProcessoDetalheInterface {
 export interface ProcessoSolicitacaoInterface {
   processo_id?: number;
   processo_numero?: string;
-  processo_status?: string;
+  processo_status_nome?: string;
   processo_carta?: string;
   solicitacao_data?: string;
   solicitacao_assunto_nome?: string;
@@ -242,6 +244,8 @@ export interface ProcessoSolicitacaoCadastroInterface {
   solicitacao_reponsavel_analize_nome?: string;
   solicitacao_descricao?: string;
   solicitacao_aceita_recusada?: string;
-  solicitacao_posicao?: string;
+  solicitacao_situacao?: string;
+  solicitacao_status_id?: number;
+  solicitacao_status_nome?: string;
   solicitacao_aceita_sn?: string;
 }

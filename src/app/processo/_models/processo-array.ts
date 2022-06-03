@@ -3,8 +3,8 @@ export class ProcessoArray {
     const processoArrayTitulos: any[] = [];
     processoArrayTitulos['processo_id'] = 'ID';
     processoArrayTitulos['processo_numero'] = 'NÚMERO';
-    processoArrayTitulos['processo_status_id'] = 'SITUAÇÃO';
-    processoArrayTitulos['processo_status_nome'] = 'SITUAÇÃO';
+    processoArrayTitulos['processo_status_id'] = 'p. STATUS';
+    processoArrayTitulos['processo_status_nome'] = 'p. STATUS';
     processoArrayTitulos['processo_cadastro_id'] = 'SOLICITANTE';
     processoArrayTitulos['processo_solicitacao_id'] = 'SOLICITACÃO';
     processoArrayTitulos['processo_carta'] = 'CARTA';
@@ -39,7 +39,8 @@ export class ProcessoArray {
     processoArrayTitulos['solicitacao_area_interesse_nome'] = 'ÁREA DE INTERESSE';
     processoArrayTitulos['solicitacao_descricao'] = 'DESCRIÇÃO';
     processoArrayTitulos['solicitacao_aceita_recusada'] = 'OBSERVAÇÕES';
-    processoArrayTitulos['solicitacao_posicao'] = 'POSIÇÃO';
+    processoArrayTitulos['solicitacao_situacao'] = 'SITUAÇÃO';
+    processoArrayTitulos['solicitacao_status_nome'] = 'SL. STATUS';
     processoArrayTitulos['solicitacao_aceita_sn'] = 'ACEITA S/N';
     processoArrayTitulos['oficio_codigo'] = 'OF. CÓDIGO';
     processoArrayTitulos['oficio_numero'] = 'OF. Nº';
@@ -55,7 +56,7 @@ export class ProcessoArray {
     processoArrayTitulos['oficio_protocolante_funcionario'] = 'OF. ORG. PROT. FUNCIONÁRIO';
     processoArrayTitulos['oficio_prazo'] = 'OF. PRAZO';
     processoArrayTitulos['oficio_tipo_andamento_nome'] = 'OF. TIPO ANDAMENTO';
-    processoArrayTitulos['oficio_status_nome'] = 'OF. SITUAÇÃO';
+    processoArrayTitulos['oficio_status_nome'] = 'STATUS';
     processoArrayTitulos['oficio_valor_solicitado'] = 'OF. VL. SOLICITADO';
     processoArrayTitulos['oficio_valor_recebido'] = 'OF. VL. RECEBIDO';
     processoArrayTitulos['oficio_data_pagamento'] = 'OF. DT. PAGAMENTO';

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {MenuInternoService} from "../_services";
 import {ArquivoService} from "../arquivo/_services";
@@ -9,7 +9,7 @@ import {ProceService} from "./_services/proce.service";
   templateUrl: './proce.component.html',
   styleUrls: ['./proce.component.css']
 })
-export class ProceComponent implements OnInit {
+export class ProceComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   sub: Subscription[] = [];
   public mostraMenuInterno = false;

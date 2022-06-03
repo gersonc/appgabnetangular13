@@ -85,6 +85,7 @@ export interface ProceListarI {
   cadastro_endereco_complemento?: string;
   cadastro_bairro?: string;
   cadastro_municipio_id?: number;
+  cadastro_municipio_nome?: string;
   cadastro_municipio_regiao?: string;
   cadastro_regiao_id?: number;
   cadastro_regiao_nome?: string;

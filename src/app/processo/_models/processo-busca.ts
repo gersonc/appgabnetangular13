@@ -6,6 +6,7 @@ export interface ProcessoBuscaCampoInterface {
 export interface ProcessoBuscaInterface {
   processo_id?: number;
   processo_numero?: number;
+  processo_status_id?: number;
   processo_status_nome?: string;
   solicitacao_cadastro_tipo_id?: number;
   processo_cadastro_id?: number;
@@ -13,6 +14,9 @@ export interface ProcessoBuscaInterface {
   cadastro_regiao_id?: number;
   solicitacao_local_id?: number;
   processo_solicitacao_id?: number;
+  solicitacao_status_id?: number;
+  solicitacao_status_nome?: string;
+  solicitacao_situacao?: string;
   solicitacao_reponsavel_analize_id?: number;
   solicitacao_area_interesse_id?: number;
   solicitacao_assunto_id?: number;
@@ -30,6 +34,7 @@ export interface ProcessoBuscaInterface {
 export class ProcessoBusca implements ProcessoBuscaInterface {
   processo_id = 0;
   processo_numero = 0;
+  processo_status_id = 0;
   processo_status_nome = '';
   solicitacao_cadastro_tipo_id = 0;
   processo_cadastro_id = 0;
@@ -37,6 +42,9 @@ export class ProcessoBusca implements ProcessoBuscaInterface {
   cadastro_regiao_id = 0;
   solicitacao_local_id = 0;
   processo_solicitacao_id = 0;
+  solicitacao_status_id = 0;
+  solicitacao_status_nome = '';
+  solicitacao_situacao = '';
   solicitacao_reponsavel_analize_id = 0;
   solicitacao_area_interesse_id = 0;
   solicitacao_assunto_id = 0;

@@ -96,7 +96,7 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
     this.cols = [
       {field: 'processo_id', header: 'ID', sortable: 'true', largura: '60px'},
       {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', largura: '150px'},
-      {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', largura: '150px'},
+      {field: 'processo_status_nome', header: 'PRC. STATUS', sortable: 'true', largura: '150px'},
 
       {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', largura: '150px'},
       {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', largura: '400px'},
@@ -120,7 +120,7 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
       {field: 'cadastro_outras_midias', header: 'OUTRAS MÍDIAS', sortable: 'true', largura: '200px'},
       {field: 'cadastro_data_nascimento', header: 'DT. NASC./FUNDAÇÃO', sortable: 'true', largura: '200px'},
 
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', largura: '100px'},
+      {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', largura: '100px'},
       {field: 'solicitacao_data', header: 'DATA', sortable: 'true', largura: '200px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', largura: '400px'},
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', largura: '400px'},
@@ -316,8 +316,8 @@ export class ProcessoDatatableComponent implements OnInit, OnDestroy, OnChanges 
     if (this.selectedColumns.length <= 1) {
       this.selectedColumns = [
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', largura: '150px'},
-        {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', largura: '150px'},
-        {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', largura: '100px'},
+        {field: 'processo_status_nome', header: 'PRC. STATUS', sortable: 'true', largura: '150px'},
+        {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', largura: '100px'},
         {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', largura: '150px'},
         {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', largura: '400px'},
         {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', largura: '300px'},

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import {TitulosI} from "../_models/titulo-i";
+import {TituloI, TitulosI} from "../_models/titulo-i";
 import {HttpClient} from "@angular/common/http";
 import {take} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
+
+
+
 export class TitulosService {
 
   resp: TitulosI[] = [] ;
@@ -33,6 +36,16 @@ export class TitulosService {
         rs.push({field: c,mtitulo:'não definido',titulo:'não definido'});
       }
 
+    })
+    return rs;
+  }
+
+  buscaTitulosDetalhe(cps: string[]): TituloI[] {
+    let rs: TituloI[] = [];
+    cps.forEach(c => {
+      if (this.titulos[c] !== undefined) {
+        rs[c] = this.titulos[c].mtitulo;
+      }
     })
     return rs;
   }
