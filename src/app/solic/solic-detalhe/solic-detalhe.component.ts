@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component,
+  Component, ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -30,19 +30,22 @@ import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {VersaoService} from "../../_services/versao.service";
+import {SelectItem} from "primeng/api";
+
 
 applyPlugin(jsPDF);
 
-/*interface jsPDFCustom {
-}*/
+interface jsPDFCustom {
+}
 
 @Component({
   selector: 'app-solic-detalhe',
   templateUrl: './solic-detalhe.component.html',
   styleUrls: ['./solic-detalhe.component.css']
 })
-export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
+export class SolicDetalheComponent implements OnInit {
   @ViewChild('dtlh', { static: true }) dtlh:TemplateRef<any>;
+  @ViewChild('detsolicitacao', { static: false }) el!: ElementRef;
   @Input() solicitacao: SolicListarI;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
@@ -56,6 +59,9 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
 
   z = 0;
   w = 0;
+
+  teste: number[] = [];
+
   // arquivoOficio: TSMap<number, ArquivoInterface[]>;
 
   titulos: TSMap<string, TSMap<string, string>>;
@@ -67,11 +73,9 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
     public ss: SolicService,
     public vs: VersaoService
 
-  ) {
-    console.log('sol', this.sol);
-  }
+  ) { }
 
-  ngAfterViewInit() {
+  /*ngAfterViewInit() {
     console.log('ngAfterViewInit');
   }
 
@@ -80,9 +84,14 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
       this.sol = changes.solicitacao.currentValue;
       this.vref.createEmbeddedView(this.dtlh);
     }
-  }
+  }*/
 
   ngOnInit() {
+    for (let i = 0; i < 250; i++) {
+      this.teste.push(i);
+    }
+    this.sol = this.ss.detalhe;
+    console.log('soldet', this.sol);
     console.log('ngOnInit');
     // this.arquivoOficio = this.getArquivos();
   }
@@ -192,7 +201,58 @@ export class SolicDetalheComponent implements OnInit, OnChanges, AfterViewInit {
   }*/
 
 
-  getPdf(aa) {}
+  getPdf(aa) {
+    let doc = new jsPDF (
+      {
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts: true
+      }
+    );
+    // doc.setFont("helvetica");
+    // doc.setFontType("bold");
+    // doc.setFontSize(8);
+    // let doc = new jsPDF();
+
+    autoTable(doc, {
+      html: this.el.nativeElement,
+      headStyles: {
+        fillColor: '#007bff',
+        textColor: '#ffffff',
+        halign: 'center',
+        fontSize: 10,
+        fontStyle: 'bold',
+        lineWidth: 0.2
+      },
+      bodyStyles: {lineWidth: 0.2, fontStyle: 'bold', valign: "middle", cellPadding: [0.7, 1.5, 0.7, 1.5]},
+      columnStyles: {0: {cellWidth: 35, fontStyle: 'normal', halign: "right", valign: "middle"}},
+      /*didParseCell: (data) => {
+        if (data.row.index === 0) {
+          data.cell.styles.fillColor = '#007bff';
+          data.cell.styles.textColor = '#ffffff';
+          data.cell.styles.halign = 'center';
+          data.cell.styles.fontSize = 10;
+          data.cell.styles.fontStyle = 'bold';
+          data.cell.styles.lineWidth = 0.2;
+        }
+      },*/
+      didDrawCell: (d) => {
+        // console.log(' cursor x ', d.cursor.x, ' cursor y ', d.cursor.y, ' row ', d.row.index, ' column ', d.column.index);
+        console.log(' cursor x ', d);
+      }
+    })
+    doc.save('teste.pdf');
+    /*doc.html(this.el.nativeElement, {
+      callback: (doc) => {
+        doc.setFont("helvetica");
+        // doc.setFontType("bold");
+        doc.setFontSize(8);
+        // doc.autoPrint();
+        doc.save('teste.pdf');
+      }
+    });*/
+  }
 
   fechar() {
     this.hideDetalhe.emit(true);

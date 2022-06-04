@@ -371,6 +371,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoDetalheCompleto(sol: SolicListarI){
+    this.ss.detalhe = sol;
     this.showDetalhe = true;
     this.solDetalhe = sol;
   }

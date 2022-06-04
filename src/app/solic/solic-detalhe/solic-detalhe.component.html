@@ -1,153 +1,161 @@
-<ng-template #dtlh>
+<!--<ng-template #dtlh>-->
 <p-scrollPanel class="detalhe">
   <table class="detalhefull">
     <tr>
       <td>
-        <table class="table-hover tabela">
+        <table #detsolicitacao class="table-hover tabela detalhe-horiz">
           <caption>SOLICITAÇÃO</caption>
+          <thead class="detalheTitulo-horiz">
           <tr>
-            <th style="width: 3%;" nowrap>
-              Situação:
+            <th colspan="2">
+              SOLICITAÇÃO
             </th>
+          </tr>
+          </thead>
+          <tbody class="detalhe-horiz">
+          <tr>
+            <td>
+              Situação:
+            </td>
             <td>
               {{sol.solicitacao_situacao}}
             </td>
           </tr>
           <tr>
-            <th style="width: 3%;" nowrap>
+            <td>
               Status:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_status_nome}}
             </td>
           </tr>
           <tr>
-            <th>
+            <td>
               Solicitante:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_cadastro_nome}}
             </td>
           </tr>
           <tr>
-            <th>
+            <td>
               Tipo de Solicitante:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_cadastro_tipo_nome}}
             </td>
           </tr>
           <tr>
-            <th>
+            <td>
               Data:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_data}}
             </td>
           </tr>
           <tr>
-            <th>
+            <td>
               Assunto:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_assunto_nome}}
             </td>
           </tr>
           <tr>
-            <th>
+            <td>
               Área de interesse:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_area_interesse_nome}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_orgao">
-            <th>
+            <td>
               Orgão solicitado:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_orgao}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_numero_oficio">
-            <th>
+            <td>
               Num. ofício:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_numero_oficio}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_local_nome">
-            <th>
+            <td>
               Núcleo:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_local_nome}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_indicacao_sn">
-            <th>
+            <td>
               Indicação S/N:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_indicacao_sn}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_indicacao_nome">
-            <th>
+            <td>
               Indicação:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_indicacao_nome}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_reponsavel_analize_nome">
-            <th>
+            <td>
               Responsável:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_reponsavel_analize_nome}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_data_atendimento">
-            <th>
+            <td>
               Dt. Atendimento:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_data_atendimento}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_atendente_cadastro_nome">
-            <th>
+            <td>
               Atendente:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_atendente_cadastro_nome}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_cadastrante_cadastro_nome">
-            <th>
+            <td>
               Cadastrante:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_cadastrante_cadastro_nome}}
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_tipo_recebimento_nome">
-            <th>
+            <td>
               Tp. Recebimento:
-            </th>
+            </td>
             <td>
               {{sol.solicitacao_tipo_recebimento_nome}}
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
+          <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta">
+            <td colspan="2" class="tituloEditor">
               Descrição:
-            </th>
+            </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta" class="novaPagina">
-            <td colspan="2">
+          <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta">
+            <td colspan="2" id="solicitacao_descricao">
               <app-texto-view
                 [padrao]="sol.solicitacao_descricao"
                 [texto]="sol.solicitacao_descricao_texto"
@@ -156,10 +164,10 @@
               ></app-texto-view>
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
+          <!--<tr *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta" class="novaPagina">
+            <td colspan="2" class="tituloEditor">
               Observações:
-            </th>
+            </td>
           </tr>
           <tr *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta" class="novaPagina">
             <td colspan="2">
@@ -191,7 +199,8 @@
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="sol.solicitacao_arquivos"></app-detalhe-explorer>
             </td>
-          </tr>
+          </tr>-->
+          </tbody>
         </table>
       </td>
     </tr>
@@ -475,7 +484,7 @@
               {{sol.processo_numero}}.
             </td>
           </tr>
-          <tr *ngIf="sol.processo_arquivos && aut.arquivos_baixar" >
+          <tr *ngIf="sol.processo_arquivos && aut.arquivos_baixar">
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="sol.processo_arquivos"></app-detalhe-explorer>
             </td>
@@ -530,7 +539,7 @@
                     {{ofi.oficio_numero}}.
                   </td>
                 </tr>
-                <tr *ngIf="ofi.oficio_codigo" >
+                <tr *ngIf="ofi.oficio_codigo">
                   <th style="width: 3%;" nowrap>
                     Código:
                   </th>
@@ -698,7 +707,7 @@
                     ></app-texto-view>
                   </td>
                 </tr>
-                <tr *ngIf="ofi.oficio_arquivos && aut.oficio_listar && aut.arquivos_baixar" >
+                <tr *ngIf="ofi.oficio_arquivos && aut.oficio_listar && aut.arquivos_baixar">
                   <td colspan="2">
                     <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
                   </td>
@@ -726,4 +735,4 @@
           class="p-button-rounded p-button-secondary"
           (click)="getPdf(true)"></button>
 </div>
-</ng-template>
+<!--</ng-template>-->

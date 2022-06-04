@@ -372,62 +372,11 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     return this.ps.processos.indexOf(pro);
   }
 
-  /*mapeiaColunasSelecionadas(): void {
-    this.camposSelecionados = [];
-    this.camposSelecionados.push({field: 'processo_id', header: 'ID'});
-    this.selectedColumns.forEach( (c) => {
-      this.camposSelecionados.push({field: c.field, header: c.header});
-    });
-  }*/
+
 
   // FUNCOES DE BUSCA ==========================================================
 
-  /*postProcessoBusca(): void {
-    this.pbs.processoBusca['campos'] = this.camposSelecionados;
-    this.cs.mostraCarregador();
-    this.sub.push(this.ps.postProcessoBusca(this.pbs.processoBusca)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.processo = dados.processo;
-          this.total = dados.total;
-          this.totalRecords = this.total.num;
-        },
-        error: err => console.error('ERRO-->', err),
-        complete: () => {
-          this.pbs.processoBusca.todos = this.tmp;
-          this.currentPage = (
-              parseInt(this.pbs.processoBusca.inicio, 10) +
-              parseInt(this.pbs.processoBusca.numlinhas, 10)) /
-            parseInt(this.pbs.processoBusca.numlinhas, 10);
-          this.numerodePaginas = Math.ceil(this.totalRecords / this.rows);
-          this.cs.escondeCarregador();
-        }
-      })
-    );
-  }*/
 
-  /*getState(): void {
-    this.pbs.criarProcessoBusca();
-    this.pbs.processoBusca = JSON.parse(sessionStorage.getItem('processo-busca'));
-    if (this.pbs.buscaStateSN) {
-      this.sub.push(this.activatedRoute.data.subscribe(
-        (data: { dados: ProcessoPaginacaoInterface }) => {
-          this.processo = data.dados.processo;
-          this.total = data.dados.total;
-          this.totalRecords = this.total.num;
-          this.pbs.processoBusca.todos = this.tmp;
-          this.currentPage = (
-              parseInt(this.pbs.processoBusca.inicio, 10) +
-              parseInt(this.pbs.processoBusca.numlinhas, 10)) /
-            parseInt(this.pbs.processoBusca.numlinhas, 10);
-          this.numerodePaginas = Math.ceil(this.totalRecords / this.rows);
-          this.pbs.buscaStateSN = false;
-          sessionStorage.removeItem('processo-busca');
-          this.cs.escondeCarregador();
-        }));
-    }
-  }*/
 
   // FUNCOES DE CRUD ===========================================================
 

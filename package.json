@@ -74,7 +74,7 @@
     "@angular/cli": "~12.2.10",
     "@angular/compiler-cli": "~12.2.0",
     "@compodoc/compodoc": "^1.1.19",
-    "@types/file-saver": "^2.0.3",
+    "@types/file-saver": "^2.0.5",
     "@types/jasmine": "~3.8.0",
     "@types/jspdf": "~2.0.0",
     "@types/luxon": "^2.0.5",

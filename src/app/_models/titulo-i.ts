@@ -7,3 +7,7 @@ export interface TitulosI {
 export interface TituloI {
   [index: string]: number | string;
 }
+
+export type ValorI = {
+  [index in string | number]: number | number[] | string | string[];
+};
