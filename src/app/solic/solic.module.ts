@@ -37,6 +37,7 @@ import { SolicFormComponent } from './solic-form/solic-form.component';
 import { SolicExcluirComponent } from './solic-excluir/solic-excluir.component';
 import { SolicAnalisarComponent } from './solic-analisar/solic-analisar.component';
 import {CardModule} from "primeng/card";
+import {HistModule} from "../hist/hist.module";
 
 
 @NgModule({
@@ -50,36 +51,37 @@ import {CardModule} from "primeng/card";
     SolicExcluirComponent,
     SolicAnalisarComponent,
   ],
-    imports: [
-        CommonModule,
-        SolicRoutingModule,
-        SidebarModule,
-        ScrollPanelModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        TableModule,
-        MenuModule,
-        RippleModule,
-        TooltipModule,
-        DialogModule,
-        ListboxModule,
-        ContextMenuModule,
-        ToastModule,
-        QuillModule,
-        FormsModule,
-        InputTextModule,
-        ArquivoModule,
-        ExplorerModule,
-        UtilModule,
-        AutoCompleteModule,
-        CalendarModule,
-        InputSwitchModule,
-        AccordionModule,
-        EditorModule,
-        UtilModule,
-        CardModule
-    ],
+  imports: [
+    CommonModule,
+    SolicRoutingModule,
+    SidebarModule,
+    ScrollPanelModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    TableModule,
+    MenuModule,
+    RippleModule,
+    TooltipModule,
+    DialogModule,
+    ListboxModule,
+    ContextMenuModule,
+    ToastModule,
+    QuillModule,
+    FormsModule,
+    InputTextModule,
+    ArquivoModule,
+    ExplorerModule,
+    UtilModule,
+    AutoCompleteModule,
+    CalendarModule,
+    InputSwitchModule,
+    AccordionModule,
+    EditorModule,
+    UtilModule,
+    CardModule,
+    HistModule
+  ],
   exports: [
     SolicComponent,
     SolicIncluirComponent

@@ -39,7 +39,6 @@ import {HistoricoSolicitacaoComponent} from "./historico-solicitacao.component";
     CommonModule,
     ReactiveFormsModule,
     TableModule,
-    //QuillModule,
     TooltipModule,
     DialogModule,
     CalendarModule,

@@ -15,7 +15,7 @@ import { ArquivoLoginService } from './arquivo/_services';
 import { PrimeNGConfig } from 'primeng/api';
 import { SpinnerService } from "./_services/spinner.service";
 import { Spinkit } from 'ng-http-loader';
-
+import {MessageService} from 'primeng-lts/api';
 
 @Component({
   selector: 'app-root',
@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
     private as: ArquivoLoginService,
     public md: MenuDatatableService,
     public sps: SpinnerService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {

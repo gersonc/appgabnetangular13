@@ -10,6 +10,7 @@ import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
 import {UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
+import {HistListI} from "../../hist/_models/hist-i";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 export class SolicService {
   buscaSubject = new BehaviorSubject<boolean>(true);
   busca$ = this.buscaSubject.asObservable();
-
+  idx?: number;
   solicitacaoUrl = this.url.solic;
   sub: Subscription[] = [];
   detalhe?: SolicListarI;
@@ -29,6 +30,7 @@ export class SolicService {
   stateSN = false;
   solicitacaoApagar?: SolicListarI;
   solicitacaoAnalisar?: SolicListarI;
+
 
   constructor(
     private url: UrlService,
@@ -85,10 +87,11 @@ export class SolicService {
   }
 
   onRowExpand(evento) {
-    console.log('onRowExpand', evento.data);
+    console.log('onRowExpand', evento);
     let a = 0;
     const b: any[] = [];
     let ev = evento.data;
+    this.buscaIdx(ev.solicitacao_id);
     // this.tabela.dadosExpandidos = evento.data;
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
@@ -121,6 +124,10 @@ export class SolicService {
     });
     this.tabela.dadosExpandidos = b;
 
+  }
+
+  buscaIdx(id: number) {
+    this.idx =  this.solicitacoes.findIndex(d => {d.solicitacao_id = id});
   }
 
   onRowCollapse(ev) {

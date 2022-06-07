@@ -4,6 +4,7 @@ import {TotalI} from "../../shared-datatables/models/total-i";
 import {SolicOficioI} from "./solic-oficio-i";
 import {SolicCadastro} from "./solic-cadastro";
 import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
+import {HistI} from "../../hist/_models/hist-i";
 
 export interface SolicListarI {
   solicitacao_id?: number;
@@ -92,8 +93,13 @@ export interface SolicListarI {
   processo_carta_texto?: string;
   processo_carta_delta?: string;
   processo_arquivos?: ArquivoListagem[];
-  historico_solicitcao?: SolicHistoricoSolicitacao[];
-  historico_processo?: SolicHistoricoProcesso[];
+  // historico_solicitcao?: SolicHistoricoSolicitacao[];
+  // historico_processo?: SolicHistoricoProcesso[];
+
+  historico_solicitcao?: HistI[];
+  historico_processo?: HistI[];
+
+
 }
 
 /*export interface SolicTotalInterface {

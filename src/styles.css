@@ -14576,6 +14576,32 @@ table .table-hover.tabela .detalhe-horiz {
   white-space: nowrap !important;
 }
 
+.minbt {
+  cursor: pointer;
+  font-size: .8rem;
+  margin-left: .5rem;
+  margin-right: .5rem;
+}
+
+.bigbt {
+  cursor: pointer;
+  font-size: .1rem;
+  margin-left: .5rem;
+  margin-right: .5rem;
+}
+
+.minbt-incluir {
+  color: var(--green-600);
+}
+
+.minbt-alterar {
+  color: var(--warning);
+}
+
+.minbt-apagar {
+  color: var(--danger);
+}
+
 /*.tabela td, .tabela th {
   border: 1px solid var(--formularios-bg);
   padding: 1px 8px 1px 8px;

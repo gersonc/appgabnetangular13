@@ -20,6 +20,7 @@ import {SolicService} from "../_services/solic.service";
 import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {SolicFormService} from "../_services/solic-form.service";
+import {HistListI} from "../../hist/_models/hist-i";
 
 
 @Component({
@@ -45,13 +46,20 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   deltaquill: any = null;
   showDetalhe = false;
   solDetalhe?: SolicListarI;
-  showHistoricoForm = false;
+  // showHistoricoForm = false;
+  // showHistorico = false;
   solHistForm: any;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   colteste: string[];
   mostraSeletor = false;
   cols: any[] = [];
+  idx = 0;
+  histListI: HistListI;
+  showHistorico = false;
+  showHistorico2 = false;
+  showHistoricoForm = false;
+  showHistoricoForm2 = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -478,17 +486,34 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }*/
 
   historicoSolicitacao(sol: SolicListarI) {
+    this.histListI = {
+      modulo: 'solicitacao',
+      hist: sol.historico_solicitcao
+    }
+    this.solHistForm = sol;
+    this.showHistoricoForm = true;
+  }
+
+  historicoSolicitacaoIncluir(sol: SolicListarI) {
     this.solHistForm = sol;
     this.showHistoricoForm = true;
   }
 
   onHistoricoIncluido(novosDados: any) {
+    this.ss.solicitacoes[this.idx].historico_solicitcao.push(novosDados);
     this.showHistoricoForm = false;
     this.solHistForm = null;
   }
 
-  escondeHistoricoForm() {
+  escondeHistoricoForm(histListI: HistListI) {
+    this.ss.solicitacoes[this.idx].historico_solicitcao = histListI.hist;
     this.showHistoricoForm = false;
+    this.solHistForm = null;
+  }
+
+  escondeHistoricoListar(histListI: HistListI) {
+    this.ss.solicitacoes[this.idx].historico_solicitcao = histListI.hist;
+    this.showHistorico= false;
     this.solHistForm = null;
   }
 

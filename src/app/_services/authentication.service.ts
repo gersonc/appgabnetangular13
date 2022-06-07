@@ -135,6 +135,7 @@ export class AuthenticationService {
   public emenda = false;
   public historicoemenda = false;
   public historico = false;
+  public historico_solicitacao = false;
   public municipio = false;
   public oficio = false;
   public passagemaerea = false;
@@ -174,6 +175,9 @@ export class AuthenticationService {
   public historico_incluir = false;
   public historico_alterar = false;
   public historico_apagar = false;
+  public historico_solicitacao_incluir = false;
+  public historico_solicitacao_alterar = false;
+  public historico_solicitacao_apagar = false;
   public agenda_incluir = false;
   public agenda_alterar = false;
   public agenda_apagar = false;
@@ -375,6 +379,8 @@ export class AuthenticationService {
     this.emenda = regra?.indexOf('em') !== -1;
     this.historicoemenda = regra?.indexOf('he') !== -1;
     this.historico = regra?.indexOf('hi') !== -1;
+    // this.historico_solicitacao = regra?.indexOf('hs') !== -1;
+    this.historico_solicitacao = true;
     this.municipio = regra?.indexOf('mu') !== -1;
     this.oficio = regra?.indexOf('of') !== -1;
     this.passagemaerea = regra?.indexOf('pa') !== -1;
@@ -418,6 +424,12 @@ export class AuthenticationService {
     this.historico_incluir = acesso.indexOf('hi_i') !== -1;
     this.historico_alterar = acesso.indexOf('hi_a') !== -1;
     this.historico_apagar = acesso.indexOf('hi_d') !== -1;
+    /*this.historico_solicitacao_incluir = acesso.indexOf('hs_i') !== -1;
+    this.historico_solicitacao_alterar = acesso.indexOf('hs_a') !== -1;
+    this.historico_solicitacao_apagar = acesso.indexOf('hs_d') !== -1;*/
+    this.historico_solicitacao_incluir = true;
+    this.historico_solicitacao_alterar = true;
+    this.historico_solicitacao_apagar = true;
     this.agenda_incluir = acesso.indexOf('ag_i') !== -1;
     this.agenda_alterar = acesso.indexOf('ag_a') !== -1;
     this.agenda_apagar = acesso.indexOf('ag_d') !== -1;
@@ -490,6 +502,7 @@ export class AuthenticationService {
     this.emenda = false;
     this.historicoemenda = false;
     this.historico = false;
+    this.historico_solicitacao = false;
     this.municipio = false;
     this.oficio = false;
     this.passagemaerea = false;
@@ -529,6 +542,9 @@ export class AuthenticationService {
     this.historico_incluir = false;
     this.historico_alterar = false;
     this.historico_apagar = false;
+    this.historico_solicitacao_incluir = false;
+    this.historico_solicitacao_alterar = false;
+    this.historico_solicitacao_apagar = false;
     this.agenda_incluir = false;
     this.agenda_alterar = false;
     this.agenda_apagar = false;

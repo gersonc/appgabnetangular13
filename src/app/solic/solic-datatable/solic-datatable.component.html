@@ -168,7 +168,20 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.solicitacao_listar" class="p-mr-2">
+              <div *ngIf="aut.historico_solicitacao" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-bookmark"
+                  class="p-button-rounded"
+                  pTooltip="Histórico"
+                  tooltipPosition="top"
+                  (click)="historicoSolicitacao(sol)"
+                >
+                </button>
+              </div>
+              <div *ngIf="aut.historico_solicitacao_incluir" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -264,12 +277,12 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-solic-detalhe [sol]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solic-detalhe>
+    <app-solic-detalhe [solicitacao]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solic-detalhe>
   </p-dialog>
 </ng-container>
 
 <!--*** HISTORICO SOLICITACAO****************************************************************************************-->
-<ng-container *ngIf="showHistoricoForm">
+<!--<ng-container *ngIf="showHistoricoForm">
   <p-dialog
     [(visible)]="showHistoricoForm"
     [dismissableMask]="true"
@@ -277,6 +290,34 @@
     header="ANDAMENTO DA SOLICITAÇÃO"
     (onHide)="escondeHistoricoForm()"
   >
+    &lt;!&ndash;<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>&ndash;&gt;
+  </p-dialog>
+</ng-container>-->
+
+<!--*** HISTORICO SOLICITACAO****************************************************************************************-->
+<ng-container *ngIf="showHistorico2">
+  <p-dialog
+    [(visible)]="showHistorico"
+    [dismissableMask]="true"
+    styleClass="tablistagem"
+    header="ANDAMENTO DA SOLICITAÇÃO"
+    (onHide)="escondeHistoricoListar(histListI)"
+  >
+    <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
+    <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
+  </p-dialog>
+</ng-container>
+
+<!--*** INCLUIR SOLICITACAO****************************************************************************************-->
+<ng-container *ngIf="showHistoricoForm2">
+  <p-dialog
+    [(visible)]="showHistoricoForm"
+    [dismissableMask]="true"
+    styleClass="tablistagem"
+    header="ANDAMENTO DA SOLICITAÇÃO"
+    (onHide)="escondeHistoricoForm(histListI)"
+  >
+    <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
     <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
   </p-dialog>
 </ng-container>
