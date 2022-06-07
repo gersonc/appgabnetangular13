@@ -28,6 +28,8 @@ import {ProceListarI} from "../_model/proc-i";
 import {ProceService} from "../_services/proce.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {ProceFormService} from "../_services/proce-form.service";
+import {SolicListarI} from "../../solic/_models/solic-listar-i";
+import {HistFormI, HistListI} from "../../hist/_models/hist-i";
 
 @Component({
   selector: 'app-proce-datatable',
@@ -103,6 +105,11 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   mostraSeletor = false;
   cols: any[] = [];
   proceDetalhe?: any;
+
+  showHistorico = false;
+  showHistorico2 = false;
+  histListI: HistListI | null = null;
+  proHistForm: ProceListarI | null;
 
   constructor(
     public mi: MenuInternoService,
@@ -306,6 +313,25 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   hideSeletor(ev): void {
     this.mostraSeletor = false;
+  }
+
+  processoDetalheCompleto(pro){}
+
+  historicoProcesso(pro: ProceListarI) {
+    this.histListI =  {
+      modulo: 'processo',
+      hist: pro.historico_processo
+    }
+    // this.histListI.hist = pro.historico_processo;
+    console.log('historicoProcesso',this.histListI);
+    // this.buscaIdx(sol.solicitacao_id);
+    this.proHistForm = pro;
+    this.showHistorico = true;
+    //this.showHistorico2 = true;
+  }
+
+  escondeHistoricoListar(histListI) {
+    console.log(histListI);
   }
 
   /*onRowExpand(event): void {

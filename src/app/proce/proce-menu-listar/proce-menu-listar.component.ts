@@ -1,10 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {VersaoService} from "../../_services/versao.service";
 import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
-
 import {Router} from "@angular/router";
 import {ProceBuscaI, ProceDropdownMenuI} from "../_model/proc-i";
 import {ProceService} from "../_services/proce.service";

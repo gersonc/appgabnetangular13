@@ -1,6 +1,7 @@
 import { SelectItem } from "primeng/api";
 import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
 import {TotalI} from "../../shared-datatables/models/total-i";
+import {HistI} from "../../hist/_models/hist-i";
 
 export interface ProceDropdownMenuI {
   ddProcesso_numero?: SelectItem[];
@@ -177,8 +178,10 @@ export interface ProceListarI {
   historico_solicitacao_andamento?: string;
   historico_solicitacao_andamento_delta?: string;
   historico_solicitacao_andamento_texto?: string;
-  historico_processo?: HistoricoProcessoI[];
-  historico_solicitcao?: HistoricoSolicitacaoI[];
+  //historico_processo?: HistoricoProcessoI[];
+   // historico_solicitcao?: HistoricoSolicitacaoI[];
+  historico_processo?: HistI[];
+  historico_solicitcao?: HistI[];
   processo_arquivos?: ArquivoListagem[];
   cadastro_arquivos?: ArquivoListagem[];
   solicitacao_arquivos?: ArquivoListagem[];

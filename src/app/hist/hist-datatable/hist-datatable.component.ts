@@ -24,9 +24,9 @@ import {MessageService} from "primeng/api";
 })
 export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('tb', { static: false }) tb!: ElementRef;
-  @Input() display!: boolean;
+  @Input() display: boolean = false;
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() dados!: HistListI;
+  @Input() dados?: HistListI | null = null;
   @Output() dadosChange = new EventEmitter<HistListI>();
   @Input() imprimir?: boolean = false;
   @Output() impressao = new EventEmitter<any>();
@@ -43,16 +43,21 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   apagar = false;
   modulo = '';
   histForm: HistFormI | null = null;
+  // histForm: HistFormI = {};
   displayForm = false;
   idx = 0;
+  side = false;
 
   constructor(
     private aut: AuthenticationService,
     private hs: HistService,
     private ms: MessageService
   ) {
-    this.his = this.transformaDados(this.dados.hist);
-    this.hisI = this.transformaDadosImpressao(this.dados.hist);
+    /*if(this.dados.hist.length > 0) {
+      this.his = this.transformaDados(this.dados.hist);
+      this.hisI = this.transformaDadosImpressao(this.dados.hist);
+    }*/
+
   }
 
   ngOnInit(): void {
@@ -64,7 +69,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
         this.mandaTabela();
       }
     }
-    if (changes.dados) {
+    if (changes.dados.currentValue !== null) {
       this.his = [...this.transformaDados(changes.dados.currentValue.hist)];
       this.hisI = [...this.transformaDadosImpressao(changes.dados.currentValue.hist)];
       this.historico = this.dados;
@@ -86,21 +91,20 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  escolheTipo(h: any | null): Boolean | HistI {
-    if (h) {
-      let hi: HistI = h.hist;
-      if (hi.historico_andamento_delta) {
+  escolheTipo(hi: any | null): Boolean | HistI {
+    if (hi) {
+      if (hi.historico_andamento_delta !== undefined && hi.historico_andamento_delta !== null) {
         hi.historico_andamento_texto = null;
         hi.historico_andamento = hi.historico_andamento_delta;
         hi.historico_andamento_delta = null;
         return hi;
       }
-      if (hi.historico_andamento) {
+      if (hi.historico_andamento !== undefined && hi.historico_andamento !== null) {
         hi.historico_andamento_texto = null;
         hi.historico_andamento_delta = null;
         return hi;
       }
-      if (hi.historico_andamento_texto) {
+      if (hi.historico_andamento_texto !== undefined && hi.historico_andamento_texto !== null) {
         hi.historico_andamento = hi.historico_andamento_texto;
         hi.historico_andamento_delta = null;
         hi.historico_andamento_texto = null;
@@ -135,16 +139,16 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  escolheTipoImpressao(h: any | null): Boolean | HistI {
-    if (h) {
-      let hi: HistI = h.hist;
-      if (hi.historico_andamento_texto) {
+  escolheTipoImpressao(hi: any | null): Boolean | HistI {
+    if (hi) {
+      // let hi: HistI = h.hist;
+      if (hi.historico_andamento_texto !== undefined && hi.historico_andamento_texto !== null) {
         hi.historico_andamento = hi.historico_andamento_texto;
         hi.historico_andamento_delta = null;
         hi.historico_andamento_texto = null;
         return hi;
       }
-      if (hi.historico_andamento) {
+      if (hi.historico_andamento !== undefined && hi.historico_andamento !== null) {
         hi.historico_andamento_texto = null;
         hi.historico_andamento_delta = null;
         return hi;
@@ -196,7 +200,9 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
       modulo: this.modulo,
       hist: h
     }
+
     this.displayForm = true;
+    this.side = true;
   }
 
   onAlterar(his: HistI, idx: number) {
@@ -207,6 +213,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.idx = idx;
     this.displayForm = true;
+    this.side = true;
   }
 
 
@@ -261,20 +268,21 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
 
   onHide() {
     if (this.histForm.acao === 'incluir') {
-      this.hisI.push(<HistI>this.escolheTipoImpressao(this.histForm));
-      this.his.push(<HistI>this.escolheTipo(this.histForm));
+      this.hisI.push(<HistI>this.escolheTipoImpressao(this.histForm.hist));
+      this.his.push(<HistI>this.escolheTipo(this.histForm.hist));
       this.historico.hist.push(this.histForm.hist);
       this.dadosChange.emit(this.historico);
     }
     if (this.histForm.acao === 'alterar') {
-      this.hisI.splice(this.idx,1,<HistI>this.escolheTipoImpressao(this.histForm));
-      this.his.splice(this.idx,1,<HistI>this.escolheTipo(this.histForm));
+      this.hisI.splice(this.idx,1,<HistI>this.escolheTipoImpressao(this.histForm.hist));
+      this.his.splice(this.idx,1,<HistI>this.escolheTipo(this.histForm.hist));
       this.historico.hist.splice(this.idx,1,this.histForm.hist);
       this.dadosChange.emit(this.historico);
     }
   }
 
   ngOnDestroy(): void {
+    this.side = false;
     this.sub.forEach(s => s.unsubscribe());
   }
 

@@ -91,7 +91,7 @@ export class SolicService {
     let a = 0;
     const b: any[] = [];
     let ev = evento.data;
-    this.buscaIdx(ev.solicitacao_id);
+    // this.buscaIdx(ev.solicitacao_id);
     // this.tabela.dadosExpandidos = evento.data;
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
@@ -126,9 +126,7 @@ export class SolicService {
 
   }
 
-  buscaIdx(id: number) {
-    this.idx =  this.solicitacoes.findIndex(d => {d.solicitacao_id = id});
-  }
+
 
   onRowCollapse(ev) {
     this.tabela.dadosExpandidos = undefined;

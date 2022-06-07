@@ -22,7 +22,7 @@ export class HistService {
       url = this.url.historicoSolicitacao + '/';
     }
     if (dados.modulo === 'processo') {
-      url = this.url.processo + '/';
+      url = this.url.historicoProcesso + '/';
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, envio, httpOptions);
@@ -35,7 +35,7 @@ export class HistService {
       url = this.url.historicoSolicitacao + '/';
     }
     if (dados.modulo === 'processo') {
-      url = this.url.processo + '/';
+      url = this.url.historicoProcesso + '/';
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.put<any[]> (url, envio, httpOptions);
@@ -49,7 +49,7 @@ export class HistService {
       url = this.url.historicoSolicitacao + '/' + id;
     }
     if (dados.modulo === 'processo') {
-      url = this.url.processo + '/' + id;
+      url = this.url.historicoProcesso + '/' + id;
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any[]>(url, httpOptions);

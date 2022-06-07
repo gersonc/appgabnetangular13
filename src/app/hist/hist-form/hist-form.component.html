@@ -52,7 +52,9 @@
                         dateFormat="dd/mm/yy"
                         placeholder="dd/mm/aaaa"
                         dataType="string"
-                      ></p-calendar>
+                      >
+
+                      </p-calendar>
                       <app-campo-erro msgErro="Data é obrigatória."
                                       [mostrarErro]="verificaRequired('historico_data')"></app-campo-erro>
                     </div>
@@ -64,10 +66,11 @@
                         #histand
                         id="historico_andamento"
                         formControlName="historico_andamento"
-                        [style]="{'width':'100%'}"
                         [modules]="modulos"
                         required="true"
-                      ></p-editor>
+                      >
+                        <ng-template pTemplate="header"></ng-template>
+                      </p-editor>
                       <app-campo-erro msgErro="Andamento é obrigatório."
                                       [mostrarErro]="verificaRequired('historico_andamento')"></app-campo-erro>
                     </div>

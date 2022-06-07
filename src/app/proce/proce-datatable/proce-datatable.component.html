@@ -188,6 +188,19 @@
                 >
                 </button>
               </div>
+              <div *ngIf="aut.historico && pro.historico_processo.length > 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-bookmark"
+                  class="p-button-rounded"
+                  pTooltip="Histórico Listar"
+                  tooltipPosition="top"
+                  (click)="historicoProcesso(pro)"
+                >
+                </button>
+              </div>
               <!--<app-historico-processo-form [acao]="'incluir'" [dados]="pro.processo_id"></app-historico-processo-form>-->
             </div>
 
@@ -282,5 +295,18 @@
   </p-dialog>
 </ng-container>
 
+<!--*** HISTORICO PROCESSO ****************************************************************************************-->
+<ng-container *ngIf="showHistorico && histListI.hist.length > 0">
+  <p-dialog
+    [(visible)]="showHistorico"
+    [dismissableMask]="true"
+    styleClass="tablistagem"
+    header="ANDAMENTO DA SOLICITAÇÃO"
+    (onHide)="escondeHistoricoListar(histListI)"
+  >
+    <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
+    <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
+  </p-dialog>
+</ng-container>
 
 

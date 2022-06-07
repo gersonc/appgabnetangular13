@@ -490,11 +490,14 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       modulo: 'solicitacao',
       hist: sol.historico_solicitcao
     }
+    // this.buscaIdx(sol.solicitacao_id);
     this.solHistForm = sol;
-    this.showHistoricoForm = true;
+    this.showHistorico = true;
+    this.showHistorico2 = true;
   }
 
   historicoSolicitacaoIncluir(sol: SolicListarI) {
+    // this.buscaIdx(sol.solicitacao_id);
     this.solHistForm = sol;
     this.showHistoricoForm = true;
   }
@@ -506,21 +509,24 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   escondeHistoricoForm(histListI: HistListI) {
-    this.ss.solicitacoes[this.idx].historico_solicitcao = histListI.hist;
+    this.ss.solicitacoes[this.ss.idx].historico_solicitcao = histListI.hist;
     this.showHistoricoForm = false;
     this.solHistForm = null;
   }
 
   escondeHistoricoListar(histListI: HistListI) {
-    this.ss.solicitacoes[this.idx].historico_solicitcao = histListI.hist;
+    this.ss.solicitacoes[this.buscaIdx(this.solHistForm.solicitacao_id)].historico_solicitcao = histListI.hist;
     this.showHistorico= false;
-    this.solHistForm = null;
+    // this.solHistForm = null;
   }
 
   // FUNCOES RELATORIOS=========================================================
 
   mostraTabelaPdf(td: boolean = false) {
 
+  }
+  buscaIdx(id: number) {
+    return this.ss.solicitacoes.findIndex(d => {d.solicitacao_id = id});
   }
   /*mostraTabelaPdf(td: boolean = false) {
     this.tmp = this.sbs.busca.todos;

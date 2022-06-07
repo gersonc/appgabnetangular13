@@ -1,7 +1,16 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {Delta} from "quill";
 import {AuthenticationService} from "../../_services";
 import {take} from "rxjs/operators";
 import {HistFormI, HistI} from "../_models/hist-i";
@@ -9,38 +18,41 @@ import {HistService} from "../_services/hist.service";
 import {Editor} from "primeng/editor";
 import {MessageService} from 'primeng-lts/api';
 import {CampoQuillI} from "../../_models/campo-quill-i";
+import Quill from "quill";
 
 @Component({
   selector: 'app-hist-form',
   templateUrl: './hist-form.component.html',
   styleUrls: ['./hist-form.component.css']
 })
-export class HistFormComponent implements OnInit, OnDestroy {
-  @ViewChild('histand', {static: true}) histand: Editor;
-  @Input() display!: boolean;
+export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
+  @ViewChild('histand', {static: false}) histand: Editor;
+  @Input() display?: boolean;
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() dados!: HistFormI;
-  @Output() dadosChange = new EventEmitter<HistI>();
+  @Input() dados?: HistFormI | null = null;
+  @Output() dadosChange = new EventEmitter<HistFormI>();
   @Input() classeStylos?: string;
   // @Input() acao: string = 'incluir';
   // @Input() modulo: string = 'solicitacao';
 
-
+  mostraForm = false;
   mostraBotao = true;
   btDesabilitado = false
   his: HistI;
+  acao = '';
   estilo = 'formulario-quill';
   formHis: FormGroup;
   historico: HistFormI;
   titulo = 'SOLICITAÇÃO';
   tituloBtn = 'INCLUIR';
+  modulo = 'processo';
   formato: 'object' | 'html' | 'text' | 'json' = 'object';
   sub: Subscription[] = [];
 
   resp: any[] = [false, 'ATENÇÃO - ERRO', null];
+  modulos: any;
 
-  modulos = {
-    toolbar: [
+    toolbar = [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
       ['blockquote', 'code-block'],
       [{'header': 1}, {'header': 2}],               // custom button values
@@ -53,33 +65,69 @@ export class HistFormComponent implements OnInit, OnDestroy {
       [{'font': []}],
       [{'align': []}],
       ['clean']                        // link and image, video
-    ]
-  };
+    ];
+
 
   constructor(
     private fb: FormBuilder,
     public aut: AuthenticationService,
     private hs: HistService,
     private ms: MessageService
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
-    if (this.dados.acao === 'alterar') {
-      this.tituloBtn = 'ALTERAR';
-    }
-    if (this.dados.modulo === 'processo') {
-      this.titulo = 'PROCESSO';
-    }
     this.criaForm();
+    this.configuraEditor();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.dados) {
+      if (changes.dados.currentValue !== null) {
+        this.historico = changes.dados.currentValue;
+        this.his = this.historico.hist;
+        this.modulo = this.historico.modulo;
+        this.acao = this.historico.acao;
+        this.formHis.get('historico_data').patchValue(new Date());
+        if ( this.acao === 'alterar') {
+          this.tituloBtn = 'ALTERAR';
+          if (this.his.historico_andamento_delta !== null) {
+            this.histand.getQuill().setContents(this.his.historico_andamento_delta);
+          } else {
+            if (this.his.historico_andamento !== null) {
+              this.histand.getQuill().setText(this.his.historico_andamento);
+            }
+          }
+          if (this.his.historico_data2 !== undefined) {
+            this.formHis.get('historico_data').patchValue(new Date(this.his.historico_data2));
+          }
+        } else {
+          this.tituloBtn = 'INCLUIR';
+        }
+        if (this.modulo === 'processo') {
+          this.titulo = 'PROCESSO';
+        } else {
+          this.titulo = 'SOLICITAÇÃO';
+        }
+        this.mostraForm = true;
+
+        if (changes.classeStylos) {
+          this.estilo = changes.classeStylos.currentValue;
+        }
+
+      }
+
+    }
   }
 
 
   fechar() {
-    this.his = undefined;
-    this.formHis = undefined;
-    this.historico = undefined;
-    this.displayChange.emit(true);
+    this.formHis.reset();
+    this.his = {};
+    this.historico.acao = '';
+    // this.formHis = undefined;
+    // this.historico = undefined;
+    this.dadosChange.emit(this.historico);
+    this.displayChange.emit(false);
   }
 
   criaForm() {
@@ -87,30 +135,23 @@ export class HistFormComponent implements OnInit, OnDestroy {
       historico_data: [null, Validators.required],
       historico_andamento: [null, Validators.required]
     });
-    this.formHis.get('historico_data').patchValue(new Date());
-    if (this.dados.acao === 'alterar') {
-      if (this.dados.hist.historico_andamento_delta !== undefined) {
-        this.histand.getQuill().setContents(this.dados.hist.historico_andamento_delta);
-      } else {
-        if (this.dados.hist.historico_andamento !== undefined) {
-          this.formHis.get('historico_andamento').patchValue(this.dados.hist.historico_andamento);
-        }
-      }
-      if (this.dados.hist.historico_data2 !== undefined) {
-        this.formHis.get('historico_data').patchValue(this.dados.hist.historico_data2);
-      }
-    }
+  }
+
+  configuraEditor() {
+    this.modulos = {
+      toolbar: this.toolbar
+    };
   }
 
   onSubmit() {
     console.log('submit1');
     if (this.formHis.valid && this.criaEnvio()) {
       this.btDesabilitado = true;
-      if (this.dados.acao === 'incluir') {
+      if (this.historico.acao === 'incluir') {
         this.incluir();
         console.log('submit2');
       }
-      if (this.dados.acao === 'alterar') {
+      if (this.historico.acao === 'alterar') {
         this.alterar();
       }
       console.log('submit3');
@@ -122,10 +163,22 @@ export class HistFormComponent implements OnInit, OnDestroy {
   resetForm() {
     this.btDesabilitado = false;
     this.formHis.reset();
-      if (this.resp[2] !== null) {
-        this.histand.getQuill().setContents(this.historico.hist.historico_andamento_delta);
-        this.formHis.get('historico_data').patchValue(this.historico.hist.historico_data2);
+    if ( this.acao === 'alterar' && this.resp[2] === null) {
+      if (this.his.historico_andamento_delta !== null) {
+        this.histand.getQuill().setContents(this.his.historico_andamento_delta);
+      } else {
+        if (this.his.historico_andamento !== null) {
+          this.histand.getQuill().setText(this.his.historico_andamento);
+        }
       }
+      if (this.his.historico_data2 !== null) {
+        this.formHis.get('historico_data').patchValue(new Date(this.his.historico_data2));
+      }
+    }
+    if (this.resp[2] !== null) {
+      this.histand.getQuill().setContents(this.historico.hist.historico_andamento_delta);
+      this.formHis.get('historico_data').patchValue(this.historico.hist.historico_data2);
+    }
     window.scrollTo(0, 0);
   }
 
@@ -156,7 +209,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
                 summary: 'ANDAMENTO',
                 detail: this.resp[1],
               });
-              this.dadosChange.emit(this.historico.hist);
+              this.dadosChange.emit(this.historico);
               this.fechar();
             } else {
               this.ms.add({
@@ -201,7 +254,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
                 detail: 'Andamento incluido com sucesso.'
               });
               this.historico.hist = this.resp[2];
-              this.dadosChange.emit(this.historico.hist);
+              this.dadosChange.emit(this.historico);
               this.fechar();
             } else {
               this.ms.add({
@@ -251,7 +304,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  criaEnvio(): boolean  {
+  criaEnvio(): boolean {
     const n: number = this.histand.getQuill().getLength();
     if (n < 2) {
       return false;
@@ -261,17 +314,17 @@ export class HistFormComponent implements OnInit, OnDestroy {
       campo_delta: this.histand.getQuill().getContents(),
       campo_txt: this.histand.getQuill().getText()
     }
-    if (this.dados.acao === 'alterar') {
+    if (this.historico.acao === 'alterar') {
       if (
-        this.dados.hist.historico_andamento === ql.campo_html &&
-        this.dados.hist.historico_data === this.formHis.get('historico_data').value
+        this.historico.hist.historico_andamento === ql.campo_html &&
+        this.historico.hist.historico_data === this.formHis.get('historico_data').value
       ) {
         return false;
       }
     }
     this.historico = {
-      acao: this.dados.acao,
-      modulo: this.dados.modulo,
+      acao: this.historico.acao,
+      modulo: this.historico.modulo,
       hist: {
         historico_data: this.formHis.get('historico_data').value,
         historico_andamento: ql.campo_html,
@@ -279,9 +332,9 @@ export class HistFormComponent implements OnInit, OnDestroy {
         historico_andamento_texto: ql.campo_txt
       }
     }
-    if (this.dados.acao === 'alterar') {
+/*    if (this.historico.acao === 'alterar') {
       this.historico.hist.historico_id = this.dados.hist.historico_id;
-    }
+    }*/
     if (this.dados.modulo === 'solicitacao') {
       this.historico.hist.historico_solocitacao_id = this.dados.hist.historico_solocitacao_id;
     } else {
