@@ -188,7 +188,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.historico && pro.historico_processo.length > 0" class="p-mr-2">
+              <div *ngIf="aut.historico && ps.expandido.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -197,7 +197,7 @@
                   class="p-button-rounded"
                   pTooltip="Histórico Listar"
                   tooltipPosition="top"
-                  (click)="historicoProcesso(pro)"
+                  (click)="historicoProcesso()"
                 >
                 </button>
               </div>
@@ -206,6 +206,15 @@
 
 
             <div class="p-grid">
+              <div *ngFor="let linhas of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1" style="overflow-x: hidden;">
+                  <h5>{{linhas[0]}}</h5>
+                  {{linhas[1]}}
+                </div>
+              </div>
+            </div>
+
+            <!--<div class="p-grid">
               <div *ngFor="let linhas of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div *ngIf="!linhas[2] || linhas[1].length < 30" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
@@ -216,7 +225,7 @@
                   <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 26)}}...</span>
                 </div>
               </div>
-            </div>
+            </div>-->
 
           </div>
         </div>
@@ -296,17 +305,28 @@
 </ng-container>
 
 <!--*** HISTORICO PROCESSO ****************************************************************************************-->
-<ng-container *ngIf="showHistorico && histListI.hist.length > 0">
+<ng-container *ngIf="showHistorico">
+  <div [ngClass]="cssMostra">
   <p-dialog
+    [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+    [style]="{width: '80vw'}"
     [(visible)]="showHistorico"
-    [dismissableMask]="true"
     styleClass="tablistagem"
-    header="ANDAMENTO DA SOLICITAÇÃO"
+    header="ANDAMENTOS DO PROCESSO"
+    [modal]="true"
+    [dismissableMask]="false"
     (onHide)="escondeHistoricoListar(histListI)"
+    [baseZIndex]="0"
+
   >
-    <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
-    <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
+    <app-hist-datatable [(display)]="showHistorico" (escondeDialog)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
   </p-dialog>
+  </div>
 </ng-container>
+
+
+
+
+
 
 

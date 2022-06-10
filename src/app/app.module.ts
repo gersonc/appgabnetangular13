@@ -13,7 +13,7 @@ import { LayoutModule } from './_layout/layout.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
-import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import {JwtInterceptor, ErrorInterceptor, ResponseInterceptor} from './_helpers';
 import { UtilModule } from './util/util.module';
 import { HomeComponent } from './home';
 import { ToastModule } from 'primeng/toast';
@@ -70,6 +70,7 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    /*{ provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },*/
     MessageService,
     WindowsService
   ],

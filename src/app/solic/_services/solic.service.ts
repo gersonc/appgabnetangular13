@@ -11,6 +11,7 @@ import {TitulosService} from "../../_services/titulos.service";
 import {UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistListI} from "../../hist/_models/hist-i";
+import {strToDelta} from "../../_models/parcer-delta";
 
 @Injectable({
   providedIn: 'root'

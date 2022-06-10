@@ -1,3 +1,21 @@
+import { Injectable } from '@angular/core';
+import {HistFormI, HistI, HistListI} from "../_models/hist-i";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class HistAuxService {
+  hist: HistI;
+  histListI: HistListI;
+  histFormI: HistFormI;
+
+  constructor() { }
+}
+
+
+
+/*
+
 
 export interface HistI {
   historico_id?: number | null;
@@ -22,3 +40,7 @@ export interface HistListI {
   modulo?: string;
   hist?: HistI[];
 }
+
+*/
+
+

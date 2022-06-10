@@ -29,7 +29,7 @@ import {ProceService} from "../_services/proce.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {ProceFormService} from "../_services/proce-form.service";
 import {SolicListarI} from "../../solic/_models/solic-listar-i";
-import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 
 @Component({
   selector: 'app-proce-datatable',
@@ -107,7 +107,8 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   proceDetalhe?: any;
 
   showHistorico = false;
-  showHistorico2 = false;
+  showHistorico2 = true
+  cssMostra: string | null = null;
   histListI: HistListI | null = null;
   proHistForm: ProceListarI | null;
 
@@ -317,21 +318,53 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   processoDetalheCompleto(pro){}
 
-  historicoProcesso(pro: ProceListarI) {
-    this.histListI =  {
+  historicoProcesso() {
+    /*this.histListI =  {
       modulo: 'processo',
-      hist: pro.historico_processo
-    }
+      hist: pro
+    }*/
     // this.histListI.hist = pro.historico_processo;
-    console.log('historicoProcesso',this.histListI);
+    // console.log('historicoProcesso',pro);
+    // console.log('historicoProcesso2', this.ps.expandido.historico_processo);
     // this.buscaIdx(sol.solicitacao_id);
-    this.proHistForm = pro;
+    // this.proHistForm = pro;
     this.showHistorico = true;
     //this.showHistorico2 = true;
   }
 
+  mostraDialog(ev: boolean) {
+    console.log('escondeDialog', ev);
+
+    this.showHistorico2 = ev;
+    this.cssMostra = (ev) ? null : 'p-d-none';
+    console.log('escondeDialog', this.cssMostra);
+
+  }
+
+
   escondeHistoricoListar(histListI) {
     console.log(histListI);
+  }
+
+  recebeRegistro(h: HistFormI) {
+    if (h.acao === 'incluir') {
+      const n: number = this.ps.processos.findIndex(p =>p.processo_id = h.hist.historico_processo_id);
+      if (h.modulo === 'processo') {
+        if (Array.isArray(this.ps.processos[n].historico_processo)) {
+          this.ps.processos[n].historico_processo.push(h.hist);
+        } else {
+          this.ps.processos[n].historico_processo = [h.hist];
+        }
+      } /*else {
+        const n: number = this.ps.processos.findIndex(p =>p.solicitacao_id = h.hist.historico_solocitacao_id);
+        if (Array.isArray(this.ps.processos[n].historico_solicitcao)) {
+          this.ps.processos[n].historico_solicitcao.push(h.hist);
+        } else {
+          this.ps.processos[n].historico_solicitcao = [h.hist];
+        }
+      }*/
+    }
+
   }
 
   /*onRowExpand(event): void {
@@ -396,6 +429,11 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   achaValor(pro: ProceListarI): number {
     return this.ps.processos.indexOf(pro);
+  }
+
+  mostrSN() {
+    // @ts-ignore
+    console.log("scrollwidth: ", +document.body.innerWidth);
   }
 
 

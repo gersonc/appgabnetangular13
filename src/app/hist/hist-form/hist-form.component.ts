@@ -17,8 +17,10 @@ import {HistFormI, HistI} from "../_models/hist-i";
 import {HistService} from "../_services/hist.service";
 import {Editor} from "primeng/editor";
 import {MessageService} from 'primeng-lts/api';
-import {CampoQuillI} from "../../_models/campo-quill-i";
+import {CampoQuillI, HandlerQuillI} from "../../_models/campo-quill-i";
 import Quill from "quill";
+import {HistAuxService} from "../_services/hist-aux.service";
+import {invalid} from "@angular/compiler/src/render3/view/util";
 
 @Component({
   selector: 'app-hist-form',
@@ -29,162 +31,213 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('histand', {static: false}) histand: Editor;
   @Input() display?: boolean;
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() dados?: HistFormI | null = null;
-  @Output() dadosChange = new EventEmitter<HistFormI>();
+  @Output() novoRegistro = new EventEmitter<HistFormI>();
+  // @Input() mostraBtsExterno?: boolean;
+  // @Output() mostraBtsExternoChange = new EventEmitter<boolean>();
+  @Output() mostraBtsExterno = new EventEmitter<boolean>();
+
   @Input() classeStylos?: string;
-  // @Input() acao: string = 'incluir';
-  // @Input() modulo: string = 'solicitacao';
+  @Input() id: number;
+  @Input() idx: number | null;
+  @Input() acao: string;
+  // @Input() mostraForm: boolean;
 
   mostraForm = false;
+  mostraDialog = false;
+  mostraDialog2 = false
   mostraBotao = true;
-  btDesabilitado = false
-  his: HistI;
-  acao = '';
-  estilo = 'formulario-quill';
+  btDesabilitado = false;
+  // histI?: HistI;
+  histFormI: HistFormI = {
+    hist: {}
+  };
   formHis: FormGroup;
-  historico: HistFormI;
   titulo = 'SOLICITAÇÃO';
-  tituloBtn = 'INCLUIR';
-  modulo = 'processo';
-  formato: 'object' | 'html' | 'text' | 'json' = 'object';
   sub: Subscription[] = [];
+  ii: number;
+  cssEsconde = 'p-mr-2';
+  cssEsconde2 = null;
 
   resp: any[] = [false, 'ATENÇÃO - ERRO', null];
-  modulos: any;
+  // modulos: any;
 
-    toolbar = [
+  modulos = {
+    toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
       ['blockquote', 'code-block'],
-      [{'header': 1}, {'header': 2}],               // custom button values
-      [{'list': 'ordered'}, {'list': 'bullet'}],
-      [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
-      [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
-      [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
-      [{'header': [1, 2, 3, 4, 5, 6, false]}],
-      [{'color': []}, {'background': []}],          // dropdown with defaults from theme
-      [{'font': []}],
-      [{'align': []}],
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
       ['clean']                        // link and image, video
-    ];
+    ]
+  };
+
+  // displayForm = true;
+  ct = 0;
+  incluirPerm = false;
+  alterarPerm = false;
+  apagarPerm = false;
+
 
 
   constructor(
     private fb: FormBuilder,
     public aut: AuthenticationService,
     private hs: HistService,
-    private ms: MessageService
-  ) { }
+    private ms: MessageService,
+    public has: HistAuxService
+  ) {
+    this.histFormI.modulo = this.has.histListI.modulo;
+    if (this.has.histListI.modulo === 'solicitacao') {
+      this.titulo = 'SOLICITAÇÃO';
+      this.incluirPerm =  this.aut.historico_solicitacao_incluir;
+      this.alterarPerm =  this.aut.historico_solicitacao_alterar;
+      this.apagarPerm = this.aut.historico_solicitacao_apagar;
+    } else {
+      this.titulo = 'PROCESSO';
+      this.incluirPerm =  this.aut.historico_incluir;
+      this.alterarPerm =  this.aut.historico_alterar;
+      this.apagarPerm = this.aut.historico_apagar;
+    }
+
+
+  }
 
   ngOnInit(): void {
-    this.criaForm();
-    this.configuraEditor();
+  }
+
+  mostraBts(vf: boolean) {
+    this.mostraBtsExterno.emit(vf);
+  }
+
+  carregaForm() {
+    this.mostraBtsExterno.emit(false);
+    if (this.histFormI.acao === 'alterar') {
+      this.formHis.get('historico_data').patchValue(new Date(this.histFormI.hist.historico_data2));
+      if (this.histFormI.hist.historico_andamento_delta) {
+        this.histand.getQuill().setContents(this.histFormI.hist.historico_andamento_delta, 'api');
+      } else {
+        this.histand.getQuill().setText(this.histFormI.hist.historico_andamento, 'api');
+      }
+    }
+  }
+
+  formMostra(acao: string, id: number, idx: number) {
+    this.mostraForm = true;
+    this.formHis = this.fb.group({
+      historico_data: [null, [Validators.required, Validators.minLength(3)]],
+      historico_andamento: [null, Validators.required]
+    });
+    this.criarForm();
+  }
+
+  criarForm() {
+    this.histFormI.acao = this.acao;
+    if (this.histFormI.acao === 'alterar') {
+      this.histFormI.idx = this.idx;
+      this.histFormI.hist = this.has.histListI.hist[this.idx];
+    } else {
+        if (this.histFormI.modulo === 'solicitacao') {
+          this.histFormI.hist.historico_solocitacao_id = this.id;
+        } else {
+          this.histFormI.hist.historico_processo_id = this.id;
+        }
+    }
+    this.mostraDialog = true;
+    console.log('this.criarForm',this.histFormI);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.dados) {
-      if (changes.dados.currentValue !== null) {
-        this.historico = changes.dados.currentValue;
-        this.his = this.historico.hist;
-        this.modulo = this.historico.modulo;
-        this.acao = this.historico.acao;
-        this.formHis.get('historico_data').patchValue(new Date());
-        if ( this.acao === 'alterar') {
-          this.tituloBtn = 'ALTERAR';
-          if (this.his.historico_andamento_delta !== null) {
-            this.histand.getQuill().setContents(this.his.historico_andamento_delta);
-          } else {
-            if (this.his.historico_andamento !== null) {
-              this.histand.getQuill().setText(this.his.historico_andamento);
-            }
-          }
-          if (this.his.historico_data2 !== undefined) {
-            this.formHis.get('historico_data').patchValue(new Date(this.his.historico_data2));
-          }
-        } else {
-          this.tituloBtn = 'INCLUIR';
-        }
-        if (this.modulo === 'processo') {
-          this.titulo = 'PROCESSO';
-        } else {
-          this.titulo = 'SOLICITAÇÃO';
-        }
-        this.mostraForm = true;
-
-        if (changes.classeStylos) {
-          this.estilo = changes.classeStylos.currentValue;
-        }
-
+    /*if (changes.mostraBtsExterno) {
+      if (changes.mostraBtsExterno.currentValue === true) {
+        // this.mostraBts(true);
       }
-
-    }
-  }
-
-
-  fechar() {
-    this.formHis.reset();
-    this.his = {};
-    this.historico.acao = '';
-    // this.formHis = undefined;
-    // this.historico = undefined;
-    this.dadosChange.emit(this.historico);
-    this.displayChange.emit(false);
-  }
-
-  criaForm() {
-    this.formHis = this.fb.group({
+      if (changes.mostraBtsExterno.currentValue === false) {
+        // this.mostraBts(false);
+      }
+    }*/
+    /*this.formHis = this.fb.group({
       historico_data: [null, Validators.required],
       historico_andamento: [null, Validators.required]
-    });
-  }
-
-  configuraEditor() {
-    this.modulos = {
-      toolbar: this.toolbar
-    };
-  }
-
-  onSubmit() {
-    console.log('submit1');
-    if (this.formHis.valid && this.criaEnvio()) {
-      this.btDesabilitado = true;
-      if (this.historico.acao === 'incluir') {
-        this.incluir();
-        console.log('submit2');
-      }
-      if (this.historico.acao === 'alterar') {
-        this.alterar();
-      }
-      console.log('submit3');
-    } else {
-      this.verificaValidacoesForm(this.formHis);
+    });*/
+    /*if (changes.acao) {
+      this.acao = changes.acao.currentValue;
+      this.histFormI.acao = changes.acao.currentValue;
+      // this.criarForm();
     }
+    if (changes.idx) {
+      if (changes.idx.currentValue !== null) {
+        this.histFormI.idx = changes.idx.currentValue;
+        this.histI = this.has.histListI.hist[changes.idx.currentValue];
+      }
+      // this.criarForm();
+    }
+    if (changes.id) {
+      this.histFormI.hist.historico_id = changes.id.currentValue;
+      // this.criarForm();
+    }*/
+  }
+
+  escondeFormulario(vf: boolean) {
+    this.formHis.reset();
+    this.mostraBts(true);
+    this.displayChange.emit(false);
+    this.mostraForm = false;
+  }
+
+  fechar() {
+    this.mostraDialog = false;
+  }
+
+  getHeader(): string {
+    return this.acao.toUpperCase()+ ' ANDAMENTO ' + this.has.histListI.modulo.toUpperCase();
   }
 
   resetForm() {
     this.btDesabilitado = false;
     this.formHis.reset();
     if ( this.acao === 'alterar' && this.resp[2] === null) {
-      if (this.his.historico_andamento_delta !== null) {
-        this.histand.getQuill().setContents(this.his.historico_andamento_delta);
+      if (this.histFormI.hist.historico_andamento_delta !== null) {
+        this.histand.getQuill().setContents(this.histFormI.hist.historico_andamento_delta);
       } else {
-        if (this.his.historico_andamento !== null) {
-          this.histand.getQuill().setText(this.his.historico_andamento);
+        if (this.histFormI.hist.historico_andamento !== null) {
+          this.histand.getQuill().setText(this.histFormI.hist.historico_andamento);
         }
       }
-      if (this.his.historico_data2 !== null) {
-        this.formHis.get('historico_data').patchValue(new Date(this.his.historico_data2));
+      if (this.histFormI.hist.historico_data2 !== null) {
+        this.formHis.get('historico_data').patchValue(new Date(this.histFormI.hist.historico_data2));
       }
     }
     if (this.resp[2] !== null) {
-      this.histand.getQuill().setContents(this.historico.hist.historico_andamento_delta);
-      this.formHis.get('historico_data').patchValue(this.historico.hist.historico_data2);
+      this.histand.getQuill().setContents(this.histFormI.hist.historico_andamento_delta);
+      this.formHis.get('historico_data').patchValue(this.histFormI.hist.historico_data2);
     }
     window.scrollTo(0, 0);
   }
 
+  onSubmit() {
+    if (this.formHis.valid && this.criaEnvio()) {
+      this.btDesabilitado = true;
+      if (this.acao === 'incluir') {
+        this.incluir();
+      }
+      if (this.acao === 'alterar') {
+        this.alterar();
+      }
+    } else {
+      this.verificaValidacoesForm(this.formHis);
+    }
+  }
+
   incluir() {
     if (this.formHis.valid) {
-      this.sub.push(this.hs.incluir(this.historico)
+      this.sub.push(this.hs.incluir(this.histFormI)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -202,14 +255,17 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.historico.hist = this.resp[2];
+              this.histFormI.hist = this.resp[2];
+              this.novoRegistro.emit(this.histFormI);
+              // this.has.histFormI = this.histFormI;
+              // this.has.histListI.hist.push(this.resp[2]);
               this.ms.add({
                 key: 'principal',
                 severity: 'success',
                 summary: 'ANDAMENTO',
                 detail: this.resp[1],
               });
-              this.dadosChange.emit(this.historico);
+              // this.dadosChange.emit(this.historico);
               this.fechar();
             } else {
               this.ms.add({
@@ -229,7 +285,7 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
 
   alterar() {
     if (this.formHis.valid) {
-      this.sub.push(this.hs.alterar(this.historico)
+      this.sub.push(this.hs.alterar(this.histFormI)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -253,8 +309,8 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
                 summary: 'ANDAMENTO',
                 detail: 'Andamento incluido com sucesso.'
               });
-              this.historico.hist = this.resp[2];
-              this.dadosChange.emit(this.historico);
+              this.histFormI.hist = this.resp[2];
+              // this.dadosChange.emit(this.historico);
               this.fechar();
             } else {
               this.ms.add({
@@ -279,6 +335,30 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
+  verificaQuillRequired(ev: any) {
+
+    // const z = this.histand.getQuill().minLength(2);
+
+    const ql: HandlerQuillI = ev;
+    /*const ql: CampoQuillI = {
+      campo_html: this.formHis.get(campo).value,
+      campo_delta: JSON.stringify(this.histand.getQuill().getContents()),
+      campo_txt: this.histand.getQuill().getText()
+    }
+    const ql2: any = {
+      campo_html: ql.campo_html.length,
+      campo_delta: ql.campo_delta.length,
+      campo_txt: ql.campo_txt.length
+    }*/
+    // console.log('verificaQuillRequired', z);
+    // console.log('verificaQuillRequired2', ql2);
+
+    /*return (
+      !this.formHis.get(campo).valid &&
+      (this.formHis.get(campo).touched || this.formHis.get(campo).dirty)
+    );*/
+  }
+
   verificaRequired(campo: string) {
     return (
       this.formHis.get(campo).hasError('required') &&
@@ -299,48 +379,34 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
 
   aplicaCssErro(campo: string) {
     return {
-      'ng-invalid': this.verificaValidTouched(campo),
-      'ng-invalid2': this.verificaRequired(campo)
+      'ng-invalid': (this.verificaValidTouched(campo) || this.verificaRequired(campo))
     };
   }
 
   criaEnvio(): boolean {
     const n: number = this.histand.getQuill().getLength();
     if (n < 2) {
+      this.histand.getQuill().invalid;
       return false;
     }
     const ql: CampoQuillI = {
       campo_html: this.formHis.get('historico_andamento').value,
-      campo_delta: this.histand.getQuill().getContents(),
+      campo_delta: JSON.stringify(this.histand.getQuill().getContents()),
       campo_txt: this.histand.getQuill().getText()
     }
-    if (this.historico.acao === 'alterar') {
+    if (this.histFormI.acao === 'alterar') {
       if (
-        this.historico.hist.historico_andamento === ql.campo_html &&
-        this.historico.hist.historico_data === this.formHis.get('historico_data').value
+        this.histFormI.hist.historico_andamento === ql.campo_html &&
+        this.histFormI.hist.historico_data === this.formHis.get('historico_data').value
       ) {
         return false;
       }
     }
-    this.historico = {
-      acao: this.historico.acao,
-      modulo: this.historico.modulo,
-      hist: {
-        historico_data: this.formHis.get('historico_data').value,
-        historico_andamento: ql.campo_html,
-        historico_andamento_delta: ql.campo_delta,
-        historico_andamento_texto: ql.campo_txt
-      }
-    }
-/*    if (this.historico.acao === 'alterar') {
-      this.historico.hist.historico_id = this.dados.hist.historico_id;
-    }*/
-    if (this.dados.modulo === 'solicitacao') {
-      this.historico.hist.historico_solocitacao_id = this.dados.hist.historico_solocitacao_id;
-    } else {
-      this.historico.hist.historico_processo_id = this.dados.hist.historico_processo_id;
-    }
-
+    this.histFormI.hist.historico_andamento = ql.campo_html;
+    this.histFormI.hist.historico_andamento_delta = ql.campo_delta;
+    this.histFormI.hist.historico_andamento_texto = ql.campo_txt;
+    this.histFormI.hist.historico_data = this.formHis.get('historico_data').value;
+    console.log('criaEnvio', this.histFormI);
     return true;
   }
 

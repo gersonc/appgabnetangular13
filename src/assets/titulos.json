@@ -544,6 +544,16 @@
     "mtitulo": "ANDAMENTO",
     "titulo": "Andamento"
   },
+  "historico_andamento_delta": {
+    "field": "historico_andamento_delta",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
+  "historico_andamento_texto": {
+    "field": "historico_andamento_texto",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
   "historico_data": {
     "field": "historico_data",
     "mtitulo": "DATA",
@@ -626,6 +636,16 @@
   },
   "oficio_descricao_acao": {
     "field": "oficio_descricao_acao",
+    "mtitulo": "DESCRIÇÃO",
+    "titulo": "Descrição"
+  },
+  "oficio_descricao_acao_delta": {
+    "field": "oficio_descricao_acao_delta",
+    "mtitulo": "DESCRIÇÃO",
+    "titulo": "Descrição"
+  },
+  "oficio_descricao_acao_texto": {
+    "field": "oficio_descricao_acao_texto",
     "mtitulo": "DESCRIÇÃO",
     "titulo": "Descrição"
   },
@@ -889,6 +909,16 @@
     "mtitulo": "OBSERVAÇÕES",
     "titulo": "Observações"
   },
+  "solicitacao_aceita_recusada_delta": {
+    "field": "solicitacao_aceita_recusada_delta",
+    "mtitulo": "OBSERVAÇÕES",
+    "titulo": "Observações"
+  },
+  "solicitacao_aceita_recusada_texto": {
+    "field": "solicitacao_aceita_recusada_texto",
+    "mtitulo": "OBSERVAÇÕES",
+    "titulo": "Observações"
+  },
   "solicitacao_aceita_sn": {
     "field": "solicitacao_aceita_sn",
     "mtitulo": "ACEITA S/N",
@@ -929,6 +959,16 @@
     "mtitulo": "RESPOSTA",
     "titulo": "Resposta"
   },
+  "solicitacao_carta_delta": {
+    "field": "solicitacao_carta_delta",
+    "mtitulo": "RESPOSTA",
+    "titulo": "Resposta"
+  },
+  "solicitacao_carta_texto": {
+    "field": "solicitacao_carta_texto",
+    "mtitulo": "RESPOSTA",
+    "titulo": "Resposta"
+  },
   "solicitacao_data": {
     "field": "solicitacao_data",
     "mtitulo": "DATA",
@@ -941,6 +981,16 @@
   },
   "solicitacao_descricao": {
     "field": "solicitacao_descricao",
+    "mtitulo": "DESCRIÇÃO",
+    "titulo": "Descrição"
+  },
+  "solicitacao_descricao_delta": {
+    "field": "solicitacao_descricao_delta",
+    "mtitulo": "DESCRIÇÃO",
+    "titulo": "Descrição"
+  },
+  "solicitacao_descricao_texto": {
+    "field": "solicitacao_descricao_texto",
     "mtitulo": "DESCRIÇÃO",
     "titulo": "Descrição"
   },

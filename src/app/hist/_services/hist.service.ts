@@ -3,6 +3,7 @@ import {UrlService} from "../../_services";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, Subject, Subscription} from "rxjs";
 import {HistFormI, HistI} from "../_models/hist-i";
+import {HistAuxService} from "./hist-aux.service";
 
 
 @Injectable({
@@ -11,7 +12,11 @@ import {HistFormI, HistI} from "../_models/hist-i";
 export class HistService {
 
 
-  constructor(private url: UrlService, private http: HttpClient) { }
+  constructor(
+    private url: UrlService,
+    private http: HttpClient,
+    public has: HistAuxService
+  ) { }
 
 
 
@@ -19,10 +24,10 @@ export class HistService {
     const envio: HistI = dados.hist;
     let url: string = '';
     if (dados.modulo === 'solicitacao') {
-      url = this.url.historicoSolicitacao + '/';
+      url = this.url.historicoSolicitacao;
     }
     if (dados.modulo === 'processo') {
-      url = this.url.historicoProcesso + '/';
+      url = this.url.historicoProcesso;
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, envio, httpOptions);
@@ -32,10 +37,10 @@ export class HistService {
     const envio: HistI = dados.hist;
     let url: string = '';
     if (dados.modulo === 'solicitacao') {
-      url = this.url.historicoSolicitacao + '/';
+      url = this.url.historicoSolicitacao;
     }
     if (dados.modulo === 'processo') {
-      url = this.url.historicoProcesso + '/';
+      url = this.url.historicoProcesso;
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.put<any[]> (url, envio, httpOptions);

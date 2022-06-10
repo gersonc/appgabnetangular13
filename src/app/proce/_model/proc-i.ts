@@ -25,7 +25,7 @@ export interface HistoricoSolicitacaoI {
   historico_data2?: string;
   historico_data?: string;
   historico_andamento?: string;
-  historico_andamento_delta?: string;
+  historico_andamento_delta?: any;
   historico_andamento_texto?: string;
 }
 
@@ -34,7 +34,7 @@ export interface HistoricoProcessoI {
   historico_data2?: string;
   historico_data?: string;
   historico_andamento?: string;
-  historico_andamento_delta?: string;
+  historico_andamento_delta?: any;
   historico_andamento_texto?: string;
 }
 
@@ -62,7 +62,7 @@ export interface ProceOficioI {
   oficio_data_pagamento?: string;
   oficio_data_empenho?: string;
   oficio_descricao_acao?: string;
-  oficio_descricao_acao_delta?: string;
+  oficio_descricao_acao_delta?: any;
   oficio_descricao_acao_texto?: string;
   oficio_arquivos?: ArquivoListagem[];
 }
@@ -120,13 +120,13 @@ export interface ProceListarI {
   solicitacao_tipo_recebimento_id?: number;
   solicitacao_tipo_recebimento_nome?: string;
   solicitacao_descricao?: string;
-  solicitacao_descricao_delta?: string;
+  solicitacao_descricao_delta?: any;
   solicitacao_descricao_texto?: string;
   solicitacao_aceita_recusada?: string;
-  solicitacao_aceita_recusada_delta?: string;
+  solicitacao_aceita_recusada_delta?: any;
   solicitacao_aceita_recusada_texto?: string;
   solicitacao_carta?: string;
-  solicitacao_carta_delta?: string;
+  solicitacao_carta_delta?: any;
   solicitacao_carta_texto?: string;
   solicitacao_reponsavel_analize_id?: number;
   solicitacao_reponsavel_analize_nome?: string;
@@ -143,7 +143,7 @@ export interface ProceListarI {
   oficio_data_recebimento?: string;
   oficio_orgao_solicitado_nome?: string;
   oficio_descricao_acao?: string;
-  oficio_descricao_acao_delta?: string;
+  oficio_descricao_acao_delta?: any;
   oficio_descricao_acao_texto?: string;
   oficio_data_protocolo2?: string;
   oficio_protocolo_data2?: string;
@@ -169,14 +169,14 @@ export interface ProceListarI {
   historico_data2?: string;
   historico_data?: string;
   historico_andamento?: string;
-  historico_andamento_delta?: string;
+  historico_andamento_delta?: any;
   historico_andamento_texto?: string;
   historico_id?: number;
   historico_solicitacao_id?: number;
   historico_solicitacao_data2?: string;
   historico_solicitacao_data?: string;
   historico_solicitacao_andamento?: string;
-  historico_solicitacao_andamento_delta?: string;
+  historico_solicitacao_andamento_delta?: any;
   historico_solicitacao_andamento_texto?: string;
   //historico_processo?: HistoricoProcessoI[];
    // historico_solicitcao?: HistoricoSolicitacaoI[];

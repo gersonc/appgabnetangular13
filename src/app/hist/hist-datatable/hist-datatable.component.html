@@ -1,40 +1,25 @@
-<ng-container  *ngIf="!imprimir && his">
-  <p-table #tb [value]="his" [styleClass]="estilo">
-    <ng-template pTemplate="caption">{{caption}}</ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th>DATA</th>
-        <th>ANDAMENTO</th>
-        <th *ngIf="incluir || alterar || apagar">
-          <div *ngIf="incluir" class="p-ml-2">
-            <i class="bigbt minbt-incluir pi pi-plus" (click)="onIncluir()"></i>
-          </div>
-          <div *ngIf="!incluir">
-            AÇÃO
-          </div>
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-his let-rowIndex="rowIndex">
-      <tr>
-        <td>{{his.historico_data}}</td>
-        <td><quill-view-html [content]="his.historico_andamento" class="detalhe"></quill-view-html></td>
-        <td *ngIf="incluir || alterar || apagar">
-          <div *ngIf="alterar" class="p-mr-2">
-            <i class="minbt minbt-incluir pi pi-pencil" (click)="onAlterar(his, rowIndex)"></i>
-          </div>
-          <div *ngIf="apagar" class="p-mr-2">
-            <i class="minbt minbt-incluir pi pi-trash" (click)="onApagar(his, rowIndex)"></i>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-  <p-sidebar [(visible)]="displayForm" [fullScreen]="true" [modal]="false" position="bottom" [appendTo]="tb" (onHide)="onHide()">
-
-    <app-hist-form [(dados)]="histForm" [(display)]="displayForm" ></app-hist-form>
-
-  </p-sidebar>
+<ng-container *ngIf="!imprimir">
+  <table class="table-hover tabela" id="tabhistorico">
+    <caption>HISTÓRICOS</caption>
+    <tr>
+      <td>Data</td>
+      <td>Andamento</td>
+      <td style="width: 3em"></td>
+    </tr>
+    <tr *ngFor="let his of has.histListI.hist; let i=index;">
+      <td style="font-weight: normal">{{his.historico_data}} {{mudaI(i)}}</td>
+      <td style="font-weight: normal">
+        <app-quill-view [cpdelta]="his.historico_andamento_delta" [cphtml]="his.historico_andamento"
+                        class="detalhe"></app-quill-view>
+      </td>
+      <td style="width: 3em">
+        <app-hist-form [idx]="idx" [id]="his.historico_id" [acao]="'alterar'"
+                       (mostraBtsExterno)="mostraBts($event)"></app-hist-form>
+        <!-- <app-historico-processo-form *ngIf="authenticationService.historico_alterar" [acao]="'alterar'" [dados]="his" (novosDados)="historicos[i]=$event"></app-historico-processo-form>
+         <app-historico-processo-excluir *ngIf="authenticationService.historico_apagar" [id]="his.historico_id" [idx]="i" (OnExcluir)="onExluir($event)"></app-historico-processo-excluir>-->
+      </td>
+    </tr>
+  </table>
 </ng-container>
 
 
@@ -54,6 +39,20 @@
   </table>
 </ng-container>
 
-<!--<ng-container *ngIf="side">-->
+<!---->
 
-<!--</ng-container>-->
+<div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+  <app-hist-form [idx]="null" [id]="has.histListI.registro_id" [acao]="'incluir'" (mostraBtsExterno)="mostraBts($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+  <div class="p-mr-2">
+    <button
+      pButton
+      pRipple
+      pTooltip="FECHAR"
+      type="button"
+      class="botaoinferior p-button-rounded p-button-secondary"
+      (click)="fechar()"
+      label="FECHAR"
+    ></button>
+  </div>
+</div>
+

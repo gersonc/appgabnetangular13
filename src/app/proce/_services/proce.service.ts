@@ -9,6 +9,8 @@ import {take} from "rxjs/operators";
 
 import {ProceBuscaI, ProceListarI, ProcePaginacaoInterface, proceProcessoCamposTexto} from "../_model/proc-i";
 import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-detalhe-i";
+import {strToDelta} from "../../_models/parcer-delta";
+import {HistAuxService} from "../../hist/_services/hist-aux.service";
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +29,13 @@ export class ProceService {
   stateSN = false;
   procApagar?: ProceListarI;
   procAnalisar?: ProceListarI;
-
+  expandido?: ProceListarI;
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private ts: TitulosService
+    private ts: TitulosService,
+    private has: HistAuxService
   ) {
     this.criaTabela();
     this.processoUrl = this.url.proce;
@@ -84,42 +87,56 @@ export class ProceService {
   }
 
   onRowExpand(evento) {
+
     console.log('onRowExpand', evento.data);
+    this.expandido = evento.data;
     let a = 0;
     const b: any[] = [];
     let ev = evento.data;
+    this.has.histListI = {
+      modulo: 'processo',
+      hist: evento.data.historico_processo,
+      registro_id: +evento.data.processo_id
+    }
     // this.tabela.dadosExpandidos = evento.data;
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
-          const m = this.tabela.camposTexto.indexOf(t.field);
+          // const m = this.tabela.camposTexto.indexOf(t.field);
           // let jj: any[] = [];
           const tit = t.titulo;
           let vf = false;
-          let txtdelta: string = null;
+          let txtdelta: any = null;
           let txt: string = null;
           let tst = '';
           // jj.push(this.tabela.titulos[n].toString());
-          if (m >= 0) {
+          /*if (m >= 0) {
             let keyidx: string[] = [
               this.tabela.camposTexto[m],
               this.tabela.camposTexto[m] + '_texto',
               this.tabela.camposTexto[m] + '_delta'
             ];
-            tst = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[keyidx[1]] : ev[keyidx[0]];
-            txt = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[ev[keyidx[1]]] : null;
-            txtdelta = (ev[keyidx[2]] !== undefined && ev[keyidx[2]] !== null) ? ev[ev[keyidx[2]]] : null;
+            tst = (ev[keyidx[0]] !== undefined) ? ev[keyidx[0]] : null;
+            txt = (ev[keyidx[1]] !== undefined ) ? ev[ev[keyidx[1]]] : null;
+            txtdelta = (ev[keyidx[2]] !== undefined) ? ev[ev[keyidx[2]]] : null
+            /!*tst = ev[keyidx[0]];
+            txt = ev[keyidx[1]];
+            txtdelta = ev[keyidx[2]];*!/
             vf = true;
           } else {
             tst = ev[t.field].toString();
-          }
+          }*/
+          tst = ev[t.field].toString();
           b.push([tit, tst, vf, txt, txtdelta]);
           a++;
         }
       }
     });
-    this.tabela.dadosExpandidos = b;
+    //console.log('exp', dados.historico)
+    console.log('onRowExpand2', evento.data.historico_processo);
 
+    this.tabela.dadosExpandidos = b;
+    console.log('onRowExpand3', this.expandido.historico_processo);
 
   }
 
@@ -370,6 +387,7 @@ export class ProceService {
       .subscribe({
         next: (dados) => {
           // this.resetSolicitacaoBusca();
+          // this.processos = strToDelta(dados.processos);
           this.processos = dados.processos;
           this.tabela.total = dados.total;
           this.tabela.totalRecords = this.tabela.total.num;
@@ -438,6 +456,7 @@ export class ProceService {
     this.selecionados = undefined;
     this.Contexto = undefined;
     this.stateSN = false;
+    this.has = null;
     this.sub.forEach(s => s.unsubscribe());
   }
 }

@@ -1,36 +1,46 @@
-<!--<ng-container *ngIf="ac==='incluir'">
-  <div *ngIf="mostraBotao" class="p-mr-2">
+<ng-container *ngIf="incluirPerm && acao==='incluir'">
+  <div class="p-mr-2">
     <button
       pButton
       pRipple
       type="button"
-      icon="pi pi-bookmark"
-      class="p-button-rounded p-button-info"
-      [pTooltip]="acao3"
+      class="botaoinferior p-ripple p-button-rounded"
+      label="INCLUIR"
+      pTooltip="INCLUIR"
       tooltipPosition="top"
-      (click)="formMostra()"
+      (click)="formMostra('incluir', 0, 0)"
     >
     </button>
   </div>
 </ng-container>
-<ng-container *ngIf="ac==='alterar'">
-  <div class="pointerAlterar p-shadow-2"  style="width: 2.1em; height: 2em"  pTooltip="Alterar"><i class="pi pi-pencil" (click)="formMostra()"></i></div>
-</ng-container>-->
+<ng-container *ngIf="alterarPerm && acao==='alterar'">
+  <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="ALTERAR" class="historico p-button-sm p-button-rounded p-button-warning" (click)="formMostra('alterar', id, idx)"></button>
+<!--  <div class="pointerAlterar p-shadow-2"  style="width: 2.1em; height: 2em"  pTooltip="ALTERAR"><i class="pi pi-pencil" (click)="formMostra('alterar', id, idx)"></i></div>-->
+</ng-container>
 
-<!--<ng-container *ngIf="showFormulario">
+<ng-container *ngIf="(!incluirPerm && acao==='incluir') || !alterarPerm && acao==='alterar'">
+  <div><span> </span></div>
+</ng-container>
+
+<ng-container *ngIf="mostraForm">
   <p-dialog
-    [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
-    [style]="{width: '60vw'}"
+    [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+    [style]="{width: '80vw'}"
     id="historicoformdialog"
-    [(visible)]="showFormulario"
-    header="{{acao2}} ANDAMENTO PROCESSO"
+    [(visible)]="mostraDialog"
+    [header]="getHeader()"
+    [closeOnEscape]="false"
     [modal]="true"
-    [dismissableMask]="true"
-    (onHide)="escondeFormulario()"
-    styleClass="formulario"
+    [dismissableMask]="false"
+    [closable]="false"
+    (onHide)="escondeFormulario(false)"
+    styleClass="tablistagem"
     [maximizable]="true"
     [baseZIndex]="10"
-  >-->
+    (onShow)="carregaForm()"
+    appendTo="body"
+  >
+
 
     <form [formGroup]="formHis" (ngSubmit)="onSubmit()">
       <table class="historicoformdialog tabela">
@@ -67,7 +77,9 @@
                         id="historico_andamento"
                         formControlName="historico_andamento"
                         [modules]="modulos"
-                        required="true"
+                        [styleClass]="'editor-historico'"
+                        minlength="2"
+                        [required]="true"
                       >
                         <ng-template pTemplate="header"></ng-template>
                       </p-editor>
@@ -78,25 +90,25 @@
                     <div class="p-field p-col-12">
                       <!--*** Botões ***-->
                       <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                        <div *ngIf="mostraBotao" class="p-mr-2">
+                        <div class="p-mr-2">
                           <button
                             pButton
                             pRipple
                             type="submit"
                             class="botaoinferior p-button-rounded"
-                            [label]="tituloBtn"
-                            [disabled]="!formHis.valid || btDesabilitado"
+                            [label]="acao.toUpperCase()"
+                            [disabled]="!formHis.valid || !formHis.dirty || btDesabilitado"
                           ></button>
                         </div>
-                        <div *ngIf="mostraBotao"  class="p-mr-2">
+                        <div class="p-mr-2">
                           <button
                             pButton
                             pRipple
                             type="button"
                             class="botaoinferior p-ripple p-button-rounded p-button-secondary"
                             (click)="resetForm()"
-                            label="Cancelar"
-                            [disabled]="btDesabilitado"
+                            label="LIMPAR"
+                            [disabled]="!formHis.dirty || btDesabilitado"
                           ></button>
                         </div>
                         <div class="p-mr-2">
@@ -106,7 +118,7 @@
                             type="button"
                             class="botaoinferior p-button-rounded p-button-secondary"
                             (click)="fechar()"
-                            label="Fechar"
+                            label="FECHAR"
                             [disabled]="btDesabilitado"
                           ></button>
                         </div>
@@ -128,3 +140,5 @@
       </table>
     </form>
 
+  </p-dialog>
+</ng-container>
