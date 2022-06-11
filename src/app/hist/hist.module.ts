@@ -16,13 +16,16 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor, ResponseInterceptor} from "../_helpers";
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 import {DialogModule} from "primeng/dialog";
+import { HistExcluirComponent } from './hist-excluir/hist-excluir.component';
+import {ConfirmPopupModule} from "primeng/confirmpopup";
 
 
 
 @NgModule({
   declarations: [
     HistFormComponent,
-    HistDatatableComponent
+    HistDatatableComponent,
+    HistExcluirComponent
   ],
     imports: [
         CommonModule,
@@ -38,11 +41,13 @@ import {DialogModule} from "primeng/dialog";
         QuillModule,
         SidebarModule,
         QuillViewModule,
-        DialogModule
+        DialogModule,
+        ConfirmPopupModule
     ],
   exports: [
     HistFormComponent,
-    HistDatatableComponent
+    HistDatatableComponent,
+    HistExcluirComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -113,13 +113,16 @@
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
-      <td *ngFor="let col of columns" [style.width]="col.width"
-          [style.background-color]="pro[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
+      <!--<td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="statusColor(+pro.processo_status_id)"
+          [style.background-color]="pro[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">-->
+      <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowColor(col.field,pro.processo_status_id, pro.solicitacao_situacao)">
         <ng-container *ngIf="col.field=='solicitacao_descricao'">
-          <quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>
+          <app-quill-view [cpdelta]="pro.solicitacao_descricao_delta" [cphtml]="pro.solicitacao_descricao" class="detalhe"></app-quill-view>
+          <!--<quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>-->
           <!--<span [innerHTML]="pro['solicitacao_descricao']"></span>-->
         </ng-container>
         <ng-container *ngIf="col.field=='solicitacao_aceita_recusada'">
+          <app-quill-view [cpdelta]="pro.solicitacao_aceita_recusada_delta" [cphtml]="pro.solicitacao_aceita_recusada" class="detalhe"></app-quill-view>
           <quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>
           <!--<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>-->
         </ng-container>
@@ -131,10 +134,11 @@
           <!--<app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>-->
         </ng-container>
         <ng-container *ngIf="col.field=='historico'">
+          <app-quill-view [cpdelta]="pro.historico_andamento_delta" [cphtml]="pro.historico_andamento" class="detalhe"></app-quill-view>
           <!--<app-historico-processo *ngIf="pro['historico']" [acao]="'listar'" [dados]="pro['historico']"></app-historico-processo>-->
           <!--<app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>-->
         </ng-container>
-        <ng-container *ngIf="col.field!='oficio' && col.field!='historico'">
+        <ng-container *ngIf="col.field!=='oficio'">
           {{pro[col.field]}}
         </ng-container>
       </td>
@@ -169,8 +173,8 @@
                   pButton
                   pRipple
                   type="button"
-                  icon="pi pi-exclamation-circle"
-                  class="p-button-rounded p-button-success"
+                  icon="pi pi-check-square"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Analisar"
                   tooltipPosition="top"
                 ></button>
@@ -188,20 +192,20 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.historico && ps.expandido.historico_processo.length > 0" class="p-mr-2">
+              <div *ngIf="permListHist && ps.expandido.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
-                  icon="pi pi-bookmark"
-                  class="p-button-rounded"
-                  pTooltip="Histórico Listar"
+                  icon="pi pi-list"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Listar Andamentos"
                   tooltipPosition="top"
                   (click)="historicoProcesso()"
                 >
                 </button>
               </div>
-              <!--<app-historico-processo-form [acao]="'incluir'" [dados]="pro.processo_id"></app-historico-processo-form>-->
+              <app-hist-form [idx]="indice" [id]="pro.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
             </div>
 
 
@@ -261,7 +265,8 @@
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="ps.tabela.selectedColumns"></app-seletor-colunas>
 </p-dialog>
-<p-contextMenu #cm [model]="contextoMenu3" styleClass="tablistagem"></p-contextMenu>
+<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+<!--<p-contextMenu #cm [model]="contextoMenu3"> </p-contextMenu>-->
 <p-toast key="processoToast" position="center"></p-toast>
 
 <!--*** EDITOR *****************************************************************************************************-->

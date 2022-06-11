@@ -11,6 +11,7 @@ import {ProceBuscaI, ProceListarI, ProcePaginacaoInterface, proceProcessoCamposT
 import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-detalhe-i";
 import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
+import {HistFormI} from "../../hist/_models/hist-i";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class ProceService {
   procApagar?: ProceListarI;
   procAnalisar?: ProceListarI;
   expandido?: ProceListarI;
+  msgCtxH: boolean = true;
 
   constructor(
     private url: UrlService,
@@ -82,8 +84,35 @@ export class ProceService {
     this.criaBusca();
   }
 
-  onContextMenuSelect(event) {
-    this.Contexto = event.data;
+
+  onContextMenuSelect(evento) {
+    this.Contexto = evento.data;
+    /*if (Array.isArray(evento.data.historico_processo)) {
+      if (evento.data.historico_processo.length > 0) {
+        this.msgCtxH = true;
+          this.has.histFormI = {
+          modulo: 'processo',
+          hist: {
+            historico_processo_id: +evento.data.processo_id,
+            historico_solocitacao_id: +evento.data.solicitacao_id
+          }
+        };
+        console.log('onContextMenuSelect2', evento.data.historico_processo.length);
+        this.has.histListI = {
+          modulo: 'processo',
+          hist: evento.data.historico_processo,
+          registro_id: +evento.data.processo_id
+        }
+
+      } else {
+        this.msgCtxH = false;
+        console.log('this.msgCtxH1', this.msgCtxH);
+      }
+    } else {
+      this.msgCtxH = false;
+      console.log('this.msgCtxH', this.msgCtxH);
+    }*/
+
   }
 
   onRowExpand(evento) {
@@ -93,6 +122,15 @@ export class ProceService {
     let a = 0;
     const b: any[] = [];
     let ev = evento.data;
+    this.has.histFormI = {
+      modulo: 'processo',
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solocitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    /*this.has.histFormI.modulo = 'processo';
+    this.has.histFormI.hist.historico_processo_id = +evento.data.processo_id;*/
     this.has.histListI = {
       modulo: 'processo',
       hist: evento.data.historico_processo,

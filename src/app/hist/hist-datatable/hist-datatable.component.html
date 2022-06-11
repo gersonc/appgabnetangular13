@@ -15,6 +15,7 @@
       <td style="width: 3em">
         <app-hist-form [idx]="idx" [id]="his.historico_id" [acao]="'alterar'"
                        (mostraBtsExterno)="mostraBts($event)"></app-hist-form>
+        <app-hist-excluir [idx]="idx" [id]="his.historico_id" [modulo]="modulo" (onExcluir)="onExcluir($event)"></app-hist-excluir>
         <!-- <app-historico-processo-form *ngIf="authenticationService.historico_alterar" [acao]="'alterar'" [dados]="his" (novosDados)="historicos[i]=$event"></app-historico-processo-form>
          <app-historico-processo-excluir *ngIf="authenticationService.historico_apagar" [id]="his.historico_id" [idx]="i" (OnExcluir)="onExluir($event)"></app-historico-processo-excluir>-->
       </td>

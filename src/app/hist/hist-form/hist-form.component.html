@@ -4,7 +4,7 @@
       pButton
       pRipple
       type="button"
-      class="botaoinferior p-ripple p-button-rounded"
+      class="botaoinferior p-button-rounded"
       label="INCLUIR"
       pTooltip="INCLUIR"
       tooltipPosition="top"
@@ -13,12 +13,32 @@
     </button>
   </div>
 </ng-container>
+
+<ng-container *ngIf="incluirPerm && acao==='incluir2'">
+  <div class="p-mr-2">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="botaoinferior p-button-rounded p-button-info"
+      icon="pi pi-file-o"
+      pTooltip="Incluir Andamento"
+      tooltipPosition="top"
+      (click)="formMostra('incluir', 0, 0)"
+    >
+    </button>
+  </div>
+</ng-container>
+
+
 <ng-container *ngIf="alterarPerm && acao==='alterar'">
+  <div class="p-mr-1">
   <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="ALTERAR" class="historico p-button-sm p-button-rounded p-button-warning" (click)="formMostra('alterar', id, idx)"></button>
+  </div>
 <!--  <div class="pointerAlterar p-shadow-2"  style="width: 2.1em; height: 2em"  pTooltip="ALTERAR"><i class="pi pi-pencil" (click)="formMostra('alterar', id, idx)"></i></div>-->
 </ng-container>
 
-<ng-container *ngIf="(!incluirPerm && acao==='incluir') || !alterarPerm && acao==='alterar'">
+<ng-container *ngIf="(!incluirPerm && (acao==='incluir' || acao==='incluir2') || !alterarPerm && acao==='alterar')">
   <div><span> </span></div>
 </ng-container>
 

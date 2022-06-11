@@ -15,7 +15,7 @@ import { ArquivoLoginService } from './arquivo/_services';
 import { PrimeNGConfig } from 'primeng/api';
 import { SpinnerService } from "./_services/spinner.service";
 import { Spinkit } from 'ng-http-loader';
-import {MessageService} from 'primeng-lts/api';
+import {Message,MessageService} from 'primeng-lts/api';
 
 @Component({
   selector: 'app-root',

@@ -75,7 +75,7 @@
   /*
   bootstrap4-light-blue ********************
   */
-  --warning: #ffc107;
+  --warning: var(--yellow-400);
   --danger: #dc3545;
   --atencao-color: #dc3545;
   --erro-color: #721c24;
@@ -126,7 +126,7 @@
   --hover3:#b6bfc8;
   --vermelho:#D32F2F;
   --amarelo:var(--yellow-500);
-  --verde:#689F38;
+  --verde:var(--green-600);
   --secondary2:var(--bluegray-500);
   --background-color-overlay:rgba(0, 0, 0, 0.4);
   --rgba02:rgba(0, 0, 0, 0.2);
@@ -137,7 +137,8 @@
   --rgba-preto0:rgba(255, 255, 255, 0);
   --box-shadow-focus15: inset 0 0 0 0.15rem #a6d5fa;
   --box-shadow-focus2:0 0 0 0.2rem #a6d5fa;
-  --background-highlight:#E3F2FD;
+  --background-highlight:var(--gray-200);
+  --background-highlight2:var(--gray-300);
   --surface-c-border:#ced4da;
   --disabled-highlight:#0b7ad1;
 
@@ -6518,7 +6519,7 @@ p-radiobutton {
   --hover3:#b6bfc8;
   --vermelho:#D32F2F;
   --amarelo:var(--yellow-500);
-  --verde:#689F38;
+  --green-600:#689F38;
   --secondary2:var(--bluegray-500);
   --background-color-overlay:rgba(0, 0, 0, 0.4);
   --rgba02:rgba(0, 0, 0, 0.2);
@@ -6599,9 +6600,11 @@ p-radiobutton {
   --yellow-100:#fef0cd;
   --yellow-200:#fde4a5;
   --yellow-300:#fdd87d;
+
   --yellow-400:#fccc55;
   --yellow-500:#fbc02d;
   --yellow-600:#d5a326;
+
   --yellow-700:#b08620;
   --yellow-800:#8a6a19;
   --yellow-900:#644d12;
@@ -7817,7 +7820,7 @@ p-multiselect.ng-dirty.ng-invalid > .p-multiselect {
   background: var(--amarelo);
 }
 .p-password-panel .p-password-meter .p-password-strength.strong {
-  background: var(--verde);
+  background: var(--green-600);
 }
 .p-radiobutton {
   width: 20px;
@@ -8342,8 +8345,8 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 .p-button.p-button-success, .p-buttonset.p-button-success > .p-button, .p-splitbutton.p-button-success > .p-button {
   color: var(--surface-a);
-  background: var(--verde);
-  border: 1px solid var(--verde);
+  background: var(--green-600);
+  border: 1px solid var(--green-600);
 }
 .p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success > .p-button:enabled:hover, .p-splitbutton.p-button-success > .p-button:enabled:hover {
   background: #5e8f32;
@@ -8360,33 +8363,33 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 .p-button.p-button-success.p-button-outlined, .p-buttonset.p-button-success > .p-button.p-button-outlined, .p-splitbutton.p-button-success > .p-button.p-button-outlined {
   background-color: transparent;
-  color: var(--verde);
+  color: var(--green-600);
   border: 1px solid;
 }
 .p-button.p-button-success.p-button-outlined:enabled:hover, .p-buttonset.p-button-success > .p-button.p-button-outlined:enabled:hover, .p-splitbutton.p-button-success > .p-button.p-button-outlined:enabled:hover {
   background: rgba(104, 159, 56, 0.04);
-  color: var(--verde);
+  color: var(--green-600);
   border: 1px solid;
 }
 .p-button.p-button-success.p-button-outlined:enabled:active, .p-buttonset.p-button-success > .p-button.p-button-outlined:enabled:active, .p-splitbutton.p-button-success > .p-button.p-button-outlined:enabled:active {
   background: rgba(104, 159, 56, 0.16);
-  color: var(--verde);
+  color: var(--green-600);
   border: 1px solid;
 }
 .p-button.p-button-success.p-button-text, .p-buttonset.p-button-success > .p-button.p-button-text, .p-splitbutton.p-button-success > .p-button.p-button-text {
   background-color: transparent;
-  color: var(--verde);
+  color: var(--green-600);
   border-color: transparent;
 }
 .p-button.p-button-success.p-button-text:enabled:hover, .p-buttonset.p-button-success > .p-button.p-button-text:enabled:hover, .p-splitbutton.p-button-success > .p-button.p-button-text:enabled:hover {
   background: rgba(104, 159, 56, 0.04);
   border-color: transparent;
-  color: var(--verde);
+  color: var(--green-600);
 }
 .p-button.p-button-success.p-button-text:enabled:active, .p-buttonset.p-button-success > .p-button.p-button-text:enabled:active, .p-splitbutton.p-button-success > .p-button.p-button-text:enabled:active {
   background: rgba(104, 159, 56, 0.16);
   border-color: transparent;
-  color: var(--verde);
+  color: var(--green-600);
 }
 .p-button.p-button-warning, .p-buttonset.p-button-warning > .p-button, .p-splitbutton.p-button-warning > .p-button {
   color: var(--text-color);
@@ -8394,17 +8397,17 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border: 1px solid var(--amarelo);
 }
 .p-button.p-button-warning:enabled:hover, .p-buttonset.p-button-warning > .p-button:enabled:hover, .p-splitbutton.p-button-warning > .p-button:enabled:hover {
-  background: #fab710;
+  background: var(--yellow-500);
   color: var(--text-color);
-  border-color: #fab710;
+  border-color: var(--yellow-500);
 }
 .p-button.p-button-warning:enabled:focus, .p-buttonset.p-button-warning > .p-button:enabled:focus, .p-splitbutton.p-button-warning > .p-button:enabled:focus {
   box-shadow: 0 0 0 0.2rem #fde6ab;
 }
 .p-button.p-button-warning:enabled:active, .p-buttonset.p-button-warning > .p-button:enabled:active, .p-splitbutton.p-button-warning > .p-button:enabled:active {
-  background: #e8a704;
+  background: var(--yellow-600);
   color: var(--text-color);
-  border-color: #e8a704;
+  border-color: var(--yellow-600);
 }
 .p-button.p-button-warning.p-button-outlined, .p-buttonset.p-button-warning > .p-button.p-button-outlined, .p-splitbutton.p-button-warning > .p-button.p-button-outlined {
   background-color: transparent;
@@ -8611,7 +8614,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-datatable .p-datatable-header {
   background: var(--surface-b);
   color: var(--text-color);
-  border: 1px solid var(--surface-c);
+  border: 1px solid var(--surface-400);
   border-width: 1px 0 1px 0;
   padding: 1rem 1rem;
   font-weight: 600;
@@ -8619,7 +8622,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-datatable .p-datatable-footer {
   background: var(--surface-b);
   color: var(--text-color);
-  border: 1px solid var(--surface-c);
+  border: 1px solid var(--surface-400);
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
   font-weight: 600;
@@ -8627,7 +8630,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-datatable .p-datatable-thead > tr > th {
   text-align: left;
   padding: 1rem 1rem;
-  border: 1px solid var(--surface-c);
+  border: 1px solid var(--surface-400);
   border-width: 0 0 1px 0;
   font-weight: 600;
   color: var(--text-color);
@@ -8637,7 +8640,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-datatable .p-datatable-tfoot > tr > td {
   text-align: left;
   padding: 1rem 1rem;
-  border: 1px solid var(--surface-c);
+  border: 1px solid var(--surface-400);
   border-width: 0 0 1px 0;
   font-weight: 600;
   color: var(--text-color);
@@ -8689,7 +8692,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 .p-datatable .p-datatable-tbody > tr > td {
   text-align: left;
-  border: 1px solid var(--surface-c);
+  border: 1px solid var(--surface-400);
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
 }
@@ -8735,6 +8738,10 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   box-shadow: inset 0 -2px 0 0 var(--background-highlight);
 }
 .p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover {
+  background: var(--background-highlight2);
+  color: var(--text-color);
+}
+.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr.p-highlight:hover {
   background: var(--surface-c);
   color: var(--text-color);
 }
@@ -8770,10 +8777,10 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-width: 1px;
 }
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
-  background: #fcfcfc;
+  background: var(--surface-200);
 }
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight {
-  background: var(--background-highlight);
+  background: var(--background-highlight2);
   color: var(--text-color);
 }
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight .p-row-toggler {
@@ -11471,7 +11478,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   color: var(--surface-a);
 }
 .p-badge.p-badge-success {
-  background-color: var(--verde);
+  background-color: var(--green-600);
   color: var(--surface-a);
 }
 .p-badge.p-badge-info {
@@ -11595,7 +11602,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-radius: 3px;
 }
 .p-tag.p-tag-success {
-  background-color: var(--verde);
+  background-color: var(--green-600);
   color: var(--surface-a);
 }
 .p-tag.p-tag-info {
@@ -12596,7 +12603,7 @@ div.formulario-quill {
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
-  width: 8rem;
+  /*width: 8rem;*/
   border-radius: .8rem;
 }
 .tablistagem.p-contextmenu .p-menuitem-link {
@@ -12614,35 +12621,143 @@ div.formulario-quill {
   color: var(--text-color);
   margin-right: 0.5rem;
 }
-.tablistagem.p-contextmenu .context-menu-apagar:hover {
-  background-color: var(--atencao-color);
+
+
+
+
+.tablistagem.p-contextmenu .context-menu-vermelho:hover {
+  background-color: var(--danger);
+  color: var(--primary-color-text) !important;
+}
+.tablistagem .context-menu-vermelho.p-contextmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text:hover {
   color: var(--primary-color-text);
 }
-.context-menu-apagar a:hover {
-  background-color: var(--atencao-color) !important;
+.tablistagem .context-menu-vermelho a:hover {
+  background-color: var(--danger) !important;
   color: var(--primary-color-text) !important;
 }
-.context-menu-apagar a:active {
-  background-color: var(--atencao-color) !important;
+.tablistagem .context-menu-vermelho a:active {
+  background-color: var(--danger) !important;
   color: var(--primary-color-text) !important;
 }
-.context-menu-alterar a:focus {
-  background: var(--yellow-500) !important;
-  color: var(--surface-800) !important;
+
+
+.tablistagem.p-contextmenu .context-menu-verde:hover {
+  background-color: var(--verde);
+  color: var(--primary-color-text) !important;
 }
-.context-menu-alterar a:hover {
-  background: var(--yellow-500) !important;
-  color: var(--surface-800) !important;
+.tablistagem .context-menu-verde.p-contextmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text:hover {
+  color: var(--primary-color-text);
 }
-.context-menu-alterar a:active {
-  background: var(--yellow-500) !important;
-  color: var(--surface-800) !important;
+.tablistagem .context-menu-verde a:hover {
+  background-color: var(--verde) !important;
+  color: var(--primary-color-text) !important;
 }
+.tablistagem .context-menu-verde a:active {
+  background-color: var(--verde) !important;
+  color: var(--primary-color-text) !important;
+}
+
+
+.tablistagem.p-contextmenu .context-menu-cyan:hover {
+  background-color: var(--cyan-600);
+  color: var(--text-color) !important;
+}
+.tablistagem .context-menu-cyan.p-contextmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text:hover {
+  color: var(--text-color);
+}
+.tablistagem .context-menu-cyan a:hover {
+  background-color: var(--cyan-600) !important;
+  color: var(--text-color) !important;
+}
+.tablistagem .context-menu-cyan a:active {
+  background-color: var(--cyan-600) !important;
+  color: var(--text-color) !important;
+}
+
+
+.context-menu-amarelo a:focus {
+  background: var(--yellow-500) !important;
+  color: var(--text-color) !important;
+}
+.tablistagem .context-menu-verde.p-contextmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text:hover {
+  color: var(--text-color);
+}
+.context-menu-amarelo a:hover {
+  background: var(--yellow-500) !important;
+  color: var(--text-color) !important;
+}
+.context-menu-amarelo a:active {
+  background: var(--yellow-500) !important;
+  color: var(--text-color) !important;
+}
+
+
+
+.tablistagem.p-contextmenu .context-menu-purple:hover {
+  background-color: var(--purple-600);
+  color: var(--surface-a) !important;
+}
+.tablistagem .context-menu-purple.p-contextmenu .p-menuitem-link:not(.p-disabled):hover .p-menuitem-text:hover {
+  color: var(--surface-a);
+}
+.tablistagem .context-menu-purple a:hover {
+  background-color: var(--purple-600) !important;
+  color: var(--surface-a) !important;
+}
+.tablistagem .context-menu-purple a:active {
+  background-color: var(--purple-600) !important;
+  color: var(--surface-a) !important;
+}
+
+
+
+.p-button.p-button-purple, .p-buttonset.p-button-purple > .p-button, .p-splitbutton.p-button-purple > .p-button {
+  color: var(--surface-a);
+  background: var(--purple-500);
+  border: 1px solid var(--purple-500);
+}
+.p-button.p-button-purple:enabled:hover, .p-buttonset.p-button-purple > .p-button:enabled:hover, .p-splitbutton.p-button-purple > .p-button:enabled:hover {
+  background: var(--purple-600);
+  color: var(--surface-a);
+  border-color: var(--purple-600);
+}
+.p-button.p-button-purple:enabled:focus, .p-buttonset.p-button-purple > .p-button:enabled:focus, .p-splitbutton.p-button-purple > .p-button:enabled:focus {
+  box-shadow: 0 0 0 0.2rem var(--purple-200);
+}
+.p-button.p-button-purple:enabled:active, .p-buttonset.p-button-purple > .p-button:enabled:active, .p-splitbutton.p-button-purple > .p-button:enabled:active {
+  background: var(--purple-700);
+  color: var(--surface-a);
+  border-color: var(--purple-700);
+}
+
+
+.p-button.p-button-cyan, .p-buttonset.p-button-cyan > .p-button, .p-splitbutton.p-button-cyan > .p-button {
+  color: var(--surface-a);
+  background: var(--cyan-500);
+  border: 1px solid var(--cyan-500);
+}
+.p-button.p-button-cyan:enabled:hover, .p-buttonset.p-button-cyan > .p-button:enabled:hover, .p-splitbutton.p-button-cyan > .p-button:enabled:hover {
+  background: var(--cyan-600);
+  color: var(--surface-a);
+  border-color: var(--cyan-600);
+}
+.p-button.p-button-cyan:enabled:focus, .p-buttonset.p-button-cyan > .p-button:enabled:focus, .p-splitbutton.p-button-cyan > .p-button:enabled:focus {
+  box-shadow: 0 0 0 0.2rem var(--cyan-200);
+}
+.p-button.p-button-cyan:enabled:active, .p-buttonset.p-button-cyan > .p-button:enabled:active, .p-splitbutton.p-button-cyan > .p-button:enabled:active {
+  background: var(--cyan-700);
+  color: var(--surface-a);
+  border-color: var(--cyan-700);
+}
+
+
 .tablistagem.p-contextmenu .p-menuitem-link:focus {
   outline: 0 none;
   outline-offset: 0;
   box-shadow: inset var(--primary-box-box-shadow-focus);
 }
+
 .tablistagem.p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link {
   background: var(--primary-color);
 }
@@ -14653,6 +14768,39 @@ table .table-hover.tabela .detalhe-horiz {
   height: 1.8rem;
 }
 
+
+.status-1 {
+  background-color: var(--yellow-100);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-1 {
+  background-color: var(--yellow-200);
+}
+
+
+.status-2 {
+  background-color: var(--pink-100);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-2 {
+  background-color: var(--pink-200);
+}
+
+.status-3 {
+  background-color: var(--green-100);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-3 {
+  background-color: var(--green-200);
+}
+
+.status-4 {
+  background-color: var(--surface-100);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-4 {
+  background-color: var(--surface-200);
+}
 
 .a4 .ql-editor {
   /*min-height: 10rem;*/

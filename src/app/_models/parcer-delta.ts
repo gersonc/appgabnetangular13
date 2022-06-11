@@ -73,7 +73,7 @@ export function deltaToStr(valor: any | any[]) {
     Object.keys(valor).forEach(n => {
       if (n.indexOf('delta') !== -1) {
         if (valor[n] instanceof Object) {
-          valor[n] = JSON.parse(valor[n]);
+          valor[n] = JSON.stringify(valor[n]);
         } else {
           valor[n] = null;
         }
@@ -88,13 +88,13 @@ export function strToDelta(valor: any | any[]) {
   if(!Array.isArray(valor)) {
     Object.keys(valor).forEach(n => {
       if (n.indexOf('delta') !== -1) {
-        if (valor[n] instanceof Object) {
-          valor[n] = JSON.stringify(valor[n]);
+        if (typeof (valor[n]) === 'string') {
+          valor[n] = JSON.parse(valor[n]);
         } else {
           valor[n] = null;
         }
       } else {
-        if (valor[n] instanceof Object) {
+        if (typeof (valor[n]) === 'string') {
           Object.keys(valor[n]).forEach(m => {
             valor[n][m] = strToDelta(valor[n][m]);
           });

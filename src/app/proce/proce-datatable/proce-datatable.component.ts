@@ -31,6 +31,7 @@ import {ProceFormService} from "../_services/proce-form.service";
 import {SolicListarI} from "../../solic/_models/solic-listar-i";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 
+
 @Component({
   selector: 'app-proce-datatable',
   templateUrl: './proce-datatable.component.html',
@@ -111,6 +112,8 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   cssMostra: string | null = null;
   histListI: HistListI | null = null;
   proHistForm: ProceListarI | null;
+  permListHist: boolean = false;
+  permInclHist: boolean = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -119,13 +122,15 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     // public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private messageService: MessageService,
+    private ms: MessageService,
     public ps: ProceService,
     public pfs: ProceFormService,
     // private pbs: ProcessoBuscaService,
   ) { }
 
   ngOnInit() {
+    this.permListHist = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
+    this.permInclHist = (this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
     this.montaColunas();
     if(!this.ps.stateSN) {
       this.resetSelectedColumns();
@@ -159,7 +164,8 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.cols = [
       {field: 'processo_id', header: 'ID', sortable: 'true', width: '60px'},
       {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
-      {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'processo_status_nome', header: 'STATUS', sortable: 'true', width: '150px'},
+      {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
 
       {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', width: '150px'},
       {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '400px'},
@@ -183,7 +189,6 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       {field: 'cadastro_outras_midias', header: 'OUTRAS MÍDIAS', sortable: 'true', width: '200px'},
       {field: 'cadastro_data_nascimento', header: 'DT. NASC./FUNDAÇÃO', sortable: 'true', width: '200px'},
 
-      {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '100px'},
       {field: 'solicitacao_data', header: 'DATA', sortable: 'true', width: '200px'},
       {field: 'solicitacao_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '400px'},
       {field: 'solicitacao_area_interesse_nome', header: 'ÁREA DE INTERESSE', sortable: 'true', width: '400px'},
@@ -215,12 +220,12 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       {field: 'oficio_data_pagamento', header: 'OF. DT. PAGAMENTO', sortable: 'true', width: '200px'},
       {field: 'oficio_data_empenho', header: 'OF. DT. EMPENHO', sortable: 'true', width: '200px'},
 
-      {field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '3000px'},
+      {field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '300px'},
 
       {field: 'historico_data', header: 'HIST. DT.', sortable: 'true', width: '200px'},
-      {field: 'historico_andamento', header: 'HIST. ANDAMENTO', sortable: 'true', width: '400px'},
+      {field: 'historico_andamento', header: 'HIST. ANDAMENTO', sortable: 'false', width: '400px'},
 
-      {field: 'historico', header: 'HISTÓRICOS', sortable: 'false', width: '1000px'}
+      {field: 'historico', header: 'HISTÓRICOS', sortable: 'false', width: '300px'}
 
     ];
   }
@@ -229,8 +234,8 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.ps.criaTabela();
     this.ps.tabela.selectedColumns = [
         {field: 'processo_numero', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
-        {field: 'processo_status_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
-        {field: 'solicitacao_posicao', header: 'POSIÇÃO', sortable: 'true', width: '100px'},
+        {field: 'processo_status_nome', header: 'STATUS', sortable: 'true', width: '150px'},
+        {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
         {field: 'cadastro_tipo_nome', header: 'TP. SOLICITANTE', sortable: 'true', width: '150px'},
         {field: 'cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '400px'},
         {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '300px'},
@@ -243,26 +248,106 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       ];
   }
 
+
+  rowColor(field: string, vl1: number, vl2: string | number):string | null {
+    if (field !== 'processo_status_nome' && field !== 'solicitacao_situacao') {
+      return null;
+    }
+    if (field === 'processo_status_nome') {
+      return 'status-' + vl1;
+    }
+    switch (vl2) {
+      case 'EM ANDAMENTO':
+        return 'status-1';
+      case 'CONCLUIDA':
+        return 'status-3';
+      case 'SUSPENSO':
+        return 'status-4';
+      default:
+        return null;
+    }
+  }
+
+
   montaMenuContexto() {
     this.contextoMenu = [
-      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
-        command: () => {this.proceDetalheCompleto(this.ps.Contexto); }}];
+      {
+        label: 'DETALHES',
+        icon: 'pi pi-eye',
+        style: {'font-size':'1em'},
+        command: () => {this.proceDetalheCompleto(this.ps.Contexto); },
+        styleClass: 'context-menu-verde'
+      }];
 
-    if (this.aut.usuario_responsavel_sn
+    /*if (this.aut.usuario_responsavel_sn
       && (this.aut.processo_indeferir
         || this.aut.processo_deferir)) {
       this.authAnalisar = true;
       this.contextoMenu.push(
         {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
           command: () => { this.processoAnalisar(this.ps.Contexto); }});
+    }*/
+    if(this.aut.processo_deferir ||
+        this.aut.processo_indeferir ||
+        this.aut.usuario_responsavel_sn
+      ) {
+      this.authAnalisar = true;
+      this.contextoMenu.push(
+        {label: 'ANALISAR', icon: 'pi pi-check-square', style: {'font-size': '1em'},
+          command: () => { this.processoAnalisarCtx(); },
+          styleClass: 'context-menu-amarelo'
+        });
     }
 
-    if (this.aut.processo_apagar) {
+    if (this.aut.processo_apagar || this.aut.usuario_responsavel_sn) {
       this.authApagar = true;
       this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-          command: () => { this.processoApagar(this.ps.Contexto); }});
+        {
+          label: 'APAGAR',
+          icon: 'pi pi-trash',
+          style: {'font-size': '1em'},
+          command: () => { this.processoApagar(this.ps.Contexto); },
+          styleClass: 'context-menu-vermelho',
+        });
     }
+
+    /*if (this.aut.processo_listar || this.aut.usuario_responsavel_sn) {
+      this.contextoMenu.push(
+        {
+          label: 'LISTAR ANDAMENTOS', icon: 'pi pi-list', style: {'font-size': '1em'},
+          command: () => {
+            this.historicoProcessoCtx();
+          },
+          styleClass: 'context-menu-cyan',
+          visible: this.ps.msgCtxH,
+        });
+    }*/
+
+    /*if (this.permListHist) {
+      this.contextoMenu.push(
+        {
+          label: 'LISTAR ANDAMENTOS', icon: 'pi pi-list', style: {'font-size': '1em'},
+          command: () => {
+            // this.historicoProcessoCtx();
+          },
+          styleClass: 'context-menu-cyan',
+          visible: this.auxMenuCtx('listar'),
+        });
+    }
+
+    if (this.permInclHist) {
+      this.contextoMenu.push(
+        {
+          label: 'INCLUIR ANDAMENTOS', icon: 'pi pi-plus', style: {'font-size': '1em'},
+          command: () => {
+            this.historicoProcessoIncluirCtx();
+          },
+          styleClass: 'context-menu-cyan',
+          visible: this.auxMenuCtx('incluir'),
+        });
+    }*/
+
+
 
     this.contextoMenu2 = [
       {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
@@ -275,7 +360,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
           command: () => { this.processoApagar(this.ps.Contexto); }});
     }
 
-    this.contextoMenu3 = this.contextoMenu;
+    // this.contextoMenu3 = this.contextoMenu;
   }
 
   // EVENTOS ===================================================================
@@ -316,29 +401,23 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.mostraSeletor = false;
   }
 
-  processoDetalheCompleto(pro){}
-
-  historicoProcesso() {
-    /*this.histListI =  {
-      modulo: 'processo',
-      hist: pro
-    }*/
-    // this.histListI.hist = pro.historico_processo;
-    // console.log('historicoProcesso',pro);
-    // console.log('historicoProcesso2', this.ps.expandido.historico_processo);
-    // this.buscaIdx(sol.solicitacao_id);
-    // this.proHistForm = pro;
-    this.showHistorico = true;
-    //this.showHistorico2 = true;
+  processoDetalheCompleto(pro){
+    console.log(pro);
   }
 
-  mostraDialog(ev: boolean) {
-    console.log('escondeDialog', ev);
+  historicoProcesso() {
+    this.showHistorico = true;
 
+  }
+
+  historicoProcessoIncluirCtx() {
+
+  }
+
+
+  mostraDialog(ev: boolean) {
     this.showHistorico2 = ev;
     this.cssMostra = (ev) ? null : 'p-d-none';
-    console.log('escondeDialog', this.cssMostra);
-
   }
 
 
@@ -348,23 +427,21 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   recebeRegistro(h: HistFormI) {
     if (h.acao === 'incluir') {
-      const n: number = this.ps.processos.findIndex(p =>p.processo_id = h.hist.historico_processo_id);
-      if (h.modulo === 'processo') {
+      const n: number = this.ps.processos.findIndex(p => p.processo_id = h.hist.historico_processo_id);
         if (Array.isArray(this.ps.processos[n].historico_processo)) {
           this.ps.processos[n].historico_processo.push(h.hist);
         } else {
           this.ps.processos[n].historico_processo = [h.hist];
         }
-      } /*else {
-        const n: number = this.ps.processos.findIndex(p =>p.solicitacao_id = h.hist.historico_solocitacao_id);
-        if (Array.isArray(this.ps.processos[n].historico_solicitcao)) {
-          this.ps.processos[n].historico_solicitcao.push(h.hist);
-        } else {
-          this.ps.processos[n].historico_solicitcao = [h.hist];
-        }
-      }*/
     }
-
+    if (h.acao === 'alterar') {
+      const n: number = this.ps.processos.findIndex(p => p.processo_id = h.hist.historico_processo_id);
+      this.ps.processos[n].historico_processo.splice(this.ps.processos[n].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id), 1, h.hist);
+    }
+    if (h.acao === 'apagar') {
+      const n: number = this.ps.processos.findIndex(p => p.processo_id = h.hist.historico_processo_id);
+      this.ps.processos[n].historico_processo.splice(this.ps.processos[n].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id),1);
+    }
   }
 
   /*onRowExpand(event): void {
@@ -477,7 +554,13 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     }*/
   }
 
-  processoAnalisar(pr: ProcessoListagemInterface) {
+  processoAnalisar(pro) {
+
+  }
+  processoAnalisarCtx() {
+    if(this.ps.Contexto.processo_status_id === 1 || this.ps.Contexto.processo_status_id === 4 ) {
+
+    }
     /*if (pr.processo_status_nome !== 'EM ANDAMENTO') {
       this.messageService.add(
         {

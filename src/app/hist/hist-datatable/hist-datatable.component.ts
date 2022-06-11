@@ -92,7 +92,17 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
       this.has.histListI.hist.push(h.hist);
       this.novoRegistro.emit(h);
     }
+  }
 
+  onExcluir(idx: number) {
+    const e: HistFormI = {
+      modulo: this.has.histListI.modulo,
+      acao: 'apagar',
+      idx: idx,
+      hist: this.has.histListI.hist[idx]
+    }
+    this.novoRegistro.emit(e);
+    this.has.histListI.hist.splice(idx, 1);
   }
 
   /*get mostraBts(): boolean {

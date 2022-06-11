@@ -47,13 +47,12 @@ export class HistService {
   }
 
 
-  delete(dados: HistFormI): Observable<any[]> {
-    const id: number = dados.hist.historico_id;
+  delete(id: number, modulo: string): Observable<any[]> {
     let url: string = '';
-    if (dados.modulo === 'solicitacao') {
+    if (modulo === 'solicitacao') {
       url = this.url.historicoSolicitacao + '/' + id;
     }
-    if (dados.modulo === 'processo') {
+    if (modulo === 'processo') {
       url = this.url.historicoProcesso + '/' + id;
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
