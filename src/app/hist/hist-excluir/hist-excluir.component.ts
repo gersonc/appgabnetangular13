@@ -7,12 +7,14 @@ import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-hist-excluir',
-  template: `<button *ngIf="excluir" pButton pRipple type="button" icon="pi pi-trash" pTooltip="APAGAR" class="historico p-button-sm p-button-rounded p-button-danger" (click)="confirm($event)"></button><p-confirmPopup *ngIf="excluir"></p-confirmPopup>`
+  template: `<button *ngIf="excluir" pButton pRipple type="button" icon="pi pi-trash" pTooltip="APAGAR" class="historico p-button-sm p-button-rounded p-button-danger" (click)="confirm($event)"></button>
+  <p-confirmPopup *ngIf="excluir"></p-confirmPopup>`,
+  providers: [ConfirmationService, MessageService]
 })
 export class HistExcluirComponent implements OnInit {
   @Input() id?: number;
   @Input() idx?: number;
-  @Input() modulo: string;
+  @Input() modulo?: string;
   @Output() onExcluir = new EventEmitter<number>();
   sub: Subscription[] = [];
   resp: [boolean, string, string] = [false,'',''];

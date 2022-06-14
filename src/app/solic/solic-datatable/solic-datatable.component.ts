@@ -20,7 +20,7 @@ import {SolicService} from "../_services/solic.service";
 import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {SolicFormService} from "../_services/solic-form.service";
-import {HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistListI} from "../../hist/_models/hist-i";
 
 
 @Component({
@@ -513,6 +513,16 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.showHistoricoForm = false;
     this.solHistForm = null;
   }
+
+  dialogHistoricoListar(ev) {
+    this.showHistorico = ev;
+    this.showHistorico2= ev;
+  }
+
+  historicoNovoRegisto(HistFormI: HistFormI) {
+
+  }
+
 
   escondeHistoricoListar(histListI: HistListI) {
     this.ss.solicitacoes[this.buscaIdx(this.solHistForm.solicitacao_id)].historico_solicitcao = histListI.hist;

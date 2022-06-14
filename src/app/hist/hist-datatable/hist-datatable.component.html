@@ -9,12 +9,10 @@
     <tr *ngFor="let his of has.histListI.hist; let i=index;">
       <td style="font-weight: normal">{{his.historico_data}} {{mudaI(i)}}</td>
       <td style="font-weight: normal">
-        <app-quill-view [cpdelta]="his.historico_andamento_delta" [cphtml]="his.historico_andamento"
-                        class="detalhe"></app-quill-view>
+        <app-quill-view [cpdelta]="his.historico_andamento_delta" [cphtml]="his.historico_andamento"  class="detalhe"></app-quill-view>
       </td>
       <td style="width: 3em">
-        <app-hist-form [idx]="idx" [id]="his.historico_id" [acao]="'alterar'"
-                       (mostraBtsExterno)="mostraBts($event)"></app-hist-form>
+        <app-hist-form [idx]="idx" [id]="his.historico_id" [acao]="'alterar'" (novoRegistro)="recebeRegistro($event)" (dialogExterno)="dialogExternoSN($event)"></app-hist-form>
         <app-hist-excluir [idx]="idx" [id]="his.historico_id" [modulo]="modulo" (onExcluir)="onExcluir($event)"></app-hist-excluir>
         <!-- <app-historico-processo-form *ngIf="authenticationService.historico_alterar" [acao]="'alterar'" [dados]="his" (novosDados)="historicos[i]=$event"></app-historico-processo-form>
          <app-historico-processo-excluir *ngIf="authenticationService.historico_apagar" [id]="his.historico_id" [idx]="i" (OnExcluir)="onExluir($event)"></app-historico-processo-excluir>-->
@@ -43,7 +41,7 @@
 <!---->
 
 <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-  <app-hist-form [idx]="null" [id]="has.histListI.registro_id" [acao]="'incluir'" (mostraBtsExterno)="mostraBts($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+  <app-hist-form [idx]="null" [id]="has.histListI.registro_id" [acao]="'incluir'" (dialogExterno)="dialogExternoSN($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
   <div class="p-mr-2">
     <button
       pButton

@@ -31,6 +31,7 @@ export class ProceService {
   procApagar?: ProceListarI;
   procAnalisar?: ProceListarI;
   expandido?: ProceListarI;
+  expandidoSN = false;
   msgCtxH: boolean = true;
 
   constructor(
@@ -51,7 +52,6 @@ export class ProceService {
     this.ts.titulosSN();
     if (this.tabela === undefined) {
       this.tabela = new Datatable();
-      console.log('criaTabela');
       if (this.stateSN) {
         this.criaBusca();
       } else {
@@ -84,7 +84,6 @@ export class ProceService {
     this.criaBusca();
   }
 
-
   onContextMenuSelect(evento) {
     this.Contexto = evento.data;
     /*if (Array.isArray(evento.data.historico_processo)) {
@@ -116,8 +115,7 @@ export class ProceService {
   }
 
   onRowExpand(evento) {
-
-    console.log('onRowExpand', evento.data);
+    this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     let a = 0;
     const b: any[] = [];
@@ -129,57 +127,32 @@ export class ProceService {
         historico_solocitacao_id: +evento.data.solicitacao_id
       }
     };
-    /*this.has.histFormI.modulo = 'processo';
-    this.has.histFormI.hist.historico_processo_id = +evento.data.processo_id;*/
     this.has.histListI = {
       modulo: 'processo',
       hist: evento.data.historico_processo,
       registro_id: +evento.data.processo_id
     }
-    // this.tabela.dadosExpandidos = evento.data;
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
-          // const m = this.tabela.camposTexto.indexOf(t.field);
-          // let jj: any[] = [];
           const tit = t.titulo;
           let vf = false;
           let txtdelta: any = null;
           let txt: string = null;
           let tst = '';
-          // jj.push(this.tabela.titulos[n].toString());
-          /*if (m >= 0) {
-            let keyidx: string[] = [
-              this.tabela.camposTexto[m],
-              this.tabela.camposTexto[m] + '_texto',
-              this.tabela.camposTexto[m] + '_delta'
-            ];
-            tst = (ev[keyidx[0]] !== undefined) ? ev[keyidx[0]] : null;
-            txt = (ev[keyidx[1]] !== undefined ) ? ev[ev[keyidx[1]]] : null;
-            txtdelta = (ev[keyidx[2]] !== undefined) ? ev[ev[keyidx[2]]] : null
-            /!*tst = ev[keyidx[0]];
-            txt = ev[keyidx[1]];
-            txtdelta = ev[keyidx[2]];*!/
-            vf = true;
-          } else {
-            tst = ev[t.field].toString();
-          }*/
           tst = ev[t.field].toString();
           b.push([tit, tst, vf, txt, txtdelta]);
           a++;
         }
       }
     });
-    //console.log('exp', dados.historico)
-    console.log('onRowExpand2', evento.data.historico_processo);
-
     this.tabela.dadosExpandidos = b;
-    console.log('onRowExpand3', this.expandido.historico_processo);
-
+    this.expandidoSN = true;
   }
 
   onRowCollapse(ev) {
     this.tabela.dadosExpandidos = undefined;
+    this.expandidoSN = false;
   }
 
   onStateRestore(tableSession: any) {
@@ -193,7 +166,8 @@ export class ProceService {
     this.parseBusca(b);
   }
 
-  setState() {
+  setState(ev) {
+    this.tabela.expandedRowKeys = ev.expandedRowKeys;
     this.stateSN = true;
     sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
     sessionStorage.setItem('proce-tabela', JSON.stringify(this.tabela));
@@ -250,7 +224,7 @@ export class ProceService {
           break;
         }
         case 'expandedRowKeys': {
-          this.tabela.pageCount = parseInt(js[k], 10);
+          this.tabela.expandedRowKeys = js[k];
           break;
         }
         case 'sortField': {
@@ -424,8 +398,6 @@ export class ProceService {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          // this.resetSolicitacaoBusca();
-          // this.processos = strToDelta(dados.processos);
           this.processos = dados.processos;
           this.tabela.total = dados.total;
           this.tabela.totalRecords = this.tabela.total.num;
@@ -434,7 +406,6 @@ export class ProceService {
         complete: () => {
           this.tabela.currentPage = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
           this.tabela.pageCount = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
-          // this.cs.escondeCarregador();
         }
       })
     );
@@ -484,8 +455,27 @@ export class ProceService {
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
+  recebeRegistro() {
+    if (this.has.histFormI.acao === 'incluir') {
+      const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+      if (Array.isArray(this.processos[n].historico_processo)) {
+        this.processos[n].historico_processo.push(this.has.histFormI.hist);
+      } else {
+        this.processos[n].historico_processo = [this.has.histFormI.hist];
+      }
+    }
+    if (this.has.histFormI.acao === 'alterar') {
+      const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+      const m: number = this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
+      this.processos[n].historico_processo.splice(m, 1, this.has.histFormI.hist);
+    }
+    if (this.has.histFormI.acao === 'apagar') {
+      const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+      this.processos[n].historico_processo.splice(this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+    }
+  }
+
   onDestroy(): void {
-    console.log('onDestroy');
     sessionStorage.removeItem('proce-busca');
     sessionStorage.removeItem('proce-tabela');
     sessionStorage.removeItem('proce-table');

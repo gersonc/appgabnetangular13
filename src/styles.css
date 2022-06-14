@@ -14738,6 +14738,8 @@ table .table-hover.tabela .detalhe-horiz {
   word-wrap: break-word;
 }
 
+
+
 .listem-historico td {
   padding: .5rem;
   width: 30px !important;
@@ -14808,7 +14810,56 @@ table .table-hover.tabela .detalhe-horiz {
   height: 842px;
 }
 
-
-.editor-historico .ql-editor {
-  min-height: 10rem;
+div.p-field.formulario > quill-editor{
+  box-sizing: border-box!important;
 }
+
+.formulario .ql-toolbar.ql-snow {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  padding: 8px;
+  background-color: var(--input-filled);
+}
+
+.formulario .ql-editor {
+  box-sizing: border-box !important;
+  min-height: 5rem !important;
+}
+
+/*.formulario .tabela .ql-editor {
+  min-height: 7rem !important;
+}*/
+
+.formulario .ql-toolbar.ql-snow + .ql-container.ql-snow {
+  box-sizing: border-box!important;
+  background-color: var(--surface-0);
+  border: 1px solid var(--surface-c-border);
+  border-radius: 5px;
+}
+
+.formulario .qeditor {
+  padding: 0 .5rem .5rem .5rem;
+  background-color: var(--input-filled);
+  border-radius: 5px;
+  border: 1px solid var(--surface-c-border);
+}
+
+.formulario .ql-container.ql-snow {
+  border: 0;
+}
+
+quill-editor.formulario  {
+  display: block;
+}
+
+quill-editor.q-editor {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+
+
+

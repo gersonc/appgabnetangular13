@@ -9,7 +9,7 @@
          [loading]="loading"
          [totalRecords]="ps.tabela.totalRecords"
          [sortField]="ps.tabela.sortField"
-         dataKey="processo_id"
+         [dataKey]="'processo_id'"
          [scrollable]="true"
          [scrollHeight]="altura"
          [(selection)]="ps.selecionados"
@@ -32,7 +32,7 @@
          (onColReorder)="onColReorder($event)"
          (onRowExpand)="ps.onRowExpand($event)"
          (onRowCollapse)="ps.onRowCollapse($event)"
-         (onStateSave)="ps.setState()"
+         (onStateSave)="ps.setState($event)"
          (onStateRestore)="ps.onStateRestore($event)"
          (onContextMenuSelect)="ps.onContextMenuSelect($event)"
          [customSort]="true"
@@ -146,7 +146,7 @@
   </ng-template>
 
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-pro let-indice="rowIndex" let-columns="columns">
+  <ng-template pTemplate="rowexpansion" let-pro let-indice="rowIndex" let-columns="columns" let-exp="expanded">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -192,7 +192,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="permListHist && ps.expandido.historico_processo.length > 0" class="p-mr-2">
+              <div *ngIf="ps.expandidoSN && permListHist && ps.expandido.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -205,7 +205,7 @@
                 >
                 </button>
               </div>
-              <app-hist-form [idx]="indice" [id]="pro.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <app-hist-form *ngIf="ps.expandidoSN" [idx]="indice" [id]="pro.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
             </div>
 
 
@@ -255,6 +255,7 @@
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 <p-dialog *ngIf="ps.tabela.mostraSeletor"
+          #dg
           id="seletor"
           header="Selecione as colunas."
           [(visible)]="ps.tabela.mostraSeletor"
@@ -264,6 +265,18 @@
           [dismissableMask]="true"
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="ps.tabela.selectedColumns"></app-seletor-colunas>
+  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+    <div class="p-mr-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        class="botaoinferior p-button-rounded"
+        [label]="'FECHAR'"
+        (click)="dg.visibleChange.emit(false)"
+      ></button>
+    </div>
+  </div>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 <!--<p-contextMenu #cm [model]="contextoMenu3"> </p-contextMenu>-->
@@ -310,7 +323,7 @@
 </ng-container>
 
 <!--*** HISTORICO PROCESSO ****************************************************************************************-->
-<ng-container *ngIf="showHistorico">
+<ng-container *ngIf="showHistorico2">
   <div [ngClass]="cssMostra">
   <p-dialog
     [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
@@ -318,13 +331,12 @@
     [(visible)]="showHistorico"
     styleClass="tablistagem"
     header="ANDAMENTOS DO PROCESSO"
-    [modal]="true"
+    [modal]="false"
     [dismissableMask]="false"
-    (onHide)="escondeHistoricoListar(histListI)"
     [baseZIndex]="0"
 
   >
-    <app-hist-datatable [(display)]="showHistorico" (escondeDialog)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+    <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
   </p-dialog>
   </div>
 </ng-container>

@@ -57,7 +57,7 @@
     styleClass="tablistagem"
     [maximizable]="true"
     [baseZIndex]="10"
-    (onShow)="carregaForm()"
+    (onShow)="mostraBts(true)"
     appendTo="body"
   >
 
@@ -92,20 +92,29 @@
 
                     <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12 formulario" [ngClass]="aplicaCssErro('historico_andamento')">
                       <label for="historico_andamento"><span class="atencao">*</span>Andamento</label>
-                      <p-editor
-                        #histand
+                      <div class="qeditor">
+                      <quill-editor
+                        class="formulario"
                         id="historico_andamento"
-                        formControlName="historico_andamento"
-                        [modules]="modulos"
-                        [styleClass]="'editor-historico'"
-                        minlength="2"
                         [required]="true"
-                      >
-                        <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
-                      <app-campo-erro msgErro="Andamento é obrigatório."
-                                      [mostrarErro]="verificaRequired('historico_andamento')"></app-campo-erro>
+                        [format]="format"
+                        [defaultEmptyValue]="null"
+                        [theme]="'snow'"
+                        [modules]="modulos"
+                        [debounceTime]="10"
+                        [placeholder]="''"
+                        formControlName="historico_andamento"
+                        (onContentChanged)="onContentChanged($event)"
+                      ></quill-editor>
                     </div>
+                      <app-campo-erro msgErro="Andamento é obrigatório." [mostrarErro]="verificaRequired('historico_andamento')"></app-campo-erro>
+
+                    </div>
+
+
+
+
+
 
                     <div class="p-field p-col-12">
                       <!--*** Botões ***-->
@@ -116,7 +125,7 @@
                             pRipple
                             type="submit"
                             class="botaoinferior p-button-rounded"
-                            [label]="acao.toUpperCase()"
+                            [label]="histFormI.acao.toUpperCase()"
                             [disabled]="!formHis.valid || !formHis.dirty || btDesabilitado"
                           ></button>
                         </div>

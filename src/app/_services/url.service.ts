@@ -56,6 +56,5 @@ export class UrlService {
 
 
   constructor() {
-    console.log('location.hostname', location.hostname);
   }
 }

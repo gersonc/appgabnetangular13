@@ -27,6 +27,7 @@ import { DialogModule } from 'primeng/dialog';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { NgHttpLoaderModule } from "ng-http-loader";
 import { InputSwitchModule } from "primeng/inputswitch";
+import {QuillModule} from "ngx-quill";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -65,7 +66,8 @@ export function tokenGetter() {
     PanelMenuModule,
     RippleModule,
     InputSwitchModule,
-    FormsModule
+    FormsModule,
+    QuillModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

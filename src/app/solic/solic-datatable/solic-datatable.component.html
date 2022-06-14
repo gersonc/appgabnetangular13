@@ -303,7 +303,7 @@
     header="ANDAMENTO DA SOLICITAÇÃO"
     (onHide)="escondeHistoricoListar(histListI)"
   >
-    <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
+    <app-hist-datatable [(display)]="showHistorico" (dialogExterno)="dialogHistoricoListar($event)" (novoRegistro)="historicoNovoRegisto($event)"></app-hist-datatable>
     <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
   </p-dialog>
 </ng-container>

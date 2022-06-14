@@ -31,9 +31,7 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
     public authenticationService: AuthenticationService,
     private router: Router,
 
-  ) {
-    console.log('mi');
-  }
+  ) { }
 
   ngOnInit() {
     this.formListar = this.formBuilder.group({
