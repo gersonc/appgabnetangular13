@@ -2,11 +2,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -19,13 +17,14 @@ import {Editor} from "primeng/editor";
 import {MessageService} from 'primeng-lts/api';
 import {HistAuxService} from "../_services/hist-aux.service";
 import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-hist-form',
   templateUrl: './hist-form.component.html',
   styleUrls: ['./hist-form.component.css']
 })
-export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
+export class HistFormComponent implements OnInit, OnDestroy {
   @ViewChild('histand', {static: true}) histand: Editor;
   @Input() display?: boolean;
   @Output() novoRegistro = new EventEmitter<HistFormI>();
@@ -71,7 +70,7 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
     ]
   };
 
-  ct = 0;
+  // ct = 0;
   incluirPerm = false;
   alterarPerm = false;
   apagarPerm = false;
@@ -82,8 +81,9 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
     private fb: FormBuilder,
     public aut: AuthenticationService,
     private hs: HistService,
-    private ms: MessageService,
-    public has: HistAuxService
+    // private ms: MessageService,
+    public has: HistAuxService,
+    public ms: MsgService
   ) {
     if (this.has.histFormI.modulo === 'solicitacao') {
       this.titulo = 'SOLICITAÇÃO';
@@ -103,9 +103,6 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-
-  }
 
   ngOnInit(): void {
     this.histFormI.acao =  (this.acao === 'incluir2' || this.acao === 'incluir') ? 'incluir' : this.acao;
@@ -118,7 +115,6 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
 
   mostraBts(vf: boolean) {
   }
-
 
   formMostra(acao: string, id: number, idx: number) {
     this.mostraForm = true;
@@ -341,7 +337,6 @@ export class HistFormComponent implements OnInit, OnChanges, OnDestroy {
       text: ev.text
     }
   }
-
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

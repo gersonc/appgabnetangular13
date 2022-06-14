@@ -1,6 +1,6 @@
 <div id="app" class="app" (resized)="onResized('app', $event)">
   <header [ngClass]="classe" class="header p-shadow-2">
-
+    <p-toast key="princial"></p-toast>
     <div class="div-menu-principal"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
 
     <div *ngIf="authenticationService.dispositivo !== 'mobile'" class="topo">
@@ -41,6 +41,5 @@
   [backdropBackgroundColor]="'#777777'"
   [spinner]="sps.modelo">
 </ng-http-loader>
-<p-toast></p-toast>
-<p-toast key="princial"></p-toast>
+
 
