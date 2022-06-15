@@ -15,8 +15,8 @@ import { ArquivoLoginService } from './arquivo/_services';
 import { PrimeNGConfig } from 'primeng/api';
 import { SpinnerService } from "./_services/spinner.service";
 import { Spinkit } from 'ng-http-loader';
-import {Message,MessageService} from 'primeng-lts/api';
-import {MsgService} from "./_services/msg.service";
+/*import {Message,MessageService} from 'primeng-lts/api';
+import {MsgService} from "./_services/msg.service";*/
 
 @Component({
   selector: 'app-root',
@@ -57,8 +57,8 @@ export class AppComponent implements OnInit {
     private as: ArquivoLoginService,
     public md: MenuDatatableService,
     public sps: SpinnerService,
-    public messageService: MessageService,
-    public msg: MsgService
+    /*public messageService: MessageService,
+    public msg: MsgService*/
   ) { }
 
   ngOnInit() {
@@ -74,6 +74,7 @@ export class AppComponent implements OnInit {
     if (this.authenticationService.permissoes_carregadas) {
        this.as.verificaPermissoes();
     }
+
 
   }
 

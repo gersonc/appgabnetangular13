@@ -48,8 +48,8 @@ export class UrlService {
   grafico = this.url + 'grafico';
   filemanager = this.url + 'filemanager';
   uploadlocal = this.url + 'arquivo2';
-  historicoProcesso = this.url + 'historico';
-  historicoSolicitacao = this.url + 'historicosolicitacao';
+  historicoProcesso = this.url + 'historico/processo';
+  historicoSolicitacao = this.url + 'historico/solicitacao';
   ping = this.url + 'ping';
   explorer = this.url + 'pasta';
   dd = this.url + 'dd';

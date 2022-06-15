@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {MessageService} from "primeng-lts/api";
+import {BehaviorSubject} from "rxjs";
+import {delay} from "rxjs/operators";
 
 export interface MsgI{
   severity: string,
@@ -9,19 +10,24 @@ export interface MsgI{
 }
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class MsgService {
+  msgSubject = new BehaviorSubject({});
+  msg$ = this.msgSubject.asObservable();
 
-  constructor(public m: MessageService) { }
+  constructor() { }
 
   add(msg: MsgI) {
-    if (typeof msg.key === 'undefined') {
-      msg.key = 'principal'
+      if (typeof msg.key === 'undefined') {
+        msg.key = 'principal'
+      }
+      this.msgSubject.next(msg);
+      // this.msgSubject.next();
     }
-    this.m.add(msg);
-  }
+
 
 
 }

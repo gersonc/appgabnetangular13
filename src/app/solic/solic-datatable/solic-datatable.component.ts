@@ -21,6 +21,7 @@ import {TSMap} from "typescript-map";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {ProceListarI} from "../../proce/_model/proc-i";
 
 
 @Component({
@@ -48,7 +49,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solDetalhe?: SolicListarI;
   // showHistoricoForm = false;
   // showHistorico = false;
-  solHistForm: any;
+  // solHistForm: any;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   colteste: string[];
@@ -58,8 +59,21 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   histListI: HistListI;
   showHistorico = false;
   showHistorico2 = false;
+  showHistoricoSol = false;
+  showHistoricoSol2 = false;
+
+  tituloHistoricoDialog = 'ANDAMENTOS';
   showHistoricoForm = false;
   showHistoricoForm2 = false;
+
+
+  cssMostra: string | null = null;
+  // histListI: HistListI | null = null;
+  // solHistForm: SolicListarI | null;
+  permListHistSol: boolean = false;
+  permInclHistSol: boolean = false;
+  permListHist: boolean = false;
+  permInclHist: boolean = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -75,6 +89,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.permListHist = ((this.aut.processo && this.aut.solicitacaoVersao === 1) && (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+    this.permInclHist = ((this.aut.processo && this.aut.solicitacaoVersao === 1) && (this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+    this.permListHistSol  = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || (this.aut.usuario_responsavel_sn || this.permListHist));
+    this.permInclHistSol = (this.aut.historico_solicitacao_incluir || this.aut.historico_solicitacao_alterar || this.aut.solicitacao_analisar || (this.aut.usuario_responsavel_sn || this.permInclHist));
+
     this.montaColunas();
     if(!this.ss.stateSN) {
       this.resetSelectedColumns();
@@ -216,6 +235,25 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     );
   }
 
+  rowColor(field: string, vl1: number, vl2: string | number): string | null {
+    if (field !== 'processo_status_nome' && field !== 'solicitacao_situacao') {
+      return null;
+    }
+    if (field === 'processo_status_nome') {
+      return 'status-' + vl1;
+    }
+    switch (vl2) {
+      case 'EM ANDAMENTO':
+        return 'status-1';
+      case 'CONCLUIDA':
+        return 'status-3';
+      case 'SUSPENSO':
+        return 'status-4';
+      default:
+        return null;
+    }
+  }
+
   montaMenuContexto() {
     this.contextoMenu = [
       {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
@@ -275,7 +313,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   onStateSave(ev) {
-    this.ss.setState()
+    // this.ss.setState()
   }
 
   mostraSelectColunas(): void {// this
@@ -284,6 +322,30 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   hideSeletor(ev): void {
       this.mostraSeletor = false;
+  }
+
+  historicoProcesso(idx: number) {
+    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DO PROCESSO.'
+    this.ss.montaHistorico('processo', idx);
+    this.showHistorico2 = true;
+    this.showHistorico = true;
+    this.mostraDialog(true);
+  }
+
+  historicoSolicitacao(idx: number) {
+    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DA SOLICITAÇÃO.'
+    this.ss.montaHistorico('solicitacao', idx);
+    this.showHistoricoSol2 = true;
+    this.showHistoricoSol = true;
+    this.mostraDialog(true);
+  }
+
+  mostraDialog(ev: boolean) {
+    this.cssMostra = (ev) ? null : 'p-d-none';
+  }
+
+  recebeRegistro(h: HistFormI) {
+    this.ss.recebeRegistro();
   }
 
   // FUNCOES DO COMPONENTE =====================================================
@@ -392,7 +454,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   solicitacaoAlterar(sol: SolicListarI) {
     if (this.aut.solicitacao_alterar) {
       this.dtb.saveState();
-      this.ss.setState();
+      // this.ss.setState();
       console.log('solicitacaoAlterar', sol);
       this.sfs.acao = 'alterar';
       this.sfs.solicListar = sol;
@@ -485,7 +547,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   }*/
 
-  historicoSolicitacao(sol: SolicListarI) {
+  /*historicoSolicitacao(sol: SolicListarI) {
     this.histListI = {
       modulo: 'solicitacao',
       hist: sol.historico_solicitcao
@@ -494,9 +556,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.solHistForm = sol;
     this.showHistorico = true;
     this.showHistorico2 = true;
-  }
+  }*/
 
-  historicoSolicitacaoIncluir(sol: SolicListarI) {
+  /*historicoSolicitacaoIncluir(sol: SolicListarI) {
     // this.buscaIdx(sol.solicitacao_id);
     this.solHistForm = sol;
     this.showHistoricoForm = true;
@@ -529,7 +591,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.showHistorico= false;
     // this.solHistForm = null;
   }
-
+*/
   // FUNCOES RELATORIOS=========================================================
 
   mostraTabelaPdf(td: boolean = false) {

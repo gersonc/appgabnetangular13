@@ -14,6 +14,7 @@ import {ProceService} from "../_services/proce.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {ProceFormService} from "../_services/proce-form.service";
 import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
@@ -93,11 +94,16 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   showHistorico = true;
   showHistorico2 = false
+
   cssMostra: string | null = null;
   histListI: HistListI | null = null;
   proHistForm: ProceListarI | null;
   permListHist: boolean = false;
   permInclHist: boolean = false;
+  permListHistSol: boolean = false;
+  permInclHistSol: boolean = false;
+  tituloHistoricoDialog = 'ANDAMENTOS';
+
   colsDefaut2: any[] = [];
 
 
@@ -108,9 +114,9 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     // public dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private ms: MessageService,
     public ps: ProceService,
     public pfs: ProceFormService,
+    private msg: MsgService
     // private pbs: ProcessoBuscaService,
   ) {
   }
@@ -118,52 +124,24 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.permListHist = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
     this.permInclHist = (this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
+    this.permListHistSol  = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || (this.aut.usuario_responsavel_sn || this.permListHist));
+    this.permInclHistSol = (this.aut.historico_solicitacao_incluir || this.aut.historico_solicitacao_alterar || this.aut.solicitacao_analisar || (this.aut.usuario_responsavel_sn || this.permInclHist));
+
+
     this.montaColunas();
     if (!this.ps.stateSN) {
       this.resetSelectedColumns();
     }
 
     this.itemsAcao = [
-      {
-        label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
-          this.exportToCsv();
-        }
-      },
-      {
-        label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
-          this.exportToCsv(true);
-        }
-      },
-      {
-        label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
-          this.mostraTabelaPdf();
-        }
-      },
-      {
-        label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          this.mostraTabelaPdf(true);
-        }
-      },
-      {
-        label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
-          this.imprimirTabela();
-        }
-      },
-      {
-        label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {
-          this.imprimirTabela(true);
-        }
-      },
-      {
-        label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
-          this.exportToXLSX();
-        }
-      },
-      {
-        label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
-          this.exportToXLSX(true);
-        }
-      }
+      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv();}},
+      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {this.exportToCsv(true);}},
+      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {this.mostraTabelaPdf();}},
+      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {this.mostraTabelaPdf(true);}},
+      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {this.imprimirTabela();}},
+      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {this.imprimirTabela(true);}},
+      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {this.exportToXLSX();}},
+      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {this.exportToXLSX(true);}}
     ];
 
     this.montaMenuContexto();
@@ -444,7 +422,17 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     console.log(pro);
   }
 
-  historicoProcesso() {
+  historicoProcesso(idx: number) {
+    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DO PROCESSO.'
+    this.ps.montaHistorico('processo', idx)
+    this.showHistorico2 = true;
+    this.showHistorico = true;
+    this.mostraDialog(true);
+  }
+
+  historicoSolicitacao(idx: number) {
+    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DA SOLICITAÇÃO.'
+    this.ps.montaHistorico('solicitacao', idx);
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
@@ -457,7 +445,6 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   fecharHistoricoProcesso(){
 
   }
-
 
 
   mostraDialog(ev: boolean) {

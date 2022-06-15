@@ -1,6 +1,6 @@
 <div id="app" class="app" (resized)="onResized('app', $event)">
   <header [ngClass]="classe" class="header p-shadow-2">
-    <p-toast key="princial"></p-toast>
+
     <div class="div-menu-principal"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
 
     <div *ngIf="authenticationService.dispositivo !== 'mobile'" class="topo">
@@ -26,6 +26,7 @@
     <app-panelmenu [mostra]="mostraMenuPrincipal" [recarrega]="authenticationService.dispositivo"></app-panelmenu>
 
     <div style="padding-top: .1em;" #principal id="principal">
+      <app-msg></app-msg>
       <router-outlet></router-outlet>
     </div>
   </div>

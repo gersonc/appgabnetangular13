@@ -50,6 +50,7 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.idx = this.has.histListI.idx;
     if(this.has.histListI.modulo === 'solicitacao') {
       this.modulo = 'solicitacao';
       this.caption = 'ANDAMENTOS DA SOLICITAÇÃO';

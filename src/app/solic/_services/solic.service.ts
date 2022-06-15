@@ -12,6 +12,7 @@ import {UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistListI} from "../../hist/_models/hist-i";
 import {strToDelta} from "../../_models/parcer-delta";
+import {HistAuxService} from "../../hist/_services/hist-aux.service";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,8 @@ export class SolicService {
   busca?: SolicBuscaI;
   tabela?: DatatableI;
   stateSN = false;
+  expandido?: SolicListarI;
+  expandidoSN = false;
   solicitacaoApagar?: SolicListarI;
   solicitacaoAnalisar?: SolicListarI;
 
@@ -36,7 +39,8 @@ export class SolicService {
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private ts: TitulosService
+    private ts: TitulosService,
+    private has: HistAuxService
   ) {
     this.criaTabela();
     this.solicitacaoUrl = this.url.solic;
@@ -50,7 +54,6 @@ export class SolicService {
     this.ts.titulosSN();
     if (this.tabela === undefined) {
       this.tabela = new Datatable();
-      console.log('criaTabela');
       if (this.stateSN) {
         this.criaBusca();
       } else {
@@ -88,24 +91,39 @@ export class SolicService {
   }
 
   onRowExpand(evento) {
-    console.log('onRowExpand', evento);
+    this.tabela.dadosExpandidosRaw = evento;
+    this.expandido = evento.data;
     let a = 0;
     const b: any[] = [];
     let ev = evento.data;
-    // this.buscaIdx(ev.solicitacao_id);
-    // this.tabela.dadosExpandidos = evento.data;
+    this.has.histFormI = {
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solicitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    /*this.has.histFormI = {
+      modulo: 'processo',
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solicitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    this.has.histListI = {
+      modulo: 'processo',
+      hist: evento.data.historico_processo,
+      registro_id: +evento.data.processo_id
+    }*/
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
           const m = this.tabela.camposTexto.indexOf(t.field);
-          // let jj: any[] = [];
           const tit = t.titulo;
           let vf = false;
           let txtdelta: string = null;
           let txt: string = null;
           let tst = '';
-          // jj.push(this.tabela.titulos[n].toString());
-          if (m >= 0) {
+          /*if (m >= 0) {
             let keyidx: string[] = [
               this.tabela.camposTexto[m],
               this.tabela.camposTexto[m] + '_texto',
@@ -117,20 +135,22 @@ export class SolicService {
             vf = true;
           } else {
             tst = ev[t.field].toString();
-          }
+          }*/
+          tst = ev[t.field].toString();
           b.push([tit, tst, vf, txt, txtdelta]);
           a++;
         }
       }
     });
     this.tabela.dadosExpandidos = b;
-
+    this.expandidoSN = true;
   }
 
 
 
   onRowCollapse(ev) {
     this.tabela.dadosExpandidos = undefined;
+    this.expandidoSN = false;
   }
 
   onStateRestore(tableSession: any) {
@@ -144,7 +164,8 @@ export class SolicService {
     this.parseBusca(b);
   }
 
-  setState() {
+  setState(ev) {
+    this.tabela.expandedRowKeys = ev.expandedRowKeys;
     this.stateSN = true;
     sessionStorage.setItem('solic-busca', JSON.stringify(this.busca));
     sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
@@ -201,7 +222,7 @@ export class SolicService {
           break;
         }
         case 'expandedRowKeys': {
-          this.tabela.pageCount = parseInt(js[k], 10);
+          this.tabela.expandedRowKeys = js[k];
           break;
         }
         case 'sortField': {
@@ -340,6 +361,59 @@ export class SolicService {
     url = this.url.solic + '/verificanumoficio';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
+  }
+
+  recebeRegistro() {
+    if (this.has.histFormI.modulo === 'solicitacao') {
+      if (this.has.histFormI.acao === 'incluir') {
+        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
+        if (Array.isArray(this.solicitacoes[n].historico_solicitcao)) {
+          this.solicitacoes[n].historico_solicitcao.push(this.has.histFormI.hist);
+        } else {
+          this.solicitacoes[n].historico_solicitcao = [this.has.histFormI.hist];
+        }
+      }
+      if (this.has.histFormI.acao === 'alterar') {
+        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
+        const m: number = this.solicitacoes[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
+        this.solicitacoes[n].historico_solicitcao.splice(m, 1, this.has.histFormI.hist);
+      }
+      if (this.has.histFormI.acao === 'apagar') {
+        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
+        this.solicitacoes[n].historico_solicitcao.splice(this.solicitacoes[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+      }
+    }
+    if (this.has.histFormI.modulo === 'processo') {
+      if (this.has.histFormI.acao === 'incluir') {
+        const n: number = this.solicitacoes.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+        if (Array.isArray(this.solicitacoes[n].historico_processo)) {
+          this.solicitacoes[n].historico_processo.push(this.has.histFormI.hist);
+        } else {
+          this.solicitacoes[n].historico_processo = [this.has.histFormI.hist];
+        }
+      }
+      if (this.has.histFormI.acao === 'alterar') {
+        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_processo_id);
+        const m: number = this.solicitacoes[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
+        this.solicitacoes[n].historico_processo.splice(m, 1, this.has.histFormI.hist);
+      }
+      if (this.has.histFormI.acao === 'apagar') {
+        const n: number = this.solicitacoes.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+        this.solicitacoes[n].historico_processo.splice(this.solicitacoes[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+      }
+    }
+  }
+
+  montaHistorico(modulo: string, idx: number) {
+    this.has.histFormI.modulo = modulo;
+    this.has.histFormI.idx = idx;
+
+    this.has.histListI = {
+      idx: idx,
+      modulo: modulo,
+      hist: (modulo === 'processo') ? this.expandido.historico_processo : this.expandido.historico_solicitcao,
+      registro_id: (modulo === 'processo') ? +this.expandido.processo_id : +this.expandido.solicitacao_id
+    }
   }
 
   onDestroy(): void {

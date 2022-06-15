@@ -21,6 +21,7 @@ export class HistService {
 
 
   incluir(dados: HistFormI): Observable<any[]> {
+    console.log('dados', dados);
     const envio: HistI = dados.hist;
     let url: string = '';
     if (dados.modulo === 'solicitacao') {
@@ -30,6 +31,7 @@ export class HistService {
       url = this.url.historicoProcesso;
     }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    console.log('url', url);
     return this.http.post<any[]> (url, envio, httpOptions);
   }
 

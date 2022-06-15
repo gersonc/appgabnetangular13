@@ -16,13 +16,47 @@
 
 <ng-container *ngIf="incluirPerm && acao==='incluir2'">
   <div class="p-mr-2">
+    <!--<p-button
+      *ngIf="modulo==='processo'"
+      type="button"
+      styleClass="botaoinferior p-button-rounded p-button-purple"
+      icon="pi pi-file-o"
+      pTooltip="Incluir Andamento do Processo"
+      tooltipPosition="top"
+      (onClick)="formMostra('incluir', 0, 0)"
+    ></p-button>-->
+
     <button
+      *ngIf="modulo==='processo'"
       pButton
       pRipple
       type="button"
-      class="botaoinferior p-button-rounded p-button-info"
+      class="botaoinferior p-button-rounded p-button-purple"
       icon="pi pi-file-o"
-      pTooltip="Incluir Andamento"
+      pTooltip="Incluir Andamento do Processo"
+      tooltipPosition="top"
+      (click)="formMostra('incluir', 0, 0)"
+    >
+    </button>
+
+    <!--<p-button
+      *ngIf="modulo==='solicitacao'"
+      type="button"
+      styleClass="botaoinferior p-button-rounded p-button-cyan"
+      icon="pi pi-file-o"
+      pTooltip="Incluir Andamento da Solicitação"
+      tooltipPosition="top"
+      (onClick)="formMostra('incluir', 0, 0)"
+    ></p-button>-->
+
+    <button
+      *ngIf="modulo==='solicitacao'"
+      pButton
+      pRipple
+      type="button"
+      class="botaoinferior p-button-rounded p-button-cyan"
+      icon="pi pi-file-o"
+      pTooltip="Incluir Andamento da Solicitação"
       tooltipPosition="top"
       (click)="formMostra('incluir', 0, 0)"
     >

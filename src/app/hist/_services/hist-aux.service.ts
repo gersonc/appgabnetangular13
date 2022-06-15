@@ -24,7 +24,7 @@ export interface HistI {
   historico_andamento?: string | null;
   historico_andamento_delta?: any | null;
   historico_andamento_texto?: string | null;
-  historico_solocitacao_id?: number | null;
+  historico_solicitacao_id?: number | null;
   historico_processo_id?: number | null;
 }
 

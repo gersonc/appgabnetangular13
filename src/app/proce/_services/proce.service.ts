@@ -93,7 +93,7 @@ export class ProceService {
           modulo: 'processo',
           hist: {
             historico_processo_id: +evento.data.processo_id,
-            historico_solocitacao_id: +evento.data.solicitacao_id
+            historico_solicitacao_id: +evento.data.solicitacao_id
           }
         };
         console.log('onContextMenuSelect2', evento.data.historico_processo.length);
@@ -121,17 +121,16 @@ export class ProceService {
     const b: any[] = [];
     let ev = evento.data;
     this.has.histFormI = {
-      modulo: 'processo',
       hist: {
         historico_processo_id: +evento.data.processo_id,
-        historico_solocitacao_id: +evento.data.solicitacao_id
+        historico_solicitacao_id: +evento.data.solicitacao_id
       }
     };
-    this.has.histListI = {
+    /*this.has.histListI = {
       modulo: 'processo',
       hist: evento.data.historico_processo,
       registro_id: +evento.data.processo_id
-    }
+    }*/
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
@@ -472,6 +471,18 @@ export class ProceService {
     if (this.has.histFormI.acao === 'apagar') {
       const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
       this.processos[n].historico_processo.splice(this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+    }
+  }
+
+  montaHistorico(modulo: string, idx: number) {
+    this.has.histFormI.modulo = modulo;
+    this.has.histFormI.idx = idx;
+
+    this.has.histListI = {
+      idx: idx,
+      modulo: modulo,
+      hist: (modulo === 'processo') ? this.expandido.historico_processo : this.expandido.historico_solicitcao,
+      registro_id: (modulo === 'processo') ? +this.expandido.processo_id : +this.expandido.solicitacao_id
     }
   }
 

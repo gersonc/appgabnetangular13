@@ -1,10 +1,10 @@
 import {
   Component,
   EventEmitter,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -24,7 +24,7 @@ import {MsgService} from "../../_services/msg.service";
   templateUrl: './hist-form.component.html',
   styleUrls: ['./hist-form.component.css']
 })
-export class HistFormComponent implements OnInit, OnDestroy {
+export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('histand', {static: true}) histand: Editor;
   @Input() display?: boolean;
   @Output() novoRegistro = new EventEmitter<HistFormI>();
@@ -34,6 +34,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
   @Input() id: number;
   @Input() idx: number | null;
   @Input() acao: string;
+  @Input() modulo: string;
 
   mostraForm = false;
   mostraDialog = false;
@@ -47,6 +48,9 @@ export class HistFormComponent implements OnInit, OnDestroy {
   titulo = 'SOLICITAÇÃO';
   sub: Subscription[] = [];
   cssEsconde = 'p-mr-2';
+  indice = 0;
+  btnIncluir = '';
+  tooltip = '';
 
 
   resp: any[] = [false, 'ATENÇÃO - ERRO', null];
@@ -81,21 +85,21 @@ export class HistFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public aut: AuthenticationService,
     private hs: HistService,
-    // private ms: MessageService,
+    private msg: MessageService,
     public has: HistAuxService,
-    public ms: MsgService
+    private ms: MsgService
   ) {
-    if (this.has.histFormI.modulo === 'solicitacao') {
+    /*if (this.has.histFormI.modulo === 'solicitacao') {
       this.titulo = 'SOLICITAÇÃO';
-      this.incluirPerm =  (this.aut.historico_solicitacao_incluir || aut.solicitacao_incluir || aut.solicitacao_analisar || aut.solicitacao_alterar || aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
-      this.alterarPerm =  (this.aut.historico_solicitacao_alterar || aut.solicitacao_incluir || aut.solicitacao_analisar || aut.solicitacao_alterar || aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
-      this.apagarPerm = (this.aut.historico_solicitacao_apagar || aut.solicitacao_incluir || aut.solicitacao_analisar || aut.solicitacao_alterar || aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
+      this.incluirPerm =  (this.aut.historico_solicitacao_incluir || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
+      this.alterarPerm =  (this.aut.historico_solicitacao_alterar || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
+      this.apagarPerm = (this.aut.historico_solicitacao_apagar || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
     } else {
       this.titulo = 'PROCESSO';
-      this.incluirPerm =  (this.aut.historico_incluir || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
-      this.alterarPerm =  (this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
-      this.apagarPerm = (this.aut.historico_apagar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn);
-    }
+      this.incluirPerm =  ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_incluir || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+      this.alterarPerm =  ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+      this.apagarPerm = ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_apagar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+    }*/
     this.formHis = this.fb.group({
       historico_data: [null, [Validators.required, Validators.minLength(3)]],
       historico_andamento: [null, Validators.required]
@@ -103,11 +107,33 @@ export class HistFormComponent implements OnInit, OnDestroy {
 
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.histFormI.modulo = this.modulo;
+    if (this.modulo === 'solicitacao') {
+      this.btnIncluir = 'botaoinferior p-button-rounded p-button-cyan';
+      this.tooltip = 'Incluir Andamento da Solicitação';
+      this.titulo = 'SOLICITAÇÃO';
+      this.incluirPerm =  (this.aut.historico_solicitacao_incluir || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
+      this.alterarPerm =  (this.aut.historico_solicitacao_alterar || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
+      this.apagarPerm = (this.aut.historico_solicitacao_apagar || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
+    }
+    if (this.modulo === 'processo') {
+      this.btnIncluir = 'botaoinferior p-button-rounded p-button-purple';
+      this.tooltip = 'Incluir Andamento do Processo';
+      this.titulo = 'PROCESSO';
+      this.incluirPerm =  ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_incluir || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+      this.alterarPerm =  ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+      this.apagarPerm = ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_apagar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
+    }
+    // this.histFormI.idx = this.idx;
+    this.histFormI.hist.historico_solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id;
+    this.histFormI.hist.historico_processo_id = this.has.histFormI.hist.historico_processo_id;
+
+  }
 
   ngOnInit(): void {
     this.histFormI.acao =  (this.acao === 'incluir2' || this.acao === 'incluir') ? 'incluir' : this.acao;
     if (this.histFormI.acao === 'alterar') {
-      this.histFormI.idx = this.idx;
       this.histFormI.hist = this.has.histListI.hist[this.idx];
     }
     this.carregaForm();
@@ -117,6 +143,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
   }
 
   formMostra(acao: string, id: number, idx: number) {
+    // this.histFormI.idx = idx;
     this.mostraForm = true;
     this.mostraDialog = true;
     this.dialogExterno.emit(false);
@@ -148,7 +175,13 @@ export class HistFormComponent implements OnInit, OnDestroy {
   }
 
   getHeader(): string {
-    return this.acao.toUpperCase()+ ' ANDAMENTO ' + this.has.histListI.modulo.toUpperCase();
+    let t = '';
+    if (this.acao === 'incluir' || this.acao === 'incluir2') {
+      t = 'INCLUIR';
+    } else {
+      t = 'ALTERAR';
+    }
+    return this.titulo + ' - ' + t + ' ANDAMENTO';
   }
 
   resetForm() {
@@ -201,6 +234,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
             this.resetForm();
           },
           complete: () => {
+            console.log('fim1');
             if (this.resp[0]) {
               this.ms.add({
                 key: 'principal',
@@ -249,6 +283,7 @@ export class HistFormComponent implements OnInit, OnDestroy {
             this.resetForm();
           },
           complete: () => {
+            console.log('fim2');
             if (this.resp[0]) {
               this.ms.add({
                 key: 'principal',
@@ -323,10 +358,14 @@ export class HistFormComponent implements OnInit, OnDestroy {
         return false;
       }
     }
+    this.has.histFormI.acao = this.histFormI.acao;
+    this.has.histFormI.modulo = this.histFormI.modulo;
+    this.has.histFormI.idx = this.histFormI.idx;
     this.has.histFormI.hist.historico_andamento = this.cpoEditor.html;
     this.has.histFormI.hist.historico_andamento_delta = JSON.stringify(this.cpoEditor.delta);
     this.has.histFormI.hist.historico_andamento_texto = this.cpoEditor.text;
     this.has.histFormI.hist.historico_data = this.formHis.get('historico_data').value;
+    console.log('criaEnvio', this.has.histFormI);
     return true;
   }
 

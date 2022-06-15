@@ -192,20 +192,37 @@
                 >
                 </button>
               </div>
+
               <div *ngIf="ps.expandidoSN && permListHist && ps.expandido.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-list"
-                  class="p-button-rounded p-button-cyan"
-                  pTooltip="Listar Andamentos"
+                  class="p-button-rounded p-button-purple"
+                  pTooltip="Listar Andamentos do Processo"
                   tooltipPosition="top"
-                  (click)="historicoProcesso()"
+                  (click)="historicoProcesso(indice)"
                 >
                 </button>
               </div>
-              <app-hist-form *ngIf="ps.expandidoSN" [idx]="indice" [id]="pro.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <app-hist-form *ngIf="ps.expandidoSN && permInclHist" [idx]="indice" [modulo]="'processo'" [id]="pro.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+
+              <div *ngIf="ps.expandidoSN && permListHistSol && ps.expandido.historico_solicitcao.length > 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-list"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Listar Andamentos da Solicitação"
+                  tooltipPosition="top"
+                  (click)="historicoSolicitacao(indice)"
+                >
+                </button>
+              </div>
+              <app-hist-form *ngIf="ps.expandidoSN && permInclHistSol" [idx]="indice" [modulo]="'solicitacao'" [id]="pro.solicitacao_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+
             </div>
 
 
@@ -330,7 +347,7 @@
     [style]="{width: '80vw'}"
     [(visible)]="showHistorico"
     styleClass="tablistagem"
-    header="ANDAMENTOS DO PROCESSO"
+    [header]="tituloHistoricoDialog"
     [modal]="true"
     [dismissableMask]="false"
     [baseZIndex]="0"

@@ -32,7 +32,7 @@
          (onColReorder)="onColReorder($event)"
          (onRowExpand)="ss.onRowExpand($event)"
          (onRowCollapse)="ss.onRowCollapse($event)"
-         (onStateSave)="ss.setState()"
+         (onStateSave)="ss.setState($event)"
          (onStateRestore)="ss.onStateRestore($event)"
          (onContextMenuSelect)="ss.onContextMenuSelect($event)"
          [customSort]="true"
@@ -110,7 +110,7 @@
   </ng-template>
 
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-sol let-columns="columns">
+  <ng-template pTemplate="rowexpansion" let-sol let-indice="rowIndex" let-columns="columns">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -181,19 +181,34 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.historico_solicitacao_incluir" class="p-mr-2">
+              <div *ngIf="ss.expandidoSN && permListHistSol && ss.expandido.historico_solicitcao.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-bookmark"
-                  class="p-button-rounded"
-                  pTooltip="Histórico"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
-                  (click)="historicoSolicitacao(sol)"
+                  (click)="historicoSolicitacao(indice)"
                 >
                 </button>
               </div>
+              <app-hist-form *ngIf="ss.expandidoSN" [modulo]="'solicitacao'" [idx]="indice" [id]="sol.solicitacao_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <div *ngIf="ss.expandidoSN && permListHist && ss.expandido.historico_processo.length > 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-list"
+                  class="p-button-rounded p-button-purple"
+                  pTooltip="Listar Andamentos do Processo"
+                  tooltipPosition="top"
+                  (click)="historicoProcesso(indice)"
+                >
+                </button>
+              </div>
+              <app-hist-form *ngIf="ss.expandidoSN" [modulo]="'processo'" [idx]="indice" [id]="sol.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
             </div>
             <div class="p-grid">
               <div *ngFor="let linhas of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
@@ -295,7 +310,7 @@
 </ng-container>-->
 
 <!--*** HISTORICO SOLICITACAO****************************************************************************************-->
-<ng-container *ngIf="showHistorico2">
+<!--<ng-container *ngIf="showHistorico2">
   <p-dialog
     [(visible)]="showHistorico"
     [dismissableMask]="true"
@@ -304,11 +319,11 @@
     (onHide)="escondeHistoricoListar(histListI)"
   >
     <app-hist-datatable [(display)]="showHistorico" (dialogExterno)="dialogHistoricoListar($event)" (novoRegistro)="historicoNovoRegisto($event)"></app-hist-datatable>
-    <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
+    &lt;!&ndash;<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>&ndash;&gt;
   </p-dialog>
 </ng-container>
 
-<!--*** INCLUIR SOLICITACAO****************************************************************************************-->
+&lt;!&ndash;*** INCLUIR SOLICITACAO****************************************************************************************&ndash;&gt;
 <ng-container *ngIf="showHistoricoForm2">
   <p-dialog
     [(visible)]="showHistoricoForm"
@@ -318,6 +333,26 @@
     (onHide)="escondeHistoricoForm(histListI)"
   >
     <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
-    <!--<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>-->
+    &lt;!&ndash;<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>&ndash;&gt;
   </p-dialog>
+</ng-container>-->
+
+
+<!--*** HISTORICO PROCESSO ****************************************************************************************-->
+<ng-container *ngIf="showHistorico2">
+  <div [ngClass]="cssMostra">
+    <p-dialog
+      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+      [style]="{width: '80vw'}"
+      [(visible)]="showHistorico"
+      styleClass="tablistagem"
+      [header]="tituloHistoricoDialog"
+      [modal]="true"
+      [dismissableMask]="false"
+      [baseZIndex]="0"
+
+    >
+      <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+    </p-dialog>
+  </div>
 </ng-container>

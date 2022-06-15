@@ -84,7 +84,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
           historico_andamento: null,
           historico_andamento_delta: null,
           historico_andamento_texto: null,
-          historico_solocitacao_id: d
+          historico_solicitacao_id: d
         }
       } else {
         this.his = {
@@ -93,7 +93,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
           historico_andamento: d.historico_andamento,
           historico_andamento_delta: d.historico_andamento_delta,
           historico_andamento_texto: d.historico_andamento_texto,
-          historico_solocitacao_id: d.historico_solocitacao_id
+          historico_solicitacao_id: d.historico_solicitacao_id
         }
       }
     }
@@ -239,7 +239,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
         historico_andamento_texto: this.editorTxt,
         historico_data: this.formHis.get('historico_data').value,
         historico_id: null,
-        historico_solicitacao_id: this.his.historico_solocitacao_id
+        historico_solicitacao_id: this.his.historico_solicitacao_id
       };
       this.sub.push(this.historicoSolicitacaoService.incluir(this.historico)
         .pipe(take(1))
@@ -282,7 +282,7 @@ export class HistoricoSolicitacaoFormComponent implements OnInit, OnChanges, OnD
         historico_andamento_texto: this.editorTxt,
         historico_data: this.formHis.get('historico_data').value,
         historico_id: this.his.historico_id,
-        historico_solicitacao_id: this.his.historico_solocitacao_id
+        historico_solicitacao_id: this.his.historico_solicitacao_id
       };
       this.sub.push(this.historicoSolicitacaoService.alterar(this.historico)
         .pipe(take(1))
