@@ -3,25 +3,16 @@ import {Editor} from "primeng/editor";
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
 import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
-import {
-  AuthenticationService,
-  CsvService, ExcelService,
-  MenuInternoService,
-  PrintJSService,
-  TabelaPdfService
-} from "../../_services";
+import {AuthenticationService, MenuInternoService} from "../../_services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
-import {Config} from "quill-to-word";
 import * as quillToWord from "quill-to-word";
+import {Config} from "quill-to-word";
 import {saveAs} from "file-saver";
-import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
+import {SolicListarI} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
-import {TSMap} from "typescript-map";
-import {ArquivoInterface} from "../../arquivo/_models";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistListI} from "../../hist/_models/hist-i";
-import {ProceListarI} from "../../proce/_model/proc-i";
 
 
 @Component({
@@ -30,8 +21,8 @@ import {ProceListarI} from "../../proce/_model/proc-i";
   styleUrls: ['./solic-datatable.component.css']
 })
 export class SolicDatatableComponent implements OnInit, OnDestroy {
-  @ViewChild('dtb', { static: true }) public dtb: any;
-  @ViewChild('edtor', { static: true }) public edtor: Editor;
+  @ViewChild('dtb', {static: true}) public dtb: any;
+  @ViewChild('edtor', {static: true}) public edtor: Editor;
   loading = false;
   altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
@@ -91,23 +82,55 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.permListHist = ((this.aut.processo && this.aut.solicitacaoVersao === 1) && (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
     this.permInclHist = ((this.aut.processo && this.aut.solicitacaoVersao === 1) && (this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
-    this.permListHistSol  = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || (this.aut.usuario_responsavel_sn || this.permListHist));
+    this.permListHistSol = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || (this.aut.usuario_responsavel_sn || this.permListHist));
     this.permInclHistSol = (this.aut.historico_solicitacao_incluir || this.aut.historico_solicitacao_alterar || this.aut.solicitacao_analisar || (this.aut.usuario_responsavel_sn || this.permInclHist));
 
     this.montaColunas();
-    if(!this.ss.stateSN) {
+    if (!this.ss.stateSN) {
       this.resetSelectedColumns();
     }
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }}
+      {
+        label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.exportToCsv();
+        }
+      },
+      {
+        label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.exportToCsv(true);
+        }
+      },
+      {
+        label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
+          this.mostraTabelaPdf();
+        }
+      },
+      {
+        label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          this.mostraTabelaPdf(true);
+        }
+      },
+      {
+        label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.imprimirTabela();
+        }
+      },
+      {
+        label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {
+          this.imprimirTabela(true);
+        }
+      },
+      {
+        label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
+          this.exportToXLSX();
+        }
+      },
+      {
+        label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
+          this.exportToXLSX(true);
+        }
+      }
     ];
 
     this.montaMenuContexto();
@@ -182,7 +205,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
     this.cols.push(
       {field: 'solicitacao_indicacao_nome', header: 'INDICAÇÃO', sortable: 'true', width: '250px'},
-
     );
     if (this.solicitacaoVersao < 3) {
       this.cols.push(
@@ -235,14 +257,32 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     );
   }
 
-  rowColor(field: string, vl1: number, vl2: string | number): string | null {
-    if (field !== 'processo_status_nome' && field !== 'solicitacao_situacao') {
+  rowColor(field: string, vl1: number, vl2: string, vl3: string | number): string | null {
+    if (field !== 'processo_status_nome' && field !== 'solicitacao_status_nome' && field !== 'solicitacao_situacao') {
       return null;
     }
     if (field === 'processo_status_nome') {
-      return 'status-' + vl1;
+      return (typeof vl1 === 'undefined' || vl1 === null || vl1 === 0) ? null : 'status-' + vl1;
     }
-    switch (vl2) {
+    if (field === 'solicitacao_status_nome') {
+      switch (vl2) {
+        case 'EM ABERTO':
+          return 'status-0';
+        case 'EM ANDAMENTO':
+          return 'status-1';
+        case 'INDEFERIDO':
+          return 'status-2';
+        case 'DEFERIDO':
+          return 'status-3';
+        case 'SUSPENSO':
+          return 'status-4';
+        default:
+          return null;
+      }
+    }
+    switch (vl3) {
+      case 'EM ABERTO':
+        return 'status-0';
       case 'EM ANDAMENTO':
         return 'status-1';
       case 'CONCLUIDA':
@@ -256,35 +296,55 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   montaMenuContexto() {
     this.contextoMenu = [
-      {label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
-        command: () => {this.solicitacaoDetalheCompleto(this.ss.Contexto); }}];
+      {
+        label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
+        command: () => {
+          this.solicitacaoDetalheCompleto(this.ss.Contexto);
+        }
+      }];
 
     if (this.aut.usuario_responsavel_sn) {
       this.authAnalisar = true;
       this.contextoMenu.push(
-        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
-          command: () => { this.solicitacaoAnalisar(this.ss.Contexto); }});
+        {
+          label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
+          command: () => {
+            this.solicitacaoAnalisar(this.ss.Contexto);
+          }
+        });
     }
 
     if (this.aut.solicitacao_incluir) {
       this.authIncluir = true;
       this.contextoMenu.push(
-        {label: 'INCLUIR', icon: 'pi pi-plus', style: {'font-size': '1em'},
-          command: () => { this.solicitacaoIncluir(); }});
+        {
+          label: 'INCLUIR', icon: 'pi pi-plus', style: {'font-size': '1em'},
+          command: () => {
+            this.solicitacaoIncluir();
+          }
+        });
     }
 
     if (this.aut.solicitacao_alterar) {
       this.authAlterar = true;
       this.contextoMenu.push(
-        {label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
-          command: () => { this.solicitacaoAlterar(this.ss.Contexto); }});
+        {
+          label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
+          command: () => {
+            this.solicitacaoAlterar(this.ss.Contexto);
+          }
+        });
     }
 
     if (this.aut.solicitacao_apagar) {
       this.authApagar = true;
       this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-          command: () => { this.solicitacaoApagar(this.ss.Contexto); }});
+        {
+          label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
+          command: () => {
+            this.solicitacaoApagar(this.ss.Contexto);
+          }
+        });
     }
   }
 
@@ -296,8 +356,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   onLazyLoad(event: LazyLoadEvent): void {
     if (event.sortField) {
-      if (this.ss.busca.sortField !== event.sortField?.toString ()) {
-        this.ss.busca.sortField = event.sortField?.toString ();
+      if (this.ss.busca.sortField !== event.sortField?.toString()) {
+        this.ss.busca.sortField = event.sortField?.toString();
       }
     }
     if (this.ss.busca.first !== event.first) {
@@ -321,11 +381,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   hideSeletor(ev): void {
-      this.mostraSeletor = false;
+    this.mostraSeletor = false;
   }
 
   historicoProcesso(idx: number) {
-    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DO PROCESSO.'
+    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO.'
     this.ss.montaHistorico('processo', idx);
     this.showHistorico2 = true;
     this.showHistorico = true;
@@ -333,10 +393,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   historicoSolicitacao(idx: number) {
-    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DA SOLICITAÇÃO.'
+    this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
     this.ss.montaHistorico('solicitacao', idx);
-    this.showHistoricoSol2 = true;
-    this.showHistoricoSol = true;
+    this.showHistorico2 = true;
+    this.showHistorico = true;
     this.mostraDialog(true);
   }
 
@@ -345,6 +405,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   recebeRegistro(h: HistFormI) {
+    console.log('recebeRegistro', h);
     this.ss.recebeRegistro();
   }
 
@@ -406,26 +467,26 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     );
   }*/
 
-/*  getState(): void {
-    this.sbs.criarBusca();
-    this.sbs.busca = JSON.parse(sessionStorage.getItem(this.ss.sessaoBusca));
-    if (this.sbs.buscaStateSN) {
-      this.sub.push(this.activatedRoute.data.subscribe(
-        (data: { dados: SolicPaginacaoInterface }) => {
-          this.ss.solicitacoes = data.dados.solicitacao;
-          this.sds.total = data.dados.total;
-          this.sds.totalRecords = this.sds.total.num;
-          this.sbs.busca.todos = this.sds.tmp;
-          this.sds.currentPage = (
-              parseInt(this.sbs.busca.first, 10) +
-              parseInt(this.sbs.busca.rows, 10)) /
-              parseInt(this.sbs.busca.rows, 10);
-          this.sds.numerodePaginas = Math.ceil(this.sds.totalRecords / this.sds.rows);
-          this.sbs.buscaStateSN = false;
-          sessionStorage.removeItem(this.ss.sessaoBusca);
-        }));
-    }
-  }*/
+  /*  getState(): void {
+      this.sbs.criarBusca();
+      this.sbs.busca = JSON.parse(sessionStorage.getItem(this.ss.sessaoBusca));
+      if (this.sbs.buscaStateSN) {
+        this.sub.push(this.activatedRoute.data.subscribe(
+          (data: { dados: SolicPaginacaoInterface }) => {
+            this.ss.solicitacoes = data.dados.solicitacao;
+            this.sds.total = data.dados.total;
+            this.sds.totalRecords = this.sds.total.num;
+            this.sbs.busca.todos = this.sds.tmp;
+            this.sds.currentPage = (
+                parseInt(this.sbs.busca.first, 10) +
+                parseInt(this.sbs.busca.rows, 10)) /
+                parseInt(this.sbs.busca.rows, 10);
+            this.sds.numerodePaginas = Math.ceil(this.sds.totalRecords / this.sds.rows);
+            this.sbs.buscaStateSN = false;
+            sessionStorage.removeItem(this.ss.sessaoBusca);
+          }));
+      }
+    }*/
 
   // FUNCOES DE CRUD ===========================================================
 
@@ -440,7 +501,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  solicitacaoDetalheCompleto(sol: SolicListarI){
+  solicitacaoDetalheCompleto(sol: SolicListarI) {
     this.ss.detalhe = sol;
     this.showDetalhe = true;
     this.solDetalhe = sol;
@@ -477,6 +538,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       console.log('SEM PERMISSAO');
     }
   }
+
   /*solicitacaoApagar(sol: SolicListarI) {
     let soldel: SolicitacaoExcluirInterface;
     if (this.aut.solicitacao_apagar) {
@@ -521,6 +583,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       console.log('SEM PERMISSAO');
     }
   }
+
   /*solicitacaoAnalisar(sol: SolicListarI) {
     if (sol.solicitacao_situacao !== 'EM ABERTO') {
       this.messageService.add(
@@ -592,14 +655,19 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     // this.solHistForm = null;
   }
 */
+
   // FUNCOES RELATORIOS=========================================================
 
   mostraTabelaPdf(td: boolean = false) {
 
   }
+
   buscaIdx(id: number) {
-    return this.ss.solicitacoes.findIndex(d => {d.solicitacao_id = id});
+    return this.ss.solicitacoes.findIndex(d => {
+      d.solicitacao_id = id
+    });
   }
+
   /*mostraTabelaPdf(td: boolean = false) {
     this.tmp = this.sbs.busca.todos;
     this.sbs.busca.todos = td;
@@ -687,7 +755,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     return true;
   }*/
 
-  exportToCsv(td: boolean = false){}
+  exportToCsv(td: boolean = false) {
+  }
+
   /*exportToCsv(td: boolean = false) {
 
   }*/
@@ -737,6 +807,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   exportToXLSX(td: boolean = false) {
 
   }
+
   /*exportToXLSX(td: boolean = false) {
     this.tmp = this.sbs.busca.todos;
     this.sbs.busca.todos = td;
@@ -778,7 +849,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     return true;
   }*/
 
-  exportToXLSXSimples(dados: SolicListarI[]){}
+  exportToXLSXSimples(dados: SolicListarI[]) {
+  }
+
   /*exportToXLSXSimples(dados: SolicitacaoListar12Interface[]): SolicitacaoExcel12[] {
     const sl: SolicitacaoExcel12[] = [];
     const r: SolicitacaoInterfaceExcel[] = [];
@@ -848,7 +921,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
       }
       this.deltaquill = JSON.parse(texto[4]);
-      setTimeout( () => {
+      setTimeout(() => {
         this.edtor.getQuill().updateContents(this.deltaquill, 'api');
       }, 300);
     } else {

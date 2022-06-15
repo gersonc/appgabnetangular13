@@ -257,7 +257,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       return null;
     }
     if (field === 'processo_status_nome') {
-      return 'status-' + vl1;
+      return (typeof vl1 === 'undefined' || vl1 === null) ? null : 'status-' + vl1;
     }
     switch (vl2) {
       case 'EM ANDAMENTO':

@@ -11,7 +11,7 @@ import {ProceBuscaI, ProceListarI, ProcePaginacaoInterface, proceProcessoCamposT
 import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-detalhe-i";
 import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
-import {HistFormI} from "../../hist/_models/hist-i";
+import {HistFormI, HistListI} from "../../hist/_models/hist-i";
 
 @Injectable({
   providedIn: 'root'
@@ -126,11 +126,6 @@ export class ProceService {
         historico_solicitacao_id: +evento.data.solicitacao_id
       }
     };
-    /*this.has.histListI = {
-      modulo: 'processo',
-      hist: evento.data.historico_processo,
-      registro_id: +evento.data.processo_id
-    }*/
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
@@ -151,6 +146,9 @@ export class ProceService {
 
   onRowCollapse(ev) {
     this.tabela.dadosExpandidos = undefined;
+    this.has.histFormI = undefined;
+    this.has.hist = undefined;
+    this.has.histListI = undefined;
     this.expandidoSN = false;
   }
 
@@ -477,7 +475,6 @@ export class ProceService {
   montaHistorico(modulo: string, idx: number) {
     this.has.histFormI.modulo = modulo;
     this.has.histFormI.idx = idx;
-
     this.has.histListI = {
       idx: idx,
       modulo: modulo,
@@ -495,7 +492,10 @@ export class ProceService {
     this.selecionados = undefined;
     this.Contexto = undefined;
     this.stateSN = false;
-    this.has = null;
+    this.has.histFormI = undefined;
+    this.has.hist = undefined;
+    this.has.histListI = undefined;
+    this.expandidoSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }
 }

@@ -14770,6 +14770,14 @@ table .table-hover.tabela .detalhe-horiz {
   height: 1.8rem;
 }
 
+.status-0 {
+  background-color: var(--blue-100);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-0 {
+  background-color: var(--blue-200);
+}
+
 
 .status-1 {
   background-color: var(--yellow-100);

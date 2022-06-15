@@ -366,6 +366,7 @@ export class SolicService {
   recebeRegistro() {
     if (this.has.histFormI.modulo === 'solicitacao') {
       if (this.has.histFormI.acao === 'incluir') {
+        console.log('histFormI',this.has.histFormI);
         const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
         if (Array.isArray(this.solicitacoes[n].historico_solicitcao)) {
           this.solicitacoes[n].historico_solicitcao.push(this.has.histFormI.hist);
@@ -407,7 +408,6 @@ export class SolicService {
   montaHistorico(modulo: string, idx: number) {
     this.has.histFormI.modulo = modulo;
     this.has.histFormI.idx = idx;
-
     this.has.histListI = {
       idx: idx,
       modulo: modulo,
@@ -426,6 +426,7 @@ export class SolicService {
     this.selecionados = undefined;
     this.Contexto = undefined;
     this.stateSN = false;
+    this.has = null;
     this.sub.forEach(s => s.unsubscribe());
   }
 }

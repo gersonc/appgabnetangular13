@@ -142,7 +142,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   mostraBts(vf: boolean) {
   }
 
-  formMostra(acao: string, id: number, idx: number) {
+  formMostra(acao: string) {
     // this.histFormI.idx = idx;
     this.mostraForm = true;
     this.mostraDialog = true;
@@ -172,6 +172,11 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   fechar() {
     this.mostraDialog = false;
     this.dialogExterno.emit(true);
+    if (this.acao === 'incluir2') {
+      this.formHis.reset();
+      this.btDesabilitado = false;
+      this.mostraForm = false;
+    }
   }
 
   getHeader(): string {
@@ -243,9 +248,10 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
                 detail: this.resp[1],
               });
               this.histFormI.hist = this.resp[2];
-              if (this.acao === 'incluir2') {
+              /*if (this.acao === 'incluir') {
                 this.has.histListI.hist.push(this.resp[2])
-              }
+              }*/
+              this.has.histFormI.hist = this.resp[2];
               this.novoRegistro.emit(this.histFormI);
               this.fechar();
             } else {

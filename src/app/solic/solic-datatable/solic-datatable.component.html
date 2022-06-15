@@ -103,7 +103,7 @@
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
-      <td *ngFor="let col of columns" [style.width]="col.width">
+      <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowColor(col.field, sol.processo_status_id, sol.solicitacao_status_nome, sol.solicitacao_situacao)">
         {{sol[col.field]}}
       </td>
     </tr>
@@ -129,7 +129,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.solicitacao_analisar && sol.solicitacao_situacao =='EM ABERTO'" class="p-mr-2">
+              <div *ngIf="aut.solicitacao_analisar && sol.solicitacao_situacao ==='EM ABERTO'" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -168,7 +168,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.historico_solicitacao && sol.historico_solicitcao" class="p-mr-2">
+              <!--<div *ngIf="aut.historico_solicitacao && sol.historico_solicitcao" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -180,13 +180,13 @@
                   (click)="historicoSolicitacao(sol)"
                 >
                 </button>
-              </div>
+              </div>-->
               <div *ngIf="ss.expandidoSN && permListHistSol && ss.expandido.historico_solicitcao.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
-                  icon="pi pi-bookmark"
+                  icon="pi pi-list"
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
@@ -195,7 +195,7 @@
                 </button>
               </div>
               <app-hist-form *ngIf="ss.expandidoSN" [modulo]="'solicitacao'" [idx]="indice" [id]="sol.solicitacao_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-              <div *ngIf="ss.expandidoSN && permListHist && ss.expandido.historico_processo.length > 0" class="p-mr-2">
+              <div *ngIf="ss.expandidoSN && sol.processo_id !== 0 && permListHist && ss.expandido.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -208,7 +208,7 @@
                 >
                 </button>
               </div>
-              <app-hist-form *ngIf="ss.expandidoSN" [modulo]="'processo'" [idx]="indice" [id]="sol.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <app-hist-form *ngIf="ss.expandidoSN && sol.processo_id !== 0" [modulo]="'processo'" [idx]="indice" [id]="sol.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
             </div>
             <div class="p-grid">
               <div *ngFor="let linhas of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">

@@ -78,7 +78,7 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
 
   recebeRegistro(h: HistFormI) {
     if (h.acao === 'incluir') {
-      this.has.histListI.hist.push(h.hist);
+      // this.has.histListI.hist.push(h.hist);
       this.novoRegistro.emit(h);
     }
     if (h.acao === 'alterar') {
