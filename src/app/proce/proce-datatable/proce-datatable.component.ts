@@ -13,7 +13,7 @@ import {ProceListarI} from "../_model/proc-i";
 import {ProceService} from "../_services/proce.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {ProceFormService} from "../_services/proce-form.service";
-import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {MsgService} from "../../_services/msg.service";
 
 
@@ -91,6 +91,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   mostraSeletor = false;
   cols: any[] = [];
   proceDetalhe?: any;
+  idx: number = 0;
 
   showHistorico = true;
   showHistorico2 = false
@@ -422,20 +423,41 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     console.log(pro);
   }
 
-  historicoProcesso(idx: number) {
-    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DO PROCESSO.'
-    this.ps.montaHistorico('processo', idx)
+  //  HISTIRICO - ANDAMENTO ***********************************************************
+
+  historicoProcesso(processo_id: number, historico_processo: HistI[], idx: number) {
+    this.idx = idx;
+    this.histListI = {
+      hist: historico_processo,
+      idx: idx,
+      registro_id: processo_id,
+      modulo: 'processo'
+    }
+    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO.'
+    this.ps.montaHistorico('processo', idx);
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
   }
 
-  historicoSolicitacao(idx: number) {
-    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO DA SOLICITAÇÃO.'
+  historicoSolicitacao(solicitacao_id: number, historico_solicitcao: HistI[], idx: number) {
+    this.idx = idx;
+    this.histListI = {
+      hist: historico_solicitcao,
+      idx: idx,
+      registro_id: solicitacao_id,
+      modulo: 'solicitacao'
+    }
+    console.log('historicoSolicitacao', this.histListI);
+    this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
     this.ps.montaHistorico('solicitacao', idx);
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
+  }
+
+  mostraDialog(ev: boolean) {
+    this.cssMostra = (ev) ? null : 'p-d-none';
   }
 
   historicoProcessoIncluirCtx() {
@@ -446,14 +468,8 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   }
 
-
-  mostraDialog(ev: boolean) {
-    this.cssMostra = (ev) ? null : 'p-d-none';
-  }
-
-
   recebeRegistro(h: HistFormI) {
-    this.ps.recebeRegistro();
+    this.ps.recebeRegistro(h);
   }
 
   /*onRowExpand(event): void {

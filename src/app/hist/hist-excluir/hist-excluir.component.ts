@@ -14,8 +14,9 @@ import {take} from "rxjs/operators";
 export class HistExcluirComponent implements OnInit {
   @Input() id?: number;
   @Input() idx?: number;
+  @Input() tbidx?: number;
   @Input() modulo?: string;
-  @Output() onExcluir = new EventEmitter<number>();
+  @Output() onExcluir = new EventEmitter<number[]>();
   sub: Subscription[] = [];
   resp: [boolean, string, string] = [false,'',''];
   msg: any[] = [];
@@ -32,6 +33,7 @@ export class HistExcluirComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('excluie');
     this.excluir = ((this.modulo === 'processo' && this.aut.historico_apagar) || (this.modulo === 'solicitacao' && this.aut.historico_solicitacao_apagar));
   }
 
@@ -73,7 +75,7 @@ export class HistExcluirComponent implements OnInit {
               detail: this.resp[1],
             });
             // this.ms.add({severity:'success', summary:'Andamento', detail:'Excluido com sucesso.'});
-            this.onExcluir.emit(this.idx);
+            this.onExcluir.emit([this.tbidx, this.idx]);
           } else {
             this.ms.add({
               key: 'principal',

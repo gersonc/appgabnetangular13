@@ -181,7 +181,7 @@
                 >
                 </button>
               </div>-->
-              <div *ngIf="ss.expandidoSN && permListHistSol && ss.expandido.historico_solicitcao.length > 0" class="p-mr-2">
+              <div *ngIf="ss.expandidoSN && permListHistSol && sol.historico_solicitcao.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -190,12 +190,12 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
-                  (click)="historicoSolicitacao(indice)"
+                  (click)="historicoSolicitacao(sol.solicitacao_id, sol.historico_solicitcao, indice)"
                 >
                 </button>
               </div>
               <app-hist-form *ngIf="ss.expandidoSN" [modulo]="'solicitacao'" [idx]="indice" [id]="sol.solicitacao_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-              <div *ngIf="ss.expandidoSN && sol.processo_id !== 0 && permListHist && ss.expandido.historico_processo.length > 0" class="p-mr-2">
+              <div *ngIf="ss.expandidoSN && sol.processo_id !== 0 && permListHist && sol.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -204,7 +204,7 @@
                   class="p-button-rounded p-button-purple"
                   pTooltip="Listar Andamentos do Processo"
                   tooltipPosition="top"
-                  (click)="historicoProcesso(indice)"
+                  (click)="historicoProcesso(sol.processo_is, sol.historico_processo, indice)"
                 >
                 </button>
               </div>
@@ -352,7 +352,7 @@
       [baseZIndex]="0"
 
     >
-      <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+      <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
     </p-dialog>
   </div>
 </ng-container>

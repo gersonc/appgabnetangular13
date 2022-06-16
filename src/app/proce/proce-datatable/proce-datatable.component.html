@@ -193,7 +193,7 @@
                 </button>
               </div>
 
-              <div *ngIf="ps.expandidoSN && permListHist && ps.expandido.historico_processo.length > 0" class="p-mr-2">
+              <div *ngIf="ps.expandidoSN && permListHist && pro.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -202,13 +202,13 @@
                   class="p-button-rounded p-button-purple"
                   pTooltip="Listar Andamentos do Processo"
                   tooltipPosition="top"
-                  (click)="historicoProcesso(indice)"
+                  (click)="historicoProcesso(pro.processo_is, pro.historico_processo, indice)"
                 >
                 </button>
               </div>
               <app-hist-form *ngIf="ps.expandidoSN && permInclHist" [idx]="indice" [modulo]="'processo'" [id]="pro.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
 
-              <div *ngIf="ps.expandidoSN && permListHistSol && ps.expandido.historico_solicitcao.length > 0" class="p-mr-2">
+              <div *ngIf="ps.expandidoSN && permListHistSol && pro.historico_solicitcao.length > 0" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -217,7 +217,7 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
-                  (click)="historicoSolicitacao(indice)"
+                  (click)="historicoSolicitacao(pro.solicitacao_id, pro.historico_solicitcao, indice)"
                 >
                 </button>
               </div>
@@ -353,7 +353,7 @@
     [baseZIndex]="0"
 
   >
-    <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+    <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
   </p-dialog>
   </div>
 </ng-container>

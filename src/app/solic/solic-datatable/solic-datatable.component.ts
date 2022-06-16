@@ -12,7 +12,7 @@ import {saveAs} from "file-saver";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
-import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 
 
 @Component({
@@ -262,7 +262,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       return null;
     }
     if (field === 'processo_status_nome') {
-      return (typeof vl1 === 'undefined' || vl1 === null || vl1 === 0) ? null : 'status-' + vl1;
+      return (typeof vl1 === 'undefined' || vl1 === null || vl1 === 0) ? 'status-0' : 'status-' + vl1;
     }
     if (field === 'solicitacao_status_nome') {
       switch (vl2) {
@@ -282,13 +282,13 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
     switch (vl3) {
       case 'EM ABERTO':
-        return 'status-0';
+        return 'situacao-0';
       case 'EM ANDAMENTO':
-        return 'status-1';
+        return 'situacao-1';
       case 'CONCLUIDA':
-        return 'status-3';
+        return 'situacao-2';
       case 'SUSPENSO':
-        return 'status-4';
+        return 'situacao-3';
       default:
         return null;
     }
@@ -384,7 +384,14 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.mostraSeletor = false;
   }
 
-  historicoProcesso(idx: number) {
+  historicoProcesso(processo_id: number, historico_processo: HistI[], idx: number) {
+    this.idx = idx;
+    this.histListI = {
+      hist: historico_processo,
+      idx: idx,
+      registro_id: processo_id,
+      modulo: 'processo'
+    }
     this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO.'
     this.ss.montaHistorico('processo', idx);
     this.showHistorico2 = true;
@@ -392,7 +399,15 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.mostraDialog(true);
   }
 
-  historicoSolicitacao(idx: number) {
+  historicoSolicitacao(solicitacao_id: number, historico_solicitcao: HistI[], idx: number) {
+    this.idx = idx;
+    this.histListI = {
+      hist: historico_solicitcao,
+      idx: idx,
+      registro_id: solicitacao_id,
+      modulo: 'solicitacao'
+    }
+    console.log('historicoSolicitacao', this.histListI);
     this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
     this.ss.montaHistorico('solicitacao', idx);
     this.showHistorico2 = true;
@@ -406,7 +421,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   recebeRegistro(h: HistFormI) {
     console.log('recebeRegistro', h);
-    this.ss.recebeRegistro();
+    this.ss.recebeRegistro(h);
   }
 
   // FUNCOES DO COMPONENTE =====================================================
@@ -433,6 +448,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
 
 
   achaValor(sol: SolicListarI): number {

@@ -10,7 +10,7 @@ import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
 import {UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
-import {HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistListI} from "../../hist/_models/hist-i";
 import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 
@@ -102,18 +102,7 @@ export class SolicService {
         historico_solicitacao_id: +evento.data.solicitacao_id
       }
     };
-    /*this.has.histFormI = {
-      modulo: 'processo',
-      hist: {
-        historico_processo_id: +evento.data.processo_id,
-        historico_solicitacao_id: +evento.data.solicitacao_id
-      }
-    };
-    this.has.histListI = {
-      modulo: 'processo',
-      hist: evento.data.historico_processo,
-      registro_id: +evento.data.processo_id
-    }*/
+    console.log('onRowExpand.histFormI', this.has.histFormI);
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
@@ -149,7 +138,10 @@ export class SolicService {
 
 
   onRowCollapse(ev) {
-    this.tabela.dadosExpandidos = undefined;
+    console.log('onRowExpand.histFormI', this.has.histFormI);
+    delete this.has.histFormI;
+    delete this.has.histListI;
+    this.tabela.dadosExpandidos = null;
     this.expandidoSN = false;
   }
 
@@ -363,10 +355,47 @@ export class SolicService {
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
-  recebeRegistro() {
-    if (this.has.histFormI.modulo === 'solicitacao') {
+  recebeRegistro(h: HistFormI) {
+    if (h.modulo === 'solicitacao') {
+      if (h.acao === 'incluir') {
+        // const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_solicitacao_id);
+        if (Array.isArray(this.solicitacoes[h.idx].historico_solicitcao)) {
+          this.solicitacoes[h.idx].historico_solicitcao.push(h.hist);
+        } else {
+          this.solicitacoes[h.idx].historico_solicitcao = [h.hist];
+        }
+      }
+      if (h.acao === 'alterar') {
+        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_solicitacao_id);
+        const m: number = this.solicitacoes[h.idx].historico_solicitcao.findIndex(hs => hs.historico_id = h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_solicitcao.splice(m, 1, h.hist);
+      }
+      if (h.acao === 'apagar') {
+        // const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_solicitacao_id);
+        this.solicitacoes[h.idx].historico_solicitcao.splice(this.solicitacoes[h.idx].historico_solicitcao.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
+      }
+    }
+    if (h.modulo === 'processo') {
+      if (h.acao === 'incluir') {
+        // const n: number = this.solicitacoes.findIndex(p => p.processo_id = h.hist.historico_processo_id);
+        if (Array.isArray(this.solicitacoes[h.idx].historico_processo)) {
+          this.solicitacoes[h.idx].historico_processo.push(h.hist);
+        } else {
+          this.solicitacoes[h.idx].historico_processo = [h.hist];
+        }
+      }
+      if (h.acao === 'alterar') {
+        // const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_processo_id);
+        const m: number = this.solicitacoes[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_processo.splice(m, 1, h.hist);
+      }
+      if (h.acao === 'apagar') {
+        // const n: number = this.solicitacoes.findIndex(p => p.processo_id = h.hist.historico_processo_id);
+        this.solicitacoes[h.idx].historico_processo.splice(this.solicitacoes[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
+      }
+    }
+    /*if (this.has.histFormI.modulo === 'solicitacao') {
       if (this.has.histFormI.acao === 'incluir') {
-        console.log('histFormI',this.has.histFormI);
         const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
         if (Array.isArray(this.solicitacoes[n].historico_solicitcao)) {
           this.solicitacoes[n].historico_solicitcao.push(this.has.histFormI.hist);
@@ -402,7 +431,7 @@ export class SolicService {
         const n: number = this.solicitacoes.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
         this.solicitacoes[n].historico_processo.splice(this.solicitacoes[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
       }
-    }
+    }*/
   }
 
   montaHistorico(modulo: string, idx: number) {

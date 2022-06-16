@@ -2,18 +2,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
-  OnChanges, OnDestroy,
+  Input, OnChanges,
   OnInit,
-  Output,
-  SimpleChanges,
+  Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {HistFormI, HistI, HistListI} from "../_models/hist-i";
 import {AuthenticationService} from "../../_services";
-import {Subscription} from "rxjs";
-import {HistService} from "../_services/hist.service";
-import {MessageService} from "primeng/api";
 import {HistAuxService} from "../_services/hist-aux.service";
 
 @Component({
@@ -21,16 +16,19 @@ import {HistAuxService} from "../_services/hist-aux.service";
   templateUrl: './hist-datatable.component.html',
   styleUrls: ['./hist-datatable.component.css']
 })
-export class HistDatatableComponent implements OnInit, OnDestroy {
+export class HistDatatableComponent implements OnInit, OnChanges {
   @ViewChild('tb', { static: false }) tb!: ElementRef;
   @Output() dialogExterno = new EventEmitter<boolean>();
   @Output() novoRegistro = new EventEmitter<HistFormI>();
+
   @Output() displayChange = new EventEmitter<boolean>();
   @Input() display: boolean = false;
+  // @Input() modulo: string;
   @Input() imprimir?: boolean;
+  // @Input() idx?: number | undefined;
+  @Input() histListI?: HistListI | undefined;
   @Output() impressao = new EventEmitter<any>();
 
-  private sub: Subscription[] = [];
 
   his: HistI[];
   hisI: HistI[];
@@ -42,28 +40,35 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
   apagar = false;
   modulo = '';
   idx = 0;
+  registro_id: number = 0;
+
   constructor(
     private aut: AuthenticationService,
-    private hs: HistService,
-    private ms: MessageService,
     public has: HistAuxService
   ) { }
 
-  ngOnInit(): void {
-    this.idx = this.has.histListI.idx;
-    if(this.has.histListI.modulo === 'solicitacao') {
-      this.modulo = 'solicitacao';
+  ngOnChanges(changes: SimpleChanges) {
+    this.modulo = this.histListI.modulo;
+    this.registro_id = this.histListI.registro_id;
+    this.idx = this.idx;
+    if(this.histListI.modulo === 'solicitacao') {
+      // this.modulo = 'solicitacao';
       this.caption = 'ANDAMENTOS DA SOLICITAÇÃO';
       this.incluir = this.aut.historico_solicitacao_incluir;
       this.alterar = this.aut.historico_solicitacao_alterar;
       this.apagar = this.aut.historico_solicitacao_apagar;
     } else {
-      this.modulo = 'processo'
+      // this.modulo = 'processo'
       this.caption = 'ANDAMENTOS DO PROCESSO';
       this.incluir = this.aut.historico_incluir;
       this.alterar = this.aut.historico_alterar;
       this.apagar = this.aut.historico_apagar;
     }
+  }
+
+  ngOnInit(): void {
+    // this.idx = this.has.histListI.idx;
+
   }
 
   fechar() {
@@ -72,31 +77,35 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
   }
 
   dialogExternoSN(vf: boolean) {
-   // this.displayChange.emit(vf);
     this.dialogExterno.emit(vf);
   }
 
   recebeRegistro(h: HistFormI) {
+    const n: number = h.idx;
+    h.idx = this.idx;
     if (h.acao === 'incluir') {
-      // this.has.histListI.hist.push(h.hist);
-      this.novoRegistro.emit(h);
+      this.histListI.hist.push(h.hist);
     }
     if (h.acao === 'alterar') {
-      this.novoRegistro.emit(h);
+      this.histListI.hist.splice(h.idx, 1, h.hist);
     }
+    this.novoRegistro.emit(h);
   }
 
-  onExcluir(idx: number) {
+  formMostra(acao: string) {
+
+  }
+
+  onExcluir(n: number[]) {
     const e: HistFormI = {
-      modulo: this.has.histListI.modulo,
+      modulo: this.modulo,
       acao: 'apagar',
-      idx: idx,
-      hist: this.has.histListI.hist[idx]
+      idx: n[1],
+      hist: this.histListI.hist[n[0]]
     }
     this.novoRegistro.emit(e);
-    this.has.histListI.hist.splice(idx, 1);
+    this.histListI.hist.splice(n[0], 1);
   }
-
 
   escolheTipoImpressao(hi: any | null): Boolean | HistI {
     if (hi) {
@@ -115,7 +124,6 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
     }
     return false;
   }
-
 
   transformaDadosImpressao(dados: HistI[]): HistI[] {
     if (dados) {
@@ -142,13 +150,8 @@ export class HistDatatableComponent implements OnInit, OnDestroy {
     this.impressao.emit(this.tb.nativeElement);
   }
 
-
-  ngOnDestroy(): void {
-    this.sub.forEach(s => s.unsubscribe());
-  }
-
   mudaI(i: number): string {
-    this.idx = i;
+    // this.idx = i;
     return '';
   }
 }

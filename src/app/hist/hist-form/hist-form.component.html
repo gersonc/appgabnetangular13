@@ -72,7 +72,6 @@
     styleClass="tablistagem"
     [maximizable]="true"
     [baseZIndex]="10"
-    (onShow)="mostraBts(true)"
     appendTo="body"
   >
 
@@ -141,7 +140,7 @@
                             type="submit"
                             class="botaoinferior p-button-rounded"
                             [label]="histFormI.acao.toUpperCase()"
-                            [disabled]="!formHis.valid || !formHis.dirty || btDesabilitado"
+                            [disabled]="!formHis.valid || !formHis.dirty"
                           ></button>
                         </div>
                         <div class="p-mr-2">
@@ -152,7 +151,7 @@
                             class="botaoinferior p-ripple p-button-rounded p-button-secondary"
                             (click)="resetForm()"
                             label="LIMPAR"
-                            [disabled]="!formHis.dirty || btDesabilitado"
+                            [disabled]="!formHis.dirty"
                           ></button>
                         </div>
                         <div class="p-mr-2">
@@ -163,7 +162,6 @@
                             class="botaoinferior p-button-rounded p-button-secondary"
                             (click)="fechar()"
                             label="FECHAR"
-                            [disabled]="btDesabilitado"
                           ></button>
                         </div>
                       </div>

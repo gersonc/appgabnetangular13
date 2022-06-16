@@ -14771,20 +14771,20 @@ table .table-hover.tabela .detalhe-horiz {
 }
 
 .status-0 {
-  background-color: var(--blue-100);
+  background-color: var(--yellow-100);
   font-weight: 500;
 }
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-0 {
-  background-color: var(--blue-200);
+  background-color: var(--yellow-200);
 }
 
 
 .status-1 {
-  background-color: var(--yellow-100);
+  background-color: var(--blue-100);
   font-weight: 500;
 }
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-1 {
-  background-color: var(--yellow-200);
+  background-color: var(--blue-200);
 }
 
 
@@ -14805,12 +14805,54 @@ table .table-hover.tabela .detalhe-horiz {
 }
 
 .status-4 {
-  background-color: var(--surface-100);
+  background-color: var(--gray-200);
   font-weight: 500;
 }
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-4 {
-  background-color: var(--surface-200);
+  background-color: var(--gray-300);
 }
+
+
+
+.situacao-0 {
+  background-color: var(--yellow-300);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.situacao-0 {
+  background-color: var(--yellow-400);
+}
+
+
+.situacao-1 {
+  background-color: var(--blue-300);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.situacao-1 {
+  background-color: var(--blue-400);
+}
+
+
+.situacao-2 {
+  background-color: var(--green-300);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.situacao-2 {
+  background-color: var(--green-400);
+}
+
+.situacao-3 {
+  background-color: var(--bluegray-100);
+  font-weight: 500;
+}
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.situacao-3 {
+  background-color: var(--bluegray-200);
+}
+
+
+
+
+
+
 
 .a4 .ql-editor {
   /*min-height: 10rem;*/

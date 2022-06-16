@@ -145,10 +145,9 @@ export class ProceService {
   }
 
   onRowCollapse(ev) {
-    this.tabela.dadosExpandidos = undefined;
-    this.has.histFormI = undefined;
-    this.has.hist = undefined;
-    this.has.histListI = undefined;
+    delete this.has.histFormI;
+    delete this.has.histListI;
+    this.tabela.dadosExpandidos = null;
     this.expandidoSN = false;
   }
 
@@ -452,8 +451,49 @@ export class ProceService {
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
-  recebeRegistro() {
-    if (this.has.histFormI.acao === 'incluir') {
+  recebeRegistro(h: HistFormI) {
+    if (this.has.histFormI.modulo === 'solicitacao') {
+      if (this.has.histFormI.acao === 'incluir') {
+        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
+        if (Array.isArray(this.processos[n].historico_solicitcao)) {
+          this.processos[n].historico_solicitcao.push(this.has.histFormI.hist);
+        } else {
+          this.processos[n].historico_solicitcao = [this.has.histFormI.hist];
+        }
+      }
+      if (this.has.histFormI.acao === 'alterar') {
+        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
+        const m: number = this.processos[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
+        this.processos[n].historico_solicitcao.splice(m, 1, this.has.histFormI.hist);
+      }
+      if (this.has.histFormI.acao === 'apagar') {
+        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
+        this.processos[n].historico_solicitcao.splice(this.processos[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+      }
+    }
+    if (this.has.histFormI.modulo === 'processo') {
+      if (this.has.histFormI.acao === 'incluir') {
+        const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+        if (Array.isArray(this.processos[n].historico_processo)) {
+          this.processos[n].historico_processo.push(this.has.histFormI.hist);
+        } else {
+          this.processos[n].historico_processo = [this.has.histFormI.hist];
+        }
+      }
+      if (this.has.histFormI.acao === 'alterar') {
+        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_processo_id);
+        const m: number = this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
+        this.processos[n].historico_processo.splice(m, 1, this.has.histFormI.hist);
+      }
+      if (this.has.histFormI.acao === 'apagar') {
+        const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
+        this.processos[n].historico_processo.splice(this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+      }
+    }
+
+
+
+    /*if (this.has.histFormI.acao === 'incluir') {
       const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
       if (Array.isArray(this.processos[n].historico_processo)) {
         this.processos[n].historico_processo.push(this.has.histFormI.hist);
@@ -469,7 +509,7 @@ export class ProceService {
     if (this.has.histFormI.acao === 'apagar') {
       const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
       this.processos[n].historico_processo.splice(this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
-    }
+    }*/
   }
 
   montaHistorico(modulo: string, idx: number) {

@@ -34,7 +34,6 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() idx?: number | null;
   @Input() acao: string;
   @Input() modulo: string;
-  @Input() histI?: HistI;
 
   mostraForm = false;
   mostraDialog = false;
@@ -90,9 +89,6 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('acao', this.acao, ' modulo', this.modulo, ' id', this.id, ' idx', this.idx);
-    this.histFormI.idx = this.idx;
-    this.histFormI.acao = this.acao;
     this.histFormI.modulo = this.modulo;
     if (this.modulo === 'solicitacao') {
       this.btnIncluir = 'botaoinferior p-button-rounded p-button-cyan';
@@ -101,7 +97,6 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
       this.incluirPerm =  (this.aut.historico_solicitacao_incluir || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
       this.alterarPerm =  (this.aut.historico_solicitacao_alterar || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
       this.apagarPerm = (this.aut.historico_solicitacao_apagar || this.aut.solicitacao_incluir || this.aut.solicitacao_analisar || this.aut.solicitacao_alterar || this.aut.solicitacao_apagar || this.aut.usuario_responsavel_sn);
-      // this.histFormI.hist.historico_solicitacao_id = this.id;
     }
     if (this.modulo === 'processo') {
       this.btnIncluir = 'botaoinferior p-button-rounded p-button-purple';
@@ -110,22 +105,9 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
       this.incluirPerm =  ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_incluir || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
       this.alterarPerm =  ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
       this.apagarPerm = ((this.aut.solicitacaoVersao === 1) && (this.aut.historico_apagar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
-      // this.histFormI.hist.historico_processo_id = this.id;
     }
-    if (this.acao === 'alterar') {
-      this.histFormI.hist = this.histI;
-    } else {
-      if (this.modulo === 'solicitacao') {
-        this.histFormI.hist.historico_solicitacao_id = this.id;
-      }
-      if (this.modulo === 'processo') {
-        this.histFormI.hist.historico_processo_id= this.id;
-      }
-    }
-
-    console.log('acao', this.acao, ' modulo', this.modulo, ' id', this.id, ' idx', this.idx, ' ngOnChanges', this.histFormI.hist);
-    // this.histFormI.hist.historico_solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id;
-    // this.histFormI.hist.historico_processo_id = this.has.histFormI.hist.historico_processo_id;
+    this.histFormI.hist.historico_solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id;
+    this.histFormI.hist.historico_processo_id = this.has.histFormI.hist.historico_processo_id;
 
   }
 
@@ -216,7 +198,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
 
   incluir() {
     if (this.formHis.valid) {
-      this.sub.push(this.hs.incluir(this.histFormI)
+      this.sub.push(this.hs.incluir(this.has.histFormI)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -241,7 +223,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
                 detail: this.resp[1],
               });
               this.histFormI.hist = this.resp[2];
-              // this.has.histFormI.hist = this.resp[2];
+              this.has.histFormI.hist = this.resp[2];
               this.novoRegistro.emit(this.histFormI);
               this.fechar();
             } else {
@@ -262,7 +244,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
 
   alterar() {
     if (this.formHis.valid) {
-      this.sub.push(this.hs.alterar(this.histFormI)
+      this.sub.push(this.hs.alterar(this.has.histFormI)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -286,10 +268,10 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
                 summary: 'ANDAMENTO',
                 detail: 'Andamento incluido com sucesso.'
               });
-              delete this.histFormI.hist;
-              this.histFormI.hist = this.resp[2];
-              // this.has.histListI.hist.splice(this.idx, 1);
-              this.novoRegistro.emit(this.histFormI);
+              delete this.has.histFormI.hist;
+              this.has.histFormI.hist = this.resp[2];
+              this.has.histListI.hist.splice(this.idx, 1);
+              this.novoRegistro.emit(this.resp[2]);
               this.fechar();
             } else {
               this.ms.add({
@@ -347,18 +329,18 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
       return false;
     }
     if (this.histFormI.acao === 'alterar') {
-      // this.has.histFormI.hist.historico_id = this.histFormI.hist.historico_id;
+      this.has.histFormI.hist.historico_id = this.histFormI.hist.historico_id;
       if (this.histFormI.hist.historico_andamento === this.cpoEditor.html && this.histFormI.hist.historico_andamento_delta === this.cpoEditor.delta) {
         return false;
       }
     }
-    // this.has.histFormI.acao = this.histFormI.acao;
-    // this.has.histFormI.modulo = this.histFormI.modulo;
-    // this.has.histFormI.idx = this.histFormI.idx;
-    this.histFormI.hist.historico_andamento = this.cpoEditor.html;
-    this.histFormI.hist.historico_andamento_delta = JSON.stringify(this.cpoEditor.delta);
-    this.histFormI.hist.historico_andamento_texto = this.cpoEditor.text;
-    this.histFormI.hist.historico_data = this.formHis.get('historico_data').value;
+    this.has.histFormI.acao = this.histFormI.acao;
+    this.has.histFormI.modulo = this.histFormI.modulo;
+    this.has.histFormI.idx = this.histFormI.idx;
+    this.has.histFormI.hist.historico_andamento = this.cpoEditor.html;
+    this.has.histFormI.hist.historico_andamento_delta = JSON.stringify(this.cpoEditor.delta);
+    this.has.histFormI.hist.historico_andamento_texto = this.cpoEditor.text;
+    this.has.histFormI.hist.historico_data = this.formHis.get('historico_data').value;
     return true;
   }
 
