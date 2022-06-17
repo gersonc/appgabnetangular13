@@ -127,7 +127,6 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
       }
     }
     if (changes.drag) {
-      console.log('changes.drag', changes.drag.currentValue);
       // this.auto = changes.drag.currentValue;
     }
     if (changes.showUploadButton) {

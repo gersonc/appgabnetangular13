@@ -10,7 +10,7 @@ import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
 import {UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
-import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 
@@ -102,7 +102,6 @@ export class SolicService {
         historico_solicitacao_id: +evento.data.solicitacao_id
       }
     };
-    console.log('onRowExpand.histFormI', this.has.histFormI);
     this.tabela.titulos.forEach((t, i, tt) => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
@@ -112,19 +111,6 @@ export class SolicService {
           let txtdelta: string = null;
           let txt: string = null;
           let tst = '';
-          /*if (m >= 0) {
-            let keyidx: string[] = [
-              this.tabela.camposTexto[m],
-              this.tabela.camposTexto[m] + '_texto',
-              this.tabela.camposTexto[m] + '_delta'
-            ];
-            tst = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[keyidx[1]] : ev[keyidx[0]];
-            txt = (ev[keyidx[1]] !== undefined && ev[keyidx[1]] !== null) ? ev[ev[keyidx[1]]] : null;
-            txtdelta = (ev[keyidx[2]] !== undefined && ev[keyidx[2]] !== null) ? ev[ev[keyidx[2]]] : null;
-            vf = true;
-          } else {
-            tst = ev[t.field].toString();
-          }*/
           tst = ev[t.field].toString();
           b.push([tit, tst, vf, txt, txtdelta]);
           a++;
@@ -135,10 +121,7 @@ export class SolicService {
     this.expandidoSN = true;
   }
 
-
-
   onRowCollapse(ev) {
-    console.log('onRowExpand.histFormI', this.has.histFormI);
     delete this.has.histFormI;
     delete this.has.histListI;
     this.tabela.dadosExpandidos = null;
@@ -358,7 +341,6 @@ export class SolicService {
   recebeRegistro(h: HistFormI) {
     if (h.modulo === 'solicitacao') {
       if (h.acao === 'incluir') {
-        // const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_solicitacao_id);
         if (Array.isArray(this.solicitacoes[h.idx].historico_solicitcao)) {
           this.solicitacoes[h.idx].historico_solicitcao.push(h.hist);
         } else {
@@ -366,18 +348,18 @@ export class SolicService {
         }
       }
       if (h.acao === 'alterar') {
-        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_solicitacao_id);
-        const m: number = this.solicitacoes[h.idx].historico_solicitcao.findIndex(hs => hs.historico_id = h.hist.historico_id);
-        this.solicitacoes[h.idx].historico_solicitcao.splice(m, 1, h.hist);
+        const m: HistI[] = this.solicitacoes[h.idx].historico_solicitcao;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_solicitcao.splice(n, 1, h.hist);
       }
       if (h.acao === 'apagar') {
-        // const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_solicitacao_id);
-        this.solicitacoes[h.idx].historico_solicitcao.splice(this.solicitacoes[h.idx].historico_solicitcao.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
+        const m: HistI[] = this.solicitacoes[h.idx].historico_solicitcao;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_solicitcao.splice(n, 1);
       }
     }
     if (h.modulo === 'processo') {
       if (h.acao === 'incluir') {
-        // const n: number = this.solicitacoes.findIndex(p => p.processo_id = h.hist.historico_processo_id);
         if (Array.isArray(this.solicitacoes[h.idx].historico_processo)) {
           this.solicitacoes[h.idx].historico_processo.push(h.hist);
         } else {
@@ -385,53 +367,14 @@ export class SolicService {
         }
       }
       if (h.acao === 'alterar') {
-        // const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = h.hist.historico_processo_id);
-        const m: number = this.solicitacoes[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id);
-        this.solicitacoes[h.idx].historico_processo.splice(m, 1, h.hist);
+        const m: HistI[] = this.solicitacoes[h.idx].historico_processo;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_processo.splice(n, 1, h.hist);
       }
       if (h.acao === 'apagar') {
-        // const n: number = this.solicitacoes.findIndex(p => p.processo_id = h.hist.historico_processo_id);
         this.solicitacoes[h.idx].historico_processo.splice(this.solicitacoes[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
       }
     }
-    /*if (this.has.histFormI.modulo === 'solicitacao') {
-      if (this.has.histFormI.acao === 'incluir') {
-        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
-        if (Array.isArray(this.solicitacoes[n].historico_solicitcao)) {
-          this.solicitacoes[n].historico_solicitcao.push(this.has.histFormI.hist);
-        } else {
-          this.solicitacoes[n].historico_solicitcao = [this.has.histFormI.hist];
-        }
-      }
-      if (this.has.histFormI.acao === 'alterar') {
-        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
-        const m: number = this.solicitacoes[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
-        this.solicitacoes[n].historico_solicitcao.splice(m, 1, this.has.histFormI.hist);
-      }
-      if (this.has.histFormI.acao === 'apagar') {
-        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
-        this.solicitacoes[n].historico_solicitcao.splice(this.solicitacoes[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
-      }
-    }
-    if (this.has.histFormI.modulo === 'processo') {
-      if (this.has.histFormI.acao === 'incluir') {
-        const n: number = this.solicitacoes.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-        if (Array.isArray(this.solicitacoes[n].historico_processo)) {
-          this.solicitacoes[n].historico_processo.push(this.has.histFormI.hist);
-        } else {
-          this.solicitacoes[n].historico_processo = [this.has.histFormI.hist];
-        }
-      }
-      if (this.has.histFormI.acao === 'alterar') {
-        const n: number = this.solicitacoes.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_processo_id);
-        const m: number = this.solicitacoes[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
-        this.solicitacoes[n].historico_processo.splice(m, 1, this.has.histFormI.hist);
-      }
-      if (this.has.histFormI.acao === 'apagar') {
-        const n: number = this.solicitacoes.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-        this.solicitacoes[n].historico_processo.splice(this.solicitacoes[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
-      }
-    }*/
   }
 
   montaHistorico(modulo: string, idx: number) {
@@ -446,7 +389,6 @@ export class SolicService {
   }
 
   onDestroy(): void {
-    console.log('onDestroy');
     sessionStorage.removeItem('solic-busca');
     sessionStorage.removeItem('solic-tabela');
     sessionStorage.removeItem('solic-table');

@@ -23,7 +23,7 @@ import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 export class SolicDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
   @ViewChild('edtor', {static: true}) public edtor: Editor;
-  loading = false;
+  // loading = false;
   altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
@@ -57,7 +57,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   showHistoricoForm = false;
   showHistoricoForm2 = false;
 
-
+  histAcao: string = '';
+  registro_id = 0;
+  histFormI?: HistFormI;
   cssMostra: string | null = null;
   // histListI: HistListI | null = null;
   // solHistForm: SolicListarI | null;
@@ -145,6 +147,35 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       }
     ));
 
+  }
+
+  // FUNCOES DO COMPONENTE =====================================================
+
+  mostraMenu(): void {
+    this.mi.mudaMenuInterno();
+  }
+
+  /*mostraLoader(vf: boolean) {
+    this.loading = vf;
+  }*/
+
+  mapeiaColunas() {
+    let cp: string[] = [];
+    const n = this.cols.length;
+    let ct = 1
+    this.cols.forEach(c => {
+      if (c.field !== 'solicitacao_id') {
+        cp.push(c.field);
+      }
+      ct++;
+      if (ct === n) {
+        this.ss.montaTitulos(cp);
+      }
+    });
+  }
+
+  achaValor(sol: SolicListarI): number {
+    return this.ss.solicitacoes.indexOf(sol);
   }
 
   montaColunas() {
@@ -236,7 +267,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   resetSelectedColumns(): void {
     this.ss.criaTabela();
-    console.log('resetSelectedColumns');
     this.ss.tabela.selectedColumns = [
       {field: 'solicitacao_situacao', header: 'SITUAÇÃO', sortable: 'true', width: '130px'},
       {field: 'solicitacao_status_nome', header: 'STATUS', sortable: 'true', width: '130px'},
@@ -314,7 +344,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    if (this.aut.solicitacao_incluir) {
+    /*if (this.aut.solicitacao_incluir) {
       this.authIncluir = true;
       this.contextoMenu.push(
         {
@@ -323,7 +353,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
             this.solicitacaoIncluir();
           }
         });
-    }
+    }*/
 
     if (this.aut.solicitacao_alterar) {
       this.authAlterar = true;
@@ -346,6 +376,32 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
           }
         });
     }
+  }
+
+  mostraTexto(texto: any[]) {
+    this.campoTitulo = null;
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = texto[0];
+    this.showCampoTexto = true;
+    if (texto[4]) {
+      if (this.edtor.getQuill()) {
+        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
+      }
+      this.deltaquill = JSON.parse(texto[4]);
+      setTimeout(() => {
+        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
+      }, 300);
+    } else {
+      this.campoTexto = texto[1];
+    }
+  }
+
+  escondeTexto() {
+    this.campoTexto = null;
+    this.deltaquill = null;
+    this.campoTitulo = null;
+    this.showCampoTexto = false;
   }
 
   // EVENTOS ===================================================================
@@ -384,32 +440,50 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.mostraSeletor = false;
   }
 
-  historicoProcesso(processo_id: number, historico_processo: HistI[], idx: number) {
-    this.idx = idx;
-    this.histListI = {
-      hist: historico_processo,
-      idx: idx,
-      registro_id: processo_id,
-      modulo: 'processo'
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
+    this.tituloHistoricoDialog = (modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
+    this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
+    this.histAcao = acao;
+    if (acao === 'listar') {
+      this.histListI = {
+        hist: historicos,
+        idx: idx,
+        registro_id: registro_id,
+        modulo: modulo
+      }
+      this.ss.montaHistorico(modulo, idx);
     }
-    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO.'
-    this.ss.montaHistorico('processo', idx);
+    if (acao === 'incluir') {
+      this.histFormI = {
+        idx: idx,
+        acao: acao,
+        modulo: modulo,
+        hist: {
+          historico_solicitacao_id: (modulo === 'solicitacao') ? registro_id : undefined,
+          historico_processo_id: (modulo === 'processo') ? registro_id : undefined,
+        }
+      }
+    }
+    // this.idx = idx;
+    // this.registro_id = registro_id;
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
   }
 
-  historicoSolicitacao(solicitacao_id: number, historico_solicitcao: HistI[], idx: number) {
-    this.idx = idx;
-    this.histListI = {
-      hist: historico_solicitcao,
-      idx: idx,
-      registro_id: solicitacao_id,
-      modulo: 'solicitacao'
+  historicoSolicitacao(solicitacao_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
+    if (acao === 'listar') {
+      this.histListI = {
+        hist: historicos,
+        idx: idx,
+        registro_id: solicitacao_id,
+        modulo: 'solicitacao'
+      }
+      this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
+      this.ss.montaHistorico('solicitacao', idx);
     }
-    console.log('historicoSolicitacao', this.histListI);
-    this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
-    this.ss.montaHistorico('solicitacao', idx);
+    this.idx = idx;
+
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
@@ -420,41 +494,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   recebeRegistro(h: HistFormI) {
-    console.log('recebeRegistro', h);
     this.ss.recebeRegistro(h);
   }
 
-  // FUNCOES DO COMPONENTE =====================================================
 
-  mostraMenu(): void {
-    this.mi.mudaMenuInterno();
-  }
-
-  mostraLoader(vf: boolean) {
-    this.loading = vf;
-  }
-
-  mapeiaColunas() {
-    let cp: string[] = [];
-    const n = this.cols.length;
-    let ct = 1
-    this.cols.forEach(c => {
-      if (c.field !== 'solicitacao_id') {
-        cp.push(c.field);
-      }
-      ct++;
-      if (ct === n) {
-        this.ss.montaTitulos(cp);
-      }
-    });
-  }
-
-
-
-
-  achaValor(sol: SolicListarI): number {
-    return this.ss.solicitacoes.indexOf(sol);
-  }
 
   // FUNCOES DE BUSCA ==========================================================
 
@@ -927,31 +970,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }*/
 
-  mostraTexto(texto: any[]) {
-    this.campoTitulo = null;
-    this.campoTexto = null;
-    this.deltaquill = null;
-    this.campoTitulo = texto[0];
-    this.showCampoTexto = true;
-    if (texto[4]) {
-      if (this.edtor.getQuill()) {
-        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
-      }
-      this.deltaquill = JSON.parse(texto[4]);
-      setTimeout(() => {
-        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
-      }, 300);
-    } else {
-      this.campoTexto = texto[1];
-    }
-  }
 
-  escondeTexto() {
-    this.campoTexto = null;
-    this.deltaquill = null;
-    this.campoTitulo = null;
-    this.showCampoTexto = false;
-  }
 
   toWord() {
 

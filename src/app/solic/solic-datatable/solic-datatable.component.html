@@ -6,7 +6,6 @@
          [rows]="ss.tabela.rows"
          [lazy]="true"
          [lazyLoadOnInit]="false"
-         [loading]="loading"
          [totalRecords]="ss.tabela.totalRecords"
          [sortField]="ss.tabela.sortField"
          dataKey="solicitacao_id"
@@ -41,7 +40,6 @@
          stateKey="solic-table"
          selectionMode="multiple"
          styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines"
-         [loadingIcon]="'pi pi-spin pi-spinner'"
 >
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
@@ -168,19 +166,6 @@
                 >
                 </button>
               </div>
-              <!--<div *ngIf="aut.historico_solicitacao && sol.historico_solicitcao" class="p-mr-2">
-                <button
-                  pButton
-                  pRipple
-                  type="button"
-                  icon="pi pi-bookmark"
-                  class="p-button-rounded"
-                  pTooltip="Histórico"
-                  tooltipPosition="top"
-                  (click)="historicoSolicitacao(sol)"
-                >
-                </button>
-              </div>-->
               <div *ngIf="ss.expandidoSN && permListHistSol && sol.historico_solicitcao.length > 0" class="p-mr-2">
                 <button
                   pButton
@@ -190,11 +175,23 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
-                  (click)="historicoSolicitacao(sol.solicitacao_id, sol.historico_solicitcao, indice)"
+                  (click)="historicoAcao(sol.solicitacao_id, 'listar', 'solicitacao', indice, sol.historico_solicitcao)"
                 >
                 </button>
               </div>
-              <app-hist-form *ngIf="ss.expandidoSN" [modulo]="'solicitacao'" [idx]="indice" [id]="sol.solicitacao_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <div *ngIf="ss.expandidoSN && permInclHistSol && sol.solicitacao_status_id > 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-file-o"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Incluir Andamentos da Solicitação"
+                  tooltipPosition="top"
+                  (click)="historicoAcao(sol.solicitacao_id, 'incluir', 'solicitacao', indice)"
+                >
+                </button>
+              </div>
               <div *ngIf="ss.expandidoSN && sol.processo_id !== 0 && permListHist && sol.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
@@ -204,11 +201,25 @@
                   class="p-button-rounded p-button-purple"
                   pTooltip="Listar Andamentos do Processo"
                   tooltipPosition="top"
-                  (click)="historicoProcesso(sol.processo_is, sol.historico_processo, indice)"
+                  (click)="historicoAcao(sol.processo_id,'listar', 'processo', indice, sol.historico_processo)"
                 >
                 </button>
               </div>
-              <app-hist-form *ngIf="ss.expandidoSN && sol.processo_id !== 0" [modulo]="'processo'" [idx]="indice" [id]="sol.processo_id" [acao]="'incluir2'"  (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+
+              <div *ngIf="ss.expandidoSN && permInclHist && sol.processo_id !== 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-file-o"
+                  class="p-button-rounded p-button-purple"
+                  pTooltip="Incluir Andamentos do Processo"
+                  tooltipPosition="top"
+                  (click)="historicoAcao(sol.processo_id, 'incluir', 'processo', indice)"
+                >
+                </button>
+              </div>
+
             </div>
             <div class="p-grid">
               <div *ngFor="let linhas of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
@@ -296,49 +307,8 @@
   </p-dialog>
 </ng-container>
 
-<!--*** HISTORICO SOLICITACAO****************************************************************************************-->
-<!--<ng-container *ngIf="showHistoricoForm">
-  <p-dialog
-    [(visible)]="showHistoricoForm"
-    [dismissableMask]="true"
-    styleClass="tablistagem"
-    header="ANDAMENTO DA SOLICITAÇÃO"
-    (onHide)="escondeHistoricoForm()"
-  >
-    &lt;!&ndash;<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>&ndash;&gt;
-  </p-dialog>
-</ng-container>-->
 
-<!--*** HISTORICO SOLICITACAO****************************************************************************************-->
-<!--<ng-container *ngIf="showHistorico2">
-  <p-dialog
-    [(visible)]="showHistorico"
-    [dismissableMask]="true"
-    styleClass="tablistagem"
-    header="ANDAMENTO DA SOLICITAÇÃO"
-    (onHide)="escondeHistoricoListar(histListI)"
-  >
-    <app-hist-datatable [(display)]="showHistorico" (dialogExterno)="dialogHistoricoListar($event)" (novoRegistro)="historicoNovoRegisto($event)"></app-hist-datatable>
-    &lt;!&ndash;<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>&ndash;&gt;
-  </p-dialog>
-</ng-container>
-
-&lt;!&ndash;*** INCLUIR SOLICITACAO****************************************************************************************&ndash;&gt;
-<ng-container *ngIf="showHistoricoForm2">
-  <p-dialog
-    [(visible)]="showHistoricoForm"
-    [dismissableMask]="true"
-    styleClass="tablistagem"
-    header="ANDAMENTO DA SOLICITAÇÃO"
-    (onHide)="escondeHistoricoForm(histListI)"
-  >
-    <app-hist-datatable [(display)]="showHistorico" [dados]="histListI"></app-hist-datatable>
-    &lt;!&ndash;<app-historico-solocitacao [dados]="" [acao]="" [classeStylos]=""></app-historico-solocitacao>&ndash;&gt;
-  </p-dialog>
-</ng-container>-->
-
-
-<!--*** HISTORICO PROCESSO ****************************************************************************************-->
+<!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
 <ng-container *ngIf="showHistorico2">
   <div [ngClass]="cssMostra">
     <p-dialog
@@ -350,9 +320,9 @@
       [modal]="true"
       [dismissableMask]="false"
       [baseZIndex]="0"
-
     >
-      <app-hist-datatable *ngIf="showHistorico2" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+      <app-hist-form *ngIf="showHistorico2 && histAcao === 'incluir'" [histFormI]="histFormI" [(display)]="showHistorico2" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+      <app-hist-datatable *ngIf="showHistorico2 && histAcao === 'listar'" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
     </p-dialog>
   </div>
 </ng-container>

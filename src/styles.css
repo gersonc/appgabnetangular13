@@ -14770,6 +14770,21 @@ table .table-hover.tabela .detalhe-horiz {
   height: 1.8rem;
 }
 
+
+
+
+.tablistagem.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight > td.status-0 {
+  background-color: var(--yellow-500);
+  font-weight: 500;
+}
+.tablistagem.p-datatable .p-datatable-tbody > tr.p-highlight > td.status-0 {
+  background-color: var(--yellow-400);
+  color: var(--bt-secundario-color);
+}
+
+
+
+
 .status-0 {
   background-color: var(--yellow-100);
   font-weight: 500;
@@ -14812,6 +14827,16 @@ table .table-hover.tabela .detalhe-horiz {
   background-color: var(--gray-300);
 }
 
+
+
+.tablistagem.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight > td.situacao-0 {
+  background-color: var(--yellow-700);
+  font-weight: 500;
+}
+.tablistagem.p-datatable .p-datatable-tbody > tr.p-highlight > td.situacao-0{
+  background-color: var(--yellow-600);
+  color: var(--bt-secundario-color);
+}
 
 
 .situacao-0 {
@@ -14877,6 +14902,11 @@ div.p-field.formulario > quill-editor{
 .formulario .ql-editor {
   box-sizing: border-box !important;
   min-height: 5rem !important;
+}
+
+.ngx-quill-view > .ql-editor  {
+  box-sizing: unset !important;
+  min-height: unset !important;
 }
 
 /*.formulario .tabela .ql-editor {

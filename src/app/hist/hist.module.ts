@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
 import {CalendarModule} from "primeng/calendar";
-import {EditorModule} from "primeng/editor";
 import {RippleModule} from "primeng/ripple";
 import {ToastModule} from "primeng/toast";
 import { HistFormComponent } from './hist-form/hist-form.component';
@@ -35,7 +34,6 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     TableModule,
     TooltipModule,
     CalendarModule,
-    EditorModule,
     RippleModule,
     ToastModule,
     UtilModule,

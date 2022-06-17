@@ -1,81 +1,3 @@
-<ng-container *ngIf="incluirPerm && acao==='incluir'">
-  <div class="p-mr-2">
-    <button
-      pButton
-      pRipple
-      type="button"
-      class="botaoinferior p-button-rounded"
-      label="INCLUIR"
-      pTooltip="INCLUIR"
-      tooltipPosition="top"
-      (click)="formMostra('incluir')"
-    >
-    </button>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="incluirPerm && acao==='incluir2'">
-  <div class="p-mr-2">
-
-    <button
-      *ngIf="modulo==='processo'"
-      pButton
-      pRipple
-      type="button"
-      class="botaoinferior p-button-rounded p-button-purple"
-      icon="pi pi-file-o"
-      pTooltip="Incluir Andamento do Processo"
-      tooltipPosition="top"
-      (click)="formMostra('incluir')"
-    >
-    </button>
-
-    <button
-      *ngIf="modulo==='solicitacao'"
-      pButton
-      pRipple
-      type="button"
-      class="botaoinferior p-button-rounded p-button-cyan"
-      icon="pi pi-file-o"
-      pTooltip="Incluir Andamento da Solicitação"
-      tooltipPosition="top"
-      (click)="formMostra('incluir')"
-    >
-    </button>
-  </div>
-</ng-container>
-
-
-<ng-container *ngIf="alterarPerm && acao==='alterar'">
-  <div class="p-mr-1">
-  <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="ALTERAR" class="historico p-button-sm p-button-rounded p-button-warning" (click)="formMostra('alterar')"></button>
-  </div>
-<!--  <div class="pointerAlterar p-shadow-2"  style="width: 2.1em; height: 2em"  pTooltip="ALTERAR"><i class="pi pi-pencil" (click)="formMostra('alterar', id, idx)"></i></div>-->
-</ng-container>
-
-<ng-container *ngIf="(!incluirPerm && (acao==='incluir' || acao==='incluir2') || !alterarPerm && acao==='alterar')">
-  <div><span> </span></div>
-</ng-container>
-
-<ng-container *ngIf="mostraForm">
-  <p-dialog
-    [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
-    [style]="{width: '80vw'}"
-    id="historicoformdialog"
-    [(visible)]="mostraDialog"
-    [header]="getHeader()"
-    [closeOnEscape]="false"
-    [modal]="true"
-    [dismissableMask]="false"
-    [closable]="false"
-    (onHide)="escondeFormulario(false)"
-    styleClass="tablistagem"
-    [maximizable]="true"
-    [baseZIndex]="10"
-    appendTo="body"
-  >
-
-
     <form [formGroup]="formHis" (ngSubmit)="onSubmit()">
       <table class="historicoformdialog tabela">
         <tr>
@@ -125,11 +47,6 @@
 
                     </div>
 
-
-
-
-
-
                     <div class="p-field p-col-12">
                       <!--*** Botões ***-->
                       <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
@@ -167,10 +84,6 @@
                       </div>
                       <!--*** FIM BOTOES ***-->
                     </div>
-                    <!--<div *ngIf="msg[0]!==0" class="p-field p-col-12">
-                      <p-message *ngIf="msg[0]===1" severity="success" text="{{msg[1]}}"></p-message>
-                      <p-message *ngIf="msg[0]===2" severity="error" text="{{msg[1]}}"></p-message>
-                    </div>-->
 
                   </div>
 
@@ -182,5 +95,3 @@
       </table>
     </form>
 
-  </p-dialog>
-</ng-container>

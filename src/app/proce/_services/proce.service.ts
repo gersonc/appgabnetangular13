@@ -11,7 +11,7 @@ import {ProceBuscaI, ProceListarI, ProcePaginacaoInterface, proceProcessoCamposT
 import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-detalhe-i";
 import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
-import {HistFormI, HistListI} from "../../hist/_models/hist-i";
+import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 
 @Injectable({
   providedIn: 'root'
@@ -452,64 +452,43 @@ export class ProceService {
   }
 
   recebeRegistro(h: HistFormI) {
-    if (this.has.histFormI.modulo === 'solicitacao') {
-      if (this.has.histFormI.acao === 'incluir') {
-        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
-        if (Array.isArray(this.processos[n].historico_solicitcao)) {
-          this.processos[n].historico_solicitcao.push(this.has.histFormI.hist);
+    if (h.modulo === 'solicitacao') {
+      if (h.acao === 'incluir') {
+        if (Array.isArray(this.processos[h.idx].historico_solicitcao)) {
+          this.processos[h.idx].historico_solicitcao.push(h.hist);
         } else {
-          this.processos[n].historico_solicitcao = [this.has.histFormI.hist];
+          this.processos[h.idx].historico_solicitcao = [h.hist];
         }
       }
-      if (this.has.histFormI.acao === 'alterar') {
-        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
-        const m: number = this.processos[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
-        this.processos[n].historico_solicitcao.splice(m, 1, this.has.histFormI.hist);
+      if (h.acao === 'alterar') {
+        const m: HistI[] = this.processos[h.idx].historico_solicitcao;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.processos[h.idx].historico_solicitcao.splice(n, 1, h.hist);
       }
-      if (this.has.histFormI.acao === 'apagar') {
-        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_solicitacao_id);
-        this.processos[n].historico_solicitcao.splice(this.processos[n].historico_solicitcao.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+      if (h.acao === 'apagar') {
+        const m: HistI[] = this.processos[h.idx].historico_solicitcao;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.processos[h.idx].historico_solicitcao.splice(n, 1);
       }
     }
-    if (this.has.histFormI.modulo === 'processo') {
-      if (this.has.histFormI.acao === 'incluir') {
-        const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-        if (Array.isArray(this.processos[n].historico_processo)) {
-          this.processos[n].historico_processo.push(this.has.histFormI.hist);
+    if (h.modulo === 'processo') {
+      if (h.acao === 'incluir') {
+        if (Array.isArray(this.processos[h.idx].historico_processo)) {
+          this.processos[h.idx].historico_processo.push(h.hist);
         } else {
-          this.processos[n].historico_processo = [this.has.histFormI.hist];
+          this.processos[h.idx].historico_processo = [h.hist];
         }
       }
-      if (this.has.histFormI.acao === 'alterar') {
-        const n: number = this.processos.findIndex(p => p.solicitacao_id = this.has.histFormI.hist.historico_processo_id);
-        const m: number = this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
-        this.processos[n].historico_processo.splice(m, 1, this.has.histFormI.hist);
+      if (h.acao === 'alterar') {
+        const m: HistI[] = this.processos[h.idx].historico_processo;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.processos[h.idx].historico_processo.splice(n, 1, h.hist);
       }
-      if (this.has.histFormI.acao === 'apagar') {
-        const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-        this.processos[n].historico_processo.splice(this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
+      if (h.acao === 'apagar') {
+        this.processos[h.idx].historico_processo.splice(this.processos[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
       }
     }
 
-
-
-    /*if (this.has.histFormI.acao === 'incluir') {
-      const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-      if (Array.isArray(this.processos[n].historico_processo)) {
-        this.processos[n].historico_processo.push(this.has.histFormI.hist);
-      } else {
-        this.processos[n].historico_processo = [this.has.histFormI.hist];
-      }
-    }
-    if (this.has.histFormI.acao === 'alterar') {
-      const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-      const m: number = this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id);
-      this.processos[n].historico_processo.splice(m, 1, this.has.histFormI.hist);
-    }
-    if (this.has.histFormI.acao === 'apagar') {
-      const n: number = this.processos.findIndex(p => p.processo_id = this.has.histFormI.hist.historico_processo_id);
-      this.processos[n].historico_processo.splice(this.processos[n].historico_processo.findIndex(hs => hs.historico_id = this.has.histFormI.hist.historico_id), 1);
-    }*/
   }
 
   montaHistorico(modulo: string, idx: number) {

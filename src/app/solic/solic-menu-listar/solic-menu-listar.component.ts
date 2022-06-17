@@ -32,9 +32,7 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     private router: Router,
     private sdd: SolicDropdownMenuService,
     private sfs: SolicFormService
-  ) {
-    console.log('mi');
-  }
+  ) { }
 
   ngOnInit() {
     this.formListarSolicitacao = this.formBuilder.group({

@@ -98,13 +98,14 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   cssMostra: string | null = null;
   histListI: HistListI | null = null;
+  histFormI?: HistFormI
   proHistForm: ProceListarI | null;
   permListHist: boolean = false;
   permInclHist: boolean = false;
   permListHistSol: boolean = false;
   permInclHistSol: boolean = false;
   tituloHistoricoDialog = 'ANDAMENTOS';
-
+  histAcao: string = '';
   colsDefaut2: any[] = [];
 
 
@@ -425,6 +426,37 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   //  HISTIRICO - ANDAMENTO ***********************************************************
 
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
+    this.histAcao = acao;
+    this.tituloHistoricoDialog = (modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
+    this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
+    if (acao === 'listar') {
+      this.histListI = {
+        hist: historicos,
+        idx: idx,
+        registro_id: registro_id,
+        modulo: modulo
+      }
+      this.ps.montaHistorico(modulo, idx);
+    }
+    if (acao === 'incluir') {
+      this.histFormI = {
+        idx: idx,
+        acao: acao,
+        modulo: modulo,
+        hist: {
+          historico_solicitacao_id: (modulo === 'solicitacao') ? registro_id : undefined,
+          historico_processo_id: (modulo === 'processo') ? registro_id : undefined,
+        }
+      }
+    }
+    // this.idx = idx;
+    // this.registro_id = registro_id;
+    this.showHistorico2 = true;
+    this.showHistorico = true;
+    this.mostraDialog(true);
+  }
+
   historicoProcesso(processo_id: number, historico_processo: HistI[], idx: number) {
     this.idx = idx;
     this.histListI = {
@@ -457,6 +489,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraDialog(ev: boolean) {
+    console.log('mostraDialog2', ev);
     this.cssMostra = (ev) ? null : 'p-d-none';
   }
 

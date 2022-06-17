@@ -155,22 +155,14 @@
                             {{sfs.solicListar.solicitacao_tipo_recebimento_nome}}
                           </td>
                         </tr>
-                        <tr
-                          *ngIf="sfs.solicListar.solicitacao_descricao || sfs.solicListar.solicitacao_descricao_texto || sfs.solicListar.solicitacao_descricao_delta"
-                        >
+                        <tr *ngIf="sfs.solicListar.solicitacao_descricao || sfs.solicListar.solicitacao_descricao_delta" >
                           <td colspan="2" class="tituloEditor">
                             Descrição:
                           </td>
                         </tr>
-                        <tr
-                          *ngIf="sfs.solicListar.solicitacao_descricao || sfs.solicListar.solicitacao_descricao_texto || sfs.solicListar.solicitacao_descricao_delta"
-                        >
+                        <tr *ngIf="sfs.solicListar.solicitacao_descricao || sfs.solicListar.solicitacao_descricao_delta">
                           <td colspan="2">
-                            <app-texto-view
-                              [padrao]="sfs.solicListar.solicitacao_descricao"
-                              [texto]="sfs.solicListar.solicitacao_descricao_texto"
-                              [delta]="sfs.solicListar.solicitacao_descricao_delta"
-                            ></app-texto-view>
+                            <app-quill-view [cphtml]="sfs.solicListar.solicitacao_descricao" [cpdelta]="sfs.solicListar.solicitacao_descricao_delta"></app-quill-view>
                           </td>
                         </tr>
                         <!--<tr
@@ -453,15 +445,11 @@
                             </th>
                           </tr>
                           <tr *ngFor="let ands of sfs.solicListar.historico_solicitcao">
-                            <td>
+                            <td style="width: 3%; vertical-align:top;" nowrap>
                               {{ands.historico_data}}
                             </td>
                             <td>
-                              <app-texto-view
-                                [padrao]="ands.historico_andamento"
-                                [texto]="ands.historico_andamento_texto"
-                                [delta]="ands.historico_andamento_delta"
-                              ></app-texto-view>
+                              <app-quill-view [cpdelta]="ands.historico_andamento_delta" [cphtml]="ands.historico_andamento"></app-quill-view>
                             </td>
                           </tr>
                         </table>
@@ -505,11 +493,7 @@
                                   <tr
                                     *ngIf="sfs.solicListar.processo_carta || sfs.solicListar.processo_carta_texto || sfs.solicListar.processo_carta_texto">
                                     <td colspan="2">
-                                      <app-texto-view
-                                        [padrao]="sfs.solicListar.processo_carta"
-                                        [texto]="sfs.solicListar.processo_carta_texto"
-                                        [delta]="sfs.solicListar.processo_carta_texto"
-                                      ></app-texto-view>
+                                      <app-quill-view [cphtml]="sfs.solicListar.processo_carta" [cpdelta]="sfs.solicListar.processo_carta_delta"></app-quill-view>
                                     </td>
                                   </tr>
                                   <tr *ngIf="sfs.solicListar.processo_arquivos">
@@ -538,11 +522,7 @@
                                         {{andp.historico_data}}
                                       </td>
                                       <td>
-                                        <app-texto-view
-                                          [padrao]="andp.historico_andamento"
-                                          [texto]="andp.historico_andamento_texto"
-                                          [delta]="andp.historico_andamento_delta"
-                                        ></app-texto-view>
+                                        <app-quill-view [cphtml]="andp.historico_andamento" [cpdelta]="andp.historico_andamento_delta"></app-quill-view>
                                       </td>
                                     </tr>
                                   </table>
@@ -723,11 +703,7 @@
                                         </tr>
                                         <tr *ngIf="ofi.oficio_descricao_acao && aut.oficio_listar">
                                           <td colspan="2">
-                                            <app-texto-view
-                                              [padrao]="ofi.oficio_descricao_acao"
-                                              [texto]="ofi.oficio_descricao_acao_texto"
-                                              [delta]="ofi.oficio_descricao_acao_delta"
-                                            ></app-texto-view>
+                                            <app-quill-view [cphtml]="ofi.oficio_descricao_acao" [cpdelta]="ofi.oficio_descricao_acao_delta"></app-quill-view>
                                           </td>
                                         </tr>
                                         <tr *ngIf="ofi.oficio_arquivos && aut.oficio_listar">
@@ -833,41 +809,83 @@
                 <p-accordion>
                   <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
                     <div class="formulario-quill">
-                      <p-editor
+                      <div class="qeditor">
+                        <quill-editor
+                          class="formulario"
+                          id="solicitacao_aceita_recusada"
+                          [format]="format"
+                          [defaultEmptyValue]="null"
+                          [theme]="'snow'"
+                          [modules]="modulos"
+                          [debounceTime]="10"
+                          [placeholder]="''"
+                          formControlName="solicitacao_aceita_recusada"
+                          (onContentChanged)="onContentChanged($event, 'solicitacao_aceita_recusada')"
+                        ></quill-editor>
+                      </div>
+                      <!--<p-editor
                         #solacerecus
                         formControlName="solicitacao_aceita_recusada"
                         id="solicitacao_aceita_recusada"
                         [modules]="modulos"
                       >
                         <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
+                      </p-editor>-->
 
                     </div>
                   </p-accordionTab>
 
                   <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Resposta / Carta">
                     <div class="formulario-quill">
-                      <p-editor
+                      <div class="qeditor">
+                        <quill-editor
+                          class="formulario"
+                          id="solicitacao_carta"
+                          [format]="format"
+                          [defaultEmptyValue]="null"
+                          [theme]="'snow'"
+                          [modules]="modulos"
+                          [debounceTime]="10"
+                          [placeholder]="''"
+                          formControlName="solicitacao_carta"
+                          (onContentChanged)="onContentChanged($event, 'solicitacao_carta')"
+                        ></quill-editor>
+                      </div>
+                      <!--<p-editor
                         #solcar
                         formControlName="solicitacao_carta"
                         id="solicitacao_carta"
                         [modules]="modulos"
                       >
                         <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
+                      </p-editor>-->
                     </div>
                   </p-accordionTab>
 
                   <p-accordionTab header="Histórico / Andamento">
                     <div class="formulario-quill">
-                      <p-editor
+                      <div class="qeditor">
+                        <quill-editor
+                          class="formulario"
+                          id="historico_andamento"
+                          [format]="format"
+                          [defaultEmptyValue]="null"
+                          [theme]="'snow'"
+                          [modules]="modulos"
+                          [debounceTime]="10"
+                          [placeholder]="''"
+                          formControlName="historico_andamento"
+                          (onContentChanged)="onContentChanged($event, 'historico_andamento')"
+                        ></quill-editor>
+                      </div>
+                      <!--<p-editor
                         #histand
                         formControlName="historico_andamento"
                         id="historico_andamento"
                         [modules]="modulos"
                       >
                         <ng-template pTemplate="header"></ng-template>
-                      </p-editor>
+                      </p-editor>-->
                     </div>
                   </p-accordionTab>
 

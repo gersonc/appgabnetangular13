@@ -2,7 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input, OnChanges,
+  Input, OnChanges, OnDestroy,
   OnInit,
   Output, SimpleChanges,
   ViewChild
@@ -10,55 +10,68 @@ import {
 import {HistFormI, HistI, HistListI} from "../_models/hist-i";
 import {AuthenticationService} from "../../_services";
 import {HistAuxService} from "../_services/hist-aux.service";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {HistService} from "../_services/hist.service";
+import {take} from "rxjs/operators";
+import {Subscription} from "rxjs";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-hist-datatable',
   templateUrl: './hist-datatable.component.html',
-  styleUrls: ['./hist-datatable.component.css']
+  styleUrls: ['./hist-datatable.component.css'],
+  providers: [ConfirmationService]
 })
-export class HistDatatableComponent implements OnInit, OnChanges {
+export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('tb', { static: false }) tb!: ElementRef;
   @Output() dialogExterno = new EventEmitter<boolean>();
   @Output() novoRegistro = new EventEmitter<HistFormI>();
-
   @Output() displayChange = new EventEmitter<boolean>();
   @Input() display: boolean = false;
-  // @Input() modulo: string;
   @Input() imprimir?: boolean;
-  // @Input() idx?: number | undefined;
   @Input() histListI?: HistListI | undefined;
   @Output() impressao = new EventEmitter<any>();
 
 
   his: HistI[];
   hisI: HistI[];
-  historico: HistI[];
+  // historico: HistI[];
   estilo = 'tablcomp';
   caption = 'ANDAMENTOS DA SOLICITAÇÃO';
   incluir = false;
   alterar = false;
   apagar = false;
-  modulo = '';
-  idx = 0;
-  registro_id: number = 0;
+  // modulo = '';
+  // idx = 0;
+  // registro_id: number = 0;
+  tituloHistoricoDialog = 'ANDAMENTOS';
+  histFormI?: HistFormI;
+  showHistorico = false;
+  excluir = false;
+  sub: Subscription[] = [];
+  resp: [boolean, string, string] = [false,'',''];
+  msg: any[] = [];
+
 
   constructor(
-    private aut: AuthenticationService,
-    public has: HistAuxService
+    private cf: ConfirmationService,
+    public aut: AuthenticationService,
+    private hs: HistService,
+    private ms: MessageService,
+    public has: HistAuxService,
+    private mssg: MsgService
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.modulo = this.histListI.modulo;
-    this.registro_id = this.histListI.registro_id;
-    this.idx = this.idx;
+    // this.modulo = this.histListI.modulo;
+    // this.registro_id = this.histListI.registro_id;
+    // this.idx = this.histListI.idx;
     if(this.histListI.modulo === 'solicitacao') {
-      // this.modulo = 'solicitacao';
       this.caption = 'ANDAMENTOS DA SOLICITAÇÃO';
       this.incluir = this.aut.historico_solicitacao_incluir;
       this.alterar = this.aut.historico_solicitacao_alterar;
       this.apagar = this.aut.historico_solicitacao_apagar;
     } else {
-      // this.modulo = 'processo'
       this.caption = 'ANDAMENTOS DO PROCESSO';
       this.incluir = this.aut.historico_incluir;
       this.alterar = this.aut.historico_alterar;
@@ -66,10 +79,7 @@ export class HistDatatableComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {
-    // this.idx = this.has.histListI.idx;
-
-  }
+  ngOnInit(): void { }
 
   fechar() {
     this.dialogExterno.emit(false);
@@ -81,24 +91,13 @@ export class HistDatatableComponent implements OnInit, OnChanges {
   }
 
   recebeRegistro(h: HistFormI) {
-    const n: number = h.idx;
-    h.idx = this.idx;
-    if (h.acao === 'incluir') {
-      this.histListI.hist.push(h.hist);
-    }
-    if (h.acao === 'alterar') {
-      this.histListI.hist.splice(h.idx, 1, h.hist);
-    }
+    h.idx = this.histListI.idx;
     this.novoRegistro.emit(h);
-  }
-
-  formMostra(acao: string) {
-
   }
 
   onExcluir(n: number[]) {
     const e: HistFormI = {
-      modulo: this.modulo,
+      modulo: this.histListI.modulo,
       acao: 'apagar',
       idx: n[1],
       hist: this.histListI.hist[n[0]]
@@ -150,8 +149,93 @@ export class HistDatatableComponent implements OnInit, OnChanges {
     this.impressao.emit(this.tb.nativeElement);
   }
 
-  mudaI(i: number): string {
-    // this.idx = i;
-    return '';
+  historicoAcao(acao: string, idx?: number, historico?: HistI) {
+    this.tituloHistoricoDialog = (this.histListI.modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
+    this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
+    if (acao === 'alterar') {
+      this.histFormI = {
+        idx: idx,
+        acao: acao,
+        modulo: this.histListI.modulo,
+        hist: historico
+      }
+    }
+    if (acao === 'incluir') {
+      this.histFormI = {
+        idx: this.histListI.idx,
+        acao: acao,
+        modulo: this.histListI.modulo,
+        hist: {
+          historico_solicitacao_id: (this.histListI.modulo === 'solicitacao') ? this.histListI.registro_id: undefined,
+          historico_processo_id: (this.histListI.modulo === 'processo') ? this.histListI.registro_id : undefined,
+        }
+      }
+    }
+    this.showHistorico = true;
+  }
+
+  confirm(event: Event, excluir_id: number, idx: number) {
+    this.cf.confirm({
+      target: event.target,
+      message: 'Deseja excluir este andamento?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        console.log('confirm',excluir_id, this.histListI.modulo, idx, this.histListI.hist[idx]);
+        this.onExluir(excluir_id, idx);
+      }
+    });
+  }
+
+  onExluir(excluir_id: number, idx: number) {
+    this.sub.push(this.hs.delete(excluir_id, this.histListI.modulo)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados: [boolean, string, string]) => {
+          this.resp = dados;
+        },
+        error: (err) => {
+          this.msg[2] = err + " - Ocorreu um erro.";
+          this.mssg.add({
+            key: 'principal',
+            severity: 'warn',
+            summary: this.resp[1],
+            detail: this.resp[2]
+          });
+          // this.ms.add({severity:'error', summary:'Erro', detail:this.msg[2]});
+          console.error(err);
+        },
+        complete: () => {
+          if (this.resp[0]) {
+            this.mssg.add({
+              key: 'principal',
+              severity: 'success',
+              summary: 'ANDAMENTO',
+              detail: this.resp[1],
+            });
+            // this.ms.add({severity:'success', summary:'Andamento', detail:'Excluido com sucesso.'});
+            const e: HistFormI = {
+              modulo: this.histListI.modulo,
+              acao: 'apagar',
+              idx: idx,
+              hist: this.histListI.hist[idx]
+            }
+            this.recebeRegistro(e);
+          } else {
+            this.mssg.add({
+              key: 'principal',
+              severity: 'warn',
+              summary: this.resp[1],
+              detail: this.resp[2]
+            });
+            // this.ms.add({severity:'error', summary:'Erro', detail:this.msg[2]});
+          }
+
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 }

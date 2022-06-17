@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 
-import { SolicRoutingModule } from './solic-routing.module';
-import { SolicComponent } from './solic.component';
-import { SolicMenuListarComponent } from './solic-menu-listar/solic-menu-listar.component';
-import { SolicDatatableComponent } from './solic-datatable/solic-datatable.component';
+import {SolicRoutingModule} from './solic-routing.module';
+import {SolicComponent} from './solic.component';
+import {SolicMenuListarComponent} from './solic-menu-listar/solic-menu-listar.component';
+import {SolicDatatableComponent} from './solic-datatable/solic-datatable.component';
 import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {ButtonModule} from "primeng/button";
@@ -21,8 +21,8 @@ import {ContextMenuModule} from "primeng/contextmenu";
 import {ToastModule} from "primeng/toast";
 import {QuillModule} from "ngx-quill";
 import {InputTextModule} from "primeng/inputtext";
-import { SolicIncluirComponent } from './solic-incluir/solic-incluir.component';
-import { SolicDetalheComponent } from './solic-detalhe/solic-detalhe.component';
+import {SolicIncluirComponent} from './solic-incluir/solic-incluir.component';
+import {SolicDetalheComponent} from './solic-detalhe/solic-detalhe.component';
 import {ArquivoModule} from "../arquivo/arquivo.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {UtilModule} from "../util/util.module";
@@ -33,11 +33,12 @@ import {AccordionModule} from "primeng/accordion";
 import {EditorModule} from "primeng/editor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
-import { SolicFormComponent } from './solic-form/solic-form.component';
-import { SolicExcluirComponent } from './solic-excluir/solic-excluir.component';
-import { SolicAnalisarComponent } from './solic-analisar/solic-analisar.component';
+import {SolicFormComponent} from './solic-form/solic-form.component';
+import {SolicExcluirComponent} from './solic-excluir/solic-excluir.component';
+import {SolicAnalisarComponent} from './solic-analisar/solic-analisar.component';
 import {CardModule} from "primeng/card";
 import {HistModule} from "../hist/hist.module";
+import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 
 
 @NgModule({
@@ -67,7 +68,24 @@ import {HistModule} from "../hist/hist.module";
     ListboxModule,
     ContextMenuModule,
     ToastModule,
-    QuillModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+          [{'header': 1}, {'header': 2}],               // custom button values
+          [{'list': 'ordered'}, {'list': 'bullet'}],
+          [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+          [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+          [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+          [{'header': [1, 2, 3, 4, 5, 6, false]}],
+          [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+          [{'font': []}],
+          [{'align': []}],
+          ['clean']
+        ]
+      }
+    }),
     FormsModule,
     InputTextModule,
     ArquivoModule,
@@ -80,15 +98,17 @@ import {HistModule} from "../hist/hist.module";
     EditorModule,
     UtilModule,
     CardModule,
-    HistModule
+    HistModule,
+    QuillViewModule
   ],
   exports: [
     SolicComponent,
     SolicIncluirComponent
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   ]
 })
-export class SolicModule { }
+export class SolicModule {
+}
