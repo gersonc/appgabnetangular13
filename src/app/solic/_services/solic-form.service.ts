@@ -17,6 +17,7 @@ export class SolicFormService {
   public acao?: string = null;
   // public solicitacaoVersao = 0;
   public ddSolicitacao_tipo_analize?: SelectItem[];
+  public analiseCpoOficioNome: any = {ativo: false, tipo: null, cpoTitulo: null};
   public info: SolicInformacao[] = [
     {
       id: 0,
@@ -250,6 +251,7 @@ export class SolicFormService {
     r.solicitacao_carta_delta = s.solicitacao_carta_delta;
     r.solicitacao_carta_texto = s.solicitacao_carta_texto;
     r.solicitacao_tipo_analize = 0;
+    r.solicitacao_processo_id = s.solicitacao_processo_id;
     this.solicitacao = r;
     return r;
   }
@@ -456,7 +458,29 @@ export class SolicFormService {
   }
 
   onChangeAcao(ev: any) {
+// analiseCpoOficioNome: any = {ativo: false, cpoTitulo: null};
     if (ev.value !== undefined) {
+      switch(ev.value) {
+        case 5:
+        case 6:
+        case 19:
+        case 21:
+          this.analiseCpoOficioNome = {ativo: true, tipo: 'pro', cpoTitulo: 'Número do Processo'};
+          break;
+        case 3:
+        case 4:
+        case 7:
+        case 12:
+        case 13:
+        case 14:
+        case 18:
+        case 20:
+          this.analiseCpoOficioNome = {ativo: true, tipo: 'ofi', cpoTitulo: 'Número do Ofício'};
+          break;
+        default:
+          this.analiseCpoOficioNome = {ativo: false, tipo: null, cpoTitulo: null};
+          break;
+      }
       // this.informacao = this.info.findIndex(v => +v.id === ev.value);
       this.informacao = this.info[ev.value];
     } else {
@@ -473,6 +497,8 @@ export class SolicFormService {
       }
       this.informacao = this.info[0];
     }
+
+
 
   }
 

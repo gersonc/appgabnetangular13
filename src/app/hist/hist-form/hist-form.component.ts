@@ -25,7 +25,8 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   formHis: FormGroup;
   sub: Subscription[] = [];
   resp: any[] = [false, 'ATENÇÃO - ERRO', null];
-  format: 'html' | 'object' | 'text' | 'json' =  'json';
+  // format: 'html' | 'object' | 'text' | 'json' =  'json';
+  format: string =  'json';
   vquill: any = null;
   valor: any = null;
   modulos = {

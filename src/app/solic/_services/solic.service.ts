@@ -338,6 +338,18 @@ export class SolicService {
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
+  postVerificarNumProesso(dados: any): Observable<any> {
+    let url: string;
+    url = this.url.proce + '/validarnum';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, dados, httpOptions);
+  }
+
+  getSgstNumProcesso(): Observable<any> {
+    const url = this.url.proce + '/sugestnum';
+    return this.http.get<any>(url);
+  }
+
   recebeRegistro(h: HistFormI) {
     if (h.modulo === 'solicitacao') {
       if (h.acao === 'incluir') {

@@ -115,6 +115,7 @@
                   </div>
 
                   <!--*** solicitacao_numero_oficio ***-->
+                  <ng-container *ngIf="vs.solicitacaoVersao > 1 && sfs.acao === 'alterar'">
                   <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="solicitacao_numero_oficio">{{tituloNumOfi}}</label>
                     <input
@@ -130,6 +131,25 @@
                       <small class="p-atencao">{{ msgSolNumOfi }}</small>
                     </div>
                   </div>
+                  </ng-container>
+                  <ng-container *ngIf="vs.solicitacaoVersao === 1 && sfs.acao === 'alterar' && mostraCpoNumOfi">
+                    <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                      <label for="solicitacao_numero_oficio2">{{tituloNumOfi}}</label>
+                      <input
+                        id="solicitacao_numero_oficio2"
+                        formControlName="solicitacao_numero_oficio"
+                        type="text"
+                        [size]="40"
+                        [maxlength]="100"
+                        pInputText
+                        (blur)="verificaNumOficio($event)"
+                      />
+                      <div *ngIf="solNumOfi" >
+                        <small class="p-atencao">{{ msgSolNumOfi }}</small>
+                      </div>
+                    </div>
+                  </ng-container>
+
 
                   <!--*** solicitacao_data ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
@@ -269,7 +289,25 @@
                   <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                     <p-accordion>
                       <p-accordionTab header="Descrição da solicitação">
-                        <div class="formulario-quill">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="solicitacao_descricao"
+                                [format]="format3"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="solicitacao_descricao"
+                                (onContentChanged)="onContentChanged($event, 'solicitacao_descricao')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                        <!--<div class="formulario-quill">
                           <p-editor
                             #soldesc
                             formControlName="solicitacao_descricao"
@@ -278,10 +316,28 @@
                           >
                             <ng-template pTemplate="header"></ng-template>
                           </p-editor>
-                        </div>
+                        </div>-->
                       </p-accordionTab>
                       <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
-                        <div class="formulario-quill">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="solicitacao_aceita_recusada"
+                                [format]="format0"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="solicitacao_aceita_recusada"
+                                (onContentChanged)="onContentChanged($event, 'solicitacao_aceita_recusada')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                        <!--<div class="formulario-quill">
                           <p-editor
                             #solacerecus
                             formControlName="solicitacao_aceita_recusada"
@@ -291,11 +347,29 @@
                             <ng-template pTemplate="header"></ng-template>
                           </p-editor>
 
-                        </div>
+                        </div>-->
                       </p-accordionTab>
 
                       <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Resposta / Carta">
-                        <div class="formulario-quill">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="solicitacao_carta"
+                                [format]="format1"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="solicitacao_carta"
+                                (onContentChanged)="onContentChanged($event, 'solicitacao_carta')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                        <!--<div class="formulario-quill">
                           <p-editor
                             #solcar
                             formControlName="solicitacao_carta"
@@ -304,11 +378,29 @@
                           >
                             <ng-template pTemplate="header"></ng-template>
                           </p-editor>
-                        </div>
+                        </div>-->
                       </p-accordionTab>
 
                       <p-accordionTab header="Histórico / Andamento">
-                        <div class="formulario-quill">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="historico_andamento"
+                                [format]="format2"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="historico_andamento"
+                                (onContentChanged)="onContentChanged($event, 'historico_andamento')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                        <!--<div class="formulario-quill">
                           <p-editor
                             #histand
                             formControlName="historico_andamento"
@@ -317,7 +409,7 @@
                           >
                             <ng-template pTemplate="header"></ng-template>
                           </p-editor>
-                        </div>
+                        </div>-->
                       </p-accordionTab>
 
                     </p-accordion>
@@ -359,6 +451,8 @@
                   <!--*** Tipo de analise ***-->
                   <!--<div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" *ngIf="sfs.acao==='incluir'">-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                    <div class="p-fluid p-formgrid p-grid">
+                      <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
                     <label for="solicitacao_tipo_analize"><span class="atencao">*</span> {{tpAnalizeTitulo}}</label>
                     <p-dropdown
                       id="solicitacao_tipo_analize"
@@ -369,6 +463,49 @@
                       (onChange)="sfs.onChangeAcao($event)"
                     ></p-dropdown>
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('solicitacao_tipo_analize')" msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
+                      </div>
+                      <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                        <ng-container *ngIf="sfs.analiseCpoOficioNome.ativo">
+                          <ng-container *ngIf="sfs.analiseCpoOficioNome.tipo === 'ofi'">
+                            <label for="solicitacao_numero_oficio3" [ngClass]="aplicaCssErroAsync('solicitacao_numero_oficio', solNumPro)">{{sfs.analiseCpoOficioNome.cpoTitulo}}</label>
+                            <input
+                              id="solicitacao_numero_oficio3"
+                              formControlName="solicitacao_numero_oficio"
+                              type="text"
+                              [size]="40"
+                              [maxlength]="100"
+                              pInputText
+                              [ngClass]="aplicaCssErroAsync('solicitacao_numero_oficio', solNumOfi)"
+                              (blur)="verificaNumOficio($event)"
+                            />
+                            <div *ngIf="solNumOfi">
+                              <small class="ng-invalid">{{ msgSolNumOfi }}</small>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="sfs.analiseCpoOficioNome.tipo === 'pro'">
+                            <label for="processo_numero"
+                                   [ngClass]="aplicaCssErroAsync('processo_numero', solNumPro)">{{sfs.analiseCpoOficioNome.cpoTitulo}}</label>
+                            <input
+                              id="processo_numero"
+                              formControlName="processo_numero"
+                              type="text"
+                              [size]="40"
+                              [maxlength]="100"
+                              pInputText
+                              [ngClass]="aplicaCssErroAsync('processo_numero', solNumPro)"
+                              (blur)="verificaNumProcesso($event)"
+                            />
+                            <small *ngIf="msgSolNumPro !== null && !solNumPro" class="p-atencao">O número do
+                              processo {{ sgstNumPro }} é apenas uma <b>sugestão</b></small>
+                            <div *ngIf="solNumPro">
+                              <small class="ng-invalid">{{ msgSolNumPro }}</small>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="!sfs.analiseCpoOficioNome.ativo">
+                        </ng-container>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">

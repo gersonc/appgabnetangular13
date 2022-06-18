@@ -76,7 +76,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     public ss: SolicService,
     public md: MenuDatatableService,
-    private sfs: SolicFormService
+    private sfs: SolicFormService,
   ) {
     this.solicitacaoVersao = aut.solicitacaoVersao;
   }

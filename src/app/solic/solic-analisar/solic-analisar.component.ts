@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {SelectItem} from "primeng/api";
@@ -9,20 +9,21 @@ import {SolicService} from "../_services/solic.service";
 import {VersaoService} from "../../_services/versao.service";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {SolicListarI} from "../_models/solic-listar-i";
-import {Editor} from "primeng/editor";
+// import {Editor} from "primeng/editor";
 import {take} from "rxjs/operators";
-import {CpoEditor} from "../../_models/in-out-campo-tezto";
+import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-solic-analisar',
   templateUrl: './solic-analisar.component.html',
   styleUrls: ['./solic-analisar.component.css']
 })
-export class SolicAnalisarComponent implements OnInit {
-  @ViewChild('soldesc', {static: true}) soldesc: Editor;
+export class SolicAnalisarComponent implements OnInit, OnDestroy {
+  /*@ViewChild('soldesc', {static: true}) soldesc: Editor;
   @ViewChild('solacerecus', {static: true}) solacerecus: Editor;
   @ViewChild('histand', {static: true}) histand: Editor;
-  @ViewChild('solcar', {static: true}) solcar: Editor;
+  @ViewChild('solcar', {static: true}) solcar: Editor;*/
   formSol: FormGroup;
   sub: Subscription[] = [];
   // solicitacao_id: number;
@@ -38,28 +39,33 @@ export class SolicAnalisarComponent implements OnInit {
   // info: number = 0;
   formAtivo = true;
   msgSolNumOfi = 'Já existe ofício(s) com esse número.';
+  msgSolNumPro = 'Já existe processo com esse número.';
   tituloNumOfi = 'Número do ofício';
   solNumOfi = false;
+  solNumPro = false;
+  sgstNumPro: string | null = null;
 
 
   modulos = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
       ['blockquote', 'code-block'],
-      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      [{ 'font': [] }],
-      [{ 'align': [] }],
+      [{'header': 1}, {'header': 2}],               // custom button values
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+      [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+      [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+      [{'header': [1, 2, 3, 4, 5, 6, false]}],
+      [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+      [{'font': []}],
+      [{'align': []}],
       ['clean']                        // link and image, video
     ]
   };
-  cpoEditor: CpoEditor[] | null = null;
-  format: 'html' | 'object' | 'text' | 'json' =  'json';
+  cpoEditor: CpoEditor[] | null = [];
+  format0: 'html' | 'object' | 'text' | 'json' = 'html';
+  format1: 'html' | 'object' | 'text' | 'json' = 'html';
+  format2: 'html' | 'object' | 'text' | 'json' = 'html';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,58 +73,26 @@ export class SolicAnalisarComponent implements OnInit {
     public ss: SolicService,
     public aut: AuthenticationService,
     public vs: VersaoService,
+    private ms: MsgService,
     private router: Router,
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-    // this.sol = this.sfs.solicListar;
-    // this.solicitacao = this.sfs.solA;
-    // this.carregaDropdown();
     this.criaForm();
+    if (this.aut.solicitacaoVersao === 1) {
+      this.sub.push(this.ss.getSgstNumProcesso().pipe(take(1)).subscribe(dados => {
+        console.log('getSgstNumProcesso', dados);
+        this.sgstNumPro = dados[0];
+        this.formSol.get('processo_numero').setValue(dados[0]);
+      }));
+    }
   }
 
-  /*carregaDropdown() {
-    this.ddAcao = [];
-    if (this.vs.solicitacaoVersao === 1) {
-      this.ddAcao.push(
-        {label: 'Deferido - Aceitar solicitação sem processo', value: 7},
-        {label: 'Aceitar solicitação e abrir processo', value: 1}
-      );
-      if (this.aut.oficio_incluir) {
-        this.ddAcao.push({label: 'Aceitar solicitação, abrir processo e incluir ofíco(s)', value: 2});
-      }
-      this.ddAcao.push(
-        {label: 'Indeferido - Solicitação inviável', value: 3},
-        {label: 'Indeferido - Solicitação inviável', value: 4},
-        {label: 'Solicitação resolvida', value: 5},
-        {label: 'Suspenso', value: 6}
-      );
-    }
-    if (this.vs.solicitacaoVersao > 1) {
-      this.ddAcao.push(
-        {label: 'Em aberto', value: 7},
-        {label: 'Deferido', value: 8},
-        {label: 'Indeferido', value: 9},
-        {label: 'Em andamento', value: 10},
-        {label: 'Suspenso', value: 11}
-      );
-    }
-
-  }*/
-
-  /*carregaDropdown() {
-    if (this.aut.solicitacao_analisar) {
-      this.ddAcao.push({label: 'ACEITAR SOLICITAÇÃO, ABRIR PROCESSO E INCLUIR DADOS.', value: 1});
-    }
-    this.ddAcao.push(
-      {label: 'SOLICITAÇÃO INVIAVEL.', value: 2},
-      {label: 'ACEITAR SOLICITAÇÃO E ABRIR PROCESSO.', value: 3},
-      {label: 'SOLICITAÇÃO RESOLVIDA.', value: 4}
-    );
-  }*/
-
   criaForm() {
+    this.format0 = 'html';
+    this.cpoEditor['historico_andamento'] = null;
+    this.cpoEditor['solicitacao_carta'] = null;
+    this.cpoEditor['solicitacao_aceita_recusada'] = null;
     if (this.vs.solicitacaoVersao === 1) {
       this.msgSolNumOfi = 'Já existe processo(s) com esse número.'
       this.tituloNumOfi = 'Número do processo';
@@ -127,28 +101,24 @@ export class SolicAnalisarComponent implements OnInit {
         solicitacao_aceita_recusada: [null],
         solicitacao_carta: [null],
         solicitacao_numero_oficio: [this.sfs.solA.solicitacao_numero_oficio],
+        processo_numero: [null],
         historico_andamento: [null]
       });
 
-
-      if (this.testaCampoQuill(this.sfs.solA.solicitacao_aceita_recusada_delta)) {
-        const ql2delta = JSON.parse(this.sfs.solA.solicitacao_aceita_recusada_delta);
-        this.solacerecus.getQuill().setContents(ql2delta);
-      } else {
-        if (this.testaCampoQuill(this.sfs.solA.solicitacao_aceita_recusada!)) {
-          this.formSol.get('solicitacao_aceita_recusada').patchValue(this.sfs.solA.solicitacao_aceita_recusada!);
-        }
+      const cp0 = InOutCampoTexto(this.sfs.solA.solicitacao_aceita_recusada!, this.sfs.solA.solicitacao_aceita_recusada_delta);
+      this.format1 = cp0.format;
+      if (cp0.vf) {
+        this.formSol.get('solicitacao_aceita_recusada').setValue(cp0.valor);
       }
 
-      if (this.testaCampoQuill(this.sfs.solA.solicitacao_carta_delta)) {
-        const ql3delta = JSON.parse(this.sfs.solA.solicitacao_carta_delta);
-        this.solcar.getQuill().setContents(ql3delta);
-      } else {
-        if (this.testaCampoQuill(this.sfs.solA.solicitacao_carta)) {
-          this.formSol.get('solicitacao_carta').patchValue(this.sfs.solA.solicitacao_carta);
-        }
+      const cp1 = InOutCampoTexto(this.sfs.solA.solicitacao_carta, this.sfs.solA.solicitacao_carta_delta);
+      this.format2 = cp1.format;
+      if (cp1.vf) {
+        this.formSol.get('solicitacao_carta').setValue(cp1.valor);
       }
+
     } else {
+
       this.formSol = this.formBuilder.group({
         solicitacao_tipo_analize: [this.sfs.solA.solicitacao_tipo_analize, Validators.required],
         solicitacao_numero_oficio: [this.sfs.solA.solicitacao_numero_oficio],
@@ -159,7 +129,6 @@ export class SolicAnalisarComponent implements OnInit {
   }
 
   onSubmit() {
-    this.formAtivo = false;
     if (
       this.formSol.get('solicitacao_tipo_analize').value > 0 ||
       this.formSol.get('solicitacao_tipo_analize').value < 22) {
@@ -176,57 +145,54 @@ export class SolicAnalisarComponent implements OnInit {
         }
       }
 
-      if (this.formSol.get('historico_andamento').value) {
-        const ql3: any = this.histand.getQuill();
-        solicitacao.historico_andamento = this.formSol.get('historico_andamento').value;
-        solicitacao.historico_andamento_delta = JSON.stringify(ql3.getContents());
-        solicitacao.historico_andamento_texto = ql3.getText();
+      if (this.formSol.get('processo_numero').value) {
+        if (this.sfs.solA.processo_numero !== this.formSol.get('processo_numero').value) {
+          solicitacao.processo_numero = this.formSol.get('processo_numero').value;
+        }
+      }
+
+      if (this.cpoEditor['historico_andamento'] !== null) {
+        solicitacao.historico_andamento = this.cpoEditor['historico_andamento'].html;
+        solicitacao.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento_delta'].delta);
+        solicitacao.historico_andamento_texto = this.cpoEditor['historico_andamento_texto'].text;
       }
 
       if (this.vs.solicitacaoVersao === 1) {
-        if (this.formSol.get('solicitacao_carta').value) {
-          const ql4: any = this.solacerecus.getQuill();
-          if (this.sfs.solA.solicitacao_carta_texto !== ql4.getText()) {
-            solicitacao.solicitacao_carta = this.formSol.get('solicitacao_aceita_recusada').value;
-            solicitacao.solicitacao_carta_delta = JSON.stringify(ql4.getContents());
-            solicitacao.solicitacao_carta_texto = ql4.getText();
+        if (this.cpoEditor['solicitacao_carta'] !== null) {
+          if (this.cpoEditor['solicitacao_carta'].html !== this.sfs.solA.solicitacao_carta) {
+            solicitacao.solicitacao_carta = this.cpoEditor['solicitacao_carta'].html;
+            solicitacao.solicitacao_carta_delta = JSON.stringify(this.cpoEditor['solicitacao_carta_delta'].delta);
+            solicitacao.solicitacao_carta_texto = this.cpoEditor['solicitacao_carta_texto'].text;
           }
         }
 
-        if (this.formSol.get('solicitacao_aceita_recusada').value) {
-          const ql2: any = this.solacerecus.getQuill();
-          if (this.sfs.solA.solicitacao_aceita_recusada_texto !== ql2.getText()) {
-            solicitacao.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
-            solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
-            solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
+        if (this.cpoEditor['solicitacao_aceita_recusada'] !== null) {
+          if (this.cpoEditor['solicitacao_aceita_recusada'].html !== this.sfs.solA.solicitacao_aceita_recusada) {
+            solicitacao.solicitacao_aceita_recusada = this.cpoEditor['solicitacao_aceita_recusada'].html;
+            solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(this.cpoEditor['solicitacao_aceita_recusada_delta'].delta);
+            solicitacao.solicitacao_aceita_recusada_texto = this.cpoEditor['solicitacao_aceita_recusada_texto'].text;
           }
         }
+
       }
+      solicitacao.solicitacao_id = this.sfs.solA.solicitacao_id;
+      solicitacao.solicitacao_cadastro_id = this.sfs.solA.solicitacao_cadastro_id;
 
-
-    } else {
-      this.formAtivo = true;
+      console.log('onSubmit', solicitacao);
     }
     console.log('form', this.formSol.getRawValue());
   }
 
   enviarAnaliseSolicitacao(s: SolicFormAnalisar) {
-
-
-    /*this.sfs.analise.solicitacao_id = this.solicitacao.solicitacao_id;
-    this.sfs.analise.solicitacao_cadastro_id = this.solicitacao.solicitacao_cadastro_id;
-    this.sfs.analise.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
-    this.sfs.analise.solicitacao_carta = this.formSol.get('solicitacao_carta').value;
-    this.sfs.analise.acao = +this.formSol.get('acao').value;
-    this.sub.push(this.ss.postSolicitacaoAnalise(this.sfs.analise)
+    this.sub.push(this.ss.analisarSolicitacao(s)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
           this.resp = dados;
         },
         error: (err) => {
-          this.messageService.add({
-            key: 'solicitacaoAnalisarToast',
+          this.ms.add({
+            key: 'principal',
             severity: 'warn',
             summary: 'ERRO ANALISAR',
             detail: this.resp[2]
@@ -234,84 +200,28 @@ export class SolicAnalisarComponent implements OnInit {
           console.log(err);
         },
         complete: () => {
-          if (this.sfs.analise.acao === 1) {
-            this.resetForm();
-            this.processo_id = +this.resp[3];
-            this.router.navigate(['../oficio/processo', this.processo_id]);
+          this.ms.add({
+            key: 'pricipal',
+            severity: 'success',
+            summary: 'SOLICITAÇÃO ANALISADA',
+            detail: this.resp[2]
+          });
+          this.resetForm();
+          if (s.solicitacao_tipo_analize === 1) {
+            this.router.navigate(['../oficio/processo', +this.resp[3]]);
           } else {
-            this.messageService.add({
-              key: 'solicitacaoAnalisarToast',
-              severity: 'success',
-              summary: 'SOLICITAÇÃO ANALISADA',
-              detail: this.resp[2]
-            });
-            this.resetForm();
             this.router.navigate(['/solicitacao/listar/busca']);
           }
         }
-      }));*/
+      }));
   }
 
-  /*criaEnvio(): SolicFormAnalisar {
-    console.log('form', this.formSol.getRawValue());
-    console.log('sfs.solA', this.sfs.solA);
-    let solicitacao = new SolicFormAnalisar();
-    solicitacao.solicitacao_id = this.sfs.solA.solicitacao_id;
-    solicitacao.solicitacao_cadastro_id = this.sfs.solA.solicitacao_cadastro_id;
-
-    if (this.formSol.get('solicitacao_aceita_recusada').value) {
-      const ql2: any = this.solacerecus.getQuill();
-      if (this.sfs.solA.solicitacao_aceita_recusada_texto !== ql2.getText()) {
-        console.log('diferente1');
-        solicitacao.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
-        solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
-        solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
-      } else {
-        console.log('igual1');
-      }
-    }
-
-    if (this.formSol.get('historico_andamento').value) {
-      const ql3: any = this.histand.getQuill();
-      solicitacao.historico_andamento = this.formSol.get('historico_andamento').value;
-      solicitacao.historico_andamento_delta = JSON.stringify(ql3.getContents());
-      solicitacao.historico_andamento_texto = ql3.getText();
-
-    }
-    if (this.vs.solicitacaoVersao === 1) {
-      if (this.formSol.get('solicitacao_carta').value) {
-        const ql4: any = this.solacerecus.getQuill();
-        if (this.sfs.solA.solicitacao_carta_texto !== ql4.getText()) {
-          console.log('diferente2');
-          solicitacao.solicitacao_carta = this.formSol.get('solicitacao_aceita_recusada').value;
-          solicitacao.solicitacao_carta_delta = JSON.stringify(ql4.getContents());
-          solicitacao.solicitacao_carta_texto = ql4.getText();
-        } else {
-          console.log('igual2');
-        }
-      }
-
-    }
-
-    solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
-    console.log('criaEnvio', solicitacao);
-
-    return solicitacao;
-
-  }*/
-
   resetForm() {
-    // this.sfs.resetAnalisar();
     this.formSol.reset();
   }
 
   voltarListar() {
     this.router.navigate(['/solic/listar']);
-  }
-
-  ngOnDestroy(): void {
-    this.sfs.resetSolicitacaoAnalise();
-    this.sub.forEach(s => s.unsubscribe());
   }
 
   verificaValidTouched(campo: string) {
@@ -334,24 +244,21 @@ export class SolicAnalisarComponent implements OnInit {
 
   aplicaCssErro(campo: string) {
     return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
+      'ng-invalid': (this.verificaValidTouched(campo) || this.verificaValidTouched(campo))
     };
   }
 
   validaAsync(campo: string, situacao: boolean) {
     return (
-      !this.formSol.get(campo).valid &&
-      (this.formSol.get(campo).touched || this.formSol.get(campo).dirty) &&
-      situacao
+      ((!this.formSol.get(campo).valid || situacao) && (this.formSol.get(campo).touched || this.formSol.get(campo).dirty))
     );
   }
 
   aplicaCssErroAsync(campo: string, situacao: boolean) {
     return {
-      'has-error': this.validaAsync(campo, situacao),
-      'has-feedback': this.validaAsync(campo, situacao)
-    };
+        'ng-invalid': this.validaAsync(campo, situacao),
+        'ng-dirty': this.validaAsync(campo,situacao)
+      };
   }
 
   testaCampoQuill(v: string | null | undefined): boolean {
@@ -375,11 +282,36 @@ export class SolicAnalisarComponent implements OnInit {
           resp = r;
           console.log(resp);
           if (resp[0]) {
-            this.solNumOfi = true;
+            this.aplicaCssErroAsync('solicitacao_numero_oficio', !resp);
+            this.solNumOfi = !resp[0];
           }
         }));
       }
     }
+  }
+
+  verificaNumProcesso(ev) {
+    let np = this.formSol.get('processo_numero').value;
+    let nPro = '';
+    console.log('verificaNumProcesso1', ev, np);
+    if (typeof this.sfs.solA.processo_numero !== 'undefined' &&
+      this.sfs.solA.processo_numero !== null &&
+      this.sfs.solA.processo_numero.length > 0) {
+      nPro = this.sfs.solA.processo_numero;
+    }
+    if (nPro !== np && np !== this.sgstNumPro) {
+      const dado = {'processo_numero': np};
+      this.sub.push(this.ss.postVerificarNumProesso(dado).pipe(take(1)).subscribe(r => {
+        const resp: boolean = r[0];
+        console.log('verificaNumProcesso2', resp);
+        this.solNumPro = !resp;
+        this.aplicaCssErroAsync('processo_numero', !resp);
+      }));
+    }
+  }
+
+  getInvalid() {
+    return (this.solNumPro) ? 'ng-invalid': null;
   }
 
   onContentChanged(ev, campo: string) {
@@ -390,10 +322,17 @@ export class SolicAnalisarComponent implements OnInit {
     }
   }
 
+  numProceChange(ev) {
+    console.log('numProceChange', ev);
+  }
 
   onPossuiArquivos(ev) {
 
   }
 
+  ngOnDestroy(): void {
+    this.sfs.resetSolicitacaoAnalise();
+    this.sub.forEach(s => s.unsubscribe());
+  }
 
 }

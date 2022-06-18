@@ -3,6 +3,9 @@ export interface CpoEditor {
   html: string;
   text: string;
 }
+
+
+
 export interface InOutCampoTextoI {
   format: 'html' | 'object' | 'text' | 'json';
   valor: any | null;

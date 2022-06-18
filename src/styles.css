@@ -79,6 +79,8 @@
   --danger: #dc3545;
   --atencao-color: #dc3545;
   --erro-color: #721c24;
+  --erro-fundo: #FFCDD2;
+
 
   --bt-secundario-bg: var(--text-color-secondary);
   --bt-secundario-color: var(--primary-color-text);
@@ -122,6 +124,7 @@
   --surface-border:#dee2e6;
 
   --invalid:#f44336;
+  --invalid-bg: #FFCDD2;
   --hover2:#0d89ec;
   --hover3:#b6bfc8;
   --vermelho:#D32F2F;
@@ -14525,6 +14528,18 @@ span.atencao {
   background-color: var(--yellow-200);
 }
 
+small.ng-invalid {
+  padding-left: .5em;
+  padding-right: .5em;
+  background-color: var(--invalid-bg);
+  color: var(--invalid);
+  font-weight: bold;
+}
+
+.formulario .p-field > label.ng-invalid {
+  color: var(--invalid) !important;
+}
+
 .vinculos {
   background-color: var(--yellow-200);
   padding: 1rem 2rem;
@@ -14599,6 +14614,8 @@ element.style {
   font-size: 1rem;
   border-radius: 0 .5em .5em .5em;
 }
+
+
 
 .analise-corpo table {
   width: 100%;

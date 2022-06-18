@@ -156,12 +156,13 @@
           </tr>
           <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta">
             <td colspan="2" id="solicitacao_descricao">
-              <app-texto-view
+              <app-quill-view [cpdelta]="sol.solicitacao_descricao_delta" [cphtml]="sol.solicitacao_descricao"></app-quill-view>
+              <!--<app-texto-view
                 [padrao]="sol.solicitacao_descricao"
                 [texto]="sol.solicitacao_descricao_texto"
                 [delta]="sol.solicitacao_descricao_delta"
                 [impressao]="impressao"
-              ></app-texto-view>
+              ></app-texto-view>-->
             </td>
           </tr>
           <!--<tr *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta" class="novaPagina">
@@ -421,7 +422,7 @@
               {{sol.cadastro_outras_midias}}
             </td>
           </tr>
-          <tr *ngIf="sol.cadastro_arquivos && aut.cadastro_listar && aut.arquivos_baixar">
+          <tr *ngIf="sol.cadastro_arquivos.length > 0 && aut.cadastro_listar && aut.arquivos_baixar">
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="sol.cadastro_arquivos"></app-detalhe-explorer>
             </td>
@@ -432,7 +433,7 @@
       </td>
     </tr>
 
-    <tr *ngIf="sol.historico_solicitcao" class="novaPagina">
+    <tr *ngIf="sol.historico_solicitcao.length > 0" class="novaPagina">
       <td>
         <br>
         <table class="table-hover tabela">
@@ -450,12 +451,13 @@
               {{ands.historico_data}}
             </td>
             <td>
-              <app-texto-view
+              <app-quill-view [cpdelta]="ands.historico_andamento_delta" [cphtml]="ands.historico_andamento"></app-quill-view>
+              <!--<app-texto-view
                 [padrao]="ands.historico_andamento"
                 [texto]="ands.historico_andamento_texto"
                 [delta]="ands.historico_andamento_delta"
                 [impressao]="impressao"
-              ></app-texto-view>
+              ></app-texto-view>-->
             </td>
           </tr>
         </table>
@@ -484,7 +486,7 @@
               {{sol.processo_numero}}.
             </td>
           </tr>
-          <tr *ngIf="sol.processo_arquivos && aut.arquivos_baixar">
+          <tr *ngIf="sol.processo_arquivos.length > 0 && aut.arquivos_baixar">
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="sol.processo_arquivos"></app-detalhe-explorer>
             </td>
@@ -492,7 +494,7 @@
         </table>
       </td>
     </tr>
-    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo && aut.processo_listar" class="novaPagina">
+    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo.length > 0 && aut.processo_listar" class="novaPagina">
       <td>
         <br>
         <table class="table-hover tabela">
@@ -510,18 +512,19 @@
               {{andp.historico_data}}
             </td>
             <td>
-              <app-texto-view
+              <app-quill-view [cpdelta]="andp.historico_andamento_delta" [cphtml]="andp.historico_andamento"></app-quill-view>
+              <!--<app-texto-view
                 [padrao]="andp.historico_andamento"
                 [texto]="andp.historico_andamento_texto"
                 [delta]="andp.historico_andamento_delta"
                 [impressao]="impressao"
-              ></app-texto-view>
+              ></app-texto-view>-->
             </td>
           </tr>
         </table>
       </td>
     </tr>
-    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.oficio && aut.oficio">
+    <tr *ngIf="vs.solicitacaoVersao === 1 && sol.oficio.length > 0 && aut.oficio">
       <td>
         <br>
         <table class="table-hover tabela">
@@ -699,15 +702,16 @@
                 </tr>
                 <tr *ngIf="ofi.oficio_descricao_acao && aut.oficio_listar">
                   <td colspan="2">
-                    <app-texto-view
+                    <app-quill-view [cpdelta]="ofi.oficio_descricao_acao_delta" [cphtml]="ofi.oficio_descricao_acao"></app-quill-view>
+                    <!--<app-texto-view
                       [padrao]="ofi.oficio_descricao_acao"
                       [texto]="ofi.oficio_descricao_acao_texto"
                       [delta]="ofi.oficio_descricao_acao_delta"
                       [impressao]="impressao"
-                    ></app-texto-view>
+                    ></app-texto-view>-->
                   </td>
                 </tr>
-                <tr *ngIf="ofi.oficio_arquivos && aut.oficio_listar && aut.arquivos_baixar">
+                <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
                   <td colspan="2">
                     <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
                   </td>

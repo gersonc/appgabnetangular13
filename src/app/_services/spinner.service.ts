@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Spinkit } from 'ng-http-loader';
+import {Spinkit} from 'ng-http-loader';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,12 @@ export class SpinnerService {
   skThreeBounce: string;
   skWanderingCubes: string;
   skWave: string;*/
-
+  semSpinner: string[] = ['sugest'];
   vf = true;
   modelo = Spinkit.skWave;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   liga() {
     this.vf = true;
