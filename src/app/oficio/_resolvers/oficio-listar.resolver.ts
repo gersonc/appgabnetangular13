@@ -7,38 +7,39 @@ import { DropdownnomeidClass, DropdownNomeIdJoin, DropdownsonomearrayClass } fro
 import { CarregadorService } from '../../_services';
 import { OficioDropdownMenuListar, OficioDropdownMenuListarInterface, OficioPaginacaoInterface } from '../_models';
 import { OficioBuscaService, OficioService } from '../_services';
+import {DdService} from "../../_services/dd.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | boolean> {
-  public ddNomeIdArray = new DropdownnomeidClass();
-  public ddSoNomeArray = new DropdownsonomearrayClass();
-  public ddSoDataArray = new DropdownsonomearrayClass();
-  public ddNomeIdJoinArray = new DropdownNomeIdJoin();
-  private ddOficio = new OficioDropdownMenuListar();
+  // public ddNomeIdArray = new DropdownnomeidClass();
+  // public ddSoNomeArray = new DropdownsonomearrayClass();
+  // public ddSoDataArray = new DropdownsonomearrayClass();
+  // public ddNomeIdJoinArray = new DropdownNomeIdJoin();
+  // private ddOficio = new OficioDropdownMenuListar();
   private sub: Subscription[] = [];
   private resp = new Subject<boolean>();
   private resp$ = this.resp.asObservable();
-  private dropdown = false;
-  private oficios: OficioPaginacaoInterface = null;
+  // private dropdown = false;
+  // private oficios: OficioPaginacaoInterface = null;
 
   constructor(
     private router: Router,
-    private dd: DropdownService,
-    private cs: CarregadorService,
+    // private dd: DropdownService,
+    private dd: DdService,
     private oficioService: OficioService,
-    private obs: OficioBuscaService
+    // private obs: OficioBuscaService
   ) {
   }
 
-  populaDropdown() {
+  /*populaDropdown2() {
     let contador = 0;
 
-    if (!sessionStorage.getItem('oficio-dropdown')) {
+    if (!sessionStorage.getItem('oficio-menu-dropdown')) {
 
-      this.ddOficio.ddOficio_status = [
+      this.ddOficio.ddOficio_status_id = [
         {label: 'EM ANDAMENTO', value: 0},
         {label: 'DEFERIDO', value: 1},
         {label: 'INDEFERIDO', value: 2}
@@ -234,19 +235,37 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
         this.gravaDropDown();
       }
     }
+  }*/
+
+  populaDropdown() {
+    if (!sessionStorage.getItem('oficio-menu-dropdown')) {
+      this.sub.push(this.dd.getDd('oficio-menu-dropdown')
+        .pipe(take(1))
+        .subscribe((dados) => {
+            sessionStorage.setItem('oficio-menu-dropdown', JSON.stringify(dados));
+          },
+          (err) => console.error(err),
+          () => {
+            this.gravaDropDown();
+          }
+        )
+      );
+    } else {
+      this.gravaDropDown();
+    }
   }
 
+
   gravaDropDown() {
-    if (!sessionStorage.getItem('oficio-dropdown')) {
-      sessionStorage.setItem('oficio-dropdown', JSON.stringify(this.ddOficio));
-    }
+    /*if (!sessionStorage.getItem('oficio-menu-dropdown')) {
+      sessionStorage.setItem('oficio-menu-dropdown', JSON.stringify(this.ddOficio));
+    }*/
     this.resp.next(true);
   }
 
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
-    this.cs.escondeCarregador();
   }
 
   resolve(
@@ -254,9 +273,8 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
     state: RouterStateSnapshot):
     Observable<OficioPaginacaoInterface> | Observable<boolean> | Observable<never> {
 
-    if (!sessionStorage.getItem('oficio-dropdown')) {
-      this.dropdown = true;
-      this.cs.mostraCarregador();
+    if (!sessionStorage.getItem('oficio-menu-dropdown')) {
+      // this.dropdown = true;
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),
@@ -272,24 +290,18 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
       );
     } else {
       if (sessionStorage.getItem('oficio-busca')) {
-        this.cs.mostraCarregador();
-        // this.obs.buscaState = JSON.parse(sessionStorage.getItem('oficio-busca'));
         return this.oficioService.postOficioBusca(JSON.parse(sessionStorage.getItem('oficio-busca')))
           .pipe(
             take(1),
             mergeMap(dados => {
-              this.onDestroy();
               if (dados) {
                 return of(dados);
               } else {
-                this.onDestroy();
-                // this.router.navigate(['/oficio/listar2']);
                 return EMPTY;
               }
             })
           );
       } else {
-        this.onDestroy();
         this.router.navigate(['/oficio/listar2']);
         return EMPTY;
       }

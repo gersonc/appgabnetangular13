@@ -9,6 +9,7 @@ import {
   OficioInterface,
   OficioPaginacaoInterface
 } from '../_models';
+import {DdOficioProcessoId} from "../_models/oficio-i";
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,11 @@ export class OficioService {
     const url = this.url.oficio + '/processo/' + processo_id;
     this.processo$ = this.http.get<any[]>(url);
     return this.processo$;
+  }
+
+  getDdProcessoId(processo_id): Observable<DdOficioProcessoId> {
+    const url = this.url.oficio + '/ddprocesso/' + processo_id;
+    return this.http.get<DdOficioProcessoId>(url);
   }
 
   postOficioBusca(dados: OficioBuscaInterface): Observable<OficioPaginacaoInterface> {

@@ -1,33 +1,33 @@
 import { SelectItem } from 'primeng/api';
 
 export interface OficioDropdownMenuListarInterface {
-  ddOficio_processo_id: SelectItem[];
-  ddOficio_codigo: SelectItem[];
-  ddOficio_numero: SelectItem[];
-  ddOficio_protocolo_numero: SelectItem[];
-  ddOficio_convenio: SelectItem[];
-  ddOficio_orgao_solicitado_nome: SelectItem[];
-  ddOficio_orgao_protocolante_nome: SelectItem[];
-  ddOficio_data_emissao1: SelectItem[];
-  ddOficio_data_emissao2: SelectItem[];
-  ddOficio_data_empenho1: SelectItem[];
-  ddOficio_data_empenho2: SelectItem[];
-  ddOficio_data_protocolo1: SelectItem[];
-  ddOficio_data_protocolo2: SelectItem[];
-  ddOficio_data_pagamento1: SelectItem[];
-  ddOficio_data_pagamento2: SelectItem[];
-  ddOficio_prazo1: SelectItem[];
-  ddOficio_prazo2: SelectItem[];
-  ddOficio_municipio_id: SelectItem[];
-  ddOficio_tipo_solicitante_id: SelectItem[];
-  ddOficio_cadastro_id: SelectItem[];
-  ddOficio_assunto_id: SelectItem[];
-  ddOficio_area_interesse_id: SelectItem[];
-  ddOficio_prioridade_id: SelectItem[];
-  ddOficio_tipo_andamento_id: SelectItem[];
-  ddOficio_reponsavel_analize_id: SelectItem[];
-  ddOficio_local_id: SelectItem[];
-  ddOficio_status: SelectItem[];
+  ddOficio_processo_id?: SelectItem[];
+  ddOficio_codigo?: SelectItem[];
+  ddOficio_numero?: SelectItem[];
+  ddOficio_protocolo_numero?: SelectItem[];
+  ddOficio_convenio?: SelectItem[];
+  ddOficio_orgao_solicitado_nome?: SelectItem[];
+  ddOficio_orgao_protocolante_nome?: SelectItem[];
+  ddOficio_data_emissao1?: SelectItem[];
+  ddOficio_data_emissao2?: SelectItem[];
+  ddOficio_data_empenho1?: SelectItem[];
+  ddOficio_data_empenho2?: SelectItem[];
+  ddOficio_data_protocolo1?: SelectItem[];
+  ddOficio_data_protocolo2?: SelectItem[];
+  ddOficio_data_pagamento1?: SelectItem[];
+  ddOficio_data_pagamento2?: SelectItem[];
+  ddOficio_prazo1?: SelectItem[];
+  ddOficio_prazo2?: SelectItem[];
+  ddOficio_municipio_id?: SelectItem[];
+  ddOficio_tipo_solicitante_id?: SelectItem[];
+  ddOficio_cadastro_id?: SelectItem[];
+  ddOficio_assunto_id?: SelectItem[];
+  ddOficio_area_interesse_id?: SelectItem[];
+  ddOficio_prioridade_id?: SelectItem[];
+  ddOficio_tipo_andamento_id?: SelectItem[];
+  ddOficio_reponsavel_analize_id?: SelectItem[];
+  ddOficio_local_id?: SelectItem[];
+  ddOficio_status_id?: SelectItem[];
 }
 
 export class OficioDropdownMenuListar implements OficioDropdownMenuListarInterface {
@@ -57,5 +57,5 @@ export class OficioDropdownMenuListar implements OficioDropdownMenuListarInterfa
   ddOficio_tipo_andamento_id = null;
   ddOficio_reponsavel_analize_id = null;
   ddOficio_local_id = null;
-  ddOficio_status = null;
+  ddOficio_status_id = null;
 }

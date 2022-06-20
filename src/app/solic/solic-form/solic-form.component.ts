@@ -628,8 +628,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.cpoEditor['solicitacao_aceita_recusada'] !== null) {
         if (this.cpoEditor['solicitacao_aceita_recusada'].html !== this.sfs.solicitacao.solicitacao_aceita_recusada) {
           solicitacao.solicitacao_aceita_recusada = this.cpoEditor['solicitacao_aceita_recusada'].html;
-          solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(this.cpoEditor['solicitacao_aceita_recusada_delta'].delta);
-          solicitacao.solicitacao_aceita_recusada_texto = this.cpoEditor['solicitacao_aceita_recusada_texto'].text;
+          solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(this.cpoEditor['solicitacao_aceita_recusada'].delta);
+          solicitacao.solicitacao_aceita_recusada_texto = this.cpoEditor['solicitacao_aceita_recusada'].text;
         }
       }
       /*if (this.formSol.get('solicitacao_aceita_recusada').value) {
@@ -642,8 +642,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.cpoEditor['solicitacao_carta'] !== null) {
         if (this.cpoEditor['solicitacao_carta'].html !== this.sfs.solicitacao.solicitacao_carta) {
           solicitacao.solicitacao_carta = this.cpoEditor['solicitacao_carta'].html;
-          solicitacao.solicitacao_carta_delta = JSON.stringify(this.cpoEditor['solicitacao_carta_delta'].delta);
-          solicitacao.solicitacao_carta_texto = this.cpoEditor['solicitacao_carta_texto'].text;
+          solicitacao.solicitacao_carta_delta = JSON.stringify(this.cpoEditor['solicitacao_carta'].delta);
+          solicitacao.solicitacao_carta_texto = this.cpoEditor['solicitacao_carta'].text;
         }
       }
       /*if (this.formSol.get('solicitacao_carta').value) {
@@ -670,8 +670,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.cpoEditor['solicitacao_descricao'] !== null) {
       if (this.cpoEditor['solicitacao_descricao'].html !== this.sfs.solicitacao.solicitacao_descricao) {
         solicitacao.solicitacao_descricao = this.cpoEditor['solicitacao_aceita_recusada'].html;
-        solicitacao.solicitacao_descricao_delta = JSON.stringify(this.cpoEditor['solicitacao_descricao_delta'].delta);
-        solicitacao.solicitacao_descricao_texto = this.cpoEditor['solicitacao_descricao_texto'].text;
+        solicitacao.solicitacao_descricao_delta = JSON.stringify(this.cpoEditor['solicitacao_descricao'].delta);
+        solicitacao.solicitacao_descricao_texto = this.cpoEditor['solicitacao_descricao'].text;
       }
     }
 
@@ -684,8 +684,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.cpoEditor['historico_andamento'] !== null) {
       solicitacao.historico_andamento = this.cpoEditor['historico_andamento'].html;
-      solicitacao.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento_delta'].delta);
-      solicitacao.historico_andamento_texto = this.cpoEditor['historico_andamento_texto'].text;
+      solicitacao.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
+      solicitacao.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
     }
     /*if (this.formSol.get('historico_andamento').value) {
       const ql3: any = this.histand.getQuill();

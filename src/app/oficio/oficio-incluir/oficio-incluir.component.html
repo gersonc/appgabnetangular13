@@ -18,60 +18,63 @@
                 <div class="p-fluid p-formgrid p-grid formulario">
 
                   <!--*** ddOficio_processo_id ***-->
-                  <div *ngIf="!solicitacao" class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_processo_id')">
-                    <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
+                  <div *ngIf="ddForm.ddOficioProcessoId.length > 0" class="p-field p-col-4" [ngClass]="aplicaCssErro('oficio_processo_id')">
+                    <!--<p-progressSpinner *ngIf="spinner"></p-progressSpinner>-->
                     <label for="oficio_processo_id"><span class="atencao">*</span> Processo</label>
                     <p-listbox
                       id="oficio_processo_id"
-                      [options]="ddOficio_processo_id"
-                      dataKey="value"
-                      optionLabel="label"
+                      [options]="ddForm.ddOficioProcessoId"
+                      dataKey="processo_id"
+                      optionLabel="processo_numero"
                       formControlName="oficio_processo_id"
                       [style]="{'width':'auto'}"
                       [listStyle]="{'max-height':'203px'}"
                       (onChange)="mudaProcesso($event)"
+                      (onClick)="mudaProcesso($event)"
+                      [multiple]="false"
                       required
                     ></p-listbox>
                     <app-campo-control-erro msgErro="Processo é obrigatório."></app-campo-control-erro>
                   </div>
-                  <input type="text" formControlName="oficio_processo_id" style="display: none;" *ngIf="solicitacao">
+                  <!--<input type="text" formControlName="oficio_processo_id" style="display: none;" *ngIf="lb.processo_id!">-->
                   <!--*** DADOS DO PROCESSO ***-->
-                  <div *ngIf="oficio_codigo" class="p-field p-col-12">
-                    <p-card class="bordaRadius5">
+                  <div class="p-field p-col-8">
+                    <p-card *ngIf="lb !== null" class="bordaRadius5">
                       <table class="table-hover tabela" #taboficio id="taboficio">
                         <caption>Dados do processo</caption>
                         <tr>
                           <th>Código:</th>
-                          <td>{{oficio_codigo | uppercase}}
-                            <p-progressSpinner *ngIf="oficod" [style]="{width: '10px', height: '10px'}" strokeWidth="2"
-                                               animationDuration=".5s"></p-progressSpinner>
+                          <td>{{lb.oficio_codigo}}
+                            <!--<p-progressSpinner *ngIf="oficod" [style]="{width: '10px', height: '10px'}" strokeWidth="2"
+                                               animationDuration=".5s"></p-progressSpinner>-->
                           </td>
                         </tr>
                         <tr>
                           <th>Processo Número:</th>
-                          <td>{{processo_numero | uppercase}}</td>
+                          <td>{{lb.processo_numero}}</td>
                         </tr>
                         <tr>
                           <th>Solicitante:</th>
-                          <td>{{solicitacao_cadastro_nome | uppercase}}</td>
+                          <td>{{lb.solicitacao_cadastro_nome}}</td>
                         </tr>
                         <tr>
                           <th>Município:</th>
-                          <td>{{cadastro_municipio_nome | uppercase}}</td>
+                          <td>{{lb.cadastro_municipio_nome}}</td>
                         </tr>
                         <tr>
                           <th>Assunto:</th>
-                          <td>{{solicitacao_assunto_nome | uppercase}}</td>
+                          <td>{{lb.solicitacao_assunto_nome}}</td>
                         </tr>
                         <tr>
                           <th>Data da solicitação:</th>
-                          <td>{{solicitacao_data | date:'dd/MM/yyyy'}}</td>
+                          <td>{{lb.solicitacao_data}}</td>
                         </tr>
                         <tr>
                           <th>Área de interesse:</th>
-                          <td>{{solicitacao_area_interesse_nome | uppercase}}</td>
+                          <td>{{lb.solicitacao_area_interesse_nome}}</td>
                         </tr>
-                        <tr *ngIf="solicitacao_descricao">
+
+                        <tr *ngIf="htm !== null">
                           <th>Descrição da solicitação:</th>
                           <td style="text-align: right">
                             <i class="pi pi-search" (click)="showDialog()" style="font-size:2em"></i>
@@ -221,7 +224,7 @@
                       id="oficio_prioridade_id"
                       formControlName="oficio_prioridade_id"
                       placeholder="Selecione"
-                      [options]="ddPrioridade_id"
+                      [options]="ddForm.ddPrioridade_id"
                       [required]="true"
                     ></p-dropdown>
                     <app-campo-control-erro msgErro="Prioridade é obrigatório."></app-campo-control-erro>
@@ -253,7 +256,7 @@
                       id="oficio_tipo_andamento_id"
                       formControlName="oficio_tipo_andamento_id"
                       placeholder="Selecione"
-                      [options]="ddAndamento_id"
+                      [options]="ddForm.ddAndamento_id"
                       [required]="true"
                     ></p-dropdown>
                     <app-campo-control-erro msgErro="Encaminhamento é obrigatório."></app-campo-control-erro>
@@ -329,7 +332,7 @@
                       id="oficio_tipo_recebimento_id"
                       formControlName="oficio_tipo_recebimento_id"
                       placeholder="Selecione"
-                      [options]="ddrecebimento_id"
+                      [options]="ddForm.ddrecebimento_id"
                       [required]="true"
                     ></p-dropdown>
                     <app-campo-control-erro msgErro="Recebimento é obrigatório."></app-campo-control-erro>
@@ -479,11 +482,14 @@
 <!--<app-form-debug [form]="formOfIncluir"></app-form-debug>-->
 <p-toast key="oficioToast" [style]="{marginTop: '80px'}"></p-toast>
 
-<p-dialog #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display"
+<p-dialog  #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display"
           [style]="{width: '70%'}">
-  <p-editor id="solicitacao" [ngModel]="solicitacao_descricao" class="detalhe" [readonly]="true">
+  <!--<p-editor id="solicitacao" [ngModel]="solicitacao_descricao" class="detalhe" [readonly]="true">
     <ng-template pTemplate="header"></ng-template>
-  </p-editor>
+  </p-editor>-->
+  <quill-view *ngIf="htm !== null" [content]="lb.solicitacao_descricao" format="html" theme="snow"></quill-view>
+  <!--<app-quill-view *ngIf="lb !== undefined && lb.solicitacao_descricao !== undefined" [cpdelta]="lb.solicitacao_descricao_delta" [cphtml]="lb.solicitacao_descricao"
+                  class="detalhe"></app-quill-view>-->
   <div style="padding-top: .4em">
     <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   </div>

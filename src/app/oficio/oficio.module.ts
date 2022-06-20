@@ -47,6 +47,7 @@ import { RippleModule } from 'primeng/ripple';
 import { EditorModule } from 'primeng/editor';
 import {AccordionModule} from 'primeng/accordion';
 import {InputNumberModule} from 'primeng/inputnumber';
+import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 
 
 
@@ -109,7 +110,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
         RippleModule,
         EditorModule,
         AccordionModule,
-        InputNumberModule
+        InputNumberModule,
+        QuillViewModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

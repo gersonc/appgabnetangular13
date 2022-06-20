@@ -36,9 +36,9 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
   populaDropdown() {
     let contador = 0;
 
-    if (!sessionStorage.getItem('oficio-dropdown')) {
+    if (!sessionStorage.getItem('oficio-menu-dropdown')) {
 
-      this.ddOficio.ddOficio_status = [
+      this.ddOficio.ddOficio_status_id = [
         {label: 'EM ANDAMENTO', value: 0},
         {label: 'DEFERIDO', value: 1},
         {label: 'INDEFERIDO', value: 2}
@@ -256,7 +256,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
         })
       );
 
-      this.sub.push(this.dd.postDropdownNomeIdJoinArray(this.ddNomeIdJoinArray.get())
+      /*this.sub.push(this.dd.postDropdownNomeIdJoinArray(this.ddNomeIdJoinArray.get())
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -273,7 +273,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
             }
           }
         })
-      );
+      );*/
     } else {
       contador = contador + 6;
       if (contador === 6) {
@@ -283,8 +283,8 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
   }
 
   gravaDropDown() {
-    if (!sessionStorage.getItem('oficio-dropdown')) {
-      sessionStorage.setItem('oficio-dropdown', JSON.stringify(this.ddOficio));
+    if (!sessionStorage.getItem('oficio-menu-dropdown')) {
+      sessionStorage.setItem('oficio-menu-dropdown', JSON.stringify(this.ddOficio));
     }
     this.getListagem();
   }
@@ -342,7 +342,7 @@ export class OficioListarResolver implements Resolve<OficioPaginacaoInterface | 
 
 /*
 
-    if (!sessionStorage.getItem('oficio-dropdown')) {
+    if (!sessionStorage.getItem('oficio-menu-dropdown')) {
       console.log('ggg3');
       this.dropdown = true;
       this.cs.fechaMenu();

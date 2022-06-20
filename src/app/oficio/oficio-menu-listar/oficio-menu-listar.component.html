@@ -1,4 +1,4 @@
-<div class="p-fluid formulario-bg-externo">
+<div class="p-fluid formulario-bg-externo espacoInferiorMenu">
   <form [formGroup]="formMenuOfico" (keyup)="onKey($event)">
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
@@ -27,19 +27,16 @@
         </div>
       </div>
     </div>
-
     <div class="p-d-flex p-ml-1 p-pl-2">
-      <div class="p-fluid p-grid">
+      <div class="p-fluid p-formgrid p-grid formulario">
 
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-          <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- oficio_processo_id -->
-            <div *ngIf="ddOficio_processo_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_processo_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_processo_id">Número do processo</label>
               <p-dropdown
                 id="oficio_processo_id"
-                [options]="ddOficio_processo_id"
+                [options]="ddOficio.ddOficio_processo_id"
                 [style]="{'width':'100%'}"
                 placeholder="TODOS"
                 formControlName="oficio_processo_id"
@@ -48,11 +45,11 @@
             </div>
 
             <!-- oficio_codigo -->
-            <div *ngIf="ddOficio_codigo" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_codigo.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_codigo">Código do ofício</label>
               <p-dropdown
                 id="oficio_codigo"
-                [options]="ddOficio_codigo"
+                [options]="ddOficio.ddOficio_codigo"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 formControlName="oficio_codigo"
@@ -62,11 +59,11 @@
             </div>
 
             <!-- oficio_numero -->
-            <div *ngIf="ddOficio_numero" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_numero.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_numero">Número do ofício</label>
               <p-dropdown
                 id="oficio_numero"
-                [options]="ddOficio_numero"
+                [options]="ddOficio.ddOficio_numero"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 formControlName="oficio_numero"
@@ -76,11 +73,11 @@
             </div>
 
             <!-- oficio_convenio -->
-            <div *ngIf="ddOficio_convenio" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_convenio.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_convenio">Convenio</label>
               <p-dropdown
                 id="oficio_convenio"
-                [options]="ddOficio_convenio"
+                [options]="ddOficio.ddOficio_convenio"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 formControlName="oficio_convenio"
@@ -90,11 +87,11 @@
             </div>
 
             <!-- oficio_protocolo_numero -->
-            <div *ngIf="ddOficio_protocolo_numero" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_protocolo_numero.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_protocolo_numero">Protocólo</label>
               <p-dropdown
                 id="oficio_protocolo_numero"
-                [options]="ddOficio_protocolo_numero"
+                [options]="ddOficio.ddOficio_protocolo_numero"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 formControlName="oficio_protocolo_numero"
@@ -104,11 +101,11 @@
             </div>
 
             <!-- oficio_municipio_id -->
-            <div *ngIf="ddOficio_municipio_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_municipio_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_municipio_id">Município</label>
               <p-dropdown
                 id="oficio_municipio_id"
-                [options]="ddOficio_municipio_id"
+                [options]="ddOficio.ddOficio_municipio_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_municipio_id"
@@ -119,11 +116,11 @@
             </div>
 
             <!-- oficio_tipo_solicitante_id -->
-            <div *ngIf="ddOficio_tipo_solicitante_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_tipo_solicitante_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_tipo_solicitante_id">Tipo de solicitante</label>
               <p-dropdown
                 id="oficio_tipo_solicitante_id"
-                [options]="ddOficio_tipo_solicitante_id"
+                [options]="ddOficio.ddOficio_tipo_solicitante_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_tipo_solicitante_id"
@@ -134,11 +131,11 @@
             </div>
 
             <!-- oficio_cadastro_id -->
-            <div *ngIf="ddOficio_cadastro_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_cadastro_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_cadastro_id">Solicitante</label>
               <p-dropdown
                 id="oficio_cadastro_id"
-                [options]="ddOficio_cadastro_id"
+                [options]="ddOficio.ddOficio_cadastro_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_cadastro_id"
@@ -149,11 +146,11 @@
             </div>
 
             <!-- oficio_assunto_id -->
-            <div *ngIf="ddOficio_assunto_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_assunto_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_assunto_id">Assunto</label>
               <p-dropdown
                 id="oficio_assunto_id"
-                [options]="ddOficio_assunto_id"
+                [options]="ddOficio.ddOficio_assunto_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_assunto_id"
@@ -164,11 +161,11 @@
             </div>
 
             <!-- oficio_area_interesse_id -->
-            <div *ngIf="ddOficio_area_interesse_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_area_interesse_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_area_interesse_id">Área de interesse</label>
               <p-dropdown
                 id="oficio_area_interesse_id"
-                [options]="ddOficio_area_interesse_id"
+                [options]="ddOficio.ddOficio_area_interesse_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_area_interesse_id"
@@ -179,11 +176,11 @@
             </div>
 
             <!-- solicitacao_reponsavel_analize_id -->
-            <div *ngIf="ddOficio_reponsavel_analize_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_reponsavel_analize_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="solicitacao_reponsavel_analize_id">Responsável pela analise</label>
               <p-dropdown
                 id="solicitacao_reponsavel_analize_id"
-                [options]="ddOficio_reponsavel_analize_id"
+                [options]="ddOficio.ddOficio_reponsavel_analize_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="solicitacao_reponsavel_analize_id"
@@ -193,18 +190,12 @@
               ></p-dropdown>
             </div>
 
-          </div>
-        </div>
-
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-          <div class="p-fluid p-formgrid p-grid formulario">
-
             <!-- solicitacao_local_id -->
-            <div *ngIf="ddOficio_local_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_local_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="solicitacao_local_id">Núcleo</label>
               <p-dropdown
                 id="solicitacao_local_id"
-                [options]="ddOficio_local_id"
+                [options]="ddOficio.ddOficio_local_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="solicitacao_local_id"
@@ -215,11 +206,11 @@
             </div>
 
             <!-- oficio_orgao_solicitado_nome -->
-            <div *ngIf="ddOficio_orgao_solicitado_nome" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_orgao_solicitado_nome.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_orgao_solicitado_nome">Orgão solicitado</label>
               <p-dropdown
                 id="oficio_orgao_solicitado_nome"
-                [options]="ddOficio_orgao_solicitado_nome"
+                [options]="ddOficio.ddOficio_orgao_solicitado_nome"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_orgao_solicitado_nome"
@@ -230,11 +221,11 @@
             </div>
 
             <!-- oficio_orgao_protocolante_nome -->
-            <div *ngIf="ddOficio_orgao_protocolante_nome" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_orgao_protocolante_nome.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_orgao_protocolante_nome">Orgão protocolante</label>
               <p-dropdown
                 id="oficio_orgao_protocolante_nome"
-                [options]="ddOficio_orgao_protocolante_nome"
+                [options]="ddOficio.ddOficio_orgao_protocolante_nome"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_orgao_protocolante_nome"
@@ -245,11 +236,11 @@
             </div>
 
             <!-- oficio_status -->
-            <div *ngIf="ddOficio_status" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_status_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_status">Situação</label>
               <p-dropdown
                 id="oficio_status"
-                [options]="ddOficio_status"
+                [options]="ddOficio.ddOficio_status_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_status"
@@ -260,11 +251,11 @@
             </div>
 
             <!-- oficio_prioridade_id -->
-            <div *ngIf="ddOficio_prioridade_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_prioridade_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_prioridade_id">Prioridade</label>
               <p-dropdown
                 id="oficio_prioridade_id"
-                [options]="ddOficio_prioridade_id"
+                [options]="ddOficio.ddOficio_prioridade_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_prioridade_id"
@@ -275,11 +266,11 @@
             </div>
 
             <!-- oficio_tipo_andamento_id -->
-            <div *ngIf="ddOficio_tipo_andamento_id" class="p-field p-col-12">
+            <div *ngIf="ddOficio.ddOficio_tipo_andamento_id.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="oficio_tipo_andamento_id">Encaminhamento</label>
               <p-dropdown
                 id="oficio_tipo_andamento_id"
-                [options]="ddOficio_tipo_andamento_id"
+                [options]="ddOficio.ddOficio_tipo_andamento_id"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_tipo_andamento_id"
@@ -290,12 +281,12 @@
             </div>
 
             <!-- oficio_data_emissao1 -->
-            <div *ngIf="ddOficio_data_emissao1 && ddOficio_data_emissao2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_emissao1.length > 0 && ddOficio.ddOficio_data_emissao2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_emissao1">Data da emissão</label>
               <p-dropdown
                 id="oficio_data_emissao1"
-                [options]="ddOficio_data_emissao1"
+                [options]="ddOficio.ddOficio_data_emissao1"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_emissao1"
@@ -306,12 +297,12 @@
             </div>
 
             <!-- oficio_data_emissao2 -->
-            <div *ngIf="ddOficio_data_emissao1 && ddOficio_data_emissao2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_emissao1.length > 0 && ddOficio.ddOficio_data_emissao2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_emissao2">até</label>
               <p-dropdown
                 id="oficio_data_emissao2"
-                [options]="ddOficio_data_emissao2"
+                [options]="ddOficio.ddOficio_data_emissao2"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_emissao2"
@@ -322,12 +313,12 @@
             </div>
 
             <!-- oficio_data_empenho1 -->
-            <div *ngIf="ddOficio_data_empenho1 && ddOficio_data_empenho2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_empenho1.length > 0 && ddOficio.ddOficio_data_empenho2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_empenho1">Data do empenho</label>
               <p-dropdown
                 id="oficio_data_empenho1"
-                [options]="ddOficio_data_empenho1"
+                [options]="ddOficio.ddOficio_data_empenho1"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_empenho1"
@@ -338,12 +329,12 @@
             </div>
 
             <!-- oficio_data_empenho2 -->
-            <div *ngIf="ddOficio_data_empenho1 && ddOficio_data_empenho2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_empenho1.length > 0 && ddOficio.ddOficio_data_empenho2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_empenho2">até</label>
               <p-dropdown
                 id="oficio_data_empenho2"
-                [options]="ddOficio_data_empenho2"
+                [options]="ddOficio.ddOficio_data_empenho2"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_empenho2"
@@ -354,12 +345,12 @@
             </div>
 
             <!-- oficio_data_protocolo1 -->
-            <div *ngIf="ddOficio_data_protocolo1 && ddOficio_data_protocolo2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_protocolo1.length > 0 && ddOficio.ddOficio_data_protocolo2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_protocolo1">Data do protocólo</label>
               <p-dropdown
                 id="oficio_data_protocolo1"
-                [options]="ddOficio_data_protocolo1"
+                [options]="ddOficio.ddOficio_data_protocolo1"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_protocolo1"
@@ -370,12 +361,12 @@
             </div>
 
             <!-- oficio_data_protocolo2 -->
-            <div *ngIf="ddOficio_data_protocolo1 && ddOficio_data_protocolo2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_protocolo1.length > 0 && ddOficio.ddOficio_data_protocolo2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_protocolo2">até</label>
               <p-dropdown
                 id="oficio_data_protocolo2"
-                [options]="ddOficio_data_protocolo2"
+                [options]="ddOficio.ddOficio_data_protocolo2"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_protocolo2"
@@ -386,12 +377,12 @@
             </div>
 
             <!-- oficio_data_pagamento1 -->
-            <div *ngIf="ddOficio_data_pagamento1 && ddOficio_data_pagamento2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_pagamento1.length > 0 && ddOficio.ddOficio_data_pagamento2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_pagamento1">Data do pagamento</label>
               <p-dropdown
                 id="oficio_data_pagamento1"
-                [options]="ddOficio_data_pagamento1"
+                [options]="ddOficio.ddOficio_data_pagamento1"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_pagamento1"
@@ -402,12 +393,12 @@
             </div>
 
             <!-- oficio_data_pagamento2 -->
-            <div *ngIf="ddOficio_data_pagamento1 && ddOficio_data_pagamento2"
-                 class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_data_pagamento1.length > 0 && ddOficio.ddOficio_data_pagamento2.length > 0"
+                 class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_data_pagamento2">até</label>
               <p-dropdown
                 id="oficio_data_pagamento2"
-                [options]="ddOficio_data_pagamento2"
+                [options]="ddOficio.ddOficio_data_pagamento2"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_data_pagamento2"
@@ -418,11 +409,11 @@
             </div>
 
             <!-- oficio_prazo1 -->
-            <div *ngIf="ddOficio_prazo1 && ddOficio_prazo2" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_prazo1.length > 0 && ddOficio.ddOficio_prazo2.length > 0" class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_prazo1">Prazo</label>
               <p-dropdown
                 id="oficio_prazo1"
-                [options]="ddOficio_prazo1"
+                [options]="ddOficio.ddOficio_prazo1"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_prazo1"
@@ -433,11 +424,11 @@
             </div>
 
             <!-- oficio_prazo2 -->
-            <div *ngIf="ddOficio_prazo1 && ddOficio_prazo2" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+            <div *ngIf="ddOficio.ddOficio_prazo1.length > 0 && ddOficio.ddOficio_prazo2.length > 0" class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
               <label for="oficio_prazo2">até</label>
               <p-dropdown
                 id="oficio_prazo2"
-                [options]="ddOficio_prazo2"
+                [options]="ddOficio.ddOficio_prazo2"
                 [style]="{'width':'100%'}"
                 optionLabel="label"
                 inputId="oficio_prazo2"
@@ -448,11 +439,10 @@
             </div>
 
             <!-- oficio_descricao_acao -->
-            <div class="p-field p-col-12">
+            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
               <label for="Descrição">Descrição Contém</label>
               <input
                 id="Descrição"
-                [style]="{'max-width':'400px'}"
                 type="text"
                 pInputText
                 placeholder="Descrição"
@@ -461,8 +451,6 @@
               >
             </div>
 
-          </div>
-        </div>
       </div>
     </div>
 

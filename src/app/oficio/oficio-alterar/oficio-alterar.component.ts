@@ -242,8 +242,8 @@ export class OficioAlterarComponent implements OnInit, OnDestroy {
           },
           complete: () => {
             if (this.resp[0]) {
-              if (sessionStorage.getItem('oficio-dropdown')) {
-                sessionStorage.removeItem('oficio-dropdown');
+              if (sessionStorage.getItem('oficio-menu-dropdown')) {
+                sessionStorage.removeItem('oficio-menu-dropdown');
               }
               this.messageService.add({
                 key: 'oficioToast',

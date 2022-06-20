@@ -20,6 +20,7 @@ import { AuthenticationService, CarregadorService } from '../../_services';
 import { OficioFormulario, OficioIncluirForm, OficioIncluirFormInterface } from '../_models';
 import { OficioFormService, OficioService } from '../_services';
 import {Editor} from 'primeng/editor';
+import {DdForm, DdOficioProcessoId} from "../_models/oficio-i";
 
 
 @Component({
@@ -92,6 +93,10 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     ['link']                         // link and image, video
   ];
 
+  ddForm?: DdForm;
+  lb: DdOficioProcessoId|null = null;
+  htm: string | null = null;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -157,15 +162,22 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   carregaDropdownSessionStorage() {
-    this.ddPrioridade_id = JSON.parse(sessionStorage.getItem('dropdown-prioridade'));
+    this.ddForm = {
+      ddOficioProcessoId: JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd')),
+      ddAndamento_id: JSON.parse(sessionStorage.getItem('dropdown-andamento')),
+      ddPrioridade_id: JSON.parse(sessionStorage.getItem('dropdown-prioridade')),
+      ddrecebimento_id: JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'))
+    }
+    /*this.ddPrioridade_id = JSON.parse(sessionStorage.getItem('dropdown-prioridade'));
     this.ddAndamento_id = JSON.parse(sessionStorage.getItem('dropdown-andamento'));
-    this.ddrecebimento_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'));
+    this.ddrecebimento_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'));*/
   }
 
   // ***     FORMULARIO      *************************
   criaForm() {
     this.formOfIncluir = this.formBuilder.group({
-      oficio_processo_id: [this.ofs.oficio.oficio_processo_id, Validators.required],
+      /*oficio_processo_id: [this.ofs.oficio.oficio_processo_id, Validators.required],*/
+      oficio_processo_id: [null, Validators.required],
       oficio_numero: [this.ofs.oficio.oficio_numero],
       oficio_convenio: [this.ofs.oficio.oficio_convenio],
       oficio_prioridade_id: [this.ofs.oficio.oficio_prioridade_id, Validators.required],
@@ -204,7 +216,20 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   mudaProcesso(event) {
-    this.oficio_codigo = 'AGUARDE...';
+    this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => o.processo_id = +event.value.processo_id)];
+    if(this.lb !== null) {
+      if(typeof(this.lb.solicitacao_descricao) !== 'undefined') {
+        this.htm = this.lb.solicitacao_descricao;
+      } else {
+        this.htm = null;
+      }
+      this.formOfIncluir.get('oficio_processo_id').setValue(this.lb.processo_id);
+    } else {
+
+    }
+
+    console.log(event, this.lb)
+    /*this.oficio_codigo = 'AGUARDE...';
     this.oficod = true;
     this.processo_id = event.value.processo_id;
     this.ofs.oficio.oficio_processo_id = event.value.processo_id;
@@ -227,7 +252,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
         complete: () => {
           this.oficod = false;
         }
-      }));
+      }));*/
   }
 
   getProcessoId(processo_id: number) {
@@ -386,8 +411,8 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
           },
           complete: () => {
             if (this.resp[0]) {
-              if (sessionStorage.getItem('oficio-dropdown')) {
-                sessionStorage.removeItem('oficio-dropdown');
+              if (sessionStorage.getItem('oficio-menu-dropdown')) {
+                sessionStorage.removeItem('oficio-menu-dropdown');
               }
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];

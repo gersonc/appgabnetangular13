@@ -201,6 +201,11 @@
               <app-detalhe-explorer [arquivos]="sol.solicitacao_arquivos"></app-detalhe-explorer>
             </td>
           </tr>-->
+          <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar">
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="sol.solicitacao_arquivos"></app-detalhe-explorer>
+            </td>
+          </tr>
           </tbody>
         </table>
       </td>

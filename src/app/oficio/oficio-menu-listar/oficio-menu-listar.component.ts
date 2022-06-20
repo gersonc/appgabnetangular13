@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { MenuInternoService, AuthenticationService, CarregadorService } from '../../_services';
 import { OficioBuscaService } from '../_services';
-import { OficioBuscaInterface, OficioDropdownMenuListar } from '../_models';
+import {OficioBuscaInterface, OficioDropdownMenuListar, OficioDropdownMenuListarInterface} from '../_models';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,7 +18,7 @@ export class OficioMenuListarComponent implements OnInit {
   public formMenuOfico: FormGroup;
   public items: Array<any> = [];
   // public ddNomeIdArray = new DropdownnomeidClass();
-  public ddOficio_processo_id: SelectItem[] = [];
+  /*public ddOficio_processo_id: SelectItem[] = [];
   public ddOficio_codigo: SelectItem[] = [];
   public ddOficio_numero: SelectItem[] = [];
   public ddOficio_convenio: SelectItem[] = [];
@@ -44,8 +44,8 @@ export class OficioMenuListarComponent implements OnInit {
   public ddOficio_data_pagamento1: SelectItem[] = [];
   public ddOficio_data_pagamento2: SelectItem[] = [];
   public ddOficio_prazo1: SelectItem[] = [];
-  public ddOficio_prazo2: SelectItem[] = [];
-  private ddOficio = new OficioDropdownMenuListar();
+  public ddOficio_prazo2: SelectItem[] = [];*/
+  public ddOficio?: OficioDropdownMenuListarInterface;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -102,8 +102,8 @@ export class OficioMenuListarComponent implements OnInit {
   }
 
   carregaDropDown() {
-    let dr = JSON.parse(sessionStorage.getItem('oficio-dropdown'));
-    this.ddOficio_processo_id = dr.ddOficio_processo_id;
+    this.ddOficio = JSON.parse(sessionStorage.getItem('oficio-menu-dropdown'));
+    /*this.ddOficio_processo_id = dr.ddOficio_processo_id;
     this.ddOficio_codigo = dr.ddOficio_codigo;
     this.ddOficio_numero = dr.ddOficio_numero;
     this.ddOficio_protocolo_numero = dr.ddOficio_protocolo_numero;
@@ -131,7 +131,7 @@ export class OficioMenuListarComponent implements OnInit {
     this.ddOficio_local_id = dr.ddOficio_local_id;
     this.ddOficio_status = dr.ddOficio_status;
     dr = null;
-    this.cs.escondeCarregador();
+    this.cs.escondeCarregador();*/
   }
 
   onMudaForm() {
