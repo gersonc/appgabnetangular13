@@ -521,8 +521,9 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
                 this.sfs.resetSolicitacao();
                 this.resetForm();
-                if (this.resp[3]) {
-                  this.router.navigate(['../oficio/processo', this.resp[3]]);
+                this.solicitacaoService.solicitacoes.push(this.resp[3])
+                if (this.resp[4] > 0) {
+                  this.router.navigate(['../oficio/solicitacao/', this.resp[4]]);
                 }
               }
             } else {
