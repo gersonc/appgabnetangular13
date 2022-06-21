@@ -17,9 +17,8 @@
               <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
                 <div class="p-fluid p-formgrid p-grid formulario">
 
-
                   <!--*** ddOficio_processo_id ***-->
-                  <div *ngIf="ddProcessoId.length > 0" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6" [ngClass]="aplicaCssErro('oficio_processo_id')">
+                  <div *ngIf="ddProcessoId.length > 0" class="p-field p-col-4 formulario" [ngClass]="aplicaCssErro('oficio_processo_id')">
                     <!--<p-progressSpinner *ngIf="spinner"></p-progressSpinner>-->
                     <label for="processoid"><span class="atencao">*</span> Processo</label>
                     <p-listbox
@@ -34,12 +33,10 @@
                   </div>
                   <!--<input type="text" formControlName="oficio_processo_id" style="display: none;" *ngIf="lb.processo_id!">-->
                   <!--*** DADOS DO PROCESSO ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6">
-                    <label for="taboficio">Dados do processo</label>
-                    <!--<div class="formulario">-->
-                    <div class="p-shadow-1">
-                      <table class="table-hover tabela taboficio" #taboficio id="taboficio">
-                        <!--<caption>Dados do processo</caption>-->
+                  <div class="p-field p-col-8">
+                    <p-card *ngIf="lb !== null" class="bordaRadius5">
+                      <table class="table-hover tabela" #taboficio id="taboficio">
+                        <caption>Dados do processo</caption>
                         <tr>
                           <th>Código:</th>
                           <td>{{lb.oficio_codigo}}
@@ -72,26 +69,24 @@
                           <td>{{lb.solicitacao_area_interesse_nome}}</td>
                         </tr>
 
-                        <tr>
+                        <tr *ngIf="htm !== null">
                           <th>Descrição da solicitação:</th>
                           <td style="text-align: right">
-                            <i *ngIf="htm !== null" class="pi pi-search" (click)="showDialog()"></i>
+                            <i class="pi pi-search" (click)="showDialog()" style="font-size:2em"></i>
                           </td>
                         </tr>
                       </table>
-                    </div>
-                    <!--</div>-->
+                    </p-card>
                   </div>
-
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 1 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 2 ***&ndash;&gt;
+              <!--*** FIM COLUNA 1 ***-->
+              <!--*** COLUNA 2 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
 
                   <!--*** oficio_orgao_solicitado_nome ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_orgao_solicitado_nome"><span class="atencao">*</span>Orgão solicitado</label>
                     <input
                       id="oficio_orgao_solicitado_nome"
@@ -104,7 +99,7 @@
                     />
                   </div>
                   <!--*** oficio_valor_solicitado ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_valor_solicitado">Valor solicitado</label>
                     <p-inputNumber
                       id="oficio_valor_solicitado"
@@ -116,14 +111,14 @@
                     >
                     </p-inputNumber>
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 2 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 3 ***&ndash;&gt;
+              <!--*** FIM COLUNA 2 ***-->
+              <!--*** COLUNA 3 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_valor_recebido ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_valor_recebido">Valor recebido</label>
                     <p-inputNumber
                       id="oficio_valor_recebido"
@@ -136,7 +131,7 @@
                     </p-inputNumber>
                   </div>
                   <!--*** oficio_data_pagamento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_data_pagamento">Data do Pagamento</label>
                     <p-calendar
                       id="oficio_data_pagamento"
@@ -148,14 +143,14 @@
                       dataType="string"
                     ></p-calendar>
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 3 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 4 ***&ndash;&gt;
+              <!--*** FIM COLUNA 3 ***-->
+              <!--*** COLUNA 4 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_protocolo_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_protocolo_numero">Protocolo número</label>
                     <input
                       id="oficio_protocolo_numero"
@@ -167,7 +162,7 @@
                     />
                   </div>
                   <!--*** oficio_data_protocolo ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_data_protocolo">Data do protocolo</label>
                     <p-calendar
                       id="oficio_data_protocolo"
@@ -179,14 +174,14 @@
                       dataType="string"
                     ></p-calendar>
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 4 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 5 ***&ndash;&gt;
+              <!--*** FIM COLUNA 4 ***-->
+              <!--*** COLUNA 5 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_orgao_protocolante_nome ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_orgao_protocolante_nome"><span class="atencao">*</span>Orgão
                       protocolante</label>
                     <input
@@ -200,7 +195,7 @@
                     />
                   </div>
                   <!--*** oficio_protocolante_funcionario ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_protocolante_funcionario">Funcionário do orgão</label>
                     <input
                       id="oficio_protocolante_funcionario"
@@ -211,14 +206,14 @@
                       pInputText
                     />
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 5 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 6 ***&ndash;&gt;
+              <!--*** FIM COLUNA 5 ***-->
+              <!--*** COLUNA 6 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_prioridade_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('oficio_prioridade_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_prioridade_id')">
                     <label for="oficio_prioridade_id"><span class="atencao">*</span> Prioridade</label>
                     <p-dropdown
                       id="oficio_prioridade_id"
@@ -230,7 +225,7 @@
                     <app-campo-control-erro msgErro="Prioridade é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** oficio_prazo ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_prazo">Prazo da ação</label>
                     <p-calendar
                       id="oficio_prazo"
@@ -242,14 +237,14 @@
                       dataType="string"
                     ></p-calendar>
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 6 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 7 ***&ndash;&gt;
+              <!--*** FIM COLUNA 6 ***-->
+              <!--*** COLUNA 7 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_tipo_andamento_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
                     <label for="oficio_tipo_andamento_id"><span class="atencao">*</span>
                       Encaminhamento</label>
                     <p-dropdown
@@ -262,7 +257,7 @@
                     <app-campo-control-erro msgErro="Encaminhamento é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** oficio_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_numero">Ofício número</label>
                     <input
                       id="oficio_numero"
@@ -273,14 +268,14 @@
                       pInputText
                     />
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 7 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 8 ***&ndash;&gt;
-              <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
-                <div class="p-fluid p-formgrid p-grid">-->
+              <!--*** FIM COLUNA 7 ***-->
+              <!--*** COLUNA 8 ***-->
+              <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_data_emissao ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_data_emissao">Data da emissão</label>
                     <p-calendar
                       id="oficio_data_emissao"
@@ -293,7 +288,7 @@
                     ></p-calendar>
                   </div>
                   <!--*** oficio_data_empenho ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_data_empenho">Data do empenho</label>
                     <p-calendar
                       id="oficio_data_empenho"
@@ -305,14 +300,14 @@
                       dataType="string"
                     ></p-calendar>
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 8 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 9 ***&ndash;&gt;
+              <!--*** FIM COLUNA 8 ***-->
+              <!--*** COLUNA 9 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_data_recebimento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_data_empenho">Data do recebimento</label>
                     <p-calendar
                       id="oficio_data_recebimento"
@@ -325,7 +320,7 @@
                     ></p-calendar>
                   </div>
                   <!--*** oficio_tipo_recebimento_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
+                  <div class="p-field p-col-12" [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
                     <label for="oficio_tipo_recebimento_id"><span class="atencao">*</span>
                       Recebimento</label>
                     <p-dropdown
@@ -337,17 +332,14 @@
                     ></p-dropdown>
                     <app-campo-control-erro msgErro="Recebimento é obrigatório."></app-campo-control-erro>
                   </div>
-
-                  <!--<div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
-                  </div>-->
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 9 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 10 ***&ndash;&gt;
+              <!--*** FIM COLUNA 9 ***-->
+              <!--*** COLUNA 10 ***-->
               <div class="p-sm-12 p-md-6 p-lg-6 p-xl-4 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
+                <div class="p-fluid p-formgrid p-grid">
                   <!--*** oficio_convenio ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="p-field p-col-12">
                     <label for="oficio_convenio">Convênio</label>
                     <input
                       id="oficio_convenio"
@@ -358,16 +350,29 @@
                       pInputText
                     />
                   </div>
-                <!--</div>
+                </div>
               </div>
-              &lt;!&ndash;*** FIM COLUNA 10 ***&ndash;&gt;
-              &lt;!&ndash;*** COLUNA 11 ***&ndash;&gt;
+              <!--*** FIM COLUNA 10 ***-->
+              <!--*** COLUNA 11 ***-->
               <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid">-->
-
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
-                    <label for="textos"> </label>
-                    <p-accordion id="textos">
+                <div class="p-fluid p-formgrid p-grid">
+                  <ng-container *ngIf="authenticationService.arquivos">
+                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-4">
+                      <app-arquivo
+                        [modulo]="'oficio'"
+                        [modelo]="'incluir'"
+                        [registro_id]="arquivo_registro_id"
+                        [uploadDisabled]="arquivoDesativado || !formOfIncluir.valid"
+                        [enviarArquivos]="enviarArquivos"
+                        (onBlockSubmit)="onBlockSubmit($event)"
+                        (onUpload)="onUpload($event)"
+                        (onPossuiArquivos)="onPossuiArquivos($event)"
+                        [clearArquivos]="clearArquivos"
+                      ></app-arquivo>
+                    </div>
+                  </ng-container>
+                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-8  p-as-end">
+                    <p-accordion>
                       <p-accordionTab header="Descrição do ofício">
                         <div class="formulario-quill">
                           <p-editor
@@ -394,22 +399,6 @@
                       </p-accordionTab>
                     </p-accordion>
                   </div>
-
-                  <ng-container *ngIf="authenticationService.arquivos">
-                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                      <app-arquivo
-                        [modulo]="'oficio'"
-                        [modelo]="'incluir'"
-                        [registro_id]="arquivo_registro_id"
-                        [uploadDisabled]="arquivoDesativado || !formOfIncluir.valid"
-                        [enviarArquivos]="enviarArquivos"
-                        (onBlockSubmit)="onBlockSubmit($event)"
-                        (onUpload)="onUpload($event)"
-                        (onPossuiArquivos)="onPossuiArquivos($event)"
-                        [clearArquivos]="clearArquivos"
-                      ></app-arquivo>
-                    </div>
-                  </ng-container>
                 </div>
               </div>
               <!--*** FIM COLUNA 11 ***-->
@@ -488,31 +477,15 @@
 <!--<app-form-debug [form]="formOfIncluir"></app-form-debug>-->
 <p-toast key="oficioToast" [style]="{marginTop: '80px'}"></p-toast>
 
-<!--<p-dialog  #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display"
+<p-dialog  #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display"
           [style]="{width: '70%'}">
-  &lt;!&ndash;<p-editor id="solicitacao" [ngModel]="solicitacao_descricao" class="detalhe" [readonly]="true">
+  <!--<p-editor id="solicitacao" [ngModel]="solicitacao_descricao" class="detalhe" [readonly]="true">
     <ng-template pTemplate="header"></ng-template>
-  </p-editor>&ndash;&gt;
-  <quill-view *ngIf="htm !== null" [content]="delta" format="html" theme="snow"></quill-view>
-  &lt;!&ndash;<app-quill-view *ngIf="lb !== undefined && lb.solicitacao_descricao !== undefined" [cpdelta]="lb.solicitacao_descricao_delta" [cphtml]="lb.solicitacao_descricao"
-                  class="detalhe"></app-quill-view>&ndash;&gt;
+  </p-editor>-->
+  <quill-view *ngIf="htm !== null" [content]="lb.solicitacao_descricao" format="html" theme="snow"></quill-view>
+  <!--<app-quill-view *ngIf="lb !== undefined && lb.solicitacao_descricao !== undefined" [cpdelta]="lb.solicitacao_descricao_delta" [cphtml]="lb.solicitacao_descricao"
+                  class="detalhe"></app-quill-view>-->
   <div style="padding-top: .4em">
     <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
   </div>
-</p-dialog>-->
-
-<!--*** EDITOR *****************************************************************************************************-->
-<p-dialog *ngIf="dialog"
-  [(visible)]="display"
-  [dismissableMask]="true"
-  styleClass="tablistagem"
-  header="Descrição da solicitação"
-  (onHide)="fechar()"
->
-  <!--<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>-->
-  <app-quill-view [cphtml]="htm" [cpdelta]="delta"></app-quill-view>
-  <div style="padding-top: .4em">
-    <button pButton type="button" label="FECHAR" class="p-button-rounded" (click)="fechar()"></button>
-  </div>
-
 </p-dialog>

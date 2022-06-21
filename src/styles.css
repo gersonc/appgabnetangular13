@@ -14958,5 +14958,87 @@ quill-editor.q-editor {
 }
 
 
+#processoid >.formulario .p-listbox {
+  background: var(--input-filled);
+  color: var(--text-color);
+  border: 1px solid var(--surface-c-border);
+  border-radius: 3px;
+}
+
+
+element.style {
+}
+/*.formulario .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}*/
+
+
+#processoid .p-listbox {
+  font-size: .8rem;
+  font-weight: 500;
+}
+
+#processoid .p-listbox-list {
+  height: 10rem;
+  border-radius: 5px;
+}
+
+#processoid .p-listbox .p-listbox-list .p-listbox-item {
+  margin: 0;
+  padding: 0.2rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+/*.formulario .p-listbox .p-listbox-list .p-listbox-item {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}*/
+
+#processoid .p-listbox:not(.p-disabled) .p-listbox-item:not(.p-highlight):not(.p-disabled):hover {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+}
+
+#processoid .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  color: var(--bt-secundario-color-hover);
+  background: var(--bt-secundario-bg-hover);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}
+#processoid .p-listbox .p-listbox-list .p-listbox-item:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  color: var(--bt-secundario-color-hover);
+  background: var(--text-color-secondary);
+  border: 1px var(--bt-secundario-bg-active);
+  font-weight: var(--formulario-field-input-font-weight);
+}
+
+.formulario .p-card .p-card-body {
+  padding: 0 1rem;
+}
+
+.formulario .p-card .p-card-content {
+  padding: 0;
+}
+
+.taboficio {
+  font-size:.9rem
+}
+.taboficio th {
+  width: 5rem;
+  text-wrap: none;
+  font-weight: 500;
+}
 
 

@@ -116,6 +116,15 @@ const oficioRoutes: Routes = [
         }
       },
       {
+        path: 'solicitacao/:id',
+        component: OficioIncluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.oficio,
+          scopes: Scope.oficio_incluir
+        }
+      },
+      {
         path: 'analisar/:id',
         component: OficioAnalisarComponent,
         canActivate: [AuthChildGuard],
