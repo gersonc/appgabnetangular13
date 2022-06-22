@@ -44,6 +44,7 @@ export interface OficioI {
 
 export interface DdOficioProcessoId {
   processo_id?: number;
+  solicitacao_id?: number;
   processo_numero?: string;
   solicitacao_cadastro_nome?: string;
   solicitacao_data?: string;

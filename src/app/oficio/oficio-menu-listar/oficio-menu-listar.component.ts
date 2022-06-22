@@ -50,10 +50,10 @@ export class OficioMenuListarComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
-    private activatedRoute: ActivatedRoute,
+    public aut: AuthenticationService,
+    // private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cs: CarregadorService,
+    // private cs: CarregadorService,
     public obs: OficioBuscaService
   ) { }
 
@@ -149,13 +149,14 @@ export class OficioMenuListarComponent implements OnInit {
     }
     this.obs.buscaMenu();
     this.mi.hideMenu();
-    this.cs.mostraCarregador();
+    // this.cs.mostraCarregador();
   }
 
   goIncluir() {
-    if (this.authenticationService.oficio_incluir) {
-      this.cs.mostraCarregador();
-      this.router.navigate(['/oficio/incluir']);
+    if (this.aut.oficio_incluir) {
+      console.log('this.aut.oficio_incluir', this.aut.oficio_incluir);
+      // this.cs.mostraCarregador();
+      this.router.navigate(['oficio/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }

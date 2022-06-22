@@ -104,7 +104,7 @@ const oficioRoutes: Routes = [
         }
       },
       {
-        path: 'processo/:id',
+        path: 'processo',
         component: OficioIncluirComponent,
         canActivate: [AuthChildGuard],
         data: {
@@ -116,12 +116,15 @@ const oficioRoutes: Routes = [
         }
       },
       {
-        path: 'solicitacao/:id',
+        path: 'solicitacao',
         component: OficioIncluirComponent,
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.oficio,
           scopes: Scope.oficio_incluir
+        },
+        resolve: {
+          dados: OficioIncluirResolver
         }
       },
       {

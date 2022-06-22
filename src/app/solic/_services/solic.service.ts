@@ -24,7 +24,7 @@ export class SolicService {
   solicitacaoUrl = this.url.solic;
   sub: Subscription[] = [];
   detalhe?: SolicListarI;
-  solicitacoes: SolicListarI[];
+  solicitacoes: SolicListarI[] = [];
   selecionados: SolicListarI[] = [];
   Contexto: SolicListarI;
   busca?: SolicBuscaI;

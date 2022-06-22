@@ -20,6 +20,8 @@ import {SolicForm} from "../_models/solic-form";
 import {DdService} from "../../_services/dd.service";
 import {SolicInformacao} from "../_models/solic-informacao";
 import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
+import {OficioFormService} from "../../oficio/_services";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-solic-form',
@@ -134,8 +136,10 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     public aut: AuthenticationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private messageService: MessageService,
-    public vs: VersaoService
+    // private messageService: MessageService,
+    private ms: MsgService,
+    public vs: VersaoService,
+    private ofs: OficioFormService
   ) { }
 
   ngOnInit() {
@@ -260,8 +264,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   }*/
-
-
 
   parseAssunto(assunto: SelectItem[]) {
     assunto.forEach( (a) => {
@@ -503,7 +505,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
             this.resp = dados;
           },
           error: (err) => {
-            this.messageService.add({key: 'solicitacaoToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             console.error(err);
           },
           complete: () => {
@@ -513,23 +515,29 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
               } else {
-                this.messageService.add({
-                  key: 'solicitacaoToast',
+                this.ms.add({
+                  key: 'principal',
                   severity: 'success',
                   summary: 'INCLUIR SOLICITAÇÃO',
                   detail: this.resp[2]
                 });
                 this.sfs.resetSolicitacao();
                 this.resetForm();
-                this.solicitacaoService.solicitacoes.push(this.resp[3])
+                if (this.solicitacaoService.solicitacoes.length > 0) {
+                  this.solicitacaoService.solicitacoes.push(this.resp[3]);
+                }
+
                 if (this.resp[4] > 0) {
-                  this.router.navigate(['../oficio/solicitacao/', this.resp[4]]);
+                  this.ofs.solicitacao_id = +this.resp[1];
+                  this.ofs.processo_id = +this.resp[4];
+                  this.ofs.url = 'solicitacao';
+                  this.router.navigate(['../oficio/incluir']);
                 }
               }
             } else {
               console.error('ERRO - INCLUIR ', this.resp[2]);
-              this.messageService.add({
-                key: 'solicitacaoToast',
+              this.ms.add({
+                key: 'principal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
@@ -554,14 +562,14 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
             this.resp = dados;
           },
           error: (err) => {
-            this.messageService.add({key: 'solicitacaoToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
+            this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             console.error(err);
           },
           complete: () => {
             if (this.resp[0]) {
               this.dd.ddSubscription('solic-menu-dropdown');
-                this.messageService.add({
-                  key: 'solicitacaoToast',
+              this.ms.add({
+                  key: 'principal',
                   severity: 'success',
                   summary: 'ALTERAR SOLICITAÇÃO',
                   detail: this.resp[2]
@@ -571,8 +579,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
               this.voltarListar();
             } else {
               console.error('ERRO - ALTERAR ', this.resp[2]);
-              this.messageService.add({
-                key: 'solicitacaoToast',
+              this.ms.add({key: 'principal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
@@ -589,8 +596,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   onUpload(ev) {
     if (ev) {
       this.mostraForm = false;
-      this.messageService.add({
-        key: 'solicitacaoToast',
+      this.ms.add({
+        key: 'principal',
         severity: 'success',
         summary: 'INCLUIR SOLICITAÇÃO',
         detail: this.resp[2]
@@ -840,10 +847,10 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     let np = this.formSol.get('processo_numero').value;
     let nPro = '';
     console.log('verificaNumProcesso1', ev, np);
-    if (typeof this.sfs.solA.processo_numero !== 'undefined' &&
-      this.sfs.solA.processo_numero !== null &&
-      this.sfs.solA.processo_numero.length > 0) {
-      nPro = this.sfs.solA.processo_numero;
+    if (typeof this.sfs.solicitacao.processo_numero !== 'undefined' &&
+      this.sfs.solicitacao.processo_numero !== null &&
+      this.sfs.solicitacao.processo_numero.length > 0) {
+      nPro = this.sfs.solicitacao.processo_numero;
     }
     if (nPro !== np && np !== this.sgstNumPro) {
       const dado = {'processo_numero': np};
@@ -855,8 +862,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       }));
     }
   }
-
-
 
   goIncluir() {
     if (this.aut.cadastro_incluir) {

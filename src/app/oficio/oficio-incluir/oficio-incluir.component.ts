@@ -21,6 +21,8 @@ import { OficioFormulario, OficioIncluirForm, OficioIncluirFormInterface } from 
 import { OficioFormService, OficioService } from '../_services';
 import {Editor} from 'primeng/editor';
 import {DdForm, DdOficioProcessoId} from "../_models/oficio-i";
+import {CpoEditor} from "../../_models/in-out-campo-tezto";
+import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
@@ -32,10 +34,10 @@ import {DdForm, DdOficioProcessoId} from "../_models/oficio-i";
 })
 export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  @ViewChild('ofidesc', { static: true }) ofidesc: Editor;
+  /*@ViewChild('ofidesc', { static: true }) ofidesc: Editor;
   @ViewChild('histand', { static: true }) histand: Editor;
   @ViewChild('enviar', { static: true }) enviar: ElementRef;
-  @ViewChild('descricao', { static: true }) descricao: ElementRef;
+  @ViewChild('descricao', { static: true }) descricao: ElementRef;*/
 
   oficioIncluir = new OficioIncluirForm();
   formOfIncluir: FormGroup;
@@ -70,7 +72,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   solicitacao = false;
   url: string;
   botoesInativos = false;
-  modulos: any;
   botaoEnviarVF = false;
   arquivoDesativado = false;
   enviarArquivos = false;
@@ -78,21 +79,28 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   arquivo_registro_id = 0;
   possuiArquivos = false;
 
-  toolbarEditor = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-    ['clean'],                                         // remove formatting button
-    ['link']                         // link and image, video
+  ddOficioStatus: SelectItem[] = [
+    {label: 'EM ANDAMENTO', value: 0},
+    {label: 'DEFERIDO', value: 1},
+    {label: 'INDEFERIDO', value: 2}
   ];
+
+  modulos = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+      [{'header': 1}, {'header': 2}],               // custom button values
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+      [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+      [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+      [{'header': [1, 2, 3, 4, 5, 6, false]}],
+      [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+      [{'font': []}],
+      [{'align': []}],
+      ['clean']                        // link and image, video
+    ]
+  };
 
   ddForm?: DdForm;
   lb: DdOficioProcessoId = {
@@ -112,7 +120,9 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   delta: any = null;
   display = false;
   dialog = false;
-
+  readonly = false;
+  cpoEditor: CpoEditor[] | null = [];
+  btEnviarInativo = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -120,29 +130,30 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     private ofs: OficioFormService,
     public mi: MenuInternoService,
     private location: Location,
-    private messageService: MessageService,
+    private messageService: MsgService,
     public authenticationService: AuthenticationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private oficioService: OficioService,
-    private cs: CarregadorService
+    // private cs: CarregadorService
   ) {  }
 
 
   ngOnInit() {
+
     this.ofs.criaOficio();
     this.carregaDropdownSessionStorage();
 
-    this.modulos = {
+    /*this.modulos = {
       toolbar: this.toolbarEditor
-    };
+    };*/
 
-    this.sub.push(this.activatedRoute.data
+    /*this.sub.push(this.activatedRoute.paramMap
       .pipe(take(1))
-      .subscribe( (data => {
-        console.log('activatedRoute.data',data);
+      .subscribe( (params: ParamMap) => {
+        console.log('activatedRoute.paramMap',params);
         })
-      /*(data: {dados: OficioIncluirFormInterface}) => {
+      /!*(data: {dados: OficioIncluirFormInterface}) => {
         // this.solicitacao = data.dados.solicitacao;
         this.oficio_codigo = data.dados.oficio_codigo;
         this.processo_id = data.dados.oficio_processo_id;
@@ -157,24 +168,19 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
         this.cadastro_municipio_nome = data.dados.cadastro_municipio_nome;
         this.processoLabelLenght = data.dados.processoLabelLenght;
         this.ddOficio_processo_id = data.dados.ddOficio_processo_id;
-      }*/));
+      }*!/);*/
 
     if (this.url === 'processo') {
       this.location.go('../solicitacao/listar/busca');
     }
     // this.configuraCalendario();
     this.criaForm();
-    if (this.solicitacao) {
-      this.formOfIncluir.get('oficio_processo_id').patchValue(this.processo_id);
-      this.formOfIncluir.get('oficio_processo_id').markAsTouched();
-      this.formOfIncluir.get('oficio_processo_id').markAsDirty();
-    }
-    this.cs.escondeCarregador();
+
+    // this.cs.escondeCarregador();
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.cs.escondeCarregador();
       this.mi.hideMenu();
     }, 500);
   }
@@ -200,15 +206,19 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
   // ***     FORMULARIO      *************************
   criaForm() {
+    const dt = new Date();
+    const hoje = dt.toLocaleString('pt-BR').toString().slice(0,10);
+
     this.formOfIncluir = this.formBuilder.group({
       /*oficio_processo_id: [this.ofs.oficio.oficio_processo_id, Validators.required],*/
       oficio_processo_id: [null, Validators.required],
       oficio_numero: [this.ofs.oficio.oficio_numero],
       oficio_convenio: [this.ofs.oficio.oficio_convenio],
+      oficio_status: [0],
       oficio_prioridade_id: [this.ofs.oficio.oficio_prioridade_id, Validators.required],
       oficio_tipo_recebimento_id: [this.ofs.oficio.oficio_tipo_recebimento_id],
       oficio_tipo_andamento_id: [this.ofs.oficio.oficio_tipo_andamento_id, Validators.required],
-      oficio_data_emissao: [this.ofs.oficio.oficio_data_emissao],
+      oficio_data_emissao: [hoje],
       oficio_data_protocolo: [this.ofs.oficio.oficio_data_protocolo],
       oficio_data_pagamento: [this.ofs.oficio.oficio_data_pagamento],
       oficio_data_empenho: [this.ofs.oficio.oficio_data_empenho],
@@ -223,9 +233,26 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
       oficio_valor_solicitado: [this.ofs.oficio.oficio_valor_solicitado, Validators.pattern('[0-9]*')],
       historico_andamento: [this.ofs.oficio.historico_andamento]
     });
+
+    if (this.ofs.solicitacao_id > 0 || this.ofs.processo_id > 0) {
+      if (this.ofs.processo_id > 0) {
+      this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.processo_id === this.ofs.processo_id))];
+        this.formOfIncluir.get('oficio_processo_id').patchValue(this.ofs.processo_id);
+        if (this.ofs.solicitacao_id === 0) {
+          this.ofs.solicitacao_id = this.lb.solicitacao_id;
+        }
+      } else {
+        this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.processo_id === this.ofs.solicitacao_id))];
+        this.formOfIncluir.get('oficio_processo_id').patchValue(this.lb.processo_id);
+        this.ofs.processo_id = this.lb.processo_id;
+      }
+      this.formOfIncluir.get('oficio_processo_id').markAsTouched();
+      this.formOfIncluir.get('oficio_processo_id').markAsDirty();
+    }
+
   }
 
-  configuraCalendario() {
+  /*configuraCalendario() {
     this.ptBr = {
       firstDayOfWeek: 1,
       dayNames: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
@@ -238,7 +265,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
       clear: 'Limpar',
       dateFormat: 'dd/mm/yy'
     };
-  }
+  }*/
 
   mudaProcesso(ev) {
     this.dialog = false;
@@ -329,7 +356,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.possuiArquivos) {
       this.clearArquivos = true;
     }
-    this.oficio_codigo = '';
     this.arquivoDesativado = true;
     window.scrollTo(0, 0);
   }
@@ -345,9 +371,8 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   onUpload(ev) {
     if (ev) {
       this.mostraForm = false;
-      this.cs.escondeCarregador();
       this.messageService.add({
-        key: 'oficioToast',
+        key: 'principal',
         severity: 'success',
         summary: 'INCLUIR OFÍCIO',
         detail: this.resp[2]
@@ -385,17 +410,22 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   voltarListar() {
-    if (this.url) {
-      if (this.url === 'processo') {
+    if (this.ofs.url === 'processo' || this.ofs.url === 'solicitacao') {
+      this.ofs.processo_id = 0;
+      this.ofs.solicitacao_id = 0;
+      if (this.ofs.url === 'solicitacao') {
+        this.ofs.url= '';
         this.router.navigate(['../solicitacao/listar/busca']);
       } else {
-        this.router.navigate(['/oficio/listar/busca']);
+        this.ofs.url = '';
+        this.router.navigate(['../processo/listar/busca']);
       }
+    } else {
+      if (!sessionStorage.getItem('oficio-busca')) {
+        this.mi.mostraInternoMenu();
+      }
+      this.router.navigate(['/oficio/listar/busca']);
     }
-    if (!sessionStorage.getItem('oficio-busca')) {
-      this.mi.mostraInternoMenu();
-    }
-    this.router.navigate(['/oficio/listar/busca']);
   }
 
   verificaValidTouched(campo: string) {
@@ -441,10 +471,9 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   enviarOficio() {
     if (this.formOfIncluir.valid) {
       this.botoesInativos = true;
-      this.enviar.nativeElement.disabled = true;
-      this.cs.mostraCarregador();
-      this.criaOficio();
-      this.sub.push(this.oficioService.incluirOficio(this.ofs.oficio)
+      this.btEnviarInativo = true;
+      const of = this.criaOficio();
+      this.sub.push(this.oficioService.incluirOficio(of)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -452,9 +481,9 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
           },
           error: (err) => {
             this.botoesInativos = false;
-            this.enviar.nativeElement.disabled = false;
-            this.cs.escondeCarregador();
-            this.messageService.add({key: 'oficioToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            this.btEnviarInativo = false;
+            this.ofs.oficio = of;
+            this.messageService.add({key: 'principal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             console.log(err);
           },
           complete: () => {
@@ -467,7 +496,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
                 this.enviarArquivos = true;
               } else {
                 this.messageService.add({
-                  key: 'oficioToast',
+                  key: 'principal',
                   severity: 'success',
                   summary: 'INCLUIR OFÍCIO',
                   detail: this.resp[2]
@@ -478,11 +507,12 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
               }
             } else {
               this.botoesInativos = false;
-              this.enviar.nativeElement.disabled = false;
-              this.cs.escondeCarregador();
+              this.btEnviarInativo = false;
+              // this.enviar.nativeElement.disabled = false;
               console.error('ERRO - INCLUIR ', this.resp[2]);
+              this.ofs.oficio = of;
               this.messageService.add({
-                key: 'oficioToast',
+                key: 'principal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
@@ -494,44 +524,58 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  criaOficio() {
-    if (!this.solicitacao) {
-      this.ofs.oficio.oficio_processo_id = +this.formOfIncluir.get('oficio_processo_id').value.value;
+  criaOficio(): OficioFormulario  {
+    let o = new OficioFormulario();
+    console.log('lb',this.lb);
+    if (this.ofs.processo_id === 0) {
+      o.oficio_processo_id = +this.formOfIncluir.get('oficio_processo_id').value;
     } else {
-      this.ofs.oficio.oficio_processo_id = +this.processo_id;
+      o.oficio_processo_id = this.ofs.processo_id;
+      o.oficio_solicitacao_id = this.ofs.solicitacao_id;
     }
-    this.ofs.oficio.oficio_numero = this.formOfIncluir.get('oficio_numero').value;
-    this.ofs.oficio.oficio_prioridade_id = this.formOfIncluir.get('oficio_prioridade_id').value;
-    this.ofs.oficio.oficio_tipo_andamento_id = this.formOfIncluir.get('oficio_tipo_andamento_id').value;
-    this.ofs.oficio.oficio_data_emissao = this.formOfIncluir.get('oficio_data_emissao').value;
-    this.ofs.oficio.oficio_data_protocolo = this.formOfIncluir.get('oficio_data_protocolo').value;
-    this.ofs.oficio.oficio_data_pagamento = this.formOfIncluir.get('oficio_data_pagamento').value;
-    this.ofs.oficio.oficio_orgao_solicitado_nome = this.formOfIncluir.get('oficio_orgao_solicitado_nome').value;
-    this.ofs.oficio.oficio_orgao_protocolante_nome = this.formOfIncluir.get('oficio_orgao_protocolante_nome').value;
-    // this.ofs.oficio.oficio_descricao_acao = this.formOfIncluir.get('oficio_descricao_acao').value;
-    if (this.formOfIncluir.get('oficio_descricao_acao').value) {
-      const ql0: any = this.ofidesc.getQuill();
-      // const txt1 = ql.getContents();
-      // const txt2 = ql.getText();
-      this.ofs.oficio.oficio_descricao_acao = this.formOfIncluir.get('oficio_descricao_acao').value;
-      this.ofs.oficio.oficio_descricao_acao_delta = JSON.stringify(ql0.getContents());
-      this.ofs.oficio.oficio_descricao_acao_texto = ql0.getText();
+    o.oficio_codigo = this.lb.oficio_codigo;
+    o.oficio_status = this.formOfIncluir.get('oficio_status').value;
+    o.oficio_convenio = this.formOfIncluir.get('oficio_convenio').value;
+    o.oficio_numero = this.formOfIncluir.get('oficio_numero').value;
+    o.oficio_prioridade_id = this.formOfIncluir.get('oficio_prioridade_id').value;
+    o.oficio_tipo_andamento_id = this.formOfIncluir.get('oficio_tipo_andamento_id').value;
+    o.oficio_tipo_recebimento_id = this.formOfIncluir.get('oficio_tipo_recebimento_id').value;
+    o.oficio_data_emissao = this.formOfIncluir.get('oficio_data_emissao').value;
+    o.oficio_data_empenho = this.formOfIncluir.get('oficio_data_empenho').value;
+    o.oficio_data_recebimento = this.formOfIncluir.get('oficio_data_recebimento').value;
+    o.oficio_data_protocolo = this.formOfIncluir.get('oficio_data_protocolo').value;
+    o.oficio_data_pagamento = this.formOfIncluir.get('oficio_data_pagamento').value;
+    o.oficio_orgao_solicitado_nome = this.formOfIncluir.get('oficio_orgao_solicitado_nome').value;
+    o.oficio_orgao_protocolante_nome = this.formOfIncluir.get('oficio_orgao_protocolante_nome').value;
+
+    if (this.cpoEditor['oficio_descricao_acao'] !== null) {
+      o.oficio_descricao_acao = this.cpoEditor['oficio_descricao_acao'].html;
+      o.oficio_descricao_acao_delta = JSON.stringify(this.cpoEditor['oficio_descricao_acao'].delta);
+      o.oficio_descricao_acao_texto = this.cpoEditor['oficio_descricao_acao'].text;
     }
-    this.ofs.oficio.oficio_protocolo_numero = this.formOfIncluir.get('oficio_protocolo_numero').value;
-    this.ofs.oficio.oficio_protocolante_funcionario = this.formOfIncluir.get('oficio_protocolante_funcionario').value;
-    this.ofs.oficio.oficio_prazo = this.formOfIncluir.get('oficio_prazo').value;
-    this.ofs.oficio.oficio_valor_recebido = this.formOfIncluir.get('oficio_valor_recebido').value;
-    this.ofs.oficio.oficio_valor_solicitado = this.formOfIncluir.get('oficio_valor_solicitado').value;
-    // this.ofs.oficio.historico_andamento = this.formOfIncluir.get('historico_andamento').value;
-    if (this.formOfIncluir.get('historico_andamento').value) {
-      const ql1: any = this.histand.getQuill();
-      // const txt3 = ql.getContents();
-      // const txt4 = ql.getText();
-      this.ofs.oficio.historico_andamento = this.formOfIncluir.get('historico_andamento').value;
-      this.ofs.oficio.historico_andamento_delta = JSON.stringify(ql1.getContents());
-      this.ofs.oficio.historico_andamento_texto = ql1.getText();
+
+    o.oficio_protocolo_numero = this.formOfIncluir.get('oficio_protocolo_numero').value;
+    o.oficio_protocolante_funcionario = this.formOfIncluir.get('oficio_protocolante_funcionario').value;
+    o.oficio_prazo = this.formOfIncluir.get('oficio_prazo').value;
+    o.oficio_valor_recebido = this.formOfIncluir.get('oficio_valor_recebido').value;
+    o.oficio_valor_solicitado = this.formOfIncluir.get('oficio_valor_solicitado').value;
+
+    if (this.cpoEditor['historico_andamento'] !== null) {
+      o.historico_andamento = this.cpoEditor['historico_andamento'].html;
+      o.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
+      o.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
     }
-    this.ofs.oficio.oficio_codigo = this.oficio_codigo;
+
+    console.log('criaOficio', o);
+    return o;
+  }
+
+  onContentChanged(ev, campo: string) {
+    this.cpoEditor[campo] = {
+      html: ev.html,
+      delta: ev.content,
+      text: ev.text
+    }
   }
 
   ngOnDestroy(): void {

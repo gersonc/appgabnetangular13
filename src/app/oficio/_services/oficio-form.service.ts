@@ -8,6 +8,9 @@ import { OficioFormulario, OficioFormularioInterface } from '../_models';
 export class OficioFormService {
 
   oficio: OficioFormularioInterface;
+  solicitacao_id = 0;
+  processo_id = 0;
+  url = '';
 
 
   constructor( ) { }

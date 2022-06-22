@@ -1,4 +1,70 @@
+
+
 export interface OficioFormularioInterface {
+  oficio_codigo?: string;
+  oficio_convenio?: string;
+  oficio_data_emissao?: string;
+  oficio_data_empenho?: string;
+  oficio_data_pagamento?: string;
+  oficio_data_protocolo?: string;
+  oficio_data_recebimento?: string;
+  oficio_descricao_acao?: string;
+  oficio_descricao_acao_texto?: string;
+  oficio_descricao_acao_delta?: string;
+  oficio_id?: number;
+  oficio_numero?: string;
+  oficio_orgao_protocolante_nome?: string;
+  oficio_orgao_solicitado_nome?: string;
+  oficio_prazo?: string;
+  oficio_prioridade_id?: number;
+  oficio_processo_id?: number;
+  oficio_processo_numero?: string;
+  oficio_protocolante_funcionario?: string;
+  oficio_protocolo_numero?: string;
+  oficio_solicitacao_id?: number;
+  oficio_status?: string;
+  oficio_tipo_andamento_id?: number;
+  oficio_tipo_recebimento_id?: number;
+  oficio_valor_recebido?: string;
+  oficio_valor_solicitado?: string;
+  historico_andamento?: string;
+  historico_andamento_texto?: string;
+  historico_andamento_delta?: string;
+}
+
+export class OficioFormulario implements OficioFormularioInterface {
+  oficio_codigo = null;
+  oficio_convenio = null;
+  oficio_data_emissao = null;
+  oficio_data_empenho = null;
+  oficio_data_pagamento = null;
+  oficio_data_protocolo = null;
+  oficio_data_recebimento = null;
+  oficio_descricao_acao = null;
+  oficio_descricao_acao_texto = null;
+  oficio_descricao_acao_delta = null;
+  oficio_id = null;
+  oficio_numero = null;
+  oficio_orgao_protocolante_nome = null;
+  oficio_orgao_solicitado_nome = null;
+  oficio_prazo = null;
+  oficio_prioridade_id = null;
+  oficio_processo_id = null;
+  oficio_processo_numero = null;
+  oficio_protocolante_funcionario = null;
+  oficio_protocolo_numero = null;
+  oficio_solicitacao_id = null;
+  oficio_status = null;
+  oficio_tipo_andamento_id = null;
+  oficio_tipo_recebimento_id = null;
+  oficio_valor_recebido = null;
+  oficio_valor_solicitado = null;
+  historico_andamento = null;
+  historico_andamento_texto = null;
+  historico_andamento_delta = null;
+}
+
+/*export interface OficioFormularioInterface {
   oficio_area_interesse_id?: number;
   oficio_area_interesse_nome?: string;
   oficio_assunto_id?: number;
@@ -46,8 +112,9 @@ export interface OficioFormularioInterface {
   historico_andamento?: string;
   historico_andamento_texto?: string;
   historico_andamento_delta?: string;
-}
+}*/
 
+/*
 export class OficioFormulario implements OficioFormularioInterface {
   oficio_area_interesse_id = null;
   oficio_area_interesse_nome = null;
@@ -97,3 +164,4 @@ export class OficioFormulario implements OficioFormularioInterface {
   historico_andamento_texto = null;
   historico_andamento_delta = null;
 }
+*/

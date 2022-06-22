@@ -13,7 +13,7 @@ import {DdOficioProcessoId} from "../_models/oficio-i";
   providedIn: 'root',
 })
 
-export class OficioIncluirResolver implements Resolve<any> {
+export class OficioIncluirResolver implements Resolve<boolean | never> {
   private contador = 0;
   private ddNomeIdArray = new DropdownnomeidClass();
   private oficioIncluir = new OficioIncluirForm();
@@ -23,8 +23,8 @@ export class OficioIncluirResolver implements Resolve<any> {
   // private resp = new Subject<OficioIncluirForm>();
   // private resp = new Subject<OficioIncluirForm>();
   // private resp$ = this.resp.asObservable();
-  resp = new Subject<any>();
-  resp$ = this.resp.asObservable();
+  resp: Subject<boolean>;
+  resp$: Observable<boolean>
   private sub: Subscription[] = [];
   dds: string[] = [];
   ct = 0;
@@ -37,7 +37,12 @@ export class OficioIncluirResolver implements Resolve<any> {
     private dd: DdService,
   ) {}
 
-  espera(v: DdOficioProcessoId|boolean) {
+  espera(v: boolean) {
+    this.resp.next(v);
+    this.resp.complete();
+  }
+
+  /*espera(v: boolean) {
     this.ct++;
     if(this.ct === 2) {
       if(this.oficioProcessoId.processo_id === 0) {
@@ -47,7 +52,7 @@ export class OficioIncluirResolver implements Resolve<any> {
       }
       this.resp.complete();
     }
-  }
+  }*/
 
   // ***     FORMULARIO      *************************
   /*getProcessoId(processo_id: number) {
@@ -97,32 +102,37 @@ export class OficioIncluirResolver implements Resolve<any> {
           console.log(erro);
         },
         complete: () => {
-          this.espera(this.oficioProcessoId);
+          // this.espera(this.oficioProcessoId);
+          this.espera(true);
         }
       }));
   }
 
 
 
-  carregaDropDown() {
-    if (this.oficioProcessoId.processo_id !== 0) {
-      /*this.resp = new Subject<DdOficioProcessoId>();
-      this.resp$ = this.resp.asObservable();*/
+  carregaDropDown(): boolean {
+    this.dds = [];
+    this.resp = new Subject<boolean>();
+    this.resp$ = this.resp.asObservable();
+    console.log('oficio resolver incluir');
+    /*if (this.oficioProcessoId.processo_id !== 0) {
+      /!*this.resp = new Subject<DdOficioProcessoId>();
+      this.resp$ = this.resp.asObservable();*!/
       this.getProcessoId(this.oficioProcessoId.processo_id);
     } else {
-      /*this.resp = new Subject<boolean>();
-      this.resp$ = this.resp.asObservable();*/
+      /!*this.resp = new Subject<boolean>();
+      this.resp$ = this.resp.asObservable();*!/
       this.espera(true);
-    }
+    }*/
     // 'dropdown-oficio_processo_dd'
-    this.dds = [];
+
 
 
     if (!sessionStorage.getItem('dropdown-prioridade')) {
       this.dds.push('dropdown-prioridade');
     }
     // ****** solicitacao_assunto_id *****
-    if (!sessionStorage.getItem('dropdown-assunto')) {
+    if (!sessionStorage.getItem('dropdown-andamento')) {
       this.dds.push('dropdown-andamento');
     }
 
@@ -155,9 +165,10 @@ export class OficioIncluirResolver implements Resolve<any> {
           }
         })
       );
+      return true;
     } else {
       // this.espera(false);
-      this.espera(true);
+      return false
     }
 
   }
@@ -243,17 +254,21 @@ export class OficioIncluirResolver implements Resolve<any> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<any> {
-    if (route.paramMap.get('id')) {
-      this.oficioProcessoId.processo_id = +route.paramMap.get('id');
-    }
-    this.carregaDropDown();
-    return this.resp$.pipe(
-      take(1),
-      mergeMap(dados => {
+    state: RouterStateSnapshot): Observable<boolean | never> {
+
+    if (this.carregaDropDown()) {
+      return this.resp$.pipe(
+        take(1),
+        mergeMap(dados => {
+          console.log('resolver3');
           this.onDestroy();
           return of(dados);
-      })
-    );
+        })
+      );
+    } else {
+      console.log('resolver4');
+      this.onDestroy();
+      return of(false);
+    }
   }
 }

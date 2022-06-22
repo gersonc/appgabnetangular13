@@ -28,6 +28,7 @@
                       formControlName="oficio_processo_id"
                       (onChange)="mudaProcesso($event)"
                       [multiple]="false"
+                      [readonly]="readonly"
                       required
                     ></p-listbox>
                     <app-campo-control-erro msgErro="Processo é obrigatório."></app-campo-control-erro>
@@ -143,7 +144,7 @@
                       formControlName="oficio_data_pagamento"
                       dateFormat="dd/mm/yy"
                       [yearNavigator]="true"
-                      yearRange="1910:2035"
+                      yearRange="2000:2050"
                       placeholder="dd/mm/aaaa"
                       dataType="string"
                     ></p-calendar>
@@ -174,7 +175,7 @@
                       formControlName="oficio_data_protocolo"
                       dateFormat="dd/mm/yy"
                       [yearNavigator]="true"
-                      yearRange="1910:2035"
+                      yearRange="2000:2050"
                       placeholder="dd/mm/aaaa"
                       dataType="string"
                     ></p-calendar>
@@ -237,7 +238,7 @@
                       formControlName="oficio_prazo"
                       dateFormat="dd/mm/yy"
                       [yearNavigator]="true"
-                      yearRange="1910:2035"
+                      yearRange="2000:2050"
                       placeholder="dd/mm/aaaa"
                       dataType="string"
                     ></p-calendar>
@@ -287,7 +288,7 @@
                       formControlName="oficio_data_emissao"
                       dateFormat="dd/mm/yy"
                       [yearNavigator]="true"
-                      yearRange="1910:2035"
+                      yearRange="2000:2050"
                       placeholder="dd/mm/aaaa"
                       dataType="string"
                     ></p-calendar>
@@ -300,7 +301,7 @@
                       formControlName="oficio_data_empenho"
                       dateFormat="dd/mm/yy"
                       [yearNavigator]="true"
-                      yearRange="1910:2035"
+                      yearRange="2000:2050"
                       placeholder="dd/mm/aaaa"
                       dataType="string"
                     ></p-calendar>
@@ -319,7 +320,7 @@
                       formControlName="oficio_data_recebimento"
                       dateFormat="dd/mm/yy"
                       [yearNavigator]="true"
-                      yearRange="1910:2035"
+                      yearRange="2000:2050"
                       placeholder="dd/mm/aaaa"
                       dataType="string"
                     ></p-calendar>
@@ -358,6 +359,18 @@
                       pInputText
                     />
                   </div>
+
+                  <!--*** oficio_status ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                    <label for="oficio_status"> Status</label>
+                    <p-dropdown
+                      id="oficio_status"
+                      formControlName="oficio_status"
+                      [options]="ddOficioStatus"
+                    ></p-dropdown>
+                  </div>
+
+
                 <!--</div>
               </div>
               &lt;!&ndash;*** FIM COLUNA 10 ***&ndash;&gt;
@@ -370,26 +383,55 @@
                     <p-accordion id="textos">
                       <p-accordionTab header="Descrição do ofício">
                         <div class="formulario-quill">
-                          <p-editor
+                          <div class="qeditor">
+                            <quill-editor
+                              class="formulario"
+                              id="oficio_descricao_acao"
+                              [format]="'html'"
+                              [defaultEmptyValue]="null"
+                              [theme]="'snow'"
+                              [modules]="modulos"
+                              [debounceTime]="10"
+                              [placeholder]="''"
+                              formControlName="oficio_descricao_acao"
+                              (onContentChanged)="onContentChanged($event, 'oficio_descricao_acao')"
+                            ></quill-editor>
+                          </div>
+                          <!--<p-editor
                             #ofidesc
                             formControlName="oficio_descricao_acao"
                             id="oficio_descricao_acao"
                             [modules]="modulos"
                           >
                             <ng-template pTemplate="header"></ng-template>
-                          </p-editor>
+                          </p-editor>-->
                         </div>
                       </p-accordionTab>
                       <p-accordionTab header="Histórico do Processo (Andamento)">
                         <div class="formulario-quill">
-                          <p-editor
+                          <div class="qeditor">
+                            <quill-editor
+                              class="formulario"
+                              id="historico_andamento"
+                              [format]="'html'"
+                              [defaultEmptyValue]="null"
+                              [theme]="'snow'"
+                              [modules]="modulos"
+                              [debounceTime]="10"
+                              [placeholder]="''"
+                              formControlName="historico_andamento"
+                              (onContentChanged)="onContentChanged($event, 'historico_andamento')"
+                            ></quill-editor>
+                          </div>
+
+                          <!--<p-editor
                             #histand
                             formControlName="historico_andamento"
                             id="solicitacao_aceita_recusada"
                             [modules]="modulos"
                           >
                             <ng-template pTemplate="header"></ng-template>
-                          </p-editor>
+                          </p-editor>-->
                         </div>
                       </p-accordionTab>
                     </p-accordion>
@@ -437,7 +479,7 @@
                       pButton
                       type="button"
                       class="p-button-raised p-button-rounded"
-                      [disabled]="!formOfIncluir.valid || mostraForm"
+                      [disabled]="!formOfIncluir.valid || mostraForm || btEnviarInativo"
                       (click)="enviarOficio()"
                       #enviar
                       label="Enviar"
@@ -486,7 +528,7 @@
 
 
 <!--<app-form-debug [form]="formOfIncluir"></app-form-debug>-->
-<p-toast key="oficioToast" [style]="{marginTop: '80px'}"></p-toast>
+<!--<p-toast key="oficioToast" [style]="{marginTop: '80px'}"></p-toast>-->
 
 <!--<p-dialog  #descricao header="Descrição da solicitação" [dismissableMask]="true" [(visible)]="display"
           [style]="{width: '70%'}">
