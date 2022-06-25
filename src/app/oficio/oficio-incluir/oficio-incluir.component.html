@@ -28,7 +28,7 @@
                       formControlName="oficio_processo_id"
                       (onChange)="mudaProcesso($event)"
                       [multiple]="false"
-                      [readonly]="readonly"
+                      [readonly]="isReadOnly()"
                       required
                     ></p-listbox>
                     <app-campo-control-erro msgErro="Processo é obrigatório."></app-campo-control-erro>

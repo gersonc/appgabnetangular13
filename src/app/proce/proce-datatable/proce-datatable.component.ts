@@ -154,7 +154,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
           this.mapeiaColunas();
         }
         this.ps.busca.todos = false;
-        this.dtb.reset();
+        // this.dtb.reset();
       }
     ));
   }

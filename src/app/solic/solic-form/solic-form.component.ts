@@ -530,8 +530,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 if (this.resp[4] > 0) {
                   this.ofs.solicitacao_id = +this.resp[1];
                   this.ofs.processo_id = +this.resp[4];
-                  this.ofs.url = 'solicitacao';
-                  this.router.navigate(['../oficio/incluir']);
+                  this.ofs.url = '../solic/listar2';
+                  this.router.navigate(['../oficio/solicitacao']);
                 }
               }
             } else {

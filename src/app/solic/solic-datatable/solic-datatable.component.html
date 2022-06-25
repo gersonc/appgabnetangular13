@@ -102,7 +102,7 @@
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowColor(col.field, sol.processo_status_id, sol.solicitacao_status_nome, sol.solicitacao_situacao)">
-        {{sol[col.field]}}
+        {{ss.escolheTexto(col.field, rowIndex, sol[col.field])}}
       </td>
     </tr>
   </ng-template>
@@ -306,7 +306,6 @@
     <app-solic-detalhe [solicitacao]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solic-detalhe>
   </p-dialog>
 </ng-container>
-
 
 <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
 <ng-container *ngIf="showHistorico2">

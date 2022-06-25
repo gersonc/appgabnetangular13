@@ -1,4 +1,4 @@
-import {TitulosI} from "./titulo-i";
+import {TituloI, TitulosI} from "./titulo-i";
 
 export interface BuscaCampoI {
   field: string;

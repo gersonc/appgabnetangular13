@@ -12,6 +12,7 @@ import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-deta
 import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
+import {solicSolicitacaoCamposTexto} from "../../solic/_models/solic-listar-i";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,6 @@ import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 export class ProceService {
   buscaSubject = new BehaviorSubject<boolean>(true);
   busca$ = this.buscaSubject.asObservable();
-
   processoUrl = this.url.proce;
   sub: Subscription[] = [];
   processos: ProceListarI[];
@@ -40,7 +40,7 @@ export class ProceService {
     private ts: TitulosService,
     private has: HistAuxService
   ) {
-    this.criaTabela();
+    // this.criaTabela();
     this.processoUrl = this.url.proce;
   }
 
@@ -49,7 +49,7 @@ export class ProceService {
   }
 
   criaTabela() {
-    this.ts.titulosSN();
+    // this.ts.titulosSN();
     if (this.tabela === undefined) {
       this.tabela = new Datatable();
       if (this.stateSN) {
@@ -74,7 +74,9 @@ export class ProceService {
     if (this.busca === undefined) {
       this.busca = {
         todos: false,
-        rows: this.tabela.rows
+        rows: this.tabela.rows,
+        first: 0,
+        sortOrder: 1
       };
     }
   }
@@ -86,35 +88,12 @@ export class ProceService {
 
   onContextMenuSelect(evento) {
     this.Contexto = evento.data;
-    /*if (Array.isArray(evento.data.historico_processo)) {
-      if (evento.data.historico_processo.length > 0) {
-        this.msgCtxH = true;
-          this.has.histFormI = {
-          modulo: 'processo',
-          hist: {
-            historico_processo_id: +evento.data.processo_id,
-            historico_solicitacao_id: +evento.data.solicitacao_id
-          }
-        };
-        console.log('onContextMenuSelect2', evento.data.historico_processo.length);
-        this.has.histListI = {
-          modulo: 'processo',
-          hist: evento.data.historico_processo,
-          registro_id: +evento.data.processo_id
-        }
-
-      } else {
-        this.msgCtxH = false;
-        console.log('this.msgCtxH1', this.msgCtxH);
-      }
-    } else {
-      this.msgCtxH = false;
-      console.log('this.msgCtxH', this.msgCtxH);
-    }*/
-
   }
 
   onRowExpand(evento) {
+    if (this.tabela.titulos.length === 0) {
+      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     let a = 0;
@@ -144,29 +123,87 @@ export class ProceService {
     this.expandidoSN = true;
   }
 
+
+  /*onRowExpand(evento) {
+    if (this.tabela.titulos.length === 0) {
+      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    }
+    this.tabela.dadosExpandidosRaw = evento;
+    this.expandido = evento.data;
+    // let a = 0;
+    const b: any[] = [];
+    let ev = evento.data;
+    this.has.histFormI = {
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solicitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    this.tabela.titulos.forEach(t => {
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].length > 0) {
+          const m = this.tabela.camposTexto.indexOf(t.field);
+          const tit = t.titulo;
+          let vf = false;
+          let txtdelta: string = null;
+          let txt: string = null;
+          let tst = '';
+          tst = ev[t.field];
+          b.push([tit, tst, vf, txt, txtdelta]);
+          // a++;
+        }
+      }
+    });
+
+
+    this.tabela.dadosExpandidos = b;
+    this.expandidoSN = true;
+  }*/
+
   onRowCollapse(ev) {
     delete this.has.histFormI;
     delete this.has.histListI;
     this.tabela.dadosExpandidos = null;
+    this.tabela.dadosExpandidosRaw = null;
     this.expandidoSN = false;
+  }
+
+  escolheTexto(field: string, index: number, value: string): string {
+    if (proceProcessoCamposTexto.indexOf(field) > -1) {
+      const t: string = field + '_texto';
+      if (this.processos[index][t] !== null) {
+        return this.processos[index][t];
+      }
+    }
+    if (value !== null) {
+      return value;
+    } else {
+      return '';
+    }
   }
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
-      this.parseSession(tableSession);
+      if (sessionStorage.getItem('proce-tabela')) {
+        this.parseTabela(JSON.parse(sessionStorage.getItem('proce-tabela')));
+      }
+      if (sessionStorage.getItem('proce-busca')) {
+        this.parseBusca(JSON.parse(sessionStorage.getItem('proce-busca')));
+      }
     }
     this.stateSN = false;
     const t: any = JSON.parse(sessionStorage.getItem('proce-tabela'));
     const b: any = JSON.parse(sessionStorage.getItem('proce-busca'));
-    this.parseTabela(t);
-    this.parseBusca(b);
+  }
+
+  salvaState() {
+    this.stateSN = true;
+    sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
+    sessionStorage.setItem('proce-tabela', JSON.stringify(this.tabela));
   }
 
   setState(ev) {
     this.tabela.expandedRowKeys = ev.expandedRowKeys;
-    this.stateSN = true;
-    sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
-    sessionStorage.setItem('proce-tabela', JSON.stringify(this.tabela));
   }
 
   parseTabela(t: any) {
@@ -254,6 +291,7 @@ export class ProceService {
     // this.busca.solicitacao_descricao = (b.solicitacao_descricao !== undefined)? b.solicitacao_descricao : undefined;
     this.busca.solicitacao_orgao = (b.solicitacao_orgao !== undefined) ? b.solicitacao_orgao : undefined;
     this.busca.processo_numero = (b.processo_numero !== undefined) ? b.processo_numero : undefined;
+    this.proceBusca();
   }
 
   parceDetalhe(pro: ProceListarI): ProceDetalheI {
@@ -348,36 +386,35 @@ export class ProceService {
   }
 
   montaTitulos(cps: string[]) {
+    this.tabela.campos = [];
     this.tabela.campos = cps;
-    if (this.ts.titulos.length === 0) {
+    this.tabela.titulos = [];
+    this.ts.buscaTitulos(cps);
+  }
+
+  /*montaTitulos(cps: string[]) {
+    this.tabela.campos = cps;
+    if (this.ts.titulos.length() === 0) {
       this.ts.buscaTitulos(cps);
     } else {
       if (this.tabela.titulos === undefined || this.tabela.titulos.length === 0) {
-        this.tabela.titulos = this.ts.buscaTitulos(cps);
+        this.ts.buscaTitulos(cps);
       }
     }
-  }
+  }*/
 
   proceBusca(): void {
     if (this.busca.rows === undefined) {
       this.busca.rows = this.tabela.rows;
-    } else {
-      this.tabela.rows = this.busca.rows;
     }
     if (this.busca.first === undefined) {
       this.busca.first = this.tabela.first;
-    } else {
-      this.tabela.first = this.busca.first;
     }
     if (this.busca.sortOrder === undefined) {
       this.busca.sortOrder = this.tabela.sortOrder;
-    } else {
-      this.tabela.sortOrder = this.busca.sortOrder;
     }
     if (this.busca.sortField === undefined) {
       this.busca.sortField = this.tabela.sortField;
-    } else {
-      this.tabela.sortField = this.busca.sortField;
     }
     if (this.busca.todos === undefined && this.tabela.todos === undefined) {
       this.busca.todos = false;
@@ -385,8 +422,6 @@ export class ProceService {
     } else {
       if (this.busca.todos === undefined) {
         this.busca.sortField = this.tabela.sortField;
-      } else {
-        this.tabela.sortField = this.busca.sortField;
       }
     }
     this.tabela.ids = this.busca.ids;
@@ -397,9 +432,11 @@ export class ProceService {
           this.processos = dados.processos;
           this.tabela.total = dados.total;
           this.tabela.totalRecords = this.tabela.total.num;
+          this.tabela.first = this.busca.first;
         },
         error: err => console.error('ERRO-->', err),
         complete: () => {
+          this.stateSN = false;
           this.tabela.currentPage = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
           this.tabela.pageCount = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
         }

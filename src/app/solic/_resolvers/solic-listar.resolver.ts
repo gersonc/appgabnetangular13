@@ -25,7 +25,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
     private solicitacaoService: SolicService,
     private dd: DdService
   ) {
-    this.solicitacaoService.criaTabela();
+    // this.solicitacaoService.criaTabela();
   }
 
   populaDropdown() {

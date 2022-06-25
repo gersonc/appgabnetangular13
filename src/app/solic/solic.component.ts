@@ -21,6 +21,7 @@ export class SolicComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // this.ss.carregaTitulos();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;

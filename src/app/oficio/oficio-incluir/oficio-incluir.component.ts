@@ -120,7 +120,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   delta: any = null;
   display = false;
   dialog = false;
-  readonly = false;
   cpoEditor: CpoEditor[] | null = [];
   btEnviarInativo = false;
 
@@ -385,6 +384,10 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
+  isReadOnly(): boolean {
+    return (this.ofs.url !== '');
+  }
+
   focus1(event) {
     this.mostraModulos1 = 'inline-block';
     this.mostraModulos2 = 'none';
@@ -410,16 +413,12 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   voltarListar() {
-    if (this.ofs.url === 'processo' || this.ofs.url === 'solicitacao') {
+    if (this.ofs.url !== '') {
       this.ofs.processo_id = 0;
       this.ofs.solicitacao_id = 0;
-      if (this.ofs.url === 'solicitacao') {
-        this.ofs.url= '';
-        this.router.navigate(['../solicitacao/listar/busca']);
-      } else {
-        this.ofs.url = '';
-        this.router.navigate(['../processo/listar/busca']);
-      }
+      const url: string = this.ofs.url;
+      this.ofs.url = '';
+      this.router.navigate([url]);
     } else {
       if (!sessionStorage.getItem('oficio-busca')) {
         this.mi.mostraInternoMenu();

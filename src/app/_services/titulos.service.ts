@@ -1,43 +1,38 @@
 import { Injectable } from '@angular/core';
-import {TituloI, TitulosI} from "../_models/titulo-i";
+import {TituloI, Titulos, TitulosI} from "../_models/titulo-i";
 import {HttpClient} from "@angular/common/http";
 import {take} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
 
-
-
 export class TitulosService {
-
   resp: TitulosI[] = [] ;
-  titulos: TitulosI[] = [];
+  titulos = new Titulos();
+  campos: string[] = [];
   constructor(private httpClient: HttpClient) { }
 
   loadTitulos() {
-    this.httpClient.get<TitulosI[]>("assets/titulos.json").pipe(take(1)).subscribe(dados => this.titulos = dados);
+     return this.httpClient.get<any>("assets/titulos.json");
   }
 
-  titulosSN(): boolean {
-    if (this.titulos.length === 0) {
-      this.loadTitulos();
-      return false;
-    } else {
-      return true;
-    }
+  carregaTitulos(cps: string[]) {
+    this.loadTitulos().pipe(take(1)).subscribe((dados) => {
+      const t: TitulosI[] = Object.values(dados);
+      const tt = new Titulos(t);
+      this.titulos = new Titulos(tt.getLimpa(cps));
+    });
   }
 
-  buscaTitulos(cps: string[]): TitulosI[] {
-    let rs: TitulosI[] = [];
-    cps.forEach(c => {
-      if (this.titulos[c] !== undefined) {
-        rs.push(this.titulos[c]);
-      } else {
-        rs.push({field: c,mtitulo:'não definido',titulo:'não definido'});
+  buscaTitulos(cps: string[] = []): TitulosI[] {
+    if (this.titulos.length() === 0) {
+      if (cps.length > 0) {
+        this.carregaTitulos(cps);
       }
-
-    })
-    return rs;
+      return this.titulos.titulos;
+    } else {
+      return this.titulos.titulos;
+    }
   }
 
   buscaTitulosDetalhe(cps: string[]): TituloI[] {
@@ -50,5 +45,9 @@ export class TitulosService {
     return rs;
   }
 
+  OnDestroy() {
+    this.campos = [];
+    this.titulos.clear();
+  }
 
 }

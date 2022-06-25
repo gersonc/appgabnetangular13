@@ -1,4 +1,5 @@
-import {TituloI, ValorI} from "./titulo-i";
+import {TituloI} from "./titulo-i";
+import {ValorI} from "./valor-i";
 
 
 

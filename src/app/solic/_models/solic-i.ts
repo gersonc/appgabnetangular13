@@ -43,3 +43,6 @@ export interface SolicI {
   solicitacao_tipo_recebimento_id?: number;
   solicitacao_tipo_recebimento_nome?: string;
 }
+
+
+

@@ -103,7 +103,7 @@ const oficioRoutes: Routes = [
           dados: OficioIncluirResolver
         }
       },
-      {
+      /*{
         path: 'processo',
         component: OficioIncluirComponent,
         canActivate: [AuthChildGuard],
@@ -126,7 +126,7 @@ const oficioRoutes: Routes = [
         resolve: {
           dados: OficioIncluirResolver
         }
-      },
+      },*/
       {
         path: 'analisar/:id',
         component: OficioAnalisarComponent,
@@ -152,7 +152,31 @@ const oficioRoutes: Routes = [
         }
       }
     ]
-  }
+  },
+  {
+    path: 'processo',
+    component: OficioIncluirComponent,
+    canActivate: [AuthChildGuard],
+    data: {
+      rules: Rule.oficio,
+      scopes: Scope.oficio_incluir
+    },
+    resolve: {
+      dados: OficioIncluirResolver
+    }
+  },
+  {
+    path: 'solicitacao',
+    component: OficioIncluirComponent,
+    canActivate: [AuthChildGuard],
+    data: {
+      rules: Rule.oficio,
+      scopes: Scope.oficio_incluir
+    },
+    resolve: {
+      dados: OficioIncluirResolver
+    }
+  },
 ];
 
 @NgModule({

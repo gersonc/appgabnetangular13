@@ -143,7 +143,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
           this.mapeiaColunas();
         }
         this.ss.busca.todos = false;
-        // this.dtb.reset();
+        this.dtb.reset();
       }
     ));
 
@@ -154,6 +154,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   mostraMenu(): void {
     this.mi.mudaMenuInterno();
   }
+
+  /*mostraLoader(vf: boolean) {
+    this.loading = vf;
+  }*/
 
   mapeiaColunas() {
     let cp: string[] = [];
@@ -374,10 +378,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  colunaTexto(field: string) {
-
-  }
-
   mostraTexto(texto: any[]) {
     this.campoTitulo = null;
     this.campoTexto = null;
@@ -426,6 +426,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       this.ss.busca.sortOrder = event.sortOrder;
     }
     this.ss.solicitacaoBusca();
+  }
+
+  onStateSave(ev) {
+    // this.ss.setState()
   }
 
   mostraSelectColunas(): void {// this
@@ -493,7 +497,56 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.ss.recebeRegistro(h);
   }
 
+
+
   // FUNCOES DE BUSCA ==========================================================
+
+
+  /*postSolicitacaoBusca(): void {
+    this.sbs.busca['campos'] = this.sds.camposSelecionados;
+    // this.cs.mostraCarregador();
+    this.sub.push(this.solicitacaoService.postSolicitacaoBusca(this.sbs.busca)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          this.sds.solicitacoes = dados.solicitacao;
+          this.sds.total = dados.total;
+          this.sds.totalRecords = this.sds.total.num;
+        },
+        error: err => console.error('ERRO-->', err),
+        complete: () => {
+          this.sbs.busca.todos = this.sds.tmp;
+          this.sds.currentPage = (
+              parseInt(this.sbs.busca.first, 10) +
+              parseInt(this.sbs.busca.rows, 10)) /
+            parseInt(this.sbs.busca.rows, 10);
+          this.sds.numerodePaginas = Math.ceil(this.sds.totalRecords / this.sds.rows);
+          // this.cs.escondeCarregador();
+        }
+      })
+    );
+  }*/
+
+  /*  getState(): void {
+      this.sbs.criarBusca();
+      this.sbs.busca = JSON.parse(sessionStorage.getItem(this.ss.sessaoBusca));
+      if (this.sbs.buscaStateSN) {
+        this.sub.push(this.activatedRoute.data.subscribe(
+          (data: { dados: SolicPaginacaoInterface }) => {
+            this.ss.solicitacoes = data.dados.solicitacao;
+            this.sds.total = data.dados.total;
+            this.sds.totalRecords = this.sds.total.num;
+            this.sbs.busca.todos = this.sds.tmp;
+            this.sds.currentPage = (
+                parseInt(this.sbs.busca.first, 10) +
+                parseInt(this.sbs.busca.rows, 10)) /
+                parseInt(this.sbs.busca.rows, 10);
+            this.sds.numerodePaginas = Math.ceil(this.sds.totalRecords / this.sds.rows);
+            this.sbs.buscaStateSN = false;
+            sessionStorage.removeItem(this.ss.sessaoBusca);
+          }));
+      }
+    }*/
 
   // FUNCOES DE CRUD ===========================================================
 
@@ -501,7 +554,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.solicitacao_incluir) {
       this.sfs.acao = 'incluir';
       this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
-      this.ss.salvaState();
       this.dtb.saveState();
       this.router.navigate(['/solic/incluir']);
     } else {
@@ -522,8 +574,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   solicitacaoAlterar(sol: SolicListarI) {
     if (this.aut.solicitacao_alterar) {
-      this.ss.salvaState();
       this.dtb.saveState();
+      // this.ss.setState();
+      console.log('solicitacaoAlterar', sol);
       this.sfs.acao = 'alterar';
       this.sfs.solicListar = sol;
       this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
@@ -539,13 +592,45 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.solicitacao_apagar) {
       this.ss.solicitacaoApagar = sol;
       this.sfs.acao = 'alterar';
-      this.ss.salvaState();
       this.dtb.saveState();
       this.router.navigate(['/solic/apagar']);
     } else {
       console.log('SEM PERMISSAO');
     }
   }
+
+  /*solicitacaoApagar(sol: SolicListarI) {
+    let soldel: SolicitacaoExcluirInterface;
+    if (this.aut.solicitacao_apagar) {
+      // this.cs.mostraCarregador();
+      this.dtb.saveState();
+      if (this.solicitacaoService.expandidoDados) {
+        this.solicitacaoService.gravaColunaExpandida(this.ss.sessaoColunas, this.solicitacaoService.expandidoDados);
+      }
+      sessionStorage.setItem(this.ss.sessaoBusca, JSON.stringify(this.sbs.busca));
+      sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
+      this.sbs.buscaStateSN = true;
+      this.sub.push(this.solicitacaoService.getSolicitacaoExcluir(sol.solicitacao_id)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.solicitacaoService.solicitacaoExluirDados = dados;
+          },
+          error: (err) => {
+            // this.cs.escondeCarregador();
+            console.error('erro', err.toString ());
+          },
+          complete: () => {
+            // this.cs.escondeCarregador();
+            this.router.navigate(['/solicitacao/apagar']);
+          }
+        }));
+
+    } else {
+      console.log('SEM PERMISSAO');
+    }
+  }*/
+
 
   solicitacaoAnalisar(sol: SolicListarI) {
     if (this.aut.solicitacao_analisar) {
@@ -559,6 +644,77 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
+  /*solicitacaoAnalisar(sol: SolicListarI) {
+    if (sol.solicitacao_situacao !== 'EM ABERTO') {
+      this.messageService.add(
+        {
+          key: 'solicitacaoToast',
+          severity: 'warn',
+          summary: 'ANALIISE',
+          detail: sol.solicitacao_situacao.toString()}
+      );
+    }
+    if (this.aut.usuario_responsavel_sn
+      && this.aut.solicitacao_analisar
+      && sol.solicitacao_situacao === 'EM ABERTO') {
+      // this.cs.mostraCarregador();
+      this.dtb.saveState();
+      if (this.solicitacaoService.expandidoDados) {
+        this.solicitacaoService.gravaColunaExpandida(this.ss.sessaoColunas, this.solicitacaoService.expandidoDados);
+      }
+      sessionStorage.setItem(this.ss.sessaoBusca, JSON.stringify(this.sbs.busca));
+      sessionStorage.setItem('solicitacao-selectedColumns', JSON.stringify(this.selectedColumns));
+      this.sbs.buscaStateSN = true;
+      this.router.navigate(['/solicitacao/analisar', sol.solicitacao_id]);
+    }
+
+  }*/
+
+  /*historicoSolicitacao(sol: SolicListarI) {
+    this.histListI = {
+      modulo: 'solicitacao',
+      hist: sol.historico_solicitcao
+    }
+    // this.buscaIdx(sol.solicitacao_id);
+    this.solHistForm = sol;
+    this.showHistorico = true;
+    this.showHistorico2 = true;
+  }*/
+
+  /*historicoSolicitacaoIncluir(sol: SolicListarI) {
+    // this.buscaIdx(sol.solicitacao_id);
+    this.solHistForm = sol;
+    this.showHistoricoForm = true;
+  }
+
+  onHistoricoIncluido(novosDados: any) {
+    this.ss.solicitacoes[this.idx].historico_solicitcao.push(novosDados);
+    this.showHistoricoForm = false;
+    this.solHistForm = null;
+  }
+
+  escondeHistoricoForm(histListI: HistListI) {
+    this.ss.solicitacoes[this.ss.idx].historico_solicitcao = histListI.hist;
+    this.showHistoricoForm = false;
+    this.solHistForm = null;
+  }
+
+  dialogHistoricoListar(ev) {
+    this.showHistorico = ev;
+    this.showHistorico2= ev;
+  }
+
+  historicoNovoRegisto(HistFormI: HistFormI) {
+
+  }
+
+
+  escondeHistoricoListar(histListI: HistListI) {
+    this.ss.solicitacoes[this.buscaIdx(this.solHistForm.solicitacao_id)].historico_solicitcao = histListI.hist;
+    this.showHistorico= false;
+    // this.solHistForm = null;
+  }
+*/
 
   // FUNCOES RELATORIOS=========================================================
 
@@ -661,6 +817,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   exportToCsv(td: boolean = false) {
   }
+
+  /*exportToCsv(td: boolean = false) {
+
+  }*/
 
   /*exportToCsv(td: boolean = false) {
     this.tmp = this.sbs.busca.todos;
@@ -794,6 +954,24 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     return sl;
   }*/
 
+  /*constroiExtendida() {
+    const v = this.solicitacaoService.recuperaColunaExpandida(this.ss.sessaoExpandido);
+    if (v) {
+      this.sub.push(this.sds.dadosExpandidos = this.solicitacaoService.getColunaExtendida()
+        .pipe(take(1))
+        .subscribe(
+          dados => {
+            this.sds.expColunas = dados.pop();
+            this.sds.dadosExp = dados;
+          }
+        )
+      );
+      this.solicitacaoService.montaColunaExpandida(v);
+    }
+  }*/
+
+
+
   toWord() {
 
   }
@@ -829,6 +1007,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     const fileName = 'solicitação_' + this.campoTitulo.toLowerCase() + '.docx';
     saveAs(blob, fileName);
   }
+
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
