@@ -34,6 +34,7 @@
          (onStateSave)="ss.setState($event)"
          (onStateRestore)="ss.onStateRestore($event)"
          (onContextMenuSelect)="ss.onContextMenuSelect($event)"
+         (sortFunction)="ss.customSort($event)"
          [customSort]="true"
          [tableStyle]="{'font-size':'12px'}"
          stateStorage="session"
@@ -223,13 +224,13 @@
             </div>
             <div class="p-grid">
               <div *ngFor="let linhas of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div *ngIf="!linhas[2] || linhas[1].length < 30" class="registros p-shadow-1">
+                <div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   {{linhas[1]}}
                 </div>
-                <div *ngIf="linhas[2] && linhas[1].length > 30" class="registros p-shadow-1">
+                <div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
-                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 26)}}...</span>
+                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 36)}}...</span>
                 </div>
               </div>
             </div>
@@ -273,14 +274,17 @@
 <p-toast key="solicitacaoToast" position="center"></p-toast>
 
 <!--*** EDITOR *****************************************************************************************************-->
-<p-dialog
+<p-dialog *ngIf="showCampoTexto"
   [(visible)]="showCampoTexto"
   [dismissableMask]="true"
+  [modal]="true"
   styleClass="tablistagem"
   [header]="campoTitulo"
   (onHide)="escondeTexto()"
 >
-  <quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>
+  <app-quill-view [cpdelta]="deltaquill" [cphtml]="campoHtml"
+                  class="detalhe"></app-quill-view>
+  <!--<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>-->
 
   <p-footer *ngIf="deltaquill">
     <button

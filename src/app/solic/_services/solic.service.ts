@@ -34,6 +34,9 @@ export class SolicService {
   expandidoSN = false;
   solicitacaoApagar?: SolicListarI;
   solicitacaoAnalisar?: SolicListarI;
+  sortField = 'solicitacao_situacao';
+  sortOrder = 1;
+  lazy = false;
 
 
   constructor(
@@ -42,14 +45,8 @@ export class SolicService {
     private ts: TitulosService,
     private has: HistAuxService
   ) {
-    // this.criaTabela();
     this.solicitacaoUrl = this.url.solic;
-    // this.ts.titulosSN();
   }
-
-  /*carregaTitulos() {
-    this.ts.carregaTitulos();
-  }*/
 
   buscaMenu() {
     this.solicitacaoBusca();
@@ -61,7 +58,7 @@ export class SolicService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        this.tabela.sortField = 'solicitacao_situacao, solicitacao_cadastro_nome';
+        this.tabela.sortField = 'solicitacao_situacao';
         this.tabela.camposTexto = solicSolicitacaoCamposTexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -79,10 +76,11 @@ export class SolicService {
   criaBusca() {
     if (this.busca === undefined) {
       this.busca = {
-        todos: false,
+        todos: this.tabela.todos,
         rows: this.tabela.rows,
-        first: 0,
-        sortOrder: 1
+        sortField: this.tabela.sortField,
+        first: this.tabela.first,
+        sortOrder: this.tabela.sortOrder
       };
     }
   }
@@ -97,12 +95,12 @@ export class SolicService {
   }
 
   onRowExpand(evento) {
+    console.log('onRowExpand', evento.data);
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
-    // let a = 0;
     const b: any[] = [];
     let ev = evento.data;
     this.has.histFormI = {
@@ -112,20 +110,28 @@ export class SolicService {
       }
     };
     this.tabela.titulos.forEach(t => {
-        if (ev[t.field] !== undefined && ev[t.field] !== null) {
-          if (ev[t.field].length > 0) {
-            const m = this.tabela.camposTexto.indexOf(t.field);
-            const tit = t.titulo;
-            let vf = false;
-            let txtdelta: string = null;
-            let txt: string = null;
-            let tst = '';
-            tst = ev[t.field];
-            b.push([tit, tst, vf, txt, txtdelta]);
-            // a++;
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].length > 0) {
+          let dlt: string = null;
+          let txt: string = null;
+          let htm = '';
+          let vf = (ev[t.field].length > 40);
+          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
+          if (m > -1) {
+            const d = t.field + '_delta';
+            const tx = t.field + '_texto';
+            dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
+            txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
+            if (txt !== null && txt.length <= 40) {
+              htm = txt;
+            }
           }
+          const tit = t.titulo;
+          htm = ev[t.field];
+          b.push([tit, htm, vf, txt, dlt]);
         }
-      });
+      }
+    });
 
 
     this.tabela.dadosExpandidos = b;
@@ -164,8 +170,6 @@ export class SolicService {
       }
     }
     this.stateSN = false;
-    const t: any = JSON.parse(sessionStorage.getItem('solic-tabela'));
-    const b: any = JSON.parse(sessionStorage.getItem('solic-busca'));
   }
 
   salvaState() {
@@ -206,7 +210,6 @@ export class SolicService {
   }
 
   parseSession(js: any) {
-    console.log('parseSession->', js);
     Object.keys(js).forEach((k) => {
       switch (k) {
         case 'first': {
@@ -273,45 +276,70 @@ export class SolicService {
     this.ts.buscaTitulos(cps);
   }
 
+  customSort(ev) {
+  }
+
   solicitacaoBusca(): void {
-    if (this.busca.rows === undefined) {
-      this.busca.rows = this.tabela.rows;
-    }
-    if (this.busca.first === undefined) {
-      this.busca.first = this.tabela.first;
-    }
-    if (this.busca.sortOrder === undefined) {
-      this.busca.sortOrder = this.tabela.sortOrder;
-    }
-    if (this.busca.sortField === undefined) {
-      this.busca.sortField = this.tabela.sortField;
-    }
-    if (this.busca.todos === undefined && this.tabela.todos === undefined) {
-      this.busca.todos = false;
-      this.tabela.todos = false;
-    } else {
-      if (this.busca.todos === undefined) {
-        this.busca.sortField = this.tabela.sortField;
-      }
-    }
-    this.tabela.ids = this.busca.ids;
-    this.sub.push(this.postSolicitacaoBusca(this.busca)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.solicitacoes = dados.solicitacao;
-          this.tabela.total = dados.total;
-          this.tabela.totalRecords = this.tabela.total.num;
-          this.tabela.first = this.busca.first;
-        },
-        error: err => console.error('ERRO-->', err),
-        complete: () => {
-          this.stateSN = false;
-          this.tabela.currentPage = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
-          this.tabela.pageCount = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
+    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids) {
+      if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
+        this.lazy = false;
+        let tmp = this.solicitacoes;
+        if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
+          this.busca.sortOrder = +this.tabela.sortOrder;
+          if (+this.tabela.sortOrder === 1) {
+            tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
+            this.solicitacoes = tmp;
+          } else {
+            tmp.sort((first, second) => (second[this.tabela.sortField] > first[this.tabela.sortField]) ? 1 : ((first[this.tabela.sortField] > second[this.tabela.sortField]) ? -1 : 0));
+            this.solicitacoes = tmp;
+          }
+        } else {
+          if (this.busca.sortField !== this.tabela.sortField) {
+            this.busca.sortField = this.tabela.sortField;
+            this.busca.sortOrder = 1;
+            tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
+            this.solicitacoes = tmp;
+            this.tabela.sortOrder = 1;
+          }
         }
-      })
-    );
+      }
+    } else {
+      this.busca.rows = this.tabela.rows;
+      this.busca.first = this.tabela.first;
+      this.busca.sortOrder = this.tabela.sortOrder;
+      this.busca.sortField = this.tabela.sortField;
+      this.busca.rows = this.tabela.rows;
+      if (this.busca.todos === undefined && this.tabela.todos === undefined) {
+        this.busca.todos = false;
+        this.tabela.todos = false;
+      }
+      this.busca.ids = this.tabela.ids;
+      this.sub.push(this.postSolicitacaoBusca(this.busca)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.solicitacoes = dados.solicitacao;
+            this.tabela.total = dados.total;
+          },
+          error: err => console.error('ERRO-->', err),
+          complete: () => {
+            this.lazy = false;
+            if (+this.tabela.totalRecords !== +this.tabela.total.num) {
+              this.tabela.totalRecords = +this.tabela.total.num;
+            }
+            const n = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
+            if (+this.tabela.currentPage !== n) {
+              this.tabela.currentPage = n;
+            }
+            const m = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
+            if (+this.tabela.pageCount !== m) {
+              this.tabela.pageCount = m
+            }
+            this.stateSN = false;
+          }
+        })
+      );
+    }
   }
 
   postSolicitacaoBusca(busca: SolicBuscaI) {

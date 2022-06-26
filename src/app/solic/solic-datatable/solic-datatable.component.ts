@@ -33,6 +33,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   authIncluir = false;
   solicitacaoVersao: number;
   campoTexto: string = null;
+  campoHtml: string = null;
   campoTitulo: string = null;
   showCampoTexto = false;
   deltaquill: any = null;
@@ -67,6 +68,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   permInclHistSol: boolean = false;
   permListHist: boolean = false;
   permInclHist: boolean = false;
+
+  htm: string | null = null;
+  txt: string | null = null;
+  dlt: any = null;
 
   constructor(
     public mi: MenuInternoService,
@@ -143,7 +148,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
           this.mapeiaColunas();
         }
         this.ss.busca.todos = false;
-        // this.dtb.reset();
       }
     ));
 
@@ -340,17 +344,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    /*if (this.aut.solicitacao_incluir) {
-      this.authIncluir = true;
-      this.contextoMenu.push(
-        {
-          label: 'INCLUIR', icon: 'pi pi-plus', style: {'font-size': '1em'},
-          command: () => {
-            this.solicitacaoIncluir();
-          }
-        });
-    }*/
-
     if (this.aut.solicitacao_alterar) {
       this.authAlterar = true;
       this.contextoMenu.push(
@@ -379,22 +372,12 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraTexto(texto: any[]) {
-    this.campoTitulo = null;
-    this.campoTexto = null;
-    this.deltaquill = null;
     this.campoTitulo = texto[0];
+    this.campoTexto = texto[3];
+    this.deltaquill = (texto[3] !== null) ? JSON.parse(texto[3]) : null;
+    this.campoTitulo = texto[0];
+    this.campoHtml = texto[1]
     this.showCampoTexto = true;
-    if (texto[4]) {
-      if (this.edtor.getQuill()) {
-        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
-      }
-      this.deltaquill = JSON.parse(texto[4]);
-      setTimeout(() => {
-        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
-      }, 300);
-    } else {
-      this.campoTexto = texto[1];
-    }
   }
 
   escondeTexto() {
@@ -402,6 +385,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.deltaquill = null;
     this.campoTitulo = null;
     this.showCampoTexto = false;
+    this.campoHtml = null;
   }
 
   // EVENTOS ===================================================================
@@ -411,20 +395,19 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
-    if (event.sortField) {
-      if (this.ss.busca.sortField !== event.sortField?.toString()) {
-        this.ss.busca.sortField = event.sortField?.toString();
-      }
+    if (this.ss.tabela.sortField !== event.sortField) {
+      this.ss.tabela.sortField = event.sortField;
     }
-    if (this.ss.busca.first !== event.first) {
-      this.ss.busca.first = event.first;
+    if (this.ss.tabela.first !== +event.first) {
+      this.ss.tabela.first = +event.first;
     }
-    if (event.rows !== undefined && this.ss.busca.rows !== event.rows) {
-      this.ss.busca.rows = event.rows;
+    if (event.rows !== undefined && this.ss.tabela.rows !== +event.rows) {
+      this.ss.tabela.rows = +event.rows;
     }
-    if (this.ss.busca.sortOrder !== event.sortOrder) {
-      this.ss.busca.sortOrder = event.sortOrder;
+    if (this.ss.tabela.sortOrder !== +event.sortOrder) {
+      this.ss.tabela.sortOrder = +event.sortOrder;
     }
+    this.ss.lazy = true;
     this.ss.solicitacaoBusca();
   }
 
@@ -460,8 +443,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         }
       }
     }
-    // this.idx = idx;
-    // this.registro_id = registro_id;
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
@@ -479,7 +460,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       this.ss.montaHistorico('solicitacao', idx);
     }
     this.idx = idx;
-
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);

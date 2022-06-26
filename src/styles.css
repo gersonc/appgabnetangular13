@@ -12824,7 +12824,7 @@ div.formulario-quill {
   color: var(--text-color);
   padding: .5rem;
   border-radius: .5rem;
-  overflow: auto;
+  overflow: hidden;
 }
 span.mostratexto {
   cursor: zoom-in;
