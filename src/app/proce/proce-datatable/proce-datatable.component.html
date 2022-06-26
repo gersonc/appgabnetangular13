@@ -121,7 +121,7 @@
         </ng-container>
         <ng-container *ngIf="col.field=='solicitacao_aceita_recusada'">
           <app-quill-view [cpdelta]="pro.solicitacao_aceita_recusada_delta" [cphtml]="pro.solicitacao_aceita_recusada" class="detalhe"></app-quill-view>
-          <quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>
+          <!--<quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>-->
           <!--<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>-->
         </ng-container>
         <ng-container *ngIf="col.field=='oficio_descricao_acao'">
@@ -252,9 +252,13 @@
 
             <div class="p-grid">
               <div *ngFor="let linhas of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1" style="overflow-x: hidden;">
+                <div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   {{linhas[1]}}
+                </div>
+                <div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
+                  <h5>{{linhas[0]}}</h5>
+                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 36)}}...</span>
                 </div>
               </div>
             </div>
@@ -324,17 +328,18 @@
 <p-toast key="processoToast" position="center"></p-toast>
 
 <!--*** EDITOR *****************************************************************************************************-->
-<p-dialog
-  [(visible)]="showCampoTexto"
-  [dismissableMask]="true"
-  styleClass="tablistagem"
-  [header]="campoTitulo"
-  [modal]="true"
-  (onHide)="escondeTexto()"
+<p-dialog *ngIf="showCampoTexto"
+          [(visible)]="showCampoTexto"
+          [dismissableMask]="true"
+          [modal]="true"
+          styleClass="tablistagem"
+          [header]="campoTitulo"
+          (onHide)="escondeTexto()"
 >
-  <div *ngIf="campoTexto" style="margin-top: .25em">
-    <quill-view-html id="edtor" #edtor [content]="campoTexto" class="detalhe"></quill-view-html>
-  </div>
+  <app-quill-view [cpdelta]="deltaquill" [cphtml]="campoHtml"
+                  class="detalhe"></app-quill-view>
+  <!--<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>-->
+
   <p-footer *ngIf="deltaquill">
     <button
       pButton

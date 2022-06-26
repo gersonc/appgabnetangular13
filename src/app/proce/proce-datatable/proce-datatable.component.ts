@@ -78,6 +78,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   campoTexto: string = null;
   campoTitulo: string = null;
   showCampoTexto = false;
+  campoHtml: string = null;
   deltaquill: any = null;
   showDetalhe = false;
   solDetalhe?: ProceListarI;
@@ -107,6 +108,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   tituloHistoricoDialog = 'ANDAMENTOS';
   histAcao: string = '';
   colsDefaut2: any[] = [];
+  lazy = false;
 
 
   constructor(
@@ -391,20 +393,19 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
-    if (event.sortField) {
-      if (this.ps.busca.sortField !== event.sortField?.toString()) {
-        this.ps.busca.sortField = event.sortField?.toString();
-      }
+    if (this.ps.tabela.sortField !== event.sortField) {
+      this.ps.tabela.sortField = event.sortField;
     }
-    if (this.ps.busca.first !== event.first) {
-      this.ps.busca.first = event.first;
+    if (this.ps.tabela.first !== +event.first) {
+      this.ps.tabela.first = +event.first;
     }
-    if (event.rows !== undefined && this.ps.busca.rows !== event.rows) {
-      this.ps.busca.rows = event.rows;
+    if (event.rows !== undefined && this.ps.tabela.rows !== +event.rows) {
+      this.ps.tabela.rows = +event.rows;
     }
-    if (this.ps.busca.sortOrder !== event.sortOrder) {
-      this.ps.busca.sortOrder = event.sortOrder;
+    if (this.ps.tabela.sortOrder !== +event.sortOrder) {
+      this.ps.tabela.sortOrder = +event.sortOrder;
     }
+    this.ps.lazy = true;
     this.ps.proceBusca();
   }
 
@@ -806,22 +807,12 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraTexto(texto: any[]) {
-    this.campoTitulo = null;
-    this.campoTexto = null;
-    this.deltaquill = null;
     this.campoTitulo = texto[0];
+    this.campoTexto = texto[3];
+    this.deltaquill = (texto[3] !== null) ? JSON.parse(texto[3]) : null;
+    this.campoTitulo = texto[0];
+    this.campoHtml = texto[1]
     this.showCampoTexto = true;
-    if (texto[4]) {
-      if (this.edtor.getQuill()) {
-        this.edtor.getQuill().deleteText(0, this.edtor.getQuill().getLength());
-      }
-      this.deltaquill = JSON.parse(texto[4]);
-      setTimeout(() => {
-        this.edtor.getQuill().updateContents(this.deltaquill, 'api');
-      }, 300);
-    } else {
-      this.campoTexto = texto[1];
-    }
   }
 
   escondeTexto() {
@@ -829,6 +820,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.deltaquill = null;
     this.campoTitulo = null;
     this.showCampoTexto = false;
+    this.campoHtml = null;
   }
 
   escondeDetalhe() {

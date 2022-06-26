@@ -260,21 +260,6 @@
                       pInputText
                     />
                   </div>
-
-                  <!--&lt;!&ndash;*** Tipo de analise ***&ndash;&gt;
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="sfs.acao==='incluir'">
-                    <label for="solicitacao_tipo_analize"><span class="atencao">*</span> {{tpAnalizeTitulo}}</label>
-                    <p-dropdown
-                      id="solicitacao_tipo_analize"
-                      formControlName="solicitacao_tipo_analize"
-                      placeholder="Selecione"
-                      [options]="ddSolicitacao_tipo_analize"
-                      [required]="true"
-                      [ngClass]="aplicaCssErro('solicitacao_tipo_analize')"
-                    ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('solicitacao_tipo_analize')" msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
-                  </div>-->
-
                 </div>
               </div>
               <!--*** FIM COLUNA 1 ***-->
@@ -307,16 +292,6 @@
                             </div>
                           </div>
                         </div>
-                        <!--<div class="formulario-quill">
-                          <p-editor
-                            #soldesc
-                            formControlName="solicitacao_descricao"
-                            id="solicitacao_descricao"
-                            [modules]="modulos"
-                          >
-                            <ng-template pTemplate="header"></ng-template>
-                          </p-editor>
-                        </div>-->
                       </p-accordionTab>
                       <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
                         <div class="p-d-flex p-jc-center">
@@ -337,17 +312,6 @@
                             </div>
                           </div>
                         </div>
-                        <!--<div class="formulario-quill">
-                          <p-editor
-                            #solacerecus
-                            formControlName="solicitacao_aceita_recusada"
-                            id="solicitacao_aceita_recusada"
-                            [modules]="modulos"
-                          >
-                            <ng-template pTemplate="header"></ng-template>
-                          </p-editor>
-
-                        </div>-->
                       </p-accordionTab>
 
                       <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Resposta / Carta">
@@ -369,16 +333,6 @@
                             </div>
                           </div>
                         </div>
-                        <!--<div class="formulario-quill">
-                          <p-editor
-                            #solcar
-                            formControlName="solicitacao_carta"
-                            id="solicitacao_carta"
-                            [modules]="modulos"
-                          >
-                            <ng-template pTemplate="header"></ng-template>
-                          </p-editor>
-                        </div>-->
                       </p-accordionTab>
 
                       <p-accordionTab header="Histórico / Andamento">
@@ -400,16 +354,6 @@
                             </div>
                           </div>
                         </div>
-                        <!--<div class="formulario-quill">
-                          <p-editor
-                            #histand
-                            formControlName="historico_andamento"
-                            id="historico_andamento"
-                            [modules]="modulos"
-                          >
-                            <ng-template pTemplate="header"></ng-template>
-                          </p-editor>
-                        </div>-->
                       </p-accordionTab>
 
                     </p-accordion>
@@ -449,7 +393,6 @@
                 <div class="p-fluid p-formgrid p-grid formulario">
 
                   <!--*** Tipo de analise ***-->
-                  <!--<div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" *ngIf="sfs.acao==='incluir'">-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
                     <div class="p-fluid p-formgrid p-grid">
                       <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">

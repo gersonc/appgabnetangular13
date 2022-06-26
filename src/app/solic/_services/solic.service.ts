@@ -95,7 +95,6 @@ export class SolicService {
   }
 
   onRowExpand(evento) {
-    console.log('onRowExpand', evento.data);
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }

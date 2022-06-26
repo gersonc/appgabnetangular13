@@ -134,7 +134,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private oficioService: OficioService,
-    // private cs: CarregadorService
   ) {  }
 
 
@@ -142,40 +141,10 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
     this.ofs.criaOficio();
     this.carregaDropdownSessionStorage();
-
-    /*this.modulos = {
-      toolbar: this.toolbarEditor
-    };*/
-
-    /*this.sub.push(this.activatedRoute.paramMap
-      .pipe(take(1))
-      .subscribe( (params: ParamMap) => {
-        console.log('activatedRoute.paramMap',params);
-        })
-      /!*(data: {dados: OficioIncluirFormInterface}) => {
-        // this.solicitacao = data.dados.solicitacao;
-        this.oficio_codigo = data.dados.oficio_codigo;
-        this.processo_id = data.dados.oficio_processo_id;
-        this.processo_numero = data.dados.processo_numero;
-        this.solicitacao_cadastro_nome = data.dados.solicitacao_cadastro_nome;
-        this.solicitacao_assunto_nome = data.dados.solicitacao_assunto_nome;
-        this.solicitacao_data = data.dados.solicitacao_data;
-        this.solicitacao_area_interesse_nome = data.dados.solicitacao_area_interesse_nome;
-        this.solicitacao_descricao = data.dados.solicitacao_descricao;
-        this.solicitacao_descricao_texto = data.dados.solicitacao_descricao_texto;
-        this.solicitacao_descricao_delta = data.dados.solicitacao_descricao;
-        this.cadastro_municipio_nome = data.dados.cadastro_municipio_nome;
-        this.processoLabelLenght = data.dados.processoLabelLenght;
-        this.ddOficio_processo_id = data.dados.ddOficio_processo_id;
-      }*!/);*/
-
     if (this.url === 'processo') {
       this.location.go('../solicitacao/listar/busca');
     }
-    // this.configuraCalendario();
     this.criaForm();
-
-    // this.cs.escondeCarregador();
   }
 
   ngAfterViewInit() {
@@ -192,9 +161,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
       ddrecebimento_id: JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'))
     };
     this.montaDdProcessoId(JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd')));
-    /*this.ddPrioridade_id = JSON.parse(sessionStorage.getItem('dropdown-prioridade'));
-    this.ddAndamento_id = JSON.parse(sessionStorage.getItem('dropdown-andamento'));
-    this.ddrecebimento_id = JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'));*/
   }
 
   montaDdProcessoId(d: DdOficioProcessoId[]) {
@@ -251,20 +217,6 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
   }
 
-  /*configuraCalendario() {
-    this.ptBr = {
-      firstDayOfWeek: 1,
-      dayNames: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
-      dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
-      dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-      monthNames: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'septembro',
-        'outubro', 'novembro', 'dezembro'],
-      monthNamesShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
-      today: 'Hoje',
-      clear: 'Limpar',
-      dateFormat: 'dd/mm/yy'
-    };
-  }*/
 
   mudaProcesso(ev) {
     this.dialog = false;
@@ -388,7 +340,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     return (this.ofs.url !== '');
   }
 
-  focus1(event) {
+/*  focus1(event) {
     this.mostraModulos1 = 'inline-block';
     this.mostraModulos2 = 'none';
   }
@@ -396,7 +348,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   focus2(event) {
     this.mostraModulos1 = 'none';
     this.mostraModulos2 = 'inline-block';
-  }
+  }*/
 
   onSubmit() {}
 
@@ -447,8 +399,8 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
   aplicaCssErro(campo: string) {
     return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
+      'ng-invalid': this.verificaValidTouched(campo),
+      'ng-dirty': this.verificaValidTouched(campo)
     };
   }
 
@@ -462,8 +414,8 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
   aplicaCssErroAsync(campo: string, situacao: boolean) {
     return {
-      'has-error': this.validaAsync(campo, situacao),
-      'has-feedback': this.validaAsync(campo, situacao)
+      'ng-invalid': this.validaAsync(campo, situacao),
+      'ng-dirty': this.validaAsync(campo, situacao)
     };
   }
 
