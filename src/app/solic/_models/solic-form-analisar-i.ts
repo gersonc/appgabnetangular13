@@ -13,8 +13,11 @@ export interface SolicFormAnalisarI {
   historico_andamento_delta?: string;
   historico_andamento_texto?: string;
   solicitacao_numero_oficio?: string;
+  solicitacao_status_id?: number;
   processo_numero?: string;
   solicitacao_tipo_analize?: number;
+  processo_id?: number;
+  processo_status_id?: number;
 }
 
 export class SolicFormAnalisar implements SolicFormAnalisarI {
@@ -31,5 +34,8 @@ export class SolicFormAnalisar implements SolicFormAnalisarI {
   historico_andamento_delta?: string;
   historico_andamento_texto?: string;
   solicitacao_numero_oficio?: string;
+  solicitacao_status_id?: number;
   processo_numero?: string;
+  processo_id?: number;
+  processo_status_id?: number;
 }

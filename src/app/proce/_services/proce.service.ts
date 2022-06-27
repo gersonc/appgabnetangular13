@@ -119,12 +119,13 @@ export class ProceService {
             const tx = t.field + '_texto';
             dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
             txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
-            if (txt !== null && txt.length <= 40) {
-              htm = txt;
-            }
           }
           const tit = t.titulo;
-          htm = ev[t.field];
+          if (txt !== null && dlt !== null) {
+            htm = txt;
+          } else {
+            htm = ev[t.field];
+          }
           b.push([tit, htm, vf, txt, dlt]);
         }
       }
@@ -135,42 +136,6 @@ export class ProceService {
     this.expandidoSN = true;
   }
 
-
-  /*onRowExpand(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
-    }
-    this.tabela.dadosExpandidosRaw = evento;
-    this.expandido = evento.data;
-    // let a = 0;
-    const b: any[] = [];
-    let ev = evento.data;
-    this.has.histFormI = {
-      hist: {
-        historico_processo_id: +evento.data.processo_id,
-        historico_solicitacao_id: +evento.data.solicitacao_id
-      }
-    };
-    this.tabela.titulos.forEach(t => {
-      if (ev[t.field] !== undefined && ev[t.field] !== null) {
-        if (ev[t.field].length > 0) {
-          const m = this.tabela.camposTexto.indexOf(t.field);
-          const tit = t.titulo;
-          let vf = false;
-          let txtdelta: string = null;
-          let txt: string = null;
-          let tst = '';
-          tst = ev[t.field];
-          b.push([tit, tst, vf, txt, txtdelta]);
-          // a++;
-        }
-      }
-    });
-
-
-    this.tabela.dadosExpandidos = b;
-    this.expandidoSN = true;
-  }*/
 
   onRowCollapse(ev) {
     delete this.has.histFormI;
@@ -196,9 +161,9 @@ export class ProceService {
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
-      if (sessionStorage.getItem('proce-tabela')) {
+      /*if (sessionStorage.getItem('proce-tabela')) {
         this.parseTabela(JSON.parse(sessionStorage.getItem('proce-tabela')));
-      }
+      }*/
       if (sessionStorage.getItem('proce-busca')) {
         this.parseBusca(JSON.parse(sessionStorage.getItem('proce-busca')));
       }
@@ -208,7 +173,7 @@ export class ProceService {
 
   salvaState() {
     this.stateSN = true;
-    sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
+    // sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
     sessionStorage.setItem('proce-tabela', JSON.stringify(this.tabela));
   }
 

@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     public authenticationService: AuthenticationService,
-    // private cs: CarregadorService,
     public ws: WindowsService,
     public http: HttpClient,
     private urls: UrlService
@@ -50,13 +49,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authenticationService.mostraMenuEmiter(this.mostra);
   }
 
-  mostraCarregador() {
-    // this.cs.mostraEscondeCarregador(true);
-  }
-
-  escondeCarregador() {
-    // this.cs.mostraEscondeCarregador(false);
-  }
 
   ping() {
     this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe(

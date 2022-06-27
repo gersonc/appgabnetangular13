@@ -46,7 +46,7 @@ interface jsPDFCustom {
 export class SolicDetalheComponent implements OnInit {
   @ViewChild('dtlh', { static: true }) dtlh:TemplateRef<any>;
   @ViewChild('detsolicitacao', { static: false }) el!: ElementRef;
-  @Input() solicitacao: SolicListarI;
+  @Input() sol: SolicListarI;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
   private campos: string[] = [];
@@ -55,7 +55,7 @@ export class SolicDetalheComponent implements OnInit {
   public textoEditor = false;
   impressao = false;
   detalhe:  SolicDetalheI;
-  sol: SolicListarI;
+  // sol: SolicListarI;
 
   z = 0;
   w = 0;
@@ -77,12 +77,13 @@ export class SolicDetalheComponent implements OnInit {
 
   /*ngAfterViewInit() {
     console.log('ngAfterViewInit');
-  }
+  }*/
 
-  ngOnChanges(changes: SimpleChanges): void {
+  /*ngOnChanges(changes: SimpleChanges): void {
     if (changes.solicitacao) {
-      this.sol = changes.solicitacao.currentValue;
-      this.vref.createEmbeddedView(this.dtlh);
+      console.log(this.solicitacao);
+      // this.sol = changes.solicitacao.currentValue;
+      // this.vref.createEmbeddedView(this.dtlh);
     }
   }*/
 
@@ -90,9 +91,7 @@ export class SolicDetalheComponent implements OnInit {
     for (let i = 0; i < 250; i++) {
       this.teste.push(i);
     }
-    this.sol = this.ss.detalhe;
-    console.log('soldet', this.sol);
-    console.log('ngOnInit');
+    // this.sol = this.ss.detalhe;
     // this.arquivoOficio = this.getArquivos();
   }
 

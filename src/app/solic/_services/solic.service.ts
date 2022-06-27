@@ -23,7 +23,7 @@ export class SolicService {
   idx?: number;
   solicitacaoUrl = this.url.solic;
   sub: Subscription[] = [];
-  detalhe?: SolicListarI;
+  detalhe: SolicListarI | null = null;
   solicitacoes: SolicListarI[] = [];
   selecionados: SolicListarI[] = [];
   Contexto: SolicListarI;
@@ -121,12 +121,13 @@ export class SolicService {
             const tx = t.field + '_texto';
             dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
             txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
-            if (txt !== null && txt.length <= 40) {
-              htm = txt;
-            }
           }
           const tit = t.titulo;
-          htm = ev[t.field];
+          if (txt !== null && dlt !== null) {
+            htm = txt;
+          } else {
+            htm = ev[t.field];
+          }
           b.push([tit, htm, vf, txt, dlt]);
         }
       }
@@ -161,9 +162,9 @@ export class SolicService {
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
-      if (sessionStorage.getItem('solic-tabela')) {
+      /*if (sessionStorage.getItem('solic-tabela')) {
         this.parseTabela(JSON.parse(sessionStorage.getItem('solic-tabela')));
-      }
+      }*/
       if (sessionStorage.getItem('solic-busca')) {
         this.parseBusca(JSON.parse(sessionStorage.getItem('solic-busca')));
       }
@@ -174,7 +175,7 @@ export class SolicService {
   salvaState() {
     this.stateSN = true;
     sessionStorage.setItem('solic-busca', JSON.stringify(this.busca));
-    sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
+    // sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
   }
 
   setState(ev) {
@@ -248,6 +249,11 @@ export class SolicService {
 
   parseBusca(b: SolicBuscaI) {
     sessionStorage.removeItem('solic-busca');
+    this.busca.todos = (b.todos !== undefined) ? b.todos : undefined;
+    this.busca.rows = (b.rows !== undefined) ? +b.rows : undefined;
+    this.busca.sortField = (b.sortField !== undefined) ? b.sortField : undefined;
+    this.busca.first = (b.first !== undefined) ? +b.first : undefined;
+    this.busca.sortOrder = (b.sortOrder !== undefined) ? +b.sortOrder : undefined;
     this.busca.solicitacao_situacao = (b.solicitacao_situacao !== undefined) ? b.solicitacao_situacao : undefined;
     this.busca.solicitacao_cadastro_tipo_id = (b.solicitacao_cadastro_tipo_id !== undefined) ? +b.solicitacao_cadastro_tipo_id : undefined;
     this.busca.solicitacao_cadastro_id = (b.solicitacao_cadastro_id !== undefined) ? +b.solicitacao_cadastro_id : undefined;

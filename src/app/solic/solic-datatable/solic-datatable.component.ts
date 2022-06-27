@@ -374,17 +374,17 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   mostraTexto(texto: any[]) {
     this.campoTitulo = texto[0];
     this.campoTexto = texto[3];
-    this.deltaquill = (texto[3] !== null) ? JSON.parse(texto[3]) : null;
+    this.deltaquill = (texto[4]);
     this.campoTitulo = texto[0];
     this.campoHtml = texto[1]
     this.showCampoTexto = true;
   }
 
   escondeTexto() {
+    this.showCampoTexto = false;
     this.campoTexto = null;
     this.deltaquill = null;
     this.campoTitulo = null;
-    this.showCampoTexto = false;
     this.campoHtml = null;
   }
 
@@ -490,7 +490,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoDetalheCompleto(sol: SolicListarI) {
-    this.ss.detalhe = sol;
+    // this.ss.detalhe = sol;
     this.showDetalhe = true;
     this.solDetalhe = sol;
   }
@@ -498,6 +498,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   escondeDetalhe() {
     this.showDetalhe = false;
     this.solDetalhe = null;
+    // this.ss.detalhe = null;
   }
 
   solicitacaoAlterar(sol: SolicListarI) {
@@ -529,6 +530,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   solicitacaoAnalisar(sol: SolicListarI) {
     if (this.aut.solicitacao_analisar) {
+      this.ss.salvaState();
       this.dtb.saveState();
       this.sfs.acao = 'analisar';
       this.sfs.parseListagemAnalisarForm(sol);

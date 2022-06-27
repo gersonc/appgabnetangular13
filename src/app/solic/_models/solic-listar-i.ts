@@ -85,7 +85,7 @@ export interface SolicListarI {
   cadastro_arquivos?: ArquivoListagem[];
   oficio?: SolicOficioI[];
   processo_id?: number;
-  processo_status_nome_id?: number;
+  processo_status_id?: number;
   processo_status_nome?: string;
   processo_numero?: string;
   processo_numero2?: string;

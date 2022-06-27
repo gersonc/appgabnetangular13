@@ -118,13 +118,11 @@ export class SolicFormResolver implements Resolve<boolean | never> {
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
-            console.log('resolver3');
             this.onDestroy();
             return of(dados);
         })
       );
     } else {
-      console.log('resolver4');
       this.onDestroy();
       return of(false);
     }

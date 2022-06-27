@@ -815,7 +815,7 @@
 
               <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                 <p-accordion>
-                  <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
+                  <p-accordionTab header="Observações">
                     <div class="p-d-flex p-jc-center">
                       <div class="formulario-quill">
                         <div class="qeditor">
@@ -1035,7 +1035,7 @@
                         pButton
                         type="submit"
                         class="p-button-rounded"
-                        [disabled]="!formSol.valid && !formAtivo"
+                        [disabled]="(!formSol.valid && !formAtivo) || sfs.btnEnviar"
                         label="Enviar"
                       ></button>
                     </div>

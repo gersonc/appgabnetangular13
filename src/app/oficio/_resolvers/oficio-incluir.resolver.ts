@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
-import { take, mergeMap } from 'rxjs/operators';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import {CarregadorService, DropdownService} from '../../_services';
-import { OficioIncluirForm, OficioIncluirFormInterface } from '../_models';
-import { OficioService } from '../_services';
-import { DropdownnomeidClass } from '../../_models';
+import {Injectable} from '@angular/core';
+import {Observable, of, Subject, Subscription} from 'rxjs';
+import {mergeMap, take} from 'rxjs/operators';
+import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
+import {OficioIncluirForm} from '../_models';
+import {OficioFormService, OficioService} from '../_services';
+import {DropdownnomeidClass} from '../../_models';
 import {DdService} from "../../_services/dd.service";
 import {DdOficioProcessoId} from "../_models/oficio-i";
 
@@ -35,7 +34,9 @@ export class OficioIncluirResolver implements Resolve<boolean | never> {
     private oficioService: OficioService,
     // private dd: DropdownService,
     private dd: DdService,
-  ) {}
+    private ofs: OficioFormService
+  ) {
+  }
 
   espera(v: boolean) {
     this.resp.next(v);
@@ -109,8 +110,8 @@ export class OficioIncluirResolver implements Resolve<boolean | never> {
   }
 
 
-
   carregaDropDown(): boolean {
+
     this.dds = [];
     this.resp = new Subject<boolean>();
     this.resp$ = this.resp.asObservable();
@@ -127,7 +128,6 @@ export class OficioIncluirResolver implements Resolve<boolean | never> {
     // 'dropdown-oficio_processo_dd'
 
 
-
     if (!sessionStorage.getItem('dropdown-prioridade')) {
       this.dds.push('dropdown-prioridade');
     }
@@ -136,16 +136,20 @@ export class OficioIncluirResolver implements Resolve<boolean | never> {
       this.dds.push('dropdown-andamento');
     }
 
-      // ****** solicitacao_tipo_recebimento_id *****
-      if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
-        this.dds.push('dropdown-tipo_recebimento');
-      }
+    // ****** solicitacao_tipo_recebimento_id *****
+    if (!sessionStorage.getItem('dropdown-tipo_recebimento')) {
+      this.dds.push('dropdown-tipo_recebimento');
+    }
 
-      // ****** solicitacao_local_id *****
+    // ****** solicitacao_local_id *****
+    if (this.ofs.processo_id > 0) {
+      sessionStorage.removeItem('dropdown-oficio_processo_dd');
+      this.dds.push('dropdown-oficio_processo_dd');
+    } else {
       if (!sessionStorage.getItem('dropdown-oficio_processo_dd')) {
         this.dds.push('dropdown-oficio_processo_dd');
       }
-
+    }
 
 
     if (this.dds.length > 0) {
@@ -153,7 +157,7 @@ export class OficioIncluirResolver implements Resolve<boolean | never> {
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.dds.forEach( nome => {
+            this.dds.forEach(nome => {
               sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
             });
           },

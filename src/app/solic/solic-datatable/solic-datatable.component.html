@@ -128,7 +128,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.solicitacao_analisar && sol.solicitacao_situacao ==='EM ABERTO'" class="p-mr-2">
+              <div *ngIf="aut.solicitacao_analisar && ((aut.solicitacaoVersao === 1 && sol.processo_id === 0) || aut.solicitacaoVersao !== 1)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -282,12 +282,13 @@
   [header]="campoTitulo"
   (onHide)="escondeTexto()"
 >
-  <app-quill-view [cpdelta]="deltaquill" [cphtml]="campoHtml"
-                  class="detalhe"></app-quill-view>
-  <!--<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>-->
+  <app-quill-view [cpdelta]="deltaquill" [cphtml]="campoHtml" class="detalhe"></app-quill-view>
 
-  <p-footer *ngIf="deltaquill">
+  <p-footer>
+    <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded p-button-sm" (click)="escondeTexto()"></button>
+    &nbsp;
     <button
+      *ngIf="deltaquill"
       pButton
       type="button"
       class="p-button-rounded p-button-sm"
@@ -302,12 +303,13 @@
 <ng-container *ngIf="showDetalhe">
   <p-dialog
     [(visible)]="showDetalhe"
-    [dismissableMask]="true"
+    [modal]="true"
+    [dismissableMask]="false"
     styleClass="tablistagem"
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-solic-detalhe [solicitacao]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solic-detalhe>
+    <app-solic-detalhe [sol]="solDetalhe" (hideDetalhe)="escondeDetalhe()"></app-solic-detalhe>
   </p-dialog>
 </ng-container>
 

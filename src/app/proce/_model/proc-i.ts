@@ -225,9 +225,6 @@ export interface ProceBuscaI {
   sortOrder?: number;
   rows?: number;
   first?: number;
-  inicio?: number;
-  numlinhas?: number;
-  sortcampo?: string;
   ids?: number[];
   todos?: boolean;
 }

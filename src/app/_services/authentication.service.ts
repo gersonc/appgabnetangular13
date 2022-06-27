@@ -600,6 +600,8 @@ export class AuthenticationService {
     this.userRules = [];
     this.userScops = [];
     this.versaoService.versao = 0;
+    this.versaoService.solicitacaoVersao = 0;
+    this.versaoService.powerUser = false;
     this.versao = 0;
     this.versaoN = 0;
     this.dispositivo = 'desktop';

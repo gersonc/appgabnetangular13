@@ -77,9 +77,10 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
           }
         })
       );
-    } else {
-      if (sessionStorage.getItem('datatable-busca')) {
-        return this.solicitacaoService.postSolicitacaoBusca(JSON.parse(sessionStorage.getItem('datatable-busca')))
+    }
+    /*else {
+      if (sessionStorage.getItem('solic-busca')) {
+        return this.solicitacaoService.postSolicitacaoBusca(JSON.parse(sessionStorage.getItem('solic-busca')))
           .pipe(
             take(1),
             mergeMap(dados => {
@@ -94,6 +95,6 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
         this.router.navigate(['/solic/listar2']);
         return EMPTY;
       }
-    }
+    }*/
   };
 }

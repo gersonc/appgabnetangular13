@@ -1,12 +1,10 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MessageService, SelectItem, SelectItemGroup} from "primeng/api";
-import {Editor} from "primeng/editor";
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {SelectItem, SelectItemGroup} from "primeng/api";
 import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {
   AuthenticationService,
   AutocompleteService,
-  DropdownService,
   MenuInternoService
 } from "../../_services";
 import {Location} from "@angular/common";
@@ -18,7 +16,6 @@ import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {SolicForm} from "../_models/solic-form";
 import {DdService} from "../../_services/dd.service";
-import {SolicInformacao} from "../_models/solic-informacao";
 import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
 import {OficioFormService} from "../../oficio/_services";
 import {MsgService} from "../../_services/msg.service";
@@ -29,10 +26,6 @@ import {MsgService} from "../../_services/msg.service";
   styleUrls: ['./solic-form.component.css']
 })
 export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
-/*  @ViewChild('soldesc', { static: true }) soldesc: Editor;
-  @ViewChild('solacerecus', { static: true }) solacerecus: Editor;
-  @ViewChild('histand', { static: true }) histand: Editor;
-  @ViewChild('solcar', { static: true }) solcar: Editor;*/
   formSol: FormGroup;
   solicitacao: SolicFormI;
   ddSolicitacao_cadastro_tipo_id: SelectItemGroup[] = [];
@@ -47,11 +40,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   ptBr: any;
 
   emptyMessage = 'Nenhum registro encontrado.';
-  // modulos: any;
   formatos: any;
-  // mostraModulos1 = 'none';
-  // mostraModulos2 = 'none';
-  // mostraModulos3 = 'none';
   icone = 'pi pi-chevron-down';
   cadastro_incluir = false;
   novoRegistro: SelectItem;
@@ -69,31 +58,11 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   indicacao_sn = false;
   tpAnalizeTitulo = 'Tipo de análise';
   stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
-  // solNumOfi = false;
-  // msgSolNumOfi = 'Já existe ofício(s) com esse número.';
-  // tituloNumOfi = 'Número do ofício';
   titulo = 'SOLICITAÇÃO - INCLUIR';
   readonly = false;
   checked: boolean = false;
-  textosAnalise: SolicInformacao[] = [];
 
   fc: any;
-  /*toolbarEditor = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-    ['clean'],                                         // remove formatting button
-    ['link']                         // link and image, video
-  ];*/
-
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
   format1: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -136,14 +105,12 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     public aut: AuthenticationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    // private messageService: MessageService,
     private ms: MsgService,
     public vs: VersaoService,
     private ofs: OficioFormService
   ) { }
 
   ngOnInit() {
-    console.log(this.sfs.solicitacao, this.sfs.acao);
     this.cadastro_incluir = this.aut.cadastro_incluir;
     if (sessionStorage.getItem('solicitacao-incluir') || sessionStorage.getItem('solicitacao-alterar')) {
       if (sessionStorage.getItem('solicitacao-incluir')) {
@@ -178,9 +145,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.carregaDropdownSessionStorage();
-    // this.carregaDropDown();
     this.criaForm();
-    // this.configuraEditor();
 
     if (typeof this.activatedRoute.snapshot.params['modulo'] !== 'undefined') {
       this.moduloRecebido = this.activatedRoute.snapshot.params['modulo'];
@@ -198,18 +163,9 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.titulo = 'SOLICITAÇÃO - ALTERAR';
     }
-
-    console.log(this.sfs.solicitacao, this.sfs.acao);
-
   }
 
   ngAfterViewInit() {
-    /*setTimeout(() => {
-      if (this.sfs.acao === 'alterar') {
-        // this.mi.hideMenu();
-        this.verificaValidacoesForm(this.formSol);
-      }
-    }, 1000);*/
   }
 
   adicionaDadosIncluidos() {
@@ -234,36 +190,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ***     FORMULARIO      *************************
-  /*carregaDropDown() {
-    this.ddSolicitacao_tipo_analize = [];
-    if (this.vs.solicitacaoVersao === 1) {
-      this.ddSolicitacao_tipo_analize.push(
-        {label: 'Enviar para análise', value: 1},
-        {label: 'Solicitar análise por e-mail', value: 3}
-      );
-
-      if (this.aut.solicitacao_analisar) {
-        this.ddSolicitacao_tipo_analize.push(
-          {label: 'Solicitação resolvida', value: 4},
-          {label: 'Abrir processo', value: 5}
-        );
-        if (this.aut.oficio_incluir) {
-          this.ddSolicitacao_tipo_analize.push(
-            {label: 'Abrir processo e incluir dados', value: 6});
-        }
-      }
-    }
-    this.ddSolicitacao_tipo_analize.push(
-      {label: 'Em aberto', value: 7},
-      {label: 'Deferido', value: 8},
-      {label: 'Indeferido', value: 9},
-      {label: 'Em andamento', value: 10},
-      {label: 'Suspenso', value: 11}
-    );
-
-
-
-  }*/
 
   parseAssunto(assunto: SelectItem[]) {
     assunto.forEach( (a) => {
@@ -277,8 +203,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.vs.solicitacaoVersao === 1) {
       this.tpAnalizeTitulo = 'Tipo de análise';
-      // this.msgSolNumOfi = 'Já existe processo(s) com esse número.'
-      // this.tituloNumOfi = 'Número do processo';
       this.formSol = this.formBuilder.group({
         solicitacao_cadastro_tipo_id: [this.sfs.solicitacao.solicitacao_cadastro_tipo_id, Validators.required],
         solicitacao_cadastro_id: [this.sfs.solicitacao.solicitacao_cadastro_id, Validators.required],
@@ -320,8 +244,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
         solicitacao_local_id: [this.sfs.solicitacao.solicitacao_local_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
+        solicitacao_aceita_recusada: [null],
         solicitacao_descricao: [null],
-        // solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         historico_andamento: [null],
         solicitacao_tipo_analize:  (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
@@ -343,16 +267,13 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
         solicitacao_atendente_cadastro_id: [this.sfs.solicitacao.solicitacao_atendente_cadastro_id, Validators.required],
         solicitacao_reponsavel_analize_id: [this.sfs.solicitacao.solicitacao_reponsavel_analize_id, Validators.required],
         solicitacao_area_interesse_id: [this.sfs.solicitacao.solicitacao_area_interesse_id, Validators.required],
+        solicitacao_aceita_recusada: [null],
         solicitacao_descricao: [null],
-        // solicitacao_aceita_recusada: [this.sfs.solicitacao.solicitacao_aceita_recusada],
         historico_andamento: [null],
         solicitacao_tipo_analize:  (this.sfs.acao === 'incluir') ? [this.sfs.solicitacao.solicitacao_tipo_analize, Validators.required] : [null],
       });
       this.getValorAlterar();
     }
-
-
-
   }
 
   getValorAlterar() {
@@ -378,23 +299,18 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       const cp3 = InOutCampoTexto(this.sfs.solicitacao.solicitacao_descricao, this.sfs.solicitacao.solicitacao_descricao_delta);
-      console.log('cp3', cp3);
       this.format3 = cp3.format;
       if (cp3.vf) {
         this.formSol.get('solicitacao_descricao').setValue(cp3.valor);
       }
 
-      /*if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_descricao)) {
-        const ql1delta = JSON.parse(this.sfs.solicitacao.solicitacao_descricao);
-        this.solacerecus.getQuill().setContents(ql1delta);
-      } else {
-        if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_descricao!)) {
-          this.formSol.get('solicitacao_descricao').patchValue(this.sfs.solicitacao.solicitacao_descricao!);
-        }
-      }*/
+      const cp0 = InOutCampoTexto(this.sfs.solicitacao.solicitacao_aceita_recusada!, this.sfs.solicitacao.solicitacao_aceita_recusada_delta);
+      this.format0 = cp0.format;
+      if (cp0.vf) {
+        this.formSol.get('solicitacao_aceita_recusada').setValue(cp0.valor);
+      }
 
       if (this.vs.solicitacaoVersao === 1) {
-
         if ((typeof this.sfs.solicitacao.solicitacao_numero_oficio !== 'undefined' &&
           this.sfs.solicitacao.solicitacao_numero_oficio !== null &&
           this.sfs.solicitacao.solicitacao_numero_oficio.length > 0) ||
@@ -405,46 +321,16 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
           this.tituloNumOfi = 'Número do ofício';
         }
 
-        const cp0 = InOutCampoTexto(this.sfs.solicitacao.solicitacao_aceita_recusada!, this.sfs.solicitacao.solicitacao_aceita_recusada_delta);
-        this.format1 = cp0.format;
-        if (cp0.vf) {
-          this.formSol.get('solicitacao_aceita_recusada').setValue(cp0.valor);
-        }
-
         const cp1 = InOutCampoTexto(this.sfs.solicitacao.solicitacao_carta, this.sfs.solicitacao.solicitacao_carta_delta);
-        this.format2 = cp1.format;
+        this.format1 = cp1.format;
         if (cp1.vf) {
           this.formSol.get('solicitacao_carta').setValue(cp1.valor);
         }
-
-        /*if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_aceita_recusada_delta)) {
-          const ql2delta = JSON.parse(this.sfs.solicitacao.solicitacao_aceita_recusada_delta);
-          this.solacerecus.getQuill().setContents(ql2delta);
-        } else {
-          if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_aceita_recusada!)) {
-            this.formSol.get('solicitacao_aceita_recusada').patchValue(this.sfs.solicitacao.solicitacao_aceita_recusada!);
-          }
-        }
-
-        if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_carta_delta)) {
-          const ql3delta = JSON.parse(this.sfs.solicitacao.solicitacao_carta_delta);
-          this.solcar.getQuill().setContents(ql3delta);
-        } else {
-          if (this.testaCampoQuill(this.sfs.solicitacao.solicitacao_carta)) {
-            this.formSol.get('solicitacao_carta').patchValue(this.sfs.solicitacao.solicitacao_carta);
-          }
-        }*/
 
       }
 
     }
   }
-
-  /*configuraEditor() {
-    this.modulos = {
-      toolbar: this.toolbarEditor
-    };
-  }*/
 
   autoComp (event, campo) {
     if (event.query.length >= 2) {
@@ -567,7 +453,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.dd.ddSubscription('solic-menu-dropdown');
+              sessionStorage.removeItem('solic-menu-dropdown');
               this.ms.add({
                   key: 'principal',
                   severity: 'success',
@@ -625,6 +511,9 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   criaSolicitacao(): SolicFormI {
     const solicitacao = new SolicForm();
+    if (this.sfs.acao === 'alterar') {
+      solicitacao.solicitacao_id = +this.sfs.solicitacao.solicitacao_id;
+    }
     if (this.vs.solicitacaoVersao < 3) {
       solicitacao.solicitacao_reponsavel_analize_id = this.formSol.get('solicitacao_reponsavel_analize_id').value;
       solicitacao.solicitacao_local_id = this.formSol.get('solicitacao_local_id').value;
@@ -632,34 +521,22 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.vs.solicitacaoVersao === 1) {
       solicitacao.solicitacao_tipo_recebimento_id = this.formSol.get('solicitacao_tipo_recebimento_id').value;
 
-
-      if (this.cpoEditor['solicitacao_aceita_recusada'] !== null) {
+      if (this.cpoEditor['solicitacao_aceita_recusada'] !== undefined && this.cpoEditor['solicitacao_aceita_recusada'] !== null) {
         if (this.cpoEditor['solicitacao_aceita_recusada'].html !== this.sfs.solicitacao.solicitacao_aceita_recusada) {
           solicitacao.solicitacao_aceita_recusada = this.cpoEditor['solicitacao_aceita_recusada'].html;
           solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(this.cpoEditor['solicitacao_aceita_recusada'].delta);
           solicitacao.solicitacao_aceita_recusada_texto = this.cpoEditor['solicitacao_aceita_recusada'].text;
         }
       }
-      /*if (this.formSol.get('solicitacao_aceita_recusada').value) {
-        const ql2: any = this.solacerecus.getQuill();
-        solicitacao.solicitacao_aceita_recusada = this.formSol.get('solicitacao_aceita_recusada').value;
-        solicitacao.solicitacao_aceita_recusada_delta = JSON.stringify(ql2.getContents());
-        solicitacao.solicitacao_aceita_recusada_texto = ql2.getText();
-      }*/
 
-      if (this.cpoEditor['solicitacao_carta'] !== null) {
+      if (this.cpoEditor['solicitacao_carta'] !== undefined && this.cpoEditor['solicitacao_carta'] !== null) {
         if (this.cpoEditor['solicitacao_carta'].html !== this.sfs.solicitacao.solicitacao_carta) {
           solicitacao.solicitacao_carta = this.cpoEditor['solicitacao_carta'].html;
           solicitacao.solicitacao_carta_delta = JSON.stringify(this.cpoEditor['solicitacao_carta'].delta);
           solicitacao.solicitacao_carta_texto = this.cpoEditor['solicitacao_carta'].text;
         }
       }
-      /*if (this.formSol.get('solicitacao_carta').value) {
-        const ql4: any = this.solacerecus.getQuill();
-        solicitacao.solicitacao_carta = this.formSol.get('solicitacao_aceita_recusada').value;
-        solicitacao.solicitacao_carta_delta = JSON.stringify(ql4.getContents());
-        solicitacao.solicitacao_carta_texto = ql4.getText();
-      }*/
+
     }
     solicitacao.solicitacao_cadastro_tipo_id = this.formSol.get('solicitacao_cadastro_tipo_id').value;
     solicitacao.solicitacao_cadastro_id = this.formSol.get('solicitacao_cadastro_id').value.value;
@@ -675,39 +552,25 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     solicitacao.solicitacao_data_atendimento = this.formSol.get('solicitacao_data_atendimento').value;
     solicitacao.solicitacao_area_interesse_id = this.formSol.get('solicitacao_area_interesse_id').value;
 
-    if (this.cpoEditor['solicitacao_descricao'] !== null) {
+    if (this.cpoEditor['solicitacao_descricao'] !== undefined && this.cpoEditor['solicitacao_descricao'] !== null) {
       if (this.cpoEditor['solicitacao_descricao'].html !== this.sfs.solicitacao.solicitacao_descricao) {
-        solicitacao.solicitacao_descricao = this.cpoEditor['solicitacao_aceita_recusada'].html;
+        solicitacao.solicitacao_descricao = this.cpoEditor['solicitacao_descricao'].html;
         solicitacao.solicitacao_descricao_delta = JSON.stringify(this.cpoEditor['solicitacao_descricao'].delta);
         solicitacao.solicitacao_descricao_texto = this.cpoEditor['solicitacao_descricao'].text;
       }
     }
 
-    /*if (this.formSol.get('solicitacao_descricao').value) {
-      const ql: any = this.soldesc.getQuill();
-      solicitacao.solicitacao_descricao = this.formSol.get('solicitacao_descricao').value;
-      solicitacao.solicitacao_descricao_delta = JSON.stringify(ql.getContents());
-      solicitacao.solicitacao_descricao_texto = ql.getText();
-    }*/
-
-    if (this.cpoEditor['historico_andamento'] !== null) {
+    if (this.cpoEditor['historico_andamento'] !== undefined && this.cpoEditor['historico_andamento'] !== null) {
       solicitacao.historico_andamento = this.cpoEditor['historico_andamento'].html;
       solicitacao.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
       solicitacao.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
     }
-    /*if (this.formSol.get('historico_andamento').value) {
-      const ql3: any = this.histand.getQuill();
-      solicitacao.historico_andamento = this.formSol.get('historico_andamento').value;
-      solicitacao.historico_andamento_delta = JSON.stringify(ql3.getContents());
-      solicitacao.historico_andamento_texto = ql3.getText();
-    }*/
 
     if (this.sfs.acao==='incluir') {
       solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
     } else {
       delete solicitacao.solicitacao_tipo_analize;
     }
-
 
     for (const key in solicitacao) {
       if (solicitacao[key] === null) {
@@ -739,10 +602,9 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   voltarListar() {
     this.sfs.solicListar = {};
     this.sfs.resetSolicitacao();
-    if (sessionStorage.getItem('solicitacao-busca')) {
+    if (sessionStorage.getItem('solic-busca')) {
       this.router.navigate(['/solic/listar/busca']);
     } else {
-      // this.mi.showMenuInterno();
       this.router.navigate(['/solic/listar']);
     }
   }
@@ -772,21 +634,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  /*validaAsync(campo: string, situacao: boolean) {
-    return (
-      !this.formSol.get(campo).valid &&
-      (this.formSol.get(campo).touched || this.formSol.get(campo).dirty) &&
-      situacao
-    );
-  }
-
-  aplicaCssErroAsync(campo: string, situacao: boolean) {
-    return {
-      'ng-invalid': this.validaAsync(campo, situacao),
-      'ng-dirty': this.validaAsync(campo, situacao)
-    };
-  }*/
-
   validaAsync(campo: string, situacao: boolean) {
     return (
       ((!this.formSol.get(campo).valid || situacao) && (this.formSol.get(campo).touched || this.formSol.get(campo).dirty))
@@ -798,29 +645,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       'ng-invalid': this.validaAsync(campo, situacao),
       'ng-dirty': this.validaAsync(campo,situacao)
     };
-  }
-
-  verificaNumOficio2(ev) {
-    console.log(this.formSol.get('solicitacao_numero_oficio').value);
-    if (this.sfs.acao === 'incluir') {
-      if (this.formSol.get('solicitacao_numero_oficio').value) {
-        let of = this.formSol.get('solicitacao_numero_oficio').value;
-        if (of.length > 0) {
-          let resp: any[] = [];
-          const dados: any = {
-            solicitacao_numero_oficio: of
-          }
-          this.sub.push(this.solicitacaoService.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
-            resp = r;
-            console.log(resp);
-            if (resp[0]) {
-              this.solNumOfi = true;
-            }
-          }));
-
-        }
-      }
-    }
   }
 
   verificaNumOficio(ev) {
@@ -872,29 +696,17 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  /*testaCampoQuill(v: string | null | undefined): boolean {
-    if (v === null || v === undefined) {
-      return false;
-    } else {
-      return v.length !== 0;
-    }
-  }*/
-
-  ngOnDestroy(): void {
-    this.sfs.resetSolicitacao();
-    this.sub.forEach(s => s.unsubscribe());
-  }
-
-  /*onSolicitacaoAceita(ev) {
-    this.formSol.get('solicitacao_aceita_recusada').setValue(ev);
-  }*/
-
   onContentChanged(ev, campo: string) {
     this.cpoEditor[campo] = {
       html: ev.html,
       delta: ev.content,
       text: ev.text
     }
+  }
+
+  ngOnDestroy(): void {
+    this.sfs.resetSolicitacao();
+    this.sub.forEach(s => s.unsubscribe());
   }
 
 }

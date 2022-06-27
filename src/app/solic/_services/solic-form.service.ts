@@ -17,7 +17,10 @@ export class SolicFormService {
   public acao?: string = null;
   // public solicitacaoVersao = 0;
   public ddSolicitacao_tipo_analize?: SelectItem[];
+  public tipo_analize = 0;
+  public btnEnviar = true;
   public analiseCpoOficioNome: any = {ativo: false, tipo: null, cpoTitulo: null};
+  public processoSN = false;
   public info: SolicInformacao[] = [
     {
       id: 0,
@@ -271,6 +274,14 @@ export class SolicFormService {
     r.solicitacao_carta_texto = s.solicitacao_carta_texto;
     r.solicitacao_numero_oficio = s.solicitacao_numero_oficio;
     r.solicitacao_tipo_analize = 0;
+    r.solicitacao_status_id = s.solicitacao_status_id;
+    if (this.vs.solicitacaoVersao === 1) {
+      r.processo_id = s.processo_id;
+      r.processo_status_id = s.processo_status_id;
+    } else {
+      r.processo_id = 0;
+      r.processo_status_id = 0;
+    }
     this.solA = r;
     return r;
   }
@@ -458,13 +469,16 @@ export class SolicFormService {
   }
 
   onChangeAcao(ev: any) {
-// analiseCpoOficioNome: any = {ativo: false, cpoTitulo: null};
+    // analiseCpoOficioNome: any = {ativo: false, cpoTitulo: null};
     if (ev.value !== undefined) {
+      this.mudaBtn(ev.value);
+      this.tipo_analize = ev.value;
       switch(ev.value) {
         case 5:
         case 6:
         case 19:
         case 21:
+          this.processoSN = true;
           this.analiseCpoOficioNome = {ativo: true, tipo: 'pro', cpoTitulo: 'Número do Processo'};
           break;
         case 3:
@@ -475,16 +489,19 @@ export class SolicFormService {
         case 14:
         case 18:
         case 20:
+          this.processoSN = false;
           this.analiseCpoOficioNome = {ativo: true, tipo: 'ofi', cpoTitulo: 'Número do Ofício'};
           break;
         default:
+          this.processoSN = false;
           this.analiseCpoOficioNome = {ativo: false, tipo: null, cpoTitulo: null};
           break;
       }
       // this.informacao = this.info.findIndex(v => +v.id === ev.value);
       this.informacao = this.info[ev.value];
     } else {
-
+      this.tipo_analize = 0;
+      this.btnEnviar = true;
       if (this.acao !== 'incluir') {
         this.info[0] = {
           id: 0,
@@ -497,10 +514,85 @@ export class SolicFormService {
       }
       this.informacao = this.info[0];
     }
+  }
+
+  mudaBtn(n?: number) {
+    if (n === undefined || n === 0) {
+      this.tipo_analize = 0;
+      this.btnEnviar = true;
+    } else {
+      this.tipo_analize = n;
+      const st = this.situacaoStatus(n);
+      if (this.vs.solicitacaoVersao === 1) {
+        if (this.solA.processo_id === 0) {
+          if(this.solA.solicitacao_status_id !== st) {
+            this.btnEnviar = false;
+          } else {
+            this.btnEnviar = true;
+          }
+        } else {
+          if(this.solA.processo_status_id !== st) {
+            this.btnEnviar = false;
+          } else {
+            this.btnEnviar = true;
+          }
+        }
+      } else {
+        if(this.solA.solicitacao_status_id !== st) {
+          this.btnEnviar = false;
+        } else {
+          this.btnEnviar = true;
+        }
+      }
+    }
+  }
 
 
+  situacaoStatus(id: number): number
+  {
+    // let situacao: string;
+    // let statusNome: string;
+    let status: number;
+
+    const sit_emaberto: number[] = [1, 2, 11];
+    const sit_emandamento: number[] = [3, 5, 6, 14, 20, 21];
+    const sit_concluido: number[] = [4, 7, 12, 13, 16, 17, 18, 19];
+    const sit_suspenso: number[] = [8, 9, 15,];
+    const sts_def: number[] = [4, 12, 16, 18];
+    const sts_indef: number[] = [7, 13, 17, 19];
+
+    if (sit_emaberto.indexOf(id) !== -1) {
+      // situacao = 'EM ABERTO';
+      // statusNome = 'EM ABERTO';
+      status = 0;
+    }
+    if (sit_emandamento.indexOf(id) !== -1) {
+      // situacao = 'EM ANDAMENTO';
+      // statusNome = 'EM ANDAMENTO';
+      status = 1;
+    }
+    if (sit_concluido.indexOf(id) !== -1) {
+      // situacao = 'CONCLUIDA';
+      if (sts_indef.indexOf(id) !== -1) {
+        status = 2;
+        // statusNome = 'INDEFERIDO';
+      }
+      if (sts_def.indexOf(id) !== -1) {
+        status = 3;
+        // statusNome = 'DEFERIDO';
+      }
+    }
+    if (sit_suspenso.indexOf(id) !== -1) {
+      // situacao = 'SUSPENSO';
+      // statusNome = 'SUSPENSO';
+      status = 4;
+    }
+    // return {'situacao': situacao, 'status': status, 'statusNome': statusNome};
+    return status;
 
   }
+
+
 
 
 }

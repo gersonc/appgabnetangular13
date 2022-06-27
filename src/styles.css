@@ -8112,6 +8112,19 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   border-radius: 3px;
 }
+
+.p-button:disabled {
+  background: var(--blue-700);
+  color: var(--surface-a);
+  border-color: var(--blue-700);
+}
+
+.p-button:disabled:hover {
+  background: var(--blue-600);
+  color: var(--surface-a);
+  border-color: var(--blue-600);
+}
+
 .p-button:enabled:hover {
   background: var(--hover2);
   color: var(--surface-a);
@@ -8122,6 +8135,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   color: var(--surface-a);
   border-color: var(--disabled-highlight);
 }
+
 .p-button.p-button-outlined {
   background-color: transparent;
   color: var(--primary-color);
