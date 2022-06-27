@@ -53,7 +53,6 @@ export interface SolicListarI {
   solicitacao_aceita_sn?: number;
   solicitacao_processo_id?: number;
   solicitacao_arquivos?: ArquivoListagem[];
-  // cadastro: SolicCadastro;
   cadastro_id?: number;
   cadastro_nome_limpo?: string;
   cadastro_tratamento_nome?: string;

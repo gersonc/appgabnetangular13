@@ -163,11 +163,7 @@
                         *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta"
                       >
                         <td colspan="2">
-                          <app-texto-view
-                            [padrao]="sol.solicitacao_descricao"
-                            [texto]="sol.solicitacao_descricao_texto"
-                            [delta]="sol.solicitacao_descricao_delta"
-                          ></app-texto-view>
+                          <app-quill-view [cpdelta]="sol.solicitacao_descricao_delta" [cphtml]="sol.solicitacao_descricao"></app-quill-view>
                         </td>
                       </tr>
                       <tr
@@ -181,11 +177,7 @@
                         *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta"
                       >
                         <td colspan="2">
-                          <app-texto-view
-                            [padrao]="sol.solicitacao_aceita_recusada"
-                            [texto]="sol.solicitacao_aceita_recusada_texto"
-                            [delta]="sol.solicitacao_aceita_recusada_delta"
-                          ></app-texto-view>
+                          <app-quill-view [cpdelta]="sol.solicitacao_aceita_recusada_delta" [cphtml]="sol.solicitacao_aceita_recusada"></app-quill-view>
                         </td>
                       </tr>
                       <tr *ngIf="sol.solicitacao_carta || sol.solicitacao_carta_texto || sol.solicitacao_carta_delta">
@@ -195,11 +187,7 @@
                       </tr>
                       <tr *ngIf="sol.solicitacao_carta || sol.solicitacao_carta_texto || sol.solicitacao_carta_delta">
                         <td colspan="2">
-                          <app-texto-view
-                            [padrao]="sol.solicitacao_carta"
-                            [texto]="sol.solicitacao_carta_texto"
-                            [delta]="sol.solicitacao_carta_delta"
-                          ></app-texto-view>
+                          <app-quill-view [cpdelta]="sol.solicitacao_carta_delta" [cphtml]="sol.solicitacao_carta"></app-quill-view>
                         </td>
                       </tr>
 
@@ -454,14 +442,32 @@
                             {{ands.historico_data}}
                           </td>
                           <td>
-                            <app-texto-view
-                              [padrao]="ands.historico_andamento"
-                              [texto]="ands.historico_andamento_texto"
-                              [delta]="ands.historico_andamento_delta"
-                            ></app-texto-view>
+                            <app-quill-view [cpdelta]="ands.historico_andamento_delta" [cphtml]="ands.historico_andamento"></app-quill-view>
                           </td>
                         </tr>
                       </table>
+                    </td>
+                  </tr>
+                </ng-container>
+
+                <ng-container *ngIf="mensagens.length > 0">
+                  <tr>
+                    <td>
+                      <br>
+                  <table class="table-hover tabela">
+                    <caption>PERMISSÕES</caption>
+                    <tr>
+                      <th>
+                        PERMISSÕES:
+                      </th>
+                    </tr>
+                    <tr *ngFor="let m of mensagens">
+                      <td>
+                        {{m}}
+                      </td>
+                    </tr>
+
+                  </table>
                     </td>
                   </tr>
                 </ng-container>
@@ -500,11 +506,7 @@
                                 </tr>
                                 <tr *ngIf="sol.processo_carta || sol.processo_carta_texto || sol.processo_carta_texto">
                                   <td colspan="2">
-                                    <app-texto-view
-                                      [padrao]="sol.processo_carta"
-                                      [texto]="sol.processo_carta_texto"
-                                      [delta]="sol.processo_carta_texto"
-                                    ></app-texto-view>
+                                    <app-quill-view [cpdelta]="sol.processo_carta_delta" [cphtml]="sol.processo_carta"></app-quill-view>
                                   </td>
                                 </tr>
                                 <tr *ngIf="sol.processo_arquivos">
@@ -530,11 +532,7 @@
                                       {{andp.historico_data}}
                                     </td>
                                     <td>
-                                      <app-texto-view
-                                        [padrao]="andp.historico_andamento"
-                                        [texto]="andp.historico_andamento_texto"
-                                        [delta]="andp.historico_andamento_delta"
-                                      ></app-texto-view>
+                                      <app-quill-view [cpdelta]="andp.historico_andamento_delta" [cphtml]="andp.historico_andamento"></app-quill-view>
                                     </td>
                                   </tr>
                                 </table>
@@ -715,11 +713,7 @@
                                       </tr>
                                       <tr *ngIf="ofi.oficio_descricao_acao && aut.oficio_listar">
                                         <td colspan="2">
-                                          <app-texto-view
-                                            [padrao]="ofi.oficio_descricao_acao"
-                                            [texto]="ofi.oficio_descricao_acao_texto"
-                                            [delta]="ofi.oficio_descricao_acao_delta"
-                                          ></app-texto-view>
+                                          <app-quill-view [cpdelta]="ofi.oficio_descricao_acao_delta" [cphtml]="ofi.oficio_descricao_acao"></app-quill-view>
                                         </td>
                                       </tr>
                                       <tr *ngIf="ofi.oficio_arquivos && aut.oficio_listar">
@@ -789,9 +783,13 @@
 
                               </table>
 
+
+
                             </td>
                           </tr>
                         </table>
+
+
 
                       </div>
                     </div>
@@ -826,7 +824,7 @@
                     <button
                       pButton
                       type="button"
-                      [disabled]="botaoEnviarVF || arquivoBlockSubmit"
+                      [disabled]="botaoEnviarVF || getPermissao()"
                       label="APAGAR"
                       class="p-button-rounded p-button-danger"
                       (click)="excluirSolicitacao()">
@@ -841,6 +839,17 @@
                       label="VOLTAR"
                       class="p-button-rounded p-button-secondary"
                       (click)="voltarListar()">
+                    </button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      icon="fas fa-print"
+                      [disabled]="apagarSN"
+                      label="TESTE"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="teste()">
                     </button>
                   </div>
                 </div>
