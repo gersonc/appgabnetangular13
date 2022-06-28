@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import "primeicons/primeicons.css";
 /*
 *** FONTES PARA O EDITOR ******************
 */
@@ -5390,7 +5391,7 @@
 .p-shadow-24 {
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
 }
-@font-face {
+/*@font-face {
   font-family: 'primeicons';
   font-display: auto;
   src: url('src/assets/css/fonts/primeicons.eot');
@@ -6039,7 +6040,7 @@
 }
 .pi-spinner:before {
   content: "\e926";
-}
+}*/
 .p-component, .p-component * {
   box-sizing: border-box;
 }
