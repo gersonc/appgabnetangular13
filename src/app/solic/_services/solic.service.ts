@@ -12,6 +12,8 @@ import {UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
+import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
+import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
 
 
 @Injectable({
@@ -100,6 +102,66 @@ export class SolicService {
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
+    const b: CampoExtendidoI[] = [];
+    let ev = evento.data;
+    this.has.histFormI = {
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solicitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    this.tabela.titulos.forEach(t => {
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].length > 0) {
+          let campoExtendido: CampoExtendidoI = {
+            titulo: t.titulo,
+            field: t.field,
+            valorOriginal: ev[t.field]
+          };
+
+          // let dlt: string = null;
+          // let txt: string = null;
+          // let htm = '';
+          // let vf = (ev[t.field].length > 40);
+          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
+          if (m > -1 && ev[t.field].length > 40) {
+            let cp: any = null;
+            const d = t.field + '_delta';
+            const tx = t.field + '_texto';
+            // if (ev[t.field].length > 40) {
+              cp = <InOutCampoTextoI>InOutCampoTexto(ev[t.field], ev[d]);
+            /*} else {
+              cp = (ev[tx] !== undefined && ev[tx] !== null) ? ev[tx] : ev[t.field];
+            }*/
+            campoExtendido.valor = cp;
+            // dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
+            // txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
+          } else {
+            campoExtendido.valor = ev[t.field];
+            campoExtendido.valorOriginal = ev[t.field];
+          }
+          // const tit = t.titulo;
+          /*if (txt !== null && dlt !== null) {
+            htm = txt;
+          } else {
+            htm = ev[t.field];
+          }*/
+          b.push(campoExtendido);
+        }
+      }
+    });
+
+
+    this.tabela.dadosExpandidos = b;
+    this.expandidoSN = true;
+  }
+
+  onRowExpand2(evento) {
+    if (this.tabela.titulos.length === 0) {
+      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    }
+    this.tabela.dadosExpandidosRaw = evento;
+    this.expandido = evento.data;
     const b: any[] = [];
     let ev = evento.data;
     this.has.histFormI = {
@@ -175,7 +237,6 @@ export class SolicService {
   salvaState() {
     this.stateSN = true;
     sessionStorage.setItem('solic-busca', JSON.stringify(this.busca));
-    // sessionStorage.setItem('solic-tabela', JSON.stringify(this.tabela));
   }
 
   setState(ev) {

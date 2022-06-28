@@ -66,7 +66,7 @@ export class SolicExcluirComponent implements OnInit {
     if (this.aut.solicitacaoVersao === 1) {
       this.permissao.hisProNum = this.sol.historico_processo.length;
       this.permissao.proNum = (this.sol.processo_id > 0) ? 1 : 0;
-      this.permissao.ofi = this.sol.oficio.length;
+      this.permissao.ofiNum = this.sol.oficio.length;
       this.permissao.arqProNum = this.sol.processo_arquivos.length;
       if (this.sol.oficio.length> 0) {
         this.sol.oficio.forEach( o => {
@@ -117,21 +117,25 @@ export class SolicExcluirComponent implements OnInit {
         }
       }
     } else {
-      if (this.permissao.hisSolNum > 0 && !this.aut.historico_solicitacao_apagar) {
-        this.permissao.hisSol = false;
-        this.permissao.hisSolMsg = 'Esta solicitação está vinculada a ' + this.permissao.hisSolNum + ' andamentos e você não tem permissão para apaga-los';
+      this.permissao.pro = true;
+      this.permissao.ofi = true;
+      this.permissao.hisPro = true;
+    }
+
+    if (this.permissao.hisSolNum > 0 && !this.aut.historico_solicitacao_apagar) {
+      this.permissao.hisSol = false;
+      this.permissao.hisSolMsg = 'Esta solicitação está vinculada a ' + this.permissao.hisSolNum + ' andamentos e você não tem permissão para apaga-los';
+      this.mensagens.push(this.permissao.hisSolMsg);
+    } else {
+      this.permissao.hisSol = true;
+      if (this.permissao.hisSolNum > 0) {
+        this.permissao.hisSolMsg = 'Esta solicitação está vinculada a ' + this.permissao.hisSolNum + ' andamentos que serão apagados';
         this.mensagens.push(this.permissao.hisSolMsg);
-      } else {
-        this.permissao.hisSol = true;
-        if (this.permissao.hisSolNum > 0) {
-          this.permissao.hisSolMsg = 'Esta solicitação está vinculada a ' + this.permissao.hisSolNum + ' andamentos que serão apagados';
-          this.mensagens.push(this.permissao.hisSolMsg);
-        }
       }
     }
 
     if (this.aut.config_arquivo_ativo) {
-      this.permissao.arqTot = this.permissao.arqSolNum + this.permissao.arqProNum + this.permissao.arqSolNum;
+      this.permissao.arqTot = this.permissao.arqSolNum + this.permissao.arqProNum + this.permissao.arqOfiNum;
       if (this.permissao.arqTot > 0 && !this.aut.arquivos_apagar) {
         this.permissao.arq = false;
         this.permissao.arqMsg = 'Esta solicitação está vinculada a: ';
@@ -145,6 +149,7 @@ export class SolicExcluirComponent implements OnInit {
           this.permissao.arqMsg +=  this.permissao.arqOfiNum + "arquivo(s) vinculado(s) a ofício(s).";
         }
         this.permissao.arqMsg += " e você não tem permissão para apaga-lo(s)."
+        this.mensagens.push(this.permissao.arqMsg);
       } else {
         this.permissao.arq = true;
         if (this.permissao.arqTot > 0) {
@@ -155,12 +160,13 @@ export class SolicExcluirComponent implements OnInit {
             this.permissao.arqMsg += this.permissao.arqProNum + " arquivo(s) vinculado(s) a um processo.";
           }
           if (this.permissao.arqOfiNum > 0) {
-            this.permissao.arqMsg +=  this.permissao.arqOfiNum + " arquivo(s) vinculado(s) a ofício(s).";
+            this.permissao.arqMsg +=  this.permissao.arqOfiNum + " arquivo(s) vinculado(s) a(os) ofício(s).";
           }
-          this.permissao.arqMsg += " que sera(ão) apagado(s)."
+          this.permissao.arqMsg += " será(ão) apagado(s)."
+          this.mensagens.push(this.permissao.arqMsg);
         }
       }
-      this.mensagens.push(this.permissao.arqMsg);
+
     } else {
       this.permissao.arq = true;
     }
@@ -186,7 +192,7 @@ export class SolicExcluirComponent implements OnInit {
   }
 
   teste() {
-    console.log(this.mensagens, this.permissao);
+    console.log(this.aut.historico_solicitacao_apagar, this.aut.userRules, this.mensagens, this.permissao);
   }
 
 }

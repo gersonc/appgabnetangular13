@@ -12847,6 +12847,15 @@ span.mostratexto:hover {
   text-shadow: 0.3em 0.3em .5em black;
   text-decoration: underline;
 }
+
+.mostratexto {
+  cursor: zoom-in;
+}
+.mostratexto:hover {
+  text-shadow: 0.3em 0.3em .5em black;
+  text-decoration: underline;
+}
+
 /*    TABELA VAZIA    */
 .tablistagem .tabela-vazia-a {
   width: 100vw;
@@ -14560,6 +14569,17 @@ small.ng-invalid {
   border-radius: .8rem;
 }
 .vinculos-interno {
+  background-color: var(--formulario-bg-interno-color);
+  padding: .4rem .4rem;
+  border-radius: .4rem;
+}
+
+.vinculos-perigo {
+  background-color: var(--invalid);
+  padding: 1rem 2rem;
+  border-radius: .8rem;
+}
+.vinculos-interno-perigo {
   background-color: var(--formulario-bg-interno-color);
   padding: .4rem .4rem;
   border-radius: .4rem;

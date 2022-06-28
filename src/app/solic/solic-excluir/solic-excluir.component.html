@@ -438,7 +438,7 @@
                           </th>
                         </tr>
                         <tr *ngFor="let ands of sol.historico_solicitcao">
-                          <td>
+                          <td style="width: 3%; vertical-align:top;" nowrap>
                             {{ands.historico_data}}
                           </td>
                           <td>
@@ -450,27 +450,7 @@
                   </tr>
                 </ng-container>
 
-                <ng-container *ngIf="mensagens.length > 0">
-                  <tr>
-                    <td>
-                      <br>
-                  <table class="table-hover tabela">
-                    <caption>PERMISSÕES</caption>
-                    <tr>
-                      <th>
-                        PERMISSÕES:
-                      </th>
-                    </tr>
-                    <tr *ngFor="let m of mensagens">
-                      <td>
-                        {{m}}
-                      </td>
-                    </tr>
 
-                  </table>
-                    </td>
-                  </tr>
-                </ng-container>
 
 
                 <tr *ngIf="vs.solicitacaoVersao === 1 && sol.processo_id">
@@ -528,7 +508,7 @@
                                     </th>
                                   </tr>
                                   <tr *ngFor="let andp of sol.historico_processo">
-                                    <td>
+                                    <td style="width: 3%; vertical-align:top;" nowrap>
                                       {{andp.historico_data}}
                                     </td>
                                     <td>
@@ -797,6 +777,26 @@
 
                   </td>
                 </tr>
+                <ng-container *ngIf="mensagens.length > 0">
+                  <tr>
+                    <td>
+                      <div class="vinculos-perigo">
+                        <div class="vinculos-interno-perigo">
+                      <br>
+                      <table class="table-hover tabela">
+                        <caption style="vertical-align:top;"><i class="pi pi-exclamation-triangle" style="font-size: 2rem;color: var(--invalid)"></i> ATENÇÃO <i class="pi pi-exclamation-triangle" style="font-size: 2rem;color: var(--invalid)"></i></caption>
+                        <tr *ngFor="let m of mensagens">
+                          <td>
+                            {{m}}
+                          </td>
+                        </tr>
+
+                      </table>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
               </table>
 
             </div>

@@ -6,11 +6,26 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 })
 export class QuillViewComponent implements OnChanges {
   @Input() cpdelta?: any;
-  @Input() cphtml?: string;
+  @Input() cphtml?: string | null;
   dtSN: boolean;
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.cpdelta) {
+      if (this.cpdelta !== undefined && this.cpdelta !== null) {
+        this.deltaSN(true);
+      }
+    }
+
+    if (changes.cphtml) {
+      if (this.cphtml !== undefined && this.cphtml !== null) {
+        this.deltaSN(false);
+      }
+    }
+
+  }
+
+  /*ngOnChanges(changes: SimpleChanges) {
     if (changes.cpdelta) {
       if (changes.cpdelta.currentValue !== null) {
         this.deltaSN(true);
@@ -31,7 +46,7 @@ export class QuillViewComponent implements OnChanges {
       }
     }
 
-  }
+  }*/
 
   deltaSN(vf: boolean) {
     this.dtSN = vf;

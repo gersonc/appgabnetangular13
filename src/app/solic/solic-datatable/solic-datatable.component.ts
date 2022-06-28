@@ -375,7 +375,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.campoTitulo = texto[0];
     this.campoTexto = texto[3];
     this.deltaquill = (texto[4]);
-    this.campoTitulo = texto[0];
+    // this.campoTitulo = texto[0];
     this.campoHtml = texto[1]
     this.showCampoTexto = true;
   }
@@ -389,6 +389,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   // EVENTOS ===================================================================
+
+  teste(ev) {
+    console.log('teste', ev);
+  }
 
   onColReorder(event): void {
     this.mapeiaColunas();

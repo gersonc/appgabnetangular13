@@ -1,0 +1,18 @@
+<div class="p-text-nowrap p-text-truncate">
+  <ng-container *ngIf="campo.ativo">
+    <ng-container *ngIf="campo.tipo === 3">
+      <a href="mailto:{{campo.email}}"><i class="pi pi-send"></i>{{campo.valor}}</a>
+    </ng-container>
+
+    <ng-container *ngIf="campo.tipo === 2 || campo.tipo === 1">
+      {{campo.valor}}
+      <ng-container><a href="tel:{{campo.tel}}"><i class="pi pi-phone"></i></a></ng-container>
+      <ng-container *ngIf="campo.tipo === 1"><a href="https://wa.me/{{campo.whats}}" class="whats"><i
+        class="pi pi-whatsapp"></i></a></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!campo.ativo">
+    {{campo.valor}}
+  </ng-container>
+</div>

@@ -221,17 +221,32 @@
                 </button>
               </div>
 
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-file-o"
+                  class="p-button-rounded p-button-purple"
+                  pTooltip="TESTE"
+                  tooltipPosition="top"
+                  (click)="teste(ss.tabela.dadosExpandidos)"
+                >
+                </button>
+              </div>
+
             </div>
             <div class="p-grid">
-              <div *ngFor="let linhas of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
+              <div *ngFor="let ce of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <app-campo-extendido [ce]="ce"></app-campo-extendido>
+                <!--<div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
-                  {{linhas[1]}}
+                  <div class="p-text-nowrap p-text-truncate">{{linhas[1]}}</div>
                 </div>
                 <div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
-                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 36)}}...</span>
-                </div>
+                  <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="mostraTexto(linhas)">{{linhas[1]}}</div>
+                </div>-->
               </div>
             </div>
 
