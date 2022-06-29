@@ -109,7 +109,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   histAcao: string = '';
   colsDefaut2: any[] = [];
   lazy = false;
-
+  impressao = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -226,7 +226,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       {field: 'oficio_data_pagamento', header: 'OF. DT. PAGAMENTO', sortable: 'true', width: '200px'},
       {field: 'oficio_data_empenho', header: 'OF. DT. EMPENHO', sortable: 'true', width: '200px'},
 
-      {field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '300px'},
+      /*{field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '300px'},*/
 
       {field: 'historico_data', header: 'HIST. DT.', sortable: 'true', width: '200px'},
       {field: 'historico_andamento', header: 'HIST. ANDAMENTO', sortable: 'false', width: '400px'},

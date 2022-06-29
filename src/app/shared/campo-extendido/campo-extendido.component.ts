@@ -10,7 +10,7 @@ import {InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
   styleUrls: ['./campo-extendido.component.css']
 })
 export class CampoExtendidoComponent implements OnInit, OnChanges {
-  @Input() ce?: CampoExtendidoI;
+  @Input('campo-extendido') ce?: CampoExtendidoI;
 
   titulo?: string;
   field?: string;

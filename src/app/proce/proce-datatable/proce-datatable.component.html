@@ -35,7 +35,7 @@
          (onStateRestore)="ps.onStateRestore($event)"
          (onContextMenuSelect)="ps.onContextMenuSelect($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'12px'}"
+         [tableStyle]="{'font-size':'1rem'}"
          stateStorage="session"
          stateKey="proce-table"
          selectionMode="multiple"
@@ -114,31 +114,32 @@
       <!--<td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="statusColor(+pro.processo_status_id)"
           [style.background-color]="pro[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">-->
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowColor(col.field,pro.processo_status_id, pro.solicitacao_situacao)">
-        <ng-container *ngIf="col.field=='solicitacao_descricao'">
+        <!--<ng-container *ngIf="col.field=='solicitacao_descricao'">
           <app-quill-view [cpdelta]="pro.solicitacao_descricao_delta" [cphtml]="pro.solicitacao_descricao" class="detalhe"></app-quill-view>
-          <!--<quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>-->
-          <!--<span [innerHTML]="pro['solicitacao_descricao']"></span>-->
+          &lt;!&ndash;<quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>&ndash;&gt;
+          &lt;!&ndash;<span [innerHTML]="pro['solicitacao_descricao']"></span>&ndash;&gt;
         </ng-container>
         <ng-container *ngIf="col.field=='solicitacao_aceita_recusada'">
           <app-quill-view [cpdelta]="pro.solicitacao_aceita_recusada_delta" [cphtml]="pro.solicitacao_aceita_recusada" class="detalhe"></app-quill-view>
-          <!--<quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>-->
-          <!--<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>-->
+          &lt;!&ndash;<quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>&ndash;&gt;
+          &lt;!&ndash;<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>&ndash;&gt;
         </ng-container>
         <ng-container *ngIf="col.field=='oficio_descricao_acao'">
           <quill-view-html [content]="pro['oficio_descricao_acao']"></quill-view-html>
-          <!--<span [innerHTML]="pro['oficio_descricao_acao']"></span>-->
+          &lt;!&ndash;<span [innerHTML]="pro['oficio_descricao_acao']"></span>&ndash;&gt;
         </ng-container>
         <ng-container *ngIf="col.field=='oficio'">
-          <!--<app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>-->
+          &lt;!&ndash;<app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>&ndash;&gt;
         </ng-container>
         <ng-container *ngIf="col.field=='historico'">
           <app-quill-view [cpdelta]="pro.historico_andamento_delta" [cphtml]="pro.historico_andamento" class="detalhe"></app-quill-view>
-          <!--<app-historico-processo *ngIf="pro['historico']" [acao]="'listar'" [dados]="pro['historico']"></app-historico-processo>-->
-          <!--<app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>-->
+          &lt;!&ndash;<app-historico-processo *ngIf="pro['historico']" [acao]="'listar'" [dados]="pro['historico']"></app-historico-processo>&ndash;&gt;
+          &lt;!&ndash;<app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>&ndash;&gt;
         </ng-container>
         <ng-container *ngIf="col.field!=='oficio'">
           {{pro[col.field]}}
-        </ng-container>
+        </ng-container>-->
+        <app-celula-quill [celula]="{field: col.field, header: col.header, valor: pro[col.field], linha: pro, impressao: impressao}"></app-celula-quill>
       </td>
     </tr>
   </ng-template>
@@ -251,15 +252,20 @@
 
 
             <div class="p-grid">
-              <div *ngFor="let linhas of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
+              <div *ngFor="let ce of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>{{ce.titulo}}</h5>
+                  <app-campo-extendido [campo-extendido]="ce"></app-campo-extendido>
+                  <!--<div class="p-text-nowrap p-text-truncate">{{linhas[1]}}</div>-->
+                </div>
+                <!--<div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   {{linhas[1]}}
                 </div>
                 <div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 36)}}...</span>
-                </div>
+                </div>-->
               </div>
             </div>
 
@@ -328,7 +334,7 @@
 <p-toast key="processoToast" position="center"></p-toast>
 
 <!--*** EDITOR *****************************************************************************************************-->
-<p-dialog *ngIf="showCampoTexto"
+<!--<p-dialog *ngIf="showCampoTexto"
           [(visible)]="showCampoTexto"
           [dismissableMask]="true"
           [modal]="true"
@@ -338,7 +344,7 @@
 >
   <app-quill-view [cpdelta]="deltaquill" [cphtml]="campoHtml"
                   class="detalhe"></app-quill-view>
-  <!--<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>-->
+  &lt;!&ndash;<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>&ndash;&gt;
 
   <p-footer *ngIf="deltaquill">
     <button
@@ -350,7 +356,7 @@
       label="Word"
     ></button>
   </p-footer>
-</p-dialog>
+</p-dialog>-->
 <!--*** DETALHE ****************************************************************************************************-->
 <ng-container *ngIf="showDetalhe">
   <p-dialog

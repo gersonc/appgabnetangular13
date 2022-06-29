@@ -167,7 +167,7 @@
   "cadastro_fax": {
     "field": "cadastro_fax",
     "mtitulo": "WHATSAPP",
-    "titulo": "Whatsapp"
+    "titulo": "WhatsApp"
   },
   "cadastro_grupo_nome": {
     "field": "cadastro_grupo_nome",
@@ -251,8 +251,8 @@
   },
   "cadastro_telcom": {
     "field": "cadastro_telcom",
-    "mtitulo": "TELEFONE 2",
-    "titulo": "Telefone 2"
+    "mtitulo": "TELEFONE COMERCIAL",
+    "titulo": "Telefone Comercial"
   },
   "cadastro_telefone": {
     "field": "cadastro_telefone",

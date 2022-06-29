@@ -55,8 +55,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   showHistoricoSol2 = false;
 
   tituloHistoricoDialog = 'ANDAMENTOS';
-  showHistoricoForm = false;
-  showHistoricoForm2 = false;
+  // showHistoricoForm = false;
+  // showHistoricoForm2 = false;
 
   histAcao: string = '';
   registro_id = 0;
@@ -69,9 +69,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   permListHist: boolean = false;
   permInclHist: boolean = false;
 
-  htm: string | null = null;
+  /*htm: string | null = null;
   txt: string | null = null;
-  dlt: any = null;
+  dlt: any = null;*/
+
+  impressao = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -213,9 +215,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         {field: 'cadastro_email2', header: 'E-MAIL2', sortable: 'false', width: '200px'},
         {field: 'cadastro_telefone', header: 'TELEFONE1', sortable: 'false', width: '150px'},
         {field: 'cadastro_telefone2', header: 'TELEFONE2', sortable: 'false', width: '150px'},
+        {field: 'cadastro_telcom', header: 'TEL.COM.', sortable: 'false', width: '150px'},
         {field: 'cadastro_celular', header: 'CELULAR1', sortable: 'false', width: '150px'},
         {field: 'cadastro_celular2', header: 'CELULAR2', sortable: 'false', width: '150px'},
-        {field: 'cadastro_telcom', header: 'TEL.COM.', sortable: 'false', width: '150px'},
         {field: 'cadastro_fax', header: 'WHATSAPP', sortable: 'false', width: '150px'},
       );
     }
@@ -367,11 +369,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  colunaTexto(field: string) {
+  /*colunaTexto(field: string) {
 
-  }
+  }*/
 
-  mostraTexto(texto: any[]) {
+  /*mostraTexto(texto: any[]) {
     this.campoTitulo = texto[0];
     this.campoTexto = texto[3];
     this.deltaquill = (texto[4]);
@@ -386,7 +388,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.deltaquill = null;
     this.campoTitulo = null;
     this.campoHtml = null;
-  }
+  }*/
 
   // EVENTOS ===================================================================
 
@@ -452,7 +454,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.mostraDialog(true);
   }
 
-  historicoSolicitacao(solicitacao_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
+  /*historicoSolicitacao(solicitacao_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
     if (acao === 'listar') {
       this.histListI = {
         hist: historicos,
@@ -467,7 +469,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
-  }
+  }*/
 
   mostraDialog(ev: boolean) {
     this.cssMostra = (ev) ? null : 'p-d-none';

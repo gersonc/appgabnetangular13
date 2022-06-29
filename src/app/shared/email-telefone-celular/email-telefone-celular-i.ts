@@ -84,6 +84,11 @@ export function getTelWhatsApp(field: string, valor: string): EmailTelefoneCelul
   let vl: string = valor.trim();
   vl = vl.replace(/\D/g, '');
   vl = vl.replace(' ', '');
+  vl = vl.replace('(', '');
+  vl = vl.replace(')', '');
+  vl = vl.replace('-', '');
+  vl = vl.replace('.', '');
+  vl = vl.replace('+', '');
   if (vl.substr(0, 1) === '0') {
     vl = vl.substr(1);
   }
@@ -180,7 +185,6 @@ export function getTelWhatsApp(field: string, valor: string): EmailTelefoneCelul
 export function getCEmail(field: string, valor: string): EmailTelefoneCelularI {
   const vl = valor.toLowerCase();
   const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi
-  // const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
   if (emailRegex.test(vl)) {
     return {
@@ -199,7 +203,6 @@ export function getCEmail(field: string, valor: string): EmailTelefoneCelularI {
 }
 
 export function getComunicacao(field: string, valor?: any): EmailTelefoneCelularI {
-  console.log('getComunicacao', field, valor);
   if (valor === undefined) {
     return {
       ativo: false,

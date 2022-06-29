@@ -13,6 +13,8 @@ import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {solicSolicitacaoCamposTexto} from "../../solic/_models/solic-listar-i";
+import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
+import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
 
 @Injectable({
   providedIn: 'root'
@@ -92,7 +94,7 @@ export class ProceService {
     this.Contexto = evento.data;
   }
 
-  onRowExpand(evento) {
+  /*onRowExpand(evento) {
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
@@ -132,6 +134,50 @@ export class ProceService {
     });
 
 
+    this.tabela.dadosExpandidos = b;
+    this.expandidoSN = true;
+  }*/
+
+  onRowExpand(evento) {
+    if (this.tabela.titulos.length === 0) {
+      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    }
+    this.tabela.dadosExpandidosRaw = evento;
+    this.expandido = evento.data;
+    const b: CampoExtendidoI[] = [];
+    let ev = evento.data;
+    this.has.histFormI = {
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solicitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    this.tabela.titulos.forEach(t => {
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].length > 0) {
+          let campoExtendido: CampoExtendidoI = {
+            titulo: t.titulo,
+            field: t.field,
+            valorOriginal: ev[t.field]
+          };
+          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
+          if (m > -1 && ev[t.field].length > 40) {
+            let cp: any = null;
+            const d = t.field + '_delta';
+            const tx = t.field + '_texto';
+            if (ev[tx] !== undefined && ev[tx] !== null) {
+              campoExtendido.valorOriginal = ev[tx];
+            }
+            cp = <InOutCampoTextoI>InOutCampoTexto(ev[t.field], ev[d]);
+            campoExtendido.valor = cp;
+          } else {
+            campoExtendido.valor = ev[t.field];
+            campoExtendido.valorOriginal = ev[t.field];
+          }
+          b.push(campoExtendido);
+        }
+      }
+    });
     this.tabela.dadosExpandidos = b;
     this.expandidoSN = true;
   }

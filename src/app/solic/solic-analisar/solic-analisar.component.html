@@ -350,20 +350,20 @@
                             {{sfs.solicListar.cadastro_telefone}}
                           </td>
                         </tr>
-                        <tr *ngIf="sfs.solicListar.cadastro_telcom && aut.cadastro_listar">
+                        <tr *ngIf="sfs.solicListar.cadastro_telefone2 && aut.cadastro_listar">
                           <th>
                             Telefone 2:
                           </th>
                           <td>
-                            {{sfs.solicListar.cadastro_telcom}}
+                            {{sfs.solicListar.cadastro_telefone2}}
                           </td>
                         </tr>
-                        <tr *ngIf="sfs.solicListar.cadastro_telefone2 && aut.cadastro_listar">
+                        <tr *ngIf="sfs.solicListar.cadastro_telcom && aut.cadastro_listar">
                           <th>
-                            Telefone 3:
+                            Telefone Comercial:
                           </th>
                           <td>
-                            {{sfs.solicListar.cadastro_telefone2}}
+                            {{sfs.solicListar.cadastro_telcom}}
                           </td>
                         </tr>
                         <tr *ngIf="sfs.solicListar.cadastro_celular && aut.cadastro_listar">

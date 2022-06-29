@@ -86,8 +86,8 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
     this.ss.resetSolicitacaoBusca();
     let solBusca: SolicBuscaI;
     solBusca = this.formListarSolicitacao.getRawValue();
-    this.ss.busca = solBusca;
-    this.ss.criaBusca();
+    // this.ss.busca = solBusca;
+    this.ss.novaBusca(solBusca);
     // this.ss.busca.rows = this.ss.tabela.rows;
     this.ss.buscaMenu();
     this.mi.hideMenu();

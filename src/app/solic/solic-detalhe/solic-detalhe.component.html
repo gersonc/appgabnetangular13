@@ -180,10 +180,10 @@
             </td>
           </tr>
 
-          <tr *ngIf="sol.solicitacao_arquivos" >
-            <td colspan="2">
-              <app-detalhe-explorer [arquivos]="sol.solicitacao_arquivos"></app-detalhe-explorer>
-            </td>
+          <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar" >
+            <th colspan="2">
+              Arquivos:
+            </th>
           </tr>
           <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar">
             <td colspan="2">
@@ -339,20 +339,20 @@
               {{sol.cadastro_telefone}}
             </td>
           </tr>
-          <tr *ngIf="sol.cadastro_telcom && aut.cadastro_listar">
+          <tr *ngIf="sol.cadastro_telefone2 && aut.cadastro_listar">
             <th>
               Telefone 2:
             </th>
             <td>
-              {{sol.cadastro_telcom}}
+              {{sol.cadastro_telefone2}}
             </td>
           </tr>
-          <tr *ngIf="sol.cadastro_telefone2 && aut.cadastro_listar">
+          <tr *ngIf="sol.cadastro_telcom && aut.cadastro_listar">
             <th>
-              Telefone 3:
+              Telefone comercial:
             </th>
             <td>
-              {{sol.cadastro_telefone2}}
+              {{sol.cadastro_telcom}}
             </td>
           </tr>
           <tr *ngIf="sol.cadastro_celular && aut.cadastro_listar">
@@ -412,6 +412,11 @@
             </td>
           </tr>
           <tr *ngIf="sol.cadastro_arquivos.length > 0 && aut.cadastro_listar && aut.arquivos_baixar">
+            <th colspan="2">
+              Arquivos:
+            </th>
+          </tr>
+          <tr *ngIf="sol.cadastro_arquivos.length > 0 && aut.cadastro_listar && aut.arquivos_baixar">
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="sol.cadastro_arquivos"></app-detalhe-explorer>
             </td>
@@ -468,6 +473,11 @@
             <td>
               {{sol.processo_numero}}.
             </td>
+          </tr>
+          <tr *ngIf="sol.processo_arquivos.length > 0 && aut.arquivos_baixar">
+            <th colspan="2">
+              Arquivos:
+            </th>
           </tr>
           <tr *ngIf="sol.processo_arquivos.length > 0 && aut.arquivos_baixar">
             <td colspan="2">
@@ -681,6 +691,11 @@
                   <td colspan="2">
                     <app-quill-view [cpdelta]="ofi.oficio_descricao_acao_delta" [cphtml]="ofi.oficio_descricao_acao"></app-quill-view>
                   </td>
+                </tr>
+                <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
+                  <th colspan="2">
+                    Arquivos:
+                  </th>
                 </tr>
                 <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
                   <td colspan="2">

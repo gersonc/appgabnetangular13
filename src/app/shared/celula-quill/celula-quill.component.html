@@ -1,25 +1,17 @@
 <ng-container *ngIf="tipo === 1">
-  <ng-container>
-    <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="mostraTexto()">{{ce.valorOriginal}}</div>
-  </ng-container>
+  {{cphtml}}
 </ng-container>
 
 <ng-container *ngIf="tipo === 2">
-  <app-email-telefone-celular [field]="ce.field" [valor]="ce.valor"></app-email-telefone-celular>
-</ng-container>
+  <span class="celula-quill" (click)="mostraTexto()">{{txt}}</span>
 
-<ng-container *ngIf="tipo === 0">
-  <div class="p-text-nowrap p-text-truncate">{{ce.valorOriginal}}</div>
-</ng-container>
-
-<ng-container *ngIf="tipo === 1">
   <ng-container *ngIf="showCampoTexto">
     <p-dialog
       [(visible)]="showCampoTexto"
       [dismissableMask]="true"
       [modal]="true"
       styleClass="tablistagem"
-      [header]="ce.titulo.toUpperCase()"
+      [header]="titulo"
       (onHide)="escondeTexto()"
     >
       <app-quill-view [cpdelta]="cpdelta" [cphtml]="cphtml" class="detalhe"></app-quill-view>

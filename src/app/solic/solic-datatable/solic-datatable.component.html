@@ -36,7 +36,7 @@
          (onContextMenuSelect)="ss.onContextMenuSelect($event)"
          (sortFunction)="ss.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'12px'}"
+         [tableStyle]="{'font-size':'1rem'}"
          stateStorage="session"
          stateKey="solic-table"
          selectionMode="multiple"
@@ -103,7 +103,7 @@
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowColor(col.field, sol.processo_status_id, sol.solicitacao_status_nome, sol.solicitacao_situacao)">
-        {{ss.escolheTexto(col.field, rowIndex, sol[col.field])}}
+        <app-celula-quill [celula]="{field: col.field, header: col.header, valor: sol[col.field], linha: sol, impressao: impressao}"></app-celula-quill>
       </td>
     </tr>
   </ng-template>
@@ -221,7 +221,7 @@
                 </button>
               </div>
 
-              <div class="p-mr-2">
+              <!--<div class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -233,17 +233,18 @@
                   (click)="teste(ss.tabela.dadosExpandidos)"
                 >
                 </button>
-              </div>
+              </div>-->
 
             </div>
             <div class="p-grid">
               <div *ngFor="let ce of ss.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <app-campo-extendido [ce]="ce"></app-campo-extendido>
-                <!--<div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  <div class="p-text-nowrap p-text-truncate">{{linhas[1]}}</div>
+
+                <div class="registros p-shadow-1">
+                  <h5>{{ce.titulo}}</h5>
+                  <app-campo-extendido [campo-extendido]="ce"></app-campo-extendido>
+                  <!--<div class="p-text-nowrap p-text-truncate">{{linhas[1]}}</div>-->
                 </div>
-                <div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
+                <!--<div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="mostraTexto(linhas)">{{linhas[1]}}</div>
                 </div>-->
@@ -286,10 +287,10 @@
   <app-seletor-colunas [todas]="cols" [(ativas)]="ss.tabela.selectedColumns"></app-seletor-colunas>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
-<p-toast key="solicitacaoToast" position="center"></p-toast>
+<!--<p-toast key="solicitacaoToast" position="center"></p-toast>-->
 
 <!--*** EDITOR *****************************************************************************************************-->
-<p-dialog *ngIf="showCampoTexto"
+<!--<p-dialog *ngIf="showCampoTexto"
   [(visible)]="showCampoTexto"
   [dismissableMask]="true"
   [modal]="true"
@@ -312,7 +313,7 @@
       label="Word"
     ></button>
   </p-footer>
-</p-dialog>
+</p-dialog>-->
 
 <!--*** DETALHE ****************************************************************************************************-->
 <ng-container *ngIf="showDetalhe">
@@ -320,6 +321,7 @@
     [(visible)]="showDetalhe"
     [modal]="true"
     [dismissableMask]="false"
+    [style]="{width: '80vw'}"
     styleClass="tablistagem"
     header="DETALHE"
     (onHide)="escondeDetalhe()"

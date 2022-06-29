@@ -1,6 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {SolicListarI, SolicPaginacaoInterface, solicSolicitacaoCamposTexto} from "../_models/solic-listar-i";
+import {
+  SolicListarI,
+  SolicPaginacaoInterface,
+  solicSolicitacaoCamposTexto
+} from "../_models/solic-listar-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {take} from "rxjs/operators";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
@@ -39,6 +43,7 @@ export class SolicService {
   sortField = 'solicitacao_situacao';
   sortOrder = 1;
   lazy = false;
+
 
 
   constructor(
@@ -87,6 +92,26 @@ export class SolicService {
     }
   }
 
+  novaBusca(busca: SolicBuscaI) {
+    if (busca === undefined) {
+      this.busca = {
+        todos: this.tabela.todos,
+        rows: this.tabela.rows,
+        sortField: this.tabela.sortField,
+        first: this.tabela.first,
+        sortOrder: this.tabela.sortOrder
+      };
+    } else {
+      this.busca = undefined;
+      this.busca = busca;
+      this.busca.todos = this.tabela.todos;
+      this.busca.rows = this.tabela.rows;
+      this.busca.first = 0;
+      this.busca.sortOrder = 1;
+      this.busca.sortField = 'solicitacao_situacao';
+    }
+  }
+
   resetSolicitacaoBusca() {
     this.busca = undefined;
     this.criaBusca();
@@ -118,40 +143,24 @@ export class SolicService {
             field: t.field,
             valorOriginal: ev[t.field]
           };
-
-          // let dlt: string = null;
-          // let txt: string = null;
-          // let htm = '';
-          // let vf = (ev[t.field].length > 40);
           const m = this.tabela.camposTexto.findIndex(c => t.field === c);
           if (m > -1 && ev[t.field].length > 40) {
             let cp: any = null;
             const d = t.field + '_delta';
             const tx = t.field + '_texto';
-            // if (ev[t.field].length > 40) {
-              cp = <InOutCampoTextoI>InOutCampoTexto(ev[t.field], ev[d]);
-            /*} else {
-              cp = (ev[tx] !== undefined && ev[tx] !== null) ? ev[tx] : ev[t.field];
-            }*/
+            if (ev[tx] !== undefined && ev[tx] !== null) {
+              campoExtendido.valorOriginal = ev[tx];
+            }
+            cp = <InOutCampoTextoI>InOutCampoTexto(ev[t.field], ev[d]);
             campoExtendido.valor = cp;
-            // dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
-            // txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
           } else {
             campoExtendido.valor = ev[t.field];
             campoExtendido.valorOriginal = ev[t.field];
           }
-          // const tit = t.titulo;
-          /*if (txt !== null && dlt !== null) {
-            htm = txt;
-          } else {
-            htm = ev[t.field];
-          }*/
           b.push(campoExtendido);
         }
       }
     });
-
-
     this.tabela.dadosExpandidos = b;
     this.expandidoSN = true;
   }
@@ -208,19 +217,39 @@ export class SolicService {
     this.expandidoSN = false;
   }
 
-  escolheTexto(field: string, index: number, value: string): string {
-    if (solicSolicitacaoCamposTexto.indexOf(field) > -1) {
-      const t: string = field + '_texto';
-      if (this.solicitacoes[index][t] !== null) {
-        return this.solicitacoes[index][t];
-      }
-    }
-    if (value !== null) {
-      return value;
-    } else {
+  /*escolheTexto(field: string, index: number, value: string): string {
+    if (value === null) {
       return '';
     }
-  }
+    if (solicSolicitacaoCamposTexto.indexOf(field) > -1) {
+      const s  = this.solicitacoes[index];
+      if (s === undefined) {
+        return value;
+      }
+      type ObjectKey = keyof typeof s;
+      const t = field + '_texto' as ObjectKey;
+      // console.log(t as ObjectKey);
+      const u = s[t];
+      console.log(u);
+      return value;
+      /!*if (s[t as ObjectKey] === undefined) {
+        console.log('aaaa');
+        return value;
+      }
+      if (s[t as ObjectKey] !== undefined) {
+        if (s[t as ObjectKey] !== null) {
+          console.log(col);
+          return <string>s[t as ObjectKey];
+        } else {
+          return value;
+        }
+      } else {
+        return value;
+      }*!/
+    } else {
+      return value;
+    }
+  }*/
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {

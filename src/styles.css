@@ -16,6 +16,7 @@
   --text-color:#212529;
   --text-color-secondary:#6c757d;
   --primary-color:#007bff;
+  --primary-color-highlight: var(--blue-300);
   --primary-color-text:#ffffff;
   --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   --surface-0: #ffffff;
@@ -12557,7 +12558,7 @@ div.formulario-quill {
   padding: 0;
 }
 .tablistagem.p-datatable .p-datatable-thead > tr > th {
-  font-size: 1.2em;
+  font-size: 1rem;
 }
 .tablistagem.p-datatable .p-datatable-header {
   background: var(--primary-color);
@@ -12589,6 +12590,7 @@ div.formulario-quill {
   font-size: 1rem;
   padding: 0.3rem 0.3rem;
 }
+
 .tablistagem.p-datatable .p-datatable-tbody tr, td {
   border: 0;
   border-radius: 0;
@@ -15076,4 +15078,54 @@ element.style {
   font-weight: 500;
 }
 
+a.campo-extendido:link, a.campo-extendido:visited, a.campo-extendido:active {
+  text-decoration-line: none;
+}
+
+a.campo-extendido:hover {
+  text-decoration-line: none;
+}
+
+.campo-extendido[href^="mailto"] {
+  color: var(--primary-color);
+}
+
+.campo-extendido[href^="mailto"]:hover {
+  color: var(--primary-color-highlight);
+}
+
+.campo-extendido[href^="tel"] {
+  color: var(--primary-color);
+}
+
+.campo-extendido[href^="tel"]:hover {
+  color: var(--primary-color-highlight);
+}
+
+.campo-extendido[href^="https"] {
+  color: var(--green-500);
+}
+
+.campo-extendido[href^="https"]:hover {
+  color: var(--green-300);
+}
+
+.campo-extendido.p-button.p-button-sm {
+  padding: 0.3rem 0.8rem !important;;
+}
+
+.celula-quill {
+
+}
+
+.celula-quill:hover {
+  cursor: pointer;
+  font-style: italic;
+  text-decoration-line: underline;
+}
+
+/*.p-button-rounded .p-button-sm > .p-button-label {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}*/
 

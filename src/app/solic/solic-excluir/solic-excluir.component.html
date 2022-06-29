@@ -341,20 +341,20 @@
                           {{sol.cadastro_telefone}}
                         </td>
                       </tr>
-                      <tr *ngIf="sol.cadastro_telcom && aut.cadastro_listar">
+                      <tr *ngIf="sol.cadastro_telefone2 && aut.cadastro_listar">
                         <th>
                           Telefone 2:
                         </th>
                         <td>
-                          {{sol.cadastro_telcom}}
+                          {{sol.cadastro_telefone2}}
                         </td>
                       </tr>
-                      <tr *ngIf="sol.cadastro_telefone2 && aut.cadastro_listar">
+                      <tr *ngIf="sol.cadastro_telcom && aut.cadastro_listar">
                         <th>
-                          Telefone 3:
+                          Telefone comercial:
                         </th>
                         <td>
-                          {{sol.cadastro_telefone2}}
+                          {{sol.cadastro_telcom}}
                         </td>
                       </tr>
                       <tr *ngIf="sol.cadastro_celular && aut.cadastro_listar">
