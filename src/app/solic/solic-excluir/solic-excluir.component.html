@@ -163,7 +163,8 @@
                         *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta"
                       >
                         <td colspan="2">
-                          <app-quill-view [cpdelta]="sol.solicitacao_descricao_delta" [cphtml]="sol.solicitacao_descricao"></app-quill-view>
+                          <app-quill-view [cpdelta]="sol.solicitacao_descricao_delta"
+                                          [cphtml]="sol.solicitacao_descricao"></app-quill-view>
                         </td>
                       </tr>
                       <tr
@@ -177,7 +178,8 @@
                         *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta"
                       >
                         <td colspan="2">
-                          <app-quill-view [cpdelta]="sol.solicitacao_aceita_recusada_delta" [cphtml]="sol.solicitacao_aceita_recusada"></app-quill-view>
+                          <app-quill-view [cpdelta]="sol.solicitacao_aceita_recusada_delta"
+                                          [cphtml]="sol.solicitacao_aceita_recusada"></app-quill-view>
                         </td>
                       </tr>
                       <tr *ngIf="sol.solicitacao_carta || sol.solicitacao_carta_texto || sol.solicitacao_carta_delta">
@@ -187,7 +189,8 @@
                       </tr>
                       <tr *ngIf="sol.solicitacao_carta || sol.solicitacao_carta_texto || sol.solicitacao_carta_delta">
                         <td colspan="2">
-                          <app-quill-view [cpdelta]="sol.solicitacao_carta_delta" [cphtml]="sol.solicitacao_carta"></app-quill-view>
+                          <app-quill-view [cpdelta]="sol.solicitacao_carta_delta"
+                                          [cphtml]="sol.solicitacao_carta"></app-quill-view>
                         </td>
                       </tr>
 
@@ -442,15 +445,14 @@
                             {{ands.historico_data}}
                           </td>
                           <td>
-                            <app-quill-view [cpdelta]="ands.historico_andamento_delta" [cphtml]="ands.historico_andamento"></app-quill-view>
+                            <app-quill-view [cpdelta]="ands.historico_andamento_delta"
+                                            [cphtml]="ands.historico_andamento"></app-quill-view>
                           </td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </ng-container>
-
-
 
 
                 <tr *ngIf="vs.solicitacaoVersao === 1 && sol.processo_id">
@@ -486,7 +488,8 @@
                                 </tr>
                                 <tr *ngIf="sol.processo_carta || sol.processo_carta_texto || sol.processo_carta_texto">
                                   <td colspan="2">
-                                    <app-quill-view [cpdelta]="sol.processo_carta_delta" [cphtml]="sol.processo_carta"></app-quill-view>
+                                    <app-quill-view [cpdelta]="sol.processo_carta_delta"
+                                                    [cphtml]="sol.processo_carta"></app-quill-view>
                                   </td>
                                 </tr>
                                 <tr *ngIf="sol.processo_arquivos">
@@ -495,7 +498,8 @@
                                   </td>
                                 </tr>
                               </table>
-                              <ng-container *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo && aut.processo_listar">
+                              <ng-container
+                                *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo && aut.processo_listar">
 
                                 <table *ngIf="sol.historico_processo.length > 0" class="table-hover tabela">
                                   <caption>ANDAMENTOS DO PROCESSO</caption>
@@ -512,7 +516,8 @@
                                       {{andp.historico_data}}
                                     </td>
                                     <td>
-                                      <app-quill-view [cpdelta]="andp.historico_andamento_delta" [cphtml]="andp.historico_andamento"></app-quill-view>
+                                      <app-quill-view [cpdelta]="andp.historico_andamento_delta"
+                                                      [cphtml]="andp.historico_andamento"></app-quill-view>
                                     </td>
                                   </tr>
                                 </table>
@@ -693,7 +698,8 @@
                                       </tr>
                                       <tr *ngIf="ofi.oficio_descricao_acao && aut.oficio_listar">
                                         <td colspan="2">
-                                          <app-quill-view [cpdelta]="ofi.oficio_descricao_acao_delta" [cphtml]="ofi.oficio_descricao_acao"></app-quill-view>
+                                          <app-quill-view [cpdelta]="ofi.oficio_descricao_acao_delta"
+                                                          [cphtml]="ofi.oficio_descricao_acao"></app-quill-view>
                                         </td>
                                       </tr>
                                       <tr *ngIf="ofi.oficio_arquivos && aut.oficio_listar">
@@ -764,11 +770,9 @@
                               </table>
 
 
-
                             </td>
                           </tr>
                         </table>
-
 
 
                       </div>
@@ -782,16 +786,19 @@
                     <td>
                       <div class="vinculos-perigo">
                         <div class="vinculos-interno-perigo">
-                      <br>
-                      <table class="table-hover tabela">
-                        <caption style="vertical-align:top;"><i class="pi pi-exclamation-triangle" style="font-size: 2rem;color: var(--invalid)"></i> ATENÇÃO <i class="pi pi-exclamation-triangle" style="font-size: 2rem;color: var(--invalid)"></i></caption>
-                        <tr *ngFor="let m of mensagens">
-                          <td>
-                            {{m}}
-                          </td>
-                        </tr>
+                          <br>
+                          <table class="table-hover tabela">
+                            <caption style="vertical-align:top;"><i class="pi pi-exclamation-triangle"
+                                                                    style="font-size: 2rem;color: var(--invalid)"></i>
+                              ATENÇÃO <i class="pi pi-exclamation-triangle"
+                                         style="font-size: 2rem;color: var(--invalid)"></i></caption>
+                            <tr *ngFor="let m of mensagens">
+                              <td>
+                                {{m}}
+                              </td>
+                            </tr>
 
-                      </table>
+                          </table>
                         </div>
                       </div>
                     </td>
@@ -863,11 +870,10 @@
     </div>
 
 
-
     <div class="p-fluid formulario-bg-externo">
       <div class="p-grid formulario-bg-externo">
-        <div class="p-col-12"> </div>
-        <div class="p-col-12"> </div>
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
       </div>
     </div>
   </div>

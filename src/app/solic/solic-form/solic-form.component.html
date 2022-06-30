@@ -532,7 +532,7 @@
                       class="p-button-rounded p-button-secondary"
                       (click)="resetForm()"
                       label="Cancelar"
-                      [disabled]="botaoEnviarVF"
+                      [disabled]="!mostraForm"
                     ></button>
                   </div>
                   <div class="p-mr-2">
@@ -540,9 +540,9 @@
                       pButton
                       type="button"
                       class="p-button-rounded p-button-secondary"
-                      (click)="voltarListar()"
+                      (click)="voltar()"
                       label="Voltar"
-                      [disabled]="botaoEnviarVF"
+                      [disabled]="!mostraForm"
                     ></button>
                   </div>
                 </div>

@@ -142,12 +142,14 @@ export class OficioIncluirResolver implements Resolve<boolean | never> {
     }
 
     // ****** solicitacao_local_id *****
-    if (this.ofs.processo_id > 0) {
-      sessionStorage.removeItem('dropdown-oficio_processo_dd');
-      this.dds.push('dropdown-oficio_processo_dd');
-    } else {
-      if (!sessionStorage.getItem('dropdown-oficio_processo_dd')) {
+    if (this.ofs.oficioProcessoId !== null) {
+      if (this.ofs.processo_id > 0) {
+        sessionStorage.removeItem('dropdown-oficio_processo_dd');
         this.dds.push('dropdown-oficio_processo_dd');
+      } else {
+        if (!sessionStorage.getItem('dropdown-oficio_processo_dd')) {
+          this.dds.push('dropdown-oficio_processo_dd');
+        }
       }
     }
 

@@ -19,6 +19,7 @@ import {DdService} from "../../_services/dd.service";
 import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
 import {OficioFormService} from "../../oficio/_services";
 import {MsgService} from "../../_services/msg.service";
+import {SolicListarI} from "../_models/solic-listar-i";
 
 @Component({
   selector: 'app-solic-form',
@@ -48,7 +49,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   cadastroTipoIdRecebido = 0;
   resp: any[] = [];
   sub: Subscription[] = [];
-  botaoEnviarVF = false;
+  // botaoEnviarVF = false;
   mostraForm = true;
   arquivoDesativado = false;
   enviarArquivos = false;
@@ -61,6 +62,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   titulo = 'SOLICITAÇÃO - INCLUIR';
   readonly = false;
   checked: boolean = false;
+  solicitacao_tipo_analize = 0;
 
   fc: any;
   cpoEditor: CpoEditor[] | null = [];
@@ -101,7 +103,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private autocompleteservice: AutocompleteService,
     private location: Location,
     public sfs: SolicFormService,
-    private solicitacaoService: SolicService,
+    private ss: SolicService,
     public aut: AuthenticationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -278,7 +280,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getValorAlterar() {
     if (this.aut.solicitacaoVersao === 1 && this.sfs.acao === 'incluir') {
-      this.sub.push(this.solicitacaoService.getSgstNumProcesso().pipe(take(1)).subscribe(dados => {
+      this.sub.push(this.ss.getSgstNumProcesso().pipe(take(1)).subscribe(dados => {
         console.log('getSgstNumProcesso', dados);
         this.sgstNumPro = dados[0];
         this.formSol.get('processo_numero').setValue(dados[0]);
@@ -343,6 +345,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
         tipo = + this.formSol.get('solicitacao_cadastro_tipo_id').value;
       }
       if (tipo > 0) {
+        this.ms.fundoSN(false);
         this.sub.push(this.autocompleteservice.getAcIdNomeNomeLimpoTipo(tipo, tabela, campo_id, campo_nome, campo_nome_limpo, event.query)
           .pipe(
             take(1)
@@ -351,10 +354,16 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
             next: (dados) => {
               this.sgt = dados;
             },
-            error: err => console.error('Autocomplete-->'),
-            complete: () => { }
+            error: err => {
+              this.ms.fundoSN(true);
+              console.error('Autocomplete-->');
+            },
+            complete: () => {
+              this.ms.fundoSN(true);
+            }
           }));
       } else {
+        this.ms.fundoSN(false);
         this.sub.push(this.autocompleteservice.getAcIdNomeNomeLimpo(tabela, campo_id, campo_nome, campo_nome_limpo, event.query)
           .pipe(
             take(1)
@@ -363,8 +372,12 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
             next: (dados) => {
               this.sgt = dados;
             },
-            error: err => console.error('Autocomplete-->'),
+            error: err => {
+              this.ms.fundoSN(true);
+              console.error('Autocomplete-->');
+            },
             complete: () => {
+              this.ms.fundoSN(true);
             }
           }));
       }
@@ -384,19 +397,29 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.formSol.valid) {
       this.arquivoDesativado = true;
       const sol = this.criaSolicitacao();
-      this.sub.push(this.solicitacaoService.incluirSolicitacao(sol)
+      this.ms.fundoSN(false);
+      this.sub.push(this.ss.incluirSolicitacao(sol)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
             this.resp = dados;
           },
           error: (err) => {
+            this.mostraForm = true;
             this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             console.error(err);
           },
           complete: () => {
             if (this.resp[0]) {
+              sessionStorage.removeItem('solic-menu-dropdown');
               this.dd.ddSubscription('solic-menu-dropdown');
+              if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
+                this.ofs.solicitacao_id = +this.resp[1];
+                this.ofs.processo_id = +this.resp[4];
+                this.ofs.parceDdOficioProcessoId(this.resp[3]);
+                this.ofs.url = '../solic/listar';
+              }
+
               if (this.possuiArquivos) {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
@@ -409,18 +432,18 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
                 this.sfs.resetSolicitacao();
                 this.resetForm();
-                if (this.solicitacaoService.solicitacoes.length > 0) {
-                  this.solicitacaoService.solicitacoes.push(this.resp[3]);
-                }
+                /*if (this.ss.solicitacoes.length > 0) {
+                  this.ss.solicitacoes.push(this.resp[3]);
+                }*/
 
-                if (this.resp[4] > 0) {
-                  this.ofs.solicitacao_id = +this.resp[1];
-                  this.ofs.processo_id = +this.resp[4];
-                  this.ofs.url = '../solic/listar2';
+                if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
                   this.router.navigate(['../oficio/solicitacao']);
+                } else {
+                  this.voltarListar();
                 }
               }
             } else {
+              this.mostraForm = true;
               console.error('ERRO - INCLUIR ', this.resp[2]);
               this.ms.add({
                 key: 'principal',
@@ -441,7 +464,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.formSol.valid) {
       this.arquivoDesativado = true;
       const sol = this.criaSolicitacao();
-      this.sub.push(this.solicitacaoService.alterarSolicitacao(sol)
+      this.ms.fundoSN(false);
+      this.sub.push(this.ss.alterarSolicitacao(sol)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -450,6 +474,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
           error: (err) => {
             this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             console.error(err);
+            this.mostraForm = true;
           },
           complete: () => {
             if (this.resp[0]) {
@@ -460,10 +485,24 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                   summary: 'ALTERAR SOLICITAÇÃO',
                   detail: this.resp[2]
                 });
-                this.sfs.resetSolicitacao();
-                this.resetForm();
-              this.voltarListar();
+                // this.sfs.resetSolicitacao();
+              this.resetForm();
+              this.dd.ddSubscription('solic-menu-dropdown');
+              if (sessionStorage.getItem('solic-busca') && this.ss.solicitacoes.length > 0) {
+                const sl: SolicListarI = this.resp[3];
+                const id: number = +this.sfs.solicitacao.solicitacao_id;
+                const idx: number = this.ss.solicitacoes.findIndex(s => s.solicitacao_id = id);
+                if (idx !== -1) {
+                  this.ss.solicitacoes[idx] = sl;
+                  this.voltar();
+                } else {
+                  this.voltarListar();
+                }
+              } else {
+                this.voltarListar();
+              }
             } else {
+              this.mostraForm = true;
               console.error('ERRO - ALTERAR ', this.resp[2]);
               this.ms.add({key: 'principal',
                 severity: 'warn',
@@ -481,7 +520,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onUpload(ev) {
     if (ev) {
-      this.mostraForm = false;
+      // this.mostraForm = false;
       this.ms.add({
         key: 'principal',
         severity: 'success',
@@ -490,12 +529,16 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       });
       this.sfs.resetSolicitacao();
       this.resetForm();
-      if (this.resp[3]) {
-        this.router.navigate(['../oficio/processo', this.resp[3]]);
+      if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
+        this.sfs.solicListar = undefined;
+        this.sfs.solA = undefined;
+        this.sfs.acao = null;
+        this.sfs.tipo_analize = 0;
+        this.router.navigate(['../oficio/solicitacao']);
       } else {
         this.resp = [];
-        this.botaoEnviarVF = false;
-        this.mostraForm = true;
+        // this.botaoEnviarVF = false;
+        this.voltarListar();
       }
       // this.voltarListar();
     }
@@ -510,6 +553,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   criaSolicitacao(): SolicFormI {
+    this.mostraForm = false;
     const solicitacao = new SolicForm();
     if (this.sfs.acao === 'alterar') {
       solicitacao.solicitacao_id = +this.sfs.solicitacao.solicitacao_id;
@@ -568,6 +612,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.sfs.acao==='incluir') {
       solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
+      this.solicitacao_tipo_analize = +solicitacao.solicitacao_tipo_analize;
     } else {
       delete solicitacao.solicitacao_tipo_analize;
     }
@@ -592,6 +637,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSubmit() {
+    this.mostraForm = false;
     if (this.sfs.acao === 'incluir') {
       this.incluirSolicitacao();
     } else {
@@ -600,13 +646,27 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   voltarListar() {
-    this.sfs.solicListar = {};
-    this.sfs.resetSolicitacao();
+    this.sfs.solicListar = undefined;
+    this.sfs.solA = undefined;
+    this.sfs.acao = null;
+    this.sfs.tipo_analize = 0;
+    //this.sfs.resetSolicitacao();
     if (sessionStorage.getItem('solic-busca')) {
       this.router.navigate(['/solic/listar/busca']);
     } else {
       this.router.navigate(['/solic/listar']);
     }
+  }
+
+  voltar() {
+    this.sfs.solicListar = undefined;
+    this.sfs.solA = undefined;
+    this.sfs.acao = null;
+    this.sfs.tipo_analize = 0;
+    // this.sfs.resetSolicitacao();
+    this.ss.stateSN = false;
+    sessionStorage.removeItem('solic-busca');
+    this.router.navigate(['/solic/listar2']);
   }
 
   verificaValidTouched(campo: string) {
@@ -656,7 +716,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
         const dados: any = {
           solicitacao_numero_oficio: of
         }
-        this.sub.push(this.solicitacaoService.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
+        this.sub.push(this.ss.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
           resp = r;
           console.log(resp);
           if (resp[0]) {
@@ -678,7 +738,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (nPro !== np && np !== this.sgstNumPro) {
       const dado = {'processo_numero': np};
-      this.sub.push(this.solicitacaoService.postVerificarNumProesso(dado).pipe(take(1)).subscribe(r => {
+      this.sub.push(this.ss.postVerificarNumProesso(dado).pipe(take(1)).subscribe(r => {
         const resp: boolean = r[0];
         console.log('verificaNumProcesso2', resp);
         this.solNumPro = !resp;

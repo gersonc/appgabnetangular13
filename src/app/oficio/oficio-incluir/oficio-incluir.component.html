@@ -19,65 +19,121 @@
 
 
                   <!--*** ddOficio_processo_id ***-->
-                  <div *ngIf="ddProcessoId.length > 0" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6" [ngClass]="aplicaCssErro('oficio_processo_id')">
+                  <ng-container *ngIf="!herancaSN">
+                    <div *ngIf="ddProcessoId.length > 0" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6"
+                         [ngClass]="aplicaCssErro('oficio_processo_id')">
 
-                    <label for="processoid"><span class="atencao">*</span> Processo</label>
-                    <p-listbox
-                      id="processoid"
-                      [options]="ddProcessoId"
-                      formControlName="oficio_processo_id"
-                      (onChange)="mudaProcesso($event)"
-                      [multiple]="false"
-                      [readonly]="isReadOnly()"
-                      [ngClass]="aplicaCssErro('oficio_processo_id')"
-                      required
-                    ></p-listbox>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_processo_id')" msgErro="Processo é obrigatório."></app-campo-control-erro>
-                  </div>
-
-                  <!--*** DADOS DO PROCESSO ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6">
-                    <label for="taboficio">Dados do processo</label>
-                    <div class="p-shadow-1">
-                      <table class="table-hover tabela taboficio" #taboficio id="taboficio">
-                        <tr>
-                          <th>Código:</th>
-                          <td>{{lb.oficio_codigo}}</td>
-                        </tr>
-                        <tr>
-                          <th>Processo Número:</th>
-                          <td>{{lb.processo_numero}}</td>
-                        </tr>
-                        <tr>
-                          <th>Solicitante:</th>
-                          <td>{{lb.solicitacao_cadastro_nome}}</td>
-                        </tr>
-                        <tr>
-                          <th>Município:</th>
-                          <td>{{lb.cadastro_municipio_nome}}</td>
-                        </tr>
-                        <tr>
-                          <th>Assunto:</th>
-                          <td>{{lb.solicitacao_assunto_nome}}</td>
-                        </tr>
-                        <tr>
-                          <th>Data da solicitação:</th>
-                          <td>{{lb.solicitacao_data}}</td>
-                        </tr>
-                        <tr>
-                          <th>Área de interesse:</th>
-                          <td>{{lb.solicitacao_area_interesse_nome}}</td>
-                        </tr>
-
-                        <tr>
-                          <th>Descrição da solicitação:</th>
-                          <td style="text-align: right">
-                            <i *ngIf="htm !== null" class="pi pi-search" (click)="showDialog()"></i>
-                          </td>
-                        </tr>
-                      </table>
+                      <label for="processoid"><span class="atencao">*</span> Processo</label>
+                      <p-listbox
+                        id="processoid"
+                        [options]="ddProcessoId"
+                        formControlName="oficio_processo_id"
+                        (onChange)="mudaProcesso($event)"
+                        [multiple]="false"
+                        [readonly]="isReadOnly()"
+                        [ngClass]="aplicaCssErro('oficio_processo_id')"
+                        required
+                      ></p-listbox>
+                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_processo_id')"
+                                              msgErro="Processo é obrigatório."></app-campo-control-erro>
                     </div>
-                  </div>
+
+                    <!--*** DADOS DO PROCESSO ***-->
+                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6">
+                      <label for="taboficio">Dados do processo</label>
+                      <div class="p-shadow-1">
+                        <table class="table-hover tabela taboficio" #taboficio id="taboficio">
+                          <tr *ngIf="lb.oficio_codigo !== null">
+                            <th>Código:</th>
+                            <td>{{lb.oficio_codigo}}</td>
+                          </tr>
+                          <tr *ngIf="lb.processo_numero !== null">
+                            <th>Processo Número:</th>
+                            <td>{{lb.processo_numero}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_cadastro_nome !== null">
+                            <th>Solicitante:</th>
+                            <td>{{lb.solicitacao_cadastro_nome}}</td>
+                          </tr>
+                          <tr *ngIf="lb.cadastro_municipio_nome !== null">
+                            <th>Município:</th>
+                            <td>{{lb.cadastro_municipio_nome}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_assunto_nome !== null">
+                            <th>Assunto:</th>
+                            <td>{{lb.solicitacao_assunto_nome}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_data !== null">
+                            <th>Data da solicitação:</th>
+                            <td>{{lb.solicitacao_data}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_area_interesse_nome !== null">
+                            <th>Área de interesse:</th>
+                            <td>{{lb.solicitacao_area_interesse_nome}}</td>
+                          </tr>
+
+                          <tr *ngIf="this.htm !== null">
+                            <th>Descrição da solicitação:</th>
+                            <td style="text-align: right">
+                              <i *ngIf="htm !== null" class="pi pi-search" (click)="showDialog()"></i>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="herancaSN">
+                    <!--*** DADOS DO PROCESSO ***-->
+                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                      <input
+                        type="hidden"
+                        id="processoid2"
+                        formControlName="oficio_processo_id"
+                      >
+                      <label for="taboficio2">Dados do processo</label>
+                      <div class="p-shadow-1">
+
+                        <table class="table-hover tabela taboficio" #taboficio id="taboficio2">
+                          <tr *ngIf="lb.oficio_codigo !== null">
+                            <th>Código:</th>
+                            <td>{{lb.oficio_codigo}}</td>
+                          </tr>
+                          <tr *ngIf="lb.processo_numero !== null">
+                            <th>Processo Número:</th>
+                            <td>{{lb.processo_numero}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_cadastro_nome !== null">
+                            <th>Solicitante:</th>
+                            <td>{{lb.solicitacao_cadastro_nome}}</td>
+                          </tr>
+                          <tr *ngIf="lb.cadastro_municipio_nome !== null">
+                            <th>Município:</th>
+                            <td>{{lb.cadastro_municipio_nome}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_assunto_nome !== null">
+                            <th>Assunto:</th>
+                            <td>{{lb.solicitacao_assunto_nome}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_data !== null">
+                            <th>Data da solicitação:</th>
+                            <td>{{lb.solicitacao_data}}</td>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_area_interesse_nome !== null">
+                            <th>Área de interesse:</th>
+                            <td>{{lb.solicitacao_area_interesse_nome}}</td>
+                          </tr>
+
+                          <tr *ngIf="this.htm !== null">
+                            <th>Descrição da solicitação:</th>
+                            <td style="text-align: right">
+                              <i *ngIf="htm !== null" class="pi pi-search" (click)="showDialog()"></i>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </ng-container>
 
                   <!--*** oficio_orgao_solicitado_nome ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
@@ -187,7 +243,8 @@
                   </div>
 
                   <!--*** oficio_prioridade_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('oficio_prioridade_id')">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"
+                       [ngClass]="aplicaCssErro('oficio_prioridade_id')">
                     <label for="oficio_prioridade_id"><span class="atencao">*</span> Prioridade</label>
                     <p-dropdown
                       id="oficio_prioridade_id"
@@ -197,7 +254,8 @@
                       [required]="true"
                       [ngClass]="aplicaCssErro('oficio_prioridade_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_prioridade_id')" msgErro="Prioridade é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_prioridade_id')"
+                                            msgErro="Prioridade é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** oficio_prazo ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
@@ -214,7 +272,8 @@
                   </div>
 
                   <!--*** oficio_tipo_andamento_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"
+                       [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
                     <label for="oficio_tipo_andamento_id"><span class="atencao">*</span>
                       Encaminhamento</label>
                     <p-dropdown
@@ -225,7 +284,8 @@
                       [required]="true"
                       [ngClass]="aplicaCssErro('oficio_prioridade_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro  [mostrarErro]="verificaValidTouched('oficio_tipo_andamento_id')" msgErro="Encaminhamento é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_tipo_andamento_id')"
+                                            msgErro="Encaminhamento é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** oficio_numero ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
@@ -281,7 +341,8 @@
                     ></p-calendar>
                   </div>
                   <!--*** oficio_tipo_recebimento_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"
+                       [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
                     <label for="oficio_tipo_recebimento_id"><span class="atencao">*</span>
                       Recebimento</label>
                     <p-dropdown
@@ -292,7 +353,8 @@
                       [required]="true"
                       [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_tipo_recebimento_id')"  msgErro="Recebimento é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('oficio_tipo_recebimento_id')"
+                                            msgErro="Recebimento é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** oficio_convenio ***-->
@@ -452,11 +514,11 @@
 
 <!--*** EDITOR *****************************************************************************************************-->
 <p-dialog *ngIf="dialog"
-  [(visible)]="display"
-  [dismissableMask]="true"
-  styleClass="tablistagem"
-  header="Descrição da solicitação"
-  (onHide)="fechar()"
+          [(visible)]="display"
+          [dismissableMask]="true"
+          styleClass="tablistagem"
+          header="Descrição da solicitação"
+          (onHide)="fechar()"
 >
   <app-quill-view [cphtml]="htm" [cpdelta]="delta"></app-quill-view>
   <div style="padding-top: .4em">

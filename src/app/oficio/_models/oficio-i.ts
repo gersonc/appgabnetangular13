@@ -43,19 +43,19 @@ export interface OficioI {
 }
 
 export interface DdOficioProcessoId {
-  processo_id?: number;
-  solicitacao_id?: number;
-  processo_numero?: string;
+  processo_id?: number | null;
+  solicitacao_id?: number | null;
+  processo_numero?: string | null;
   solicitacao_cadastro_nome?: string;
-  solicitacao_data?: string;
-  solicitacao_assunto_nome?: string;
-  solicitacao_orgao?: string;
+  solicitacao_data?: string | null;
+  solicitacao_assunto_nome?: string | null;
+  solicitacao_orgao?: string | null;
   solicitacao_area_interesse_nome?: string;
-  solicitacao_descricao?: string;
-  solicitacao_descricao_delta?: string;
-  cadastro_bairro?: string;
-  cadastro_municipio_nome?: string;
-  oficio_codigo?: string;
+  solicitacao_descricao?: string | null;
+  solicitacao_descricao_delta?: string | null;
+  cadastro_bairro?: string | null;
+  cadastro_municipio_nome?: string | null;
+  oficio_codigo?: string | null;
 }
 
 export interface OficioFormI {

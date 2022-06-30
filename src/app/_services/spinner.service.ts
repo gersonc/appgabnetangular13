@@ -17,9 +17,15 @@ export class SpinnerService {
   semSpinner: string[] = ['sugest'];
   vf = true;
   modelo = Spinkit.skWave;
+  _fundo = '#777777';
+  fsn = true;
 
   constructor(
   ) { }
+
+  get fundo() {
+    return this._fundo;
+  }
 
   liga() {
     this.vf = true;
@@ -30,5 +36,17 @@ export class SpinnerService {
     this.vf = false;
     this.modelo = Spinkit.skCubeGrid;
   }
+
+  fundoSN(vf?: boolean) {
+    if (vf === undefined) {
+      this.fsn = !this.fsn;
+    } else {
+      this.fsn = vf;
+    }
+    this._fundo = (this.fsn) ? '#777777' : 'transparente';
+    console.log('fundo', this.fsn, this._fundo);
+  }
+
+
 
 }

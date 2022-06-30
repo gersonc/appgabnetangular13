@@ -122,6 +122,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   dialog = false;
   cpoEditor: CpoEditor[] | null = [];
   btEnviarInativo = false;
+  herancaSN = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -138,11 +139,14 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
 
   ngOnInit() {
-
     this.ofs.criaOficio();
     this.carregaDropdownSessionStorage();
     if (this.url === 'processo') {
-      this.location.go('../solicitacao/listar/busca');
+      this.location.go('../solic/listar/busca');
+    }
+    if (this.ofs.oficioProcessoId === null) {
+      this.lb = this.ofs.oficioProcessoId;
+      this.herancaSN = true;
     }
     this.criaForm();
   }
@@ -155,18 +159,40 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
   carregaDropdownSessionStorage() {
     this.ddForm = {
-      ddOficioProcessoId: JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd')),
+      // ddOficioProcessoId: JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd')),
       ddAndamento_id: JSON.parse(sessionStorage.getItem('dropdown-andamento')),
       ddPrioridade_id: JSON.parse(sessionStorage.getItem('dropdown-prioridade')),
       ddrecebimento_id: JSON.parse(sessionStorage.getItem('dropdown-tipo_recebimento'))
     };
-    this.montaDdProcessoId(JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd')));
+    if (this.ofs.oficioProcessoId === null) {
+      this.ddForm.ddOficioProcessoId = JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd'));
+      this.montaDdProcessoId(JSON.parse(sessionStorage.getItem('dropdown-oficio_processo_dd')));
+    }
+
   }
 
   montaDdProcessoId(d: DdOficioProcessoId[]) {
     this.ddProcessoId = d.map(p => ({
       value: p.processo_id, label: p.processo_numero + ' - ' + p.solicitacao_data + ' - ' + p.solicitacao_cadastro_nome
-    }))
+    }));
+    if (this.ofs.oficioProcessoId === null && (this.ofs.processo_id > 0 || this.ofs.solicitacao_id > 0)) {
+      this.montaProcessoId();
+    }
+  }
+
+  montaProcessoId() {
+    if (this.ofs.processo_id > 0) {
+      this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.processo_id === this.ofs.processo_id))];
+      if (this.ofs.solicitacao_id === 0) {
+        this.ofs.solicitacao_id = this.lb.solicitacao_id;
+      }
+    }
+    if (this.ofs.processo_id === 0 && this.ofs.solicitacao_id > 0) {
+      this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.solicitacao_id === this.ofs.solicitacao_id))];
+      this.formOfIncluir.get('oficio_processo_id').patchValue(this.lb.processo_id);
+      this.ofs.processo_id = this.lb.processo_id;
+    }
+
   }
 
   // ***     FORMULARIO      *************************
@@ -176,7 +202,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
 
     this.formOfIncluir = this.formBuilder.group({
       /*oficio_processo_id: [this.ofs.oficio.oficio_processo_id, Validators.required],*/
-      oficio_processo_id: [null, Validators.required],
+      oficio_processo_id: [(this.ofs.processo_id > 0) ? this.ofs.processo_id : null, Validators.required],
       oficio_numero: [this.ofs.oficio.oficio_numero],
       oficio_convenio: [this.ofs.oficio.oficio_convenio],
       oficio_status: [0],
@@ -199,18 +225,18 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
       historico_andamento: [this.ofs.oficio.historico_andamento]
     });
 
-    if (this.ofs.solicitacao_id > 0 || this.ofs.processo_id > 0) {
-      if (this.ofs.processo_id > 0) {
+    if (this.ofs.processo_id > 0) {
+      /*if (this.ofs.processo_id > 0) {
       this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.processo_id === this.ofs.processo_id))];
         this.formOfIncluir.get('oficio_processo_id').patchValue(this.ofs.processo_id);
         if (this.ofs.solicitacao_id === 0) {
           this.ofs.solicitacao_id = this.lb.solicitacao_id;
         }
       } else {
-        this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.processo_id === this.ofs.solicitacao_id))];
+        this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.solicitacao_id === this.ofs.solicitacao_id))];
         this.formOfIncluir.get('oficio_processo_id').patchValue(this.lb.processo_id);
         this.ofs.processo_id = this.lb.processo_id;
-      }
+      }*/
       this.formOfIncluir.get('oficio_processo_id').markAsTouched();
       this.formOfIncluir.get('oficio_processo_id').markAsDirty();
     }
@@ -337,7 +363,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   isReadOnly(): boolean {
-    return (this.ofs.url !== '');
+    return (this.ofs.processo_id > 0 || this.ofs.solicitacao_id > 0);
   }
 
 /*  focus1(event) {
@@ -368,6 +394,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.ofs.url !== '') {
       this.ofs.processo_id = 0;
       this.ofs.solicitacao_id = 0;
+      this.ofs.oficioProcessoId = null;
       const url: string = this.ofs.url;
       this.ofs.url = '';
       this.router.navigate([url]);

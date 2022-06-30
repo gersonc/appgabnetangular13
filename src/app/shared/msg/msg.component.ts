@@ -3,16 +3,18 @@ import {Message,MessageService} from 'primeng-lts/api';
 import {MsgI, MsgService} from "../../_services/msg.service";
 import {delay, take} from "rxjs/operators";
 import {timer} from "rxjs";
+import {SpinnerService} from "../../_services/spinner.service";
 
 @Component({
   selector: 'app-msg',
-  template: `<p-toast baseZIndex="50000" key="principal"></p-toast><p-messages key="mensagem"></p-messages>`,
+  template: `<p-toast baseZIndex="50000" key="principal" (onClose)="onClose($event)"></p-toast><p-messages key="mensagem"></p-messages>`,
 })
 export class MsgComponent implements OnInit {
 
   constructor(
     public messageService: MessageService,
-    private msg: MsgService
+    private msg: MsgService,
+    private sps: SpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -22,6 +24,10 @@ export class MsgComponent implements OnInit {
       }
       this.messageService.add(m);
     })
+  }
+
+  onClose(ev) {
+    this.sps.fundoSN(true);
   }
 
 }

@@ -4,6 +4,9 @@ import {SolicService} from "../_services/solic.service";
 import {VersaoService} from "../../_services/versao.service";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {Router} from "@angular/router";
+import {take} from "rxjs/operators";
+import {Subscription} from "rxjs";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-solic-excluir',
@@ -12,6 +15,7 @@ import {Router} from "@angular/router";
 })
 export class SolicExcluirComponent implements OnInit {
 
+  sub: Subscription[] = [];
   sol: SolicListarI;
   botaoEnviarVF = false;
   public arquivoBlockSubmit = true;
@@ -47,12 +51,14 @@ export class SolicExcluirComponent implements OnInit {
   }
 
   mensagens: string[] = [];
+  resp: any[] = [];
 
 
   constructor(
     public aut: AuthenticationService,
     public ss: SolicService,
     public vs: VersaoService,
+    private ms: MsgService,
     private router: Router
   ) {
     this.sol = this.ss.solicitacaoApagar;
@@ -178,12 +184,48 @@ export class SolicExcluirComponent implements OnInit {
     return !this.permissao.permissao;
   }
 
-  excluirSolicitacao() {
 
+
+  excluirSolicitacao() {
+    if (this.permissao.permissao) {
+      this.sub.push(this.ss.excluirSolicitacao(this.sol.solicitacao_id)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            console.error(err);
+          },
+          complete: () => {
+            if (this.resp[0]) {
+              sessionStorage.removeItem('solic-menu-dropdown')
+                this.ms.add({
+                  key: 'principal',
+                  severity: 'success',
+                  summary: 'EXCLUIR SOLICITAÇÃO',
+                  detail: this.resp[2]
+                });
+
+              this.voltarListar();
+            } else {
+              console.error('ERRO - EXCLUIR ', this.resp[2]);
+              this.ms.add({
+                key: 'principal',
+                severity: 'warn',
+                summary: 'ATENÇÃO - ERRO',
+                detail: this.resp[2]
+              });
+            }
+          }
+        })
+      );
+    }
   }
 
   voltarListar() {
-    if (sessionStorage.getItem('solicitacao-busca')) {
+    if (sessionStorage.getItem('solic-busca')) {
       this.router.navigate(['/solic/listar/busca']);
     } else {
       // this.mi.showMenuInterno();

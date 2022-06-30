@@ -51,7 +51,7 @@ export class SolicService {
   }
 
   criaTabela() {
-    this.ts.titulosSN();
+    // this.ts.titulosSN();
     if (this.tabela === undefined) {
       this.tabela = new Datatable();
       if (this.stateSN) {
@@ -239,13 +239,13 @@ export class SolicService {
 
   montaTitulos(cps: string[]) {
     this.tabela.campos = cps;
-    if (this.ts.titulos.length === 0) {
+    /*if (this.ts.titulos.length === 0) {
       this.ts.buscaTitulos(cps);
     } else {
       if (this.tabela.titulos === undefined || this.tabela.titulos.length === 0) {
         this.tabela.titulos = this.ts.buscaTitulos(cps);
       }
-    }
+    }*/
   }
 
   solicitacaoBusca(): void {

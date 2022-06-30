@@ -14,7 +14,7 @@ export class SolicFormService {
   public solicitacao?: SolicFormI;
   public solA?: SolicFormAnalisarI;
   public solicListar?: SolicListarI;
-  public acao?: string = null;
+  public acao?: string | null  = null;
   // public solicitacaoVersao = 0;
   public ddSolicitacao_tipo_analize?: SelectItem[];
   public tipo_analize = 0;
@@ -205,8 +205,7 @@ export class SolicFormService {
 
   constructor(
     private vs: VersaoService
-  ) {
-  }
+  ) {}
 
   resetSolicitacao() {
     this.solicitacao = new SolicForm();
@@ -523,25 +522,27 @@ export class SolicFormService {
     } else {
       this.tipo_analize = n;
       const st = this.situacaoStatus(n);
-      if (this.vs.solicitacaoVersao === 1) {
-        if (this.solA.processo_id === 0) {
-          if(this.solA.solicitacao_status_id !== st) {
+      if (this.acao === 'analisar') {
+        if (this.vs.solicitacaoVersao === 1) {
+          if (this.solA.processo_id === 0) {
+            if (this.solA.solicitacao_status_id !== st) {
+              this.btnEnviar = false;
+            } else {
+              this.btnEnviar = true;
+            }
+          } else {
+            if (this.solA.processo_status_id !== st) {
+              this.btnEnviar = false;
+            } else {
+              this.btnEnviar = true;
+            }
+          }
+        } else {
+          if (this.solA.solicitacao_status_id !== st) {
             this.btnEnviar = false;
           } else {
             this.btnEnviar = true;
           }
-        } else {
-          if(this.solA.processo_status_id !== st) {
-            this.btnEnviar = false;
-          } else {
-            this.btnEnviar = true;
-          }
-        }
-      } else {
-        if(this.solA.solicitacao_status_id !== st) {
-          this.btnEnviar = false;
-        } else {
-          this.btnEnviar = true;
         }
       }
     }
