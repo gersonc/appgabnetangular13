@@ -122,6 +122,9 @@ export class SolicService {
   }
 
   onRowExpand(evento) {
+    console.log('this.tabela.titulos',this.tabela.titulos);
+    console.log('this.tabela.campos',this.tabela.campos);
+    console.log('this.tabela.selectedColumns',this.tabela.selectedColumns);
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
@@ -371,6 +374,10 @@ export class SolicService {
     this.ts.buscaTitulos(cps);
   }
 
+  buscaTitulosRelatorio(cps: string[]): string[] {
+    return this.ts.buscaTitulosRelatorio(cps);
+  }
+
   customSort(ev) {
   }
 
@@ -440,6 +447,12 @@ export class SolicService {
   postSolicitacaoBusca(busca: SolicBuscaI) {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     const url = this.url.solic + '/listar';
+    return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
+  }
+
+  postSolicitacaoRelatorio(busca: SolicBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.solic + '/relatorio';
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
   }
 

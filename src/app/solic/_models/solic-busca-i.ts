@@ -24,6 +24,6 @@ export interface SolicBuscaI {
   sortField?: string;
   todos?: boolean;
   campos?: BuscaCampoI[];
-  campos2?: string[];
+  /*campos2?: string[];*/
   ids?: number[];
 }

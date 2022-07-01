@@ -3,16 +3,18 @@ import {Editor} from "primeng/editor";
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
 import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
-import {AuthenticationService, CsvService, MenuInternoService} from "../../_services";
+import {AuthenticationService, CsvService, ExcelService, MenuInternoService} from "../../_services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import * as quillToWord from "quill-to-word";
 import {Config} from "quill-to-word";
 import {saveAs} from "file-saver";
-import {SolicListarI, SolicTotalInterface} from "../_models/solic-listar-i";
+import {SolicListarI, SolicPaginacaoInterface, SolicTotalInterface} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
+import {SolicBuscaI} from "../_models/solic-busca-i";
+import {ColunasI} from "../../_models/colunas-i";
 
 @Component({
   selector: 'app-solic-datatable',
@@ -101,24 +103,19 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
 
     this.itemsAcao = [
-      /*{
-        label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
-          this.exportToCsv();
-        }
-      },*/
       {
-        label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+        label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly:true})
         }
       },
       {
-        label: 'CSV2', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+        label: 'CSV - PÁGINA', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV()
         }
       },
       {
         label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
-          this.exportToCsv2(true);
+          this.exportToCsv(true);
         }
       },
       {
@@ -142,13 +139,18 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         }
       },
       {
-        label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
-          this.exportToXLSX();
+        label: 'EXCEL - SELECIONADOS', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
+          this.exportToXLSX(1);
+        }
+      },
+      {
+        label: 'EXCEL - PÁGINA', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
+          this.exportToXLSX(2);
         }
       },
       {
         label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
-          this.exportToXLSX(true);
+          this.exportToXLSX(3);
         }
       }
     ];
@@ -658,58 +660,89 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     return true;
   }*/
 
-  exportToCsv(td: boolean = false) {
-  }
 
-  exportToCsv2(td: boolean = false) {
-    // this.tmp = this.ss.busca.todos;
-    this.ss.busca.todos = td;
-    if (this.ss.busca.todos === true) {
-      // let solcsv: SolicitacaoInterface[];
-      let solcsv: SolicListarI[];
-      let totalprint: SolicTotalInterface;
-      let numTotalRegs: number;
-      this.ss.busca.campos = this.ss.tabela.selectedColumns
-      this.ss.busca.campos2 = this.ss.tabela.campos
-      // this.cs.mostraCarregador();
-      /*this.sub.push(this.ss.postSolicitacaoBusca (this.sbs.busca)
+  exportToCsv(td: boolean = false) {
+    if (td === true) {
+      let busca: SolicBuscaI = this.ss.busca;
+      busca.rows = undefined;
+      busca.campos = this.ss.tabela.selectedColumns;
+      busca.todos = td;
+      busca.first = undefined;
+      let slolicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.ss.postSolicitacaoRelatorio (busca)
         .subscribe ({
           next: (dados) => {
-            solcsv = dados.solicitacao;
-            totalprint = dados.total;
-            numTotalRegs = totalprint.num;
+            slolicRelatorio = dados
           },
           error: err => {
             console.error ('ERRO-->', err);
-            // this.cs.escondeCarregador();
           },
           complete: () => {
-            CsvService.jsonToCsv ('solicitacao', this.ss.selecionados, solcsv);
-            this.ss.busca.todos = this.tmp;
-            // this.cs.escondeCarregador();
+            CsvService.jsonToCsv ('solicitacao', this.ss.tabela.selectedColumns, slolicRelatorio.solicitacao);
+
           }
         })
-      );*/
-      console.log('busca', this.ss.busca);
-      return true;
+      );
     }
-
-    /*if (this.ss.selecionados && this.ss.selecionados.length > 0) {
-      csvService.jsonToCsv ('solicitacao', this.ss.selecionados, this.ss.selecionados);
-      this.sbs.busca.todos = this.tmp;
-      return true;
-    }
-
-    csvService.jsonToCsv ('solicitacao', this.ss.selecionados, this.solicitacoes);
-    this.sbs.busca.todos = this.tmp;
-    return true;*/
-  }
-
-  exportToXLSX(td: boolean = false) {
-
   }
 
   /*exportToXLSX(td: boolean = false) {
+
+  }*/
+
+  exportToXLSX(td: number = 1) {
+
+    console.log('this.ss.tabela.selectedColumns',this.ss.tabela.selectedColumns);
+    console.log('this.ss.selecionados',this.ss.selecionados);
+
+    let colunas: any[] = []
+    colunas.push({
+      field: "solicitacao_id",
+      header: "ID",
+      sortable: "true",
+      width: "130px",
+    });
+    colunas.push(this.ss.tabela.selectedColumns);
+    // console.log('this.ss.tabela.selectedColumns',this.ss.tabela.selectedColumns);
+
+    if (td === 3) {
+      let busca: SolicBuscaI = this.ss.busca;
+      busca.rows = undefined;
+      busca.campos = this.ss.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      let slolicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.ss.postSolicitacaoRelatorio (busca)
+        .subscribe ({
+          next: (dados) => {
+            slolicRelatorio = dados
+          },
+          error: err => {
+            console.error ('ERRO-->', err);
+          },
+          complete: () => {
+            ExcelService.exportAsExcelFile ('solicitacao',  slolicRelatorio.solicitacao, this.ss.tabela.selectedColumns, 'solicitacao_id');
+
+          }
+        })
+      );
+    }
+
+    if (this.ss.solicitacoes.length > 0 && td === 2) {
+      ExcelService.exportAsExcelFile('solicitacao', this.ss.solicitacoes, this.ss.tabela.selectedColumns, 'solicitacao_id');
+      return true;
+    }
+
+
+    if (this.ss.selecionados !== undefined && this.ss.selecionados.length > 0 && td === 1) {
+      ExcelService.exportAsExcelFile ('solicitacao', this.ss.selecionados, colunas);
+      return true;
+    }
+
+
+
+    /*
+
     this.tmp = this.sbs.busca.todos;
     this.sbs.busca.todos = td;
     if (this.sbs.busca.todos === true) {
@@ -747,8 +780,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
     ExcelService.exportAsExcelFile ('solicitacao', this.solicitacoes,  this.ss.getArrayTitulo());
     this.sbs.busca.todos = this.tmp;
-    return true;
-  }*/
+    return true;*/
+  }
 
   exportToXLSXSimples(dados: SolicListarI[]) {
   }

@@ -656,23 +656,23 @@ export class SolicitacaoDatatableComponent implements OnInit, OnDestroy {
             this.cs.escondeCarregador();
           },
           complete: () => {
-            ExcelService.exportAsExcelFile ('solicitacao', solcsv, this.solicitacaoService.getArrayTitulo());
+           /* ExcelService.exportAsExcelFile ('solicitacao', solcsv, this.solicitacaoService.getArrayTitulo());
             this.sbs.solicitacaoBusca.todos = this.tmp;
-            this.cs.escondeCarregador();
+            this.cs.escondeCarregador();*/
           }
         })
       );
       return true;
     }
 
-    if (this.selecionados && this.selecionados.length > 0) {
+   /* if (this.selecionados && this.selecionados.length > 0) {
       ExcelService.exportAsExcelFile ('solicitacao', this.exportToXLSXSimples(this.selecionados), this.solicitacaoService.getArrayTitulo());
       this.sbs.solicitacaoBusca.todos = this.tmp;
       return true;
     }
     ExcelService.exportAsExcelFile ('solicitacao', this.solicitacoes,  this.solicitacaoService.getArrayTitulo());
     this.sbs.solicitacaoBusca.todos = this.tmp;
-    return true;
+    return true;*/
   }
 
   exportToXLSXSimples(dados: SolicitacaoListar12Interface[]): SolicitacaoExcel12[] {

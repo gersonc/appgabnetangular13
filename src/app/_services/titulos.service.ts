@@ -45,6 +45,16 @@ export class TitulosService {
     return rs;
   }
 
+  buscaTitulosRelatorio(cps: string[]): string[] {
+    let rs: string[] = [];
+    cps.forEach(c => {
+      if (this.titulos[c] !== undefined) {
+        rs[c] = this.titulos[c].mtitulo;
+      }
+    })
+    return rs;
+  }
+
   OnDestroy() {
     this.campos = [];
     this.titulos.clear();

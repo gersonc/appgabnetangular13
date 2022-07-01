@@ -201,6 +201,7 @@ export interface SolicPaginacaoInterface {
   total: TotalI;
 }
 
+
 export const camposSolicitacaListar: string[] = [
   'solicitacao_situacao',
   'solicitacao_status_nome',

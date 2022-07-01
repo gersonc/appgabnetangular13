@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+// import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 import { CadastroInterface } from '../cadastro/_models';
+import {AngularCsv} from "angular-csv-ext";
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +26,11 @@ export class CsvService {
       useBom: true,
       noDownload: false,
       headers: titulos,
-      nullToEmptyString: false,
+      nullToEmptyString: true,
     };
 
 
-    return new Angular5Csv(json, CsvService.toCSVExportFileName(nome_arquivo), options);
+    return new AngularCsv(json, CsvService.toCSVExportFileName(nome_arquivo), options);
   }
 
 }

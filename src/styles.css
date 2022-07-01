@@ -15132,6 +15132,16 @@ a.campo-extendido:hover {
   text-decoration-line: underline;
 }
 
+.relatorio.p-menu {
+  font-size: .9rem;
+  font-weight: 500;
+  min-width: 15rem;
+}
+
+.relatorio.p-menu .p-menuitem-link {
+  padding: 0.5rem .5rem;
+}
+
 /*.p-button-rounded .p-button-sm > .p-button-label {
   padding-left: .5rem;
   padding-right: .5rem;
