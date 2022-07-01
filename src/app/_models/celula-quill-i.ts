@@ -1,7 +1,7 @@
 export interface CelulaQuillI {
   field?: string | null;
   header?: string | null;
-  valor?: any;
+  valor?: string | null;
   linha?: any;
   impressao?: boolean;
 }

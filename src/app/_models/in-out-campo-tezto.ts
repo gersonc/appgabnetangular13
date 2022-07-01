@@ -1,3 +1,5 @@
+import {Stripslashes} from "../shared/functions/stripslashes";
+
 export interface CpoEditor {
   delta: any;
   html: string;
@@ -22,7 +24,7 @@ export function InOutCampoTexto ( html: string|null|undefined, delta: any|null|u
     } else {
       return {
         format: 'html',
-        valor: html,
+        valor: Stripslashes(html),
         vf: true
       };
     }

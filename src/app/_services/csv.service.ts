@@ -13,7 +13,7 @@ export class CsvService {
     return `${csvFileName}_gabnet_${new Date().getTime()}`;
   }
 
-  public static jsonToCsv(nome_arquivo: string, selectedColumns: any[], gson: any[]) {
+  public static jsonToCsv(nome_arquivo: string, selectedColumns: any[], json: any[]) {
     const titulos: string[] = [];
     selectedColumns.forEach((d) => {titulos.push('"' + d.header.toString() + '"'); });
     const options = {
@@ -29,7 +29,7 @@ export class CsvService {
     };
 
 
-    return new Angular5Csv(gson, CsvService.toCSVExportFileName(nome_arquivo), options);
+    return new Angular5Csv(json, CsvService.toCSVExportFileName(nome_arquivo), options);
   }
 
 }

@@ -1,7 +1,5 @@
 <ng-container *ngIf="tipo === 1">
-  <ng-container>
     <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="mostraTexto()">{{ce.valorOriginal}}</div>
-  </ng-container>
 </ng-container>
 
 <ng-container *ngIf="tipo === 2">
@@ -15,6 +13,7 @@
 <ng-container *ngIf="tipo === 1">
   <ng-container *ngIf="showCampoTexto">
     <p-dialog
+      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
       [(visible)]="showCampoTexto"
       [dismissableMask]="true"
       [modal]="true"

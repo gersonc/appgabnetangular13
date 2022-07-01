@@ -3,7 +3,9 @@
 /*
 *** FONTES PARA O EDITOR ******************
 */
+
 :root {
+  --font-padrao: calc(10px + (16 - 10) * ((100vw - 360px) / (1920 - 360)));
   --surface-i:#607D8B;
   --surface-u:#4d646f;
   --surface-a:#ffffff;
@@ -183,6 +185,39 @@
   --menuinterno-bg: var(--formularios-bg);
   --menuinterno-close: var(--filled-icons-color);
   --overlayArrowLeft: 0;
+}
+
+
+html {
+  /*font-size: 1rem;*/
+  font-size: var(--font-padrao);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: block;
+  margin: 0 !important;
+  font-family: var(--font-family);
+}
+@media screen and (min-width: 1200px) {
+
+}
+@media screen and (min-width: 992px) {
+
+}
+@media screen and (min-width: 768px) {
+
+}
+@media screen and (min-width: 576px) {
+
+}
+@media screen and (max-width: 769px) {
+  .calform .p-datepicker table th, .p-datepicker table td {
+    padding: 0;
+  }
 }
 
 /*!
@@ -13731,34 +13766,7 @@ p-panel.arquivolistahorizontal .p-panel-content {
     stroke-dashoffset: -124px;
   }
 }
-html {
-  font-size: 1rem;
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  display: block;
-  margin: 0 !important;
-  font-family: var(--font-family);
-}
-@media screen and (min-width: 1200px) {
 
-}
-@media screen and (min-width: 992px) {
-
-}
-@media screen and (min-width: 768px) {
-
-}
-@media screen and (min-width: 576px) {
-
-}
-@media screen and (max-width: 769px) {
-  .calform .p-datepicker table th, .p-datepicker table td {
-    padding: 0;
-  }
-}
 .app {
   padding: 0;
   border: 0;

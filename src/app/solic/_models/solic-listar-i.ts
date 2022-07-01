@@ -192,9 +192,9 @@ export interface SolicListarI {
 
 export type KeySolicListar = keyof typeof SolicListar;*/
 
-/*export interface SolicTotalInterface {
+export interface SolicTotalInterface {
   num: number;
-}*/
+}
 
 export interface SolicPaginacaoInterface {
   solicitacao: SolicListarI[];

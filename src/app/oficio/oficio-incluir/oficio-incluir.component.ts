@@ -111,12 +111,14 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     solicitacao_orgao: '',
     solicitacao_area_interesse_nome: '',
     solicitacao_descricao: '',
+    solicitacao_descricao_texto: '',
     solicitacao_descricao_delta: '',
     cadastro_bairro: '',
     cadastro_municipio_nome: '',
     oficio_codigo: '',
   }
   htm: string | null = null;
+  txt: string | null = null;
   delta: any = null;
   display = false;
   dialog = false;
@@ -144,7 +146,7 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.url === 'processo') {
       this.location.go('../solic/listar/busca');
     }
-    if (this.ofs.oficioProcessoId === null) {
+    if (this.ofs.oficioProcessoId !== null) {
       this.lb = this.ofs.oficioProcessoId;
       this.herancaSN = true;
     }
@@ -260,6 +262,17 @@ export class OficioIncluirComponent implements AfterViewInit, OnInit, OnDestroy 
     } else {
       this.htm = null;
     }
+    if(typeof(this.lb.solicitacao_descricao_texto) !== 'undefined' && this.lb.solicitacao_descricao_texto !== null) {
+      this.txt = this.lb.solicitacao_descricao_texto;
+    } else {
+      if (this.htm !== null) {
+        this.txt = this.htm;
+      } else {
+        this.txt = null;
+      }
+
+    }
+
     if (this.delta !== null || this.htm !== null) {
       //this.dialog = true;
     }

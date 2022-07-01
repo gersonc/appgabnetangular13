@@ -48,6 +48,7 @@ import { EditorModule } from 'primeng/editor';
 import {AccordionModule} from 'primeng/accordion';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
+import {DetalheQuillModule} from "../shared/detalhe-quill/detalhe-quill.module";
 
 
 
@@ -111,7 +112,8 @@ import {QuillViewModule} from "../shared/quill-view/quill-view.module";
         EditorModule,
         AccordionModule,
         InputNumberModule,
-        QuillViewModule
+        QuillViewModule,
+        DetalheQuillModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

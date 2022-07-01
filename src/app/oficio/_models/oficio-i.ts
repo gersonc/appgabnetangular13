@@ -52,6 +52,7 @@ export interface DdOficioProcessoId {
   solicitacao_orgao?: string | null;
   solicitacao_area_interesse_nome?: string;
   solicitacao_descricao?: string | null;
+  solicitacao_descricao_texto?: string | null;
   solicitacao_descricao_delta?: string | null;
   cadastro_bairro?: string | null;
   cadastro_municipio_nome?: string | null;

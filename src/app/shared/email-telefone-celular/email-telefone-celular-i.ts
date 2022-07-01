@@ -190,7 +190,7 @@ export function getCEmail(field: string, valor: string): EmailTelefoneCelularI {
     return {
       ativo: true,
       tipo: 3,
-      valor: valor,
+      valor: valor.toLowerCase(),
       email: vl
     }
   } else {

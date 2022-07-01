@@ -72,10 +72,10 @@
                             <td>{{lb.solicitacao_area_interesse_nome}}</td>
                           </tr>
 
-                          <tr *ngIf="this.htm !== null">
+                          <tr *ngIf="htm !== null">
                             <th>Descrição da solicitação:</th>
                             <td style="text-align: right">
-                              <i *ngIf="htm !== null" class="pi pi-search" (click)="showDialog()"></i>
+                              <app-detalhe-quill [detalhe]="{htm: htm, txt: txt, titulo: 'Descrição da solicitação:'}"></app-detalhe-quill>
                             </td>
                           </tr>
                         </table>
@@ -124,10 +124,10 @@
                             <td>{{lb.solicitacao_area_interesse_nome}}</td>
                           </tr>
 
-                          <tr *ngIf="this.htm !== null">
+                          <tr *ngIf="lb.solicitacao_descricao !== undefined && lb.solicitacao_descricao !== null">
                             <th>Descrição da solicitação:</th>
-                            <td style="text-align: right">
-                              <i *ngIf="htm !== null" class="pi pi-search" (click)="showDialog()"></i>
+                            <td>
+                              <app-detalhe-quill [detalhe]="{htm: lb.solicitacao_descricao, txt: lb.solicitacao_descricao_texto}"></app-detalhe-quill>
                             </td>
                           </tr>
                         </table>

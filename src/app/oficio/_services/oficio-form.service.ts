@@ -37,6 +37,7 @@ export class OficioFormService {
       solicitacao_orgao: (sol.solicitacao_orgao !== undefined) ? sol.solicitacao_orgao : null,
       solicitacao_area_interesse_nome: sol.solicitacao_area_interesse_nome,
       solicitacao_descricao: (sol.solicitacao_descricao !== undefined) ? sol.solicitacao_descricao : null,
+      solicitacao_descricao_texto: (sol.solicitacao_descricao_texto !== undefined) ? sol.solicitacao_descricao_texto : null,
       solicitacao_descricao_delta: (sol.solicitacao_descricao_delta !== undefined) ? sol.solicitacao_descricao_delta : null,
       cadastro_bairro: (sol.cadastro_bairro !== undefined) ? sol.cadastro_bairro : null,
       cadastro_municipio_nome: sol.solicitacao_cadastro_nome,

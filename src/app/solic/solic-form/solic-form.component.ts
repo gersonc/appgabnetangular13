@@ -412,7 +412,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
           complete: () => {
             if (this.resp[0]) {
               sessionStorage.removeItem('solic-menu-dropdown');
-              this.dd.ddSubscription('solic-menu-dropdown');
+              // this.dd.ddSubscription('solic-menu-dropdown');
               if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
                 this.ofs.solicitacao_id = +this.resp[1];
                 this.ofs.processo_id = +this.resp[4];
