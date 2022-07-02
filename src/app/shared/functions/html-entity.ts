@@ -1,25 +1,4 @@
 export function get_html_translation_table(table, quoteStyle): any {
-  // eslint-disable-line camelcase
-  //  discuss at: https://locutus.io/php/get_html_translation_table/
-  // original by: Philip Peterson
-  //  revised by: Kevin van Zonneveld (https://kvz.io)
-  // bugfixed by: noname
-  // bugfixed by: Alex
-  // bugfixed by: Marco
-  // bugfixed by: madipta
-  // bugfixed by: Brett Zamir (https://brett-zamir.me)
-  // bugfixed by: T.Wild
-  // improved by: KELAN
-  // improved by: Brett Zamir (https://brett-zamir.me)
-  //    input by: Frank Forte
-  //    input by: Ratheous
-  //      note 1: It has been decided that we're not going to add global
-  //      note 1: dependencies to Locutus, meaning the constants are not
-  //      note 1: real constants, but strings instead. Integers are also supported if someone
-  //      note 1: chooses to create the constants themselves.
-  //   example 1: get_html_translation_table('HTML_SPECIALCHARS')
-  //   returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
-
   const entities = {};
   const hashMap = {};
   let decimal;
@@ -172,25 +151,6 @@ export function get_html_translation_table(table, quoteStyle): any {
 
 
 export function html_entity_decode(string, quoteStyle): boolean | string {
-  // eslint-disable-line camelcase
-  //  discuss at: https://locutus.io/php/html_entity_decode/
-  // original by: john (https://www.jd-tech.net)
-  //    input by: ger
-  //    input by: Ratheous
-  //    input by: Nick Kolosov (https://sammy.ru)
-  // improved by: Kevin van Zonneveld (https://kvz.io)
-  // improved by: marc andreu
-  //  revised by: Kevin van Zonneveld (https://kvz.io)
-  //  revised by: Kevin van Zonneveld (https://kvz.io)
-  // bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
-  // bugfixed by: Brett Zamir (https://brett-zamir.me)
-  // bugfixed by: Fox
-  //   example 1: html_entity_decode('Kevin &amp; van Zonneveld')
-  //   returns 1: 'Kevin & van Zonneveld'
-  //   example 2: html_entity_decode('&amp;lt;')
-  //   returns 2: '&lt;'
-
-  // const getHtmlTranslationTable = require('../strings/get_html_translation_table')
   let tmpStr = '';
   let entity = '';
   let symbol = '';
