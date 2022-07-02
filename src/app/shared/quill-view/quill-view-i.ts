@@ -65,7 +65,6 @@ export class QuillViewC implements QuillViewI {
         if (valor !== null) {
         // if (valor !== null) {
           // this._cpdelta = JSON.parse(valor);
-          console.log('Object', valor);
 
           this._format = 'json';
           this.resp = valor;

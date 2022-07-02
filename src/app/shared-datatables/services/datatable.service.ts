@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 // import {SolicTotalInterface} from "../_models/solic-listar-i";
 import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
-import {BuscaCampoI} from "../models/busca-campo-i";
+// import {BuscaCampoI} from "../models/busca-campo-i";
 import {MenuItem} from "primeng/api";
 import {TotalI} from "../models/total-i";
 import {BuscaGeneric, BuscaGenerica} from "../models/busca-generic";
+import {ColunasI} from "../../_models/colunas-i";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class DatatableService {
   campos: string[];
   titulos: string[];
   camposTexto: string[];
-  camposSelecionados: BuscaCampoI[];
+  camposSelecionados: ColunasI[];
   total: TotalI;
 
   cols: any[] = [];

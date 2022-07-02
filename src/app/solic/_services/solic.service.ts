@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {
+  camposSolicitacaListar,
   SolicListarI,
   SolicPaginacaoInterface,
   solicSolicitacaoCamposTexto
@@ -12,12 +13,14 @@ import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
-import {UrlService} from "../../_services";
+import {TabelaPdfService, UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
 import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
+import {ColunasI} from "../../_models/colunas-i";
+import {pdfTabelaCampoTexto} from "../../shared/functions/pdf-tabela-campo-texto";
 
 
 @Injectable({
@@ -377,6 +380,48 @@ export class SolicService {
   buscaTitulosRelatorio(cps: string[]): string[] {
     return this.ts.buscaTitulosRelatorio(cps);
   }
+
+  excelCamposTexto(): ColunasI[]  {
+    let cps: ColunasI[] = [];
+    this.tabela.selectedColumns.forEach( c => {
+      if (solicSolicitacaoCamposTexto.indexOf(c.field) === -1) {
+        cps.push(c);
+      }
+    });
+    return cps;
+  }
+
+  tamanhoLinha(): number {
+    let n: number = 0;
+    this.tabela.selectedColumns.forEach(t => {
+      n += +t.width.replace('px', '');
+    });
+    return n;
+  }
+
+  pdfCamposTexto(n: number): void  {
+    // 1 - selecionados
+    // 2 - pagina
+    if (n === 1) {
+      TabelaPdfService.autoTabela2(
+        'solicitacoes',
+        'SOLICITAÇÕES',
+        this.tabela.selectedColumns,
+        pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.selecionados)
+      );
+      // return pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.selecionados);
+    }
+    if (n === 2) {
+      TabelaPdfService.autoTabela2(
+        'solicitacoes',
+        'SOLICITAÇÕES',
+        this.tabela.selectedColumns,
+        pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.solicitacoes)
+      );
+      // return pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.solicitacoes);
+    }
+  }
+
 
   customSort(ev) {
   }

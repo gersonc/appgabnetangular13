@@ -285,6 +285,9 @@
   [dismissableMask]="true"
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="ss.tabela.selectedColumns"></app-seletor-colunas>
+  <p-footer>
+    <button pButton type="button" label="Reset " icon="pi pi-times" class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
+  </p-footer>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 <!--<p-toast key="solicitacaoToast" position="center"></p-toast>-->

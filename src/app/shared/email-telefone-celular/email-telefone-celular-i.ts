@@ -164,7 +164,6 @@ export function getTelWhatsApp(field: string, valor: string): EmailTelefoneCelul
 
   if (l === 11) {
     if (telefone_validation(vl, field)) {
-      console.log('telefone_validation', telefone_validation(vl, field), vl, field);
       return {
         ativo: true,
         tipo: 1,

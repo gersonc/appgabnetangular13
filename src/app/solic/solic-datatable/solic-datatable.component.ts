@@ -1,20 +1,20 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Editor} from "primeng/editor";
+//import {Editor} from "primeng/editor";
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
 import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
-import {AuthenticationService, CsvService, ExcelService, MenuInternoService} from "../../_services";
+import {AuthenticationService, CsvService, ExcelService, MenuInternoService, TabelaPdfService} from "../../_services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import * as quillToWord from "quill-to-word";
 import {Config} from "quill-to-word";
 import {saveAs} from "file-saver";
-import {SolicListarI, SolicPaginacaoInterface, SolicTotalInterface} from "../_models/solic-listar-i";
+import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
-import {ColunasI} from "../../_models/colunas-i";
+import {PdfService} from "../../_services/pdf.service";
 
 @Component({
   selector: 'app-solic-datatable',
@@ -24,9 +24,8 @@ import {ColunasI} from "../../_models/colunas-i";
 
 export class SolicDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
-  @ViewChild('edtor', {static: true}) public edtor: Editor;
-  // loading = false;
-  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
+  // @ViewChild('edtor', {static: true}) public edtor: Editor;
+  altura = `${WindowsService.altura - 150}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
   authAlterar = false;
@@ -41,9 +40,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   deltaquill: any = null;
   showDetalhe = false;
   solDetalhe?: SolicListarI;
-  // showHistoricoForm = false;
-  // showHistorico = false;
-  // solHistForm: any;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   colteste: string[];
@@ -57,23 +53,14 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   showHistoricoSol2 = false;
 
   tituloHistoricoDialog = 'ANDAMENTOS';
-  // showHistoricoForm = false;
-  // showHistoricoForm2 = false;
-
   histAcao: string = '';
   registro_id = 0;
   histFormI?: HistFormI;
   cssMostra: string | null = null;
-  // histListI: HistListI | null = null;
-  // solHistForm: SolicListarI | null;
   permListHistSol: boolean = false;
   permInclHistSol: boolean = false;
   permListHist: boolean = false;
   permInclHist: boolean = false;
-
-  /*htm: string | null = null;
-  txt: string | null = null;
-  dlt: any = null;*/
 
   impressao = false;
 
@@ -85,8 +72,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     public ss: SolicService,
     public md: MenuDatatableService,
-    private sfs: SolicFormService,
-   //  private csvService: CsvService
+    private sfs: SolicFormService
   ) {
     this.solicitacaoVersao = aut.solicitacaoVersao;
   }
@@ -98,6 +84,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.permInclHistSol = (this.aut.historico_solicitacao_incluir || this.aut.historico_solicitacao_alterar || this.aut.solicitacao_analisar || (this.aut.usuario_responsavel_sn || this.permInclHist));
 
     this.montaColunas();
+
     if (!this.ss.stateSN) {
       this.resetSelectedColumns();
     }
@@ -105,12 +92,12 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.itemsAcao = [
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
-          this.dtb.exportCSV({selectionOnly:true})
+          this.dtb.exportCSV({selectionOnly: true});
         }
       },
       {
         label: 'CSV - PÁGINA', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
-          this.dtb.exportCSV()
+          this.dtb.exportCSV();
         }
       },
       {
@@ -119,13 +106,18 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         }
       },
       {
-        label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
-          this.mostraTabelaPdf();
+        label: 'PDF - SELECIONADOS', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
+          this.mostraTabelaPdf(1);
+        }
+      },
+      {
+        label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          this.mostraTabelaPdf(2);
         }
       },
       {
         label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          this.mostraTabelaPdf(true);
+          this.mostraTabelaPdf(3);
         }
       },
       {
@@ -302,6 +294,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     );
   }
 
+  resetColunas() {
+    this.ss.tabela.mostraSeletor = false;
+    this.resetSelectedColumns();
+  }
+
   rowColor(field: string, vl1: number, vl2: string, vl3: string | number): string | null {
     if (field !== 'processo_status_nome' && field !== 'solicitacao_status_nome' && field !== 'solicitacao_situacao') {
       return null;
@@ -382,32 +379,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*colunaTexto(field: string) {
-
-  }*/
-
-  /*mostraTexto(texto: any[]) {
-    this.campoTitulo = texto[0];
-    this.campoTexto = texto[3];
-    this.deltaquill = (texto[4]);
-    // this.campoTitulo = texto[0];
-    this.campoHtml = texto[1]
-    this.showCampoTexto = true;
-  }
-
-  escondeTexto() {
-    this.showCampoTexto = false;
-    this.campoTexto = null;
-    this.deltaquill = null;
-    this.campoTitulo = null;
-    this.campoHtml = null;
-  }*/
-
   // EVENTOS ===================================================================
-
-  teste(ev) {
-    console.log('teste', ev);
-  }
 
   onColReorder(event): void {
     this.mapeiaColunas();
@@ -467,23 +439,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.mostraDialog(true);
   }
 
-  /*historicoSolicitacao(solicitacao_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
-    if (acao === 'listar') {
-      this.histListI = {
-        hist: historicos,
-        idx: idx,
-        registro_id: solicitacao_id,
-        modulo: 'solicitacao'
-      }
-      this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
-      this.ss.montaHistorico('solicitacao', idx);
-    }
-    this.idx = idx;
-    this.showHistorico2 = true;
-    this.showHistorico = true;
-    this.mostraDialog(true);
-  }*/
-
   mostraDialog(ev: boolean) {
     this.cssMostra = (ev) ? null : 'p-d-none';
   }
@@ -517,7 +472,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   escondeDetalhe() {
     this.showDetalhe = false;
     this.solDetalhe = null;
-    // this.ss.detalhe = null;
   }
 
   solicitacaoAlterar(sol: SolicListarI) {
@@ -563,15 +517,21 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   // FUNCOES RELATORIOS=========================================================
 
-  mostraTabelaPdf(td: boolean = false) {
+  mostraTabelaPdf(n: number) {
 
+    console.log('tamanhoLinha', this.ss.tamanhoLinha());
+    this.ss.pdfCamposTexto(n);
+    // PdfService.tabelaToPdf(this.ss.tabela.selectedColumns, this.ss.solicitacoes);
+    // TabelaPdfService.autoTabela('solicitacoes', 'SOLICITAÃOES', this.ss.tabela.selectedColumns, this.ss.solicitacoes);
   }
 
-  buscaIdx(id: number) {
+/*  buscaIdx(id: number) {
     return this.ss.solicitacoes.findIndex(d => {
       d.solicitacao_id = id
     });
-  }
+  }*/
+
+
 
   /*mostraTabelaPdf(td: boolean = false) {
     this.tmp = this.sbs.busca.todos;
@@ -669,16 +629,16 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       busca.todos = td;
       busca.first = undefined;
       let slolicRelatorio: SolicPaginacaoInterface;
-      this.sub.push(this.ss.postSolicitacaoRelatorio (busca)
-        .subscribe ({
+      this.sub.push(this.ss.postSolicitacaoRelatorio(busca)
+        .subscribe({
           next: (dados) => {
             slolicRelatorio = dados
           },
           error: err => {
-            console.error ('ERRO-->', err);
+            console.error('ERRO-->', err);
           },
           complete: () => {
-            CsvService.jsonToCsv ('solicitacao', this.ss.tabela.selectedColumns, slolicRelatorio.solicitacao);
+            CsvService.jsonToCsv('solicitacao', this.ss.tabela.selectedColumns, slolicRelatorio.solicitacao);
 
           }
         })
@@ -686,147 +646,39 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*exportToXLSX(td: boolean = false) {
-
-  }*/
-
   exportToXLSX(td: number = 1) {
-
-    console.log('this.ss.tabela.selectedColumns',this.ss.tabela.selectedColumns);
-    console.log('this.ss.selecionados',this.ss.selecionados);
-
-    let colunas: any[] = []
-    colunas.push({
-      field: "solicitacao_id",
-      header: "ID",
-      sortable: "true",
-      width: "130px",
-    });
-    colunas.push(this.ss.tabela.selectedColumns);
-    // console.log('this.ss.tabela.selectedColumns',this.ss.tabela.selectedColumns);
-
+    const cp = this.ss.excelCamposTexto();
     if (td === 3) {
       let busca: SolicBuscaI = this.ss.busca;
       busca.rows = undefined;
-      busca.campos = this.ss.tabela.selectedColumns;
+      busca.campos = cp
       busca.todos = true;
       busca.first = undefined;
-      let slolicRelatorio: SolicPaginacaoInterface;
-      this.sub.push(this.ss.postSolicitacaoRelatorio (busca)
-        .subscribe ({
+      busca.excel = true;
+      let solicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.ss.postSolicitacaoRelatorio(busca)
+        .subscribe({
           next: (dados) => {
-            slolicRelatorio = dados
+            solicRelatorio = dados
           },
           error: err => {
-            console.error ('ERRO-->', err);
+            console.error('ERRO-->', err);
           },
           complete: () => {
-            ExcelService.exportAsExcelFile ('solicitacao',  slolicRelatorio.solicitacao, this.ss.tabela.selectedColumns, 'solicitacao_id');
-
+            ExcelService.criaExcelFile('solicitacao', solicRelatorio.solicitacao, cp);
           }
         })
       );
     }
-
     if (this.ss.solicitacoes.length > 0 && td === 2) {
-      ExcelService.exportAsExcelFile('solicitacao', this.ss.solicitacoes, this.ss.tabela.selectedColumns, 'solicitacao_id');
+      ExcelService.criaExcelFile('solicitacao', this.ss.solicitacoes, cp);
       return true;
     }
-
-
     if (this.ss.selecionados !== undefined && this.ss.selecionados.length > 0 && td === 1) {
-      ExcelService.exportAsExcelFile ('solicitacao', this.ss.selecionados, colunas);
+      ExcelService.criaExcelFile('solicitacao', this.ss.selecionados, cp);
       return true;
     }
-
-
-
-    /*
-
-    this.tmp = this.sbs.busca.todos;
-    this.sbs.busca.todos = td;
-    if (this.sbs.busca.todos === true) {
-      // let solcsv: SolicitacaoInterface[];
-      let solcsv: SolicitacaoListar12Interface[] | SolicitacaoListar345Interface[];
-      let totalprint: SolicitacaoTotalInterface;
-      let numTotalRegs: number;
-      this.sbs.busca['campos'] = this.selectedColumns;
-      // this.cs.mostraCarregador();
-      this.sub.push(this.ss.postSolicitacaoBusca (this.sbs.busca)
-        .subscribe ({
-          next: (dados) => {
-            solcsv = dados.solicitacao;
-            totalprint = dados.total;
-            numTotalRegs = totalprint.num;
-          },
-          error: err => {
-            console.error ('ERRO-->', err);
-            // this.cs.escondeCarregador();
-          },
-          complete: () => {
-            ExcelService.exportAsExcelFile ('solicitacao', solcsv, this.ss.getArrayTitulo());
-            this.sbs.busca.todos = this.tmp;
-            // this.cs.escondeCarregador();
-          }
-        })
-      );
-      return true;
-    }
-
-    if (this.ss.selecionados && this.ss.selecionados.length > 0) {
-      ExcelService.exportAsExcelFile ('solicitacao', this.exportToXLSXSimples(this.ss.selecionados), this.ss.getArrayTitulo());
-      this.sbs.busca.todos = this.tmp;
-      return true;
-    }
-    ExcelService.exportAsExcelFile ('solicitacao', this.solicitacoes,  this.ss.getArrayTitulo());
-    this.sbs.busca.todos = this.tmp;
-    return true;*/
   }
-
-  exportToXLSXSimples(dados: SolicListarI[]) {
-  }
-
-  /*exportToXLSXSimples(dados: SolicitacaoListar12Interface[]): SolicitacaoExcel12[] {
-    const sl: SolicitacaoExcel12[] = [];
-    const r: SolicitacaoInterfaceExcel[] = [];
-    dados.forEach( ( x: SolicitacaoListar12Interface ) => {
-      const c: SolicitacaoExcel12 = (x as any) as SolicitacaoExcel12;
-      sl.push(c);
-    });
-    // sl = (dados as  unknown[]) as SolicitacaoInterfaceExcel[];
-    /!*sl.unshift =  {
-      solicitacao_situacao:                    'POSIÇÃO',
-      solicitacao_cadastro_nome:              'SOLICITANTE',
-      solicitacao_data:                       'DATA',
-      solicitacao_assunto_nome:               'ASSUNTO',
-      solicitacao_area_interesse_nome:        'ÁREA DE INTERESSE',
-      processo_numero:                        'Nº PROCESSO',
-      processo_status_nome:                        'SIT. PROCESSO',
-      cadastro_municipio_nome:                'MUNICÍPIO',
-      cadastro_regiao_nome:                   'REGIÃO',
-      solicitacao_indicacao_sn:               'INDICADO S/N',
-      solicitacao_indicacao_nome:             'INDICAÇÃO',
-      solicitacao_reponsavel_analize_nome:    'RESPONSÁVEL',
-      solicitacao_local_nome:                 'NÚCLEO',
-      solicitacao_tipo_recebimento_nome:      'TP. RECEBIMENTO',
-      solicitacao_cadastro_tipo_nome:         'TP. SOLICITANTE',
-      solicitacao_data_atendimento:           'DT. ATENDIMENTO',
-      solicitacao_atendente_cadastro_nome:    'ATENDENTE',
-      solicitacao_cadastrante_cadastro_nome:  'CADASTRANTE',
-      historico_data:                         'PROC.HIS.DT.',
-      historico_andamento:                    'PROC. HIST. ANDAMENTO',
-      solicitacao_aceita_sn:                  'SOL, ACEITA S/N',
-      cadastro_email:                         'E-MAIL1',
-      cadastro_email2:                        'E-MAIL2',
-      cadastro_telefone:                      'TELEFONE1',
-      cadastro_telefone2:                     'TELEFONE2',
-      cadastro_celular:                       'CELULAR1',
-      cadastro_celular2:                      'CELULAR2',
-      cadastro_telcom:                        'TELEFONE3',
-      cadastro_fax: 							            'FAX',
-    } ;*!/
-    return sl;
-  }*/
 
   toWord() {
 
@@ -867,6 +719,5 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
   }
-
 
 }

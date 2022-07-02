@@ -1,9 +1,10 @@
 import {TituloI, TitulosI} from "./titulo-i";
+import {ColunasI} from "./colunas-i";
 
-export interface BuscaCampoI {
+/*export interface BuscaCampoI {
   field: string;
   header: string;
-}
+}*/
 
 export interface TotalI {
   num: number;
@@ -30,7 +31,7 @@ export interface DatatableI {
   // titulos?: TSMap<string, TSMap<string, string>>;
   titulos?: TitulosI[];
   camposTexto?: string[];
-  camposSelecionados?: BuscaCampoI[];
+  camposSelecionados?: ColunasI[];
   total?: TotalI;
   cols?: any[];
   selectedColumns?: any[];

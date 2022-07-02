@@ -43,5 +43,5 @@ export class OficioFormService {
       cadastro_municipio_nome: sol.solicitacao_cadastro_nome,
       oficio_codigo: (sol.oficio_codigo !== undefined) ? sol.oficio_codigo : null
     }
-}
+  }
 }

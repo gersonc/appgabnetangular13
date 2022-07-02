@@ -17,14 +17,14 @@ export class TabelaPdfService {
 
   constructor() { }
 
-  public static autoTabela(nomeArquivo: string, colunas: any[], valores: any[]) {
-    const colums: ColumnsInterface[] = [];
-    colunas.forEach((c) => {
+  public static autoTabela2(nomeArquivo: string, titulo: string, colunas: any[], valores: any[]) {
+    const colums: ColumnsInterface[] = colunas.map(col => ({header: col.header, dataKey: col.field}));
+    /*colunas.forEach((c) => {
       colums.push({
         header: c.header.toString(),
         dataKey: c.field.toString()
       });
-    });
+    });*/
 
     let doc: any|null = new jsPDF(
       {
@@ -35,15 +35,29 @@ export class TabelaPdfService {
       }
     );
 
+    let pageNumber = doc.getNumberOfPages();
+
+    doc.setFontSize(15);
+    doc.text(titulo.toUpperCase(), 15, 15);
+    doc.setFontSize(9);
+
     autoTable(doc,{
       columns: colums,
       body: valores,
-      styles: { cellPadding: {top: 0.5, right: 0.5, bottom: 0.5, left: 2}, fontSize: 8 },
+      startY: 16,
+      styles: { cellPadding: {
+        top: 0.5,
+          right: 0.5,
+          bottom: 0.5,
+          left: 2},
+        fontSize: 9,
+        valign: 'middle'
+      },
       headStyles: {
         textColor: 255,
         fillColor: '#007bff',
         fontStyle: 'bold',
-        fontSize: 8,
+        fontSize: 9,
         lineWidth: 0.1,
         cellPadding: {
           top: 1,
@@ -51,14 +65,20 @@ export class TabelaPdfService {
           bottom: 0.5,
           left: 2}
       },
-      bodyStyles: { fillColor: 255, textColor: 80, fontStyle: 'normal', lineWidth: 0.1 }
+      bodyStyles: {
+        fillColor: 255,
+        textColor: 80,
+        fontStyle: 'normal',
+        fontSize: 9,
+        lineWidth: 0.1
+      }
     });
     const nomeArq = `${nomeArquivo}_gabnet_${new Date().getTime()}.pdf`;
     doc.save(nomeArq);
     doc = null;
   }
 
-  public static autoTabela2(colunas: any[], valores: any[]) {
+  public static autoTabela(titulo: string,colunas: any[], valores: any[]) {
     const colums: ColumnsInterface[] = [];
     colunas.forEach((c) => {
       colums.push({
