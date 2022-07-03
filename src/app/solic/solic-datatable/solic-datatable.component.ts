@@ -15,6 +15,7 @@ import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {PdfService} from "../../_services/pdf.service";
+import {pdfTabelaCampoTexto} from "../../shared/functions/pdf-tabela-campo-texto";
 
 @Component({
   selector: 'app-solic-datatable',
@@ -673,7 +674,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       );
     }
     if (this.ss.solicitacoes.length > 0 && td === 2) {
-      ExcelService.criaExcelFile('solicitacao', this.ss.solicitacoes, cp);
+      ExcelService.criaExcelFile('solicitacao', pdfTabelaCampoTexto(this.ss.tabela.selectedColumns,this.ss.tabela.camposTexto,this.ss.solicitacoes), this.ss.tabela.selectedColumns);
       return true;
     }
     if (this.ss.selecionados !== undefined && this.ss.selecionados.length > 0 && td === 1) {

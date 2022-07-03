@@ -68,7 +68,7 @@
     "url-polyfill": "^1.1.12",
     "util": "^0.12.4",
     "uuid": "^8.3.2",
-    "xlsx": "^0.17.3",
+    "xlsx-js-style": "^1.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

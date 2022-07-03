@@ -35,7 +35,7 @@
             ],
             "allowedCommonJsDependencies": [
               "css-element-queries",
-              "xlsx",
+              "xlsx-js-style",
               "file-saver",
               "chart.js",
               "html2pdf.js",

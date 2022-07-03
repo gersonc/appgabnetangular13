@@ -293,3 +293,4 @@ export const solicSolicitacaoCamposTexto = [
   'solicitacao_aceita_recusada',
   'solicitacao_carta'
 ];
+

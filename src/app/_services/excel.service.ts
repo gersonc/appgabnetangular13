@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style'
 import {ExcelParcer} from "../shared/functions/excel-parcer";
 import { saveAs } from 'file-saver';
 import {ColunasI} from "../_models/colunas-i";
@@ -17,13 +17,25 @@ export class ExcelService {
 
   public static criaExcelFile(excelFileName: string, dados: any[], selectedColumns: ColunasI[]): void {
     const d: any = ExcelParcer(dados, selectedColumns);
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(d[0], {skipHeader: false});
-    XLSX.utils.sheet_add_aoa(worksheet, d[1], { origin: 'A1' });
-    XLSX.utils.book_append_sheet( workbook, worksheet, excelFileName);
-    worksheet["!cols"] = d[2];
-    // XLSX.writeFile(workbook, ExcelService.toExportFileName(excelFileName));
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(d[0], {skipHeader: true});
+    // XLSX.utils.sheet_add_aoa(ws, d[1], { origin: 'A1' });
+    XLSX.utils.book_append_sheet( wb, ws, excelFileName);
+    ws["!cols"] = d[1];
+    // XLSX.writeFile(wb, ExcelService.toExportFileName(excelFileName));
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    ExcelService.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  public static criaExcelFile2(excelFileName: string, dados: any[], selectedColumns: ColunasI[]): void {
+    const d: any = ExcelParcer(dados, selectedColumns);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(d[0], {skipHeader: false});
+    XLSX.utils.sheet_add_aoa(ws, d[1], { origin: 'A1' });
+    XLSX.utils.book_append_sheet( wb, ws, excelFileName);
+    ws["!cols"] = d[2];
+    // XLSX.writeFile(wb, ExcelService.toExportFileName(excelFileName));
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     ExcelService.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
@@ -47,12 +59,12 @@ export class ExcelService {
       titulos[d.field]= d.header;
     });
     const keys = Object.keys(titulos);
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([keys], {header: titulos, skipHeader: true});
-    // const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    XLSX.utils.sheet_add_json(worksheet, json, {header: keys, origin: 'A2', skipHeader: true});
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet( workbook, worksheet, excelFileName);
-    XLSX.writeFile(workbook, ExcelService.toExportFileName(excelFileName));
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([keys], {header: titulos, skipHeader: true});
+    // const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    XLSX.utils.sheet_add_json(ws, json, {header: keys, origin: 'A2', skipHeader: true});
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet( wb, ws, excelFileName);
+    XLSX.writeFile(wb, ExcelService.toExportFileName(excelFileName));
   }
 
   public static exportAsExcelFile2(excelFileName: string, json: any[], tit: any[]): void {
@@ -67,9 +79,9 @@ export class ExcelService {
       tabela.push(Object.values(linha));
     });
     tabela.unshift(meuTit);
-    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(tabela);
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet( workbook, worksheet, excelFileName);
-    XLSX.writeFile(workbook, ExcelService.toExportFileName(excelFileName));
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(tabela);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet( wb, ws, excelFileName);
+    XLSX.writeFile(wb, ExcelService.toExportFileName(excelFileName));
   }
 }
