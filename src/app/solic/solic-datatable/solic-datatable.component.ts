@@ -107,17 +107,19 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       },
       {
         label: 'PDF - SELECIONADOS', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
-          this.mostraTabelaPdf(1);
+          // this.mostraTabelaPdf(1);
+          this.ss.tabelaPdf(1);
         }
       },
       {
         label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          this.mostraTabelaPdf(2);
+          // this.mostraTabelaPdf(2);
+          this.ss.tabelaPdf(2);
         }
       },
       {
         label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          this.mostraTabelaPdf(3);
+          this.ss.tabelaPdf(3);
         }
       },
       {
@@ -520,7 +522,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   mostraTabelaPdf(n: number) {
 
     console.log('tamanhoLinha', this.ss.tamanhoLinha());
-    this.ss.pdfCamposTexto(n);
+    // this.ss.pdfCamposTexto(n);
     // PdfService.tabelaToPdf(this.ss.tabela.selectedColumns, this.ss.solicitacoes);
     // TabelaPdfService.autoTabela('solicitacoes', 'SOLICITAÃOES', this.ss.tabela.selectedColumns, this.ss.solicitacoes);
   }

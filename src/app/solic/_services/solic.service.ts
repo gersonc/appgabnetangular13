@@ -13,14 +13,17 @@ import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
-import {TabelaPdfService, UrlService} from "../../_services";
+import {ExcelService, TabelaPdfService, UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
 import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
 import {ColunasI} from "../../_models/colunas-i";
-import {pdfTabelaCampoTexto} from "../../shared/functions/pdf-tabela-campo-texto";
+import {
+  helperAdicionaCamposTexto,
+  helperAdicionaCamposTextoDelta
+} from "../../shared/functions/helper-adiciona-campos-texto";
 
 
 @Injectable({
@@ -399,29 +402,56 @@ export class SolicService {
     return n;
   }
 
-  pdfCamposTexto(n: number): void  {
+  tabelaPdf(n: number): void  {
     // 1 - selecionados
     // 2 - pagina
     if (n === 1) {
-      TabelaPdfService.autoTabela2(
+      TabelaPdfService.tabelaPdf(
         'solicitacoes',
         'SOLICITAÇÕES',
         this.tabela.selectedColumns,
-        pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.selecionados)
+        this.selecionados,
+        solicSolicitacaoCamposTexto
       );
-      // return pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.selecionados);
     }
     if (n === 2) {
-      TabelaPdfService.autoTabela2(
+      TabelaPdfService.tabelaPdf(
         'solicitacoes',
         'SOLICITAÇÕES',
         this.tabela.selectedColumns,
-        pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.solicitacoes)
+        this.solicitacoes,
+        solicSolicitacaoCamposTexto
       );
-      // return pdfTabelaCampoTexto(this.tabela.selectedColumns, solicSolicitacaoCamposTexto, this.solicitacoes);
+    }
+    if (n === 3) {
+      let busca: SolicBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns,
+      busca.todos = true;
+      busca.first = undefined;
+      let solicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.postSolicitacaoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            solicRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            TabelaPdfService.tabelaPdf(
+              'solicitacoes',
+              'SOLICITAÇÕES',
+              this.tabela.selectedColumns,
+              solicRelatorio.solicitacao,
+              solicSolicitacaoCamposTexto
+            );
+          }
+        })
+      );
+
     }
   }
-
 
   customSort(ev) {
   }

@@ -1,6 +1,7 @@
 import {ColunasI} from "../../_models/colunas-i";
+import {BuscaI} from "../../_models/busca-i";
 
-export interface SolicBuscaI {
+export interface SolicBuscaI extends BuscaI {
   solicitacao_situacao?: string;
   solicitacao_cadastro_tipo_id?: number;
   solicitacao_cadastro_id?: number;
@@ -24,7 +25,6 @@ export interface SolicBuscaI {
   sortField?: string;
   todos?: boolean;
   campos?: ColunasI[];
-  /*campos2?: string[];*/
   ids?: number[];
   excel?: boolean;
 }
