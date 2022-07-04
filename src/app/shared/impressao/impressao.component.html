@@ -1,0 +1,48 @@
+<div class="printservice">
+
+    <button
+      [useExistingCss]="true"
+      printSectionId="page" ngxPrint>
+      PRINT ME!
+    </button>
+  <button
+    type="button"
+    (click)="imprimir()"
+  >imprimir</button>
+
+
+  <div #a4p id="page">
+    <table>
+
+      <thead>
+      <tr>
+        <!--<th *ngFor="let col of layout.colunas" [style.width]="col.width">-->
+        <th *ngFor="let col of layout.colunas">
+          {{col.header}}
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let linha of valores">
+        <td *ngFor="let col of layout.colunas">
+          {{linha[col.field]}}
+        </td>
+      </tr>
+      </tbody>
+
+      <tfoot>
+      <tr>
+        <td>
+
+        </td>
+      </tr>
+      </tfoot>
+
+    </table>
+
+  </div>
+
+
+
+</div>

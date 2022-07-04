@@ -1,0 +1,29 @@
+div.a4p {
+  display: block;
+  max-width: 794px;
+  font: 13px Georgia, "Times New Roman", Times, serif;
+  line-height: 1.3;
+  background: #fff !important;
+  color: #000;
+  overflow: hidden;
+}
+
+/*.a4p table,.a4p .td, .a4p th {
+  border: 1px solid;
+}
+
+.a4p td {
+  padding-right: 3pt;
+  padding-left: 3pt;
+  background: blue;
+}
+
+th {
+    padding-right: 3pt;
+    padding-left: 3pt;
+  }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}*/
