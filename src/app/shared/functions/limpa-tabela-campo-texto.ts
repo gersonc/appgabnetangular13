@@ -2,7 +2,7 @@ import {ColunasI} from "../../_models/colunas-i";
 import {striptags} from "striptags";
 import {html_entity_decode} from "./html-entity";
 
-export function pdfTabelaCampoTexto (colunas: ColunasI[], campoTexto: string[], dados: any[]): any[] {
+export function limpaTabelaCampoTexto (colunas: ColunasI[], campoTexto: string[], dados: any[]): any[] {
   let cps: ColunasI[] = [];
   colunas.forEach( (c, i) => {
     if (campoTexto.indexOf(c.field) !== -1) {
@@ -30,5 +30,3 @@ export function pdfTabelaCampoTexto (colunas: ColunasI[], campoTexto: string[], 
   }
   return dados;
 }
-
-

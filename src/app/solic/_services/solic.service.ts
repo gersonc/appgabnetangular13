@@ -24,6 +24,8 @@ import {
   helperAdicionaCamposTexto,
   helperAdicionaCamposTextoDelta
 } from "../../shared/functions/helper-adiciona-campos-texto";
+import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
+import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 
 
 @Injectable({
@@ -128,9 +130,6 @@ export class SolicService {
   }
 
   onRowExpand(evento) {
-    console.log('this.tabela.titulos',this.tabela.titulos);
-    console.log('this.tabela.campos',this.tabela.campos);
-    console.log('this.tabela.selectedColumns',this.tabela.selectedColumns);
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
@@ -450,6 +449,40 @@ export class SolicService {
         })
       );
 
+    }
+  }
+
+  exportToXLSX(td: number = 1) {
+    // const cp = this.ss.excelCamposTexto();
+    if (td === 3) {
+      let busca: SolicBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let solicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.postSolicitacaoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            solicRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            ExcelService.criaExcelFile('solicitacao', limpaCampoTexto(solicSolicitacaoCamposTexto, solicRelatorio.solicitacao), this.tabela.selectedColumns);
+          }
+        })
+      );
+    }
+    if (this.solicitacoes.length > 0 && td === 2) {
+      ExcelService.criaExcelFile('solicitacao', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.solicitacoes), this.tabela.selectedColumns);
+      return true;
+    }
+    if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
+      ExcelService.criaExcelFile('solicitacao', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
+      return true;
     }
   }
 

@@ -351,3 +351,24 @@
     </p-dialog>
   </div>
 </ng-container>
+
+
+
+<!--*** IMPRESSAO ****************************************************************************************-->
+<ng-container *ngIf="showImpressao">
+  <div [ngClass]="cssMostra">
+    <p-dialog
+      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+      [style]="{width: '80vw'}"
+      [(visible)]="showImpressao"
+      styleClass="tablistagem"
+      [header]="tituloImpressao"
+      [modal]="true"
+      [dismissableMask]="true"
+      (onHide)="fecharImprimir()"
+      [baseZIndex]="0"
+    >
+    <app-impressao [colunas]="ss.tabela.selectedColumns" [valores]="ss.solicitacoes"></app-impressao>
+    </p-dialog>
+  </div>
+</ng-container>

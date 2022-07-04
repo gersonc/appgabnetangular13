@@ -41,6 +41,7 @@ import {HistModule} from "../hist/hist.module";
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
 import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
 
 
 @NgModule({
@@ -54,57 +55,58 @@ import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
     SolicExcluirComponent,
     SolicAnalisarComponent,
   ],
-  imports: [
-    CommonModule,
-    SolicRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    TableModule,
-    MenuModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    ListboxModule,
-    ContextMenuModule,
-    ToastModule,
-    QuillModule.forRoot({
-      modules: {
-        toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-          ['blockquote', 'code-block'],
-          [{'header': 1}, {'header': 2}],               // custom button values
-          [{'list': 'ordered'}, {'list': 'bullet'}],
-          [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
-          [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
-          [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
-          [{'header': [1, 2, 3, 4, 5, 6, false]}],
-          [{'color': []}, {'background': []}],          // dropdown with defaults from theme
-          [{'font': []}],
-          [{'align': []}],
-          ['clean']
-        ]
-      }
-    }),
-    FormsModule,
-    InputTextModule,
-    ArquivoModule,
-    ExplorerModule,
-    UtilModule,
-    AutoCompleteModule,
-    CalendarModule,
-    InputSwitchModule,
-    AccordionModule,
-    EditorModule,
-    UtilModule,
-    CardModule,
-    HistModule,
-    QuillViewModule,
-    CampoExtendidoModule,
-    CelulaQuillModule
-  ],
+    imports: [
+        CommonModule,
+        SolicRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        TableModule,
+        MenuModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        ListboxModule,
+        ContextMenuModule,
+        ToastModule,
+        QuillModule.forRoot({
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                    ['blockquote', 'code-block'],
+                    [{'header': 1}, {'header': 2}],               // custom button values
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+                    [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+                    [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                    [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+                    [{'font': []}],
+                    [{'align': []}],
+                    ['clean']
+                ]
+            }
+        }),
+        FormsModule,
+        InputTextModule,
+        ArquivoModule,
+        ExplorerModule,
+        UtilModule,
+        AutoCompleteModule,
+        CalendarModule,
+        InputSwitchModule,
+        AccordionModule,
+        EditorModule,
+        UtilModule,
+        CardModule,
+        HistModule,
+        QuillViewModule,
+        CampoExtendidoModule,
+        CelulaQuillModule,
+        ImpressaoModule
+    ],
   exports: [
     SolicComponent,
     SolicIncluirComponent

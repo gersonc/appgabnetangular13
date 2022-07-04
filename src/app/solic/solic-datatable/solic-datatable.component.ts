@@ -3,7 +3,14 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
 import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
-import {AuthenticationService, CsvService, ExcelService, MenuInternoService, TabelaPdfService} from "../../_services";
+import {
+  AuthenticationService,
+  CsvService,
+  ExcelService,
+  MenuInternoService,
+  PrintJSService,
+  TabelaPdfService
+} from "../../_services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import * as quillToWord from "quill-to-word";
@@ -14,8 +21,7 @@ import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
-import {PdfService} from "../../_services/pdf.service";
-import {pdfTabelaCampoTexto} from "../../shared/functions/pdf-tabela-campo-texto";
+import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 
 @Component({
   selector: 'app-solic-datatable',
@@ -62,6 +68,9 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   permInclHistSol: boolean = false;
   permListHist: boolean = false;
   permInclHist: boolean = false;
+
+  showImpressao = false;
+  tituloImpressao = 'SOLICITAÇÕES';
 
   impressao = false;
 
@@ -124,28 +133,33 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         }
       },
       {
-        label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
-          this.imprimirTabela();
+        label: 'IMPRIMIR - SELECIONADOS', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.imprimirTabela(1);
+        }
+      },
+      {
+        label: 'IMPRIMIR - PÁGINA', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.imprimirTabela(2);
         }
       },
       {
         label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {
-          this.imprimirTabela(true);
+          this.abrirImprimir();
         }
       },
       {
         label: 'EXCEL - SELECIONADOS', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
-          this.exportToXLSX(1);
+          this.ss.exportToXLSX(1);
         }
       },
       {
         label: 'EXCEL - PÁGINA', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
-          this.exportToXLSX(2);
+          this.ss.exportToXLSX(2);
         }
       },
       {
         label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
-          this.exportToXLSX(3);
+          this.ss.exportToXLSX(3);
         }
       }
     ];
@@ -577,14 +591,18 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     return true;
   }*/
 
-  imprimirTabela(td: boolean = false) {
-
+  abrirImprimir() {
+    this.showImpressao = true;
   }
 
-  /*imprimirTabela(td: boolean = false) {
-    this.tmp = this.sbs.busca.todos;
-    this.sbs.busca.todos = td;
-    if (this.sbs.busca.todos === true) {
+  fecharImprimir() {
+    this.showImpressao = false;
+  }
+
+  imprimirTabela(n: number) {
+
+
+    /*if (this.sbs.busca.todos === true) {
       // let solprint: SolicitacaoInterface[];
       let solprint: SolicitacaoListar12Interface[] | SolicitacaoListar345Interface[];
       let totalprint: SolicitacaoTotalInterface;
@@ -610,18 +628,17 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         })
       );
       return true;
+    }*/
+
+    if (n === 1 && this.ss.selecionados !== undefined && this.ss.selecionados.length > 0) {
+      PrintJSService.imprimirTabela(this.ss.tabela.selectedColumns, this.ss.selecionados);
     }
 
-    if (this.ss.selecionados && this.ss.selecionados.length > 0) {
-      PrintJSService.imprimirTabela(this.ss.selecionados, this.ss.selecionados);
-      this.sbs.busca.todos = this.tmp;
-      return true;
+    if (n === 2 && this.ss.solicitacoes.length > 0) {
+      PrintJSService.imprimirTabela(this.ss.tabela.selectedColumns, this.ss.solicitacoes);
     }
 
-    PrintJSService.imprimirTabela(this.ss.selecionados, this.solicitacoes);
-    this.sbs.busca.todos = this.tmp;
-    return true;
-  }*/
+  }
 
 
   exportToCsv(td: boolean = false) {
@@ -649,12 +666,12 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  exportToXLSX(td: number = 1) {
-    const cp = this.ss.excelCamposTexto();
+  /*exportToXLSX(td: number = 1) {
+    // const cp = this.ss.excelCamposTexto();
     if (td === 3) {
       let busca: SolicBuscaI = this.ss.busca;
       busca.rows = undefined;
-      busca.campos = cp
+      busca.campos = this.ss.tabela.selectedColumns;
       busca.todos = true;
       busca.first = undefined;
       busca.excel = true;
@@ -668,20 +685,20 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
             console.error('ERRO-->', err);
           },
           complete: () => {
-            ExcelService.criaExcelFile('solicitacao', solicRelatorio.solicitacao, cp);
+            ExcelService.criaExcelFile('solicitacao', solicRelatorio.solicitacao, this.ss.tabela.selectedColumns);
           }
         })
       );
     }
     if (this.ss.solicitacoes.length > 0 && td === 2) {
-      ExcelService.criaExcelFile('solicitacao', pdfTabelaCampoTexto(this.ss.tabela.selectedColumns,this.ss.tabela.camposTexto,this.ss.solicitacoes), this.ss.tabela.selectedColumns);
+      ExcelService.criaExcelFile('solicitacao', limpaTabelaCampoTexto(this.ss.tabela.selectedColumns,this.ss.tabela.camposTexto,this.ss.solicitacoes), this.ss.tabela.selectedColumns);
       return true;
     }
     if (this.ss.selecionados !== undefined && this.ss.selecionados.length > 0 && td === 1) {
-      ExcelService.criaExcelFile('solicitacao', this.ss.selecionados, cp);
+      ExcelService.criaExcelFile('solicitacao', limpaTabelaCampoTexto(this.ss.tabela.selectedColumns,this.ss.tabela.camposTexto,this.ss.selecionados), this.ss.tabela.selectedColumns);
       return true;
     }
-  }
+  }*/
 
   toWord() {
 

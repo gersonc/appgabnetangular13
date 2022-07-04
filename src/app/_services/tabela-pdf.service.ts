@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import {pdfTabelaCampoTexto} from "../shared/functions/pdf-tabela-campo-texto";
+import {limpaTabelaCampoTexto} from "../shared/functions/limpa-tabela-campo-texto";
 
 export interface ColumnsInterface {
   header: string;
@@ -38,7 +38,7 @@ export class TabelaPdfService {
         nomeArquivo,
         titulo,
         colunas,
-        pdfTabelaCampoTexto(colunas, campoTexto, valores),
+        limpaTabelaCampoTexto(colunas, campoTexto, valores),
         vertical
       );
     }
