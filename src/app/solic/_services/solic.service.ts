@@ -26,6 +26,7 @@ import {
 } from "../../shared/functions/helper-adiciona-campos-texto";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
+import {Titulos, TitulosI} from "../../_models/titulo-i";
 
 
 @Injectable({
@@ -701,6 +702,13 @@ export class SolicService {
       hist: (modulo === 'processo') ? this.expandido.historico_processo : this.expandido.historico_solicitcao,
       registro_id: (modulo === 'processo') ? +this.expandido.processo_id : +this.expandido.solicitacao_id
     }
+  }
+
+  getTodosTitulos() {
+    this.ts.getTodos();
+  }
+  getTudo(): any {
+    return this.ts.getTudo();
   }
 
   onDestroy(): void {

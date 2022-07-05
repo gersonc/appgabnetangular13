@@ -10,6 +10,13 @@ export class TitulosService {
   resp: TitulosI[] = [] ;
   titulos = new Titulos();
   campos: string[] = [];
+  todosTitulos = {
+    t: [],
+    tt: null,
+    ttt: null
+  }
+
+
   constructor(private httpClient: HttpClient) { }
 
   loadTitulos() {
@@ -53,6 +60,18 @@ export class TitulosService {
       }
     })
     return rs;
+  }
+
+  getTodos() {
+    this.loadTitulos().pipe(take(1)).subscribe((dados) => {
+      this.todosTitulos.t = Object.values(dados);
+      this.todosTitulos.tt = new Titulos(this.todosTitulos.t);
+      this.todosTitulos.ttt = dados;
+    });
+  }
+
+  getTudo(): any {
+    return this.todosTitulos;
   }
 
   OnDestroy() {

@@ -31,6 +31,7 @@ import {ArquivoInterface} from "../../arquivo/_models";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {VersaoService} from "../../_services/versao.service";
 import {SelectItem} from "primeng/api";
+import {Titulos} from "../../_models/titulo-i";
 
 
 applyPlugin(jsPDF);
@@ -92,6 +93,7 @@ export class SolicDetalheComponent implements OnInit {
     for (let i = 0; i < 250; i++) {
       this.teste.push(i);
     }
+    this.ss.getTodosTitulos();
     // this.sol = this.ss.detalhe;
     // this.arquivoOficio = this.getArquivos();
   }
@@ -199,6 +201,110 @@ export class SolicDetalheComponent implements OnInit {
     }
     this.erro = this.solDetalhe.erro;
   }*/
+
+
+
+  getPdf4() {
+    let titulos: any = this.ss.getTudo();
+    console.log(titulos);
+
+
+    let doc = new jsPDF(
+      {
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts: true
+      }
+    );
+
+    autoTable(doc, {
+      columns: [{header: 'field', dataKey: 'field'},{header: 'mtitulo', dataKey: 'mtitulo'},{header: 'titulo', dataKey: 'titulo'}],
+      body: titulos.t,
+      styles: { cellPadding: 0.5, fontSize: 8},
+      theme: 'grid'
+    });
+
+    doc.save('table.pdf');
+    // @ts-ignore
+    doc = null;
+
+
+    /*let tableElements: HTMLCollectionOf<Element> = document.getElementsByClassName('tabela');
+    if (tableElements) {
+      console.log('n tbls', tableElements.length);
+      console.log('n tbls', tableElements);
+    }
+
+    if (tableElements.length > 0) {
+      let doc = new jsPDF (
+        {
+          orientation: 'p',
+          unit: 'mm',
+          format: 'a4',
+          putOnlyUsedFonts: true
+        }
+      );
+
+      Array.from(tableElements).forEach(function(element: HTMLTableElement) {
+        autoTable(doc, {
+          html: element,
+          headStyles: {
+            fillColor: '#007bff',
+            textColor: '#ffffff',
+            halign: 'center',
+            fontSize: 10,
+            fontStyle: 'bold',
+            lineWidth: 0.2
+          },
+        })
+        // doc.addPage();
+      });
+
+      doc.save('teste.pdf');
+
+    }*/
+  }
+
+
+  getPdf3() {
+    let tableElements: HTMLCollectionOf<Element> = document.getElementsByClassName('tabela');
+    if (tableElements) {
+      console.log('n tbls', tableElements.length);
+      console.log('n tbls', tableElements);
+    }
+
+    if (tableElements.length > 0) {
+      let doc = new jsPDF (
+        {
+          orientation: 'p',
+          unit: 'mm',
+          format: 'a4',
+          putOnlyUsedFonts: true
+        }
+      );
+
+      Array.from(tableElements).forEach(function(element: HTMLTableElement) {
+        autoTable(doc, {
+          html: element,
+          headStyles: {
+            fillColor: '#007bff',
+            textColor: '#ffffff',
+            halign: 'center',
+            fontSize: 10,
+            fontStyle: 'bold',
+            lineWidth: 0.2
+          },
+        })
+        // doc.addPage();
+      });
+
+      doc.save('teste.pdf');
+
+    }
+  }
+
+
 
   getPdf2() {
     let tableElements: HTMLCollectionOf<Element> = document.getElementsByClassName('tabela');
