@@ -1,9 +1,10 @@
-<!--<ng-template #dtlh>-->
+
 <p-scrollPanel class="detalhe">
   <table #detalhesolicitacao class="detalhefull">
     <tr>
       <td>
-        <table #detsolicitacao class="table-hover tabela detalheTitulo-horiz">
+
+        <table #detsolicitacao class="table-hover tabela">
           <caption>SOLICITAÇÃO</caption>
           <thead class="detalheTitulo-horiz">
           <tr>
@@ -179,7 +180,6 @@
               <app-quill-view [cpdelta]="sol.solicitacao_carta_delta" [cphtml]="sol.solicitacao_carta"></app-quill-view>
             </td>
           </tr>
-
           <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar" >
             <th colspan="2">
               Arquivos:
@@ -192,17 +192,28 @@
           </tr>
           </tbody>
         </table>
+
       </td>
     </tr>
+
     <tr *ngIf="textoEditor" class="novaPagina">
       <td></td>
     </tr>
+
     <tr>
       <td>
         <br>
 
         <table *ngIf="sol.cadastro_id" class="table-hover tabela">
           <caption>SOLICITANTE</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th colspan="2">
+              SOLICITANTE
+            </th>
+          </tr>
+          </thead>
+          <tbody class="detalhe-horiz">
           <tr>
             <th style="width: 3%;" nowrap>
               Tipo de Cadastro:
@@ -421,7 +432,7 @@
               <app-detalhe-explorer [arquivos]="sol.cadastro_arquivos"></app-detalhe-explorer>
             </td>
           </tr>
-
+          </tbody>
         </table>
 
       </td>
@@ -430,8 +441,17 @@
     <tr *ngIf="sol.historico_solicitcao.length > 0" class="novaPagina">
       <td>
         <br>
+
         <table class="table-hover tabela">
           <caption>ANDAMENTOS DA SOLICITAÇÃO</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th colspan="2">
+              ANDAMENTOS DA SOLICITAÇÃO
+            </th>
+          </tr>
+          </thead>
+          <tbody>
           <tr>
             <th style="width: 3%;" nowrap>
               Data:
@@ -448,16 +468,26 @@
               <app-quill-view [cpdelta]="ands.historico_andamento_delta" [cphtml]="ands.historico_andamento"></app-quill-view>
             </td>
           </tr>
+          </tbody>
         </table>
+
       </td>
     </tr>
-
 
     <tr *ngIf="vs.solicitacaoVersao === 1 && sol.processo_id && aut.processo_listar">
       <td>
         <br>
+
         <table class="table-hover tabela">
           <caption>PROCESSO</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th colspan="2">
+              PROCESSO
+            </th>
+          </tr>
+          </thead>
+          <tbody>
           <tr *ngIf="sol.processo_status_nome">
             <th style="width: 3%;" nowrap>
               Situação:
@@ -484,14 +514,26 @@
               <app-detalhe-explorer [arquivos]="sol.processo_arquivos"></app-detalhe-explorer>
             </td>
           </tr>
+          </tbody>
         </table>
+
       </td>
     </tr>
+
     <tr *ngIf="vs.solicitacaoVersao === 1 && sol.historico_processo.length > 0 && aut.processo_listar" class="novaPagina">
       <td>
         <br>
+
         <table class="table-hover tabela">
           <caption>ANDAMENTOS DO PROCESSO</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th colspan="2">
+              ANDAMENTOS DO PROCESSO
+            </th>
+          </tr>
+          </thead>
+          <tbody>
           <tr>
             <th style="width: 3%;" nowrap>
               Data:
@@ -508,19 +550,39 @@
               <app-quill-view [cpdelta]="andp.historico_andamento_delta" [cphtml]="andp.historico_andamento"></app-quill-view>
             </td>
           </tr>
+          </tbody>
         </table>
+
       </td>
     </tr>
+
     <tr *ngIf="vs.solicitacaoVersao === 1 && sol.oficio.length > 0 && aut.oficio">
       <td>
         <br>
+
         <table class="table-hover tabela">
           <caption>OFÍCIO(S)</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th>
+              OFÍCIO(S)
+            </th>
+          </tr>
+          </thead>
+          <tbody>
           <tr *ngFor="let ofi of sol.oficio">
             <td style="background-color: #fff">
               <br>
               <table class="table-hover tabela">
                 <caption>OFÍCIO</caption>
+                <thead class="detalheTitulo-horiz">
+                <tr>
+                  <th colspan="2">
+                    OFÍCIO
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
                 <tr *ngIf="ofi.oficio_numero">
                   <th style="width: 3%;" nowrap>
                     Número:
@@ -537,7 +599,6 @@
                     {{ofi.oficio_codigo}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_status">
                   <th style="width: 3%;" nowrap>
                     Situação:
@@ -546,7 +607,6 @@
                     {{ofi.oficio_status}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_convenio && aut.oficio_listar">
                   <th>
                     Convênio:
@@ -555,7 +615,6 @@
                     {{ofi.oficio_convenio}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_prioridade_nome && aut.oficio_listar">
                   <th>
                     Prioridade:
@@ -564,7 +623,6 @@
                     {{ofi.oficio_prioridade_nome}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_data_emissao && aut.oficio_listar">
                   <th style="width: 3%;" nowrap>
                     Data emissão:
@@ -573,7 +631,6 @@
                     {{ofi.oficio_data_emissao}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_data_recebimento && aut.oficio_listar">
                   <th>
                     Data recebimento:
@@ -582,7 +639,6 @@
                     {{ofi.oficio_data_recebimento}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_orgao_solicitado_nome && aut.oficio_listar">
                   <th>
                     Orgão solicitado:
@@ -591,7 +647,6 @@
                     {{ofi.oficio_orgao_solicitado_nome}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_data_protocolo && aut.oficio_listar">
                   <th>
                     Data protocolo:
@@ -600,7 +655,6 @@
                     {{ofi.oficio_data_protocolo}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_protocolo_numero && aut.oficio_listar">
                   <th>
                     Número do protocolo:
@@ -609,7 +663,6 @@
                     {{ofi.oficio_protocolo_numero}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_orgao_protocolante_nome && aut.oficio_listar">
                   <th>
                     Orgão protocolante:
@@ -618,7 +671,6 @@
                     {{ofi.oficio_orgao_protocolante_nome}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_prazo && aut.oficio_listar">
                   <th>
                     Praso:
@@ -627,7 +679,6 @@
                     {{ofi.oficio_prazo}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_tipo_andamento_nome && aut.oficio_listar">
                   <th>
                     Tipo de andamento:
@@ -636,7 +687,6 @@
                     {{ofi.oficio_tipo_andamento_nome}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_tipo_recebimento_nome && aut.oficio_listar">
                   <th>
                     Tipo de recebimento:
@@ -645,7 +695,6 @@
                     {{ofi.oficio_tipo_recebimento_nome}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_valor_solicitado && aut.oficio_listar">
                   <th>
                     Valor solicitado:
@@ -654,7 +703,6 @@
                     {{ofi.oficio_valor_solicitado}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_valor_recebido && aut.oficio_listar">
                   <th>
                     Valor recebido:
@@ -663,7 +711,6 @@
                     {{ofi.oficio_valor_recebido}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_data_pagamento && aut.oficio_listar">
                   <th>
                     Data pagamento:
@@ -672,7 +719,6 @@
                     {{ofi.oficio_data_pagamento}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_data_empenho && aut.oficio_listar">
                   <th>
                     Data empenho:
@@ -681,7 +727,6 @@
                     {{ofi.oficio_data_empenho}}
                   </td>
                 </tr>
-
                 <tr *ngIf="ofi.oficio_descricao_acao" class="novaPagina">
                   <th colspan="2" class="tituloEditor">
                     Descrição:
@@ -702,10 +747,12 @@
                     <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
                   </td>
                 </tr>
+                </tbody>
               </table>
               <br>
             </td>
           </tr>
+          </tbody>
         </table>
 
       </td>
@@ -719,11 +766,8 @@
   &nbsp;&nbsp;
   <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
           class="p-button-rounded p-button-secondary"
-          (click)="getPdf4()"></button>
+          (click)="getPdf2()"></button>
   &nbsp;&nbsp;
-  <!--<button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
-          class="p-button-rounded p-button-secondary"
-          (click)="getPdf(true)"></button>-->
   <app-impressao-botao [dados]="['SOLICITAÇÃO',detalhesolicitacao]"></app-impressao-botao>
 </div>
-<!--</ng-template>-->
+
