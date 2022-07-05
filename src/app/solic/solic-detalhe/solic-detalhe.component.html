@@ -1,6 +1,6 @@
 <!--<ng-template #dtlh>-->
 <p-scrollPanel class="detalhe">
-  <table class="detalhefull">
+  <table #detalhesolicitacao class="detalhefull">
     <tr>
       <td>
         <table #detsolicitacao class="table-hover tabela detalhe-horiz">
@@ -719,10 +719,11 @@
   &nbsp;&nbsp;
   <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
           class="p-button-rounded p-button-secondary"
-          (click)="getPdf(false)"></button>
+          (click)="getPdf2()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
+  <!--<button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
           class="p-button-rounded p-button-secondary"
-          (click)="getPdf(true)"></button>
+          (click)="getPdf(true)"></button>-->
+  <app-impressao-botao [dados]="['SOLICITAÇÃO',detalhesolicitacao]"></app-impressao-botao>
 </div>
 <!--</ng-template>-->

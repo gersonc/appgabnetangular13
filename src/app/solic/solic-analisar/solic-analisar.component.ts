@@ -11,7 +11,7 @@ import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {SolicListarI} from "../_models/solic-listar-i";
 // import {Editor} from "primeng/editor";
 import {take} from "rxjs/operators";
-import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
+import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
 import {MsgService} from "../../_services/msg.service";
 import {OficioFormService} from "../../oficio/_services";
 

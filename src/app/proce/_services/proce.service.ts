@@ -14,7 +14,7 @@ import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {solicSolicitacaoCamposTexto} from "../../solic/_models/solic-listar-i";
 import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
-import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
+import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
 
 @Injectable({
   providedIn: 'root'

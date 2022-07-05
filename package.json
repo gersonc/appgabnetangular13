@@ -51,6 +51,7 @@
     "ng-http-loader": "^10.1.0",
     "ngx-print": "^1.2.1",
     "ngx-quill": "^15.0.0",
+    "passive-events-support": "^1.0.33",
     "pdf-lib": "^1.17.1",
     "primeflex": "^2.0.0",
     "primeicons": "^5.0.0",

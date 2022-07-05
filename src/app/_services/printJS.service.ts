@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import { PrintJSInterface } from '../_models';
+import {Injectable} from '@angular/core';
 import * as printJS from 'print-js';
-import { UtilService } from './util.service';
+import {UtilService} from './util.service';
 import {ColunasI} from "../_models/colunas-i";
 
 
@@ -14,14 +13,11 @@ interface printPropertiesI {
   providedIn: 'root'
 })
 
-
-
-
 export class PrintJSService {
 
   constructor() { }
 
-  public static imprimirTabela2(campos: ColunasI[], valores: any[]) {
+  public static imprimirTabela2(campos: ColunasI[], valores: any[], titulo: string) {
 
     const properties: printPropertiesI[] = campos.map(c => {
       const prop: printPropertiesI = {
@@ -30,11 +26,20 @@ export class PrintJSService {
       };
       return prop;
     });
+    // @ts-ignore
+    const arrayOfKeys: (keyof valores)[] = properties.map(p => {
+      return p.field;
+    });
+    valores.forEach((v, i, vv)=> {
+      arrayOfKeys.forEach(key => {
+        if (v[key] === undefined || v[key] === null) {
+          v[key] = '';
+          vv[i][key] = '';
+        }
+      });
+    });
 
-
-    // const dados = UtilService.camposValoresParaPrintJS(campos, valores);
-
-    const titTabStyle = 'background-color: red;' +
+    const titTabStyle =
       'padding-left: .3em;' +
       'padding-right: .3em;' +
       'font-weight: bold;' +
@@ -43,12 +48,13 @@ export class PrintJSService {
       'font-family: sans-serif;';
 
     const tabStyle = 'padding-left: .3em;' +
+      'padding-top: .3em;' +
       'padding-right: .3em;' +
       'border: 0.5px solid lightgray;' +
       'font-weight: normal;' +
       'font-family: sans-serif;' +
-      'font-size: 10px;';
-
+      'font-size: 10px;' +
+      'vertical-align: text-top;'
 
     printJS(
       {
@@ -56,25 +62,17 @@ export class PrintJSService {
         properties: properties,
         type: 'json',
         gridHeaderStyle: titTabStyle,
-        gridStyle: tabStyle
+        gridStyle: tabStyle,
+        documentTitle: titulo,
       });
   }
-
-
-
-
-
-
-
-
-
 
 
 
   public static imprimirTabela(campos: any[], valores: any[]) {
     const dados = UtilService.camposValoresParaPrintJS(campos, valores);
 
-    const titTabStyle = 'background-color: red;' +
+    const titTabStyle =
       'padding-left: .3em;' +
       'padding-right: .3em;' +
       'font-weight: bold;' +
@@ -88,7 +86,6 @@ export class PrintJSService {
       'font-weight: normal;' +
       'font-family: sans-serif;' +
       'font-size: 10px;';
-
 
     printJS(
       {

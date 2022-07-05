@@ -21,7 +21,7 @@ import { OficioFormulario, OficioIncluirForm, OficioIncluirFormInterface } from 
 import { OficioFormService, OficioService } from '../_services';
 import {Editor} from 'primeng/editor';
 import {DdForm, DdOficioProcessoId} from "../_models/oficio-i";
-import {CpoEditor} from "../../_models/in-out-campo-tezto";
+import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {MsgService} from "../../_services/msg.service";
 
 

@@ -13,11 +13,11 @@ import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
-import {ExcelService, TabelaPdfService, UrlService} from "../../_services";
+import {ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
-import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
+import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
 import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
 import {ColunasI} from "../../_models/colunas-i";
 import {
@@ -123,6 +123,10 @@ export class SolicService {
   resetSolicitacaoBusca() {
     this.busca = undefined;
     this.criaBusca();
+  }
+
+  resetSelecionados() {
+    this.selecionados = [];
   }
 
   onContextMenuSelect(event) {
@@ -399,6 +403,41 @@ export class SolicService {
       n += +t.width.replace('px', '');
     });
     return n;
+  }
+
+  imprimirTabela(n: number) {
+    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'SOLICITAÇÕES');
+    }
+
+    if (n === 2 && this.solicitacoes.length > 0) {
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.solicitacoes, 'SOLICITAÇÕES');
+    }
+
+    if (n === 3) {
+      let busca: SolicBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let solicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.postSolicitacaoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            solicRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, solicRelatorio.solicitacao, 'SOLICITAÇÕES');
+          }
+        })
+      );
+    }
+
+
   }
 
   tabelaPdf(n: number): void  {

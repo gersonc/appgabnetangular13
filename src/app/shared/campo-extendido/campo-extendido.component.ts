@@ -1,8 +1,11 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {passiveSupport} from 'passive-events-support/src/utils'
 import {CampoExtendidoI} from "./campo-extendido-i";
-import {CAMPOSCOMUNICACAO, getComunicacao} from "../email-telefone-celular/email-telefone-celular-i";
+import {CAMPOSCOMUNICACAO} from "../email-telefone-celular/email-telefone-celular-i";
 import {CAMPOSTEXTOS} from "./constantes";
-import {InOutCampoTextoI} from "../../_models/in-out-campo-tezto";
+import {InOutCampoTextoI} from "../../_models/in-out-campo-texto";
+import {saveAs} from 'file-saver';
+import * as quillToWord from 'quill-to-word';
 
 @Component({
   selector: 'app-campo-extendido',
@@ -15,14 +18,17 @@ export class CampoExtendidoComponent implements OnInit, OnChanges {
   titulo?: string;
   field?: string;
   valor?: any;
-  valorOriginal?; string = null;
+  valorOriginal?;
+  string = null;
   tipo = 100;
   cpdelta: string | null = null;
   cphtml: string | null = null;
 
   showCampoTexto = false;
 
-  constructor() { }
+  constructor() {
+  }
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.ce) {
@@ -34,7 +40,19 @@ export class CampoExtendidoComponent implements OnInit, OnChanges {
         this.getDestino(this.ce.field);
       }
     }
-
+    console.log('ps', passiveSupport({
+      listeners: [
+        {
+          element: '.p-dialog',
+          event: 'touchstart',
+          prevented: true // (optional) will force { passive: false }
+        },
+        {
+          element: '.p-dialog',
+          event: 'touchmove'
+        }
+      ]
+    }));
   }
 
   getDestino(field) {
@@ -84,8 +102,17 @@ export class CampoExtendidoComponent implements OnInit, OnChanges {
     this.cpdelta = null;
   }
 
-  exportWord() {
-
+  async exportWord() {
+    console.log(this.cpdelta);
+    let delta: any = JSON.parse(this.cpdelta);
+    console.log(delta);
+    const quillToWordConfig = {
+      exportAs: 'blob'
+    };
+    // @ts-ignore
+    const docAsBlob: Blob = await quillToWord.generateWord(delta, quillToWordConfig);
+    const nome: string = `Gabnet_${this.titulo}_${new Date().getTime()}.docx`
+    saveAs(docAsBlob, nome);
   }
 
   ngOnInit(): void {

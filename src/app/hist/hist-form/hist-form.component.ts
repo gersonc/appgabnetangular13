@@ -6,7 +6,7 @@ import {take} from "rxjs/operators";
 import {HistFormI, HistI} from "../_models/hist-i";
 import {HistService} from "../_services/hist.service";
 import {HistAuxService} from "../_services/hist-aux.service";
-import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
+import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
 import {MsgService} from "../../_services/msg.service";
 
 @Component({

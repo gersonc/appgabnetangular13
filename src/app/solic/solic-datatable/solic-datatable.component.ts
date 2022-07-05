@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 //import {Editor} from "primeng/editor";
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
@@ -22,6 +22,7 @@ import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
+import {OverlayPanel} from "primeng/overlaypanel/overlaypanel";
 
 @Component({
   selector: 'app-solic-datatable',
@@ -31,6 +32,7 @@ import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-t
 
 export class SolicDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
+  @ViewChild('imp', {static: true}) public imp: ElementRef;
   // @ViewChild('edtor', {static: true}) public edtor: Editor;
   altura = `${WindowsService.altura - 150}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
@@ -134,17 +136,17 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       },
       {
         label: 'IMPRIMIR - SELECIONADOS', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
-          this.imprimirTabela(1);
+          this.ss.imprimirTabela(1);
         }
       },
       {
         label: 'IMPRIMIR - PÁGINA', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
-          this.imprimirTabela(2);
+          this.ss.imprimirTabela(2);
         }
       },
       {
         label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {
-          this.abrirImprimir();
+          this.ss.imprimirTabela(3);
         }
       },
       {
@@ -316,6 +318,14 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     this.resetSelectedColumns();
   }
 
+  mostraSelectColunas(): void {// this
+    this.ss.tabela.mostraSeletor = true;
+  }
+
+  hideSeletor(): void {
+    this.ss.tabela.mostraSeletor = false;
+  }
+
   rowColor(field: string, vl1: number, vl2: string, vl3: string | number): string | null {
     if (field !== 'processo_status_nome' && field !== 'solicitacao_status_nome' && field !== 'solicitacao_situacao') {
       return null;
@@ -417,14 +427,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
     this.ss.lazy = true;
     this.ss.solicitacaoBusca();
-  }
-
-  mostraSelectColunas(): void {// this
-    this.ss.tabela.mostraSeletor = true;
-  }
-
-  hideSeletor(ev): void {
-    this.mostraSeletor = false;
   }
 
   historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
@@ -593,9 +595,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   abrirImprimir() {
     this.showImpressao = true;
+   // this.imp.nativeElement.click();
   }
 
-  fecharImprimir() {
+  fecharImpressao() {
+    // this.imp.nativeElement.click();
     this.showImpressao = false;
   }
 
@@ -639,6 +643,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
 
   }
+
+
 
 
   exportToCsv(td: boolean = false) {

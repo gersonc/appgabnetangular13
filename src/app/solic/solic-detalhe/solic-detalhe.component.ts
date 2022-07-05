@@ -46,6 +46,7 @@ interface jsPDFCustom {
 export class SolicDetalheComponent implements OnInit {
   @ViewChild('dtlh', { static: true }) dtlh:TemplateRef<any>;
   @ViewChild('detsolicitacao', { static: false }) el!: ElementRef;
+  @ViewChild('detalhesolicitacao', { static: false }) detalhesolicitacao: ElementRef;
   @Input() sol: SolicListarI;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
@@ -198,6 +199,45 @@ export class SolicDetalheComponent implements OnInit {
     }
     this.erro = this.solDetalhe.erro;
   }*/
+
+  getPdf2() {
+    let tableElements: HTMLCollectionOf<Element> = document.getElementsByClassName('tabela');
+    if (tableElements) {
+      console.log('n tbls', tableElements.length);
+      console.log('n tbls', tableElements);
+    }
+
+    if (tableElements.length > 0) {
+      let doc = new jsPDF (
+        {
+          orientation: 'p',
+          unit: 'mm',
+          format: 'a4',
+          putOnlyUsedFonts: true
+        }
+      );
+
+      Array.from(tableElements).forEach(function(element: HTMLTableElement) {
+        autoTable(doc, {
+          html: element,
+          headStyles: {
+            fillColor: '#007bff',
+            textColor: '#ffffff',
+            halign: 'center',
+            fontSize: 10,
+            fontStyle: 'bold',
+            lineWidth: 0.2
+          },
+        })
+        // doc.addPage();
+      });
+
+      doc.save('teste.pdf');
+
+    }
+  }
+
+
 
 
   getPdf(aa) {

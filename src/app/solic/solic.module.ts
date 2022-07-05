@@ -42,6 +42,7 @@ import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
 import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 
 @NgModule({
@@ -105,7 +106,8 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
         QuillViewModule,
         CampoExtendidoModule,
         CelulaQuillModule,
-        ImpressaoModule
+        ImpressaoModule,
+        OverlayPanelModule
     ],
   exports: [
     SolicComponent,

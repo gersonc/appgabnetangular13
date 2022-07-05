@@ -16,7 +16,7 @@ import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {SolicForm} from "../_models/solic-form";
 import {DdService} from "../../_services/dd.service";
-import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-tezto";
+import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
 import {OficioFormService} from "../../oficio/_services";
 import {MsgService} from "../../_services/msg.service";
 import {SolicListarI} from "../_models/solic-listar-i";
