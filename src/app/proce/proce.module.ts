@@ -33,8 +33,9 @@ import {EditorModule} from "primeng/editor";
 import {ProceRoutingModule} from "./proce-routing.module";
 import {HistModule} from "../hist/hist.module";
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
-import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
-import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
+// import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
+// import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
+import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 
 
 
@@ -78,8 +79,9 @@ import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.mo
         UtilModule,
         HistModule,
         QuillViewModule,
-        CelulaQuillModule,
-        CampoExtendidoModule,
+        /*CelulaQuillModule,*/
+        /*CampoExtendidoModule,*/
+        ExporterAcessoModule,
     ],
   exports: [
     ProceComponent,

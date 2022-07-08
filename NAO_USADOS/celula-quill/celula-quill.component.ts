@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {CelulaQuillI} from "../../_models/celula-quill-i";
+// import {CelulaQuillI} from "../../_models/celula-quill-i";
 import {CAMPOSTEXTOS} from "../campo-extendido/constantes";
 import {striptags} from "striptags";
 
@@ -44,7 +44,8 @@ import {striptags} from "striptags";
     </ng-container>`
 })
 export class CelulaQuillComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() celula: CelulaQuillI;
+// @Input() celula: CelulaQuillI;
+  @Input() celula: any;
   tipo = 100;
   txt: string | null = null;
   cphtml: any = null;

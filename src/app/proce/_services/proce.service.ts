@@ -9,12 +9,13 @@ import {take} from "rxjs/operators";
 
 import {ProceBuscaI, ProceListarI, ProcePaginacaoInterface, proceProcessoCamposTexto} from "../_model/proc-i";
 import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-detalhe-i";
-import {strToDelta} from "../../_models/parcer-delta";
+// import {strToDelta} from "../../_models/parcer-delta";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
-import {solicSolicitacaoCamposTexto} from "../../solic/_models/solic-listar-i";
-import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
-import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
+// import {solicSolicitacaoCamposTexto} from "../../solic/_models/solic-listar-i";
+// import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
+// import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
+import {CelulaI} from "../../_models/celula-i";
 
 @Injectable({
   providedIn: 'root'
@@ -138,7 +139,7 @@ export class ProceService {
     this.expandidoSN = true;
   }*/
 
-  onRowExpand(evento) {
+  /*onRowExpand(evento) {
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
@@ -179,6 +180,51 @@ export class ProceService {
       }
     });
     this.tabela.dadosExpandidos = b;
+    this.expandidoSN = true;
+  }*/
+
+  onRowExpand(evento) {
+    if (this.tabela.titulos.length === 0) {
+      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    }
+    this.tabela.dadosExpandidosRaw = evento;
+    this.expandido = evento.data;
+    const cl: CelulaI[] = [];
+    let ev = evento.data;
+    this.has.histFormI = {
+      hist: {
+        historico_processo_id: +evento.data.processo_id,
+        historico_solicitacao_id: +evento.data.solicitacao_id
+      }
+    };
+    this.tabela.titulos.forEach(t => {
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].length > 0) {
+          let celula: CelulaI = {
+            header: t.titulo,
+            field: t.field,
+            valor: ev[t.field],
+            txtVF: false,
+            cphtml: ev[t.field]
+          }
+          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
+          if (m > -1 && ev[t.field].length > 40) {
+            const d = t.field + '_delta';
+            const tx = t.field + '_texto';
+            celula.txtVF = true;
+            if (ev[d] !== undefined && ev[d] !== null) {
+              celula.cpdelta = ev[d];
+            }
+            if (ev[tx] !== undefined && ev[tx] !== null) {
+              celula.cptexto = ev[tx];
+              celula.valor = ev[tx];
+            }
+          }
+          cl.push(celula);
+        }
+      }
+    });
+    this.tabela.celulas = cl;
     this.expandidoSN = true;
   }
 

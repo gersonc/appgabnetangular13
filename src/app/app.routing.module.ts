@@ -32,14 +32,14 @@ const routes: Routes = [
       rules: Rule.cadastro
     }
   },
-  {
+  /*{
     path: 'solicitacao',
     loadChildren: () => import('./solicitacao/solicitacao.module').then(m => m.SolicitacaoModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.solicitacao
     }
-  },
+  },*/
   {
     path: 'solic',
     loadChildren: () => import('./solic/solic.module').then(m => m.SolicModule),

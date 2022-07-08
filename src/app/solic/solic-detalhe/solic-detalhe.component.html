@@ -150,34 +150,34 @@
               {{sol.solicitacao_tipo_recebimento_nome}}
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta">
+          <tr *ngIf="sol.solicitacao_descricao">
             <td colspan="2" class="tituloEditor">
               Descrição:
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_descricao || sol.solicitacao_descricao_texto || sol.solicitacao_descricao_delta">
-            <td colspan="2" id="solicitacao_descricao">
-              <app-quill-view [cpdelta]="sol.solicitacao_descricao_delta" [cphtml]="sol.solicitacao_descricao"></app-quill-view>
+          <tr *ngIf="sol.solicitacao_descricao">
+            <td colspan="2" id="solicitacao_descricao3">
+              <quill-view [content]="sol.solicitacao_descricao" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta" class="novaPagina">
+          <tr *ngIf="sol.solicitacao_aceita_recusada" class="novaPagina">
             <td colspan="2" class="tituloEditor">
               Observações:
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_aceita_recusada || sol.solicitacao_aceita_recusada_texto || sol.solicitacao_aceita_recusada_delta" class="novaPagina">
+          <tr *ngIf="sol.solicitacao_aceita_recusada" class="novaPagina">
             <td colspan="2">
-              <app-quill-view [cpdelta]="sol.solicitacao_aceita_recusada_delta" [cphtml]="sol.solicitacao_aceita_recusada"></app-quill-view>
+              <quill-view [content]="sol.solicitacao_aceita_recusada" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_carta || sol.solicitacao_carta_texto || sol.solicitacao_carta_delta" class="novaPagina">
+          <tr *ngIf="sol.solicitacao_carta" class="novaPagina">
             <td colspan="2" class="tituloEditor">
               Resposta:
             </td>
           </tr>
-          <tr *ngIf="sol.solicitacao_carta || sol.solicitacao_carta_texto || sol.solicitacao_carta_delta">
+          <tr *ngIf="sol.solicitacao_carta">
             <td colspan="2">
-              <app-quill-view [cpdelta]="sol.solicitacao_carta_delta" [cphtml]="sol.solicitacao_carta"></app-quill-view>
+              <quill-view [content]="sol.solicitacao_carta" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar" >
@@ -196,9 +196,9 @@
       </td>
     </tr>
 
-    <tr *ngIf="textoEditor" class="novaPagina">
+<!--    <tr *ngIf="textoEditor" class="novaPagina">
       <td></td>
-    </tr>
+    </tr>-->
 
     <tr>
       <td>
@@ -547,7 +547,7 @@
               {{andp.historico_data}}
             </td>
             <td>
-              <app-quill-view [cpdelta]="andp.historico_andamento_delta" [cphtml]="andp.historico_andamento"></app-quill-view>
+              <quill-view [content]="andp.historico_andamento_delta" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           </tbody>
@@ -734,7 +734,7 @@
                 </tr>
                 <tr *ngIf="ofi.oficio_descricao_acao && aut.oficio_listar">
                   <td colspan="2">
-                    <app-quill-view [cpdelta]="ofi.oficio_descricao_acao_delta" [cphtml]="ofi.oficio_descricao_acao"></app-quill-view>
+                    <quill-view [content]="ofi.oficio_descricao_acao" [format]="'html'" theme="snow"></quill-view>
                   </td>
                 </tr>
                 <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
@@ -764,9 +764,10 @@
 <div class="botoesdetalhe">
   <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
+  <app-exporter-detalhe [arquivoNome]="'solicitacao_detalhes'" [classe]="'tabela'"></app-exporter-detalhe>
+  <!--<button pButton type="button" icon="pi pi-file-pdf" label="PDF"
           class="p-button-rounded p-button-secondary"
-          (click)="getPdf2()"></button>
+          (click)="getPdf2()"></button>-->
   &nbsp;&nbsp;
   <app-impressao-botao [dados]="['SOLICITAÇÃO',detalhesolicitacao]"></app-impressao-botao>
 </div>

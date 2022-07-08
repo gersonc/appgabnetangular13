@@ -19,7 +19,7 @@ export class SolicExcluirComponent implements OnInit {
   sol: SolicListarI;
   botaoEnviarVF = false;
   public arquivoBlockSubmit = true;
-  private arquivoSN = true;
+  // private arquivoSN = true;
   apagarSN = false;
   hisProNum = 0;
 

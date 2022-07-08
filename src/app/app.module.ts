@@ -29,6 +29,9 @@ import { NgHttpLoaderModule } from "ng-http-loader";
 import { InputSwitchModule } from "primeng/inputswitch";
 import {QuillModule} from "ngx-quill";
 import {MsgModule} from "./shared/msg/msg.module";
+import {ExporterModule} from "./shared/exporter/exporter.module";
+// import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";
+/*import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";*/
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -54,9 +57,9 @@ export function tokenGetter() {
     }),
     NgHttpLoaderModule.forRoot(),
     AngularResizeEventModule,
-/*    ToastModule,
-    MessagesModule,
-    MessageModule,*/
+    /*    ToastModule,
+        MessagesModule,
+        MessageModule,*/
     AppRoutingModule,
     UtilModule,
     LayoutModule,
@@ -69,7 +72,10 @@ export function tokenGetter() {
     InputSwitchModule,
     FormsModule,
     QuillModule.forRoot(),
-    MsgModule
+    MsgModule,
+    ExporterModule
+    /*ExporterTextoModule,*/
+    /*ExporterTextoModule*/
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

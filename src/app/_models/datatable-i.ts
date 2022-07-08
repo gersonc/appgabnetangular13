@@ -1,5 +1,6 @@
 import {TituloI, TitulosI} from "./titulo-i";
 import {ColunasI} from "./colunas-i";
+import {CelulaI} from "./celula-i";
 
 /*export interface BuscaCampoI {
   field: string;
@@ -9,8 +10,6 @@ import {ColunasI} from "./colunas-i";
 export interface TotalI {
   num: number;
 }
-
-
 
 export interface DatatableI {
   columnWidths?: any[];
@@ -39,6 +38,7 @@ export interface DatatableI {
   dadosExpandidos?: any[];
   dadosExpandidosRaw?: any;
   mostraSeletor: boolean;
+  celulas?: CelulaI[];
 }
 
 export class Datatable implements DatatableI {

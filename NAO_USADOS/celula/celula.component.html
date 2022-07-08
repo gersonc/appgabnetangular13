@@ -1,0 +1,7 @@
+<ng-container *ngIf="!celula.txtVF">
+  {{celula.valor}}
+</ng-container>
+
+<ng-container *ngIf="celula.txtVF">
+  <div class="p-text-nowrap p-text-truncate"><span class="celula-quill" (click)="mostraTexto()">{{limpaTextoNull(celula.valor)}}</span></div>
+</ng-container>

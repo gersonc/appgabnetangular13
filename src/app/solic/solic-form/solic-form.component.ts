@@ -7,7 +7,7 @@ import {
   AutocompleteService,
   MenuInternoService
 } from "../../_services";
-import {Location} from "@angular/common";
+// import {Location} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {take} from "rxjs/operators";
 import {VersaoService} from "../../_services/versao.service";
@@ -26,7 +26,7 @@ import {SolicListarI} from "../_models/solic-listar-i";
   templateUrl: './solic-form.component.html',
   styleUrls: ['./solic-form.component.css']
 })
-export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SolicFormComponent implements OnInit, OnDestroy {
   formSol: FormGroup;
   solicitacao: SolicFormI;
   ddSolicitacao_cadastro_tipo_id: SelectItemGroup[] = [];
@@ -36,7 +36,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   ddSolicitacao_local_id: SelectItem[] = [];
   ddSolicitacao_reponsavel_analize_id: SelectItem[] = [];
   ddSolicitacao_area_interesse_id: SelectItem[] = [];
-  ddSolicitacao_tipo_analize: SelectItem[] = [];
+  // ddSolicitacao_tipo_analize: SelectItem[] = [];
   sgt: SelectItem[] = [];
   ptBr: any;
 
@@ -56,7 +56,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
-  indicacao_sn = false;
+  // indicacao_sn = false;
   tpAnalizeTitulo = 'Tipo de análise';
   stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
   titulo = 'SOLICITAÇÃO - INCLUIR';
@@ -101,7 +101,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private dd: DdService,
     public mi: MenuInternoService,
     private autocompleteservice: AutocompleteService,
-    private location: Location,
+    // private location: Location,
     public sfs: SolicFormService,
     private ss: SolicService,
     public aut: AuthenticationService,
@@ -142,6 +142,7 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
           label: this.sfs.solicListar.solicitacao_cadastro_nome,
           value: +this.sfs.solicListar.solicitacao_cadastro_id
         };
+        this.stl = this.sfs.solicitacao.solicitacao_indicacao_sn === 1 ? 'p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1' : 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
         this.sgt.push(this.novoRegistro);
       }
     }
@@ -167,8 +168,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-  }
+ /* ngAfterViewInit() {
+  }*/
 
   adicionaDadosIncluidos() {
     if (this.moduloRecebido === 'cadastro') {
@@ -193,13 +194,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // ***     FORMULARIO      *************************
 
-  parseAssunto(assunto: SelectItem[]) {
-    assunto.forEach( (a) => {
-      const sufix = a.label.length > 55 ? ' ...' : '';
-      a.label = a.label.substr(0, 55) + sufix;
-    });
-    return assunto;
-  }
 
   criaForm() {
 
@@ -281,7 +275,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   getValorAlterar() {
     if (this.aut.solicitacaoVersao === 1 && this.sfs.acao === 'incluir') {
       this.sub.push(this.ss.getSgstNumProcesso().pipe(take(1)).subscribe(dados => {
-        console.log('getSgstNumProcesso', dados);
         this.sgstNumPro = dados[0];
         this.formSol.get('processo_numero').setValue(dados[0]);
       }));
@@ -412,7 +405,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
           complete: () => {
             if (this.resp[0]) {
               sessionStorage.removeItem('solic-menu-dropdown');
-              // this.dd.ddSubscription('solic-menu-dropdown');
               if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
                 this.ofs.solicitacao_id = +this.resp[1];
                 this.ofs.processo_id = +this.resp[4];
@@ -432,10 +424,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
                 this.sfs.resetSolicitacao();
                 this.resetForm();
-                /*if (this.ss.solicitacoes.length > 0) {
-                  this.ss.solicitacoes.push(this.resp[3]);
-                }*/
-
                 if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
                   this.router.navigate(['../oficio/solicitacao']);
                 } else {
@@ -485,7 +473,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
                   summary: 'ALTERAR SOLICITAÇÃO',
                   detail: this.resp[2]
                 });
-                // this.sfs.resetSolicitacao();
               this.resetForm();
               this.dd.ddSubscription('solic-menu-dropdown');
               if (sessionStorage.getItem('solic-busca') && this.ss.solicitacoes.length > 0) {
@@ -520,7 +507,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onUpload(ev) {
     if (ev) {
-      // this.mostraForm = false;
       this.ms.add({
         key: 'principal',
         severity: 'success',
@@ -537,10 +523,8 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigate(['../oficio/solicitacao']);
       } else {
         this.resp = [];
-        // this.botaoEnviarVF = false;
         this.voltarListar();
       }
-      // this.voltarListar();
     }
   }
 
@@ -650,7 +634,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.sfs.solA = undefined;
     this.sfs.acao = null;
     this.sfs.tipo_analize = 0;
-    //this.sfs.resetSolicitacao();
     if (sessionStorage.getItem('solic-busca')) {
       this.router.navigate(['/solic/listar/busca']);
     } else {
@@ -663,7 +646,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.sfs.solA = undefined;
     this.sfs.acao = null;
     this.sfs.tipo_analize = 0;
-    // this.sfs.resetSolicitacao();
     this.ss.stateSN = false;
     sessionStorage.removeItem('solic-busca');
     this.router.navigate(['/solic/listar2']);
@@ -708,7 +690,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   verificaNumOficio(ev) {
-    console.log(this.formSol.get('solicitacao_numero_oficio').value);
     if (this.sfs.solicitacao.solicitacao_numero_oficio !== this.formSol.get('solicitacao_numero_oficio').value) {
       let of = this.formSol.get('solicitacao_numero_oficio').value;
       if (of.length > 0) {
@@ -718,7 +699,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.sub.push(this.ss.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
           resp = r;
-          console.log(resp);
           if (resp[0]) {
             this.solNumOfi = true;
           }
@@ -730,7 +710,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
   verificaNumProcesso(ev) {
     let np = this.formSol.get('processo_numero').value;
     let nPro = '';
-    console.log('verificaNumProcesso1', ev, np);
     if (typeof this.sfs.solicitacao.processo_numero !== 'undefined' &&
       this.sfs.solicitacao.processo_numero !== null &&
       this.sfs.solicitacao.processo_numero.length > 0) {
@@ -740,7 +719,6 @@ export class SolicFormComponent implements OnInit, OnDestroy, AfterViewInit {
       const dado = {'processo_numero': np};
       this.sub.push(this.ss.postVerificarNumProesso(dado).pipe(take(1)).subscribe(r => {
         const resp: boolean = r[0];
-        console.log('verificaNumProcesso2', resp);
         this.solNumPro = !resp;
         this.aplicaCssErroAsync('processo_numero', !resp);
       }));

@@ -18,10 +18,10 @@ import {TooltipModule} from "primeng/tooltip";
 import {DialogModule} from "primeng/dialog";
 import {ListboxModule} from "primeng/listbox";
 import {ContextMenuModule} from "primeng/contextmenu";
-import {ToastModule} from "primeng/toast";
+// import {ToastModule} from "primeng/toast";
 import {QuillModule} from "ngx-quill";
 import {InputTextModule} from "primeng/inputtext";
-import {SolicIncluirComponent} from './solic-incluir/solic-incluir.component';
+// import {SolicIncluirComponent} from './solic-incluir/solic-incluir.component';
 import {SolicDetalheComponent} from './solic-detalhe/solic-detalhe.component';
 import {ArquivoModule} from "../arquivo/arquivo.module";
 import {ExplorerModule} from "../explorer/explorer.module";
@@ -30,7 +30,7 @@ import {AutoCompleteModule} from "primeng/autocomplete";
 import {CalendarModule} from "primeng/calendar";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {AccordionModule} from "primeng/accordion";
-import {EditorModule} from "primeng/editor";
+// import {EditorModule} from "primeng/editor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {SolicFormComponent} from './solic-form/solic-form.component';
@@ -38,11 +38,14 @@ import {SolicExcluirComponent} from './solic-excluir/solic-excluir.component';
 import {SolicAnalisarComponent} from './solic-analisar/solic-analisar.component';
 import {CardModule} from "primeng/card";
 import {HistModule} from "../hist/hist.module";
-import {QuillViewModule} from "../shared/quill-view/quill-view.module";
-import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
-import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
+// import {QuillViewModule} from "../shared/quill-view/quill-view.module";
+// import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
+/*import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";*/
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {OverlayPanelModule} from "primeng/overlaypanel";
+/*import {CelulaModule} from "../shared/celula/celula.module";*/
+/*import {ExporterTextoModule} from "../shared/exporter-texto/exporter-texto.module";*/
+import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 
 
 @NgModule({
@@ -50,7 +53,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
     SolicComponent,
     SolicMenuListarComponent,
     SolicDatatableComponent,
-    SolicIncluirComponent,
+    // SolicIncluirComponent,
     SolicDetalheComponent,
     SolicFormComponent,
     SolicExcluirComponent,
@@ -71,7 +74,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
         DialogModule,
         ListboxModule,
         ContextMenuModule,
-        ToastModule,
+        // ToastModule,
         QuillModule.forRoot({
             modules: {
                 toolbar: [
@@ -99,19 +102,22 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
         CalendarModule,
         InputSwitchModule,
         AccordionModule,
-        EditorModule,
+        // EditorModule,
         UtilModule,
         CardModule,
         HistModule,
-        QuillViewModule,
-        CampoExtendidoModule,
-        CelulaQuillModule,
+        // QuillViewModule,
+        /*CampoExtendidoModule,*/
+        /*CelulaQuillModule,*/
         ImpressaoModule,
-        OverlayPanelModule
+        OverlayPanelModule,
+        /*CelulaModule,*/
+        /*ExporterTextoModule,*/
+        ExporterAcessoModule
     ],
   exports: [
     SolicComponent,
-    SolicIncluirComponent
+    // SolicIncluirComponent
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

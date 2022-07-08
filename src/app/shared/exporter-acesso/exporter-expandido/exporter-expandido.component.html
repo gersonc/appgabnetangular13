@@ -1,0 +1,12 @@
+<ng-container *ngIf="!celula.txtVF">
+  <ng-container *ngIf="!getDestino()">
+    <div class="p-text-nowrap p-text-truncate">{{celula.valor}}</div>
+  </ng-container>
+  <ng-container *ngIf="getDestino()">
+    <app-email-telefone-celular [field]="celula.field" [valor]="celula.valor"></app-email-telefone-celular>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="celula.txtVF">
+  <div class="p-text-nowrap p-text-truncate"><span class="celula-quill" (click)="mostraTexto()">{{limpaTextoNulo(celula.cphtml)}}</span></div>
+</ng-container>

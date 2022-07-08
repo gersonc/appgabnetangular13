@@ -167,44 +167,7 @@
                                             [cpdelta]="sfs.solicListar.solicitacao_descricao_delta"></app-quill-view>
                           </td>
                         </tr>
-                        <!--<tr
-                          *ngIf="sfs.solicListar.solicitacao_aceita_recusada || sfs.solicListar.solicitacao_aceita_recusada_texto || sfs.solicListar.solicitacao_aceita_recusada_delta"
-                        >
-                          <td colspan="2" class="tituloEditor">
-                            Observações:
-                          </td>
-                        </tr>
-                        <tr
-                          *ngIf="sfs.solicListar.solicitacao_aceita_recusada || sfs.solicListar.solicitacao_aceita_recusada_texto || sfs.solicListar.solicitacao_aceita_recusada_delta"
-                        >
-                          <td colspan="2">
-                            <app-texto-view
-                              [padrao]="sfs.solicListar.solicitacao_aceita_recusada"
-                              [texto]="sfs.solicListar.solicitacao_aceita_recusada_texto"
-                              [delta]="sfs.solicListar.solicitacao_aceita_recusada_delta"
-                            ></app-texto-view>
-                          </td>
-                        </tr>
-                        <tr *ngIf="sfs.solicListar.solicitacao_carta || sfs.solicListar.solicitacao_carta_texto || sfs.solicListar.solicitacao_carta_delta">
-                          <td colspan="2" class="tituloEditor">
-                            Resposta:
-                          </td>
-                        </tr>
-                        <tr *ngIf="sfs.solicListar.solicitacao_carta || sfs.solicListar.solicitacao_carta_texto || sfs.solicListar.solicitacao_carta_delta">
-                          <td colspan="2">
-                            <app-texto-view
-                              [padrao]="sfs.solicListar.solicitacao_carta"
-                              [texto]="sfs.solicListar.solicitacao_carta_texto"
-                              [delta]="sfs.solicListar.solicitacao_carta_delta"
-                            ></app-texto-view>
-                          </td>
-                        </tr>-->
 
-                        <!--<tr *ngIf="sfs.solicListar.solicitacao_arquivos">
-                          <td colspan="2">
-                            <app-detalhe-explorer [arquivos]="sfs.solicListar.solicitacao_arquivos"></app-detalhe-explorer>
-                          </td>
-                        </tr>-->
                       </table>
                     </td>
                   </tr>
@@ -893,25 +856,6 @@
                 </div>
               </ng-container>
 
-              <!--<div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                <label for="solicitacao_numero_oficio">{{tituloNumOfi}}</label>
-                <input
-                  id="solicitacao_numero_oficio"
-                  formControlName="solicitacao_numero_oficio"
-                  type="text"
-                  [size]="40"
-                  [maxlength]="100"
-                  pInputText
-                  (blur)="verificaNumOficio($event)"
-                />
-                <div *ngIf="solNumOfi" >
-                  <small class="p-atencao">{{ msgSolNumOfi }}</small>
-                </div>
-              </div>
-              <div class="p-field p-md-6 p-lg-6 p-xl-8">
-
-              </div>-->
-
               <div class="p-field p-col-12 p-md-8 p-lg-6 p-xl-6">
                 <div class="p-fluid p-formgrid p-grid">
                   <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
@@ -1080,7 +1024,4 @@
   </form>
 </p-scrollPanel>
 
-<app-form-debug [form]="formSol"></app-form-debug>
-
-<p-toast key="solicitacaoAnalisarToast" [style]="{marginTop: '80px'}"></p-toast>
 

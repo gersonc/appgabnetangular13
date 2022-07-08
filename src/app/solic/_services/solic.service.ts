@@ -13,20 +13,18 @@ import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
-import {ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
+import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
-import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
-import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
+// import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
+// import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
 import {ColunasI} from "../../_models/colunas-i";
-import {
-  helperAdicionaCamposTexto,
-  helperAdicionaCamposTextoDelta
-} from "../../shared/functions/helper-adiciona-campos-texto";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
-import {Titulos, TitulosI} from "../../_models/titulo-i";
+import {CelulaI} from "../../_models/celula-i";
+import {CelulaService} from "../../_services/celula.service";
+import {limpaTexto} from "../../shared/functions/limpa-texto";
 
 
 @Injectable({
@@ -59,9 +57,11 @@ export class SolicService {
     private url: UrlService,
     private http: HttpClient,
     private ts: TitulosService,
-    private has: HistAuxService
+    private has: HistAuxService,
+    private celulaService: CelulaService
   ) {
     this.solicitacaoUrl = this.url.solic;
+    this.celulaService.modulo = 'Solicitação'
   }
 
   buscaMenu() {
@@ -140,7 +140,7 @@ export class SolicService {
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
-    const b: CampoExtendidoI[] = [];
+    const cl: CelulaI[] = [];
     let ev = evento.data;
     this.has.histFormI = {
       hist: {
@@ -151,124 +151,50 @@ export class SolicService {
     this.tabela.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
-          let campoExtendido: CampoExtendidoI = {
-            titulo: t.titulo,
+          let celula: CelulaI = {
+            header: t.titulo,
             field: t.field,
-            valorOriginal: ev[t.field]
-          };
+            valor: ev[t.field],
+            txtVF: false,
+            cphtml: ev[t.field]
+          }
           const m = this.tabela.camposTexto.findIndex(c => t.field === c);
           if (m > -1 && ev[t.field].length > 40) {
-            let cp: any = null;
             const d = t.field + '_delta';
             const tx = t.field + '_texto';
-            if (ev[tx] !== undefined && ev[tx] !== null) {
-              campoExtendido.valorOriginal = ev[tx];
+            celula.txtVF = true;
+            if (ev[d] !== undefined && ev[d] !== null) {
+              celula.cpdelta = ev[d];
             }
-            cp = <InOutCampoTextoI>InOutCampoTexto(ev[t.field], ev[d]);
-            campoExtendido.valor = cp;
-          } else {
-            campoExtendido.valor = ev[t.field];
-            campoExtendido.valorOriginal = ev[t.field];
+            if (ev[tx] !== undefined && ev[tx] !== null) {
+              celula.cptexto = ev[tx];
+              celula.valor = ev[tx];
+            }
           }
-          b.push(campoExtendido);
+          if (m > -1 && ev[t.field].length <= 40) {
+            celula.valor = limpaTexto(ev[t.field]);
+          }
+          cl.push(celula);
         }
       }
     });
-    this.tabela.dadosExpandidos = b;
-    this.expandidoSN = true;
-  }
-
-  onRowExpand2(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
-    }
-    this.tabela.dadosExpandidosRaw = evento;
-    this.expandido = evento.data;
-    const b: any[] = [];
-    let ev = evento.data;
-    this.has.histFormI = {
-      hist: {
-        historico_processo_id: +evento.data.processo_id,
-        historico_solicitacao_id: +evento.data.solicitacao_id
-      }
-    };
-    this.tabela.titulos.forEach(t => {
-      if (ev[t.field] !== undefined && ev[t.field] !== null) {
-        if (ev[t.field].length > 0) {
-          let dlt: string = null;
-          let txt: string = null;
-          let htm = '';
-          let vf = (ev[t.field].length > 40);
-          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
-          if (m > -1) {
-            const d = t.field + '_delta';
-            const tx = t.field + '_texto';
-            dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
-            txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
-          }
-          const tit = t.titulo;
-          if (txt !== null && dlt !== null) {
-            htm = txt;
-          } else {
-            htm = ev[t.field];
-          }
-          b.push([tit, htm, vf, txt, dlt]);
-        }
-      }
-    });
-
-
-    this.tabela.dadosExpandidos = b;
+    this.tabela.celulas = cl;
     this.expandidoSN = true;
   }
 
   onRowCollapse(ev) {
     delete this.has.histFormI;
     delete this.has.histListI;
-    this.tabela.dadosExpandidos = null;
-    this.tabela.dadosExpandidosRaw = null;
+    this.tabela.celulas = [];
     this.expandidoSN = false;
   }
 
-  /*escolheTexto(field: string, index: number, value: string): string {
-    if (value === null) {
-      return '';
-    }
-    if (solicSolicitacaoCamposTexto.indexOf(field) > -1) {
-      const s  = this.solicitacoes[index];
-      if (s === undefined) {
-        return value;
-      }
-      type ObjectKey = keyof typeof s;
-      const t = field + '_texto' as ObjectKey;
-      // console.log(t as ObjectKey);
-      const u = s[t];
-      console.log(u);
-      return value;
-      /!*if (s[t as ObjectKey] === undefined) {
-        console.log('aaaa');
-        return value;
-      }
-      if (s[t as ObjectKey] !== undefined) {
-        if (s[t as ObjectKey] !== null) {
-          console.log(col);
-          return <string>s[t as ObjectKey];
-        } else {
-          return value;
-        }
-      } else {
-        return value;
-      }*!/
-    } else {
-      return value;
-    }
-  }*/
+  testaCampoTexto(field: string): boolean {
+    return (this.tabela.camposTexto.indexOf(field) > -1);
+  }
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
-      /*if (sessionStorage.getItem('solic-tabela')) {
-        this.parseTabela(JSON.parse(sessionStorage.getItem('solic-tabela')));
-      }*/
       if (sessionStorage.getItem('solic-busca')) {
         this.parseBusca(JSON.parse(sessionStorage.getItem('solic-busca')));
       }
@@ -285,7 +211,7 @@ export class SolicService {
     this.tabela.expandedRowKeys = ev.expandedRowKeys;
   }
 
-  parseTabela(t: any) {
+  /*parseTabela(t: any) {
     sessionStorage.removeItem('solic-tabela');
     this.tabela.rows = parseInt(t.rows, 10);
     this.tabela.first = parseInt(t.first, 10);
@@ -300,8 +226,8 @@ export class SolicService {
     this.tabela.titulos = t.titulos;
     this.tabela.camposTexto = t.camposTexto;
     this.tabela.total = t.total;
-    if (t.dadosExpandidos !== undefined) {
-      this.tabela.dadosExpandidos = t.dadosExpandidos;
+    if (t.celulas !== undefined) {
+      this.tabela.celulas = t.celulas;
     }
     if (t.todos === 'true' || t.todos === true) {
       this.busca.todos = true;
@@ -310,9 +236,9 @@ export class SolicService {
       this.busca.todos = false;
       this.tabela.todos = false;
     }
-  }
+  }*/
 
-  parseSession(js: any) {
+  /*parseSession(js: any) {
     Object.keys(js).forEach((k) => {
       switch (k) {
         case 'first': {
@@ -348,7 +274,7 @@ export class SolicService {
       }
 
     });
-  }
+  }*/
 
   parseBusca(b: SolicBuscaI) {
     sessionStorage.removeItem('solic-busca');
@@ -384,11 +310,11 @@ export class SolicService {
     this.ts.buscaTitulos(cps);
   }
 
-  buscaTitulosRelatorio(cps: string[]): string[] {
+  /*buscaTitulosRelatorio(cps: string[]): string[] {
     return this.ts.buscaTitulosRelatorio(cps);
-  }
+  }*/
 
-  excelCamposTexto(): ColunasI[]  {
+  /*excelCamposTexto(): ColunasI[]  {
     let cps: ColunasI[] = [];
     this.tabela.selectedColumns.forEach( c => {
       if (solicSolicitacaoCamposTexto.indexOf(c.field) === -1) {
@@ -396,15 +322,15 @@ export class SolicService {
       }
     });
     return cps;
-  }
+  }*/
 
-  tamanhoLinha(): number {
+  /*tamanhoLinha(): number {
     let n: number = 0;
     this.tabela.selectedColumns.forEach(t => {
       n += +t.width.replace('px', '');
     });
     return n;
-  }
+  }*/
 
   imprimirTabela(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
@@ -523,6 +449,31 @@ export class SolicService {
     if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
       ExcelService.criaExcelFile('solicitacao', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
       return true;
+    }
+  }
+
+  exportToCsvTodos(td: boolean = true) {
+    if (td === true) {
+      let busca: SolicBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = td;
+      busca.first = undefined;
+      let slolicRelatorio: SolicPaginacaoInterface;
+      this.sub.push(this.postSolicitacaoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            slolicRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            CsvService.jsonToCsv('solicitacao', this.tabela.selectedColumns, slolicRelatorio.solicitacao);
+
+          }
+        })
+      );
     }
   }
 
@@ -707,6 +658,7 @@ export class SolicService {
   getTodosTitulos() {
     this.ts.getTodos();
   }
+
   getTudo(): any {
     return this.ts.getTudo();
   }

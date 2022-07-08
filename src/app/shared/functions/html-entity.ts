@@ -150,7 +150,7 @@ export function get_html_translation_table(table, quoteStyle): any {
 }
 
 
-export function html_entity_decode(string, quoteStyle): boolean | string {
+export function html_entity_decode(string, quoteStyle): string {
   let tmpStr = '';
   let entity = '';
   let symbol = '';
@@ -158,7 +158,7 @@ export function html_entity_decode(string, quoteStyle): boolean | string {
 
   const hashMap = get_html_translation_table('HTML_ENTITIES', quoteStyle);
   if (hashMap === false) {
-    return false;
+    return '';
   }
 
   // @todo: &amp; problem

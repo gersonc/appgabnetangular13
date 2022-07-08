@@ -68,7 +68,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
-    if (this.authenticationService.solicitacao) {
+    /*if (this.authenticationService.solicitacao) {
       if (this.authenticationService.solicitacao_listar) {
         this.items.push(
           {
@@ -102,7 +102,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot1/listar']
           });
       }
-    }
+    }*/
 
     if (this.authenticationService.solicitacao) {
       if (this.authenticationService.solicitacao_listar) {

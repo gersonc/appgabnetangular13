@@ -72,10 +72,11 @@
                             <td>{{lb.solicitacao_area_interesse_nome}}</td>
                           </tr>
 
-                          <tr *ngIf="htm !== null">
+                          <tr *ngIf="lb.solicitacao_descricao !== null">
                             <th>Descrição da solicitação:</th>
                             <td style="text-align: right">
-                              <app-detalhe-quill [detalhe]="{htm: htm, txt: txt, titulo: 'Descrição da solicitação:'}"></app-detalhe-quill>
+                              <app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view>
+                              <!--<app-detalhe-quill [detalhe]="{htm: htm, txt: txt, titulo: 'Descrição da solicitação:'}"></app-detalhe-quill>-->
                             </td>
                           </tr>
                         </table>

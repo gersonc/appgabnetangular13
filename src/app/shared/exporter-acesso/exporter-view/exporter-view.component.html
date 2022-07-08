@@ -1,0 +1,6 @@
+<ng-container *ngIf="detalhe.htm.length <= 80">
+  <div class="p-text-nowrap p-text-truncate">{{limpaTexto150Nulo(detalhe.htm)}}</div>
+</ng-container>
+<ng-container *ngIf="detalhe.htm.length > 80">
+  <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="es.mostraView(detalhe)">{{limpaTexto150Nulo(detalhe.htm)}}</div>
+</ng-container>

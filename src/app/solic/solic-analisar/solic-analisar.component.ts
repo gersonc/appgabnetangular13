@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {SelectItem} from "primeng/api";
+// import {SelectItem} from "primeng/api";
 import {AuthenticationService} from "../../_services";
 import {Router} from "@angular/router";
 import {SolicFormService} from "../_services/solic-form.service";
@@ -21,23 +21,12 @@ import {OficioFormService} from "../../oficio/_services";
   styleUrls: ['./solic-analisar.component.css']
 })
 export class SolicAnalisarComponent implements OnInit, OnDestroy {
-  /*@ViewChild('soldesc', {static: true}) soldesc: Editor;
-  @ViewChild('solacerecus', {static: true}) solacerecus: Editor;
-  @ViewChild('histand', {static: true}) histand: Editor;
-  @ViewChild('solcar', {static: true}) solcar: Editor;*/
   formSol: FormGroup;
   sub: Subscription[] = [];
-  // solicitacao_id: number;
-  ddAcao: SelectItem[] = [];
-  // cadastro: SolicitacaoCadastroInterface;
   solicitacao?: SolicFormAnalisar;
-  // mostraModulos1 = 'none';
-  // mostraModulos2 = 'none';
   resp: any[];
-  // processo_id = 0;
   sol?: SolicListarI;
   arquivoDesativado = false;
-  // info: number = 0;
   formAtivo = true;
   msgSolNumOfi = 'Já existe ofício(s) com esse número.';
   msgSolNumPro = 'Já existe processo com esse número.';
@@ -190,10 +179,8 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
       } else {
         solicitacao.processo_numero = null;
       }
-      console.log('onSubmit', solicitacao);
       this.enviarAnaliseSolicitacao(solicitacao)
     }
-    console.log('form', this.formSol.getRawValue());
   }
 
   enviarAnaliseSolicitacao(s: SolicFormAnalisar) {
@@ -210,7 +197,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
             summary: 'ERRO ANALISAR',
             detail: this.resp[2]
           });
-          console.log(err);
+          console.error(err);
         },
         complete: () => {
           this.ms.add({
@@ -284,16 +271,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
       };
   }
 
-/*  testaCampoQuill(v: string | null | undefined): boolean {
-    if (v === null || v === undefined) {
-      return false;
-    } else {
-      return v.length !== 0;
-    }
-  }*/
-
   verificaNumOficio(ev) {
-    console.log(this.formSol.get('solicitacao_numero_oficio').value);
     if (this.sfs.solA.solicitacao_numero_oficio !== this.formSol.get('solicitacao_numero_oficio').value) {
       let of = this.formSol.get('solicitacao_numero_oficio').value;
       if (of.length > 0) {
@@ -303,7 +281,6 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
         }
         this.sub.push(this.ss.postVerificarNumOficio(dados).pipe(take(1)).subscribe(r => {
           resp = r;
-          console.log(resp);
           if (resp[0]) {
             this.aplicaCssErroAsync('solicitacao_numero_oficio', !resp);
             this.solNumOfi = !resp[0];
@@ -316,7 +293,6 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
   verificaNumProcesso(ev) {
     let np = this.formSol.get('processo_numero').value;
     let nPro = '';
-    console.log('verificaNumProcesso1', ev, np);
     if (typeof this.sfs.solA.processo_numero !== 'undefined' &&
       this.sfs.solA.processo_numero !== null &&
       this.sfs.solA.processo_numero.length > 0) {
@@ -326,16 +302,15 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
       const dado = {'processo_numero': np};
       this.sub.push(this.ss.postVerificarNumProesso(dado).pipe(take(1)).subscribe(r => {
         const resp: boolean = r[0];
-        console.log('verificaNumProcesso2', resp);
         this.solNumPro = !resp;
         this.aplicaCssErroAsync('processo_numero', !resp);
       }));
     }
   }
 
-  getInvalid() {
+/*  getInvalid() {
     return (this.solNumPro) ? 'ng-invalid': null;
-  }
+  }*/
 
   onContentChanged(ev, campo: string) {
     this.cpoEditor[campo] = {
@@ -345,13 +320,13 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
     }
   }
 
-  numProceChange(ev) {
+/*  numProceChange(ev) {
     console.log('numProceChange', ev);
-  }
+  }*/
 
-  onPossuiArquivos(ev) {
+/*  onPossuiArquivos(ev) {
 
-  }
+  }*/
 
   ngOnDestroy(): void {
     this.sfs.resetSolicitacaoAnalise();

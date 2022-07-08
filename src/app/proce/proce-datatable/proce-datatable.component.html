@@ -139,7 +139,7 @@
         <ng-container *ngIf="col.field!=='oficio'">
           {{pro[col.field]}}
         </ng-container>-->
-        <app-celula-quill [celula]="{field: col.field, header: col.header, valor: pro[col.field], linha: pro, impressao: impressao}"></app-celula-quill>
+        <app-exporter-celula [celula]="{field: col.field, header: col.header, valor: pro[col.field], linha: pro, impressao: impressao}"></app-exporter-celula>
       </td>
     </tr>
   </ng-template>
@@ -255,7 +255,8 @@
               <div *ngFor="let ce of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div class="registros p-shadow-1">
                   <h5>{{ce.titulo}}</h5>
-                  <app-campo-extendido [campo-extendido]="ce"></app-campo-extendido>
+                  <app-exporter-celula [celula]="ce"></app-exporter-celula>
+                  <!--<app-campo-extendido [campo-extendido]="ce"></app-campo-extendido>-->
                   <!--<div class="p-text-nowrap p-text-truncate">{{linhas[1]}}</div>-->
                 </div>
                 <!--<div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">

@@ -8,15 +8,15 @@ import {
   AutocompleteService,
   DropdownService,
   MenuInternoService
-} from "../../_services";
+} from "../../../_services";
 import {Location} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {take} from "rxjs/operators";
-import {VersaoService} from "../../_services/versao.service";
-import {SolicFormI} from "../_models/solic-form-i";
-import {SolicService} from "../_services/solic.service";
-import {SolicFormService} from "../_services/solic-form.service";
-import {SolicForm} from "../_models/solic-form";
+import {VersaoService} from "../../../_services/versao.service";
+import {SolicFormI} from "../../_models/solic-form-i";
+import {SolicService} from "../../_services/solic.service";
+import {SolicFormService} from "../../_services/solic-form.service";
+import {SolicForm} from "../../_models/solic-form";
 
 @Component({
   selector: 'app-solic-incluir',

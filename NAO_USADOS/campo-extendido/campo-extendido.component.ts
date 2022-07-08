@@ -40,7 +40,7 @@ export class CampoExtendidoComponent implements OnInit, OnChanges {
         this.getDestino(this.ce.field);
       }
     }
-    console.log('ps', passiveSupport({
+    /*console.log('ps', passiveSupport({
       listeners: [
         {
           element: '.p-dialog',
@@ -52,7 +52,7 @@ export class CampoExtendidoComponent implements OnInit, OnChanges {
           event: 'touchmove'
         }
       ]
-    }));
+    }));*/
   }
 
   getDestino(field) {
@@ -105,7 +105,6 @@ export class CampoExtendidoComponent implements OnInit, OnChanges {
   async exportWord() {
     console.log(this.cpdelta);
     let delta: any = JSON.parse(this.cpdelta);
-    console.log(delta);
     const quillToWordConfig = {
       exportAs: 'blob'
     };

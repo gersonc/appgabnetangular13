@@ -5,7 +5,6 @@ import {SolicDatatableComponent} from "./solic-datatable/solic-datatable.compone
 import {AuthChildGuard} from "../_guards";
 import {Rule, Scope} from "../_models";
 import {SolicListarResolver} from "./_resolvers/solic-listar.resolver";
-import {SolicIncluirComponent} from "./solic-incluir/solic-incluir.component";
 import {SolicFormResolver} from "./_resolvers/solic-form.resolver";
 import {SolicFormComponent} from "./solic-form/solic-form.component";
 import {SolicExcluirComponent} from "./solic-excluir/solic-excluir.component";
