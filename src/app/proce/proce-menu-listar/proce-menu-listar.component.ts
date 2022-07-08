@@ -4,9 +4,11 @@ import {Subscription} from "rxjs";
 import {VersaoService} from "../../_services/versao.service";
 import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
 import {Router} from "@angular/router";
-import {ProceBuscaI, ProceDropdownMenuI} from "../_model/proc-i";
 import {ProceService} from "../_services/proce.service";
 import {ProceDropdownMenuService} from "../_services/proce-dropdown-menu.service";
+import {ProceBuscaI} from "../_model/proce-busca-i";
+import {ProceDropdownMenuListarI} from "../_model/proce-dropdown-menu-listar-i";
+
 
 
 @Component({
@@ -16,7 +18,7 @@ import {ProceDropdownMenuService} from "../_services/proce-dropdown-menu.service
 })
 export class ProceMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  public ddProce: ProceDropdownMenuI;
+  public ddProce: ProceDropdownMenuListarI;
   public formListar: FormGroup;
   public ptBr: any;
   private sub: Subscription[] = [];
@@ -26,8 +28,8 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dd: DropdownService,
     private ps: ProceService,
-    public pdd: ProceDropdownMenuService,
     public mi: MenuInternoService,
+    public pdd: ProceDropdownMenuService,
     public authenticationService: AuthenticationService,
     private router: Router,
 
@@ -83,8 +85,9 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
     this.ps.resetProceBusca();
     let proBusca: ProceBuscaI;
     proBusca = this.formListar.getRawValue();
-    this.ps.busca = proBusca;
-    this.ps.busca.rows = this.ps.tabela.rows;
+    this.ps.novaBusca(proBusca);
+    /*this.ps.busca = proBusca;
+    this.ps.busca.rows = this.ps.tabela.rows;*/
     this.ps.buscaMenu();
     this.mi.hideMenu();
   }

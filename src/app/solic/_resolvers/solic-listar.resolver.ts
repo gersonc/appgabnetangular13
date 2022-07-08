@@ -13,7 +13,7 @@ import {DdService} from "../../_services/dd.service";
 @Injectable({
   providedIn: 'root'
 })
-export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInterface> {
+export class SolicListarResolver implements  Resolve<boolean> {
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
@@ -58,10 +58,7 @@ export class SolicListarResolver implements  Resolve<boolean | SolicPaginacaoInt
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):
-    Observable<SolicPaginacaoInterface> |
-    Observable<boolean> |
-    Observable<never> {
+    state: RouterStateSnapshot): Observable<boolean> |  Observable<never> {
     // this.solicitacaoService.getTitulos();
     if (!sessionStorage.getItem('solic-menu-dropdown')) {
       this.populaDropdown();

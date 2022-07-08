@@ -8,7 +8,7 @@
          [lazyLoadOnInit]="false"
          [totalRecords]="ps.tabela.totalRecords"
          [sortField]="ps.tabela.sortField"
-         [dataKey]="'processo_id'"
+         dataKey="processo_id"
          [scrollable]="true"
          [scrollHeight]="altura"
          [(selection)]="ps.selecionados"
@@ -55,8 +55,8 @@
             <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
                     (click)="mostraSelectColunas()"></button>
           </div>
-          <div class="p-mr-2">
-            <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
+          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
+            <button pButton type="button" label="Relatórios" icon="pi pi-info" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
           </div>
         </div>
@@ -65,6 +65,10 @@
           <div class="p-mx-2">PROCESSOS</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mr-2" *ngIf="ps.selecionados.length > 0">
+            <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
+                    (click)="ps.resetSelecionados()"></button>
+          </div>
           <div class="p-mr-2">Página {{ps.tabela.currentPage}} de {{ps.tabela.pageCount}} - Num.
             Registros: {{ps.tabela.totalRecords}}</div>
         </div>
@@ -75,9 +79,10 @@
             Registros: {{ps.tabela.totalRecords}}</div>
         </div>
 
+
       </div>
     </div>
-    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <p-menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -111,35 +116,17 @@
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
-      <!--<td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="statusColor(+pro.processo_status_id)"
-          [style.background-color]="pro[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">-->
-      <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowColor(col.field,pro.processo_status_id, pro.solicitacao_situacao)">
-        <!--<ng-container *ngIf="col.field=='solicitacao_descricao'">
-          <app-quill-view [cpdelta]="pro.solicitacao_descricao_delta" [cphtml]="pro.solicitacao_descricao" class="detalhe"></app-quill-view>
-          &lt;!&ndash;<quill-view-html [content]="pro['solicitacao_descricao']"></quill-view-html>&ndash;&gt;
-          &lt;!&ndash;<span [innerHTML]="pro['solicitacao_descricao']"></span>&ndash;&gt;
-        </ng-container>
-        <ng-container *ngIf="col.field=='solicitacao_aceita_recusada'">
-          <app-quill-view [cpdelta]="pro.solicitacao_aceita_recusada_delta" [cphtml]="pro.solicitacao_aceita_recusada" class="detalhe"></app-quill-view>
-          &lt;!&ndash;<quill-view-html [content]="pro['solicitacao_aceita_recusada']"></quill-view-html>&ndash;&gt;
-          &lt;!&ndash;<span [innerHTML]="pro['solicitacao_aceita_recusada']"></span>&ndash;&gt;
-        </ng-container>
-        <ng-container *ngIf="col.field=='oficio_descricao_acao'">
-          <quill-view-html [content]="pro['oficio_descricao_acao']"></quill-view-html>
-          &lt;!&ndash;<span [innerHTML]="pro['oficio_descricao_acao']"></span>&ndash;&gt;
-        </ng-container>
-        <ng-container *ngIf="col.field=='oficio'">
-          &lt;!&ndash;<app-processo-oficio-table [oficio]="pro['oficio']"></app-processo-oficio-table>&ndash;&gt;
-        </ng-container>
-        <ng-container *ngIf="col.field=='historico'">
-          <app-quill-view [cpdelta]="pro.historico_andamento_delta" [cphtml]="pro.historico_andamento" class="detalhe"></app-quill-view>
-          &lt;!&ndash;<app-historico-processo *ngIf="pro['historico']" [acao]="'listar'" [dados]="pro['historico']"></app-historico-processo>&ndash;&gt;
-          &lt;!&ndash;<app-processo-historico-table [historico]="pro['historico']"></app-processo-historico-table>&ndash;&gt;
-        </ng-container>
-        <ng-container *ngIf="col.field!=='oficio'">
-          {{pro[col.field]}}
-        </ng-container>-->
-        <app-exporter-celula [celula]="{field: col.field, header: col.header, valor: pro[col.field], linha: pro, impressao: impressao}"></app-exporter-celula>
+      <td *ngFor="let col of columns" [style.width]="col.width"
+          [ngClass]="rowColor(col.field,pro.processo_status_id, pro.solicitacao_status_nome, pro.solicitacao_situacao)">
+        <app-exporter-celula [celula]="{
+          valor: pro[col.field],
+          field: col.field,
+          header:col.header,
+          txtVF: ps.testaCampoTexto(col.field),
+          cphtml: pro[col.field],
+          cpdelta: null,
+          cptexto: null
+           }"></app-exporter-celula>
       </td>
     </tr>
   </ng-template>
@@ -249,39 +236,15 @@
               </div>
 
             </div>
-
-
             <div class="p-grid">
-              <div *ngFor="let ce of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+              <div *ngFor="let ce of ps.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div class="registros p-shadow-1">
-                  <h5>{{ce.titulo}}</h5>
-                  <app-exporter-celula [celula]="ce"></app-exporter-celula>
-                  <!--<app-campo-extendido [campo-extendido]="ce"></app-campo-extendido>-->
-                  <!--<div class="p-text-nowrap p-text-truncate">{{linhas[1]}}</div>-->
+                  <h5>{{ce.header}}</h5>
+                  <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
-                <!--<div *ngIf="!linhas[2] || linhas[1].length <= 40" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  {{linhas[1]}}
-                </div>
-                <div *ngIf="linhas[2] || linhas[1].length > 40" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 36)}}...</span>
-                </div>-->
               </div>
             </div>
 
-            <!--<div class="p-grid">
-              <div *ngFor="let linhas of ps.tabela.dadosExpandidos;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div *ngIf="!linhas[2] || linhas[1].length < 30" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  {{linhas[1]}}
-                </div>
-                <div *ngIf="linhas[2] && linhas[1].length > 30" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0, 26)}}...</span>
-                </div>
-              </div>
-            </div>-->
 
           </div>
         </div>
@@ -307,7 +270,6 @@
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 <p-dialog *ngIf="ps.tabela.mostraSeletor"
-          #dg
           id="seletor"
           header="Selecione as colunas."
           [(visible)]="ps.tabela.mostraSeletor"
@@ -317,66 +279,40 @@
           [dismissableMask]="true"
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="ps.tabela.selectedColumns"></app-seletor-colunas>
-  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-    <div class="p-mr-2">
-      <button
-        pButton
-        pRipple
-        type="button"
-        class="botaoinferior p-button-rounded"
-        [label]="'FECHAR'"
-        (click)="dg.visibleChange.emit(false)"
-      ></button>
+  <p-footer>
+    <div class="p-d-flex p-jc-start p-pb-2">
+      <div class="p-mr-2">
+        <button pButton type="button" label="Fehar " icon="pi pi-times"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
+      </div>
+      <div class="p-mr-2">
+        <button pButton type="button" label="Reset " icon="pi pi-backward"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
+      </div>
     </div>
-  </div>
+  </p-footer>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
-<!--<p-contextMenu #cm [model]="contextoMenu3"> </p-contextMenu>-->
-<p-toast key="processoToast" position="center"></p-toast>
 
-<!--*** EDITOR *****************************************************************************************************-->
-<!--<p-dialog *ngIf="showCampoTexto"
-          [(visible)]="showCampoTexto"
-          [dismissableMask]="true"
-          [modal]="true"
-          styleClass="tablistagem"
-          [header]="campoTitulo"
-          (onHide)="escondeTexto()"
->
-  <app-quill-view [cpdelta]="deltaquill" [cphtml]="campoHtml"
-                  class="detalhe"></app-quill-view>
-  &lt;!&ndash;<quill-view-html #edtor [content]="campoTexto" class="tablistagem"></quill-view-html>&ndash;&gt;
 
-  <p-footer *ngIf="deltaquill">
-    <button
-      pButton
-      type="button"
-      class="p-button-rounded p-button-sm"
-      icon="pi pi-book"
-      (click)="exportWord()"
-      label="Word"
-    ></button>
-  </p-footer>
-</p-dialog>-->
 <!--*** DETALHE ****************************************************************************************************-->
 <ng-container *ngIf="showDetalhe">
   <p-dialog
-    [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
-    [style]="{width: '60vw'}"
     [(visible)]="showDetalhe"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{width: '80vw'}"
     styleClass="tablistagem"
     header="DETALHE"
-    [modal]="true"
-    [dismissableMask]="true"
     (onHide)="escondeDetalhe()"
-    [baseZIndex]="0"
   >
+    <app-proce-detalhe [pro]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-proce-detalhe>
     <!--<app-processo-detalhe [proDetalhe]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-processo-detalhe>-->
   </p-dialog>
 </ng-container>
 
 <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
-<ng-container *ngIf="showHistorico2">
+<ng-container *ngIf="showHistorico">
   <div [ngClass]="cssMostra">
   <p-dialog
     [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
@@ -388,8 +324,8 @@
     [dismissableMask]="false"
     [baseZIndex]="0"
   >
-    <app-hist-form *ngIf="showHistorico2 && histAcao === 'incluir'" [histFormI]="histFormI" [(display)]="showHistorico2" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-    <app-hist-datatable *ngIf="showHistorico2 && histAcao === 'listar'" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+    <app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI" [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+    <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
   </p-dialog>
   </div>
 </ng-container>

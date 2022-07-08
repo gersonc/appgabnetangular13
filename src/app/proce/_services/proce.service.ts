@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subscription} from "rxjs";
-
-import {Datatable, DatatableI} from "../../_models/datatable-i";
-import {UrlService} from "../../_services";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {TitulosService} from "../../_services/titulos.service";
 import {take} from "rxjs/operators";
-
-import {ProceBuscaI, ProceListarI, ProcePaginacaoInterface, proceProcessoCamposTexto} from "../_model/proc-i";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {ProceDetalheI, ProceHistoricoI, ProceOficioI} from "../_model/proce-detalhe-i";
-// import {strToDelta} from "../../_models/parcer-delta";
+import {Datatable, DatatableI} from "../../_models/datatable-i";
+import {TitulosService} from "../../_services/titulos.service";
+import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
+import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
-import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
-// import {solicSolicitacaoCamposTexto} from "../../solic/_models/solic-listar-i";
-// import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
-// import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
+import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
+import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {CelulaI} from "../../_models/celula-i";
+import {CelulaService} from "../../_services/celula.service";
+import {limpaTexto} from "../../shared/functions/limpa-texto";
+import {ProceListarI, ProcePaginacaoInterface} from "../_model/proce-listar-i";
+import {proceProcessoCamposTexto} from "../_model/proc-i";
+import {ProceBuscaI} from "../_model/proce-busca-i";
 
 @Injectable({
   providedIn: 'root'
@@ -23,33 +23,37 @@ import {CelulaI} from "../../_models/celula-i";
 export class ProceService {
   buscaSubject = new BehaviorSubject<boolean>(true);
   busca$ = this.buscaSubject.asObservable();
+  idx?: number;
   processoUrl = this.url.proce;
   sub: Subscription[] = [];
+  detalhe: ProceListarI | null = null;
   processos: ProceListarI[];
   selecionados: ProceListarI[] = [];
   Contexto: ProceListarI;
   busca?: ProceBuscaI;
   tabela?: DatatableI;
   stateSN = false;
-  procApagar?: ProceListarI;
-  procAnalisar?: ProceListarI;
   expandido?: ProceListarI;
   expandidoSN = false;
-  msgCtxH: boolean = true;
+  procApagar?: ProceListarI;
+  procAnalisar?: ProceListarI;
+  sortField = 'solicitacao_situacao';
+  sortOrder = 1;
   lazy = false;
+  msgCtxH: boolean = true;
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
     private ts: TitulosService,
-    private has: HistAuxService
+    private has: HistAuxService,
+    private celulaService: CelulaService
   ) {
-    // this.criaTabela();
     this.processoUrl = this.url.proce;
+    this.celulaService.modulo = 'Processo'
   }
 
-  buscaMenu() {
-    //this.buscaSubject.next(true);
+  buscaMenu() {;
     this.proceBusca();
   }
 
@@ -86,102 +90,38 @@ export class ProceService {
     }
   }
 
+  novaBusca(busca: ProceBuscaI) {
+    if (busca === undefined) {
+      this.busca = {
+        todos: this.tabela.todos,
+        rows: this.tabela.rows,
+        sortField: this.tabela.sortField,
+        first: this.tabela.first,
+        sortOrder: this.tabela.sortOrder
+      };
+    } else {
+      this.busca = undefined;
+      this.busca = busca;
+      this.busca.todos = this.tabela.todos;
+      this.busca.rows = this.tabela.rows;
+      this.busca.first = 0;
+      this.busca.sortOrder = 1;
+      this.busca.sortField = 'solicitacao_situacao';
+    }
+  }
+
   resetProceBusca() {
     this.busca = undefined;
     this.criaBusca();
   }
 
+  resetSelecionados() {
+    this.selecionados = [];
+  }
+
   onContextMenuSelect(evento) {
     this.Contexto = evento.data;
   }
-
-  /*onRowExpand(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
-    }
-    this.tabela.dadosExpandidosRaw = evento;
-    this.expandido = evento.data;
-    const b: any[] = [];
-    let ev = evento.data;
-    this.has.histFormI = {
-      hist: {
-        historico_processo_id: +evento.data.processo_id,
-        historico_solicitacao_id: +evento.data.solicitacao_id
-      }
-    };
-    this.tabela.titulos.forEach(t => {
-      if (ev[t.field] !== undefined && ev[t.field] !== null) {
-        if (ev[t.field].length > 0) {
-          let dlt: string = null;
-          let txt: string = null;
-          let htm = '';
-          let vf = (ev[t.field].length > 40);
-          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
-          if (m > -1) {
-            const d = t.field + '_delta';
-            const tx = t.field + '_texto';
-            dlt = (ev[d] !== undefined && ev[d] !== null && ev[d].length > 40) ? ev[d] : null;
-            txt = (ev[d] !== undefined && ev[tx] !== null) ? ev[tx] : null;
-          }
-          const tit = t.titulo;
-          if (txt !== null && dlt !== null) {
-            htm = txt;
-          } else {
-            htm = ev[t.field];
-          }
-          b.push([tit, htm, vf, txt, dlt]);
-        }
-      }
-    });
-
-
-    this.tabela.dadosExpandidos = b;
-    this.expandidoSN = true;
-  }*/
-
-  /*onRowExpand(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
-    }
-    this.tabela.dadosExpandidosRaw = evento;
-    this.expandido = evento.data;
-    const b: CampoExtendidoI[] = [];
-    let ev = evento.data;
-    this.has.histFormI = {
-      hist: {
-        historico_processo_id: +evento.data.processo_id,
-        historico_solicitacao_id: +evento.data.solicitacao_id
-      }
-    };
-    this.tabela.titulos.forEach(t => {
-      if (ev[t.field] !== undefined && ev[t.field] !== null) {
-        if (ev[t.field].length > 0) {
-          let campoExtendido: CampoExtendidoI = {
-            titulo: t.titulo,
-            field: t.field,
-            valorOriginal: ev[t.field]
-          };
-          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
-          if (m > -1 && ev[t.field].length > 40) {
-            let cp: any = null;
-            const d = t.field + '_delta';
-            const tx = t.field + '_texto';
-            if (ev[tx] !== undefined && ev[tx] !== null) {
-              campoExtendido.valorOriginal = ev[tx];
-            }
-            cp = <InOutCampoTextoI>InOutCampoTexto(ev[t.field], ev[d]);
-            campoExtendido.valor = cp;
-          } else {
-            campoExtendido.valor = ev[t.field];
-            campoExtendido.valorOriginal = ev[t.field];
-          }
-          b.push(campoExtendido);
-        }
-      }
-    });
-    this.tabela.dadosExpandidos = b;
-    this.expandidoSN = true;
-  }*/
 
   onRowExpand(evento) {
     if (this.tabela.titulos.length === 0) {
@@ -220,6 +160,9 @@ export class ProceService {
               celula.valor = ev[tx];
             }
           }
+          if (m > -1 && ev[t.field].length <= 40) {
+            celula.valor = limpaTexto(ev[t.field]);
+          }
           cl.push(celula);
         }
       }
@@ -228,34 +171,19 @@ export class ProceService {
     this.expandidoSN = true;
   }
 
-
   onRowCollapse(ev) {
     delete this.has.histFormI;
     delete this.has.histListI;
-    this.tabela.dadosExpandidos = null;
-    this.tabela.dadosExpandidosRaw = null;
+    this.tabela.celulas = [];
     this.expandidoSN = false;
   }
 
-  escolheTexto(field: string, index: number, value: string): string {
-    if (proceProcessoCamposTexto.indexOf(field) > -1) {
-      const t: string = field + '_texto';
-      if (this.processos[index][t] !== null) {
-        return this.processos[index][t];
-      }
-    }
-    if (value !== null) {
-      return value;
-    } else {
-      return '';
-    }
+  testaCampoTexto(field: string): boolean {
+    return (this.tabela.camposTexto.indexOf(field) > -1);
   }
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
-      /*if (sessionStorage.getItem('proce-tabela')) {
-        this.parseTabela(JSON.parse(sessionStorage.getItem('proce-tabela')));
-      }*/
       if (sessionStorage.getItem('proce-busca')) {
         this.parseBusca(JSON.parse(sessionStorage.getItem('proce-busca')));
       }
@@ -265,78 +193,13 @@ export class ProceService {
 
   salvaState() {
     this.stateSN = true;
-    // sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
-    sessionStorage.setItem('proce-tabela', JSON.stringify(this.tabela));
+    sessionStorage.setItem('proce-busca', JSON.stringify(this.busca));
   }
 
   setState(ev) {
     this.tabela.expandedRowKeys = ev.expandedRowKeys;
   }
 
-  parseTabela(t: any) {
-    sessionStorage.removeItem('proce-tabela');
-    this.tabela.rows = parseInt(t.rows, 10);
-    this.tabela.first = parseInt(t.first, 10);
-    this.tabela.sortOrder = parseInt(t.sortOrder, 10);
-    this.tabela.sortField = t.sortField;
-    this.tabela.todos = (t.todos.toString() === 'true');
-    this.tabela.campos = t.campos;
-    this.tabela.ids = (t.ids !== undefined) ? t.ids : undefined;
-    this.tabela.totalRecords = parseInt(t.totalRecords, 10);
-    this.tabela.currentPage = parseInt(t.currentPage, 10);
-    this.tabela.pageCount = parseInt(t.pageCount, 10);
-    this.tabela.titulos = t.titulos;
-    this.tabela.camposTexto = t.camposTexto;
-    this.tabela.total = t.total;
-    if (t.dadosExpandidos !== undefined) {
-      this.tabela.dadosExpandidos = t.dadosExpandidos;
-    }
-    if (t.todos === 'true' || t.todos === true) {
-      this.busca.todos = true;
-      this.tabela.todos = true;
-    } else {
-      this.busca.todos = false;
-      this.tabela.todos = false;
-    }
-  }
-
-  parseSession(js: any) {
-    Object.keys(js).forEach((k) => {
-      switch (k) {
-        case 'first': {
-          this.busca.first = parseInt(js[k], 10);
-          break;
-        }
-        case 'rows': {
-          this.busca.rows = parseInt(js[k], 10);
-          break;
-        }
-        case 'sortOrder': {
-          this.busca.sortOrder = parseInt(js[k], 10);
-          break;
-        }
-        case 'currentPage': {
-          this.tabela.currentPage = parseInt(js[k], 10);
-          break;
-        }
-        case 'pageCount': {
-          this.tabela.pageCount = parseInt(js[k], 10);
-          break;
-        }
-        case 'expandedRowKeys': {
-          this.tabela.expandedRowKeys = js[k];
-          break;
-        }
-        case 'sortField': {
-          if (js[k] !== undefined && js[k] !== '') {
-            this.busca.sortField = js[k];
-            break;
-          }
-        }
-      }
-
-    });
-  }
 
   parseBusca(b: ProceBuscaI) {
     sessionStorage.removeItem('proce-busca');
@@ -345,17 +208,13 @@ export class ProceService {
     this.busca.cadastro_id = (b.cadastro_id !== undefined) ? +b.cadastro_id : undefined;
     this.busca.solicitacao_assunto_id = (b.solicitacao_assunto_id !== undefined) ? +b.solicitacao_assunto_id : undefined;
     this.busca.processo_status_id = (b.processo_status_id !== undefined) ? +b.processo_status_id : undefined;
-    // this.busca.solicitacao_status_id = (b.solicitacao_status_id !== undefined)? +b.solicitacao_status_id : undefined;
     this.busca.cadastro_municipio_id = (b.cadastro_municipio_id !== undefined) ? +b.cadastro_municipio_id : undefined;
     this.busca.cadastro_regiao_id = (b.cadastro_regiao_id !== undefined) ? +b.cadastro_regiao_id : undefined;
     this.busca.solicitacao_local_id = (b.solicitacao_local_id !== undefined) ? +b.solicitacao_local_id : undefined;
-    // this.busca.cadastro_bairro = (b.cadastro_bairro !== undefined)? b.cadastro_bairro : undefined;
-    // this.busca.solicitacao_tipo_recebimento_id = (b.solicitacao_tipo_recebimento_id !== undefined)? +b.solicitacao_tipo_recebimento_id : undefined;
     this.busca.solicitacao_area_interesse_id = (b.solicitacao_area_interesse_id !== undefined) ? +b.solicitacao_area_interesse_id : undefined;
     this.busca.solicitacao_reponsavel_analize_id = (b.solicitacao_reponsavel_analize_id !== undefined) ? +b.solicitacao_reponsavel_analize_id : undefined;
     this.busca.solicitacao_data1 = (b.solicitacao_data1 !== undefined) ? b.solicitacao_data1 : undefined;
     this.busca.solicitacao_data2 = (b.solicitacao_data2 !== undefined) ? b.solicitacao_data2 : undefined;
-    // this.busca.solicitacao_descricao = (b.solicitacao_descricao !== undefined)? b.solicitacao_descricao : undefined;
     this.busca.solicitacao_orgao = (b.solicitacao_orgao !== undefined) ? b.solicitacao_orgao : undefined;
     this.busca.processo_numero = (b.processo_numero !== undefined) ? b.processo_numero : undefined;
     this.proceBusca();
@@ -368,107 +227,150 @@ export class ProceService {
     this.ts.buscaTitulos(cps);
   }
 
-  parceDetalhe(pro: ProceListarI): ProceDetalheI {
-    let proceDetalhe: ProceDetalheI = {};
-    proceDetalhe.processo = {
-      processo_id: pro.processo_id,
-      processo_numero: pro.processo_numero,
-      processo_status_nome: pro.processo_status_nome,
-      solicitacao_data: pro.solicitacao_data,
-      solicitacao_assunto_nome: pro.solicitacao_assunto_nome,
-      solicitacao_local_nome: pro.solicitacao_local_nome,
-      solicitacao_area_interesse_nome: pro.solicitacao_area_interesse_nome,
-      solicitacao_reponsavel_analize_nome: pro.solicitacao_reponsavel_analize_nome,
-      solicitacao_descricao: pro.solicitacao_descricao,
-      solicitacao_aceita_recusada: pro.solicitacao_aceita_recusada,
-    };
-    proceDetalhe.processo_titulo = this.ts.buscaTitulosDetalhe(Object.keys(proceDetalhe.processo));
-    proceDetalhe.cadastro = {
-      cadastro_tipo_nome: pro.cadastro_tipo_nome,
-      cadastro_nome: pro.cadastro_nome,
-      cadastro_endereco: pro.cadastro_endereco,
-      cadastro_endereco_numero: pro.cadastro_endereco_numero,
-      cadastro_endereco_complemento: pro.cadastro_endereco_complemento,
-      cadastro_bairro: pro.cadastro_bairro,
-      cadastro_municipio_nome: pro.cadastro_municipio_nome,
-      cadastro_regiao_nome: pro.cadastro_regiao_nome,
-      cadastro_cep: pro.cadastro_cep,
-      cadastro_estado_nome: pro.cadastro_estado_nome,
-      cadastro_telefone: pro.cadastro_telefone,
-      cadastro_telefone2: pro.cadastro_telefone2,
-      cadastro_celular: pro.cadastro_celular,
-      cadastro_celular2: pro.cadastro_celular2,
-      cadastro_telcom: pro.cadastro_telcom,
-      cadastro_fax: pro.cadastro_fax,
-      cadastro_email: pro.cadastro_email,
-      cadastro_email2: pro.cadastro_email2,
-      cadastro_rede_social: pro.cadastro_rede_social,
-      cadastro_outras_midias: pro.cadastro_outras_midias,
-      cadastro_data_nascimento: pro.cadastro_data_nascimento,
-    };
-    proceDetalhe.cadastro_titulo = this.ts.buscaTitulosDetalhe(Object.keys(proceDetalhe.cadastro));
-    if (pro.oficios.length > 0) {
-      proceDetalhe.oficios = [];
-      let ko: string[] = [];
-      pro.oficios.forEach(p => {
-        const k = Object.keys(p);
-        k.forEach(s => {
-          if (ko.indexOf(s) === -1) { ko.push(s)}
-        });
-        let pp: ProceOficioI;
-        pp = {
-          oficio_id: p.oficio_id,
-          oficio_processo_id: p.oficio_processo_id,
-          oficio_codigo: p.oficio_codigo,
-          oficio_numero: p.oficio_numero,
-          oficio_prioridade_nome: p.oficio_prioridade_nome,
-          oficio_convenio: p.oficio_convenio,
-          oficio_data_emissao: p.oficio_data_emissao,
-          oficio_data_recebimento: p.oficio_data_recebimento,
-          oficio_orgao_solicitado_nome: p.oficio_orgao_solicitado_nome,
-          oficio_descricao_acao: p.oficio_descricao_acao,
-          oficio_data_protocolo: p.oficio_data_protocolo,
-          oficio_protocolo_numero: p.oficio_protocolo_numero,
-          oficio_orgao_protocolante_nome: p.oficio_orgao_protocolante_nome,
-          oficio_protocolante_funcionario: p.oficio_protocolante_funcionario,
-          oficio_prazo: p.oficio_prazo,
-          oficio_tipo_andamento_nome: p.oficio_tipo_andamento_nome,
-          oficio_status: p.oficio_status,
-          oficio_valor_solicitado: p.oficio_valor_solicitado,
-          oficio_valor_recebido: p.oficio_valor_recebido,
-          oficio_data_pagamento: p.oficio_data_pagamento,
-          oficio_data_empenho: p.oficio_data_empenho,
-        };
-        proceDetalhe.oficios.push(pp);
+  imprimirTabela(n: number) {
+    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'PROCESSOS');
+    }
 
-      });
-      proceDetalhe.oficio_titulo = this.ts.buscaTitulosDetalhe(ko);
+    if (n === 2 && this.processos.length > 0) {
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.processos, 'PROCESSOS');
     }
-    if (pro.historico_processo.length > 0) {
-      proceDetalhe.historicos = [];
-      pro.historico_processo.forEach(p => {
-        let h: ProceHistoricoI = {
-          historico_id: p.historico_id,
-          historico_data: p.historico_data,
-          historico_andamento: p.historico_andamento,
-        };
-        proceDetalhe.historicos.push(h);
-      });
-      proceDetalhe.historico_titulo = this.ts.buscaTitulosDetalhe(Object.keys(proceDetalhe.oficios[0]));
+
+    if (n === 3) {
+      let busca: ProceBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let proceRelatorio: ProcePaginacaoInterface;
+      this.sub.push(this.postProcessoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            proceRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, proceRelatorio.processos, 'PROCESSOS');
+          }
+        })
+      );
     }
-    return proceDetalhe;
+
+
   }
 
-  /*montaTitulos(cps: string[]) {
-    this.tabela.campos = cps;
-    if (this.ts.titulos.length() === 0) {
-      this.ts.buscaTitulos(cps);
-    } else {
-      if (this.tabela.titulos === undefined || this.tabela.titulos.length === 0) {
-        this.ts.buscaTitulos(cps);
-      }
+  tabelaPdf(n: number): void  {
+    // 1 - selecionados
+    // 2 - pagina
+    if (n === 1) {
+      TabelaPdfService.tabelaPdf(
+        'processos',
+        'PROCESSOS',
+        this.tabela.selectedColumns,
+        this.selecionados,
+        proceProcessoCamposTexto
+      );
     }
-  }*/
+    if (n === 2) {
+      TabelaPdfService.tabelaPdf(
+        'processos',
+        'PROCESSOS',
+        this.tabela.selectedColumns,
+        this.processos,
+        proceProcessoCamposTexto
+      );
+    }
+    if (n === 3) {
+      let busca: ProceBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns,
+        busca.todos = true;
+      busca.first = undefined;
+      let proceRelatorio: ProcePaginacaoInterface;
+      this.sub.push(this.postProcessoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            proceRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            TabelaPdfService.tabelaPdf(
+              'processos',
+              'PROCESSOS',
+              this.tabela.selectedColumns,
+              proceRelatorio.processos,
+              proceProcessoCamposTexto
+            );
+          }
+        })
+      );
+
+    }
+  }
+
+  exportToXLSX(td: number = 1) {
+    // const cp = this.ss.excelCamposTexto();
+    if (td === 3) {
+      let busca: ProceBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let proceRelatorio: ProcePaginacaoInterface;
+      this.sub.push(this.postProcessoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            proceRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            ExcelService.criaExcelFile('processo', limpaCampoTexto(proceProcessoCamposTexto, proceRelatorio.processos), this.tabela.selectedColumns);
+          }
+        })
+      );
+    }
+    if (this.processos.length > 0 && td === 2) {
+      ExcelService.criaExcelFile('processo', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.processos), this.tabela.selectedColumns);
+      return true;
+    }
+    if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
+      ExcelService.criaExcelFile('processo', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
+      return true;
+    }
+  }
+
+  exportToCsvTodos(td: boolean = true) {
+    if (td === true) {
+      let busca: ProceBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = td;
+      busca.first = undefined;
+      let proceRelatorio: ProcePaginacaoInterface;
+      this.sub.push(this.postProcessoRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            proceRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            CsvService.jsonToCsv('processo', this.tabela.selectedColumns, proceRelatorio.processos);
+
+          }
+        })
+      );
+    }
+  }
 
   proceBusca(): void {
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids) {
@@ -539,31 +441,17 @@ export class ProceService {
     return this.http.post<ProcePaginacaoInterface>(url, busca, httpOptions);
   }
 
-  /*  getSolicitacaoDetalhe(id: number) {
-      const url = this.url.proce + '/detalhe/' + id;
-      return this.http.get<SolicDetalheI>(url);
-    }
+  postProcessoRelatorio(busca: ProceBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.proce + '/relatorio';
+    return this.http.post<ProcePaginacaoInterface>(url, busca, httpOptions);
+  }
 
-    incluirSolicitacao(dados: SolicFormI): Observable<any> {
-      let url: string;
-      url = this.url.proce + '/incluir';
-      const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-      return this.http.post<any[]>(url, dados, httpOptions);
-    }
+  getProcessoDetalhe(id: number) {
+    const url = this.url.proce + '/detalhe/' + id;
+    return this.http.get<ProceDetalheI>(url);
+  }
 
-    alterarSolicitacao(dados: SolicFormI): Observable<any> {
-      let url: string;
-      url = this.url.proce + '/alterar';
-      const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-      return this.http.put<any[]>(url, dados, httpOptions);
-    }
-
-    analisarSolicitacao(dados: SolicFormAnalisar): Observable<any> {
-      let url: string;
-      url = this.url.proce + '/analisar';
-      const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-      return this.http.put<any[]>(url, dados, httpOptions);
-    }*/
 
   excluirSolicitacao(id: number): Observable<any> {
     const url = this.url.proce + '/' + id;
@@ -639,7 +527,6 @@ export class ProceService {
     this.stateSN = false;
     this.has.histFormI = undefined;
     this.has.hist = undefined;
-    this.has.histListI = undefined;
     this.expandidoSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }

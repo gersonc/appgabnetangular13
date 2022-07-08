@@ -1,20 +1,14 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Editor} from "primeng/editor";
-import {ProcessoListagemInterface} from "../../processo/_models";
-import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
-import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
-import {AuthenticationService, MenuInternoService} from "../../_services";
-import {ActivatedRoute, Router} from "@angular/router";
-import * as quillToWord from "quill-to-word";
-import {Config} from "quill-to-word";
-import {saveAs} from "file-saver";
-import {ProceListarI} from "../_model/proc-i";
-import {ProceService} from "../_services/proce.service";
-import {MenuDatatableService} from "../../_services/menu-datatable.service";
-import {ProceFormService} from "../_services/proce-form.service";
+import {LazyLoadEvent, MenuItem} from "primeng/api";
+import {Router} from "@angular/router";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
-import {MsgService} from "../../_services/msg.service";
+import {WindowsService} from "../../_layout/_service";
+import {MenuDatatableService} from "../../_services/menu-datatable.service";
+import {ProceListarI} from "../_model/proce-listar-i";
+import {ProceService} from "../_services/proce.service";
+import {AuthenticationService, MenuInternoService} from "../../_services";
+import {ProceFormService} from "../_services/proce-form.service";
 
 
 @Component({
@@ -22,106 +16,41 @@ import {MsgService} from "../../_services/msg.service";
   templateUrl: './proce-datatable.component.html',
   styleUrls: ['./proce-datatable.component.css']
 })
+
 export class ProceDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
-  @ViewChild('edtor', {static: true}) public edtor: Editor;
-  /*  loading = false;
-    cols: any[];
-    currentPage = 1;
-    processo: ProceListarI[];
-    prContexto: ProceListarI;
-    total: ProcessoTotalInterface;
-    totalRecords = 0;
-    numerodePaginas: number;
-    first: number;
-    rows = 50;
-    selecionados: ProceListarI[] = [];
-    sortCampo = 'processo_status_nome';
-    selectedColumns: any[] = [];
-    selectedColumnsOld: any[] = [];
-    mostraSeletor = false;
-    camposSelecionados: ProcessoBuscaCampoInterface[];
-    altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
-    meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
-    numColunas = 3;
-    expColunas = 0;
-    dadosExpandidos: Subscription;
-    dadosExp: any[];
-    itemsAcao: MenuItem[];
-    contextoMenu: MenuItem[];
-    contextoMenu2: MenuItem[];
-    contextoMenu3: MenuItem[];
-    tmp = false;
-    sub: Subscription[] = [];
-    authAlterar = false;
-    authAnalisar = false;
-    authApagar = false;
-    authIncluir = false;
-    buscaStateSN: boolean;
-    public mostraMenu$: boolean;
-    campoTexto: string = null;
-    campoTitulo: string = null;
-    showCampoTexto = false;
-    deltaquill: any = null;
-    showDetalhe = false;
-    proDetalhe: ProcessoDetalheInterface = null;*/
-
-  loading = false;
-  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
+  altura = `${WindowsService.altura - 150}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
   authAlterar = false;
   authAnalisar = false;
   authApagar = false;
   authIncluir = false;
-  solicitacaoVersao: number;
-  campoTexto: string = null;
-  campoTitulo: string = null;
-  showCampoTexto = false;
-  campoHtml: string = null;
-  deltaquill: any = null;
   showDetalhe = false;
-  solDetalhe?: ProceListarI;
-  showHistoricoForm = false;
-  solHistForm: any;
+  proDetalhe?: ProceListarI;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
-  contextoMenu2: MenuItem[];
-  contextoMenu3: MenuItem[];
-  colteste: string[];
   mostraSeletor = false;
   cols: any[] = [];
-  proceDetalhe?: any;
-  idx: number = 0;
-
-  showHistorico = true;
-  showHistorico2 = false
-
-  cssMostra: string | null = null;
-  histListI: HistListI | null = null;
-  histFormI?: HistFormI
-  proHistForm: ProceListarI | null;
-  permListHist: boolean = false;
-  permInclHist: boolean = false;
-  permListHistSol: boolean = false;
-  permInclHistSol: boolean = false;
+  histListI: HistListI;
+  showHistorico = false;
   tituloHistoricoDialog = 'ANDAMENTOS';
   histAcao: string = '';
-  colsDefaut2: any[] = [];
-  lazy = false;
-  impressao = false;
+  histFormI?: HistFormI;
+  cssMostra: string | null = null;
+  permListHistSol: boolean = false;
+  permInclHistSol: boolean = false;
+  permListHist: boolean = false;
+  permInclHist: boolean = false;
+  idx: number = 0;
 
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
-    public md: MenuDatatableService,
-    // public dialogService: DialogService,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
+    public md: MenuDatatableService,
     public ps: ProceService,
     public pfs: ProceFormService,
-    private msg: MsgService
-    // private pbs: ProcessoBuscaService,
   ) {
   }
 
@@ -131,34 +60,105 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.permListHistSol  = (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || (this.aut.usuario_responsavel_sn || this.permListHist));
     this.permInclHistSol = (this.aut.historico_solicitacao_incluir || this.aut.historico_solicitacao_alterar || this.aut.solicitacao_analisar || (this.aut.usuario_responsavel_sn || this.permInclHist));
 
-
     this.montaColunas();
+
     if (!this.ps.stateSN) {
       this.resetSelectedColumns();
     }
 
     this.itemsAcao = [
-      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv();}},
-      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {this.exportToCsv(true);}},
-      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {this.mostraTabelaPdf();}},
-      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {this.mostraTabelaPdf(true);}},
-      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {this.imprimirTabela();}},
-      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {this.imprimirTabela(true);}},
-      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {this.exportToXLSX();}},
-      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {this.exportToXLSX(true);}}
+      {
+        label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.dtb.exportCSV({selectionOnly: true});
+        }
+      },
+      {
+        label: 'CSV - PÁGINA', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.dtb.exportCSV();
+        }
+      },
+      {
+        label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.ps.exportToCsvTodos(true);
+        }
+      },
+      {
+        label: 'PDF - SELECIONADOS', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
+          this.ps.tabelaPdf(1);
+        }
+      },
+      {
+        label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          ;
+          this.ps.tabelaPdf(2);
+        }
+      },
+      {
+        label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          this.ps.tabelaPdf(3);
+        }
+      },
+      {
+        label: 'IMPRIMIR - SELECIONADOS', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.ps.imprimirTabela(1);
+        }
+      },
+      {
+        label: 'IMPRIMIR - PÁGINA', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.ps.imprimirTabela(2);
+        }
+      },
+      {
+        label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {
+          this.ps.imprimirTabela(3);
+        }
+      },
+      {
+        label: 'EXCEL - SELECIONADOS', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
+          this.ps.exportToXLSX(1);
+        }
+      },
+      {
+        label: 'EXCEL - PÁGINA', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
+          this.ps.exportToXLSX(2);
+        }
+      },
+      {
+        label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
+          this.ps.exportToXLSX(3);
+        }
+      }
     ];
 
     this.montaMenuContexto();
 
-    this.sub.push(this.ps.busca$.subscribe(
-      () => {
+    this.sub.push(this.ps.busca$.subscribe(() => {
         if (this.ps.tabela.titulos === undefined) {
           this.mapeiaColunas();
         }
         this.ps.busca.todos = false;
-        // this.dtb.reset();
       }
     ));
+
+  }
+
+  mostraMenu(): void {
+    this.mi.mudaMenuInterno();
+  }
+
+  mapeiaColunas() {
+    let cp: string[] = [];
+    const n = this.cols.length;
+    let ct = 1
+    this.cols.forEach(c => {
+      if (c.field !== 'processo_id') {
+        cp.push(c.field);
+      }
+      ct++;
+      if (ct === n) {
+        this.ps.montaTitulos(cp);
+      }
+    });
   }
 
   montaColunas() {
@@ -228,14 +228,13 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
       /*{field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '300px'},*/
 
-      {field: 'historico_data', header: 'HIST. DT.', sortable: 'true', width: '200px'},
-      {field: 'historico_andamento', header: 'HIST. ANDAMENTO', sortable: 'false', width: '400px'},
-
-      {field: 'historico', header: 'HISTÓRICOS', sortable: 'false', width: '300px'}
+      {field: 'historico_data', header: 'HIST. PROC. DT.', sortable: 'true', width: '200px'},
+      {field: 'historico_andamento', header: 'HIST. PROC. ANDAMENTO', sortable: 'false', width: '400px'},
+      {field: 'historico_solicitacao_data', header: 'HIST. SOL.. DT.', sortable: 'true', width: '200px'},
+      {field: 'historico_solicitacao_andamento', header: 'HIST. SOL. ANDAMENTO', sortable: 'false', width: '400px'},
 
     ];
   }
-
 
   resetSelectedColumns(): void {
     this.ps.criaTabela();
@@ -255,26 +254,55 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     ];
   }
 
+  resetColunas() {
+    this.ps.tabela.mostraSeletor = false;
+    this.resetSelectedColumns();
+  }
 
-  rowColor(field: string, vl1: number, vl2: string | number): string | null {
-    if (field !== 'processo_status_nome' && field !== 'solicitacao_situacao') {
+  mostraSelectColunas(): void {// this
+    this.ps.tabela.mostraSeletor = true;
+  }
+
+  hideSeletor(): void {
+    this.ps.tabela.mostraSeletor = false;
+  }
+
+  rowColor(field: string, vl1: number, vl2: string, vl3: string | number): string | null {
+    if (field !== 'processo_status_nome' && field !== 'solicitacao_status_nome' && field !== 'solicitacao_situacao') {
       return null;
     }
     if (field === 'processo_status_nome') {
-      return (typeof vl1 === 'undefined' || vl1 === null) ? null : 'status-' + vl1;
+      return (typeof vl1 === 'undefined' || vl1 === null || vl1 === 0) ? 'status-0' : 'status-' + vl1;
     }
-    switch (vl2) {
+    if (field === 'solicitacao_status_nome') {
+      switch (vl2) {
+        case 'EM ABERTO':
+          return 'status-0';
+        case 'EM ANDAMENTO':
+          return 'status-1';
+        case 'INDEFERIDO':
+          return 'status-2';
+        case 'DEFERIDO':
+          return 'status-3';
+        case 'SUSPENSO':
+          return 'status-4';
+        default:
+          return null;
+      }
+    }
+    switch (vl3) {
+      case 'EM ABERTO':
+        return 'situacao-0';
       case 'EM ANDAMENTO':
-        return 'status-1';
+        return 'situacao-1';
       case 'CONCLUIDA':
-        return 'status-3';
+        return 'situacao-2';
       case 'SUSPENSO':
-        return 'status-4';
+        return 'situacao-3';
       default:
         return null;
     }
   }
-
 
   montaMenuContexto() {
     this.contextoMenu = [
@@ -283,19 +311,10 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
         icon: 'pi pi-eye',
         style: {'font-size': '1em'},
         command: () => {
-          this.proceDetalheCompleto(this.ps.Contexto);
+          this.processoDetalheCompleto(this.ps.Contexto);
         },
         styleClass: 'context-menu-verde'
       }];
-
-    /*if (this.aut.usuario_responsavel_sn
-      && (this.aut.processo_indeferir
-        || this.aut.processo_deferir)) {
-      this.authAnalisar = true;
-      this.contextoMenu.push(
-        {label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
-          command: () => { this.processoAnalisar(this.ps.Contexto); }});
-    }*/
     if (this.aut.processo_deferir ||
       this.aut.processo_indeferir ||
       this.aut.usuario_responsavel_sn
@@ -325,68 +344,9 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    /*if (this.aut.processo_listar || this.aut.usuario_responsavel_sn) {
-      this.contextoMenu.push(
-        {
-          label: 'LISTAR ANDAMENTOS', icon: 'pi pi-list', style: {'font-size': '1em'},
-          command: () => {
-            this.historicoProcessoCtx();
-          },
-          styleClass: 'context-menu-cyan',
-          visible: this.ps.msgCtxH,
-        });
-    }*/
-
-    /*if (this.permListHist) {
-      this.contextoMenu.push(
-        {
-          label: 'LISTAR ANDAMENTOS', icon: 'pi pi-list', style: {'font-size': '1em'},
-          command: () => {
-            // this.historicoProcessoCtx();
-          },
-          styleClass: 'context-menu-cyan',
-          visible: this.auxMenuCtx('listar'),
-        });
-    }
-
-    if (this.permInclHist) {
-      this.contextoMenu.push(
-        {
-          label: 'INCLUIR ANDAMENTOS', icon: 'pi pi-plus', style: {'font-size': '1em'},
-          command: () => {
-            this.historicoProcessoIncluirCtx();
-          },
-          styleClass: 'context-menu-cyan',
-          visible: this.auxMenuCtx('incluir'),
-        });
-    }*/
-
-
-    this.contextoMenu2 = [
-      {
-        label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
-        command: () => {
-          this.proceDetalheCompleto(this.ps.Contexto);
-        }
-      }];
-
-    if (this.aut.processo_apagar) {
-      this.authApagar = true;
-      this.contextoMenu2.push(
-        {
-          label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-          command: () => {
-            this.processoApagar(this.ps.Contexto);
-          }
-        });
-    }
-
-    // this.contextoMenu3 = this.contextoMenu;
   }
 
   // EVENTOS ===================================================================
-
-  // ngOnChanges() { }
 
   onColReorder(event): void {
     this.mapeiaColunas();
@@ -413,24 +373,22 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     // this.ps.setState()
   }
 
-  mostraSelectColunas(): void {
-    this.ps.tabela.mostraSeletor = true;
-  }
-
-  hideSeletor(ev): void {
-    this.mostraSeletor = false;
-  }
-
   processoDetalheCompleto(pro) {
-    console.log(pro);
+    this.showDetalhe = true;
+    this.proDetalhe = pro;
+  }
+
+  escondeDetalhe() {
+    this.showDetalhe = false;
+    this.proDetalhe = null;
   }
 
   //  HISTIRICO - ANDAMENTO ***********************************************************
 
   historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
-    this.histAcao = acao;
     this.tituloHistoricoDialog = (modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
     this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
+    this.histAcao = acao;
     if (acao === 'listar') {
       this.histListI = {
         hist: historicos,
@@ -451,163 +409,20 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
         }
       }
     }
-    // this.idx = idx;
-    // this.registro_id = registro_id;
-    this.showHistorico2 = true;
-    this.showHistorico = true;
-    this.mostraDialog(true);
-  }
-
-  historicoProcesso(processo_id: number, historico_processo: HistI[], idx: number) {
-    this.idx = idx;
-    this.histListI = {
-      hist: historico_processo,
-      idx: idx,
-      registro_id: processo_id,
-      modulo: 'processo'
-    }
-    this.tituloHistoricoDialog = 'ANDAMENTOS DO PROCESSO.'
-    this.ps.montaHistorico('processo', idx);
-    this.showHistorico2 = true;
-    this.showHistorico = true;
-    this.mostraDialog(true);
-  }
-
-  historicoSolicitacao(solicitacao_id: number, historico_solicitcao: HistI[], idx: number) {
-    this.idx = idx;
-    this.histListI = {
-      hist: historico_solicitcao,
-      idx: idx,
-      registro_id: solicitacao_id,
-      modulo: 'solicitacao'
-    }
-    console.log('historicoSolicitacao', this.histListI);
-    this.tituloHistoricoDialog = 'ANDAMENTOS DA SOLICITAÇÃO.'
-    this.ps.montaHistorico('solicitacao', idx);
-    this.showHistorico2 = true;
     this.showHistorico = true;
     this.mostraDialog(true);
   }
 
   mostraDialog(ev: boolean) {
-    console.log('mostraDialog2', ev);
     this.cssMostra = (ev) ? null : 'p-d-none';
-  }
-
-  historicoProcessoIncluirCtx() {
-    this.showHistorico2 = false;
-  }
-
-  fecharHistoricoProcesso(){
-
   }
 
   recebeRegistro(h: HistFormI) {
     this.ps.recebeRegistro(h);
   }
 
-  /*onRowExpand(event): void {
-    this.sub.push(this.dadosExpandidos = this.ps.getColunaExtendida()
-      .pipe(take(1))
-      .subscribe(
-        dados => {
-          this.expColunas = dados.pop();
-          this.dadosExp = dados;
-        }
-      ));
-    this.ps.montaColunaExpandida(event.data);
-  }*/
+  processoApagar(pr: ProceListarI) {
 
-  /*onChangeSeletorColunas(changes): void {
-    this.dtb.saveState();
-    this.camposSelecionados = null;
-    this.camposSelecionados = changes.value.map(
-      function (val) { return { field: val.field, header: val.header }; });
-  }*/
-
-  /*hideSeletor(ev): void {
-    if (this.selectedColumnsOld !== this.selectedColumns) {
-      this.postProcessoBusca();
-    }
-    this.selectedColumnsOld = [];
-  }*/
-
-  /*onContextMenuSelect(event) {
-    this.ps.Contexto = event.data;
-    if (event.data.processo_status_nome.toString() !== 'EM ANDAMENTO') {
-      this.contextoMenu3 = this.contextoMenu2;
-    } else {
-      this.contextoMenu3 = this.contextoMenu;
-    }
-  }*/
-
-  // FUNCOES DO COMPONENTE =====================================================
-
-  mostraMenu(): void {
-    this.mi.mudaMenuInterno();
-  }
-
-  mostraLoader(vf: boolean) {
-    this.loading = vf;
-  }
-
-  mapeiaColunas() {
-    let cp: string[] = [];
-    const n = this.cols.length;
-    let ct = 1
-    this.cols.forEach(c => {
-      if (c.field !== 'processo_id') {
-        cp.push(c.field);
-      }
-      ct++;
-      if (ct === n) {
-        this.ps.montaTitulos(cp);
-      }
-    });
-  }
-
-  achaValor(pro: ProceListarI): number {
-    return this.ps.processos.indexOf(pro);
-  }
-
-
-
-  // FUNCOES DE BUSCA ==========================================================
-
-
-  // FUNCOES DE CRUD ===========================================================
-
-
-  proceDetalheCompleto(pro: ProceListarI) {
-    this.proceDetalhe = this.ps.parceDetalhe(pro);
-    this.showDetalhe = true;
-    /*this.sub.push(this.ps.getProceDetalhe(pr.processo_id)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.proceDetalhe = dados;
-        },
-        error: (err) => {
-          console.log ('erro', err.toString ());
-        },
-        complete: () => {
-          this.showDetalhe = true;
-        }
-      }));*/
-  }
-
-
-  processoApagar(pr: ProcessoListagemInterface) {
-    /*if (this.aut.processo_apagar) {
-      this.cs.mostraCarregador();
-      this.dtb.saveState();
-      sessionStorage.setItem('processo-busca', JSON.stringify(this.pbs.processoBusca));
-      sessionStorage.setItem('processo-selectedColumns', JSON.stringify(this.selectedColumns));
-      this.pbs.buscaStateSN = true;
-      this.router.navigate(['/processo/excluir', pr.processo_id]);
-    } else {
-      console.log('SEM PERMISSAO');
-    }*/
   }
 
   processoAnalisar(pro) {
@@ -618,251 +433,6 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     if (this.ps.Contexto.processo_status_id === 1 || this.ps.Contexto.processo_status_id === 4) {
 
     }
-    /*if (pr.processo_status_nome !== 'EM ANDAMENTO') {
-      this.messageService.add(
-        {
-          key: 'processoToast',
-          severity: 'warn',
-          summary: 'ANALIISE',
-          detail: pr.processo_status_nome.toString()}
-      );
-    }
-    if (this.aut.usuario_responsavel_sn
-      && (this.aut.processo_deferir
-        || this.aut.processo_indeferir)
-      && pr.processo_status_nome === 'EM ANDAMENTO') {
-      // let proDetalhe: ProcessoDetalheInterface;
-      this.cs.mostraCarregador();
-      this.dtb.saveState();
-      sessionStorage.setItem('processo-busca', JSON.stringify(this.pbs.processoBusca));
-      sessionStorage.setItem('processo-selectedColumns', JSON.stringify(this.selectedColumns));
-      this.pbs.buscaStateSN = true;
-      this.router.navigate(['/processo/analisar', pr.processo_id]);
-    }*/
-
-  }
-
-  // FUNCOES RELATORIOS=========================================================
-
-  mostraTabelaPdf(td: boolean = false) {
-    /*this.tmp = this.ps.busca.todos;
-    this.pbs.busca.todos = td;
-    if (this.pbs.processoBusca.todos === true) {
-      let prPdf: ProcessoListagemInterface[];
-      let totalPdf: ProcessoTotalInterface;
-      let numTotalRegs: number;
-      this.pbs.processoBusca['campos'] = this.camposSelecionados;
-      this.cs.mostraCarregador();
-      this.sub.push(this.ps.postProcessoBusca(this.pbs.processoBusca)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            prPdf = dados.processo;
-            totalPdf = dados.total;
-            numTotalRegs = totalPdf.num;
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-            this.cs.escondeCarregador();
-          },
-          complete: () => {
-            TabelaPdfService.autoTabela('processo', this.camposSelecionados, prPdf);
-            this.pbs.processoBusca.todos = this.tmp;
-            this.cs.escondeCarregador();
-          }
-        })
-      );
-      return true;
-    }
-    if (this.selecionados && this.selecionados.length > 0) {
-      TabelaPdfService.autoTabela('processo', this.camposSelecionados, this.selecionados);
-      this.pbs.processoBusca.todos = this.tmp;
-      return true;
-    }
-    TabelaPdfService.autoTabela('processo', this.camposSelecionados, this.processo);
-    this.pbs.processoBusca.todos = this.tmp;*/
-    return true;
-  }
-
-  imprimirTabela(td: boolean = false) {
-    /*this.tmp = this.pbs.processoBusca.todos;
-    this.pbs.processoBusca.todos = td;
-    if (this.pbs.processoBusca.todos === true) {
-      let prprint: ProcessoListagemInterface[];
-      let totalprint: ProcessoTotalInterface;
-      let numTotalRegs: number;
-      this.pbs.processoBusca['campos'] = this.camposSelecionados;
-      this.cs.mostraCarregador();
-      this.sub.push(this.ps.postProcessoBusca(this.pbs.processoBusca)
-        .subscribe({
-          next: (dados) => {
-            prprint = dados.processo;
-            totalprint = dados.total;
-            numTotalRegs = totalprint.num;
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-            this.cs.escondeCarregador();
-          },
-          complete: () => {
-            PrintJSService.imprimirTabela(this.camposSelecionados, prprint);
-            this.pbs.processoBusca.todos = this.tmp;
-            this.cs.escondeCarregador();
-          }
-        })
-      );
-      return true;
-    }
-
-    if (this.selecionados && this.selecionados.length > 0) {
-      PrintJSService.imprimirTabela(this.camposSelecionados, this.selecionados);
-      this.pbs.processoBusca.todos = this.tmp;
-      return true;
-    }
-
-    PrintJSService.imprimirTabela(this.camposSelecionados, this.processo);
-    this.pbs.processoBusca.todos = this.tmp;*/
-    return true;
-  }
-
-  exportToCsv(td: boolean = false) {
-    /*this.tmp = this.pbs.processoBusca.todos;
-    this.pbs.processoBusca.todos = td;
-    if (this.pbs.processoBusca.todos === true) {
-      let prcsv: ProcessoListagemInterface[];
-      let totalprint: ProcessoTotalInterface;
-      let numTotalRegs: number;
-      this.pbs.processoBusca['campos'] = this.camposSelecionados;
-      this.cs.mostraCarregador();
-      this.sub.push(this.ps.postProcessoBusca (this.pbs.processoBusca)
-        .subscribe ({
-          next: (dados) => {
-            prcsv = dados.processo;
-            totalprint = dados.total;
-            numTotalRegs = totalprint.num;
-          },
-          error: err => {
-            console.error ('ERRO-->', err);
-            this.cs.escondeCarregador();
-          },
-          complete: () => {
-            CsvService.jsonToCsv ('processo', this.camposSelecionados, prcsv);
-            this.pbs.processoBusca.todos = this.tmp;
-            this.cs.escondeCarregador();
-          }
-        })
-      );
-      return true;
-    }
-
-    if (this.selecionados && this.selecionados.length > 0) {
-      CsvService.jsonToCsv ('processo', this.camposSelecionados, this.selecionados);
-      this.pbs.processoBusca.todos = this.tmp;
-      return true;
-    }
-
-    CsvService.jsonToCsv ('processo', this.camposSelecionados, this.processo);
-    this.pbs.processoBusca.todos = this.tmp;*/
-    return true;
-  }
-
-  exportToXLSX(td: boolean = false) {
-    /*this.tmp = this.pbs.processoBusca.todos;
-    this.pbs.processoBusca.todos = td;
-    if (this.pbs.processoBusca.todos === true) {
-      let prcsv: ProcessoListagemInterface[];
-      let totalprint: ProcessoTotalInterface;
-      let numTotalRegs: number;
-      this.pbs.processoBusca['campos'] = this.selectedColumns;
-      this.cs.mostraCarregador();
-      this.sub.push(this.ps.postProcessoBusca (this.pbs.processoBusca)
-        .subscribe ({
-          next: (dados) => {
-            prcsv = dados.processo;
-            totalprint = dados.total;
-            numTotalRegs = totalprint.num;
-          },
-          error: err => {
-            console.error ('ERRO-->', err);
-            this.cs.escondeCarregador();
-          },
-          complete: () => {
-            ExcelService.exportAsExcelFile ('processo', prcsv, ProcessoArray.getArrayTitulo());
-            this.pbs.processoBusca.todos = this.tmp;
-            this.cs.escondeCarregador();
-          }
-        })
-      );
-      return true;
-    }
-
-    if (this.selecionados && this.selecionados.length > 0) {
-      ExcelService.exportAsExcelFile ('processo', this.selecionados, ProcessoArray.getArrayTitulo());
-      this.pbs.processoBusca.todos = this.tmp;
-      return true;
-    }
-    ExcelService.exportAsExcelFile ('processo', this.processo, ProcessoArray.getArrayTitulo());
-    this.pbs.processoBusca.todos = this.tmp;*/
-    return true;
-  }
-
-  mostraTexto(texto: any[]) {
-    this.campoTitulo = texto[0];
-    this.campoTexto = texto[3];
-    this.deltaquill = (texto[3] !== null) ? JSON.parse(texto[3]) : null;
-    this.campoTitulo = texto[0];
-    this.campoHtml = texto[1]
-    this.showCampoTexto = true;
-  }
-
-  escondeTexto() {
-    this.campoTexto = null;
-    this.deltaquill = null;
-    this.campoTitulo = null;
-    this.showCampoTexto = false;
-    this.campoHtml = null;
-  }
-
-  escondeDetalhe() {
-    this.showDetalhe = false;
-    this.proceDetalhe = null;
-  }
-
-  toWord() {
-
-  }
-
-  async exportWord() {
-
-    const config: Config = {
-      paragraphStyles: {
-        header_1: {
-          paragraph: {
-            spacing: {
-              before: 3000,
-              after: 1500
-            }
-          },
-          run: {
-            size: 12,
-            bold: false,
-            color: 'ffffff'
-          }
-        }
-      },
-      exportAs: 'blob'
-    };
-
-    // this.quillInstance = ev.getQuill();
-    // Here is your export function
-// Typically this would be triggered by a click on an export button
-
-    // const delta = this.quillInstance.getContents();
-
-    const blob: any = await quillToWord.generateWord(this.deltaquill, config);
-    // const blob: any = await quillToWord.generateWord(delta, this.quillToWordConfig);
-    const fileName = 'processo' + this.campoTitulo.toLowerCase() + '.docx';
-    saveAs(blob, fileName);
   }
 
   ngOnDestroy(): void {

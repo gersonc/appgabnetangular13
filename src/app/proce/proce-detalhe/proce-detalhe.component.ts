@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+
+import {Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter} from '@angular/core';
+import { AuthenticationService } from '../../_services';
+import {ProceListarI} from "../_model/proce-listar-i";
+import {ProceService} from "../_services/proce.service";
+
 
 @Component({
   selector: 'app-proce-detalhe',
@@ -6,10 +11,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./proce-detalhe.component.css']
 })
 export class ProceDetalheComponent implements OnInit {
+  @ViewChild('detprocesso', {static: false}) el!: ElementRef;
+  @ViewChild('detalheprocesso', {static: false}) detalheprocesso: ElementRef;
+  @Input() pro: ProceListarI;
+  @Output() hideDetalhe = new EventEmitter<boolean>();
 
-  constructor() { }
+  impressao = false;
 
-  ngOnInit(): void {
+  constructor(
+    public aut: AuthenticationService,
+    public ps: ProceService,
+
+  ) { }
+
+  ngOnInit() {
+  }
+
+  fechar() {
+    this.hideDetalhe.emit(true);
   }
 
 }

@@ -196,9 +196,6 @@
       </td>
     </tr>
 
-<!--    <tr *ngIf="textoEditor" class="novaPagina">
-      <td></td>
-    </tr>-->
 
     <tr>
       <td>
@@ -465,7 +462,7 @@
               {{ands.historico_data}}
             </td>
             <td>
-              <app-quill-view [cpdelta]="ands.historico_andamento_delta" [cphtml]="ands.historico_andamento"></app-quill-view>
+              <quill-view [content]="ands.historico_andamento" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           </tbody>
@@ -765,9 +762,6 @@
   <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
   <app-exporter-detalhe [arquivoNome]="'solicitacao_detalhes'" [classe]="'tabela'"></app-exporter-detalhe>
-  <!--<button pButton type="button" icon="pi pi-file-pdf" label="PDF"
-          class="p-button-rounded p-button-secondary"
-          (click)="getPdf2()"></button>-->
   &nbsp;&nbsp;
   <app-impressao-botao [dados]="['SOLICITAÇÃO',detalhesolicitacao]"></app-impressao-botao>
 </div>

@@ -1,11 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {
-  camposSolicitacaListar,
-  SolicListarI,
-  SolicPaginacaoInterface,
-  solicSolicitacaoCamposTexto
-} from "../_models/solic-listar-i";
+import {SolicListarI,SolicPaginacaoInterface, solicSolicitacaoCamposTexto } from "../_models/solic-listar-i";
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {take} from "rxjs/operators";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
@@ -17,9 +12,6 @@ import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} 
 import {SolicFormAnalisar} from "../_models/solic-form-analisar-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
-// import {InOutCampoTexto, InOutCampoTextoI} from "../../_models/in-out-campo-texto";
-// import {CampoExtendidoI} from "../../shared/campo-extendido/campo-extendido-i";
-import {ColunasI} from "../../_models/colunas-i";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {CelulaI} from "../../_models/celula-i";
@@ -674,7 +666,6 @@ export class SolicService {
     this.stateSN = false;
     this.has.histFormI = undefined;
     this.has.hist = undefined;
-    this.has.histListI = undefined;
     this.expandidoSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }

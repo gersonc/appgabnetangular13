@@ -56,14 +56,14 @@ const routes: Routes = [
       rules: Rule.oficio
     }
   },
-  {
+  /*{
     path: 'processo',
     loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.processo
     }
-  },
+  },*/
   {
     path: 'proce',
     loadChildren: () => import('./proce/proce.module').then(m => m.ProceModule),

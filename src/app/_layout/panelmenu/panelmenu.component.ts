@@ -108,7 +108,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       if (this.authenticationService.solicitacao_listar) {
         this.items.push(
           {
-            label: 'Solic', icon: 'pi pi-ticket', command: () => {
+            label: 'Solicitações', icon: 'pi pi-ticket', command: () => {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}', routerLink: ['/solic/listar']
@@ -127,7 +127,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
-    if (this.authenticationService.processo) {
+    /*if (this.authenticationService.processo) {
       if (this.authenticationService.processo_listar) {
         this.items.push(
           {
@@ -136,7 +136,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/processo/listar']
           });
       }
-    }
+    }*/
 
     if (this.authenticationService.processo) {
       if (this.authenticationService.processo_listar) {

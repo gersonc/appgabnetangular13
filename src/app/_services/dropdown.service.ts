@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subscription} from 'rxjs';
 import {SelectItem, SelectItemGroup} from 'primeng/api';
 import {UrlService} from './url.service';
-import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
+// import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
 import {CadastroMenuDropdown} from "../cadastro/_models";
 import {take} from "rxjs/operators";
 
@@ -331,10 +331,10 @@ export class DropdownService {
     return this.http.get<any[]>(url);
   }
 
-  public getDropdownSolicitacaoMenuTodos(): Observable<SolicitacaoDropdownMenuListarInterface> {
+/*  public getDropdownSolicitacaoMenuTodos(): Observable<SolicitacaoDropdownMenuListarInterface> {
     const url = this.url.dropdown + '/solicitacaomenutodos';
     return this.http.get<SolicitacaoDropdownMenuListarInterface>(url);
-  }
+  }*/
 
   public getDropdownResponsavel(): Observable<SelectItem[]> {
     const url = this.url.dropdown + '/responsavel';
@@ -346,7 +346,7 @@ export class DropdownService {
     return this.http.get<CadastroMenuDropdown>(url);
   }
 
-  public getDdSolicitacaoMenuTodos() {
+/*  public getDdSolicitacaoMenuTodos() {
     if (sessionStorage.getItem('solic-menu-dropdown')) {
       sessionStorage.removeItem('solic-menu-dropdown');
     }
@@ -361,7 +361,7 @@ export class DropdownService {
         }
       )
     );
-  }
+  }*/
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

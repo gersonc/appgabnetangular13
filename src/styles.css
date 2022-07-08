@@ -14205,6 +14205,10 @@ form.menuinterno-form {
   background-color: var(--formularios-bg);
 }
 
+.formulario-bg-externo {
+  background-color: var(--formularios-bg);
+}
+
 .formulario .p-scrollpanel {
   width: 100%;
   height: calc(100vh - 50px);

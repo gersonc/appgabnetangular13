@@ -1,0 +1,40 @@
+import {ColunasI} from "../../_models/colunas-i";
+
+export interface ProceBuscaI {
+  processo_id?: number;
+  cadastro_id?: number;
+  solicitacao_id?: number;
+  oficio_id?: number;
+  processo_status_id?: number;
+  solicitacao_status_id?: number;
+  cadastro_tipo_id?: number;
+  cadastro_municipio_id?: number;
+  cadastro_regiao_id?: number;
+  cadastro_estado_id?: number;
+  solicitacao_assunto_id?: number;
+  solicitacao_area_interesse_id?: number;
+  solicitacao_local_id?: number;
+  solicitacao_tipo_recebimento_id?: number;
+  solicitacao_reponsavel_analize_id?: number;
+  oficio_status_id?: number;
+  processo_numero?: string;
+  solicitacao_situacao?: string;
+  oficio_orgao_solicitado_nome?: string;
+  solicitacao_orgao?: string;
+  solicitacao_data1?: string;
+  solicitacao_data2?: string;
+  oficio_prazo_data1?: string;
+  oficio_prazo_data2?: string;
+  oficio_pagamento_data1?: string;
+  oficio_pagamento_data2?: string;
+  oficio_empenho_data1?: string;
+  oficio_empenho_data2?: string;
+  rows?: number;
+  first?: number;
+  sortOrder?: number;
+  sortField?: string;
+  todos?: boolean;
+  campos?: ColunasI[];
+  ids?: number[];
+  excel?: boolean;
+}

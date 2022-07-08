@@ -5,7 +5,6 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
-import {ProcePaginacaoInterface} from "../_model/proc-i";
 import {ProceService} from "../_services/proce.service";
 import {DdService} from "../../_services/dd.service";
 import {mergeMap, take} from "rxjs/operators";
@@ -13,7 +12,7 @@ import {mergeMap, take} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class ProceListarResolver implements Resolve<boolean | ProcePaginacaoInterface> {
+export class ProceListarResolver implements Resolve<boolean> {
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
@@ -24,7 +23,7 @@ export class ProceListarResolver implements Resolve<boolean | ProcePaginacaoInte
     private ps: ProceService,
     private dd: DdService
   ) {
-    this.ps.criaTabela();
+    // this.ps.criaTabela();
   }
 
   populaDropdown() {
@@ -59,7 +58,7 @@ export class ProceListarResolver implements Resolve<boolean | ProcePaginacaoInte
 
 
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | ProcePaginacaoInterface> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     if (!sessionStorage.getItem('proce-menu-dropdown')) {
       this.populaDropdown();
       return this.resp$.pipe(
@@ -74,7 +73,7 @@ export class ProceListarResolver implements Resolve<boolean | ProcePaginacaoInte
           }
         })
       );
-    } else {
+    }/* else {
       if (sessionStorage.getItem('datatable-busca')) {
         return this.ps.postProceBusca(JSON.parse(sessionStorage.getItem('datatable-busca')))
           .pipe(
@@ -91,6 +90,6 @@ export class ProceListarResolver implements Resolve<boolean | ProcePaginacaoInte
         this.router.navigate(['/proce/listar2']);
         return EMPTY;
       }
-    }
+    }*/
   };
 }

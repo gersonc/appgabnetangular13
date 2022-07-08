@@ -1,28 +1,15 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-//import {Editor} from "primeng/editor";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WindowsService} from "../../_layout/_service";
 import {Subscription} from "rxjs";
-import {LazyLoadEvent, MenuItem, MessageService} from "primeng/api";
-import {
-  AuthenticationService,
-  CsvService,
-  ExcelService,
-  MenuInternoService,
-  PrintJSService,
-  TabelaPdfService
-} from "../../_services";
-import {ActivatedRoute, Router} from "@angular/router";
+import {LazyLoadEvent, MenuItem} from "primeng/api";
+import {AuthenticationService, MenuInternoService,} from "../../_services";
+import {Router} from "@angular/router";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
-import * as quillToWord from "quill-to-word";
-import {Config} from "quill-to-word";
-import {saveAs} from "file-saver";
-import {SolicListarI, SolicPaginacaoInterface} from "../_models/solic-listar-i";
+import {SolicListarI} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
-import {SolicBuscaI} from "../_models/solic-busca-i";
-import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
-import {OverlayPanel} from "primeng/overlaypanel/overlaypanel";
+
 
 @Component({
   selector: 'app-solic-datatable',
@@ -40,25 +27,16 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   authApagar = false;
   authIncluir = false;
   solicitacaoVersao: number;
-  //campoTexto: string = null;
-  // campoHtml: string = null;
-  //campoTitulo: string = null;
-  //showCampoTexto = false;
-  //deltaquill: any = null;
   showDetalhe = false;
   solDetalhe?: SolicListarI;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
-  //colteste: string[];
   mostraSeletor = false;
   cols: any[] = [];
-  // idx = 0;
   histListI: HistListI;
   showHistorico = false;
-
   tituloHistoricoDialog = 'ANDAMENTOS';
   histAcao: string = '';
-  // registro_id = 0;
   histFormI?: HistFormI;
   cssMostra: string | null = null;
   permListHistSol: boolean = false;
@@ -70,12 +48,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     public mi: MenuInternoService,
     public aut: AuthenticationService,
     private router: Router,
-    public ss: SolicService,
     public md: MenuDatatableService,
+    public ss: SolicService,
     private sfs: SolicFormService
-  ) {
-    this.solicitacaoVersao = aut.solicitacaoVersao;
-  }
+  ) { }
 
   ngOnInit() {
     this.permListHist = ((this.aut.processo && this.aut.solicitacaoVersao === 1) && (this.aut.processo_listar || this.aut.historico_incluir || this.aut.historico_alterar || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.usuario_responsavel_sn));
@@ -111,7 +87,8 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         }
       },
       {
-        label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {;
+        label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          ;
           this.ss.tabelaPdf(2);
         }
       },
@@ -428,7 +405,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoDetalheCompleto(sol: SolicListarI) {
-    // this.ss.detalhe = sol;
     this.showDetalhe = true;
     this.solDetalhe = sol;
   }
