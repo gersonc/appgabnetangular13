@@ -70,7 +70,7 @@
           <div class="p-mx-2">SOLICITAÇÕES</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2" *ngIf="ss.selecionados.length > 0">
+          <div class="p-mr-2" *ngIf="ss.selecionados">
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="ss.resetSelecionados()"></button>
           </div>

@@ -65,7 +65,7 @@
           <div class="p-mx-2">PROCESSOS</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2" *ngIf="ps.selecionados.length > 0">
+          <div class="p-mr-2" *ngIf="ps.selecionados">
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="ps.resetSelecionados()"></button>
           </div>
@@ -152,8 +152,12 @@
                 </button>
               </div>
               <div
-                *ngIf="(aut.processo_deferir || aut.processo_indeferir) && (pro.processo_status_nome =='EM ABERTO' || pro.processo_status_nome =='EM ANDAMENTO' || pro.processo_status_nome =='SUSPENSO')"
-                class="p-mr-2">
+                *ngIf="(
+                (aut.usuario_responsavel_sn || aut.usuario_principal_sn) || (
+                (aut.processo_deferir || aut.processo_indeferir || aut.processo_analisar) &&
+                (pro.processo_status_id === 0 || pro.processo_status_id === 1 || pro.processo_status_id === 4))
+                )" class="p-mr-2">
+
                 <button
                   (click)="processoAnalisar(pro)"
                   pButton

@@ -117,7 +117,7 @@ const routes: Routes = [
         canActivate: [AuthChildGuard],
         data: {
           rules: Rule.solicitacao,
-          scopes: Scope.solicitacao_analisar
+          scopes: [Scope.solicitacao_analisar, Scope.usuario_principal, Scope.usuario_responsavel]
         }
       },
       {

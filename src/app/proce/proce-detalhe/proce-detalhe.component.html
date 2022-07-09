@@ -15,6 +15,14 @@
           <tbody class="detalhe-horiz">
           <tr>
             <th>
+              Solicitante:
+            </th>
+            <td colspan="3">
+              {{pro.cadastro_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th>
               Número do processo:
             </th>
             <td>
@@ -63,18 +71,48 @@
               {{pro.solicitacao_local_nome}}
             </td>
           </tr>
-          <tr *ngIf="pro.solicitacao_arquivos.length > 0 && aut.arquivos_baixar" >
-            <th colspan="2">
+          <tr *ngIf="pro.solicitacao_descricao">
+            <td colspan="4" class="tituloEditor">
+              Descrição da Solicitação:
+            </td>
+          </tr>
+          <tr *ngIf="pro.solicitacao_descricao">
+            <td colspan="4" id="solicitacao_descricao3">
+              <quill-view [content]="pro.solicitacao_descricao" [format]="'html'" theme="snow"></quill-view>
+            </td>
+          </tr>
+          <tr *ngIf="pro.solicitacao_aceita_recusada" class="novaPagina">
+            <td colspan="4" class="tituloEditor">
+              Observações:
+            </td>
+          </tr>
+          <tr *ngIf="pro.solicitacao_aceita_recusada" class="novaPagina">
+            <td colspan="4">
+              <quill-view [content]="pro.solicitacao_aceita_recusada" [format]="'html'" theme="snow"></quill-view>
+            </td>
+          </tr>
+          <tr *ngIf="pro.solicitacao_carta" class="novaPagina">
+            <td colspan="4" class="tituloEditor">
+              Resposta:
+            </td>
+          </tr>
+          <tr *ngIf="pro.solicitacao_carta">
+            <td colspan="4">
+              <quill-view [content]="pro.solicitacao_carta" [format]="'html'" theme="snow"></quill-view>
+            </td>
+          </tr>
+          <tr *ngIf="pro.solicitacao_arquivos.length > 0 && aut.arquivos_baixar">
+            <th colspan="4">
               Arquivos da Solicitação:
             </th>
           </tr>
           <tr *ngIf="pro.solicitacao_arquivos.length > 0 && aut.arquivos_baixar">
-            <td colspan="2">
+            <td colspan="4">
               <app-detalhe-explorer [arquivos]="pro.solicitacao_arquivos"></app-detalhe-explorer>
             </td>
           </tr>
-          <tr *ngIf="pro.processo_arquivos.length > 0 && aut.arquivos_baixar" >
-            <th colspan="2">
+          <tr *ngIf="pro.processo_arquivos.length > 0 && aut.arquivos_baixar">
+            <th colspan="4">
               Arquivos do Processo:
             </th>
           </tr>
@@ -280,42 +318,6 @@
     </tr>
 
 
-    <tr *ngIf="pro.historico_processo.length > 0" class="novaPagina">
-      <td>
-        <br>
-
-        <table class="table-hover tabela">
-          <caption>ANDAMENTOS DA SOLICITAÇÃO</caption>
-          <thead class="detalheTitulo-horiz">
-          <tr>
-            <th colspan="2">
-              ANDAMENTOS DO PROCESSO
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th style="width: 3%;" nowrap>
-              Data:
-            </th>
-            <th>
-              Andamento:
-            </th>
-          </tr>
-          <tr *ngFor="let ands of pro.historico_processo">
-            <td style="width: 3%; vertical-align:top;" nowrap>
-              {{ands.historico_data}}
-            </td>
-            <td>
-              <quill-view [content]="ands.historico_andamento" [format]="'html'" theme="snow"></quill-view>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-
-      </td>
-    </tr>
-
     <tr *ngIf="pro.historico_solicitcao.length > 0" class="novaPagina">
       <td>
         <br>
@@ -352,7 +354,41 @@
       </td>
     </tr>
 
+    <tr *ngIf="pro.historico_processo.length > 0" class="novaPagina">
+      <td>
+        <br>
 
+        <table class="table-hover tabela">
+          <caption>ANDAMENTOS DO PROCESSO</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th colspan="2">
+              ANDAMENTOS DO PROCESSO
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th style="width: 3%;" nowrap>
+              Data:
+            </th>
+            <th>
+              Andamento:
+            </th>
+          </tr>
+          <tr *ngFor="let ands of pro.historico_processo">
+            <td style="width: 3%; vertical-align:top;" nowrap>
+              {{ands.historico_data}}
+            </td>
+            <td>
+              <quill-view [content]="ands.historico_andamento" [format]="'html'" theme="snow"></quill-view>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
 
 
     <tr *ngIf="pro.oficios.length > 0 && aut.oficio_listar">
@@ -532,7 +568,7 @@
                                      [content]="ofi.oficio_descricao_acao" class="detalhe"></quill-view-html>
                   </td>
                 </tr>
-                <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar" >
+                <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
                   <th colspan="2">
                     Arquivos do Processo:
                   </th>

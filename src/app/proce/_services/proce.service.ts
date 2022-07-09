@@ -16,6 +16,7 @@ import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {ProceListarI, ProcePaginacaoInterface} from "../_model/proce-listar-i";
 import {proceProcessoCamposTexto} from "../_model/proc-i";
 import {ProceBuscaI} from "../_model/proce-busca-i";
+import {ProcFormAnalisarI} from "../_model/proc-form-analisar-i";
 
 @Injectable({
   providedIn: 'root'
@@ -199,7 +200,6 @@ export class ProceService {
   setState(ev) {
     this.tabela.expandedRowKeys = ev.expandedRowKeys;
   }
-
 
   parseBusca(b: ProceBuscaI) {
     sessionStorage.removeItem('proce-busca');
@@ -452,6 +452,12 @@ export class ProceService {
     return this.http.get<ProceDetalheI>(url);
   }
 
+  putProcessoAnalisar(dados: ProcFormAnalisarI): Observable<any> {
+    let url: string;
+    url = this.url.proce + '/analisar';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, dados, httpOptions);
+  }
 
   excluirSolicitacao(id: number): Observable<any> {
     const url = this.url.proce + '/' + id;

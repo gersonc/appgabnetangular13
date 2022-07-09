@@ -165,6 +165,7 @@ export class AuthenticationService {
   public solicitacao_analisar = false;
   public processo_deferir = false;
   public processo_indeferir = false;
+  public processo_analisar = false;
   public processo_listar = false;
   public oficio_incluir = false;
   public oficio_deferir = false;
@@ -414,6 +415,7 @@ export class AuthenticationService {
     this.solicitacao_analisar = (acesso.indexOf('so_an') !== -1 || regra?.indexOf('ur') !== -1 || regra?.indexOf('up') !== -1 ||  acesso.indexOf('us_r') !== -1);
     this.processo_deferir = acesso.indexOf('pr_df') !== -1;
     this.processo_indeferir = acesso.indexOf('pr_if') !== -1;
+    this.processo_analisar = (acesso.indexOf('pr_df') !== -1 || acesso.indexOf('pr_if') !== -1 || regra?.indexOf('ur') !== -1 || regra?.indexOf('up') !== -1 ||  acesso.indexOf('us_r') !== -1);
     this.processo_listar = acesso.indexOf('pr_l') !== -1;
     this.oficio_incluir = acesso.indexOf('of_i') !== -1;
     this.oficio_deferir = acesso.indexOf('of_df') !== -1;
@@ -533,6 +535,7 @@ export class AuthenticationService {
     this.processo_deferir = false;
     this.processo_indeferir = false;
     this.processo_listar = false;
+    this.processo_analisar = false;
     this.oficio_incluir = false;
     this.oficio_deferir = false;
     this.oficio_indeferir = false;

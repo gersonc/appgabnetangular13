@@ -37,6 +37,7 @@ import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 // import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
+import {SelectButtonModule} from "primeng/selectbutton";
 
 
 
@@ -50,41 +51,42 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
     ProceDetalheComponent,
     ProceAnalisarComponent
   ],
-  imports: [
-    CommonModule,
-    ProceRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    TableModule,
-    MenuModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    ListboxModule,
-    ContextMenuModule,
-    ToastModule,
-    QuillModule,
-    FormsModule,
-    InputTextModule,
-    ArquivoModule,
-    ExplorerModule,
-    UtilModule,
-    AutoCompleteModule,
-    CalendarModule,
-    InputSwitchModule,
-    AccordionModule,
-    EditorModule,
-    UtilModule,
-    HistModule,
-    QuillViewModule,
-    /*CelulaQuillModule,*/
-    /*CampoExtendidoModule,*/
-    ExporterAcessoModule,
-    ImpressaoModule,
-  ],
+    imports: [
+        CommonModule,
+        ProceRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        TableModule,
+        MenuModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        ListboxModule,
+        ContextMenuModule,
+        ToastModule,
+        QuillModule,
+        FormsModule,
+        InputTextModule,
+        ArquivoModule,
+        ExplorerModule,
+        UtilModule,
+        AutoCompleteModule,
+        CalendarModule,
+        InputSwitchModule,
+        AccordionModule,
+        EditorModule,
+        UtilModule,
+        HistModule,
+        QuillViewModule,
+        /*CelulaQuillModule,*/
+        /*CampoExtendidoModule,*/
+        ExporterAcessoModule,
+        ImpressaoModule,
+        SelectButtonModule,
+    ],
   exports: [
     ProceComponent,
   ],

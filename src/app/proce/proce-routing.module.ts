@@ -5,6 +5,7 @@ import {Rule, Scope} from "../_models";
 import {ProceComponent} from "./proce.component";
 import {ProceDatatableComponent} from "./proce-datatable/proce-datatable.component";
 import {ProceListarResolver} from "./_resolvers/proce-listar.resolver";
+import {ProceAnalisarComponent} from "./proce-analisar/proce-analisar.component";
 
 
 
@@ -46,6 +47,15 @@ const routes: Routes = [
         data: {
           rules: Rule.processo,
           scopes: Scope.processo_listar
+        }
+      },
+      {
+        path: 'analisar',
+        component: ProceAnalisarComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.processo,
+          scopes: [Scope.processo_deferir, Scope.processo_indeferir, Scope.usuario_principal, Scope.usuario_responsavel]
         }
       }
     ]

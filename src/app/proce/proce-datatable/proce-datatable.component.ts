@@ -426,7 +426,15 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   processoAnalisar(pro) {
-
+    if (this.aut.processo_analisar) {
+      this.ps.salvaState();
+      this.dtb.saveState();
+      this.pfs.acao = 'analisar';
+      this.pfs.parseListagemAnalisarForm(pro);
+      this.router.navigate(['/proce/analisar']);
+    } else {
+      console.log('SEM PERMISSAO');
+    }
   }
 
   processoAnalisarCtx() {
