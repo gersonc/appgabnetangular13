@@ -6,6 +6,7 @@ import {ProceComponent} from "./proce.component";
 import {ProceDatatableComponent} from "./proce-datatable/proce-datatable.component";
 import {ProceListarResolver} from "./_resolvers/proce-listar.resolver";
 import {ProceAnalisarComponent} from "./proce-analisar/proce-analisar.component";
+import {ProceExcluirComponent} from "./proce-excluir/proce-excluir.component";
 
 
 
@@ -56,6 +57,15 @@ const routes: Routes = [
         data: {
           rules: Rule.processo,
           scopes: [Scope.processo_deferir, Scope.processo_indeferir, Scope.usuario_principal, Scope.usuario_responsavel]
+        }
+      },
+      {
+        path: 'apagar',
+        component: ProceExcluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.processo,
+          scopes: [Scope.processo_apagar, Scope.usuario_principal, Scope.usuario_responsavel]
         }
       }
     ]

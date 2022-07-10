@@ -10,6 +10,9 @@ export interface ProceListarI {
   processo_cadastro_id?: number;
   oficio_id?: number;
   processo_numero?: string;
+  processo_carta?: string;
+  processo_carta_delta?: string;
+  processo_carta_texto?: string;
   processo_status_id?: number;
   processo_status_nome?: string;
   solicitacao_status_id?: number;

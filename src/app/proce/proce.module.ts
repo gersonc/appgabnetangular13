@@ -38,6 +38,7 @@ import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {SelectButtonModule} from "primeng/selectbutton";
+import { ProceExcluirComponent } from './proce-excluir/proce-excluir.component';
 
 
 
@@ -49,7 +50,8 @@ import {SelectButtonModule} from "primeng/selectbutton";
     ProceMenuListarComponent,
     ProceDatatableComponent,
     ProceDetalheComponent,
-    ProceAnalisarComponent
+    ProceAnalisarComponent,
+    ProceExcluirComponent
   ],
     imports: [
         CommonModule,

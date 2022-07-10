@@ -36,8 +36,8 @@ export class ProceService {
   stateSN = false;
   expandido?: ProceListarI;
   expandidoSN = false;
-  procApagar?: ProceListarI;
-  procAnalisar?: ProceListarI;
+  procApagar: ProceListarI | null = null;
+  procAnalisar: ProceListarI | null = null;
   sortField = 'solicitacao_situacao';
   sortOrder = 1;
   lazy = false;
@@ -459,7 +459,7 @@ export class ProceService {
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
-  excluirSolicitacao(id: number): Observable<any> {
+  excluirProcesso(id: number): Observable<any> {
     const url = this.url.proce + '/' + id;
     return this.http.delete<any>(url);
   }

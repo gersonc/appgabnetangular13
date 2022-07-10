@@ -37,8 +37,8 @@ export class SolicService {
   stateSN = false;
   expandido?: SolicListarI;
   expandidoSN = false;
-  solicitacaoApagar?: SolicListarI;
-  solicitacaoAnalisar?: SolicListarI;
+  solicitacaoApagar: SolicListarI | null = null;
+  solicitacaoAnalisar: SolicListarI | null = null;
   sortField = 'solicitacao_situacao';
   sortOrder = 1;
   lazy = false;

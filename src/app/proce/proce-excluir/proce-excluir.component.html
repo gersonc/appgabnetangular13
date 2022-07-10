@@ -1,0 +1,869 @@
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">SOLICITAÇÃO - APAGAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+
+
+              <table #detalheprocesso class="detalhefull">
+                <tr>
+                  <td>
+
+                    <table #detprocesso class="table-hover tabela">
+                      <caption>PROCESSO</caption>
+                      <thead class="detalheTitulo-horiz">
+                      <tr>
+                        <th colspan="2">
+                          PROCESSO
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody class="detalhe-horiz">
+                      <tr>
+                        <th>
+                          Solicitante:
+                        </th>
+                        <td colspan="3">
+                          {{pro.cadastro_nome}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Número do processo:
+                        </th>
+                        <td>
+                          {{pro.processo_numero}}
+                        </td>
+                        <th>
+                          Status:
+                        </th>
+                        <td>
+                          {{pro.processo_status_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.processo_carta">
+                        <th colspan="4">
+                          Resposta / Carta:
+                        </th>
+                      </tr>
+                      <tr *ngIf="pro.processo_carta">
+                        <td colspan="4">
+                          <quill-view [content]="pro.processo_carta" [format]="'html'" theme="snow"></quill-view>
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.processo_arquivos.length > 0 && aut.arquivos_baixar">
+                        <th colspan="4">
+                          Arquivos do Processo:
+                        </th>
+                      </tr>
+                      <tr *ngIf="pro.processo_arquivos.length > 0 && aut.arquivos_baixar">
+                        <td colspan="4">
+                          <app-detalhe-explorer [arquivos]="pro.processo_arquivos"></app-detalhe-explorer>
+                        </td>
+                      </tr>
+
+                      </tbody>
+                    </table>
+
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <br>
+
+                    <table *ngIf="pro.cadastro_id" class="table-hover tabela">
+                      <caption>SOLICITANTE</caption>
+                      <thead class="detalheTitulo-horiz">
+                      <tr>
+                        <th colspan="2">
+                          SOLICITANTE
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody class="detalhe-horiz">
+                      <tr>
+                        <th style="width: 3%;" nowrap>
+                          Tipo de Cadastro:
+                        </th>
+                        <td>
+                          {{pro.cadastro_tipo_nome}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Nome/Rasão Social:
+                        </th>
+                        <td>
+                          {{pro.cadastro_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_endereco && aut.cadastro_listar">
+                        <th>
+                          Endereço:
+                        </th>
+                        <td>
+                          {{pro.cadastro_endereco}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_endereco_numero && aut.cadastro_listar">
+                        <th>
+                          Número:
+                        </th>
+                        <td>
+                          {{pro.cadastro_endereco_numero}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_endereco_complemento && aut.cadastro_listar">
+                        <th>
+                          Complemento:
+                        </th>
+                        <td>
+                          {{pro.cadastro_endereco_complemento}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_bairro">
+                        <th>
+                          Bairro:
+                        </th>
+                        <td>
+                          {{pro.cadastro_bairro}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Município:
+                        </th>
+                        <td>
+                          {{pro.cadastro_municipio_nome}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Estado:
+                        </th>
+                        <td>
+                          {{pro.cadastro_estado_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_cep && aut.cadastro_listar">
+                        <th>
+                          CEP:
+                        </th>
+                        <td>
+                          {{pro.cadastro_cep}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_regiao_nome">
+                        <th>
+                          Região:
+                        </th>
+                        <td>
+                          {{pro.cadastro_regiao_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_telefone && aut.cadastro_listar">
+                        <th>
+                          Telefone 1:
+                        </th>
+                        <td>
+                          {{pro.cadastro_telefone}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_telefone2 && aut.cadastro_listar">
+                        <th>
+                          Telefone 2:
+                        </th>
+                        <td>
+                          {{pro.cadastro_telefone2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_telcom && aut.cadastro_listar">
+                        <th>
+                          Telefone comercial:
+                        </th>
+                        <td>
+                          {{pro.cadastro_telcom}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_celular && aut.cadastro_listar">
+                        <th>
+                          Celular 1:
+                        </th>
+                        <td>
+                          {{pro.cadastro_celular}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_celular2 && aut.cadastro_listar">
+                        <th>
+                          Celular 2:
+                        </th>
+                        <td>
+                          {{pro.cadastro_celular2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_fax && aut.cadastro_listar">
+                        <th>
+                          WhatsApp:
+                        </th>
+                        <td>
+                          {{pro.cadastro_fax}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_email && aut.cadastro_listar">
+                        <th>
+                          E-mail 1:
+                        </th>
+                        <td>
+                          {{pro.cadastro_email}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_email2 && aut.cadastro_listar">
+                        <th>
+                          E-mail 2:
+                        </th>
+                        <td>
+                          {{pro.cadastro_email2}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_rede_social && aut.cadastro_listar">
+                        <th>
+                          Facebook:
+                        </th>
+                        <td>
+                          {{pro.cadastro_rede_social}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_outras_midias && aut.cadastro_listar">
+                        <th>
+                          Outras mídias:
+                        </th>
+                        <td>
+                          {{pro.cadastro_outras_midias}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_arquivos.length > 0 && aut.cadastro_listar && aut.arquivos_baixar">
+                        <th colspan="2">
+                          Arquivos:
+                        </th>
+                      </tr>
+                      <tr *ngIf="pro.cadastro_arquivos.length > 0 && aut.cadastro_listar && aut.arquivos_baixar">
+                        <td colspan="2">
+                          <app-detalhe-explorer [arquivos]="pro.cadastro_arquivos"></app-detalhe-explorer>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </td>
+                </tr>
+                <tr *ngIf="pro.historico_processo.length > 0" class="novaPagina">
+                  <td>
+                    <br>
+
+                    <table class="table-hover tabela">
+                      <caption>ANDAMENTOS DO PROCESSO</caption>
+                      <thead class="detalheTitulo-horiz">
+                      <tr>
+                        <th colspan="2">
+                          ANDAMENTOS DO PROCESSO
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <th style="width: 3%;" nowrap>
+                          Data:
+                        </th>
+                        <th>
+                          Andamento:
+                        </th>
+                      </tr>
+                      <tr *ngFor="let ands of pro.historico_processo">
+                        <td style="width: 3%; vertical-align:top;" nowrap>
+                          {{ands.historico_data}}
+                        </td>
+                        <td>
+                          <quill-view [content]="ands.historico_andamento" [format]="'html'" theme="snow"></quill-view>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </td>
+                </tr>
+
+
+                <tr>
+                  <td>
+                    <br>
+
+                    <div class="vinculos">
+                      <div class="vinculos-interno">
+
+                        <table *ngIf="aut.solicitacao_listar" class="table-hover tabela"
+                               style="border-color: transparent">
+                          <caption>VÍNCULOS DO PROCESSO</caption>
+                          <tr class="fundo-claro">
+                            <td class="fundo-claro">
+                              <br>
+                              <table class="table-hover tabela">
+                                <caption>SOLICITAÇÃO</caption>
+                                <tr>
+                                  <th style="width: 3%;" nowrap>
+                                    Situação:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_situacao}}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th style="width: 3%;" nowrap>
+                                    Status:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_status_nome}}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    Data:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_data}}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    Assunto:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_assunto_nome}}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>
+                                    Área de interesse:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_area_interesse_nome}}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_orgao">
+                                  <th>
+                                    Orgão solicitado:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_orgao}}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_local_nome">
+                                  <th>
+                                    Núcleo:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_local_nome}}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_indicacao_sn">
+                                  <th>
+                                    Indicação S/N:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_indicacao_sn}}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_indicacao_nome">
+                                  <th>
+                                    Indicação:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_indicacao_nome}}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_reponsavel_analize_nome">
+                                  <th>
+                                    Responsável:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_reponsavel_analize_nome}}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_tipo_recebimento_nome">
+                                  <th>
+                                    Tp. Recebimento:
+                                  </th>
+                                  <td>
+                                    {{pro.solicitacao_tipo_recebimento_nome}}
+                                  </td>
+                                </tr>
+                                <tr
+                                  *ngIf="pro.solicitacao_descricao"
+                                >
+                                  <td colspan="2" class="tituloEditor">
+                                    Descrição:
+                                  </td>
+                                </tr>
+                                <tr
+                                  *ngIf="pro.solicitacao_descricao"
+                                >
+                                  <td colspan="2">
+                                    <quill-view [content]="pro.solicitacao_descricao" [format]="'html'"
+                                                theme="snow"></quill-view>
+                                  </td>
+                                </tr>
+                                <tr
+                                  *ngIf="pro.solicitacao_aceita_recusada"
+                                >
+                                  <td colspan="2" class="tituloEditor">
+                                    Observações:
+                                  </td>
+                                </tr>
+                                <tr
+                                  *ngIf="pro.solicitacao_aceita_recusada"
+                                >
+                                  <td colspan="2">
+                                    <quill-view [content]="pro.solicitacao_aceita_recusada" [format]="'html'"
+                                                theme="snow"></quill-view>
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_carta">
+                                  <td colspan="2" class="tituloEditor">
+                                    Resposta:
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_carta">
+                                  <td colspan="2">
+                                    <quill-view [content]="pro.solicitacao_carta_delta" [format]="'html'"
+                                                theme="snow"></quill-view>
+                                  </td>
+                                </tr>
+
+                                <tr *ngIf="pro.solicitacao_arquivos">
+                                  <td colspan="2">
+                                    <app-detalhe-explorer [arquivos]="pro.solicitacao_arquivos"></app-detalhe-explorer>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+
+                          <tr *ngIf="pro.historico_solicitcao.length > 0" class="novaPagina">
+                            <td>
+                              <br>
+
+                              <table class="table-hover tabela">
+                                <caption>ANDAMENTOS DA SOLICITAÇÃO</caption>
+                                <thead class="detalheTitulo-horiz">
+                                <tr>
+                                  <th colspan="2">
+                                    ANDAMENTOS DO PROCESSO
+                                  </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <th style="width: 3%;" nowrap>
+                                    Data:
+                                  </th>
+                                  <th>
+                                    Andamento:
+                                  </th>
+                                </tr>
+                                <tr *ngFor="let ands of pro.historico_solicitcao">
+                                  <td style="width: 3%; vertical-align:top;" nowrap>
+                                    {{ands.historico_data}}
+                                  </td>
+                                  <td>
+                                    <quill-view [content]="ands.historico_andamento" [format]="'html'"
+                                                theme="snow"></quill-view>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+
+                            </td>
+                          </tr>
+
+
+                          <tr *ngIf="pro.oficios.length > 0 && aut.oficio_listar">
+                            <td>
+                              <br>
+
+                              <table class="table-hover tabela">
+                                <caption>OFÍCIOS</caption>
+                                <thead class="detalheTitulo-horiz">
+                                <tr>
+                                  <th>
+                                    OFÍCIOS
+                                  </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let ofi of pro.oficios; let i=index">
+                                  <td>
+
+                                    <table class="tabela">
+                                      <caption>OFÍCIO <span
+                                        *ngIf="ofi.oficio_codigo"> - Código: {{ofi.oficio_codigo}}</span> <span
+                                        *ngIf="ofi.oficio_orgao_solicitado_nome"> - Orgão Solicitado: {{ofi.oficio_orgao_solicitado_nome}}</span>
+                                      </caption>
+                                      <thead class="detalheTitulo-horiz">
+                                      <tr>
+                                        <th>
+                                          OFÍCIO <span *ngIf="ofi.oficio_codigo"> - Código: {{ofi.oficio_codigo}}</span>
+                                          <span
+                                            *ngIf="ofi.oficio_orgao_solicitado_nome"> - Orgão Solicitado: {{ofi.oficio_orgao_solicitado_nome}}</span>
+                                        </th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngIf="ofi.oficio_codigo">
+                                        <th>
+                                          Código:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_codigo}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th>
+                                          Orgão Solicitado:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_orgao_solicitado_nome}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_numero">
+                                        <th>
+                                          Número do ofício:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_numero}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_status">
+                                        <th>
+                                          Situação:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_status}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_data_emissao">
+                                        <th>
+                                          Data da emissão:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_data_emissao}}
+                                        </td>
+                                      <tr *ngIf="ofi.oficio_prioridade_nome">
+                                        <th>
+                                          Prioridade:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_prioridade_nome}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_protocolo_numero">
+                                        <th>
+                                          Número do protocolo:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_protocolo_numero}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_data_protocolo">
+                                        <th>
+                                          Data do protocolo:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_data_protocolo}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_orgao_protocolante_nome">
+                                        <th>
+                                          Orgão protocolante:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_orgao_protocolante_nome}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_protocolante_funcionario">
+                                        <th>
+                                          Funcionário do orgão:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_protocolante_funcionario}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_tipo_andamento_nome">
+                                        <th>
+                                          Tipo de andamento:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_tipo_andamento_nome}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_data_recebimento">
+                                        <th>
+                                          Data recebimeento:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_data_recebimento}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_convenio">
+                                        <th>
+                                          Concênio:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_convenio}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_valor_solicitado">
+                                        <th>
+                                          Valor solicitado:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_valor_solicitado}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_valor_recebido">
+                                        <th>
+                                          Valor recebido:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_valor_recebido}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_data_pagamento">
+                                        <th>
+                                          Data do pagamento:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_data_pagamento}}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_prazo">
+                                        <th>
+                                          Prazo:
+                                        </th>
+                                        <td>
+                                          {{ofi.oficio_prazo}}
+                                        </td>
+                                      </tr>
+
+                                      <tr *ngIf="ofi.oficio_descricao_acao">
+                                        <th colspan="2">
+                                          Descrição da ação:
+                                        </th>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_descricao_acao">
+                                        <td colspan="2">
+                                          <quill-view-html id="acao_{{ofi.oficio_id}}" #acao_{{ofi.oficio_id}}
+                                                           [content]="ofi.oficio_descricao_acao"
+                                                           class="detalhe"></quill-view-html>
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+                                        <th colspan="2">
+                                          Arquivos do Ofício:
+                                        </th>
+                                      </tr>
+                                      <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+                                        <td colspan="2">
+                                          <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+
+                                  </td>
+                                </tr>
+
+                                <tr *ngIf="pro.oficios.length > 0 && !aut.oficio_listar">
+                                  <td>
+                                    <table class="tabela" id="taboficio">
+                                      <caption>OFÍCIOS</caption>
+                                      <thead class="detalheTitulo-horiz">
+                                      <tr>
+                                        <th>
+                                          OFÍCIOS
+                                        </th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr>
+                                        <td>
+                                          Existem {{pro.oficios.length}} ofícios vinculados a esse processo
+                                          <br>
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                    <br>
+                                  </td>
+                                </tr>
+
+                                </tbody>
+                              </table>
+
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table *ngIf="!aut.solicitacao_listar" class="table-hover tabela">
+                          <caption>VÍNCULOS DESTE PROCESSO</caption>
+                          <tr class="fundo-claro">
+                            <td class="fundo-claro">
+                              <br>
+
+                              <table class="table-hover tabela">
+                                <caption>VÍNCULOS DESTE PROCESSO</caption>
+                                <tr *ngIf="pro.processo_arquivos.length > 0 && !aut.arquivos_baixar">
+                                  <td>
+                                    Este processo possui {{pro.processo_arquivos.length}} arquivos anexados que será(ão) apagado(s)
+                                  </td>
+                                </tr>
+                                <tr *ngIf="pro.solicitacao_arquivos.length > 0 || pro.historico_solicitcao.length > 0">
+                                  <td>
+                                    A solicitação vinculada a este processo possui
+                                    <ng-container
+                                      *ngIf="pro.solicitacao_arquivos.length > 0">{{pro.solicitacao_arquivos.length}}
+                                      arquivo(s) anexado(s)
+                                    </ng-container>
+                                    <ng-container
+                                      *ngIf="pro.solicitacao_arquivos.length > 0 && pro.historico_solicitcao.length > 0">{{pro.solicitacao_arquivos.length}}
+                                      e
+                                    </ng-container>
+                                    <ng-container
+                                      *ngIf="pro.historico_solicitcao.length > 0">{{pro.historico_solicitcao.length}}
+                                      andamento(s) anexado(s)
+                                    </ng-container>
+                                    que será(ão) apagado(s).
+                                  </td>
+                                </tr>
+
+
+                                <tr *ngIf="pro.oficios.length > 0">
+                                  <th>
+                                    Ofício(s):
+                                  </th>
+                                </tr>
+                                <tr *ngIf="pro.oficios.length > 0">
+                                  <td>
+                                    Esta solicitacao está vinculada a {{pro.oficios.length}} ofício(s)
+                                    <ng-container *ngIf="permissao.arqOfiNum > 0"> com {{permissao.arqOfiNum}}
+                                      arquivo(s) anexado(s) e ele(s)
+                                    </ng-container>
+                                    que será(ão) apagado(s).
+                                  </td>
+                                </tr>
+                              </table>
+
+
+                            </td>
+                          </tr>
+                        </table>
+
+
+                      </div>
+                    </div>
+
+
+                  </td>
+                </tr>
+                <ng-container *ngIf="mensagens.length > 0">
+                  <tr>
+                    <td>
+                      <div class="vinculos-perigo">
+                        <div class="vinculos-interno-perigo">
+                          <br>
+                          <table class="table-hover tabela">
+                            <caption style="vertical-align:top;"><i class="pi pi-exclamation-triangle"
+                                                                    style="font-size: 2rem;color: var(--invalid)"></i>
+                              ATENÇÃO <i class="pi pi-exclamation-triangle"
+                                         style="font-size: 2rem;color: var(--invalid)"></i></caption>
+                            <tr *ngFor="let m of mensagens">
+                              <td>
+                                {{m}}
+                              </td>
+                            </tr>
+
+                          </table>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+
+    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+            <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      [disabled]="botaoEnviarVF || getPermissao()"
+                      label="APAGAR"
+                      class="p-button-rounded p-button-danger"
+                      (click)="excluirProcesso()">
+                    </button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      [disabled]="apagarSN"
+                      label="VOLTAR"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()">
+                    </button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid formulario-bg-externo">
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+      </div>
+    </div>
+  </div>
+</p-scrollPanel>

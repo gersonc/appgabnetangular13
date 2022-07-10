@@ -424,8 +424,15 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.ps.recebeRegistro(h);
   }
 
-  processoApagar(pr: ProceListarI) {
-
+  processoApagar(pro: ProceListarI) {
+    if (this.aut.processo_apagar) {
+      this.ps.procApagar = pro;
+      this.ps.salvaState();
+      this.dtb.saveState();
+      this.router.navigate(['/proce/apagar']);
+    } else {
+      console.log('SEM PERMISSAO');
+    }
   }
 
   processoAnalisar(pro) {

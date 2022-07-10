@@ -39,6 +39,7 @@ export interface ProceOficioI {
 
 
 export const proceProcessoCamposTexto = [
+  'processo_carta',
   'solicitacao_descricao',
   'solicitacao_aceita_recusada',
   'solicitacao_carta',
