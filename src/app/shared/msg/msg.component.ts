@@ -7,7 +7,7 @@ import {SpinnerService} from "../../_services/spinner.service";
 
 @Component({
   selector: 'app-msg',
-  template: `<p-toast baseZIndex="50000" key="principal" (onClose)="onClose($event)"></p-toast><p-messages key="mensagem"></p-messages>`,
+  template: `<p-toast id="toastprincipal"  styleClass="toastprincipal" autoZIndex="false" key="toastprincipal" (onClose)="onClose($event)"></p-toast><p-messages key="mensagem"></p-messages>`,
 })
 export class MsgComponent implements OnInit {
 

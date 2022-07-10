@@ -153,9 +153,8 @@
               </div>
               <div
                 *ngIf="(
-                (aut.usuario_responsavel_sn || aut.usuario_principal_sn) || (
-                (aut.processo_deferir || aut.processo_indeferir || aut.processo_analisar) &&
-                (pro.processo_status_id === 0 || pro.processo_status_id === 1 || pro.processo_status_id === 4))
+                (aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.processo_deferir || aut.processo_indeferir || aut.processo_analisar) &&
+                (pro.processo_status_id === 0 || pro.processo_status_id === 1 || pro.processo_status_id === 4)
                 )" class="p-mr-2">
 
                 <button
@@ -169,6 +168,20 @@
                   tooltipPosition="top"
                 ></button>
               </div>
+
+              <div *ngIf="((aut.usuario_responsavel_sn || aut.usuario_principal_sn) && (pro.processo_status_id === 2 || pro.processo_status_id === 3))" class="p-mr-2">
+                <button
+                  (click)="processoAnalisar(pro)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-check-square"
+                  class="p-button-rounded p-button-secondary"
+                  pTooltip="Analisar"
+                  tooltipPosition="top"
+                ></button>
+              </div>
+
               <div *ngIf="aut.processo_apagar" class="p-mr-2">
                 <button
                   (click)="processoApagar(pro)"
@@ -192,12 +205,12 @@
                   class="p-button-rounded p-button-purple"
                   pTooltip="Listar Andamentos do Processo"
                   tooltipPosition="top"
-                  (click)="historicoAcao(pro.processo_id, 'listar','processo', indice, pro.historico_processo)"
+                  (click)="historicoAcao(pro.processo_id, 'listar','processo', indice, (pro.processo_status_id !== 2 && pro.processo_status_id !== 3), pro.historico_processo)"
                 >
                 </button>
               </div>
 
-              <div *ngIf="ps.expandidoSN && permInclHist && pro.processo_status_id > 0" class="p-mr-2">
+              <div *ngIf="ps.expandidoSN && permInclHist && pro.processo_status_id > 0 && (pro.processo_status_id !== 2 && pro.processo_status_id !== 3)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -220,12 +233,12 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
-                  (click)="historicoAcao(pro.solicitacao_id, 'listar','solicitacao', indice, pro.historico_solicitcao)"
+                  (click)="historicoAcao(pro.solicitacao_id, 'listar','solicitacao', indice, (pro.processo_status_id !== 2 && pro.processo_status_id !== 3), pro.historico_solicitcao)"
                 >
                 </button>
               </div>
 
-              <div *ngIf="ps.expandidoSN && permInclHistSol && pro.solicitacao_status_id > 0" class="p-mr-2">
+              <div *ngIf="ps.expandidoSN && permInclHistSol && pro.solicitacao_status_id > 0 && (pro.processo_status_id !== 2 && pro.processo_status_id !== 3)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -329,7 +342,7 @@
     [baseZIndex]="0"
   >
     <app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI" [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-    <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico" [histListI]="histListI" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+    <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico" [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)" (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
   </p-dialog>
   </div>
 </ng-container>

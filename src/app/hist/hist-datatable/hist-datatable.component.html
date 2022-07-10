@@ -5,7 +5,7 @@
     <tr>
       <td>Data</td>
       <td>Andamento</td>
-      <td style="width: 3em"></td>
+      <td style="width: 3em" *ngIf="permitirAcao"></td>
     </tr>
     <tr *ngFor="let his of histListI.hist; let i=index;">
       <td style="font-weight: normal; width: 8rem;">{{his.historico_data}}</td>
@@ -14,7 +14,7 @@
                         class="detalhe"></app-quill-view>
       </td>
 
-      <td style="width: 3em; vertical-align:top;">
+      <td style="width: 3em; vertical-align:top;" *ngIf="permitirAcao">
 
         <div *ngIf="alterar" class="p-m-1">
           <button
@@ -54,7 +54,7 @@
         label="FECHAR"
       ></button>
     </div>
-    <div *ngIf="incluir" class="p-mr-2">
+    <div *ngIf="incluir && permitirAcao" class="p-mr-2">
       <button
         pButton
         pRipple

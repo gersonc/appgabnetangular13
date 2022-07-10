@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProcFormAnalisar, ProcFormAnalisarI} from "../_model/proc-form-analisar-i";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ProcFormAnalisar} from "../_model/proc-form-analisar-i";
 import {ProceListarI} from "../_model/proce-listar-i";
-import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
+import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {ProceFormService} from "../_services/proce-form.service";
 import {ProceService} from "../_services/proce.service";
 import {AuthenticationService} from "../../_services";
 import {MsgService} from "../../_services/msg.service";
 import {Router} from "@angular/router";
 import {ArquivoInterface} from "../../arquivo/_models";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-proce-analisar',
   templateUrl: './proce-analisar.component.html',
   styleUrls: ['./proce-analisar.component.css']
 })
-export class ProceAnalisarComponent implements OnInit {
+export class ProceAnalisarComponent implements OnInit, OnDestroy {
   sub: Subscription[] = [];
   formPro: FormGroup;
   procA: ProcFormAnalisar | null = null;
@@ -24,6 +25,7 @@ export class ProceAnalisarComponent implements OnInit {
   pro?: ProceListarI;
   arquivoDesativado = false;
   formAtivo = true;
+  processo_status_id = 0;
 
   bts: any[] = [
     {value: 1, label: 'EM ANDAMENTO'},
@@ -60,11 +62,11 @@ export class ProceAnalisarComponent implements OnInit {
     public aut: AuthenticationService,
     private ms: MsgService,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-    console.log('processo', this.pfs.processo);
-    console.log('procA0', this.pfs.procA);
+    this.processo_status_id = this.pfs.procA.processo_status_id;
     this.criaForm();
   }
 
@@ -74,27 +76,68 @@ export class ProceAnalisarComponent implements OnInit {
     this.cpoEditor['processo_carta'] = null;
     this.cpoEditor['solicitacao_aceita_recusada'] = null;
 
-
-      this.formPro = this.formBuilder.group({
-        processo_carta: [null],
-        historico_andamento: [null],
-        processo_status_id: [this.pfs.procA.processo_status_id],
-      });
+    this.formPro = this.formBuilder.group({
+      processo_carta: [null],
+      historico_andamento: [null],
+      processo_status_id: [this.pfs.procA.processo_status_id],
+    });
 
   }
 
   onSubmit() {
     if (this.criaEnvio()) {
-
+      this.sub.push(this.ps.putProcessoAnalisar(this.procA)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'warn',
+              summary: 'ERRO ANALISAR PROCESSO',
+              detail: this.resp[2]
+            });
+            this.formAtivo = true;
+            console.error(err);
+          },
+          complete: () => {
+            if (!this.resp[0]) {
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'warn',
+                summary: 'ERRO ANALISAR PROCESSO',
+                detail: this.resp[2]
+              });
+              this.formAtivo = true;
+            } else {
+              sessionStorage.removeItem('proce-menu-dropdown');
+              if (Array.isArray(this.resp[2])) {
+                this.resp[2].forEach(r => {
+                  console.log(r);
+                  this.ms.add({
+                    key: 'toastprincipal',
+                    severity: 'success',
+                    summary: 'PROCESSO ANALISADO',
+                    detail: r
+                  });
+                });
+              }
+              this.router.navigate(['/proce/listar']);
+            }
+          }
+        }));
     }
   }
 
   resetForm() {
-
+    this.formPro.get('processo_status_id').setValue(this.pfs.procA.processo_status_id);
+    this.formPro.get('processo_carta').setValue(null);
+    this.formPro.get('historico_andamento').setValue(null);
   }
 
-
-  criaEnvio (): ProcFormAnalisarI | boolean {
+  criaEnvio(): boolean {
     if (+this.pfs.procA.processo_status_id === +this.formPro.get('processo_status_id').value) {
       return false;
     }
@@ -111,7 +154,6 @@ export class ProceAnalisarComponent implements OnInit {
       this.procA.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
       this.procA.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
     }
-
     return true;
   }
 
@@ -119,18 +161,17 @@ export class ProceAnalisarComponent implements OnInit {
     this.pfs.processo = null;
     this.pfs.resetProcessoFormAnalisar();
     if (sessionStorage.getItem('proc-busca')) {
-      this.router.navigate(['/proce/listar/busca']);
+      this.router.navigate(['/proce/listar']);
     } else {
       this.router.navigate(['/proce/listar2']);
     }
   }
 
-
   onArquivosGravados(arq: ArquivoInterface[]) {
-    console.log('arquivos enviados',arq);
-
+    arq.forEach(a => {
+      this.pfs.processo.processo_arquivos.push(a);
+    });
   }
-
 
   onContentChanged(ev, campo: string) {
     this.cpoEditor[campo] = {
@@ -138,6 +179,20 @@ export class ProceAnalisarComponent implements OnInit {
       delta: ev.content,
       text: ev.text
     }
+  }
+
+  onChangeBtn(ev) {
+    this.processo_status_id = +ev.value;
+  }
+
+  getInvalido(): boolean {
+    return (+this.processo_status_id === +this.pfs.procA.processo_status_id);
+  }
+
+  ngOnDestroy() {
+    this.pfs.processo = null;
+    this.pfs.procA = null;
+    this.sub.forEach(s => s.unsubscribe());
   }
 
 

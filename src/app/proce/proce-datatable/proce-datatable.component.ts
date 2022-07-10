@@ -42,6 +42,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   permInclHistSol: boolean = false;
   permListHist: boolean = false;
   permInclHist: boolean = false;
+  permitirAcao: boolean = true;
   idx: number = 0;
 
   constructor(
@@ -385,10 +386,12 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   //  HISTIRICO - ANDAMENTO ***********************************************************
 
-  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, historicos?: HistI[]) {
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao: boolean = true, historicos?: HistI[]) {
     this.tituloHistoricoDialog = (modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
     this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
     this.histAcao = acao;
+    console.log('permitirAcao', permitirAcao);
+    this.permitirAcao = permitirAcao;
     if (acao === 'listar') {
       this.histListI = {
         hist: historicos,

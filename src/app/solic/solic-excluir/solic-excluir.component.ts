@@ -193,14 +193,14 @@ export class SolicExcluirComponent implements OnInit {
             this.resp = dados;
           },
           error: (err) => {
-            this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             console.error(err);
           },
           complete: () => {
             if (this.resp[0]) {
               sessionStorage.removeItem('solic-menu-dropdown')
                 this.ms.add({
-                  key: 'principal',
+                  key: 'toastprincipal',
                   severity: 'success',
                   summary: 'EXCLUIR SOLICITAÇÃO',
                   detail: this.resp[2]
@@ -210,7 +210,7 @@ export class SolicExcluirComponent implements OnInit {
             } else {
               console.error('ERRO - EXCLUIR ', this.resp[2]);
               this.ms.add({
-                key: 'principal',
+                key: 'toastprincipal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]

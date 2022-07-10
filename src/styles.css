@@ -17504,3 +17504,25 @@ a.campo-extendido:hover {
   page-break-inside: avoid;
 }
 
+#toastprincipal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 20000 !important;
+}
+
+.toastprincipal, .toastprincipal > * {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 20000 !important;
+}
+
+p-toast.toastprincipal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 20000 !important;
+}
+
+

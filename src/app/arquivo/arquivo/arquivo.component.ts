@@ -114,6 +114,17 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
           this.modeloView = changes.modelo.currentValue;
           break;
         }
+        case 'analisarprocesso': {
+          this.mostraH6 = false;
+          this.listaArquivos = false;
+          this.disabled = false;
+          this.showUploadButton = false;
+          this.modo = 'basic';
+          this.incluir = true;
+          this.uploadAtivo = true;
+          this.modeloView = changes.modelo.currentValue;
+          break;
+        }
         case 'excluir': {
           this.mostraH6 = false;
           this.listaArquivos = true;

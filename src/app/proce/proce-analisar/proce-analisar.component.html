@@ -335,7 +335,8 @@
                   <td>
                     <br>
                     <p-accordion>
-                      <p-accordionTab header="ANDAMENTOS DA SOLICITAÇÃO" *ngIf="pfs.processo.historico_solicitcao.length > 0">
+                      <p-accordionTab header="ANDAMENTOS DA SOLICITAÇÃO"
+                                      *ngIf="pfs.processo.historico_solicitcao.length > 0">
                         <table class="table-hover tabela">
                           <tbody>
                           <tr>
@@ -351,16 +352,19 @@
                               {{ands2.historico_data}}
                             </td>
                             <td>
-                              <quill-view [content]="ands2.historico_andamento" [format]="'html'" theme="snow"></quill-view>
+                              <quill-view [content]="ands2.historico_andamento" [format]="'html'"
+                                          theme="snow"></quill-view>
                             </td>
                           </tr>
                           </tbody>
                         </table>
                       </p-accordionTab>
-                      <p-accordionTab header="ARQUIVOS DA SOLICITAÇÃO" *ngIf="pfs.processo.solicitacao_arquivos.length > 0 && aut.arquivos_baixar">
+                      <p-accordionTab header="ARQUIVOS DA SOLICITAÇÃO"
+                                      *ngIf="pfs.processo.solicitacao_arquivos.length > 0 && aut.arquivos_baixar">
                         <app-detalhe-explorer [arquivos]="pfs.processo.solicitacao_arquivos"></app-detalhe-explorer>
                       </p-accordionTab>
-                      <p-accordionTab header="ANDAMENTOS DO PROCESSO" *ngIf="pfs.processo.historico_processo.length > 0">
+                      <p-accordionTab header="ANDAMENTOS DO PROCESSO"
+                                      *ngIf="pfs.processo.historico_processo.length > 0">
                         <table class="table-hover tabela">
                           <tbody>
                           <tr>
@@ -376,14 +380,19 @@
                               {{ands.historico_data}}
                             </td>
                             <td>
-                              <quill-view [content]="ands.historico_andamento" [format]="'html'" theme="snow"></quill-view>
+                              <quill-view [content]="ands.historico_andamento" [format]="'html'"
+                                          theme="snow"></quill-view>
                             </td>
                           </tr>
                           </tbody>
                         </table>
                       </p-accordionTab>
                       <p-accordionTab header="ARQUIVOS DO PROCESSO" *ngIf="pfs.processo.processo_arquivos.length > 0 && aut.arquivos_baixar">
+                        <div class="p-d-flex">
+                          <div class="p-mx-1">
                         <app-detalhe-explorer [arquivos]="pfs.processo.processo_arquivos"></app-detalhe-explorer>
+                          </div>
+                        </div>
                       </p-accordionTab>
                       <p-accordionTab header="OFÍCIOS" *ngIf="pfs.processo.oficios.length > 0 && aut.oficio_listar">
                         <table class="table-hover tabela">
@@ -555,7 +564,7 @@
                                 </tr>
                                 <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
                                   <th colspan="2">
-                                    Arquivos do Processo:
+                                    Arquivos do Ofício:
                                   </th>
                                 </tr>
                                 <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
@@ -601,7 +610,6 @@
                 </tr>
 
 
-
               </table>
               <br/>
             </div>
@@ -613,14 +621,14 @@
 
       <form [formGroup]="formPro" (ngSubmit)="onSubmit()">
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
-      </div>
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+        </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <!--<div class="p-col-12 formulario">-->
-          <div class="p-fluid p-formgrid p-grid">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <!--<div class="p-col-12 formulario">-->
+            <div class="p-fluid p-formgrid p-grid">
 
               <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                 &nbsp;
@@ -675,7 +683,7 @@
                                    [modulo]="'processo'"
                                    [uploadDisabled]="arquivoDesativado"
                                    [registro_id]="pfs.procA.processo_id"
-                                   [modelo]="'analisar'"
+                                   [modelo]="'analisarprocesso'"
                                    [stiloClass]="'formulario'"
                                    (onArquivosGravados)="onArquivosGravados($event)"
                       ></app-arquivo>
@@ -689,7 +697,8 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
                     <label for="processo_status_id">Análise</label>
                     <p-selectButton [options]="bts" optionValue="value" optionLabel="label" id="processo_status_id"
-                                    formControlName="processo_status_id"></p-selectButton>
+                                    formControlName="processo_status_id"
+                                    (onChange)="onChangeBtn($event)"></p-selectButton>
                   </div>
 
                   <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
@@ -700,61 +709,61 @@
 
               </div>
 
+            </div>
           </div>
+
+
         </div>
 
-
-      </div>
-
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
-      </div>
-
-      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
         <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
+          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+        </div>
 
-              <div class="p-col-12 formulario">
-                <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+        <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+          <div class="p-grid">
+            <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+              <div class="p-grid p-input-filled">
 
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      type="submit"
-                      class="p-button-rounded"
-                      [disabled]="!formPro.valid && !formAtivo"
-                      label="Enviar"
-                    ></button>
+                <div class="p-col-12 formulario">
+                  <!--*** Botões ***-->
+                  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        type="submit"
+                        class="p-button-rounded"
+                        [disabled]="!formAtivo || getInvalido()"
+                        label="Enviar"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-rounded p-button-secondary"
+                        (click)="resetForm()"
+                        label="Cancelar"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-rounded p-button-secondary"
+                        (click)="voltarListar()"
+                        label="Voltar"
+                      ></button>
+                    </div>
                   </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      type="button"
-                      class="p-button-rounded p-button-secondary"
-                      (click)="resetForm()"
-                      label="Cancelar"
-                    ></button>
-                  </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      type="button"
-                      class="p-button-rounded p-button-secondary"
-                      (click)="voltarListar()"
-                      label="Voltar"
-                    ></button>
-                  </div>
+                  <!--*** FIM BOTOES ***-->
                 </div>
-                <!--*** FIM BOTOES ***-->
-              </div>
 
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
       </form>
 

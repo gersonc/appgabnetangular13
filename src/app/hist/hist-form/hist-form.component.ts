@@ -147,7 +147,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
           },
           error: (err) => {
             this.ms.add({
-              key: 'principal',
+              key: 'toastprincipal',
               severity: 'warn',
               summary: this.resp[1],
               detail: this.resp[2]
@@ -158,7 +158,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
           complete: () => {
             if (this.resp[0]) {
               this.ms.add({
-                key: 'principal',
+                key: 'toastprincipal',
                 severity: 'success',
                 summary: 'ANDAMENTO',
                 detail: this.resp[1],
@@ -168,7 +168,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
               this.fechar();
             } else {
               this.ms.add({
-                key: 'principal',
+                key: 'toastprincipal',
                 severity: 'warn',
                 summary: this.resp[1],
                 detail: this.resp[2]
@@ -192,7 +192,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
           },
           error: (err) => {
             this.ms.add({
-              key: 'principal',
+              key: 'toastprincipal',
               severity: 'warn',
               summary: this.resp[1],
               detail: this.resp[2]
@@ -203,7 +203,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
           complete: () => {
             if (this.resp[0]) {
               this.ms.add({
-                key: 'principal',
+                key: 'toastprincipal',
                 severity: 'success',
                 summary: 'ANDAMENTO',
                 detail: 'Andamento incluido com sucesso.'
@@ -215,7 +215,7 @@ export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
               this.fechar();
             } else {
               this.ms.add({
-                key: 'principal',
+                key: 'toastprincipal',
                 severity: 'warn',
                 summary: this.resp[1],
                 detail: this.resp[2]

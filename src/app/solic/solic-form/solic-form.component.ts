@@ -399,7 +399,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.mostraForm = true;
-            this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             console.error(err);
           },
           complete: () => {
@@ -417,7 +417,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
                 this.enviarArquivos = true;
               } else {
                 this.ms.add({
-                  key: 'principal',
+                  key: 'toastprincipal',
                   severity: 'success',
                   summary: 'INCLUIR SOLICITAÇÃO',
                   detail: this.resp[2]
@@ -434,7 +434,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
               this.mostraForm = true;
               console.error('ERRO - INCLUIR ', this.resp[2]);
               this.ms.add({
-                key: 'principal',
+                key: 'toastprincipal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
@@ -460,7 +460,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
             this.resp = dados;
           },
           error: (err) => {
-            this.ms.add({key: 'principal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             console.error(err);
             this.mostraForm = true;
           },
@@ -468,7 +468,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
             if (this.resp[0]) {
               sessionStorage.removeItem('solic-menu-dropdown');
               this.ms.add({
-                  key: 'principal',
+                  key: 'toastprincipal',
                   severity: 'success',
                   summary: 'ALTERAR SOLICITAÇÃO',
                   detail: this.resp[2]
@@ -491,7 +491,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
             } else {
               this.mostraForm = true;
               console.error('ERRO - ALTERAR ', this.resp[2]);
-              this.ms.add({key: 'principal',
+              this.ms.add({key: 'toastprincipal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
@@ -508,7 +508,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
   onUpload(ev) {
     if (ev) {
       this.ms.add({
-        key: 'principal',
+        key: 'toastprincipal',
         severity: 'success',
         summary: 'INCLUIR SOLICITAÇÃO',
         detail: this.resp[2]

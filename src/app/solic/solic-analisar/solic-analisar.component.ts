@@ -192,7 +192,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.ms.add({
-            key: 'principal',
+            key: 'toastprincipal',
             severity: 'warn',
             summary: 'ERRO ANALISAR',
             detail: this.resp[2]
@@ -201,7 +201,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.ms.add({
-            key: 'pricipal',
+            key: 'toastprincipal',
             severity: 'success',
             summary: 'SOLICITAÇÃO ANALISADA',
             detail: this.resp[2]

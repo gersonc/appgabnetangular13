@@ -30,6 +30,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() display: boolean = false;
   @Input() imprimir?: boolean;
   @Input() histListI?: HistListI | undefined;
+  @Input() permitirAcao: boolean = true;
   @Output() impressao = new EventEmitter<any>();
 
 
@@ -196,7 +197,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
         error: (err) => {
           this.msg[2] = err + " - Ocorreu um erro.";
           this.mssg.add({
-            key: 'principal',
+            key: 'toastprincipal',
             severity: 'warn',
             summary: this.resp[1],
             detail: this.resp[2]
@@ -207,7 +208,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
         complete: () => {
           if (this.resp[0]) {
             this.mssg.add({
-              key: 'principal',
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'ANDAMENTO',
               detail: this.resp[1],
@@ -222,7 +223,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
             this.recebeRegistro(e);
           } else {
             this.mssg.add({
-              key: 'principal',
+              key: 'toastprincipal',
               severity: 'warn',
               summary: this.resp[1],
               detail: this.resp[2]

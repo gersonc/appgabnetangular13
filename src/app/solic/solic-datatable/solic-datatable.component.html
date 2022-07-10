@@ -157,14 +157,37 @@
                 </button>
               </div>
               <div
-                *ngIf="aut.solicitacao_analisar && ((aut.solicitacaoVersao === 1 && sol.processo_id === 0) || aut.solicitacaoVersao !== 1)"
-                class="p-mr-2">
+                *ngIf="(
+                (aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.solicitacao_analisar) &&
+                (sol.processo_status_id === 0 || sol.processo_status_id === 1 || sol.processo_status_id === 4) &&
+                ((aut.solicitacaoVersao === 1 && sol.processo_id === 0) || aut.solicitacaoVersao !== 1)
+                )" class="p-mr-2">
+              <!--<div *ngIf="aut.solicitacao_analisar && ((aut.solicitacaoVersao === 1 && sol.processo_id === 0) || aut.solicitacaoVersao !== 1)" class="p-mr-2">-->
                 <button
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-exclamation-circle"
                   class="p-button-rounded p-button-success"
+                  pTooltip="Analisar"
+                  tooltipPosition="top"
+                  (click)="solicitacaoAnalisar(sol)"
+                >
+                </button>
+              </div>
+              <div
+                *ngIf="(
+                (aut.usuario_responsavel_sn || aut.usuario_principal_sn) &&
+                (sol.processo_status_id === 2 || sol.processo_status_id === 3) &&
+                ((aut.solicitacaoVersao === 1 && sol.processo_id === 0) || aut.solicitacaoVersao !== 1)
+                )" class="p-mr-2">
+                <!--<div *ngIf="aut.solicitacao_analisar && ((aut.solicitacaoVersao === 1 && sol.processo_id === 0) || aut.solicitacaoVersao !== 1)" class="p-mr-2">-->
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-exclamation-circle"
+                  class="p-button-rounded p-button-secondary"
                   pTooltip="Analisar"
                   tooltipPosition="top"
                   (click)="solicitacaoAnalisar(sol)"
@@ -206,11 +229,11 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Solicitação"
                   tooltipPosition="top"
-                  (click)="historicoAcao(sol.solicitacao_id, 'listar', 'solicitacao', indice, sol.historico_solicitcao)"
+                  (click)="historicoAcao(sol.solicitacao_id, 'listar', 'solicitacao', indice, (sol.solicitacao_status_id !== 2 && sol.solicitacao_status_id !== 3), sol.historico_solicitcao)"
                 >
                 </button>
               </div>
-              <div *ngIf="ss.expandidoSN && permInclHistSol && sol.solicitacao_status_id > 0" class="p-mr-2">
+              <div *ngIf="ss.expandidoSN && permInclHistSol && sol.solicitacao_status_id > 0 &&  (sol.solicitacao_status_id !== 2 && sol.solicitacao_status_id !== 3)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -233,12 +256,12 @@
                   class="p-button-rounded p-button-purple"
                   pTooltip="Listar Andamentos do Processo"
                   tooltipPosition="top"
-                  (click)="historicoAcao(sol.processo_id,'listar', 'processo', indice, sol.historico_processo)"
+                  (click)="historicoAcao(sol.processo_id,'listar', 'processo', indice, (sol.solicitacao_status_id !== 2 && sol.solicitacao_status_id !== 3), sol.historico_processo)"
                 >
                 </button>
               </div>
 
-              <div *ngIf="ss.expandidoSN && permInclHist && sol.processo_id !== 0" class="p-mr-2">
+              <div *ngIf="ss.expandidoSN && permInclHist && sol.processo_id !== 0  && (sol.solicitacao_status_id !== 2 && sol.solicitacao_status_id !== 3)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -345,7 +368,7 @@
       <app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"
                      [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
       <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico"
-                          [histListI]="histListI" (dialogExterno)="mostraDialog($event)"
+                          [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
                           (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
     </p-dialog>
   </div>

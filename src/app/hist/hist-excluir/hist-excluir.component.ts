@@ -58,7 +58,7 @@ export class HistExcluirComponent implements OnInit {
         error: (err) => {
           this.msg[2] = err + " - Ocorreu um erro.";
           this.ms.add({
-            key: 'principal',
+            key: 'toastprincipal',
             severity: 'warn',
             summary: this.resp[1],
             detail: this.resp[2]
@@ -69,7 +69,7 @@ export class HistExcluirComponent implements OnInit {
         complete: () => {
           if (this.resp[0]) {
             this.ms.add({
-              key: 'principal',
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'ANDAMENTO',
               detail: this.resp[1],
@@ -78,7 +78,7 @@ export class HistExcluirComponent implements OnInit {
             this.onExcluir.emit([this.tbidx, this.idx]);
           } else {
             this.ms.add({
-              key: 'principal',
+              key: 'toastprincipal',
               severity: 'warn',
               summary: this.resp[1],
               detail: this.resp[2]

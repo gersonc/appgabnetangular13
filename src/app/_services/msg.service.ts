@@ -34,7 +34,7 @@ export class MsgService {
   add(msg: MsgI) {
       this.sps.fundoSN(false);
       if (typeof msg.key === 'undefined') {
-        msg.key = 'principal'
+        msg.key = 'toastprincipal'
       }
       this.msgSubject.next(msg);
       // this.msgSubject.next();

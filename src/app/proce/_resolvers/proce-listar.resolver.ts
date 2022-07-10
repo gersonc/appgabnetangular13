@@ -58,7 +58,7 @@ export class ProceListarResolver implements Resolve<boolean> {
 
 
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  |  Observable<never> {
     if (!sessionStorage.getItem('proce-menu-dropdown')) {
       this.populaDropdown();
       return this.resp$.pipe(
@@ -69,7 +69,7 @@ export class ProceListarResolver implements Resolve<boolean> {
             return of(vf);
           } else {
             this.onDestroy();
-            return of(true);
+            return EMPTY;
           }
         })
       );
