@@ -68,42 +68,6 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
-    /*if (this.authenticationService.solicitacao) {
-      if (this.authenticationService.solicitacao_listar) {
-        this.items.push(
-          {
-            label: 'Solicitações', icon: 'pi pi-ticket', command: () => {
-              this.fechaMenuPrincipal();
-            },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacao/listar']
-          });
-      }
-    }
-
-    if (this.authenticationService.solicitacao) {
-      if (this.authenticationService.solicitacao_listar) {
-        this.items.push(
-          {
-            label: 'Solicitação Simples', icon: 'pi pi-ticket', command: () => {
-              this.fechaMenuPrincipal();
-            },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaosimples/listar']
-          });
-      }
-    }
-
-    if (this.authenticationService.solicitacao) {
-      if (this.authenticationService.solicitacao_listar) {
-        this.items.push(
-          {
-            label: 'SolicitaçõesT1', icon: 'pi pi-ticket', command: () => {
-              this.fechaMenuPrincipal();
-            },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solicitacaot1/listar']
-          });
-      }
-    }*/
-
     if (this.authenticationService.solicitacao) {
       if (this.authenticationService.solicitacao_listar) {
         this.items.push(
@@ -127,22 +91,12 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
-    /*if (this.authenticationService.processo) {
-      if (this.authenticationService.processo_listar) {
-        this.items.push(
-          {
-            label: 'Processos', icon: 'pi pi-book', command: () => {
-              this.fechaMenuPrincipal();
-            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/processo/listar']
-          });
-      }
-    }*/
 
     if (this.authenticationService.processo) {
       if (this.authenticationService.processo_listar) {
         this.items.push(
           {
-            label: 'Proce', icon: 'pi pi-book', command: () => {
+            label: 'Processos', icon: 'pi pi-book', command: () => {
               this.fechaMenuPrincipal();
             }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/proce/listar']
           });

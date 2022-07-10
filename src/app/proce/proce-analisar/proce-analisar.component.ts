@@ -167,6 +167,16 @@ export class ProceAnalisarComponent implements OnInit, OnDestroy {
     }
   }
 
+  voltar() {
+    this.pfs.processo = undefined;
+    this.pfs.procA = undefined;
+    this.pfs.acao = null;
+    this.pfs.tipo_analize = 0;
+    this.ps.stateSN = false;
+    sessionStorage.removeItem('proce-busca');
+    this.router.navigate(['/proce/listar2']);
+  }
+
   onArquivosGravados(arq: ArquivoInterface[]) {
     arq.forEach(a => {
       this.pfs.processo.processo_arquivos.push(a);

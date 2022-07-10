@@ -234,6 +234,16 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
     }
   }
 
+  voltar() {
+    this.sfs.solicListar = undefined;
+    this.sfs.solA = undefined;
+    this.sfs.acao = null;
+    this.sfs.tipo_analize = 0;
+    this.ss.stateSN = false;
+    sessionStorage.removeItem('solic-busca');
+    this.router.navigate(['/solic/listar2']);
+  }
+
   verificaValidTouched(campo: string) {
     return (
       !this.formSol.get(campo).valid &&

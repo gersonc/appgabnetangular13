@@ -172,6 +172,13 @@ export class ProceExcluirComponent implements OnInit, OnDestroy {
     this.router.navigate(['/proce/listar']);
   }
 
+  voltar() {
+    this.ps.procApagar = null;
+    this.ps.stateSN = false;
+    sessionStorage.removeItem('proce-busca');
+    this.router.navigate(['/proce/listar2']);
+  }
+
   excluirProcesso() {
     if (this.permissao.permissao) {
       this.botaoEnviarVF = true;

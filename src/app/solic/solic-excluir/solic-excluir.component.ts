@@ -206,12 +206,17 @@ export class SolicExcluirComponent implements OnInit, OnDestroy {
               if (this.sol.oficio.length > 0) {
                 sessionStorage.removeItem('oficio-menu-dropdown');
               }
-                this.ms.add({
-                  key: 'toastprincipal',
-                  severity: 'success',
-                  summary: 'EXCLUIR SOLICITAÇÃO',
-                  detail: this.resp[2]
+              if (Array.isArray(this.resp[2])) {
+                this.resp[2].forEach(r => {
+                  console.log(r);
+                  this.ms.add({
+                    key: 'toastprincipal',
+                    severity: 'success',
+                    summary: 'SOLICITAÇÃO APAGADA',
+                    detail: r
+                  });
                 });
+              }
 
               this.voltarListar();
             } else {
