@@ -13,7 +13,8 @@ import {SolicListarI} from "../_models/solic-listar-i";
 import {take} from "rxjs/operators";
 import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
 import {MsgService} from "../../_services/msg.service";
-import {OficioFormService} from "../../oficio/_services";
+import {OficioFormService} from "../../oficio/_services/oficio-form.service";
+
 
 @Component({
   selector: 'app-solic-analisar',

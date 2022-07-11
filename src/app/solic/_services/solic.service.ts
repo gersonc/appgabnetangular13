@@ -4,7 +4,7 @@ import {SolicListarI,SolicPaginacaoInterface, solicSolicitacaoCamposTexto } from
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {take} from "rxjs/operators";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
-import {SolicDetalheI} from "../_models/solic-detalhe-i";
+// import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
@@ -203,71 +203,6 @@ export class SolicService {
     this.tabela.expandedRowKeys = ev.expandedRowKeys;
   }
 
-  /*parseTabela(t: any) {
-    sessionStorage.removeItem('solic-tabela');
-    this.tabela.rows = parseInt(t.rows, 10);
-    this.tabela.first = parseInt(t.first, 10);
-    this.tabela.sortOrder = parseInt(t.sortOrder, 10);
-    this.tabela.sortField = t.sortField;
-    this.tabela.todos = (t.todos.toString() === 'true');
-    this.tabela.campos = t.campos;
-    this.tabela.ids = (t.ids !== undefined) ? t.ids : undefined;
-    this.tabela.totalRecords = parseInt(t.totalRecords, 10);
-    this.tabela.currentPage = parseInt(t.currentPage, 10);
-    this.tabela.pageCount = parseInt(t.pageCount, 10);
-    this.tabela.titulos = t.titulos;
-    this.tabela.camposTexto = t.camposTexto;
-    this.tabela.total = t.total;
-    if (t.celulas !== undefined) {
-      this.tabela.celulas = t.celulas;
-    }
-    if (t.todos === 'true' || t.todos === true) {
-      this.busca.todos = true;
-      this.tabela.todos = true;
-    } else {
-      this.busca.todos = false;
-      this.tabela.todos = false;
-    }
-  }*/
-
-  /*parseSession(js: any) {
-    Object.keys(js).forEach((k) => {
-      switch (k) {
-        case 'first': {
-          this.busca.first = parseInt(js[k], 10);
-          break;
-        }
-        case 'rows': {
-          this.busca.rows = parseInt(js[k], 10);
-          break;
-        }
-        case 'sortOrder': {
-          this.busca.sortOrder = parseInt(js[k], 10);
-          break;
-        }
-        case 'currentPage': {
-          this.tabela.currentPage = parseInt(js[k], 10);
-          break;
-        }
-        case 'pageCount': {
-          this.tabela.pageCount = parseInt(js[k], 10);
-          break;
-        }
-        case 'expandedRowKeys': {
-          this.tabela.expandedRowKeys = js[k];
-          break;
-        }
-        case 'sortField': {
-          if (js[k] !== undefined && js[k] !== '') {
-            this.busca.sortField = js[k];
-            break;
-          }
-        }
-      }
-
-    });
-  }*/
-
   parseBusca(b: SolicBuscaI) {
     sessionStorage.removeItem('solic-busca');
     this.busca.todos = (b.todos !== undefined) ? b.todos : undefined;
@@ -301,28 +236,6 @@ export class SolicService {
     this.tabela.titulos = [];
     this.ts.buscaTitulos(cps);
   }
-
-  /*buscaTitulosRelatorio(cps: string[]): string[] {
-    return this.ts.buscaTitulosRelatorio(cps);
-  }*/
-
-  /*excelCamposTexto(): ColunasI[]  {
-    let cps: ColunasI[] = [];
-    this.tabela.selectedColumns.forEach( c => {
-      if (solicSolicitacaoCamposTexto.indexOf(c.field) === -1) {
-        cps.push(c);
-      }
-    });
-    return cps;
-  }*/
-
-  /*tamanhoLinha(): number {
-    let n: number = 0;
-    this.tabela.selectedColumns.forEach(t => {
-      n += +t.width.replace('px', '');
-    });
-    return n;
-  }*/
 
   imprimirTabela(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
@@ -547,10 +460,10 @@ export class SolicService {
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
   }
 
-  getSolicitacaoDetalhe(id: number) {
+  /*getSolicitacaoDetalhe(id: number) {
     const url = this.url.solic + '/detalhe/' + id;
     return this.http.get<SolicDetalheI>(url);
-  }
+  }*/
 
   incluirSolicitacao(dados: SolicFormI): Observable<any> {
     let url: string;

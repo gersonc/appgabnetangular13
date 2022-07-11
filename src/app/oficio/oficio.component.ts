@@ -1,23 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MenuInternoService } from '../_services';
-import { OficioBuscaService } from './_services';
-import { ArquivoService } from '../arquivo/_services';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import {Subscription} from "rxjs";
+import {MenuInternoService} from "../_services";
+import {ArquivoService} from "../arquivo/_services";
+import {OficioService} from "./_services/oficio.service";
 
 @Component({
   selector: 'app-oficio',
   templateUrl: './oficio.component.html',
   styleUrls: ['./oficio.component.css']
 })
-export class OficioComponent implements OnInit, OnDestroy {
+export class OficioComponent implements OnInit {
   public altura = (window.innerHeight) + 'px';
-  public mostraMenuInterno = false;
   sub: Subscription[] = [];
+  public mostraMenuInterno = false;
 
   constructor(
     public mi: MenuInternoService,
-    private obs: OficioBuscaService,
-    private as: ArquivoService
+    private os: OficioService,
+    private as: ArquivoService,
   ) { }
 
   ngOnInit() {
@@ -27,12 +27,10 @@ export class OficioComponent implements OnInit, OnDestroy {
       })
     );
     this.as.getPermissoes();
-    this.obs.criarOficioBusca();
-    if (!sessionStorage.getItem('oficio-busca')) {
-      this.obs.buscaStateSN = false;
+    if (!sessionStorage.getItem('solic-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
-      if (this.obs.buscaStateSN) {
+      if (this.os.stateSN) {
         this.mi.mudaMenuInterno(false);
       } else {
         this.mi.mudaMenuInterno(true);
@@ -45,6 +43,7 @@ export class OficioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.os.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }
 

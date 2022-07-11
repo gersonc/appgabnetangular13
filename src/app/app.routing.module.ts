@@ -33,21 +33,13 @@ const routes: Routes = [
     }
   },
   /*{
-    path: 'solicitacao',
-    loadChildren: () => import('./solicitacao/solicitacao.module').then(m => m.SolicitacaoModule),
-    canActivate: [AuthGuard],
-    data: {
-      rules: Rule.solicitacao
-    }
-  },*/
-  {
     path: 'solic',
     loadChildren: () => import('./solic/solic.module').then(m => m.SolicModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.solicitacao
     }
-  },
+  },*/
   {
     path: 'oficio',
     loadChildren: () => import('./oficio/oficio.module').then(m => m.OficioModule),
@@ -56,14 +48,6 @@ const routes: Routes = [
       rules: Rule.oficio
     }
   },
-  /*{
-    path: 'processo',
-    loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule),
-    canActivate: [AuthGuard],
-    data: {
-      rules: Rule.processo
-    }
-  },*/
   {
     path: 'proce',
     loadChildren: () => import('./proce/proce.module').then(m => m.ProceModule),

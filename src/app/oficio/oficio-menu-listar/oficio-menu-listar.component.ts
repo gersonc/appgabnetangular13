@@ -1,64 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { SelectItem } from 'primeng/api';
-import { MenuInternoService, AuthenticationService, CarregadorService } from '../../_services';
-import { OficioBuscaService } from '../_services';
-import {OficioBuscaInterface, OficioDropdownMenuListar, OficioDropdownMenuListarInterface} from '../_models';
-import { Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {SolicDropdownMenuListarI} from "../../solic/_models/solic-dropdown-menu-listar-i";
+import {Subscription} from "rxjs";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {VersaoService} from "../../_services/versao.service";
+import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
+import {SolicService} from "../../solic/_services/solic.service";
+import {Router} from "@angular/router";
+import {SolicDropdownMenuService} from "../../solic/_services/solic-dropdown-menu.service";
+import {SolicFormService} from "../../solic/_services/solic-form.service";
+import {SolicBuscaI} from "../../solic/_models/solic-busca-i";
+import {OficioFormService} from "../_services/oficio-form.service";
+import {OficioService} from "../_services/oficio.service";
+import {OficioBuscaI} from "../_models/oficio-busca-i";
+import {OficioDropdownMenuService} from "../_services/oficio-dropdown-menu.service";
+import {OficioDropdownMenuListarInterface} from "../_models/oficio-dropdown-menu-listar";
 
 @Component({
   selector: 'app-oficio-menu-listar',
   templateUrl: './oficio-menu-listar.component.html',
   styleUrls: ['./oficio-menu-listar.component.css']
 })
-export class OficioMenuListarComponent implements OnInit {
-
+export class OficioMenuListarComponent implements OnInit, OnDestroy {
+  public altura = (window.innerHeight) + 'px';
+  public ddOficio: OficioDropdownMenuListarInterface;
+  public ptBr: any;
+  private sub: Subscription[] = [];
   public formMenuOfico: FormGroup;
-  public items: Array<any> = [];
-  // public ddNomeIdArray = new DropdownnomeidClass();
-  /*public ddOficio_processo_id: SelectItem[] = [];
-  public ddOficio_codigo: SelectItem[] = [];
-  public ddOficio_numero: SelectItem[] = [];
-  public ddOficio_convenio: SelectItem[] = [];
-  public ddOficio_protocolo_numero: SelectItem[] = [];
-  public ddOficio_orgao_solicitado_nome: SelectItem[] = [];
-  public ddOficio_orgao_protocolante_nome: SelectItem[] = [];
-  public ddOficio_municipio_id: SelectItem[] = [];
-  public ddOficio_tipo_solicitante_id: SelectItem[] = [];
-  public ddOficio_cadastro_id: SelectItem[] = [];
-  public ddOficio_assunto_id: SelectItem[] = [];
-  public ddOficio_area_interesse_id: SelectItem[] = [];
-  public ddOficio_reponsavel_analize_id: SelectItem[] = [];
-  public ddOficio_local_id: SelectItem[] = [];
-  public ddOficio_status: SelectItem[] = [];
-  public ddOficio_prioridade_id: SelectItem[] = [];
-  public ddOficio_tipo_andamento_id: SelectItem[] = [];
-  public ddOficio_data_emissao1: SelectItem[] = [];
-  public ddOficio_data_emissao2: SelectItem[] = [];
-  public ddOficio_data_empenho1: SelectItem[] = [];
-  public ddOficio_data_empenho2: SelectItem[] = [];
-  public ddOficio_data_protocolo1: SelectItem[] = [];
-  public ddOficio_data_protocolo2: SelectItem[] = [];
-  public ddOficio_data_pagamento1: SelectItem[] = [];
-  public ddOficio_data_pagamento2: SelectItem[] = [];
-  public ddOficio_prazo1: SelectItem[] = [];
-  public ddOficio_prazo2: SelectItem[] = [];*/
-  public ddOficio?: OficioDropdownMenuListarInterface;
 
   constructor(
+    public vs: VersaoService,
     private formBuilder: FormBuilder,
+    private dd: DropdownService,
+    private os: OficioService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,
-    // private activatedRoute: ActivatedRoute,
     private router: Router,
-    // private cs: CarregadorService,
-    public obs: OficioBuscaService
+    private odd: OficioDropdownMenuService,
+    private ofs: OficioFormService
   ) { }
 
   ngOnInit() {
-
     this.formMenuOfico = this.formBuilder.group({
       oficio_processo_id: [null],
       oficio_codigo: [null],
@@ -93,69 +74,45 @@ export class OficioMenuListarComponent implements OnInit {
 
     this.carregaDropDown();
 
-    if (!this.obs.buscaStateSN) {
-      if (sessionStorage.getItem('oficio-listagem')) {
-        sessionStorage.removeItem('oficio-listagem');
-      }
-      this.mi.showMenuInterno();
-    }
+    this.mi.showMenuInterno();
   }
 
   carregaDropDown() {
-    this.ddOficio = JSON.parse(sessionStorage.getItem('oficio-menu-dropdown'));
-    /*this.ddOficio_processo_id = dr.ddOficio_processo_id;
-    this.ddOficio_codigo = dr.ddOficio_codigo;
-    this.ddOficio_numero = dr.ddOficio_numero;
-    this.ddOficio_protocolo_numero = dr.ddOficio_protocolo_numero;
-    this.ddOficio_convenio = dr.ddOficio_convenio;
-    this.ddOficio_orgao_solicitado_nome = dr.ddOficio_orgao_solicitado_nome;
-    this.ddOficio_orgao_protocolante_nome = dr.ddOficio_orgao_protocolante_nome;
-    this.ddOficio_data_emissao1 = dr.ddOficio_data_emissao1;
-    this.ddOficio_data_emissao2 = dr.ddOficio_data_emissao2;
-    this.ddOficio_data_empenho1 = dr.ddOficio_data_empenho1;
-    this.ddOficio_data_empenho2 = dr.ddOficio_data_empenho2;
-    this.ddOficio_data_protocolo1 = dr.ddOficio_data_protocolo1;
-    this.ddOficio_data_protocolo2 = dr.ddOficio_data_protocolo2;
-    this.ddOficio_data_pagamento1 = dr.ddOficio_data_pagamento1;
-    this.ddOficio_data_pagamento2 = dr.ddOficio_data_pagamento2;
-    this.ddOficio_prazo1 = dr.ddOficio_prazo1;
-    this.ddOficio_prazo2 = dr.ddOficio_prazo2;
-    this.ddOficio_municipio_id = dr.ddOficio_municipio_id;
-    this.ddOficio_tipo_solicitante_id = dr.ddOficio_tipo_solicitante_id;
-    this.ddOficio_cadastro_id = dr.ddOficio_cadastro_id;
-    this.ddOficio_area_interesse_id = dr.ddOficio_area_interesse_id;
-    this.ddOficio_prioridade_id = dr.ddOficio_prioridade_id;
-    this.ddOficio_tipo_andamento_id = dr.ddOficio_tipo_andamento_id;
-    this.ddOficio_assunto_id = dr.ddOficio_assunto_id;
-    this.ddOficio_reponsavel_analize_id = dr.ddOficio_reponsavel_analize_id;
-    this.ddOficio_local_id = dr.ddOficio_local_id;
-    this.ddOficio_status = dr.ddOficio_status;
-    dr = null;
-    this.cs.escondeCarregador();*/
+    if (sessionStorage.getItem('oficio-menu-dropdown')) {
+      this.ddOficio = JSON.parse(sessionStorage.getItem('oficio-menu-dropdown'));
+    } else {
+      this.getCarregaDropDown();
+    }
+  }
+
+  getCarregaDropDown() {
+    this.sub.push(this.odd.resp$.subscribe(
+      (dados: boolean ) => {
+      },
+      error => {
+        console.error(error.toString());
+      },
+      () => {
+        this.carregaDropDown();
+      }
+    ));
+    this.odd.gravaDropDown();
   }
 
   onMudaForm() {
-    this.obs.resetOficioBusca();
-    let ofBusca: OficioBuscaInterface;
-    ofBusca = this.formMenuOfico.getRawValue();
-    for (const propName in ofBusca ) {
-      if (ofBusca[propName] == null) {
-        ofBusca[propName] = '';
-      }
-      if ( typeof ofBusca[propName] === 'object' ) {
-        ofBusca[propName] = ofBusca[propName].value;
-      }
-      this.obs.oficioBusca[propName] = ofBusca[propName].toString();
-    }
-    this.obs.buscaMenu();
+    this.os.resetOficioBusca();
+    let ofiBusca: OficioBuscaI;
+    ofiBusca = this.formMenuOfico.getRawValue();
+    this.os.novaBusca(ofiBusca);
+    this.os.buscaMenu();
     this.mi.hideMenu();
-    // this.cs.mostraCarregador();
   }
 
   goIncluir() {
-    if (this.aut.oficio_incluir) {
-      console.log('this.aut.oficio_incluir', this.aut.oficio_incluir);
-      // this.cs.mostraCarregador();
+    if (this.aut.solicitacao_incluir) {
+      this.ofs.acao = 'incluir';
+      // this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
+      this.mi.mudaMenuInterno(false);
       this.router.navigate(['oficio/incluir']);
     } else {
       console.error('SEM PERMISSAO');
@@ -166,4 +123,12 @@ export class OficioMenuListarComponent implements OnInit {
     let a = 0;
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
   }
+
+  fechar() {
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
+  }
+
 }

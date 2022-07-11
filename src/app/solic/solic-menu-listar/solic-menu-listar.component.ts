@@ -18,9 +18,9 @@ import {SolicDropdownMenuListarI} from "../_models/solic-dropdown-menu-listar-i"
 export class SolicMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public ddSolicitacao: SolicDropdownMenuListarI;
-  public formListarSolicitacao: FormGroup;
   public ptBr: any;
   private sub: Subscription[] = [];
+  public formListarSolicitacao: FormGroup;
 
   constructor(
     public vs: VersaoService,

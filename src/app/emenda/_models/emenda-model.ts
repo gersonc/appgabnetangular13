@@ -1,4 +1,3 @@
-import {OficioListagemInterface} from "../../oficio/_models";
 
 export class EmendaArray {
   public static getArrayTitulo() {
