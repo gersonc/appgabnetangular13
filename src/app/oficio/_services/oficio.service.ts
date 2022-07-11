@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Subscription} from "rxjs";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {take} from "rxjs/operators";
 import {TitulosService} from "../../_services/titulos.service";
@@ -12,6 +12,8 @@ import {CelulaService} from "../../_services/celula.service";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {OficioBuscaI} from "../_models/oficio-busca-i";
+import {DdOficioProcessoIdI} from "../_models/dd-oficio-processo-id-i";
+import {OficioFormularioInterface} from "../_models/oficio-formulario";
 
 @Injectable({
   providedIn: 'root'
@@ -188,7 +190,6 @@ export class OficioService {
   setState(ev) {
     this.tabela.expandedRowKeys = ev.expandedRowKeys;
   }
-
 
   parseBusca(b: OficioBuscaI) {
     sessionStorage.removeItem('oficio-busca');
@@ -458,10 +459,16 @@ export class OficioService {
     return this.http.post<OficioPaginacaoI>(url, busca, httpOptions);
   }
 
+  getDdProcessoId(processo_id): Observable<DdOficioProcessoIdI> {
+    const url = this.url.oficio + '/ddprocesso/' + processo_id;
+    return this.http.get<DdOficioProcessoIdI>(url);
+  }
 
-
-
-
+  incluirOficio(dados: OficioFormularioInterface): Observable<any[]> {
+    const url = this.url.oficio + '/incluir';
+    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any[]> (url, dados, httpOptions);
+  }
 
   onDestroy(): void {
     sessionStorage.removeItem('oficio-busca');

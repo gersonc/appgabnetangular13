@@ -19,6 +19,12 @@ import {OficioRoutingModule} from "./oficio-routing.module";
 import {OficioComponent} from "./oficio.component";
 import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
+import {ListboxModule} from "primeng/listbox";
+import {InputNumberModule} from "primeng/inputnumber";
+import {CalendarModule} from "primeng/calendar";
+import {AccordionModule} from "primeng/accordion";
+import {QuillModule} from "ngx-quill";
+import {ArquivoModule} from "../arquivo/arquivo.module";
 
 
 
@@ -45,7 +51,17 @@ import {ScrollPanelModule} from "primeng/scrollpanel";
     UtilModule,
     ContextMenuModule,
     SidebarModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    ListboxModule,
+    InputNumberModule,
+    CalendarModule,
+    AccordionModule,
+    QuillModule,
+    ArquivoModule
+  ],
+  exports: [
+    OficioComponent,
+    OficioIncluirComponent
   ]
 })
 export class OficioModule { }

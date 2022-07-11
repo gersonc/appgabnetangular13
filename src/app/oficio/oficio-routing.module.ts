@@ -5,6 +5,8 @@ import {OficioDatatableComponent} from "./oficio-datatable/oficio-datatable.comp
 import {OficioListarResolver} from "./_resolvers/oficio-listar.resolver";
 import {OficioComponent} from "./oficio.component";
 import {AuthChildGuard} from "../_guards";
+import {OficioIncluirComponent} from "./oficio-incluir/oficio-incluir.component";
+import {OficioIncluirResolver} from "./_resolvers/oficio-incluir.resolver";
 
 const oficioRoutes: Routes = [
   {
@@ -55,9 +57,45 @@ const oficioRoutes: Routes = [
           rules: Rule.oficio,
           scopes: Scope.oficio_listar
         }
-      }
+      },
+      {
+        path: 'incluir',
+        component: OficioIncluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.oficio,
+          scopes: Scope.oficio_incluir
+        },
+        resolve: {
+          dados: OficioIncluirResolver
+        }
+      },
     ]
-  }
+  },
+  {
+    path: 'processo',
+    component: OficioIncluirComponent,
+    canActivate: [AuthChildGuard],
+    data: {
+      rules: Rule.oficio,
+      scopes: Scope.oficio_incluir
+    },
+    resolve: {
+      dados: OficioIncluirResolver
+    }
+  },
+  {
+    path: 'solicitacao',
+    component: OficioIncluirComponent,
+    canActivate: [AuthChildGuard],
+    data: {
+      rules: Rule.oficio,
+      scopes: Scope.oficio_incluir
+    },
+    resolve: {
+      dados: OficioIncluirResolver
+    }
+  },
 ];
 
 

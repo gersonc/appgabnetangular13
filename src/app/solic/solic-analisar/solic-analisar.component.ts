@@ -212,7 +212,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
           if (this.resp[4] > 0) {
             this.ofs.solicitacao_id = +this.resp[1];
             this.ofs.processo_id = +this.resp[4];
-            this.ofs.url = '../solic/listar2';
+            this.ofs.url = '../solic/listar';
             this.router.navigate(['../oficio/solicitacao']);
           } else {
             this.voltarListar();
