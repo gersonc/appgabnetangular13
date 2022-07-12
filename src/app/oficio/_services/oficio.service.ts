@@ -470,6 +470,18 @@ export class OficioService {
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
+  /*getOficioAlterar(oficio_id: number): Observable<OficioInterface> {
+    const url = this.url.oficio + '/alterar/' + oficio_id;
+    this.getalterar$ = this.http.get<OficioInterface>(url);
+    return this.getalterar$;
+  }*/
+
+  alterarOficio(dados: OficioFormularioInterface): Observable<any[]> {
+    const url = this.url.oficio + '/alterar';
+    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any[]> (url, dados, httpOptions);
+  }
+
   onDestroy(): void {
     sessionStorage.removeItem('oficio-busca');
     sessionStorage.removeItem('oficio-tabela');

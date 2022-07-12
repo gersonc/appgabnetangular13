@@ -11,7 +11,7 @@ import {OficioFormulario, OficioFormularioInterface} from "../_models/oficio-for
 export class OficioFormService {
 
   ofiListar: OficioListarI | null = null;
-  oficio: OficioFormularioInterface;
+  oficio: OficioFormularioInterface | null = null;
   solicitacao_id = 0;
   processo_id = 0;
   url = '';
@@ -78,6 +78,7 @@ export class OficioFormService {
     r.oficio_protocolo_numero = o.oficio_protocolo_numero;
     r.oficio_solicitacao_id = o.oficio_solicitacao_id;
     r.oficio_status_id = o.oficio_status_id;
+    r.oficio_status = o.oficio_status_id;
     r.oficio_tipo_andamento_id = o.oficio_tipo_andamento_id;
     r.oficio_tipo_recebimento_id = o.oficio_tipo_recebimento_id;
     r.oficio_valor_recebido = o.oficio_valor_recebido;

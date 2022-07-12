@@ -23,6 +23,7 @@ export interface OficioFormularioInterface {
   oficio_protocolo_numero?: string;
   oficio_solicitacao_id?: number;
   oficio_status_id?: number;
+  oficio_status?: number;
   oficio_tipo_andamento_id?: number;
   oficio_tipo_recebimento_id?: number;
   oficio_valor_recebido?: number;
@@ -55,6 +56,7 @@ export class OficioFormulario implements OficioFormularioInterface {
   oficio_protocolo_numero?: string;
   oficio_solicitacao_id?: number;
   oficio_status_id?: number;
+  oficio_status?: number;
   oficio_tipo_andamento_id?: number;
   oficio_tipo_recebimento_id?: number;
   oficio_valor_recebido?: number;

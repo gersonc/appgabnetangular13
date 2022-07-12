@@ -7,6 +7,8 @@ import {OficioComponent} from "./oficio.component";
 import {AuthChildGuard} from "../_guards";
 import {OficioIncluirComponent} from "./oficio-incluir/oficio-incluir.component";
 import {OficioIncluirResolver} from "./_resolvers/oficio-incluir.resolver";
+import {OficioAlterarComponent} from "./oficio-alterar/oficio-alterar.component";
+import {OficioFormResolver} from "./_resolvers/oficio-form.resolver";
 
 const oficioRoutes: Routes = [
   {
@@ -68,6 +70,18 @@ const oficioRoutes: Routes = [
         },
         resolve: {
           dados: OficioIncluirResolver
+        }
+      },
+      {
+        path: 'alterar',
+        component: OficioAlterarComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.oficio,
+          scopes: Scope.oficio_alterar
+        },
+        resolve: {
+          dados: OficioFormResolver
         }
       },
     ]

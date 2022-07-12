@@ -54,6 +54,7 @@
 
 <ng-container *ngIf="es.showView">
     <p-dialog
+      #vw
       [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
       [(visible)]="es.showView"
       [dismissableMask]="true"
@@ -64,7 +65,7 @@
     >
       <quill-view [content]="es.exporterView.htm" [format]="'html'" theme="snow"></quill-view>
       <p-footer>
-        <button pButton type="button" label="Fechar " icon="pi pi-times" class="campo-extendido p-button-rounded p-button-sm" (click)="escondeTexto()"></button>
+        <button pButton type="button" label="Fechar " icon="pi pi-times" class="campo-extendido p-button-rounded p-button-sm" (click)="es.fechaView()"></button>
       </p-footer>
     </p-dialog>
 </ng-container>

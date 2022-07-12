@@ -25,6 +25,8 @@ import {CalendarModule} from "primeng/calendar";
 import {AccordionModule} from "primeng/accordion";
 import {QuillModule} from "ngx-quill";
 import {ArquivoModule} from "../arquivo/arquivo.module";
+import { OficioAlterarComponent } from './oficio-alterar/oficio-alterar.component';
+import {CardModule} from "primeng/card";
 
 
 
@@ -33,32 +35,34 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
     OficioComponent,
     OficioMenuListarComponent,
     OficioDatatableComponent,
-    OficioIncluirComponent
+    OficioIncluirComponent,
+    OficioAlterarComponent
   ],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    DropdownModule,
-    ReactiveFormsModule,
-    OficioRoutingModule,
-    InputTextModule,
-    TableModule,
-    MenuModule,
-    RippleModule,
-    TooltipModule,
-    ExporterAcessoModule,
-    DialogModule,
-    UtilModule,
-    ContextMenuModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ListboxModule,
-    InputNumberModule,
-    CalendarModule,
-    AccordionModule,
-    QuillModule,
-    ArquivoModule
-  ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        DropdownModule,
+        ReactiveFormsModule,
+        OficioRoutingModule,
+        InputTextModule,
+        TableModule,
+        MenuModule,
+        RippleModule,
+        TooltipModule,
+        ExporterAcessoModule,
+        DialogModule,
+        UtilModule,
+        ContextMenuModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ListboxModule,
+        InputNumberModule,
+        CalendarModule,
+        AccordionModule,
+        QuillModule,
+        ArquivoModule,
+        CardModule
+    ],
   exports: [
     OficioComponent,
     OficioIncluirComponent
