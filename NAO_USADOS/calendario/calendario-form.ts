@@ -6,7 +6,7 @@ import { AuthenticationService, CarregadorService } from '../../_services';
 import { CalendarioService } from '../_services';
 import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
 import { Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, EventoInterface, Opcoes } from '../_models';
-import {Interval, DateTime, Duration} from 'luxon';
+import { DateTime } from 'luxon';
 import { take } from 'rxjs/operators';
 import { isArray } from 'rxjs/internal-compatibility';
 import { Time } from '@angular/common';
@@ -26,31 +26,31 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('calForm', { static: true }) public calForm: NgForm;
   // @ViewChild('content', { static: true }) public content: ElementRef;
 
-  public ptBr: any | null = null;
+  public ptBr: any;
 
   // FORMULARIO
-  id: string | null = null;
-  allDay: boolean | null = null;
-  recorrenciaFim = true;
-  frequencia: Frequency | null = null;
+  id: string = null;
+  allDay: boolean;
+  recorrenciaFim: boolean;
+  frequencia: Frequency = null;
   // SEMANAL
-  semanaDiasLiteral: number[] = [];
+  semanaDiasLiteral: number[] | null;
   // MESSAL 1
-  mesDias: number[] = [];
+  mesDias: number[] | null;
   // MESSAL 2
-  mesPosicao: number | null = null;
-  mesDiasLiteral: number[] = [];
+  mesPosicao: number;
+  mesDiasLiteral: number[] | null;
   // ANUAL 1
-  anoDiaMes: number | null = null;
-  anoMes: number | null = null;
+  anoDiaMes: number;
+  anoMes: number;
   // ANUAL 2
-  anoPosicao: number | null = null;
+  anoPosicao: number;
   anoDiasLiteral: number[] | null;
   anoMeses: number | number[] | null;
   // FINAL
-  fimNumOcorrencias: number | null = null;
-  fimAte: Date | null = null;
-  fim: Date | null = null;
+  fimNumOcorrencias: number;
+  fimAte: DateTime;
+  fim: DateTime;
 
   trocaCor = 0;
 
@@ -62,18 +62,18 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   // FORMULARIO VARIAVEIS
   recorrente = false;
-  vfAno: boolean  | null = null;
-  vfMes: boolean | null = null;
-  rdMensal: string | null = null;
-  rdAnual: string | null = null;
+  vfAno: boolean = null;
+  vfMes: boolean = null;
+  rdMensal: string = null;
+  rdAnual: number = null;
   rdCountUntil = <'count'|'until'> 'count';
-  vfApaga: boolean | null = null;
-  urlUpload: string | null = null;
+  vfApaga: boolean = null;
+  urlUpload: string;
 
   // PARENTE VARIAVEIS
-  acao: string | null = null;
+  acao: string = null;
   contador = 0;
-  resp: any[] = [];
+  resp: any[];
   origem: string = null;
 
   // DROPDOWNS
@@ -97,31 +97,32 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
 
   // FULLCALENDAR
-  start: Date | null = null;
-  end: Date | null = null;
-  title: string | null = null;
-  description: string | null = null;
-  observacao: string | null = null;
-  duration: string | null = null;
-  rrule: string | null = null;
-  exdate: Date[] = [];
-  local_id: SelectItem | null = null;
-  groupId: string | null = null;
+  cpstart: Date | null;
+  start: DateTime;
+  end: DateTime | null;
+  title: string = null;
+  description = null;
+  observacao = null;
+  duration: string = null;
+  rrule = null;
+  exdate: Date[] = null;
+  local_id: SelectItem = null;
+  groupId: string;
 
-  type_id: number | null = null;
-  prioridade_id: number | null = null;
+  type_id: number = null;
+  prioridade_id: number = null;
   calendario_status_id: number = null;
-  usuario_id: number[] = [];
+  usuario_id: number[] = null;
   todos_usuarios_sn = true;
-  textColor: string | null = null;
+  textColor: string = null;
   bgc = '#007ad9';
   backgroundColor = '#007ad9';
-  url: string | null = null;
+  url: string = null;
   evRetorno: EventoInterface[] = [];
 
-  evento: Evento | null = null;
+  evento: Evento;
   num = 0;
-  cal: CalInterface | null = null;
+  cal: CalInterface;
   sub: Subscription[] = [];
   config: any = null;
 
@@ -131,7 +132,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   uploadedFiles: any[] = [];
 
-  icals: string[] = [];
+  icals: string[];
 
   constructor(
     private dd: DropdownService,
@@ -172,7 +173,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     this.allDay = true;
     this.recorrente = false;
     this.frequencia = null;
-    this.exdate = [];
     // SEMANAL
     this.semanaDiasLiteral = null;
     // MESSAL 1
@@ -208,7 +208,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   carregaFormulario() {
     if (this.acao === 'alterar' || this.acao === 'apagar') {
-      this.start = new Date();
+      this.start = new DateTime();
       this.end = null;
       this.recorrente = false;
       this.frequencia = null;
@@ -239,14 +239,14 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         this.groupId = UuidService.getUuid();
       }
-      this.start = new Date(this.evento.start);
+      this.start = DateTime.fromJSDate(this.evento.start);
       if (this.evento.allDay) {
         this.allDay = true;
         this.end = null;
       } else {
         this.allDay = false;
         if (this.evento.end) {
-          this.end = new Date(this.evento.end);
+          this.end = DateTime.fromJSDate(this.evento.end);
         } else {
           this.end = null;
         }
@@ -352,7 +352,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
           if (this.frequencia === Frequency.YEARLY) {
             if (rr2['BYSETPOS']) {
-              this.rdAnual = '2';
+              this.rdAnual = 2;
               this.vfAno = false;
               this.anoPosicao = rr2['BYSETPOS'];
               this.anoDiasLiteral = [];
@@ -361,7 +361,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
               this.anoDiaMes = null;
               this.anoMes = null;
             } else {
-              this.rdAnual = '1';
+              this.rdAnual = 1;
               this.vfAno = true;
               this.anoPosicao = null;
               this.anoDiasLiteral = null;
@@ -380,7 +380,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           } else {
             this.rdCountUntil = 'until';
             this.fimNumOcorrencias = null;
-            this.fimAte = new Date(this.evento.fim);
+            this.fimAte = DateTime.fromJSDate(this.evento.fim);
             this.recorrenciaFim = false;
           }
 
@@ -633,7 +633,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   incluirCalendario() {
     console.log('this.cal incluir', this.cal);
     const dados: any[] = [];
-    // if (this.criarData()) {
+    if (this.criarData()) {
       this.sub.push(this.cl.incluirCalendario(this.cal)
         .pipe(take(1))
         .subscribe({
@@ -661,7 +661,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           }
         })
       );
-    // }
+    }
   }
 
   alterarCalendario() {
@@ -698,7 +698,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   importarCalendario() {
-   // const reader = new TxtReader();
+    // const reader = new TxtReader();
   }
 
   voltarListar() {
@@ -731,20 +731,19 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   mudaAte(ev) {
     if (this.start) {
       // tslint:disable-next-line:max-line-length
-      this.end = DateTime.local(this.start.getFullYear(), (this.start.getMonth() + 1), this.start.getDate(), (this.start.getHours() + 1),  this.start.getMinutes()).toJSDate();
+      // this.end = DateTime.local(this.start.getFullYear(), (this.start.getMonth() + 1), this.start.getDate(), (this.start.getHours() + 1),  this.start.getMinutes()).toJSDate();
+      this.end = this.start;
+      this.end.plus({month: 1, hour: 1});
     }
   }
 
   recorrenteOnChange(ev) {
-
-    if (ev.checked) {
+    if (this.recorrente) {
       if (this.acao === 'incluir') {
-        this.recorrenciaFim = true;
         this.frequencia = Frequency.DAILY;
         this.fimAte = null;
-        this.semanaDiasLiteral = [];
-        // this.semanaDiasLiteral.push(this.start.getDay());
-        this.mesDias = [];
+        this.semanaDiasLiteral = null;
+        this.mesDias = null;
         this.mesPosicao = null;
         this.anoDiaMes = null;
         this.anoMes = null;
@@ -752,30 +751,13 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         this.anoDiasLiteral = null;
         this.anoMeses = null;
         this.rdCountUntil = 'count';
-        this.fimNumOcorrencias = 1;
-        this.recorrente = ev.checked;
-        /*setTimeout(() => {
+        setTimeout(() => {
           this.recorrenciaFim = true;
-
-        }, 200);*/
+          this.fimNumOcorrencias = 1;
+        }, 200);
       }
-    } else {
-      this.recorrente = ev.checked;
-      this.recorrenciaFim = true;
-      this.frequencia = null;
-      this.fimAte = null;
-      this.semanaDiasLiteral = [];
-      this.mesDias = null;
-      this.mesPosicao = null;
-      this.anoDiaMes = null;
-      this.anoMes = null;
-      this.anoPosicao = null;
-      this.anoDiasLiteral = null;
-      this.anoMeses = null;
-      this.rdCountUntil = 'count';
-      this.fimNumOcorrencias = null;
     }
- }
+  }
 
   todosUsuariosOnChange(ev) {
     console.log('ckbox', ev, this.todos_usuarios_sn);
@@ -797,11 +779,14 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   vfAllDay(ev) {
     if (!ev.checked) {
+      this.allDay = false;
       if (!this.end && this.start) {
+        // this.end = this.start;
         this.end = this.start;
-        this.end = new Date(this.start.getTime());
-        this.end.setHours(this.start.getHours() + 1);
+        this.end.plus({hour: 1});
       }
+    } else {
+      this.allDay = true;
     }
   }
 
@@ -830,24 +815,22 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     // SEMANAL
     if (this.frequencia === 2) {
       this.semanaDiasLiteral = [];
-      this.semanaDiasLiteral.push(this.ddday[this.start.getDay()].value);
+      this.semanaDiasLiteral.push(this.ddday[this.start.weekday].value);
     }
     // MENSAL
     if (this.frequencia === 1) {
       this.rdMensal = 'mesDia';
-      this.mesPosicao = null;
-      this.mesDiasLiteral = null;
       this.vfMes = true;
       this.mesDias = [];
-      console.log('frequencia mensal', this.start.getDate());
-      this.mesDias.push(this.start.getDate());
+
+      this.mesDias.push(this.start.day);
     }
     // ANUAL
     if (this.frequencia === 0) {
-      this.rdAnual = '1';
+      this.rdAnual = 1;
       this.vfAno = true;
-      this.anoDiaMes = this.start.getDate();
-      this.anoMes = this.start.getMonth() + 1;
+      this.anoDiaMes = this.start.day;
+      this.anoMes = this.start.month + 1;
       this.anoPosicao = null;
       this.anoDiasLiteral = null;
       this.anoMeses = null;
@@ -869,18 +852,15 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   rdMensalClick(ev) {
     if (this.rdMensal === 'mesDia') {
       this.mesDias = [];
-      this.mesDias.push(this.start.getDate());
+      this.mesDias.push(this.start.day);
       this.vfMes = true;
       this.mesPosicao = null;
       this.mesDiasLiteral = null;
     } else {
-      this.mesDias = [];
+      this.mesDias = null;
       this.mesPosicao = 1;
-      if (this.recorrenciaFim) {
-        this.fimNumOcorrencias = 1;
-      }
       this.mesDiasLiteral = null;
-      this.mesDiasLiteral = this.ddias[+this.start.getDay()].value;
+      this.mesDiasLiteral = this.ddias[+this.start.day].value;
       this.vfMes = false;
     }
   }
@@ -888,8 +868,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   rdAnualClick(ev) {
     switch (+this.rdAnual) {
       case 1: {
-        this.anoDiaMes = this.start.getDate();
-        this.anoMes = this.start.getMonth() + 1;
+        this.anoDiaMes = this.start.day;
+        this.anoMes = this.start.month + 1;
         this.anoPosicao = null;
         this.anoDiasLiteral = null;
         this.anoMeses = null;
@@ -900,10 +880,9 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         this.anoDiaMes = null;
         this.anoMes = null;
         this.anoPosicao = 1;
-        this.anoDiasLiteral = this.ddias[this.start.getDay()].value;
-        this.anoMeses = this.start.getMonth() + 1
-        // this.anoMeses = [];
-        // this.anoMeses.push(this.start.getMonth() + 1);
+        this.anoDiasLiteral = this.ddias[this.start.day].value;
+        this.anoMeses = [];
+        this.anoMeses.push(this.start.month + 1);
         this.vfAno = false;
         break;
       }
@@ -923,9 +902,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.fimAte = this.start;
     } else {
       this.fimAte = this.end;
-    }
-    if (this.allDay) {
-      this.fimAte.setHours(0, 0, 0);
     }
     this.rdCountUntil = 'until';
     this.recorrenciaFim = false;
@@ -977,15 +953,19 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   // CALCULOS
 
   calculaDuracao(): string {
-    const dt1: DateTime = DateTime.fromJSDate(this.start);
-    const dt2: DateTime = DateTime.fromJSDate(this.end);
-    const d: Duration = Interval.fromDateTimes(dt1, dt2).toDuration(['days', 'hours', 'minutes']);
+    const dt1: DateTime = this.start;
+    const dt2: DateTime = this.end;
+    const re = +dt2.diff(dt1, ['hours', 'minutes']).toFormat('hh');
+    /*if (re > 24) {
+      return  null;
+    }*/
+    return dt2.diff(dt1, ['hours', 'minutes']).toFormat('hh:mm');
+  }
 
-    if (d.days >= 1) {
-      return d.toJSON();
-    } else {
-      return d.toFormat('hh:mm');
-    }
+  calculaDuracao2(): any {
+    const dt1: DateTime = this.start;
+    const dt2: DateTime = this.end;
+    return dt2.diff(dt1, ['days','hours', 'minutes']).toObject();
   }
 
   dataToSql(dt: Date): string {
@@ -1009,156 +989,105 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   // DADOS
 
   criarData(): boolean {
-    let semErro = true;
-    let campo = '';
-    let msg = '';
     if (this.allDay) {
-      this.start.setHours(0, 0, 0);
-      this.end = new Date(this.start.getTime());
-      this.end.setHours(this.end.getHours() + 1);
-      // this.fim = this.end;
+      this.start.set({hour: 0, minute: 0, second: 0});
+      this.end = this.start;
+      this.end.plus({ hours: 1});
+      this.fim = this.end;
+    } else {
+      this.fim = this.end;
     }
     if (!this.recorrente) {
       this.fim = this.end;
     } else {
       let op = new Opcoes();
       op.freq = this.frequencia;
-      op.dtstart = new Date(this.getUtc(this.start));
+      op.dtstart = this.start.toJSDate();
       // SEMANAL
       if (this.frequencia === 2) {
-        if (this.semanaDiasLiteral.length === 0) {
-          semErro = false;
-          campo = 'semanaDiasLiteral';
-          msg = 'Ao menos um dia da semana precisa ser selecionado.';
-        } else {
-          const wddd: Weekday[] = [];
-          this.semanaDiasLiteral.forEach( e => {
-            const w = new Weekday(e);
-            wddd.push(w);
-          });
-          op.byweekday = wddd;
-        }
-
+        const wddd: Weekday[] = [];
+        this.semanaDiasLiteral.forEach( e => {
+          const w = new Weekday(e);
+          wddd.push(w);
+        });
+        op.byweekday = wddd;
       }
       // MENSAL
-      if (semErro && this.frequencia === 1) {
-        // if (this.mesDias && this.vfMes) {
-        if (this.rdMensal === 'mesDia') {
-          if (this.mesDias.length === 0) {
-            semErro = false;
-            campo = 'dia';
-            msg = 'Ao menos um dia do mês precisa ser selecionado.';
-          } else {
-            op.bymonthday = this.mesDias;
-          }
+      if (this.frequencia === 1) {
+        if (this.mesDias && this.vfMes) {
+          op.bymonthday = this.mesDias;
         }
-        // if (this.mesDiasLiteral && !this.vfMes) {
-        if (this.rdMensal === 'mesPosicao') {
-          if (this.mesDias.length === 0) {
-            semErro = false;
-            campo = 'dia';
-            msg = 'Ao menos um dia da semana precisa ser selecionado.';
-          } else {
-            const wdd: Weekday[] = [];
-            this.mesDiasLiteral.forEach( e => {
-              // const w = new Weekday(e);
-              const w = new Weekday(e);
-              wdd.push(w);
-            });
-            op.bysetpos = this.mesPosicao;
-            op.byweekday = wdd;
-          }
+        if (this.mesDiasLiteral && !this.vfMes) {
 
+          const wdd: Weekday[] = [];
+          this.mesDiasLiteral.forEach( e => {
+            // const w = new Weekday(e);
+            const w = new Weekday(e);
+            wdd.push(w);
+          });
+          op.bysetpos = this.mesPosicao;
+          op.byweekday = wdd;
         }
       }
       // ANUAL
-      if (semErro && this.frequencia === 0) {
-        if (this.vfAno !== null) {
-          if (this.vfAno) {
-            if (this.anoDiaMes !== null) {
-              op.bymonthday = this.anoDiaMes;
-            }
-            if (this.anoMes !== null) {
-              op.bymonth = this.anoMes;
-            }
-          } else {
-            if (this.anoMeses !== null) {
-              op.bymonth = this.anoMeses;
-            }
-            const wd: Weekday[] = [];
-            this.anoDiasLiteral.forEach(e => {
-              const w = new Weekday(e);
-              wd.push(w);
-            });
-            op.bysetpos = this.anoPosicao;
-            op.byweekday = wd;
+      if (this.frequencia === 0) {
+        if (this.vfAno) {
+          if (this.anoDiaMes) {
+            op.bymonthday = this.anoDiaMes;
           }
+          if (this.anoMes) {
+            op.bymonth = this.anoMes;
+          }
+        } else {
+          if (this.anoMeses) {
+            op.bymonth = this.anoMeses;
+          }
+          const wd: Weekday[] = [];
+          this.anoDiasLiteral.forEach( e => {
+            const w = new Weekday(e);
+            wd.push(w);
+          });
+          op.bysetpos = this.anoPosicao;
+          op.byweekday = wd;
         }
       }
       // FIM
-      if (semErro) {
-        if (this.recorrenciaFim == true) {
-          if (this.fimNumOcorrencias > 730) {
-            this.fimNumOcorrencias = 730;
-          }
-          op.count = this.fimNumOcorrencias;
-          delete op.until;
-        } else {
-          op.until = new Date(this.getUtc(this.fimAte));
-          delete op.count;
-          // this.fim = op.until;
-        }
-        let rr = new RRule(op);
-        let tmp = rr.all();
-        let rct = tmp.length;
-        if (rct > 0) {
-          console.log('rct', rct);
-          if (rct > 730) {
-            delete op.until;
-            op.count = 730;
-            rr = new RRule(op);
-            tmp = rr.all();
-          }
-
-          if (this.exdate.length > 0) {
-            const rrr = new RRuleSet();
-            rrr.rrule(rr);
-            this.exdate.forEach((e: Date) => {
-              rrr.exdate(e);
-            });
-            this.rrule = rrr.toString();
-          } else {
-            this.rrule = rr.toString();
-          }
-          this.fim = tmp.pop();
-          tmp = null;
-
-          return true;
-
-        } else {
-          // this.fim = this.end;
-
-          this.messageService.add({
-            key: 'calFormToast',
-            severity: 'warn',
-            summary: 'ERRO !!!',
-            detail: 'Essa combinação não retorna nenhuma data válida.'
-          });
-          op = null;
-          rr = null;
-          return false;
-        }
+      if (this.recorrenciaFim) {
+        op.count = this.fimNumOcorrencias;
       } else {
+        op.until = this.fimAte.toJSDate()
+      }
+      let rr = new RRule(op);
+      let tmp = rr.all();
+      if (tmp.length > 0) {
+
+        if (this.exdate) {
+          const rrr = new RRuleSet();
+          rrr.rrule(rr);
+          this.exdate.forEach( (e: Date) => {
+            rrr.exdate(e);
+          });
+          this.rrule = rrr.toString();
+        } else {
+          this.rrule = rr.toString();
+        }
+        const t: Date = tmp.pop();
+        // this.fim.fromJSDate(t);
+        this.fim = DateTime.fromJSDate(tmp.pop());
+        tmp = null;
+      } else {
+        this.fim = this.end;
+
         this.messageService.add({
           key: 'calFormToast',
           severity: 'warn',
           summary: 'ERRO !!!',
-          detail: msg
+          detail: 'Essa combinação não retorna nenhuma data válida.'
         });
         op = null;
-        return false
+        rr = null;
+        return false;
       }
-
     }
     return true;
   }
@@ -1172,9 +1101,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.mostraForm = false;
       let ct: any;
       this.formErro = [];
-      const dt = DateTime.fromJSDate(this.start);
-      if (!dt.isValid) {
-        ct = {campo: 'start', msg: 'Data/Hora inválida.1'};
+      if (!this.start.isValid) {
+        ct = {campo: 'start', msg: 'Data/Hora inválida.'};
         this.formErro.push(ct);
       }
       if (this.title === null || this.title.length < 1) {
@@ -1183,7 +1111,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       }
       if (!this.allDay) {
         if (this.start >= this.end) {
-          ct = {campo: 'end', msg: 'Data/Hora até inválida.2'};
+          ct = {campo: 'end', msg: 'Data/Hora até inválida.'};
           this.formErro.push(ct);
         }
       }
@@ -1214,7 +1142,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
         if (this.frequencia === 0) {
-          if (this.rdAnual === '2') {
+          if (this.rdAnual === 2) {
             if (!this.anoMeses || typeof this.anoMeses !== 'number' && this.anoMeses.length === 0) {
               this.formErro.push('anoMeses');
               this.formErro.push(ct);
@@ -1225,8 +1153,10 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         if (!this.allDay) {
           this.fim = this.end;
         } else {
-          this.end = new Date(this.start.getTime());
-          this.end.setHours(this.end.getHours() + 1);
+          // this.end = new DateTime(this.start.getTime());
+          this.end = this.start;
+          this.end.plus({hour: 1});
+          // this.end.setHours(this.end.getHours() + 1);
           this.fim = this.end;
         }
       }
@@ -1244,35 +1174,20 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         this.botaoEnviarVF = false;
         this.mostraForm = true;
       } else {
+
         if (this.allDay) {
           this.duration = '01:00';
         } else {
           this.duration = this.calculaDuracao();
         }
 
-        if (!this.criarData()) {
-          this.formErro.forEach(e => {
-            this.messageService.add({
-              key: 'calFormToast',
-              severity: 'warn',
-              summary: 'ERRO !!!',
-              detail: e.msg
-            });
-          });
-          this.botaoEnviarVF = false;
-          this.mostraForm = true;
-        } else {
-          this.criaEnvio();
-        }
-
-
-        /*if (this.recorrente) {
+        if (this.recorrente) {
           if (this.criarData()) {
-
+            this.criaEnvio();
           }
         } else {
           this.criaEnvio();
-        }*/
+        }
       }
     }
   }
@@ -1286,7 +1201,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       delete this.cal.id;
     }
 
-    if (this.groupId !== null) {
+    if (this.groupId) {
       this.cal.groupId = this.groupId;
     } else {
       this.cal.groupId = UuidService.getUuid();
@@ -1294,35 +1209,34 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
     const calData = new CalData();
     calData.allDay = this.allDay;
-    if (this.duration !== null) {
-      calData.duration = this.duration;
+    calData.duration = this.duration;
+    /*if (this.duration) {
+
     } else {
       delete calData.duration;
-    }
+    }*/
 
-    if (this.end !== null) {
-      const end = DateTime.fromJSDate(this.end);
-      calData.end = end.toFormat('yyyy-MM-dd HH:mm:ss');
+    if (this.end) {
+      calData.end = this.end.toFormat('yyyy-MM-dd HH:mm:ss');
     } else {
       delete calData.end;
     }
-    if (this.fim !== null) {
-      const fim = DateTime.fromJSDate(this.fim);
-      calData.fim = fim.toFormat('yyyy-MM-dd HH:mm:ss');
+    if (this.fim) {
+      calData.fim = this.fim.toFormat('yyyy-MM-dd hh:mm:ss');
+    } else {
+      calData.fim = calData.end;
     }
-
     calData.recorrente = this.recorrente;
-    if (this.rrule !== null) {
+    if (this.rrule) {
       calData.rrule = this.rrule;
     } else {
       delete calData.rrule;
     }
-    const start = DateTime.fromJSDate(this.start);
-    calData.start = start.toFormat('yyyy-MM-dd HH:mm:ss');
+    calData.start = this.start.toFormat('yyyy-MM-dd hh:mm:ss');
 
 
     const calExtrutura = new CalExtrutura();
-    if (this.backgroundColor !== null) {
+    if (this.backgroundColor) {
       if (this.backgroundColor !== this.bgc) {
         calExtrutura.backgroundColor = this.backgroundColor;
       } else {
@@ -1331,29 +1245,29 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       delete calExtrutura.backgroundColor;
     }
-    if (this.textColor !== null) {
+    if (this.textColor) {
       calExtrutura.textColor = this.textColor;
     } else {
       delete calExtrutura.textColor;
     }
-    if (this.url !== null) {
+    if (this.url) {
       calExtrutura.url = this.url;
     } else {
       delete calExtrutura.url;
     }
 
     const calDados = new CalDados();
-    if (this.description !== null) {
+    if (this.description) {
       calDados.description = this.description;
     } else {
       delete calDados.description;
     }
-    if (this.observacao !== null) {
+    if (this.observacao) {
       calDados.observacao = this.observacao;
     } else {
       delete calDados.observacao;
     }
-    if (this.local_id !== null) {
+    if (this.local_id) {
       calDados.local_id = this.local_id;
       delete calDados.local_nome;
     } else {
@@ -1363,26 +1277,26 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
     calDados.todos_usuarios_sn = this.todos_usuarios_sn ? 1 : 0;
     if (!this.todos_usuarios_sn) {
-      if (this.usuario_id.length > 0) {
+      if (this.usuario_id) {
         calDados.usuario_id = this.usuario_id;
       } else {
-          delete calDados.usuario_id;
+        delete calDados.usuario_id;
         calDados.todos_usuarios_sn = 1;
       }
     } else {
       delete calDados.usuario_id;
     }
-    if (this.type_id !== null) {
+    if (this.type_id) {
       calDados.type_id = this.type_id;
     } else {
       delete calDados.type_id;
     }
-    if (this.prioridade_id !== null) {
+    if (this.prioridade_id) {
       calDados.prioridade_id = this.prioridade_id;
     } else {
       delete calDados.prioridade_id;
     }
-    if (this.calendario_status_id !== null) {
+    if (this.calendario_status_id) {
       calDados.calendario_status_id = this.calendario_status_id;
     } else {
       delete calDados.calendario_status_id;
@@ -1399,8 +1313,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.incluirCalendario();
     }
-
-    console.log ('this.cal', this.cal);
   }
 
   getWeekDay(d: string): number {
@@ -1445,10 +1357,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   chkChange(ev) {
     console.log('chkChange', ev);
     console.log('chkChange', this.mesDias);
-    if (this.recorrenciaFim) {
-      this.fimNumOcorrencias = this.mesDias.length;
-    }
-
+    this.fimNumOcorrencias = this.mesDias.length;
   }
 
   onRecorrenciaFim(ev) {
@@ -1460,6 +1369,11 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.calForm.form.get('dia').setValue(this.mesDias);
     }
     console.log('onRecorrenciaFim', this.mesDias);
+  }
+
+  onSelectStart(ev) {
+    console.log(ev);
+    this.start = DateTime.fromJSDate(ev);
   }
 
   /*carregaUsuario_id(): number[] {

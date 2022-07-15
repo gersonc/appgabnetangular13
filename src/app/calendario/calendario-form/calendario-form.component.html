@@ -181,7 +181,8 @@
           <div *ngIf="recorrente" class="p-col-6"> </div>
           <!-- SEMANAL ********************************************************************** -->
           <!-- weekdaySelect -->
-          <div *ngIf="semanaDiasLiteral" class="p-field p-col-12 p-flex-wrap" [ngClass]="aplicaCssErro('semanaDiasLiteral')">
+          <ng-container *ngIf="recorrente && frequencia === 2">
+          <div *ngIf="semanaDiasLiteral.length > 0" class="p-field p-col-12 p-flex-wrap" [ngClass]="aplicaCssErro('semanaDiasLiteral')">
             <label><span style="color: var(--atencao-color)">*</span> Dias da semana para ocorrência(s)</label>
             <p-selectButton
               id="semanaDiasLiteral"
@@ -195,9 +196,10 @@
             <app-campo-control-erro msgErro="Dias da semana é obrigatório.">
             </app-campo-control-erro>
           </div>
+          </ng-container>
           <!-- MENSAL *********************************************************************** -->
           <!-- monthdaySelect -->
-          <ng-container *ngIf="frequencia==1">
+          <ng-container *ngIf="recorrente && frequencia === 1">
             <div class="p-field p-col-6">
               <h5><span class="atencao">*</span> Dia(s) do mês para ocorrência(s)</h5>
                 <p-radioButton
@@ -218,7 +220,7 @@
                     name="rmesPosicao"
                   ></p-radioButton>
             </div>
-            <ng-container *ngIf="mesDias">
+            <ng-container *ngIf="recorrente && rdMensal === 'mesDia'">
               <div class="p-field p-col-12 p-flex-wrap p-formgroup-inline">
                 <div *ngFor="let di of ddmonthday" class="p-field-checkbox">
                   <p-checkbox name="dia" [value]="di.value" [(ngModel)]="mesDias" [inputId]="'dia'+di.label" (onChange)="chkChange($event)"></p-checkbox>
@@ -229,7 +231,8 @@
               </div>
             </ng-container>
             <!-- monthdaySelect -->
-            <div *ngIf="!vfMes" class="p-field p-col-6">
+            <ng-container *ngIf="recorrente && rdMensal === 'mesPosicao'">
+            <div class="p-field p-col-6">
               <p-dropdown
                 [(ngModel)]="mesPosicao"
                 name="mesPosicao"
@@ -238,7 +241,7 @@
                 appendTo="body"
               ></p-dropdown>
             </div>
-            <div *ngIf="!vfMes" class="p-field p-col-6">
+            <div class="p-field p-col-6">
               <p-dropdown
                 [(ngModel)]="mesDiasLiteral"
                 name="mesDiasLiteral"
@@ -247,9 +250,10 @@
                 appendTo="body"
               ></p-dropdown>
             </div>
+            </ng-container>
           </ng-container>
           <!-- ANUAL *********************************************************************** -->
-          <ng-container *ngIf="frequencia==0">
+          <ng-container *ngIf="recorrente && frequencia === 0">
             <div class="p-field p-col-12">
               <div class="p-formgroup-inline">
                 <div class="p-field-radiobutton">
@@ -275,6 +279,7 @@
               </div>
             </div>
             <!-- yearly-options -->
+            <ng-container *ngIf="rdAnual === '1'">
             <div *ngIf="vfAno" class="p-field p-col-6">
               <p-inputNumber
                 name="anoDiaMes"
@@ -300,7 +305,9 @@
                 appendTo="body"
               ></p-dropdown>
             </div>
+            </ng-container>
             <!-- yearly-options -->
+            <ng-container *ngIf="rdAnual === '2'">
             <div *ngIf="!vfAno" class="p-field p-col-6">
               <p-dropdown
                 [(ngModel)]="anoPosicao"
@@ -336,6 +343,7 @@
               ></p-selectButton>
             </div>
           </ng-container>
+          </ng-container>
           <!-- RECORRENTE ******************************************************************* -->
           <ng-container *ngIf="recorrente">
             <div class="p-field p-col-6">
@@ -361,8 +369,9 @@
             </div>
 
             <!-- opcoes.until -->
-            <div *ngIf="!recorrenciaFim" class="p-field p-col-6">&nbsp;</div>
-            <div *ngIf="!recorrenciaFim" class="p-field p-col-6">
+            <ng-container *ngIf="recorrente && !recorrenciaFim">
+            <div class="p-field p-col-6">&nbsp;</div>
+            <div class="p-field p-col-6">
               <p-calendar
                 [monthNavigator]="true"
                 [yearNavigator]="true"
@@ -379,21 +388,25 @@
                 appendTo="body"
               ></p-calendar>
             </div>
+            </ng-container>
 
             <!-- opcoes.count -->
-            <div *ngIf="recorrenciaFim" class="p-field p-col-6" [ngClass]="aplicaCssErro('fimNumOcorrencias')">
-              <p-inputNumber name="fimNumOcorrencias" [(ngModel)]="fimNumOcorrencias" mode="decimal" [showButtons]="true"  [min]="1" [max]="800" [size]="4" [maxlength]="3" [format]="false" buttonLayout="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (onInput)="onRecorrenciaFim($event)"></p-inputNumber>
+            <ng-container *ngIf="recorrente && recorrenciaFim">
+            <div class="p-field p-col-6" [ngClass]="aplicaCssErro('fimNumOcorrencias')">
+              <p-inputNumber name="fimNumOcorrencias" [(ngModel)]="fimNumOcorrencias" mode="decimal" [showButtons]="true"  [min]="1" [max]="730" [size]="4" [maxlength]="3" [format]="false" buttonLayout="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (onInput)="onRecorrenciaFim($event)"></p-inputNumber>
               <app-campo-control-erro msgErro="Número de ocorrências é obrigatório.">
               </app-campo-control-erro>
             </div>
-            <div *ngIf="recorrenciaFim" class="p-field p-col-6"></div>
+            <div class="p-field p-col-6"></div>
+            </ng-container>
 
             <!-- exdate ******************************************************************* -->
-            <div *ngIf="exdate" class="p-field p-col-12">
+            <div *ngIf="recorrente && exdate" class="p-field p-col-12">
               <!-- frequency -->
               <label for="exdate">Data(s) excluidas</label>
               <p-chips id="exdate" [(ngModel)]="exdate" name="exdate"></p-chips>
             </div>
+
           </ng-container>
           <!-- *** ddlocal *** -->
           <div *ngIf="ddlocal.length > 1" class="p-field p-col-6">

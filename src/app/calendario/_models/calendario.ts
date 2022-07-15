@@ -1,4 +1,5 @@
-import { Frequency, Options, Weekday } from 'rrule';
+import {Frequency, Options} from 'rrule';
+import {EventoInterface} from "./eventoInterface";
 
 export interface EventoSQLInterface {
   sql: string;
@@ -16,46 +17,6 @@ export interface EventoBuscaCampoInterface {
 export interface EventoUsarioId {
   label: string;
   value: number;
-}
-
-export interface EventoInterface {
-  id?: string;
-  groupId?: string;
-  allDay?: boolean;
-  duration?: string;
-  duracao?: string;
-  tempo?: string;
-  end?: string;
-  endHora?: string;
-  fim?: string;
-  fimHora?: string;
-  recorrente?: boolean;
-  rrule?: string;
-  exdate?: string | string[];
-  start?: Date;
-  inicio?: string;
-  backgroundColor?: string;
-  classNames?: string;
-  color?: string;
-  textColor?: string;
-  url?: string;
-  description?: string;
-  local_id?: number;
-  local_nome?: string;
-  title?: string;
-  observacao?: string;
-  prioridade_id?: number;
-  prioridade_nome?: string;
-  prioridade_color?: string;
-  calendario_status_id?: number;
-  calendario_status_nome?: string;
-  calendario_status_color?: string;
-  type_id?: number;
-  type_name?: string;
-  type_color?: string;
-  // usuario_id?: string | EventoUsarioId[] | number[];
-  usuario_id?: string | number[];
-  todos_usuarios_sn?: number;
 }
 
 export class Evento implements EventoInterface {

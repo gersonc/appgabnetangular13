@@ -20,6 +20,7 @@ import {WindowsService} from '../_layout/_service';
 import {ResizedEvent} from 'angular-resize-event';
 import {DateTime} from 'luxon';
 import autoTable from 'jspdf-autotable';
+import {ParceEventos} from "./_services/parce-eventos";
 
 declare var jsPDF: any;
 
@@ -244,7 +245,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
               this.sub.push(this.cl.calendarioListar(info.startStr, info.endStr)
                 .pipe(take(1))
                 .subscribe((data) => {
-                    this.eventos = data;
+                    this.eventos = ParceEventos(data);
+                    console.log('calendar', this.eventos);
                     successCallback(this.eventos);
                   },
                   error1 => {
