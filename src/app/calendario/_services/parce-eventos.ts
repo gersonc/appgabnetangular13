@@ -1,5 +1,6 @@
 import {RRule, rrulestr } from 'rrule'
-import {EventoInterface} from "../_models";
+import {EventoInterface} from "../_models/evento-interface";
+
 
 export function ParceEventos(eventos: EventoInterface[]): EventoInterface[] {
   return eventos.map( ev => {

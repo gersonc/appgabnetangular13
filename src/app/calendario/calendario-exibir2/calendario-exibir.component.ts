@@ -2,14 +2,15 @@ import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/co
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { CalendarioService } from '../_services';
-import { Evento, EventoInterface } from '../_models';
+import {EventoInterface} from "../_models/evento-interface";
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 
 import * as jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {CalendarioService} from "../_services/calendario.service";
+
 
 declare interface ColumnsInterface {
   header: string;
@@ -60,7 +61,6 @@ export class CalendarioExibirComponent2 implements OnInit, OnDestroy {
     public config: DynamicDialogConfig,
     private messageService: MessageService,
     public authenticationService: AuthenticationService,
-    private cs: CarregadorService,
     public cl: CalendarioService
 
 ) { }

@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { UrlService } from '../../_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import {Cal, CalBusca, CalendarioForm, CalendarioFormularioInterface, CalInterface, EventoInterface} from '../_models';
 import { isArray } from 'rxjs/internal-compatibility';
 import { saveAs } from 'file-saver';
 import { take } from 'rxjs/operators';
 import {SelectItem} from 'primeng/api';
+import {EventoInterface} from "../_models/evento-interface";
+import {Cal, CalBusca, CalendarioForm, CalendarioFormularioInterface, CalInterface} from "../_models/calendario";
 
 @Injectable({
   providedIn: 'root'

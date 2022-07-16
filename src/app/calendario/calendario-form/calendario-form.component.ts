@@ -3,14 +3,16 @@ import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DropdownService, UrlService, UuidService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { CalendarioService } from '../_services';
 import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
-import { Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, EventoInterface, Opcoes } from '../_models';
 import {Interval, DateTime, Duration} from 'luxon';
 import { take } from 'rxjs/operators';
 import { isArray } from 'rxjs/internal-compatibility';
 import { Time } from '@angular/common';
 import { Subscription } from 'rxjs';
+import {EventoInterface} from "../_models/evento-interface";
+import {CpoEditor} from "../../_models/in-out-campo-texto";
+import {CalendarioService} from "../_services/calendario.service";
+import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
 
 
 @Component({
@@ -101,6 +103,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   end: Date | null = null;
   title: string | null = null;
   description: string | null = null;
+  description_delta: string | null = null;
+  description_texto: string | null = null;
   observacao: string | null = null;
   duration: string | null = null;
   rrule: string | null = null;
@@ -125,7 +129,24 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   sub: Subscription[] = [];
   config: any = null;
 
-
+  cpoEditor: CpoEditor[] | null = [];
+  format0: 'html' | 'object' | 'text' | 'json' = 'html';
+  modulos = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+      [{'header': 1}, {'header': 2}],               // custom button values
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+      [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+      [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+      [{'header': [1, 2, 3, 4, 5, 6, false]}],
+      [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+      [{'font': []}],
+      [{'align': []}],
+      ['clean']                        // link and image, video
+    ]
+  };
 
   importarSN = true;
 
@@ -137,7 +158,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     private dd: DropdownService,
     public authenticationService: AuthenticationService,
     private messageService: MessageService,
-    private cs: CarregadorService,
     public cl: CalendarioService,
     private urlService: UrlService
   ) {
@@ -447,8 +467,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
       this.usuario_id = this.evento.usuario_id; // ? this.carregaUsuario_id() : null;
 
-
-      this.cs.escondeCarregador();
     }
 
   }
@@ -641,7 +659,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
             this.resp = value;
           },
           error: err => {
-            this.cs.escondeCarregador();
             this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
@@ -674,7 +691,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
             this.resp = value;
           },
           error: err => {
-            this.cs.escondeCarregador();
             this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
@@ -1348,6 +1364,15 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       delete calDados.description;
     }
+
+    if (this.cpoEditor['description'] !== undefined && this.cpoEditor['description'] !== null) {
+      // if (this.cpoEditor['description'].html !== this.sfs.solicitacao.solicitacao_descricao) {
+      calDados.description = this.cpoEditor['description'].html;
+      calDados.description_delta = JSON.stringify(this.cpoEditor['description'].delta);
+      calDados.description_texto = this.cpoEditor['description'].text;
+      // }
+    }
+
     if (this.observacao !== null) {
       calDados.observacao = this.observacao;
     } else {
@@ -1460,6 +1485,14 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.calForm.form.get('dia').setValue(this.mesDias);
     }
     console.log('onRecorrenciaFim', this.mesDias);
+  }
+
+  onContentChanged(ev, campo: string) {
+    this.cpoEditor[campo] = {
+      html: ev.html,
+      delta: ev.content,
+      text: ev.text
+    }
   }
 
   /*carregaUsuario_id(): number[] {

@@ -2,10 +2,10 @@ import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Si
 // import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { CalendarioService } from '../_services';
-import { EventoInterface } from '../_models';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import {EventoInterface} from "../_models/evento-interface";
+import {CalendarioService} from "../_services/calendario.service";
 
 @Component({
   selector: 'app-calendario-excluir',

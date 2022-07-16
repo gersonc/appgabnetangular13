@@ -87,7 +87,7 @@
           <tr *ngIf="ev.description">
             <td colspan="2">
               <div class="caltabelaobs p-shadow-2">
-                {{ev.description}}
+                <quill-view [content]="ev.description" [format]="'html'" theme="snow"></quill-view>
               </div>
             </td>
           </tr>

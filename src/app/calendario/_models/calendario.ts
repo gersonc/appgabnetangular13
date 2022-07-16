@@ -1,5 +1,5 @@
 import {Frequency, Options} from 'rrule';
-import {EventoInterface} from "./eventoInterface";
+import {EventoInterface} from "./evento-interface";
 
 export interface EventoSQLInterface {
   sql: string;
@@ -35,13 +35,17 @@ export class Evento implements EventoInterface {
   start = null;
   inicio = null;
   backgroundColor = null;
+  borderColor = null;
   classNames = null;
   color = null;
   textColor = null;
   url = null;
   description = null;
+  description_delta = null;
+  description_texto = null;
   local_id = null;
   local_nome = null;
+  local_color = null;
   title = null;
   observacao = null;
   prioridade_id = null;
@@ -55,30 +59,33 @@ export class Evento implements EventoInterface {
   type_color = null;
   usuario_id = null;
   todos_usuarios_sn = null;
+  extendedProps = null;
 }
 
 export interface CalendarioFormularioInterface extends EventoInterface {
-  id?: string;
-  groupId?: string;
-  allDay?: boolean;
-  duration?: string;
-  end?: string;
-  fim?: string;
-  recorrente?: boolean;
+  id?: string | null;
+  groupId?: string | null;
+  allDay?: boolean | null;
+  duration?: string | null;
+  end?: string | null;
+  fim?: string | null;
+  recorrente?: boolean | null;
   rrule?: string | any;
-  start?: Date;
-  backgroundColor?: string;
-  classNames?: string;
-  color?: string;
-  textColor?: string;
-  url?: string;
-  description?: string;
-  local_id?: number;
-  local_nome?: string;
-  observacao?: string;
-  title?: string;
-  todos_usuarios_sn?: number;
-  usuario_id?: string | number[];
+  start?: Date | null;
+  backgroundColor?: string | null;
+  classNames?: string | null;
+  color?: string | null;
+  textColor?: string | null;
+  url?: string | null;
+  description?: string | null;
+  description_delta?: string | null;
+  description_texto?: string | null;
+  local_id?: number | null;
+  local_nome?: string | null;
+  observacao?: string | null;
+  title?: string | null;
+  todos_usuarios_sn?: number | null;
+  usuario_id?: string | number[] | null;
   // usuario_id?: string | EventoUsarioId[];
 }
 
@@ -132,38 +139,40 @@ export class Opcoes implements Options {
 // INTERFACE
 
 export interface CalDataInterface {
-  allDay?: number | boolean;
-  duration?: string;
-  end?: string;
-  fim?: string;
+  allDay?: number | boolean | null;
+  duration?: string | null;
+  end?: string | null;
+  fim?: string | null;
   rrule?: string | any;
-  exdate?: string | string[];
-  start?: string;
-  recorrente?: boolean;
+  exdate?: string | string[] | null;
+  start?: string | null;
+  recorrente?: boolean | null;
 }
 
 export interface CalEstruturaInterface {
-  backgroundColor?: string;
-  textColor?: string;
-  url?: string;
+  backgroundColor?: string | null;
+  textColor?: string | null;
+  url?: string | null;
 }
 
 export interface CalDadosInterface {
-  title?: string;
-  local_id?: number;
-  local_nome?: string;
-  observacao?: string;
-  description?: string;
-  usuario_id?: number[];
-  todos_usuarios_sn?: number;
-  type_id?: number;
-  prioridade_id?: number;
-  calendario_status_id?: number;
+  title?: string | null;
+  local_id?: number | null;
+  local_nome?: string | null;
+  observacao?: string | null;
+  description?: string | null;
+  description_delta?: string | null;
+  description_texto?: string | null;
+  usuario_id?: number[] | null;
+  todos_usuarios_sn?: number | null;
+  type_id?: number | null;
+  prioridade_id?: number | null;
+  calendario_status_id?: number | null;
 }
 
 export interface CalInterface {
-  id?: string;
-  groupId?: string;
+  id?: string | null;
+  groupId?: string | null;
   calData?: CalDataInterface;
   calExtrutura?: CalEstruturaInterface;
   calDados?: CalDadosInterface;
@@ -190,6 +199,8 @@ export class CalExtrutura implements CalEstruturaInterface {
 
 export class CalDados implements CalDadosInterface {
   description = null;
+  description_delta = null;
+  description_texto = null;
   local_id = null;
   local_nome = null;
   observacao = null;
@@ -210,17 +221,17 @@ export class Cal implements CalInterface {
 }
 
 export interface CalBuscaInterface {
-  bsStart?: Date | string;
-  bsFim?: Date | string;
-  bsTituloIni?: string;
-  bsTitulo?: string;
-  bsObsIni?: string;
-  bsObs?: string;
-  bsType_id?: number;
-  bsPrioridade_id?: number;
-  bsLocal_id?: number;
-  bsStatus_id?: number;
-  bsAtivo?: boolean;
+  bsStart?: Date | string | null;
+  bsFim?: Date | string | null;
+  bsTituloIni?: string | null;
+  bsTitulo?: string | null;
+  bsObsIni?: string | null;
+  bsObs?: string | null;
+  bsType_id?: number | null;
+  bsPrioridade_id?: number | null;
+  bsLocal_id?: number | null;
+  bsStatus_id?: number | null;
+  bsAtivo?: boolean | null;
 }
 
 export class CalBusca implements CalBuscaInterface {

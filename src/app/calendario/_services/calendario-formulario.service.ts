@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {EventoInterface} from '../_models';
+import {EventoInterface} from "../_models/evento-interface";
 
 @Injectable({
   providedIn: 'root'

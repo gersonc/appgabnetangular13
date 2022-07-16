@@ -7,10 +7,8 @@ import listPlugin from '@fullcalendar/list';
 import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
-import {CalendarioService} from './_services';
-import {CalBusca, Evento, EventoInterface} from './_models';
 import {CalendarOptions, EventApi, FullCalendarComponent} from '@fullcalendar/angular';
-import {AuthenticationService, CarregadorService, UrlService} from '../_services';
+import {AuthenticationService, UrlService} from '../_services';
 import {HttpClient} from '@angular/common/http';
 import {take} from 'rxjs/operators';
 import {MessageService, SelectItem} from 'primeng/api';
@@ -21,6 +19,10 @@ import {ResizedEvent} from 'angular-resize-event';
 import {DateTime} from 'luxon';
 import autoTable from 'jspdf-autotable';
 import {ParceEventos} from "./_services/parce-eventos";
+import {EventoInterface} from "./_models/evento-interface";
+import {CalendarioService} from "./_services/calendario.service";
+import {limpaTextoNull} from "../shared/functions/limpa-texto";
+import {CalBusca, Evento} from "./_models/calendario";
 
 declare var jsPDF: any;
 
@@ -107,8 +109,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     public cl: CalendarioService,
     public authenticationService: AuthenticationService,
     private messageService: MessageService,
-    public dialogService: DialogService,
-    public cs: CarregadorService
+    public dialogService: DialogService
   ) { }
 
   ngOnInit() {
@@ -196,20 +197,22 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
               const celEl0 = rowEl0.insertCell(0);
               const titleEl = document.createTextNode(arg.event.title);
               celEl0.appendChild(titleEl);
-              if (arg.event.extendedProps.description) {
+              const desc = limpaTextoNull(arg.event.extendedProps.description);
+              if (desc) {
+                console.log('eventContent', desc);
                 n = n + 1;
                 const rowEl1 = tbEl.insertRow(n);
                 const celEl1 = rowEl1.insertCell(0);
-                const descEl = document.createTextNode(arg.event.extendedProps.description);
+                const descEl = document.createTextNode(desc);
                 celEl1.appendChild(descEl);
               }
-              if (arg.event.extendedProps.observacao) {
+              /*if (arg.event.extendedProps.observacao) {
                 n = n + 1;
                 const rowEl2 = tbEl.insertRow(n);
                 const celEl2 = rowEl2.insertCell(0);
                 const obsE2 = document.createTextNode(arg.event.extendedProps.observacao);
                 celEl2.appendChild(obsE2);
-              }
+              }*/
               const arrayOfDomNodes = [tabEl];
               return { domNodes: arrayOfDomNodes };
             } else {
@@ -222,7 +225,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       weekNumbers: true,
       navLinks: true,
       loading: (e: boolean) => {
-        this.cs.mostraEscondeCarregador(e);
       },
       navLinkDayClick: (date, jsEvent) => {
         this.mostraDia(date);
@@ -232,10 +234,10 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('dateClick', e);
       },*/
       eventClick: (e) =>  {
-        // console.log('eventClick', e.event);
+        console.log('eventClick', e.event);
         e.jsEvent.preventDefault();
         this.eventoData = e.event.start;
-        const evto: {ev: Evento, jsEvent: any} = this.criaEvento(e);
+        const evto: {ev: Evento, jsEvent: any} = this.criaEvento(e, 'click');
         this.exibirEvento(evto.ev, e.event.startStr, e.event.endStr, this.largura, this.altura);
       },
       eventSources: [
@@ -263,8 +265,9 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
       ],
       eventMouseEnter: (info: any) => {
+        console.log('eventMouseEnter', info);
         if (this.largura > this.largPadrao) {
-          this.evT = this.criaEvento(info);
+          this.evT = this.criaEvento(info, 'over');
           if (this.evT.ev) {
             this.ev = this.evT.ev;
           }
@@ -321,8 +324,50 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.calEsq = this.mudaDetalhe ? 'cal-esq1' : 'cal-esq0';
   }
 
-  criaEvento(info) {
+  criaEvento(info, acao: string) {
+    console.log('criaEvento', info, acao);
     const ev = new Evento();
+    if (acao === 'over') {
+      if (info.event.backgroundColor) {
+        ev.backgroundColor = info.event.backgroundColor;
+        ev.textColor = this.getContrastYIQ(ev.backgroundColor);
+      } else {
+        ev.backgroundColor = 'var(--primary-color)';
+        ev.textColor = 'white';
+      }
+
+      if (info.event.borderColor) {
+        ev.borderColor = info.event.borderColor;
+      } else {
+        ev.borderColor = 'var(--primary-color)';
+      }
+
+      if (info.event.color) {
+        ev.color = info.event.color;
+      } else {
+        delete ev.color;
+      }
+      ev.title = info.event.title;
+      if (info.event.rrule) {
+        ev.rrule = info.event.rrule;
+      } else {
+        delete ev.rrule;
+      }
+
+      if (info.event.extendedProps.description) {
+        const desc = limpaTextoNull(info.event.extendedProps.description);
+        if(desc) {
+          ev.description = desc;
+        }
+      } else {
+        delete ev.description;
+      }
+
+      return {ev: ev, jsEvent: info.jsEvent};
+    }
+
+
+
     if (info.event.id) {
       ev.id = info.event.id;
     } else {
@@ -348,6 +393,14 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       ev.backgroundColor = 'var(--primary-color)';
       ev.textColor = 'white';
     }
+
+    if (info.event.borderColor) {
+      ev.borderColor = info.event.borderColor;
+    } else {
+      ev.borderColor = 'var(--primary-color)';
+    }
+
+
     if (info.event.url) {
       ev.url = info.event.url;
     } else {
@@ -375,7 +428,26 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       delete ev.rrule;
     }
 
-    if (info.event.extendedProps.duracao) {
+
+
+    if (info.event.extendedProps.duration) {
+      const dur: string = info.event.extendedProps.duration;
+      if (dur.charAt(3) === ':') {
+        ev.tempo = '';
+        const dur1 = dur.split(':');
+        if (+dur[0] > 0) {
+          ev.tempo += dur[0] + ' hora(s) ';
+        }
+        if (+dur[1] > 0) {
+          if (+dur[0] > 0) {
+            ev.tempo += 'e ';
+          }
+          ev.tempo += +dur[1] + ' minuto(s)';
+        }
+        ev.duracao = ev.tempo;
+      }
+
+
       const hra: number = +info.event.extendedProps.duracao.substr(0, 2);
       const mnt: number = +info.event.extendedProps.duracao.substr(3, 2);
 
@@ -391,14 +463,37 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       ev.duracao = dura1;
     } else {
       if (!ev.allDay) {
+        if (info.event.extendedProps.duration) {
+          const dur: string = info.event.extendedProps.duration;
+          if (dur.charAt(3) === ':') {
+            ev.tempo = '';
+            const dur1 = dur.split(':');
+            if (+dur[0] > 0) {
+              ev.tempo += dur[0] + ' hora(s) ';
+            }
+            if (+dur[1] > 0) {
+              if (+dur[0] > 0) {
+                ev.tempo += 'e ';
+              }
+              ev.tempo += +dur[1] + ' minuto(s)';
+            }
+            ev.duracao = ev.tempo;
+          }
+
+          if (dur.charAt(0) === 'P') {
+
+          }
+
+        }
         const dt4: DateTime = DateTime.fromJSDate(info.event.end);
         const dif = dt4.diff(dt1, ['days', 'hours', 'minutes']);
         if (dif.days) {
-          let dura = dif.days + ' dia(s)';
+          const d = (dif.days > 0) ?  dif.days + ' dia(s), ' : '';
+          let dura = d;
           if (dif.hours) {
-            dura += '\xa0\xa0' + 'e' + '\xa0\xa0' + dif.hours + '\xa0' + 'hora(s)';
+            dura += dif.hours + '\xa0' + 'hora(s), ';
             if (dif.minutes) {
-              dura += '\xa0\xa0' + 'e' + '\xa0\xa0' + dif.minutes + '\xa0' + 'minutos';
+              dura +=  dif.minutes + '\xa0' + 'minutos';
             }
           }
           ev.tempo = dura;
@@ -522,7 +617,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   alterarEvento(ev: Evento) {
     if (this.authenticationService.agenda_alterar) {
       this.id = ev.id;
-      this.cs.mostraCarregador();
       let evto: EventoInterface;
       this.sub.push(this.cl.getEventoId(ev.id)
         .pipe(take(1))
@@ -531,7 +625,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
             evto = dados[0];
           },
           error: err => {
-            this.cs.escondeCarregador();
           },
           complete: () => {
             this.acao = 'alterar';
@@ -574,7 +667,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   apagarEvento(ev: Evento) {
     if (this.authenticationService.agenda_apagar) {
-      this.cs.mostraCarregador();
       let resp: any[];
       this.sub.push(this.cl.eventoApagarId(ev.id)
         .pipe(take(1))
@@ -583,7 +675,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
             resp = dados;
           },
           error: err => {
-            this.cs.escondeCarregador();
             console.error(err);
           },
           complete: () => {
@@ -600,7 +691,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
                   this.eventos.splice(this.eventos.indexOf(this.eventos.find(i => i.id === ev.id)), 1);
                 }
                 this.mostraExibir = false;
-                this.cs.escondeCarregador();
               } else {
                 this.acao = 'apagar';
                 this.dadosExcluir = {
@@ -713,7 +803,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   imprimir() {
     let ev: any[];
-    this.cs.mostraCarregador();
     this.sub.push(this.cl.imprimir(
       this.fc.getApi().view.currentStart.toISOString(),
       this.fc.getApi().view.currentEnd.toISOString())
@@ -723,7 +812,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
           ev = dados;
         },
         error: err => {
-          this.cs.escondeCarregador();
           console.error(err);
         },
         complete: () => {
@@ -734,7 +822,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
             };
             this.mostraImprimir = true;
           } else {
-            this.cs.escondeCarregador();
             this.messageService.add({
               key: 'calToast',
               severity: 'warn',

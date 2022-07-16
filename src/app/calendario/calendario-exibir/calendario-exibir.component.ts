@@ -1,14 +1,14 @@
 import {Component, ElementRef, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { CalendarioService } from '../_services';
-import { Evento, EventoInterface } from '../_models';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 
 import * as jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {EventoInterface} from "../_models/evento-interface";
+import {CalendarioService} from "../_services/calendario.service";
 
 declare interface ColumnsInterface {
   header: string;

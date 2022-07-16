@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Evento, EventoInterface } from '../_models';
+import {EventoInterface} from "../_models/evento-interface";
+import {Evento} from "../_models/calendario";
 
 @Component({
   selector: 'app-calendario-detalhe',

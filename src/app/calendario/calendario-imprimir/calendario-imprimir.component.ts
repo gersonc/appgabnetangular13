@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 // import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {MessageService} from 'primeng/api';
-import {AuthenticationService, CarregadorService} from '../../_services';
+import {AuthenticationService} from '../../_services';
 import {Subscription} from 'rxjs';
 
 declare var jsPDF: any;
@@ -24,7 +24,6 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
     // public config: DynamicDialogConfig,
     public authenticationService: AuthenticationService,
     private messageService: MessageService,
-    private cs: CarregadorService,
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +35,6 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
       console.log('imprimir currentValue', changes.dados.currentValue);
       if (changes.dados.currentValue.acao === 'imprimir') {
         this.resp = changes.dados.currentValue.dadosImp;
-        this.cs.escondeCarregador();
         // this.carregaDados();
       }
     }
@@ -44,7 +42,6 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
 
   carregaDados() {
     // this.resp = this.config.data;
-    this.cs.escondeCarregador();
   }
 
   montaHora(allDay: boolean = false, hora: any = null): string {

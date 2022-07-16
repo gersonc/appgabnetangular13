@@ -4,7 +4,7 @@ import {
   OnInit,  ElementRef
 } from '@angular/core';
 import { WindowsService } from '../../_layout/_service';
-import { Evento } from '../_models';
+import {Evento} from "../_models/calendario";
 
 
 @Component({

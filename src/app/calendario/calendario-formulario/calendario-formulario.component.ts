@@ -3,16 +3,17 @@ import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DropdownService, UrlService, UuidService } from '../../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
-import { CalendarioService } from '../_services';
+import { AuthenticationService } from '../../_services';
 import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
-import { Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, EventoInterface, Opcoes } from '../_models';
 import { DateTime } from 'luxon';
 import { take } from 'rxjs/operators';
 import { isArray } from 'rxjs/internal-compatibility';
 import { Time } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { TxtReader } from 'txt-reader';
+import {EventoInterface} from "../_models/evento-interface";
+import {CalendarioService} from "../_services/calendario.service";
+import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
 
 
 
@@ -138,7 +139,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
     private dd: DropdownService,
     public authenticationService: AuthenticationService,
     private messageService: MessageService,
-    private cs: CarregadorService,
     public cl: CalendarioService,
     private urlService: UrlService,
   ) {
@@ -446,8 +446,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
         this.usuario_id = null;
       }
 
-
-      this.cs.escondeCarregador();
     }
 
   }
@@ -637,7 +635,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
             this.resp = value;
           },
           error: err => {
-            this.cs.escondeCarregador();
             this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
@@ -670,7 +667,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
             this.resp = value;
           },
           error: err => {
-            this.cs.escondeCarregador();
             this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;

@@ -118,7 +118,26 @@
           </div>
           <div class="p-field p-col-12">
             <label for="description">Observações</label>
-            <textarea
+            <div class="p-d-flex p-jc-center">
+              <div class="formulario-quill">
+                <div class="qeditor">
+                  <quill-editor
+                    class="formulario"
+                    id="description"
+                    name="description"
+                    [format]="format0"
+                    [defaultEmptyValue]="null"
+                    [theme]="'snow'"
+                    [modules]="modulos"
+                    [debounceTime]="10"
+                    [placeholder]="''"
+                    [(ngModel)]="description"
+                    (onContentChanged)="onContentChanged($event, 'description')"
+                  ></quill-editor>
+                </div>
+              </div>
+            </div>
+            <!--<textarea
               id="description"
               [rows]="5"
               [cols]="40"
@@ -126,7 +145,7 @@
               [(ngModel)]="description"
               name="description"
               pInputTextarea
-            ></textarea>
+            ></textarea>-->
           </div>
         </div>
       </div>
