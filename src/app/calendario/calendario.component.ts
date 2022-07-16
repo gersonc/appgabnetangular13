@@ -1013,7 +1013,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cl.calBusca.bsAtivo = true;
       this.mostraMenu = false;
       this.fc.getApi().removeAllEventSources();
-      this.headerStart = 'prevYear,prev,today,next,nextYear,btnBusca1';
+      this.headerStart = 'prevYear,today,nextYear,btnBusca1';
       this.fc.getApi().setOption('headerToolbar', {
         start: this.headerStart,
         center: this.headerCenter,

@@ -25,7 +25,7 @@
 >
   <div style="padding-top: 1.8rem">
     <p-scrollPanel [styleClass]="'menu-lateral-pq'" >
-      <form (ngSubmit)="onSubmit()" name="calFm" #calForm="ngForm">
+      <form (ngSubmit)="onSubmit()" name="calForm" #calForm="ngForm">
         <div class="p-grid p-input-filled">
           <div class="p-col-12 formulario">
             <div class="p-fluid p-formgrid p-grid formulario">
@@ -46,6 +46,7 @@
                   [readonlyInput]="true"
                   hourFormat="24"
                   styleClass="calendario-form"
+                  [required]="true"
                 ></p-calendar>
               </div>
 
@@ -189,6 +190,7 @@
             pButton
             pRipple
             type="submit"
+            [disabled]="!calForm.valid"
           ></button>
           &nbsp;&nbsp;
           <button
