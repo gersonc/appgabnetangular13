@@ -5,6 +5,7 @@ import {nomeArquivo} from "../../functions/nome-arquivo";
 import {pdfExporter} from "quill-to-pdf";
 import * as printJS from "print-js";
 import {ExporterService} from "../../../_services/exporter.service";
+import {Stripslashes} from "../../functions/stripslashes";
 
 @Component({
   selector: 'app-exporter-texto',
@@ -57,6 +58,10 @@ export class ExporterTextoComponent implements OnInit {
       type: 'raw-html'
     };
     printJS(cfg);
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
 }

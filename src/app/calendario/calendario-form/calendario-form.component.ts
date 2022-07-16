@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit, OnDestroy, ElementRef, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
+import { NgForm, FormGroup} from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DropdownService, UrlService, UuidService } from '../../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import { AuthenticationService } from '../../_services';
 import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
 import {Interval, DateTime, Duration} from 'luxon';
 import { take } from 'rxjs/operators';

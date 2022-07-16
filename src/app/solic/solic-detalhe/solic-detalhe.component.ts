@@ -3,6 +3,7 @@ import {AuthenticationService,} from "../../_services";
 import {SolicService} from "../_services/solic.service";
 import {SolicListarI} from "../_models/solic-listar-i";
 import {VersaoService} from "../../_services/versao.service";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 @Component({
   selector: 'app-solic-detalhe',
@@ -30,6 +31,10 @@ export class SolicDetalheComponent implements OnInit {
 
   fechar() {
     this.hideDetalhe.emit(true);
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
 

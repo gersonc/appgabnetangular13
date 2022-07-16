@@ -443,7 +443,8 @@
             </p-dropdown>
           </div>
           <!--*** prioridade_id***-->
-          <div *ngIf="(trocaCor == 0 || trocaCor == 1) && ddprioridade.length > 1" class="p-field p-col-6">
+          <!--<div *ngIf="(trocaCor == 0 || trocaCor == 1) && ddprioridade.length > 1" class="p-field p-col-6">-->
+          <div *ngIf="ddprioridade.length > 1" class="p-field p-col-6">
             <label for="prioridade_id">Prioridade</label>
             <p-dropdown
               id="prioridade_id"
@@ -458,7 +459,8 @@
             </p-dropdown>
           </div>
           <!--*** calendario_status_id***-->
-          <div *ngIf="(trocaCor == 0 || trocaCor == 2) && ddcalendario_status.length > 1" class="p-field p-col-6">
+          <!--<div *ngIf="(trocaCor == 0 || trocaCor == 2) && ddcalendario_status.length > 1" class="p-field p-col-6">-->
+          <div *ngIf="ddcalendario_status.length > 1" class="p-field p-col-6">
             <label for="calendario_status_id">Status</label>
             <p-dropdown
               id="calendario_status_id"
@@ -474,7 +476,8 @@
             </p-dropdown>
           </div>
           <!--*** Limpa Cores ***-->
-          <div *ngIf="trocaCor == 4" class="p-field p-col-6">
+          <div class="p-field p-col-6">
+          <!--<div *ngIf="trocaCor == 4" class="p-field p-col-6">-->
             <button
               pButton pRipple
               type="button"
@@ -484,7 +487,8 @@
             ></button>>
           </div>
           <!--*** CORES ***-->
-          <div *ngIf="trocaCor == 0 || trocaCor == 4" class="p-field p-col-6">
+          <!--<div *ngIf="trocaCor == 0 || trocaCor == 4" class="p-field p-col-6">-->
+          <div class="p-field p-col-6">
             <h5>Cor</h5>
             <p-colorPicker
               id="backgroundColor"
@@ -495,7 +499,8 @@
             ></p-colorPicker>
           </div>
           <!--*** Categoria ***-->
-          <div *ngIf="(trocaCor == 0 || trocaCor == 3) && ddtypes.length > 1" class="p-field p-col-6">
+          <!--<div *ngIf="(trocaCor == 0 || trocaCor == 3) && ddtypes.length > 1" class="p-field p-col-6">-->
+          <div *ngIf="ddtypes.length > 1" class="p-field p-col-6">
             <label for="type_id">Categoria</label>
             <p-dropdown
               id="type_id"

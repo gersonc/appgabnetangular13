@@ -79,14 +79,14 @@
           <tr *ngIf="ev.description">
             <td colspan="2">
               <div class="caltabelaobs">
-                {{ev.description}}
+                <quill-view [content]="ev.description" [format]="'html'" theme="snow"></quill-view>
               </div>
             </td>
           </tr>
           <tr *ngIf="ev.observacao">
             <td colspan="2">
               <div class="caltabelaobs">
-                {{ev.observacao}}
+                <quill-view [content]="ev.observacao" [format]="'html'" theme="snow"></quill-view>
               </div>
             </td>
           </tr>

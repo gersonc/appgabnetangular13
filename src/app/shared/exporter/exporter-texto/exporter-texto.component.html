@@ -63,7 +63,7 @@
       [header]="es.exporterView.titulo"
       (onHide)="es.fechaView()"
     >
-      <quill-view [content]="es.exporterView.htm" [format]="'html'" theme="snow"></quill-view>
+      <quill-view [content]="stripslashes(es.exporterView.htm)" [format]="'html'" theme="snow"></quill-view>
       <p-footer>
         <button pButton type="button" label="Fechar " icon="pi pi-times" class="campo-extendido p-button-rounded p-button-sm" (click)="es.fechaView()"></button>
       </p-footer>

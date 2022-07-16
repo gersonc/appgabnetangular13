@@ -1,8 +1,9 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Stripslashes} from "../functions/stripslashes";
 
 @Component({
   selector: 'app-quill-view',
-  template: `<quill-view *ngIf="dtSN" [content]="cpdelta" [format]="'json'" theme="snow"></quill-view><quill-view-html [content]="cphtml" theme="snow"></quill-view-html>`
+  template: `<quill-view *ngIf="dtSN" [content]="cpdelta" [format]="'json'" theme="snow"></quill-view><quill-view-html [content]="stripslashes(cphtml)" theme="snow"></quill-view-html>`
 })
 export class QuillViewComponent implements OnChanges {
   @Input() cpdelta?: any;
@@ -24,6 +25,10 @@ export class QuillViewComponent implements OnChanges {
       }
     }
 
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   deltaSN(vf: boolean) {

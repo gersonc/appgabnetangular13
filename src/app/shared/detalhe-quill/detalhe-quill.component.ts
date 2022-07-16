@@ -21,7 +21,7 @@ import {Stripslashes} from "../functions/stripslashes";
         [header]="detalhe.titulo"
         (onHide)="escondeTexto()"
       >
-        <quill-view [content]="htm" [format]="'html'" theme="snow"></quill-view>
+        <quill-view [content]="stripslashes(htm)" [format]="'html'" theme="snow"></quill-view>
         <p-footer>
           <button pButton type="button" label="Fechar " icon="pi pi-times" class="campo-extendido p-button-rounded p-button-sm" (click)="escondeTexto()"></button>
         </p-footer>
@@ -60,6 +60,10 @@ export class DetalheQuillComponent implements OnInit, OnChanges {
   mostraTexto() {
     console.log(this.htm, this.detalhe);
     this.showCampoTexto = true;
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   escondeTexto() {

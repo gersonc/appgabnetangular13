@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {EventoInterface} from "../_models/evento-interface";
 import {Evento} from "../_models/calendario";
+import {limpaTextoNull} from "../../shared/functions/limpa-texto";
 
 @Component({
   selector: 'app-calendario-detalhe',
@@ -10,7 +11,7 @@ import {Evento} from "../_models/calendario";
 export class CalendarioDetalheComponent implements OnInit, OnChanges {
 
   @Input() evT: Evento | null;
-  ev: EventoInterface = null ;
+  ev: EventoInterface = null;
 
   scrollPanelStyle = 'detalhefull';
   tituloEstilo: {};
@@ -19,22 +20,16 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
   observacaoStyle: {};
   headerStyle = 'var(--primary-color)';
   prioridadeStyle: {};
-  prioridade: string = null;
-  prioridadeBgColor: string = null;
-  prioridadeColor: string = null;
   calendarioStatusStyle: {};
-  calendarioStatus: string = null;
-  calendarioStatusBgColor: string = null;
-  calendarioStatusColor: string = null;
   tipoStyle: {};
-  tipo: string = null;
-  tipoBgColor: string = null;
-  tipoColor: string = null;
+  localStyle: {};
+
   windowObjectReference = null;
 
   Object = Object;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
@@ -51,113 +46,64 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
 
   criaEvento() {
     this.prioridadeStyle = null;
-    this.prioridade = null;
-    this.prioridadeBgColor = null;
-    this.prioridadeColor = null;
     this.calendarioStatusStyle = null;
-    this.calendarioStatus = null;
-    this.calendarioStatusBgColor = null;
-    this.calendarioStatusColor = null;
     this.tipoStyle = null;
-    this.tipo = null;
-    this.tipoBgColor = null;
-    this.tipoColor = null;
+    this.localStyle = null;
     if (this.ev.backgroundColor === 'var(--ativo)') {
       this.ev.backgroundColor = 'var(--primary-color)';
     }
 
 
-
     this.tituloEstilo = {
-      padding: '0 5px 0 5px',
       backgroundColor: this.ev.backgroundColor,
       color: this.ev.textColor,
-      fontSize: '1.2em',
-      fontWeight: 500,
-      borderRadius: '5px',
-      marginBottom: '5px'
     };
     this.subTituloStyle = {
-      padding: '0 5px 0 5px',
       backgroundColor: this.ev.backgroundColor,
       color: this.ev.textColor,
-      opacity: .8,
-      fontWeight: 400,
-      borderRadius: '5px',
-      marginBottom: '3px'
     };
     this.subTituloStyleLink = {
-      padding: '0 5px 0 5px',
       backgroundColor: this.ev.backgroundColor,
       color: this.ev.textColor,
-      opacity: .8,
-      fontWeight: 400,
-      borderRadius: '5px',
-      marginBottom: '3px',
-      cursor: 'pointer'
     };
 
-    if (this.ev.prioridade_id) {
-      if (this.ev.prioridade_id > 1) {
-        this.prioridade = this.ev.prioridade_nome;
-        if (this.ev.prioridade_color) {
-          this.prioridadeBgColor = this.ev.prioridade_color;
-          this.prioridadeColor = this.getContrastYIQ(this.ev.prioridade_color);
-          this.prioridadeStyle = {
-            padding: '0 5px 0 5px',
-            backgroundColor: this.prioridadeBgColor,
-            color: this.prioridadeColor,
-            opacity: .8,
-            fontWeight: 400,
-            borderRadius: '5px',
-            marginBottom: '3px'
-          };
-        } else {
-          this.prioridadeStyle = this.subTituloStyle;
-        }
+
+    if (this.ev.prioridade_color) {
+      this.prioridadeStyle = {
+        backgroundColor: this.ev.prioridade_color,
+        color: this.getContrastYIQ(this.ev.prioridade_color)
       }
+    } else {
+      this.prioridadeStyle = this.subTituloStyle;
     }
 
-    if (this.ev.calendario_status_id) {
-      if (this.ev.calendario_status_id > 1) {
-        this.calendarioStatus = this.ev.calendario_status_nome;
-        if (this.ev.calendario_status_color) {
-          this.calendarioStatusBgColor = this.ev.calendario_status_color;
-          this.calendarioStatusColor = this.getContrastYIQ(this.ev.calendario_status_color);
-          this.calendarioStatusStyle = {
-            padding: '0 5px 0 5px',
-            backgroundColor: this.calendarioStatusBgColor,
-            color: this.calendarioStatusColor,
-            // opacity: .8,
-            fontWeight: 500,
-            borderRadius: '5px',
-            marginBottom: '3px'
-          };
-        } else {
-          this.calendarioStatusStyle = this.subTituloStyle;
-        }
-      }
+
+    if (this.ev.calendario_status_color) {
+      this.calendarioStatusStyle = {
+        backgroundColor: this.ev.calendario_status_color,
+        color: this.getContrastYIQ(this.ev.calendario_status_color)
+      };
+    } else {
+      this.calendarioStatusStyle = this.subTituloStyle;
     }
 
-    if (this.ev.type_id) {
-      if (this.ev.type_id > 1) {
-        this.tipo = this.ev.type_name;
-        if (this.ev.type_color) {
-          this.tipoBgColor = this.ev.type_color;
-          this.tipoColor = this.getContrastYIQ(this.ev.type_color);
-          this.tipoStyle = {
-            padding: '0 5px 0 5px',
-            backgroundColor: this.tipoBgColor,
-            color: this.prioridadeColor,
-            opacity: .8,
-            fontWeight: 500,
-            borderRadius: '5px',
-            marginBottom: '3px'
-          };
-        } else {
-          this.tipoStyle = this.subTituloStyle;
-        }
-      }
+
+    if (this.ev.type_color) {
+      this.tipoStyle = {
+        backgroundColor: this.ev.type_color,
+        color: this.getContrastYIQ(this.ev.type_color)
+      };
+    } else {
+      this.tipoStyle = this.subTituloStyle;
+    }
+
+    if (this.ev.local_color) {
+      this.localStyle = {
+        backgroundColor: this.ev.local_color,
+        color: this.getContrastYIQ(this.ev.local_color)
+      };
+    } else {
+      this.tipoStyle = this.subTituloStyle;
     }
 
     this.observacaoStyle = {
@@ -186,6 +132,10 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
       this.windowObjectReference = window.open(url, 'SingleSecondaryWindowName', feat);
       this.windowObjectReference.focus();
     }
+  }
+
+  limpaTextoNull(valor: undefined | null | string): string | null {
+    return limpaTextoNull(valor);
   }
 
 }

@@ -16,7 +16,7 @@ import {DialogService} from 'primeng/dynamicdialog';
 import {Subscription} from 'rxjs';
 import {WindowsService} from '../_layout/_service';
 import {ResizedEvent} from 'angular-resize-event';
-import {DateTime} from 'luxon';
+import {DateTime, Duration} from 'luxon';
 import autoTable from 'jspdf-autotable';
 import {ParceEventos} from "./_services/parce-eventos";
 import {EventoInterface} from "./_models/evento-interface";
@@ -30,15 +30,15 @@ declare var jsPDF: any;
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.css'],
-  providers: [ DialogService ]
+  providers: [DialogService]
 })
 export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('fc', { static: true }) fc: FullCalendarComponent;
-  @ViewChild('cesq', { static: true }) cesq: ElementRef;
-  @ViewChild('calForm', { static: true }) public calForm: NgForm;
+  @ViewChild('fc', {static: true}) fc: FullCalendarComponent;
+  @ViewChild('cesq', {static: true}) cesq: ElementRef;
+  @ViewChild('calForm', {static: true}) public calForm: NgForm;
 
   eventos: EventoInterface[];
-  evT: {ev: Evento, jsEvent: any} = null;
+  evT: { ev: Evento, jsEvent: any } = null;
   ev: Evento | null = null;
   options: CalendarOptions;
   startOld: Date;
@@ -110,7 +110,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     public authenticationService: AuthenticationService,
     private messageService: MessageService,
     public dialogService: DialogService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.cl.calBusca = new CalBusca();
@@ -199,22 +200,14 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
               celEl0.appendChild(titleEl);
               const desc = limpaTextoNull(arg.event.extendedProps.description);
               if (desc) {
-                console.log('eventContent', desc);
                 n = n + 1;
                 const rowEl1 = tbEl.insertRow(n);
                 const celEl1 = rowEl1.insertCell(0);
                 const descEl = document.createTextNode(desc);
                 celEl1.appendChild(descEl);
               }
-              /*if (arg.event.extendedProps.observacao) {
-                n = n + 1;
-                const rowEl2 = tbEl.insertRow(n);
-                const celEl2 = rowEl2.insertCell(0);
-                const obsE2 = document.createTextNode(arg.event.extendedProps.observacao);
-                celEl2.appendChild(obsE2);
-              }*/
               const arrayOfDomNodes = [tabEl];
-              return { domNodes: arrayOfDomNodes };
+              return {domNodes: arrayOfDomNodes};
             } else {
               return arg;
             }
@@ -230,31 +223,26 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mostraDia(date);
       },
       moreLinkClick: 'popover',
-      /*dateClick: (e) =>  {
-        console.log('dateClick', e);
-      },*/
-      eventClick: (e) =>  {
-        console.log('eventClick', e.event);
+      eventClick: (e) => {
         e.jsEvent.preventDefault();
         this.eventoData = e.event.start;
-        const evto: {ev: Evento, jsEvent: any} = this.criaEvento(e, 'click');
+        const evto: { ev: Evento, jsEvent: any } = this.criaEvento(e);
         this.exibirEvento(evto.ev, e.event.startStr, e.event.endStr, this.largura, this.altura);
       },
       eventSources: [
         {
           events: (info, successCallback, failureCallback) => {
 
-              this.sub.push(this.cl.calendarioListar(info.startStr, info.endStr)
-                .pipe(take(1))
-                .subscribe((data) => {
-                    this.eventos = ParceEventos(data);
-                    console.log('calendar', this.eventos);
-                    successCallback(this.eventos);
-                  },
-                  error1 => {
-                    failureCallback(error1);
-                  }
-                ));
+            this.sub.push(this.cl.calendarioListar(info.startStr, info.endStr)
+              .pipe(take(1))
+              .subscribe((data) => {
+                  this.eventos = ParceEventos(data);
+                  successCallback(this.eventos);
+                },
+                error1 => {
+                  failureCallback(error1);
+                }
+              ));
 
           },
           display: 'block'
@@ -265,9 +253,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
       ],
       eventMouseEnter: (info: any) => {
-        console.log('eventMouseEnter', info);
         if (this.largura > this.largPadrao) {
-          this.evT = this.criaEvento(info, 'over');
+          this.evT = this.criaEvento(info);
           if (this.evT.ev) {
             this.ev = this.evT.ev;
           }
@@ -286,11 +273,11 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onResized(event: ResizedEvent) {
-    this.novaLargura =   event.newRect.width - 20;
+    this.novaLargura = event.newRect.width - 20;
     this.novaAltura = event.newRect.height;
     this.responsivel();
     this.fc.getApi().setOption('aspectRatio', this.getEscala());
-    const headerToolbar =  {
+    const headerToolbar = {
       start: this.headerStart,
       center: this.headerCenter,
       end: this.headerEnd
@@ -324,10 +311,9 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.calEsq = this.mudaDetalhe ? 'cal-esq1' : 'cal-esq0';
   }
 
-  criaEvento(info, acao: string) {
-    console.log('criaEvento', info, acao);
+  criaEvento(info) {
     const ev = new Evento();
-    if (acao === 'over') {
+    /*if (acao === 'over') {
       if (info.event.backgroundColor) {
         ev.backgroundColor = info.event.backgroundColor;
         ev.textColor = this.getContrastYIQ(ev.backgroundColor);
@@ -356,7 +342,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (info.event.extendedProps.description) {
         const desc = limpaTextoNull(info.event.extendedProps.description);
-        if(desc) {
+        if (desc) {
           ev.description = desc;
         }
       } else {
@@ -364,9 +350,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       return {ev: ev, jsEvent: info.jsEvent};
-    }
-
-
+    }*/
 
     if (info.event.id) {
       ev.id = info.event.id;
@@ -400,7 +384,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       ev.borderColor = 'var(--primary-color)';
     }
 
-
     if (info.event.url) {
       ev.url = info.event.url;
     } else {
@@ -428,72 +411,57 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       delete ev.rrule;
     }
 
-
-
-    if (info.event.extendedProps.duration) {
-      const dur: string = info.event.extendedProps.duration;
-      if (dur.charAt(3) === ':') {
-        ev.tempo = '';
-        const dur1 = dur.split(':');
-        if (+dur[0] > 0) {
-          ev.tempo += dur[0] + ' hora(s) ';
-        }
-        if (+dur[1] > 0) {
-          if (+dur[0] > 0) {
-            ev.tempo += 'e ';
-          }
-          ev.tempo += +dur[1] + ' minuto(s)';
-        }
-        ev.duracao = ev.tempo;
-      }
-
-
-      const hra: number = +info.event.extendedProps.duracao.substr(0, 2);
-      const mnt: number = +info.event.extendedProps.duracao.substr(3, 2);
-
-      let nhora = '\xa0' + 'hora';
-      if (hra > 1) {
-        nhora = '\xa0' + 'horas';
-      }
-      let dura1 = hra + nhora;
-      if (mnt > 0 ) {
-        dura1 += '\xa0\xa0' + 'e' + '\xa0\xa0' +  mnt + '\xa0' + 'minutos';
-      }
-      ev.tempo = dura1;
-      ev.duracao = dura1;
+    if (info.event.allDay) {
+      const dur: string = 'Dia inteiro';
+      ev.duracao = dur;
+      ev.tempo = dur;
     } else {
-      if (!ev.allDay) {
-        if (info.event.extendedProps.duration) {
-          const dur: string = info.event.extendedProps.duration;
-          if (dur.charAt(3) === ':') {
-            ev.tempo = '';
-            const dur1 = dur.split(':');
+      if (info.event.extendedProps.duration) {
+        const dur: string = info.event.extendedProps.duration;
+        if (dur.charAt(2) === ':') {
+          ev.tempo = '';
+          const dur1 = dur.split(':');
+          if (+dur[0] > 0) {
+            ev.tempo += dur[0] + ' hora(s) ';
+          }
+          if (+dur[1] > 0) {
             if (+dur[0] > 0) {
-              ev.tempo += dur[0] + ' hora(s) ';
+              ev.tempo += 'e ';
             }
-            if (+dur[1] > 0) {
-              if (+dur[0] > 0) {
-                ev.tempo += 'e ';
-              }
-              ev.tempo += +dur[1] + ' minuto(s)';
-            }
-            ev.duracao = ev.tempo;
+            ev.tempo += +dur[1] + ' minuto(s)';
           }
-
-          if (dur.charAt(0) === 'P') {
-
-          }
-
+          ev.duracao = ev.tempo;
         }
+        if (dur.charAt(0) === 'P') {
+          ev.tempo = '';
+          const d: Duration = Duration.fromISO(dur);
+          if (d.days > 0) {
+            ev.tempo += d.days + ' dias(s) ';
+          }
+          if (d.hours > 0) {
+            if (d.days > 0) {
+              ev.tempo += 'e ';
+            }
+            ev.tempo += d.hours + ' hora(s) ';
+          }
+          if (d.minutes > 0) {
+            if (d.days > 0 || d.hours > 0) {
+              ev.tempo += 'e ';
+            }
+            ev.tempo += d.minutes + ' minuto(s)';
+          }
+        }
+
+      } else {
         const dt4: DateTime = DateTime.fromJSDate(info.event.end);
         const dif = dt4.diff(dt1, ['days', 'hours', 'minutes']);
         if (dif.days) {
-          const d = (dif.days > 0) ?  dif.days + ' dia(s), ' : '';
+          const d = (dif.days > 0) ? dif.days + ' dia(s), ' : '';
           let dura = d;
           if (dif.hours) {
             dura += dif.hours + '\xa0' + 'hora(s), ';
             if (dif.minutes) {
-              dura +=  dif.minutes + '\xa0' + 'minutos';
+              dura += dif.minutes + '\xa0' + 'minutos';
             }
           }
           ev.tempo = dura;
@@ -501,12 +469,10 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           delete ev.tempo;
         }
-      } else {
-        delete ev.tempo;
       }
     }
 
-    if (info.event.fim) {
+    /*if (info.event.fim) {
       const dt3: DateTime = DateTime.fromJSDate(info.event.fim);
       ev.fim = dt3.toFormat('DDDD');
       if (!ev.allDay) {
@@ -517,7 +483,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       delete ev.fim;
       delete ev.fimHora;
-    }
+    }*/
 
 
     if (info.event.extendedProps.fim) {
@@ -543,16 +509,17 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       delete ev.description;
     }
-    if (info.event.extendedProps.local_id) {
-      ev.local_id = info.event.extendedProps.local_id;
+    if (info.event.extendedProps.description_delta) {
+      ev.description_delta = info.event.extendedProps.description_delta;
     } else {
-      delete ev.local_id;
+      delete ev.description_delta;
     }
-    if (info.event.extendedProps.local_nome) {
-      ev.local_nome = info.event.extendedProps.local_nome;
+    if (info.event.extendedProps.description_texto) {
+      ev.description_texto = info.event.extendedProps.description_texto;
     } else {
-      delete ev.local_nome;
+      delete ev.description_texto;
     }
+
     if (info.event.extendedProps.observacao) {
       ev.observacao = info.event.extendedProps.observacao;
     } else {
@@ -603,6 +570,23 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       delete ev.type_color;
     }
+
+    if (info.event.extendedProps.local_id) {
+      ev.local_id = info.event.extendedProps.local_id;
+    } else {
+      delete ev.local_id;
+    }
+    if (info.event.extendedProps.local_nome) {
+      ev.local_nome = info.event.extendedProps.local_nome;
+    } else {
+      delete ev.local_nome;
+    }
+    if (info.event.extendedProps.local_color) {
+      ev.local_color = info.event.extendedProps.local_color;
+    } else {
+      delete ev.local_color;
+    }
+
     delete ev.usuario_id;
     delete ev.classNames;
     delete ev.todos_usuarios_sn;
@@ -655,7 +639,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   exibirEvento(ev: Evento, startStr: string, endStr?: string, largura = 0, altura = 0) {
-    const tmp = this.eventos.find( i => i.id === ev.id );
+    const tmp = this.eventos.find(i => i.id === ev.id);
     this.dadosExibir = {
       data: {ev: ev, startStr: startStr, endStr: endStr, mostrabts: true},
       acao: 'exibir',
@@ -736,9 +720,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onFecharExcluir(ev: any = null): void {
-    // console.log('onFecharExcluir', ev);
     if (ev.evento) {
-      const et: EventApi =  this.fc.getApi().getEventById(ev.id);
+      const et: EventApi = this.fc.getApi().getEventById(ev.id);
       et.remove();
       this.fc.getApi().addEvent(ev);
       this.fc.getApi().render();
@@ -756,7 +739,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   eventoRetorno(ev: EventoInterface[]) {
     if (this.acao === 'incluir') {
       if (ev.length > 0) {
-        ev.forEach( (e: EventoInterface) => {
+        ev.forEach((e: EventoInterface) => {
           this.fc.getApi().addEvent(e);
           this.eventos.push(e);
         });
@@ -776,11 +759,9 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
           this.eventos.splice(idx, 1, eve);
         }
         this.fc.getApi().getEventById(this.id.toString()).remove();
-        // console.log('eve', eve);
         this.fc.getApi().addEvent(eve);
         setTimeout(() => {
           this.fc.getApi().render();
-          // console.log('this.eventos', this.fc.getApi().getEvents());
         }, 3000);
 
 
@@ -839,7 +820,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mostraImprimir = false;
   }
 
-  imprimir2() {  }
+  imprimir2() {
+  }
 
   imprimirTudo() {
     const fcal = this.fc.getApi();
@@ -857,7 +839,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     doc.setFontSize(15);
     doc.text('CALENDARIO', 15, 15);
     doc.setFontSize(8);
-    autoTable(doc, { html: vfc[0] });
+    autoTable(doc, {html: vfc[0]});
 
     const fileName = `calendario_${new Date().getTime()}.pdf`;
 
@@ -981,18 +963,18 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.fc.getApi().changeView(this.initView);
     this.fc.getApi().removeAllEventSources();
     this.fc.getApi().addEventSource({
-      events: (info, successCallback, failureCallback) => {
-        this.sub.push(this.cl.calendarioListar(info.startStr, info.endStr)
-          .pipe(take(1))
-          .subscribe((data) => {
-              this.eventos = data;
-              successCallback(this.eventos);
-            },
-            error1 => {
-              failureCallback(error1);
-            }
-          ));
-      },
+        events: (info, successCallback, failureCallback) => {
+          this.sub.push(this.cl.calendarioListar(info.startStr, info.endStr)
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.eventos = data;
+                successCallback(this.eventos);
+              },
+              error1 => {
+                failureCallback(error1);
+              }
+            ));
+        },
         display: 'block'
       }
     );
@@ -1020,7 +1002,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cl.calBusca = new CalBusca();
       this.cl.calBusca.bsStart = this.bsStart ? this.bsStart.toISOString() : null;
       this.cl.calBusca.bsFim = this.bsFim ? this.bsFim.toISOString() : null;
-      this.cl.calBusca.bsTitulo = this.bsTitulo ? this.bsTitulo.length > 0 ?  this.bsTitulo : null : null;
+      this.cl.calBusca.bsTitulo = this.bsTitulo ? this.bsTitulo.length > 0 ? this.bsTitulo : null : null;
       this.cl.calBusca.bsTituloIni = this.bsTituloIni ? this.bsTituloIni.length > 0 ? this.bsTituloIni : null : null;
       this.cl.calBusca.bsObs = this.bsObs ? this.bsObs.length > 0 ? this.bsObs : null : null;
       this.cl.calBusca.bsObsIni = this.bsObsIni ? this.bsObsIni.length > 0 ? this.bsObsIni : null : null;

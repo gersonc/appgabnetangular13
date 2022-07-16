@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ExporterViewI} from "../../../_models/exporter-view-i";
 import {limpaTexto150Null} from "../../functions/limpa-texto";
 import {ExporterService} from "../../../_services/exporter.service";
+import {Stripslashes} from "../../functions/stripslashes";
 
 @Component({
   selector: 'app-exporter-view',
@@ -15,6 +16,10 @@ export class ExporterViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   limpaTexto150Nulo(str: string): string {

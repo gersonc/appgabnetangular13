@@ -157,7 +157,7 @@
           </tr>
           <tr *ngIf="sol.solicitacao_descricao">
             <td colspan="2" id="solicitacao_descricao3">
-              <quill-view [content]="sol.solicitacao_descricao" [format]="'html'" theme="snow"></quill-view>
+              <quill-view [content]="stripslashes(sol.solicitacao_descricao)" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_aceita_recusada" class="novaPagina">
@@ -167,7 +167,7 @@
           </tr>
           <tr *ngIf="sol.solicitacao_aceita_recusada" class="novaPagina">
             <td colspan="2">
-              <quill-view [content]="sol.solicitacao_aceita_recusada" [format]="'html'" theme="snow"></quill-view>
+              <quill-view [content]="stripslashes(sol.solicitacao_aceita_recusada)" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_carta" class="novaPagina">
@@ -177,7 +177,7 @@
           </tr>
           <tr *ngIf="sol.solicitacao_carta">
             <td colspan="2">
-              <quill-view [content]="sol.solicitacao_carta" [format]="'html'" theme="snow"></quill-view>
+              <quill-view [content]="stripslashes(sol.solicitacao_carta)" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar" >
@@ -462,7 +462,7 @@
               {{ands.historico_data}}
             </td>
             <td>
-              <quill-view [content]="ands.historico_andamento" [format]="'html'" theme="snow"></quill-view>
+              <quill-view [content]="stripslashes(ands.historico_andamento)" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           </tbody>
@@ -544,7 +544,7 @@
               {{andp.historico_data}}
             </td>
             <td>
-              <quill-view [content]="andp.historico_andamento_delta" [format]="'html'" theme="snow"></quill-view>
+              <quill-view [content]="stripslashes(andp.historico_andamento)" [format]="'html'" theme="snow"></quill-view>
             </td>
           </tr>
           </tbody>

@@ -1,19 +1,32 @@
-import {Component, ElementRef, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
-import { MessageService, SelectItem } from 'primeng/api';
-import { AuthenticationService, CarregadorService } from '../../_services';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { saveAs } from 'file-saver';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import {SelectItem} from 'primeng/api';
+import {AuthenticationService} from '../../_services';
+import {Subscription} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {saveAs} from 'file-saver';
 
 import * as jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {EventoInterface} from "../_models/evento-interface";
 import {CalendarioService} from "../_services/calendario.service";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 declare interface ColumnsInterface {
   header: string;
   dataKey: string;
 }
+
 @Component({
   selector: 'app-calendario-exibir',
   templateUrl: './calendario-exibir.component.html',
@@ -22,38 +35,22 @@ declare interface ColumnsInterface {
 export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dados: any = null;
   @Output() onFechar = new EventEmitter<string | null>();
-  @ViewChild('tabcalendario', { static: true }) tabcalendario: ElementRef;
+  @ViewChild('tabcalendario', {static: true}) tabcalendario: ElementRef;
 
-  ev: EventoInterface = null ;
-  evento: EventoInterface = null ;
+  ev: EventoInterface = null;
+  evento: EventoInterface = null;
   eve: any = null;
 
   scrollPanelStyle = 'detalhefull';
   tituloEstilo: {};
   subTituloStyle: {};
-  subTituloStyleE: {};
-  subTituloStyleD: {};
-  subTituloStyleDLink: {};
-  subTituloStyle2ColunasEsq: {};
-  subTituloStyle2ColunasDir: {};
-  observacaoStyle: {};
+  subTituloStyleLink: {};
   headerStyle = 'var(--primary-color)';
   prioridadeStyle: {};
-  prioridadeStyleE: {};
-  prioridadeStyleD: {};
-  prioridade: string = null;
-  prioridadeBgColor: string = null;
-  prioridadeColor: string = null;
   calendarioStatusStyle: {};
-  calendarioStatusStyleE: {};
-  calendarioStatusStyleD: {};
-  calendarioStatus: string = null;
-  calendarioStatusBgColor: string = null;
-  calendarioStatusColor: string = null;
+  localStyle: {};
+  //calendarioStatus: string = null;
   tipoStyle: {};
-  tipo: string = null;
-  tipoBgColor: string = null;
-  tipoColor: string = null;
   url: string = null;
 
   sub: Subscription[] = [];
@@ -68,16 +65,18 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   startStr: string = null;
   endStr: string = null;
 
-  config: any = null;
+  // config: any = null;
   windowObjectReference = null;
   largura: number;
   altura: number;
 
+  description: string | null = null;
+
   constructor(
     public authenticationService: AuthenticationService,
     public cl: CalendarioService
-
-) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.carregaDados();
@@ -86,213 +85,88 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (typeof changes.dados.currentValue !== 'undefined') {
       if (changes.dados.currentValue.acao === 'exibir') {
-        this.config = changes.dados.currentValue;
         this.carregaDados();
       }
     }
   }
 
   carregaDados() {
-    this.ev = this.config.data.ev;
-    this.startStr = this.config.data.startStr;
-    this.endStr = this.config.data.endStr;
-    this.mostrabts = this.config.data.mostrabts;
-    this.largura = this.config.data.largura;
-    this.altura = this.config.data.altura;
+    this.ev = this.dados.data.ev;
+    this.startStr = this.dados.data.startStr;
+    this.endStr = this.dados.data.endStr;
+    this.mostrabts = this.dados.data.mostrabts;
+    this.largura = this.dados.data.largura;
+    this.altura = this.dados.data.altura;
     this.criaEvento();
   }
 
   criaEvento() {
+    this.description = Stripslashes(this.ev.description);
     this.prioridadeStyle = null;
-    this.prioridade = null;
-    this.prioridadeBgColor = null;
-    this.prioridadeColor = null;
     this.calendarioStatusStyle = null;
-    this.calendarioStatus = null;
-    this.calendarioStatusBgColor = null;
-    this.calendarioStatusColor = null;
     this.tipoStyle = null;
-    this.tipo = null;
-    this.tipoBgColor = null;
-    this.tipoColor = null;
-    if (this.ev.backgroundColor === 'var(--ativo)') {
+    if (this.ev.backgroundColor === undefined) {
       this.ev.backgroundColor = 'var(--primary-color)';
     }
-
+    if (this.ev.borderColor === undefined) {
+      this.ev.borderColor = 'transparent';
+    }
     this.tituloEstilo = {
-      padding: '.2em .5em .2em .5em',
       backgroundColor: this.ev.backgroundColor,
       color: this.ev.textColor,
-      fontSize: '1.2em',
-      fontWeight: 500,
-      textAlign: 'left',
-      borderWidth: '1px 3px 1px 3px',
-      borderStyle: 'solid',
-      borderColor: 'transparent',
-      borderRadius: '10px'
+      borderColor: this.ev.borderColor,
     };
     this.subTituloStyle = {
-      padding: '.2em .5em .2em .5em',
       backgroundColor: this.ev.backgroundColor,
       color: this.ev.textColor,
-      fontSize: '1.2em',
-      opacity: .8,
-      fontWeight: 400,
-      borderWidth: '1px 3px 1px 3px',
-      borderStyle: 'solid',
-      borderColor: 'transparent',
-      borderRadius: '10px'
+      borderColor: this.ev.borderColor,
     };
-
-    this.subTituloStyleE = {
-      padding: '.2em .5em .2em .5em',
+    this.subTituloStyleLink = {
       backgroundColor: this.ev.backgroundColor,
       color: this.ev.textColor,
-      fontSize: '1em',
-      opacity: .8,
-      fontWeight: 400,
-      borderWidth: '1px 3px 1px 3px',
-      borderStyle: 'solid',
-      borderColor: 'transparent',
-      borderRadius: '10px',
-      marginRight: '3px'
-    };
-
-    this.subTituloStyleDLink = {
-      padding: '.2em .5em .2em .5em',
-      backgroundColor: this.ev.backgroundColor,
-      color: this.ev.textColor,
-      fontSize: '1em',
-      opacity: .8,
-      fontWeight: 400,
-      borderWidth: '1px 3px 1px 3px',
-      borderStyle: 'solid',
-      borderColor: 'transparent',
-      borderRadius: '10px',
-      marginRight: '3px',
+      borderColor: this.ev.borderColor,
       cursor: 'pointer'
     };
 
-    this.subTituloStyleD = {
-      padding: '.2em .5em .2em .5em',
-      backgroundColor: this.ev.backgroundColor,
-      color: this.ev.textColor,
-      fontSize: '1em',
-      opacity: .8,
-      fontWeight: 400,
-      borderWidth: '1px 3px 1px 3px',
-      borderStyle: 'solid',
-      borderColor: 'transparent',
-      borderRadius: '10px'
-    };
-
-    if (this.ev.prioridade_id) {
-      if (this.ev.prioridade_id > 1) {
-        this.prioridade = this.ev.prioridade_nome;
-        if (this.ev.prioridade_color) {
-          this.prioridadeBgColor = this.ev.prioridade_color;
-          this.prioridadeColor = this.getContrastYIQ(this.ev.prioridade_color);
-          this.prioridadeStyleE = this.subTituloStyleE;
-          this.prioridadeStyleE = {
-            padding: '.2em .5em .2em .5em',
-            backgroundColor: this.prioridadeBgColor,
-            color: this.prioridadeColor,
-            fontSize: '1em',
-            opacity: .8,
-            fontWeight: 400,
-            borderWidth: '1px 2px 1px 2px',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            borderRadius: '10px',
-            marginRight: '3px'
-          };
-          this.prioridadeStyleD = {
-            padding: '.2em .5em .2em .5em',
-            backgroundColor: this.prioridadeBgColor,
-            color: this.prioridadeColor,
-            fontSize: '1em',
-            opacity: .8,
-            fontWeight: 400,
-            borderWidth: '1px 2px 1px 2px',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            borderRadius: '10px'
-          };
-        } else {
-          this.prioridadeStyleE = this.subTituloStyleE;
-          this.prioridadeStyleD = this.subTituloStyleD;
-        }
-      }
+    if (this.ev.prioridade_color !== undefined) {
+      this.prioridadeStyle = {
+        backgroundColor: this.ev.prioridade_color,
+        color: this.getContrastYIQ(this.ev.prioridade_color)
+      };
+    } else {
+      this.prioridadeStyle = this.subTituloStyle;
     }
 
-    if (this.ev.calendario_status_id) {
-      if (this.ev.calendario_status_id > 1) {
-        this.calendarioStatus = this.ev.calendario_status_nome;
-        if (this.ev.calendario_status_color) {
-          this.calendarioStatusBgColor = this.ev.calendario_status_color;
-          this.calendarioStatusColor = this.getContrastYIQ(this.ev.calendario_status_color);
-          this.calendarioStatusStyleE = {
-            backgroundColor: this.calendarioStatusBgColor,
-            color: this.calendarioStatusColor,
-            fontSize: '1em',
-            opacity: .8,
-            fontWeight: 400,
-            borderWidth: '1px 2px 1px 2px',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            borderRadius: '10px',
-            marginRight: '3px'
-          };
-          this.calendarioStatusStyleD = {
-            backgroundColor: this.calendarioStatusBgColor,
-            color: this.calendarioStatusColor,
-            fontSize: '1em',
-            opacity: .8,
-            fontWeight: 400,
-            borderWidth: '1px 2px 1px 2px',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            borderRadius: '10px'
-          };
-        } else {
-          this.calendarioStatusStyleE = this.subTituloStyleE;
-          this.calendarioStatusStyleD = this.subTituloStyleD;
-        }
-      }
+
+    if (this.ev.calendario_status_color !== undefined) {
+      this.calendarioStatusStyle = {
+        backgroundColor: this.ev.calendario_status_color,
+        color: this.getContrastYIQ(this.ev.calendario_status_color)
+      };
+    } else {
+      this.calendarioStatusStyle = this.subTituloStyle;
     }
 
-    if (this.ev.type_id) {
-      if (this.ev.type_id > 1) {
-        this.tipo = this.ev.type_name;
-        if (this.ev.type_color) {
-          this.tipoBgColor = this.ev.type_color;
-          this.tipoColor = this.getContrastYIQ(this.ev.type_color);
-          this.tipoStyle = {
-            padding: '.2em .5em .2em .5em',
-            backgroundColor: this.tipoBgColor,
-            color: this.prioridadeColor,
-            fontSize: '1em',
-            opacity: .8,
-            fontWeight: 400,
-            borderWidth: '1px 2px 1px 2px',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            borderRadius: '10px'
-          };
-        } else {
-          this.tipoStyle = this.subTituloStyle;
-        }
-      }
+
+    if (this.ev.type_color !== undefined) {
+      this.tipoStyle = {
+        backgroundColor: this.ev.type_color,
+        color: this.getContrastYIQ(this.ev.type_color)
+      };
+    } else {
+      this.tipoStyle = this.subTituloStyle;
     }
 
-    this.observacaoStyle = {
-      padding: '.2em .5em .2em .5em',
-      backgroundColor: 'var(--claro)',
-      borderWidth: '1px 2px 1px 2px',
-      borderStyle: 'solid',
-      borderColor: 'transparent',
-      borderRadius: '10px'
-    };
+
+    if (this.ev.local_color !== undefined) {
+      this.localStyle = {
+        backgroundColor: this.ev.local_color,
+        color: this.getContrastYIQ(this.ev.local_color)
+      };
+    } else {
+      this.tipoStyle = this.subTituloStyle;
+    }
+
 
   }
 
@@ -305,7 +179,7 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
     return (yiq >= 128) ? 'black' : 'white';
   }
 
-  getPdf (imprimir = false) {
+  getPdf(imprimir = false) {
 
     const fileName = `calendario_${new Date().getTime()}.pdf`;
 
@@ -373,7 +247,7 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(take(1))
       .subscribe({
         next: (ar) => {
-          const file = new File([ar], nome, { type: 'text/calendar' });
+          const file = new File([ar], nome, {type: 'text/calendar'});
           saveAs(file);
         },
         error: err => {
