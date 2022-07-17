@@ -299,6 +299,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
       this.dtb.saveState();
       this.ofs.acao = 'alterar';
       this.ofs.ofiListar = ofi;
+      console.log('oficioAlterar', this.ofs.ofiListar);
       this.ofs.parceOficioFormulario(ofi);
       this.router.navigate(['/oficio/alterar']);
     } else {

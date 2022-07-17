@@ -3,6 +3,7 @@ import {Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter} f
 import { AuthenticationService } from '../../_services';
 import {ProceListarI} from "../_model/proce-listar-i";
 import {ProceService} from "../_services/proce.service";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 
 @Component({
@@ -29,6 +30,10 @@ export class ProceDetalheComponent implements OnInit {
 
   fechar() {
     this.hideDetalhe.emit(true);
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
 }

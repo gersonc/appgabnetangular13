@@ -73,11 +73,14 @@
                           </tr>
 
                           <tr *ngIf="lb.solicitacao_descricao !== null">
-                            <th>Descrição da solicitação:</th>
-                            <td style="text-align: left">
+                            <th colspan="2">Descrição da solicitação:</th>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_descricao !== null">
+                            <td colspan="2">
                               <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
                             </td>
                           </tr>
+
                         </table>
                       </div>
                     </div>
@@ -124,9 +127,17 @@
                             <td>{{lb.solicitacao_area_interesse_nome}}</td>
                           </tr>
 
-                          <tr *ngIf="lb.solicitacao_descricao !== undefined && lb.solicitacao_descricao !== null">
+                          <!--<tr *ngIf="lb.solicitacao_descricao !== undefined && lb.solicitacao_descricao !== null">
                             <th>Descrição da solicitação:</th>
                             <td>
+                              <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
+                            </td>
+                          </tr>-->
+                          <tr *ngIf="lb.solicitacao_descricao !== null">
+                            <th colspan="2">Descrição da solicitação:</th>
+                          </tr>
+                          <tr *ngIf="lb.solicitacao_descricao !== null">
+                            <td colspan="2">
                               <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
                             </td>
                           </tr>
@@ -383,7 +394,7 @@
                   <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                     <label for="textos"> </label>
                     <p-accordion id="textos">
-                      <p-accordionTab header="Descrição do ofício">
+                      <p-accordionTab header="Descrição da Ação">
                         <div class="formulario-quill">
                           <div class="qeditor">
                             <quill-editor
