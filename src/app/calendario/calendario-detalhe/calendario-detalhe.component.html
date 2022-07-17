@@ -42,7 +42,7 @@
       <div class="p-grid">
         <div class="p-col-12" *ngIf="ev.description">
           <p-card id="desc" [styleClass]="'observacaostyle'">
-            {{limpaTextoNull(ev.description)}}
+            <quill-view [content]="ev.description" [format]="'html'" theme="snow"></quill-view>
           </p-card>
 
         </div>

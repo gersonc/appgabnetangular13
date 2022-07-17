@@ -11,7 +11,6 @@ import {CalendarOptions, EventApi, FullCalendarComponent} from '@fullcalendar/an
 import {AuthenticationService, UrlService} from '../_services';
 import {HttpClient} from '@angular/common/http';
 import {take} from 'rxjs/operators';
-import {MessageService, SelectItem} from 'primeng/api';
 import {DialogService} from 'primeng/dynamicdialog';
 import {Subscription} from 'rxjs';
 import {WindowsService} from '../_layout/_service';
@@ -23,6 +22,8 @@ import {EventoInterface} from "./_models/evento-interface";
 import {CalendarioService} from "./_services/calendario.service";
 import {limpaTextoNull} from "../shared/functions/limpa-texto";
 import {CalBusca, Evento} from "./_models/calendario";
+import {SelectItem} from "primeng/api";
+import {MsgService} from "../_services/msg.service";
 
 declare var jsPDF: any;
 
@@ -108,7 +109,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     private http: HttpClient,
     public cl: CalendarioService,
     public authenticationService: AuthenticationService,
-    private messageService: MessageService,
+    private messageService: MsgService,
     public dialogService: DialogService
   ) {
   }
@@ -375,7 +376,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       ev.textColor = this.getContrastYIQ(ev.backgroundColor);
     } else {
       ev.backgroundColor = 'var(--primary-color)';
-      ev.textColor = 'white';
+      ev.textColor = 'var(--primary-color-text)';
     }
 
     if (info.event.borderColor) {
@@ -665,7 +666,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
             if (resp[0]) {
               if (+resp[1] === -1) {
                 this.messageService.add({
-                  key: 'calToast',
+                  key: 'toastprincipal',
                   severity: 'success',
                   summary: 'APAGAR EVENTO',
                   detail: resp[2]
@@ -689,7 +690,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else {
               this.messageService.add({
-                key: 'calToast',
+                key: 'toastprincipal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: resp[2]
@@ -804,7 +805,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
             this.mostraImprimir = true;
           } else {
             this.messageService.add({
-              key: 'calToast',
+              key: 'toastprincipal',
               severity: 'warn',
               summary: 'IMPRIMIR EVENTOS',
               detail: 'Não existem eventos nesse período.'

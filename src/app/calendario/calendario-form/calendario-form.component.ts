@@ -7,19 +7,18 @@ import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
 import {Interval, DateTime, Duration} from 'luxon';
 import { take } from 'rxjs/operators';
 import { isArray } from 'rxjs/internal-compatibility';
-import { Time } from '@angular/common';
 import { Subscription } from 'rxjs';
 import {EventoInterface} from "../_models/evento-interface";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {CalendarioService} from "../_services/calendario.service";
 import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
+import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
   selector: 'app-calendario-form',
   templateUrl: './calendario-form.component.html',
-  styleUrls: ['./calendario-form.component.css'],
-  providers: [MessageService]
+  styleUrls: ['./calendario-form.component.css']
 })
 export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() formDados: any = null;
@@ -157,7 +156,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private dd: DropdownService,
     public authenticationService: AuthenticationService,
-    private messageService: MessageService,
+    private ms: MsgService,
     public cl: CalendarioService,
     private urlService: UrlService
   ) {
@@ -659,14 +658,15 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
             this.resp = value;
           },
           error: err => {
-            this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
             console.error(err);
           },
           complete: () => {
-            this.messageService.add({
-              key: 'calFormToast',
+
+            this.ms.add({
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'INCLUIR EVENTO',
               detail: this.resp[2]
@@ -691,14 +691,14 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
             this.resp = value;
           },
           error: err => {
-            this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
             console.error(err);
           },
           complete: () => {
-            this.messageService.add({
-              key: 'calFormToast',
+            this.ms.add({
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'ALTERAR EVENTO',
               detail: this.resp[2]
@@ -1154,8 +1154,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         } else {
           // this.fim = this.end;
 
-          this.messageService.add({
-            key: 'calFormToast',
+          this.ms.add({
+            key: 'toastprincipal',
             severity: 'warn',
             summary: 'ERRO !!!',
             detail: 'Essa combinação não retorna nenhuma data válida.'
@@ -1165,8 +1165,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           return false;
         }
       } else {
-        this.messageService.add({
-          key: 'calFormToast',
+        this.ms.add({
+          key: 'toastprincipal',
           severity: 'warn',
           summary: 'ERRO !!!',
           detail: msg
@@ -1250,8 +1250,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.verificaValidacoesForm(this.calForm.form);
       if (this.formErro.length > 0) {
         this.formErro.forEach(e => {
-          this.messageService.add({
-            key: 'calFormToast',
+          this.ms.add({
+            key: 'toastprincipal',
             severity: 'warn',
             summary: 'ERRO !!!',
             detail: e.msg
@@ -1268,8 +1268,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
         if (!this.criarData()) {
           this.formErro.forEach(e => {
-            this.messageService.add({
-              key: 'calFormToast',
+            this.ms.add({
+              key: 'toastprincipal',
               severity: 'warn',
               summary: 'ERRO !!!',
               detail: e.msg

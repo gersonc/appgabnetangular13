@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { MessageService, SelectItem } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import {EventoInterface} from "../_models/evento-interface";
@@ -19,8 +19,7 @@ declare interface ColumnsInterface {
 @Component({
   selector: 'app-calendario-exibir',
   templateUrl: './calendario-exibir.component.html',
-  styleUrls: ['./calendario-exibir.component.css'],
-  providers: [MessageService]
+  styleUrls: ['./calendario-exibir.component.css']
 })
 export class CalendarioExibirComponent2 implements OnInit, OnDestroy {
   @ViewChild('tabcalendario', { static: true }) tabcalendario: ElementRef;
@@ -59,7 +58,6 @@ export class CalendarioExibirComponent2 implements OnInit, OnDestroy {
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private messageService: MessageService,
     public authenticationService: AuthenticationService,
     public cl: CalendarioService
 

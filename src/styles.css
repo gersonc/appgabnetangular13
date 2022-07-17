@@ -52,6 +52,7 @@
   --text-color: #212529;
   --text-color-secondary: #6c757d;
   --primary-color: #007bff;
+  --secondary-color: var(--gray-700);
   --primary-color-highlight: var(--blue-300);
   --primary-color-text: #ffffff;
   --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
@@ -66,7 +67,6 @@
   --surface-700: #495057;
   --surface-800: #343a40;
   --surface-900: var(--text-color);
-
   --content-padding: 1.25em;
   --inline-spacing: 0.5em;
 
@@ -169,7 +169,7 @@
   --vermelho: #D32F2F;
   --amarelo: var(--yellow-500);
   --verde: var(--green-600);
-  --secondary2: var(--bluegray-500);
+  --secondary2: var(--gray-600);
   --background-color-overlay: rgba(0, 0, 0, 0.4);
   --rgba02: rgba(0, 0, 0, 0.2);
   --rgba014: rgba(0, 0, 0, 0.14);

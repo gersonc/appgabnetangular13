@@ -488,7 +488,7 @@ export class OficioService {
     sessionStorage.removeItem('oficio-table');
     this.tabela = undefined;
     this.busca = undefined;
-    this.selecionados = undefined;
+    this.selecionados = [];
     this.Contexto = undefined;
     this.stateSN = false;
     this.expandidoSN = false;

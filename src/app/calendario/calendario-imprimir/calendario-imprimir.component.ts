@@ -1,6 +1,4 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-// import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {MessageService} from 'primeng/api';
 import {AuthenticationService} from '../../_services';
 import {Subscription} from 'rxjs';
 
@@ -20,10 +18,7 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
   resp: any[];
 
   constructor(
-    // public ref: DynamicDialogRef,
-    // public config: DynamicDialogConfig,
     public authenticationService: AuthenticationService,
-    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {

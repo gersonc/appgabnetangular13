@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {EventoInterface} from "../_models/evento-interface";
 import {Evento} from "../_models/calendario";
 import {limpaTextoNull} from "../../shared/functions/limpa-texto";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 @Component({
   selector: 'app-calendario-detalhe',
@@ -38,7 +39,9 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
     if (changes.evT) {
       if (changes.evT.currentValue !== null) {
         this.ev = new Evento();
-        this.ev = changes.evT.currentValue;
+        const ev = changes.evT.currentValue;
+        ev.description = (ev.description !== undefined) ? Stripslashes(ev.description) : ev.description;
+        this.ev = ev;
         this.criaEvento();
       }
     }
@@ -136,6 +139,10 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
 
   limpaTextoNull(valor: undefined | null | string): string | null {
     return limpaTextoNull(valor);
+  }
+
+  stripslashes(valor: undefined | null | string): string | null {
+    return Stripslashes(valor);
   }
 
 }

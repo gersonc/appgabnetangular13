@@ -1,17 +1,15 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
-// import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MessageService } from 'primeng/api';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import {EventoInterface} from "../_models/evento-interface";
 import {CalendarioService} from "../_services/calendario.service";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-calendario-excluir',
   templateUrl: './calendario-excluir.component.html',
-  styleUrls: ['./calendario-excluir.component.css'],
-  providers: [MessageService]
+  styleUrls: ['./calendario-excluir.component.css']
 })
 export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dados: any = null;
@@ -31,7 +29,7 @@ export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges 
     // public ref: DynamicDialogRef,
     // public config: DynamicDialogConfig,
     public authenticationService: AuthenticationService,
-    private messageService: MessageService,
+    private messageService: MsgService,
     private cs: CarregadorService,
     public cl: CalendarioService
   ) { }
@@ -76,14 +74,14 @@ export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges 
         },
         error: err => {
           this.cs.escondeCarregador();
-          this.messageService.add({ key: 'calExToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: resp[2] });
+          this.messageService.add({ key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: resp[2] });
           this.botaoEnviarVF = false;
 
           console.log(err);
         },
         complete: () => {
           this.messageService.add({
-            key: 'calExToast',
+            key: 'toastprincipal',
             severity: 'success',
             summary: 'APAGAR EVENTO',
             detail: resp[2]
@@ -108,14 +106,14 @@ export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges 
           console.log(value);
         },
         error: err => {
-          this.messageService.add({key: 'calExToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: resp[2]});
+          this.messageService.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: resp[2]});
           this.botaoEnviarVF = false;
           this.cs.escondeCarregador();
           console.log(err);
         },
         complete: () => {
           this.messageService.add({
-            key: 'calExToast',
+            key: 'toastprincipal',
             severity: 'success',
             summary: 'APAGAR EVENTO',
             detail: resp[2]

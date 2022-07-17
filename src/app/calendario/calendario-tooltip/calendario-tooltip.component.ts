@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { WindowsService } from '../../_layout/_service';
 import {Evento} from "../_models/calendario";
+import {limpaTexto150Null} from "../../shared/functions/limpa-texto";
 
 
 @Component({
@@ -34,7 +35,9 @@ export class CalendarioTooltipComponent implements OnInit, OnChanges, OnDestroy 
     if (changes.evT) {
       if (changes.evT.currentValue) {
         this.jsEvent = changes.evT.currentValue.jsEvent;
-        this.ev = changes.evT.currentValue.ev;
+        const ev = changes.evT.currentValue.ev;
+        ev.description = limpaTexto150Null(ev.description);
+        this.ev = ev;
         this.calculaCoordenadas();
       }
     }

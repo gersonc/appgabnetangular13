@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
-import { MessageService, SelectItem } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DropdownService, UrlService, UuidService } from '../../_services';
 import { AuthenticationService } from '../../_services';
@@ -14,14 +14,14 @@ import { TxtReader } from 'txt-reader';
 import {EventoInterface} from "../_models/evento-interface";
 import {CalendarioService} from "../_services/calendario.service";
 import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
+import {MsgService} from "../../_services/msg.service";
 
 
 
 @Component({
   selector: 'app-calendario-formulario',
   templateUrl: './calendario-formulario.component.html',
-  styleUrls: ['./calendario-formulario.component.css'],
-  providers: [MessageService]
+  styleUrls: ['./calendario-formulario.component.css']
 })
 export class CalendarioFormularioComponent implements OnInit, OnDestroy {
   @ViewChild('calForm', { static: true }) public calForm: NgForm;
@@ -138,7 +138,7 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
     public config: DynamicDialogConfig,
     private dd: DropdownService,
     public authenticationService: AuthenticationService,
-    private messageService: MessageService,
+    private messageService: MsgService,
     public cl: CalendarioService,
     private urlService: UrlService,
   ) {
@@ -635,14 +635,14 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
             this.resp = value;
           },
           error: err => {
-            this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+            this.messageService.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
             console.error(err);
           },
           complete: () => {
             this.messageService.add({
-              key: 'calFormToast',
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'INCLUIR EVENTO',
               detail: this.resp[2]
@@ -667,14 +667,14 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
             this.resp = value;
           },
           error: err => {
-            this.messageService.add({key: 'calFormToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
+            this.messageService.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             this.botaoEnviarVF = false;
             this.mostraForm = true;
             console.error(err);
           },
           complete: () => {
             this.messageService.add({
-              key: 'calFormToast',
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'ALTERAR EVENTO',
               detail: this.resp[2]
@@ -1049,7 +1049,7 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
         this.fim = this.end;
 
         this.messageService.add({
-          key: 'calFormToast',
+          key: 'toastprincipal',
           severity: 'warn',
           summary: 'ERRO !!!',
           detail: 'Essa combinação não retorna nenhuma data válida.'
@@ -1133,7 +1133,7 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
     if (this.formErro.length > 0) {
       this.formErro.forEach( e => {
         this.messageService.add({
-          key: 'calFormToast',
+          key: 'toastprincipal',
           severity: 'warn',
           summary: 'ERRO !!!',
           detail: e.msg

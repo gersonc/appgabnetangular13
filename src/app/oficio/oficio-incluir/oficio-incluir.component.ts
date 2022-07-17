@@ -436,7 +436,7 @@ export class OficioIncluirComponent implements OnInit {
       o.oficio_solicitacao_id = this.ofs.solicitacao_id;
     }
     o.oficio_codigo = this.lb.oficio_codigo;
-    o.oficio_status_id = this.formOfIncluir.get('oficio_status_id').value;
+    o.oficio_status = this.formOfIncluir.get('oficio_status').value;
     o.oficio_convenio = this.formOfIncluir.get('oficio_convenio').value;
     o.oficio_numero = this.formOfIncluir.get('oficio_numero').value;
     o.oficio_prioridade_id = this.formOfIncluir.get('oficio_prioridade_id').value;
@@ -450,7 +450,7 @@ export class OficioIncluirComponent implements OnInit {
     o.oficio_orgao_solicitado_nome = this.formOfIncluir.get('oficio_orgao_solicitado_nome').value;
     o.oficio_orgao_protocolante_nome = this.formOfIncluir.get('oficio_orgao_protocolante_nome').value;
 
-    if (this.cpoEditor['oficio_descricao_acao'] !== null) {
+    if (this.cpoEditor['oficio_descricao_acao'] !== undefined && this.cpoEditor['oficio_descricao_acao'] !== null) {
       o.oficio_descricao_acao = this.cpoEditor['oficio_descricao_acao'].html;
       o.oficio_descricao_acao_delta = JSON.stringify(this.cpoEditor['oficio_descricao_acao'].delta);
       o.oficio_descricao_acao_texto = this.cpoEditor['oficio_descricao_acao'].text;
@@ -462,13 +462,11 @@ export class OficioIncluirComponent implements OnInit {
     o.oficio_valor_recebido = this.formOfIncluir.get('oficio_valor_recebido').value;
     o.oficio_valor_solicitado = this.formOfIncluir.get('oficio_valor_solicitado').value;
 
-    if (this.cpoEditor['historico_andamento'] !== null) {
+    if (this.cpoEditor['historico_andamento'] !== undefined && this.cpoEditor['historico_andamento'] !== null) {
       o.historico_andamento = this.cpoEditor['historico_andamento'].html;
       o.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
       o.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
     }
-
-    console.log('criaOficio', o);
     return o;
   }
 
