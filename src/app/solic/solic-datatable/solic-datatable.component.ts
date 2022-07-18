@@ -9,6 +9,7 @@ import {SolicListarI} from "../_models/solic-listar-i";
 import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 
 @Component({
@@ -490,6 +491,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
   recebeRegistro(h: HistFormI) {
     this.ss.recebeRegistro(h);
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   ngOnDestroy(): void {

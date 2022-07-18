@@ -27,6 +27,10 @@ import {QuillModule} from "ngx-quill";
 import {ArquivoModule} from "../arquivo/arquivo.module";
 import { OficioAlterarComponent } from './oficio-alterar/oficio-alterar.component';
 import {CardModule} from "primeng/card";
+import { OficioDetalheComponent } from './oficio-detalhe/oficio-detalhe.component';
+import {ExplorerModule} from "../explorer/explorer.module";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
+import {KillViewModule} from "../shared/kill-view/kill-view.module";
 
 
 
@@ -36,7 +40,8 @@ import {CardModule} from "primeng/card";
     OficioMenuListarComponent,
     OficioDatatableComponent,
     OficioIncluirComponent,
-    OficioAlterarComponent
+    OficioAlterarComponent,
+    OficioDetalheComponent
   ],
     imports: [
         CommonModule,
@@ -61,7 +66,10 @@ import {CardModule} from "primeng/card";
         AccordionModule,
         QuillModule,
         ArquivoModule,
-        CardModule
+        CardModule,
+        ExplorerModule,
+        ImpressaoModule,
+        KillViewModule
     ],
   exports: [
     OficioComponent,

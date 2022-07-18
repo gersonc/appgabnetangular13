@@ -19,6 +19,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() registro_id = 0;
   @Input() arqs: ArquivoInterface[] = [];
   @Input() modelo = 'detalhe'; // Onde irá aparecer (Formilário, Detalhe etc.
+  @Input() buscaArquivos: boolean = true;
   @Output() onBlockSubmit = new EventEmitter<boolean>();
 
 
@@ -71,7 +72,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    if(this.modulo !== 'solicitacao') {
+    if(this.buscaArquivos) {
       this.sub.push(this.as.getArquivloListagem().subscribe({
         next: value => {
           this.arquivos = value;

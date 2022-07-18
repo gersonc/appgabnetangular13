@@ -19,7 +19,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() modulo: string;
   @Input() arqs: ArquivoInterface[] = [];
   @Input() registro_id = 0;
-  // @Input() classe: string = null;
+  @Input() buscaArquivos: boolean = true;
   @Input() stiloClass: string = null;
   @Input() modelo: string; // 'incluir', 'alterar', 'exibir',Onde irá aparecer (Formilário, Detalhe etc.
   @Input() clearArquivos = false;
@@ -171,40 +171,47 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
     /*if (changes.stiloClass) {
       this.stiloClasse = changes.stiloClass.currentValue;
     }*/
-
   }
 
   ngOnInit() {
-    this.ass.getCarregador().subscribe(vf => {
-      this.mostraSpinner = vf;
-    });
-    // const d = new Date().toISOString();
-    // this.dt = d.slice(0, 13);
-    // this.stiloClasse = this.stiloClass;
-    this.sub.push(this.as.arquivoTotal.subscribe({
-      next: value => {
-        this.mostraView = value;
-        if (this.modeloView === 'excluir' && value === true && !this.aut.arquivos_apagar) {
-          this.blockSubmit(true);
-        }
-        if (this.modeloView === 'excluir' && value === true && this.aut.arquivos_apagar) {
-          this.blockSubmit(false);
-        }
-        if (this.modeloView === 'excluir' && value === false) {
-          this.blockSubmit(false);
-        }
+    if(this.buscaArquivos) {
+      this.ass.getCarregador().subscribe(vf => {
+        this.mostraSpinner = vf;
+      });
+      this.sub.push(this.as.arquivoTotal.subscribe({
+        next: value => {
+          this.mostraView = value;
+          if (this.modeloView === 'excluir' && value === true && !this.aut.arquivos_apagar) {
+            this.blockSubmit(true);
+          }
+          if (this.modeloView === 'excluir' && value === true && this.aut.arquivos_apagar) {
+            this.blockSubmit(false);
+          }
+          if (this.modeloView === 'excluir' && value === false) {
+            this.blockSubmit(false);
+          }
 
-      }
-    }));
+        }
+      }));
+    } else {
+      this.mostraView = (this.arqs.length > 0);
+    }
+
+
     if (this.as.arquivosPermissoes.value.config_arquivo_ativo && this.incluir) {
       if (this.aut.arquivos_anexar) {
         this.uploadAtivo = true;
         /// this.uploadAtivo = false;
       }
     }
-    if (this.listaArquivos && this.registro_id && this.modulo !== 'solicitacao' ) {
+    /*if (this.listaArquivos && this.registro_id && this.modulo !== 'solicitacao' ) {
+      this.as.getArquivos(this.modulo, this.registro_id );
+    }*/
+
+    if (this.listaArquivos && this.registro_id && this.buscaArquivos) {
       this.as.getArquivos(this.modulo, this.registro_id );
     }
+
     /*
     if (this.listaArquivos && this.registro_id ) {
       this.as.getArquivos(this.modulo, this.registro_id );

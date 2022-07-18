@@ -119,11 +119,11 @@
       <td *ngFor="let col of columns" [style.width]="col.width"
           [ngClass]="rowColor(col.field,pro.processo_status_id, pro.solicitacao_status_nome, pro.solicitacao_situacao)">
         <app-exporter-celula [celula]="{
-          valor: pro[col.field],
+          valor: stripslashes(pro[col.field]),
           field: col.field,
           header:col.header,
           txtVF: ps.testaCampoTexto(col.field),
-          cphtml: pro[col.field],
+          cphtml: stripslashes(pro[col.field]),
           cpdelta: null,
           cptexto: null
            }"></app-exporter-celula>

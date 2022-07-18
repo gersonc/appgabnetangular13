@@ -223,7 +223,8 @@ export class ArquivoService {
   }
 
   public getArquivloListagem() {
-    return this.arquivos.asObservable();
+    return this.arquivos;
+    //return this.arquivos.asObservable();
   }
 
   public getPreUrlDownload(nomeS3: string): Observable<string>  {

@@ -321,6 +321,49 @@
 
 
                   <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                    <label for="textos"> </label>
+                    <p-accordion id="textos">
+                      <p-accordionTab header="Descrição da Ação" [selected]="true">
+                        <div class="formulario-quill">
+                          <div class="qeditor">
+                            <quill-editor
+                              class="formulario"
+                              id="oficio_descricao_acao"
+                              [format]="format0"
+                              [defaultEmptyValue]="null"
+                              [theme]="'snow'"
+                              [modules]="modulos"
+                              [debounceTime]="10"
+                              [placeholder]="''"
+                              formControlName="oficio_descricao_acao"
+                              (onContentChanged)="onContentChanged($event, 'oficio_descricao_acao')"
+                            ></quill-editor>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+                      <p-accordionTab header="Histórico do Processo (Andamento)">
+                        <div class="formulario-quill">
+                          <div class="qeditor">
+                            <quill-editor
+                              class="formulario"
+                              id="historico_andamento"
+                              [format]="format1"
+                              [defaultEmptyValue]="null"
+                              [theme]="'snow'"
+                              [modules]="modulos"
+                              [debounceTime]="10"
+                              [placeholder]="''"
+                              formControlName="historico_andamento"
+                              (onContentChanged)="onContentChanged($event, 'historico_andamento')"
+                            ></quill-editor>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </div>
+
+
+                  <!--<div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                     <label for="oficio_descricao_acao">Descrição da Ação</label>
                     <div class="formulario-quill">
                       <div class="qeditor">
@@ -338,21 +381,20 @@
                         ></quill-editor>
                       </div>
                     </div>
-                  </div>
+                  </div>-->
 
 
                   <ng-container *ngIf="aut.arquivos">
                     <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                      <h5>Descrição da Ação</h5>
                       <app-arquivo
-                        [modulo]="'oficio'"
-                        [uploadDisabled]="botaoEnviarInativo"
-                        [arqs]="ofs.ofiListar.oficio_arquivos"
-                        (onBlockSubmit)="onBlockSubmit($event)"
-                        [registro_id]="ofs.oficio.oficio_id"
-                        (onPossuiArquivos)="onPossuiArquivos($event)"
-                        [modelo]="'alterar'"
-                        [stiloClass]="'formulario'"
+                                   [modulo]="'oficio'"
+                                   [uploadDisabled]="botaoEnviarInativo"
+                                   [arqs]="ofs.ofiListar.oficio_arquivos"
+                                   [registro_id]="ofs.oficio.oficio_id"
+                                   (onPossuiArquivos)="onPossuiArquivos($event)"
+                                   [modelo]="'alterar'"
+                                   [stiloClass]="'formulario'"
+                                   [buscaArquivos]="false"
                       ></app-arquivo>
                     </div>
                   </ng-container>
@@ -385,8 +427,8 @@
                       type="button"
                       #enviar
                       class="p-button-raised p-button-rounded"
-                      [disabled]="!formOfAlterar.valid"
-                      (click)="enviarOficio()"
+                      [disabled]="!formOfAlterar.valid && botoesInativos"
+                      (click)="criaOficio()"
                       label="Alterar"
                     ></button>
                   </div>

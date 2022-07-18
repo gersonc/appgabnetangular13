@@ -9,6 +9,7 @@ import {ProceListarI} from "../_model/proce-listar-i";
 import {ProceService} from "../_services/proce.service";
 import {AuthenticationService, MenuInternoService} from "../../_services";
 import {ProceFormService} from "../_services/proce-form.service";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 
 @Component({
@@ -451,6 +452,10 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     if (this.ps.Contexto.processo_status_id === 1 || this.ps.Contexto.processo_status_id === 4) {
 
     }
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   ngOnDestroy(): void {

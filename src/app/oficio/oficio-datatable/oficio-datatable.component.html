@@ -125,11 +125,11 @@
       <td *ngFor="let col of columns" [style.width]="col.width"
           [ngClass]="rowColor(col.field, ofi.oficio_status_id)">
         <app-exporter-celula [celula]="{
-          valor: ofi[col.field],
+          valor: stripslashes(ofi[col.field]),
           field: col.field,
           header:col.header,
           txtVF: os.testaCampoTexto(col.field),
-          cphtml: ofi[col.field],
+          cphtml: stripslashes(ofi[col.field]),
           cpdelta: null,
           cptexto: null
            }"></app-exporter-celula>
@@ -265,12 +265,14 @@
 <ng-container *ngIf="showDetalhe">
   <p-dialog
     [(visible)]="showDetalhe"
-    [dismissableMask]="true"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{width: '80vw'}"
     styleClass="tablistagem"
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <!--<app-oficio-detalhe [oficio]="ofiDetalhe" (hideDetalhe)="escondeDetalhe()"></app-oficio-detalhe>-->
+    <app-oficio-detalhe [oficio]="ofiDetalhe" (hideDetalhe)="escondeDetalhe()"></app-oficio-detalhe>
   </p-dialog>
 </ng-container>
 

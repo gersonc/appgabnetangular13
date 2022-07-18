@@ -17569,3 +17569,132 @@ p-toast.toastprincipal {
   cursor: pointer;
 }
 
+
+
+
+
+
+
+
+.detalhe-pdf {
+  border: 0;
+  min-width: 100%;
+  background-color: var(--claro);
+}
+
+.table-hover-pdf tr:nth-child(even):hover {
+  background-color: var(--surface-200);
+}
+
+.table-hover-pdf tr:hover {
+  background-color: var(--fc-neutral-bg-color);
+}
+
+.tabela-pdf {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/*tr:nth-child(even)*/
+#tabela-pdf tr:nth-child(even) {
+  background-color: var(--fundotabela);
+}
+
+.tabela-pdf tr:nth-child(even) {
+  background-color: var(--fundotabela);
+}
+
+.tabela-pdf tr:nth-child(even) .edi {
+  background-color: var(--claro);
+}
+
+.tabela-pdf caption {
+  color: var(--text-color);
+  caption-side: top;
+  text-align: center;
+  font-weight: 600;
+  padding: 0 .5em 0 .5em;
+  line-height: 2rem;
+  font-size: 1.2em;
+}
+
+.tabela-pdf.tabela-secundaria caption {
+  background-color: var(--fundotabela);
+  text-align: left;
+}
+
+.tabela-pdf td, .tabela th {
+  border: 1px solid var(--formularios-bg);
+  padding: 1px 8px 1px 8px;
+}
+
+.tabela-pdfth {
+  font-weight: normal;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tabela-pdf tr {
+  font-weight: 500;
+}
+
+.kill-editor{
+  display: none;
+}
+
+.kill-pdf{
+  width: 100%;
+  border: 1px solid #000000;
+  overflow: hidden;
+}
+
+.kill-btns{
+  position: relative;
+  height: 30px;
+  top: 15px;
+
+}
+
+.kill-btns:hover{
+  animation-name: kbtns;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-direction: normal ;
+}
+
+.kill-btns{
+  animation-name: kbtns;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-fill-mode: backwards ;
+  animation-direction: reverse ;
+}
+
+.kill-btns-spc{
+  width: 100%;
+  height: 15px;
+}
+
+@keyframes kbtns {
+  0% {top: 15px; }
+  25% {top: 7px; }
+  50% {top: 0px; }
+  75% {top: -7px; }
+  100% { top: -15px;}
+}
+
+
+/*@media screen {
+  .kill-editor{
+    background: #5e8f32;
+  }
+}
+
+
+@media print {
+  .kill-editor{
+    display: none;
+  }
+}*/
+

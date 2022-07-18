@@ -481,6 +481,11 @@ export class SolicFormComponent implements OnInit, OnDestroy {
                 const idx: number = this.ss.solicitacoes.findIndex(s => s.solicitacao_id = id);
                 if (idx !== -1) {
                   this.ss.solicitacoes[idx] = sl;
+                  const c = {
+                    data: this.ss.solicitacoes[idx],
+                    originalEvent: {}
+                  }
+                  this.ss.onRowExpand(c);
                   this.voltar();
                 } else {
                   this.voltarListar();

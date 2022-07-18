@@ -6,7 +6,7 @@ import {OficioFormService} from "../_services/oficio-form.service";
 import {OficioService} from "../_services/oficio.service";
 import {AuthenticationService, DropdownService} from "../../_services";
 import {SelectItem} from "primeng/api";
-import {CpoEditor} from "../../_models/in-out-campo-texto";
+import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
 import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {OficioFormulario, OficioFormularioInterface} from "../_models/oficio-formulario";
@@ -41,6 +41,7 @@ export class OficioAlterarComponent implements OnInit {
   sub: Subscription[] = [];
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
+  format1: 'html' | 'object' | 'text' | 'json' = 'html';
   botoesInativos = false;
   botaoEnviarInativo = false;
   possuiArquivos = false;
@@ -107,7 +108,8 @@ export class OficioAlterarComponent implements OnInit {
       oficio_data_recebimento: [this.ofs.oficio.oficio_data_recebimento],
       oficio_orgao_solicitado_nome: [this.ofs.oficio.oficio_orgao_solicitado_nome, Validators.required],
       oficio_orgao_protocolante_nome: [this.ofs.oficio.oficio_orgao_protocolante_nome, Validators.required],
-      oficio_descricao_acao: [this.ofs.oficio.oficio_descricao_acao],
+      oficio_descricao_acao: [null],
+      historico_andamento: [null],
       oficio_protocolo_numero: [this.ofs.oficio.oficio_protocolo_numero],
       oficio_protocolante_funcionario: [this.ofs.oficio.oficio_protocolante_funcionario],
       oficio_prazo: [this.ofs.oficio.oficio_prazo],
@@ -115,6 +117,15 @@ export class OficioAlterarComponent implements OnInit {
       oficio_valor_solicitado: [this.ofs.oficio.oficio_valor_solicitado],
       oficio_tipo_recebimento_id: [this.ofs.oficio.oficio_tipo_recebimento_id]
     });
+    this.getValorAlterar();
+  }
+
+  getValorAlterar() {
+    const cp0 = InOutCampoTexto(this.ofs.oficio.oficio_descricao_acao, this.ofs.oficio.oficio_descricao_acao_delta);
+    this.format0 = cp0.format;
+    if (cp0.vf) {
+      this.formOfAlterar.get('oficio_descricao_acao').setValue(cp0.valor);
+    }
   }
 
   verificaValidTouched(campo: string) {
@@ -137,8 +148,8 @@ export class OficioAlterarComponent implements OnInit {
 
   aplicaCssErro(campo: string) {
     return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
+      'ng-invalid': this.verificaValidTouched(campo),
+      'ng-dirty': this.verificaValidTouched(campo)
     };
   }
 
@@ -152,8 +163,8 @@ export class OficioAlterarComponent implements OnInit {
 
   aplicaCssErroAsync(campo: string, situacao: boolean) {
     return {
-      'has-error': this.validaAsync(campo, situacao),
-      'has-feedback': this.validaAsync(campo, situacao)
+      'ng-invalid': this.validaAsync(campo, situacao),
+      'ng-dirty': this.validaAsync(campo, situacao)
     };
   }
 
@@ -187,13 +198,13 @@ export class OficioAlterarComponent implements OnInit {
 
   onSubmit() {}
 
-  enviarOficio() {
+  enviarOficio(ofi: OficioFormularioInterface) {
     if (this.formOfAlterar.valid) {
-      this.botoesInativos = true;
-      this.botaoEnviarInativo = true;
+      // this.botoesInativos = true;
+      // this.botaoEnviarInativo = true;
 
-      this.criaOficio();
-      this.sub.push(this.os.alterarOficio(this.criaOficio())
+      // this.criaOficio();
+      this.sub.push(this.os.alterarOficio(ofi)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -216,6 +227,15 @@ export class OficioAlterarComponent implements OnInit {
                 summary: 'ALTERAR OFÍCIO',
                 detail: this.resp[2]
               });
+              if (this.resp[3] !== undefined || this.resp[3] !== undefined) {
+                const idx = this.os.oficios.findIndex(o => o.oficio_id === this.ofs.oficio.oficio_id);
+                this.os.oficios[idx] = this.resp[3];
+                const c = {
+                  data: this.os.oficios[idx],
+                  originalEvent: {}
+                }
+                this.os.onRowExpand(c);
+              }
               this.ofs.resetOficio();
               this.resetForm();
               this.voltarListar();
@@ -236,43 +256,77 @@ export class OficioAlterarComponent implements OnInit {
     }
   }
 
-  criaOficio(): OficioFormularioInterface {
+  criaOficio() {
+    let ct = 0;
+    this.botoesInativos = true;
     this.botaoEnviarInativo = true;
-    const r = new OficioFormulario();
-    r.oficio_codigo = this.formOfAlterar.get('oficio_codigo').value;
-    r.oficio_convenio = this.formOfAlterar.get('oficio_convenio').value;
-    r.oficio_prioridade_id = this.formOfAlterar.get('oficio_prioridade_id').value;
-    r.oficio_tipo_andamento_id = this.formOfAlterar.get('oficio_tipo_andamento_id').value;
-    r.oficio_data_emissao = this.formOfAlterar.get('oficio_data_emissao').value;
-    r.oficio_data_protocolo = this.formOfAlterar.get('oficio_data_protocolo').value;
-    r.oficio_data_pagamento = this.formOfAlterar.get('oficio_data_pagamento').value;
-    r.oficio_data_empenho = this.formOfAlterar.get('oficio_data_empenho').value;
-    r.oficio_data_recebimento = this.formOfAlterar.get('oficio_data_recebimento').value;
-    r.oficio_orgao_solicitado_nome = this.formOfAlterar.get('oficio_orgao_solicitado_nome').value;
-    r.oficio_orgao_protocolante_nome = this.formOfAlterar.get('oficio_orgao_protocolante_nome').value;
-    r.oficio_protocolo_numero = this.formOfAlterar.get('oficio_protocolo_numero').value;
-    r.oficio_protocolante_funcionario = this.formOfAlterar.get('oficio_protocolante_funcionario').value;
-    r.oficio_prazo = this.formOfAlterar.get('oficio_prazo').value;
-    r.oficio_valor_recebido = this.formOfAlterar.get('oficio_valor_recebido').value;
-    r.oficio_valor_solicitado = this.formOfAlterar.get('oficio_valor_solicitado').value;
-    r.oficio_tipo_recebimento_id = this.formOfAlterar.get('oficio_tipo_recebimento_id').value;
-    if (this.cpoEditor['oficio_descricao_acao'] !== undefined && this.cpoEditor['oficio_descricao_acao'] !== null) {
-      if (this.cpoEditor['oficio_descricao_acao'].html !== this.ofs.oficio.oficio_descricao_acao) {
-        r.oficio_descricao_acao = this.cpoEditor['oficio_descricao_acao'].html;
-        r.oficio_descricao_acao_delta = JSON.stringify(this.cpoEditor['oficio_descricao_acao'].delta);
-        r.oficio_descricao_acao_texto = this.cpoEditor['oficio_descricao_acao'].text;
+    if (this.formOfAlterar.valid) {
+      const r = new OficioFormulario();
+      r.oficio_codigo = this.formOfAlterar.get('oficio_codigo').value;
+      r.oficio_numero = this.formOfAlterar.get('oficio_numero').value;
+      r.oficio_convenio = this.formOfAlterar.get('oficio_convenio').value;
+      r.oficio_prioridade_id = this.formOfAlterar.get('oficio_prioridade_id').value;
+      r.oficio_tipo_andamento_id = this.formOfAlterar.get('oficio_tipo_andamento_id').value;
+      r.oficio_data_emissao = this.formOfAlterar.get('oficio_data_emissao').value;
+      r.oficio_data_protocolo = this.formOfAlterar.get('oficio_data_protocolo').value;
+      r.oficio_data_pagamento = this.formOfAlterar.get('oficio_data_pagamento').value;
+      r.oficio_data_empenho = this.formOfAlterar.get('oficio_data_empenho').value;
+      r.oficio_data_recebimento = this.formOfAlterar.get('oficio_data_recebimento').value;
+      r.oficio_orgao_solicitado_nome = this.formOfAlterar.get('oficio_orgao_solicitado_nome').value;
+      r.oficio_orgao_protocolante_nome = this.formOfAlterar.get('oficio_orgao_protocolante_nome').value;
+      r.oficio_protocolo_numero = this.formOfAlterar.get('oficio_protocolo_numero').value;
+      r.oficio_protocolante_funcionario = this.formOfAlterar.get('oficio_protocolante_funcionario').value;
+      r.oficio_prazo = this.formOfAlterar.get('oficio_prazo').value;
+      r.oficio_valor_recebido = this.formOfAlterar.get('oficio_valor_recebido').value;
+      r.oficio_valor_solicitado = this.formOfAlterar.get('oficio_valor_solicitado').value;
+      r.oficio_tipo_recebimento_id = this.formOfAlterar.get('oficio_tipo_recebimento_id').value;
+      if (this.cpoEditor['oficio_descricao_acao'] !== undefined && this.cpoEditor['oficio_descricao_acao'] !== null) {
+        if (this.cpoEditor['oficio_descricao_acao'].html !== this.ofs.oficio.oficio_descricao_acao) {
+          r.oficio_descricao_acao = this.cpoEditor['oficio_descricao_acao'].html;
+          r.oficio_descricao_acao_delta = JSON.stringify(this.cpoEditor['oficio_descricao_acao'].delta);
+          r.oficio_descricao_acao_texto = this.cpoEditor['oficio_descricao_acao'].text;
+        }
       }
-    }
 
-    for (const chave in r) {
-      if (r[chave]=== undefined || r[chave] === null || r[chave] === this.ofs.oficio[chave]) {
-        delete r[chave];
+
+      for (const chave in r) {
+        if (r[chave] === undefined || r[chave] === null || r[chave] === this.ofs.oficio[chave]) {
+          delete r[chave];
+        } else {
+          ct++;
+        }
       }
+
+      if (ct > 0) {
+        if (this.cpoEditor['historico_andamento'] !== undefined && this.cpoEditor['historico_andamento'] !== null && this.cpoEditor['historico_andamento'].text.length > 0) {
+            r.historico_andamento = this.cpoEditor['historico_andamento'].html;
+            r.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
+            r.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
+        }
+        r.oficio_processo_id = this.ofs.oficio.oficio_id;
+        r.oficio_id = this.ofs.oficio.oficio_id;
+        console.log('criaOficio', r);
+        this.enviarOficio(r);
+      } else {
+        this.ms.add({
+          key: 'toastprincipal',
+          severity: 'warn',
+          summary: 'ALTERAR OFÍCIO',
+          detail: 'SEM ALTERAÇÕES.'
+        });
+        this.botoesInativos = false;
+        this.botaoEnviarInativo = false;
+      }
+    } else {
+      this.ms.add({
+        key: 'toastprincipal',
+        severity: 'warn',
+        summary: 'ALTERAR OFÍCIO',
+        detail: 'DADOS INVÁLIDOS, VERIFIQUE OS CAMPOS OBRIGATÓRIOS.'
+      });
+      this.botoesInativos = false;
+      this.botaoEnviarInativo = false;
     }
-    r.oficio_processo_id = this.ofs.oficio.oficio_id;
-    r.oficio_id = this.ofs.oficio.oficio_id
-    console.log('criaOficio', r);
-    return r
   }
 
   resetForm() {

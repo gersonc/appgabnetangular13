@@ -45,5 +45,5 @@ export const proceProcessoCamposTexto = [
   'solicitacao_carta',
   'oficio_descricao_acao',
   'historico_andamento',
-  'historico_solocitacao_andamento',
+  'historico_solicitacao_andamento',
 ];

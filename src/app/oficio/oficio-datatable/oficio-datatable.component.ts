@@ -8,6 +8,7 @@ import {OficioFormService} from "../_services/oficio-form.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {OficioService} from "../_services/oficio.service";
 import {AuthenticationService, MenuInternoService} from "../../_services";
+import {Stripslashes} from "../../shared/functions/stripslashes";
 
 @Component({
   selector: 'app-oficio-datatable',
@@ -204,6 +205,25 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     this.os.tabela.mostraSeletor = false;
   }
 
+  rowColor(field: string, vl1: number): string | null {
+    if (field !== 'oficio_status_nome') {
+      return null;
+    }
+
+    if (field === 'oficio_status_nome') {
+      switch (vl1) {
+        case 0:
+          return 'status-1';
+        case 1:
+          return 'status-3';
+        case 2:
+          return 'status-2';
+        default:
+          return 'status-1';
+      }
+    }
+  }
+
   montaMenuContexto() {
     this.contextoMenu = [
       {
@@ -213,7 +233,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
         }
       }];
 
-    if (this.aut.usuario_responsavel_sn) {
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.oficio_deferir || this.aut.oficio_indeferir) {
       this.authAnalisar = true;
       this.contextoMenu.push(
         {
@@ -299,7 +319,6 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
       this.dtb.saveState();
       this.ofs.acao = 'alterar';
       this.ofs.ofiListar = ofi;
-      console.log('oficioAlterar', this.ofs.ofiListar);
       this.ofs.parceOficioFormulario(ofi);
       this.router.navigate(['/oficio/alterar']);
     } else {
@@ -333,24 +352,8 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  rowColor(field: string, vl1: number): string | null {
-    if (field !== 'oficio_status_nome') {
-      return null;
-    }
-
-    if (field === 'oficio_status_nome') {
-      switch (vl1) {
-        case 0:
-          return 'status-1';
-        case 1:
-          return 'status-3';
-        case 2:
-          return 'status-2';
-        default:
-          return 'status-1';
-      }
-    }
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   ngOnDestroy(): void {

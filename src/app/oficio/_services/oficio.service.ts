@@ -125,6 +125,7 @@ export class OficioService {
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
+    console.log('onRowExpand',evento);
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
