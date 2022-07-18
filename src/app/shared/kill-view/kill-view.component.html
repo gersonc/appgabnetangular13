@@ -1,0 +1,46 @@
+<div class="kill-editor">
+  <quill-editor
+    #q
+    [(ngModel)]="valor"
+    theme="bubble"
+    [format]="format"
+    [readOnly]="readOnly"
+    [placeholder]="''"
+    [styles]="{height: '29.7cm', width: '21cm'}"
+  ></quill-editor>
+</div>
+<div class="kill-pdf">
+  <quill-view [content]="stripslashes(kill.html)" [format]="'html'" theme="snow"></quill-view>
+  <div class="kill-btns">
+    <div class="kill-btns-spc"></div>
+    <div class="p-d-flex p-jc-end p-as-end">
+      <div class="p-mr-2">
+        <button type="button" class="campo-extendido p-button-rounded p-button-sm p-button p-component">
+      <span class="p-button-icon p-button-icon-left" aria-hidden="true">
+        <i class="pi pi-file-pdf" style="font-size: 1rem"></i>
+      </span>
+          <span class="p-button-label">Pdf </span>
+        </button>
+      </div>
+      <div class="p-mr-2 p-as-end">
+        <button type="button" class="campo-extendido p-button-rounded p-button-sm p-button p-component">
+      <span class="p-button-icon p-button-icon-left" aria-hidden="true">
+        <i class="pi pi-print" style="font-size: 1rem"></i>
+      </span>
+          <span class="p-button-label">Imprimir </span>
+        </button>
+      </div>
+      <div class="p-mr-2 p-as-end">
+        <button type="button" class="campo-extendido p-button-rounded p-button-sm p-button p-component">
+      <span class="p-button-icon p-button-icon-left pi pi-word" aria-hidden="true">
+        <img alt="logo" src="assets/icons/word-icon.svg" style="width: 1rem"/>
+      </span>
+          <span class="p-button-label">Word </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
