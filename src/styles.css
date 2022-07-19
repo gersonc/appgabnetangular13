@@ -17638,63 +17638,36 @@ p-toast.toastprincipal {
   font-weight: 500;
 }
 
-.kill-editor{
-  display: none;
-}
-
-.kill-pdf{
+.kill-view{
   width: 100%;
-  border: 1px solid #000000;
-  overflow: hidden;
+/*  border: 1px solid #000000;
+  overflow: hidden;*/
 }
 
 .kill-btns{
   position: relative;
-  height: 30px;
-  top: 15px;
-
+  height: 10px;
+  width: 20rem;
+  left: calc(100% - 20rem);
 }
 
 .kill-btns:hover{
-  animation-name: kbtns;
-  animation-duration: 5s;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  animation-direction: normal ;
+  height: 35px;
 }
 
-.kill-btns{
-  animation-name: kbtns;
-  animation-duration: 5s;
-  animation-timing-function: linear;
-  animation-fill-mode: backwards ;
-  animation-direction: reverse ;
-}
-
-.kill-btns-spc{
-  width: 100%;
-  height: 15px;
-}
-
-@keyframes kbtns {
-  0% {top: 15px; }
-  25% {top: 7px; }
-  50% {top: 0px; }
-  75% {top: -7px; }
-  100% { top: -15px;}
-}
-
-
-/*@media screen {
+@media screen {
   .kill-editor{
-    background: #5e8f32;
+    display: none;
   }
 }
 
 
 @media print {
+  .kill-btns{
+    display: none;
+  }
   .kill-editor{
     display: none;
   }
-}*/
+}
 

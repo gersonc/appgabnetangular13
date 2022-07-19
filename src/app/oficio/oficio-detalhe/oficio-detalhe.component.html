@@ -229,53 +229,27 @@
               {{oficio.oficio_prazo}}
             </td>
           </tr>
-          <!--<tr *ngIf="oficio.oficio_solicitacao_descricao" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
-              Solicitação:
-              <div *ngIf="oficio.oficio_solicitacao_descricao" style="margin-top: .25em">
-                <quill-view [content]="stripslashes(oficio.oficio_solicitacao_descricao)" [format]="'html'" theme="snow"></quill-view>
-              </div>
-            </th>
-          </tr>-->
-          <!--<tr *ngIf="oficio.oficio_descricao_acao" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
-              Descreção da ação:
-              <div *ngIf="oficio.oficio_descricao_acao" style="margin-top: .25em">
-                <quill-view [content]="stripslashes(oficio.oficio_descricao_acao)" [format]="'html'" theme="snow"></quill-view>
-              </div>
-            </th>
-          </tr>-->
-          <tr *ngIf="oficio.oficio_arquivos.length > 0 && aut.arquivos_baixar">
-            <td colspan="2">
-              <app-detalhe-explorer [arquivos]="oficio.oficio_arquivos"></app-detalhe-explorer>
-            </td>
-          </tr>
-          <tr>
-            <td>-------</td>
-            <td>-------</td>
-          </tr>
           <tr *ngIf="oficio.oficio_solicitacao_descricao" class="novaPagina">
             <th colspan="2" class="tituloEditor">
               Solicitação:
               <div *ngIf="oficio.oficio_solicitacao_descricao" style="margin-top: .25em">
                 <app-kill-view [kill]="{html: oficio.oficio_solicitacao_descricao, delta: oficio.oficio_solicitacao_descricao_delta}"></app-kill-view>
-                <!--<quill-view [content]="stripslashes(oficio.oficio_solicitacao_descricao)" [format]="'html'" theme="snow"></quill-view>-->
               </div>
             </th>
           </tr>
           <tr *ngIf="oficio.oficio_descricao_acao" class="novaPagina">
             <th colspan="2" class="tituloEditor">
-              Descreção da ação:
+              Descrição da ação:
               <div *ngIf="oficio.oficio_descricao_acao" style="margin-top: .25em">
                 <app-kill-view [kill]="{html: oficio.oficio_descricao_acao, delta: oficio.oficio_descricao_acao_delta}"></app-kill-view>
-                <!--<quill-view [content]="stripslashes(oficio.oficio_descricao_acao)" [format]="'html'" theme="snow"></quill-view>-->
               </div>
             </th>
           </tr>
-
-
-
-
+          <tr *ngIf="oficio.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="oficio.oficio_arquivos"></app-detalhe-explorer>
+            </td>
+          </tr>
           </tbody>
         </table>
 

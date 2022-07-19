@@ -70,30 +70,6 @@ export class OficioAlterarComponent implements OnInit {
   }
 
   // ***     FORMULARIO      *************************
-  /*criaForm() {
-    this.formOfAlterar = this.formBuilder.group({
-      oficio_numero: [this.ofs.oficio.oficio_numero],
-      oficio_codigo: [this.ofs.oficio.oficio_codigo],
-      oficio_convenio: [this.ofs.oficio.oficio_convenio],
-      oficio_prioridade_id: [this.ofs.oficio.oficio_prioridade_id, Validators.required],
-      oficio_tipo_andamento_id: [this.ofs.oficio.oficio_tipo_andamento_id, Validators.required],
-      oficio_data_emissao: [this.ofs.oficio.oficio_data_emissao],
-      oficio_data_protocolo: [this.ofs.oficio.oficio_data_protocolo],
-      oficio_data_pagamento: [this.ofs.oficio.oficio_data_pagamento],
-      oficio_data_empenho: [this.ofs.oficio.oficio_data_empenho],
-      oficio_data_recebimento: [this.ofs.oficio.oficio_data_recebimento],
-      oficio_orgao_solicitado_nome: [this.ofs.oficio.oficio_orgao_solicitado_nome, Validators.required],
-      oficio_orgao_protocolante_nome: [this.ofs.oficio.oficio_orgao_protocolante_nome, Validators.required],
-      oficio_descricao_acao: [this.ofs.oficio.oficio_descricao_acao],
-      oficio_protocolo_numero: [this.ofs.oficio.oficio_protocolo_numero],
-      oficio_protocolante_funcionario: [this.ofs.oficio.oficio_protocolante_funcionario],
-      oficio_prazo: [this.ofs.oficio.oficio_prazo],
-      oficio_valor_recebido: [this.ofs.oficio.oficio_valor_recebido, Validators.pattern('[0-9]*')],
-      oficio_valor_solicitado: [this.ofs.oficio.oficio_valor_solicitado, Validators.pattern('[0-9]*')],
-      oficio_tipo_recebimento_id: [this.ofs.oficio.oficio_tipo_recebimento_id]
-    });
-  }*/
-
   criaForm() {
     this.formOfAlterar = this.formBuilder.group({
       oficio_numero: [this.ofs.oficio.oficio_numero],

@@ -157,7 +157,8 @@
           </tr>
           <tr *ngIf="sol.solicitacao_descricao">
             <td colspan="2" id="solicitacao_descricao3">
-              <quill-view [content]="stripslashes(sol.solicitacao_descricao)" [format]="'html'" theme="snow"></quill-view>
+              <app-kill-view [kill]="{html: sol.solicitacao_descricao, delta: sol.solicitacao_descricao_delta}"></app-kill-view>
+              <!--<quill-view [content]="stripslashes(sol.solicitacao_descricao)" [format]="'html'" theme="snow"></quill-view>-->
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_aceita_recusada" class="novaPagina">
@@ -167,7 +168,8 @@
           </tr>
           <tr *ngIf="sol.solicitacao_aceita_recusada" class="novaPagina">
             <td colspan="2">
-              <quill-view [content]="stripslashes(sol.solicitacao_aceita_recusada)" [format]="'html'" theme="snow"></quill-view>
+              <app-kill-view [kill]="{html: sol.solicitacao_aceita_recusada, delta: sol.solicitacao_aceita_recusada_delta}"></app-kill-view>
+              <!--<quill-view [content]="stripslashes(sol.solicitacao_aceita_recusada)" [format]="'html'" theme="snow"></quill-view>-->
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_carta" class="novaPagina">
@@ -177,7 +179,8 @@
           </tr>
           <tr *ngIf="sol.solicitacao_carta">
             <td colspan="2">
-              <quill-view [content]="stripslashes(sol.solicitacao_carta)" [format]="'html'" theme="snow"></quill-view>
+              <app-kill-view [kill]="{html: sol.solicitacao_carta, delta: sol.solicitacao_carta_delta}"></app-kill-view>
+              <!--<quill-view [content]="stripslashes(sol.solicitacao_carta)" [format]="'html'" theme="snow"></quill-view>-->
             </td>
           </tr>
           <tr *ngIf="sol.solicitacao_arquivos.length > 0 && aut.arquivos_baixar" >
