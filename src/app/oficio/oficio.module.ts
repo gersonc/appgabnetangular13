@@ -31,6 +31,7 @@ import { OficioDetalheComponent } from './oficio-detalhe/oficio-detalhe.componen
 import {ExplorerModule} from "../explorer/explorer.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
+import { OficioExcluirComponent } from './oficio-excluir/oficio-excluir.component';
 
 
 
@@ -41,7 +42,8 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
     OficioDatatableComponent,
     OficioIncluirComponent,
     OficioAlterarComponent,
-    OficioDetalheComponent
+    OficioDetalheComponent,
+    OficioExcluirComponent
   ],
     imports: [
         CommonModule,

@@ -7,6 +7,7 @@ import {saveAs} from "file-saver";
 import {nomeArquivo} from "../functions/nome-arquivo";
 import {pdfExporter} from "quill-to-pdf";
 import {QuillEditorComponent} from "ngx-quill";
+import {QUILLTOWORDCONFIG} from "../functions/quill-to-word-config";
 
 interface KillI {
   html?: string | null;
@@ -40,6 +41,7 @@ export class KillViewComponent implements OnInit, OnChanges {
         if (changes.kill.currentValue !== undefined) {
           this.kill.html = Stripslashes(this.kill.html);
           this.valorKill = InOutCampoTexto(this.kill.html, this.kill.delta);
+          this.valor = this.valorKill.valor;
           this.format = this.valorKill.format;
         }
       }
@@ -74,11 +76,11 @@ export class KillViewComponent implements OnInit, OnChanges {
     this.editorAtivo = true;
     const e = this.q.quillEditor;
 
-    console.log(e.getContents());
+    console.log('getPdf', e.getContents());
   }
 
   async exportWord(dt:any) {
-
+    console.log('exportWord', dt);
     const quillToWordConfig = {
       paragraphStyles: {
         normal: {
@@ -160,11 +162,12 @@ export class KillViewComponent implements OnInit, OnChanges {
     };
 
     // @ts-ignore
-    const docAsBlob: Blob = await quillToWord.generateWord(dt, quillToWordConfig);
+    const docAsBlob: Blob = await quillToWord.generateWord(dt, QUILLTOWORDCONFIG);
     saveAs(docAsBlob, nomeArquivo('docx', 'GebNet'));
   }
 
   async exportPdf(dt: any) {
+    console.log('getPdf', dt);
     const pdfAsBlob = await pdfExporter.generatePdf(dt); // converts to PDF
     saveAs(pdfAsBlob, nomeArquivo('pdf', 'GebNet')); // downloads from the browser
   }

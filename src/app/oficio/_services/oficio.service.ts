@@ -483,6 +483,11 @@ export class OficioService {
     return this.http.put<any[]> (url, dados, httpOptions);
   }
 
+  deleteOficioId(oficio_id: number): Observable<any[]> {
+    const url = this.url.oficio + '/' + oficio_id;
+    return this.http.delete<any[]>(url);
+  }
+
   onDestroy(): void {
     sessionStorage.removeItem('oficio-busca');
     sessionStorage.removeItem('oficio-tabela');

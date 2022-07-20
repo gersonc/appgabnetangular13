@@ -158,7 +158,7 @@
                 </button>
               </div>
 
-              <div *ngIf="(aut.oficio_deferir || aut.oficio_indeferir) && ofi.oficio_status_nome =='EM ANDAMENTO'" class="p-mr-2">
+              <div *ngIf="(aut.oficio_deferir || aut.oficio_indeferir || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && ofi.oficio_status_nome =='EM ANDAMENTO'" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -172,7 +172,7 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.oficio_alterar" class="p-mr-2">
+              <div *ngIf="aut.oficio_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -186,7 +186,7 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.oficio_apagar" class="p-mr-2">
+              <div *ngIf="aut.oficio_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
                   pButton
                   pRipple

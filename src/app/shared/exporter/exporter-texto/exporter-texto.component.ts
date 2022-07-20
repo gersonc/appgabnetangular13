@@ -6,6 +6,7 @@ import {pdfExporter} from "quill-to-pdf";
 import * as printJS from "print-js";
 import {ExporterService} from "../../../_services/exporter.service";
 import {Stripslashes} from "../../functions/stripslashes";
+import {QUILLTOWORDCONFIG} from "../../functions/quill-to-word-config";
 
 @Component({
   selector: 'app-exporter-texto',
@@ -27,11 +28,11 @@ export class ExporterTextoComponent implements OnInit {
   }
 
   async exportWord(dt:any) {
-    const quillToWordConfig = {
+    /*const quillToWordConfig = {
       exportAs: 'blob'
-    };
+    };*/
     // @ts-ignore
-    const docAsBlob: Blob = await quillToWord.generateWord(dt, quillToWordConfig);
+    const docAsBlob: Blob = await quillToWord.generateWord(dt, QUILLTOWORDCONFIG);
     saveAs(docAsBlob, nomeArquivo('docx', this.es.modulo));
   }
 

@@ -242,6 +242,13 @@ export class SolicExcluirComponent implements OnInit, OnDestroy {
     }
   }
 
+  voltar() {
+    this.ss.solicitacaoApagar = null;
+    this.ss.stateSN = false;
+    sessionStorage.removeItem('solic-busca');
+    this.router.navigate(['/solic/listar2']);
+  }
+
   ngOnDestroy() {
     this.ss.solicitacaoApagar = null;
     this.sub.forEach(s => s.unsubscribe());
