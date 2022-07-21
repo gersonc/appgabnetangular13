@@ -1,0 +1,412 @@
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">OFÍCIO - ANALISAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+              <table class="table-hover tabela">
+                <caption>OFÍCIO</caption>
+                <tr *ngIf="os.oficioAnalisar.oficio_status_id">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Situação:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_status_id}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_processo_numero">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Número do processo:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_processo_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_numero">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Número do ofício:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_codigo">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Código:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_codigo}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_tipo_solicitante_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Tipo de solicitante:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_tipo_solicitante_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_cadastro_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Solicitante:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_cadastro_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_municipio_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Município:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_municipio_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_assunto_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Assunto:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_assunto_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_area_interesse_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Área de interesse:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_area_interesse_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_data_emissao">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Data da emissão:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_data_emissao}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.solicitacao_local_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Núcleo:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.solicitacao_local_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_prioridade_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Prioridade:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_prioridade_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_protocolo_numero">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Número do protocolo:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_protocolo_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_data_protocolo">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Data do protocolo:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_data_protocolo}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_orgao_solicitado_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Orgão solicitado:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_orgao_solicitado_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_orgao_protocolante_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Orgão protocolante:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_orgao_protocolante_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_protocolante_funcionario">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Funcionário do orgão:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_protocolante_funcionario}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_tipo_andamento_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Tipo de andamento:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_tipo_andamento_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_tipo_recebimento_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Tipo de recebimento:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_tipo_recebimento_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_data_recebimento">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Data recebimeento:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_data_recebimento}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.solicitacao_reponsavel_analize_nome">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Responsável pela analise:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.solicitacao_reponsavel_analize_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_convenio">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Concênio:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_convenio}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_valor_solicitado">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Valor solicitado:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_valor_solicitado}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_valor_recebido">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Valor recebido:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_valor_recebido}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_data_pagamento">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Data do pagamento:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_data_pagamento}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_data_empenho">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Data do empenho:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_cadastro_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_prazo">
+                  <th style="width: 3rem;" nowrap="nowrap">
+                    Prazo:
+                  </th>
+                  <td>
+                    {{os.oficioAnalisar.oficio_prazo}}
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_solicitacao_descricao" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Descrição da solicitação:
+                  </th>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_solicitacao_descricao" class="novaPagina">
+                  <td colspan="2">
+                    <div style="margin-top: .25em">
+                      <quill-view [content]="stripslashes(os.oficioAnalisar.oficio_solicitacao_descricao)"
+                                  [format]="'html'" theme="snow"></quill-view>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_descricao_acao" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Descrição da ação:
+                  </th>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_descricao_acao" class="novaPagina">
+                  <td colspan="2">
+                      <quill-view [content]="stripslashes(os.oficioAnalisar.oficio_descricao_acao)" [format]="'html'"
+                                  theme="snow"></quill-view>
+                  </td>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+                  <th colspan="2">
+                    Arquivos:
+                  </th>
+                </tr>
+                <tr *ngIf="os.oficioAnalisar.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+                  <td colspan="2">
+                    <app-detalhe-explorer [arquivos]="os.oficioAnalisar.oficio_arquivos"></app-detalhe-explorer>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <form [formGroup]="formOfi" (ngSubmit)="onSubmit()">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-fluid p-formgrid p-grid formulario">
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+
+                <div class="p-d-block p-jc-center">
+                  <h5>Andamento do Processo</h5>
+                  <div class="formulario-quill">
+
+                    <div class="qeditor">
+                      <quill-editor
+                        class="formulario"
+                        id="historico_andamento"
+                        [format]="format0"
+                        [defaultEmptyValue]="null"
+                        [theme]="'snow'"
+                        [modules]="modulos"
+                        [debounceTime]="10"
+                        [placeholder]="''"
+                        formControlName="historico_andamento"
+                        (onContentChanged)="onContentChanged($event, 'historico_andamento')"
+                      ></quill-editor>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="aut.arquivos_anexar" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+                <div class="p-d-block p-jc-center">
+
+                <h5>Arquivos</h5>
+                <app-arquivo *ngIf="aut.arquivos_anexar"
+                             [modulo]="'oficio'"
+                             [uploadDisabled]="arquivoDesativado"
+                             [registro_id]="os.oficioAnalisar.oficio_id"
+                             (onPossuiArquivos)="onPossuiArquivos($event)"
+                             [modelo]="'analisar'"
+                             [stiloClass]="'formulario'"
+                             [buscaArquivos]="false"
+                             (onArquivosGravados)="onArquivosGravados($event)"
+                             (onBlockSubmit)="onBlockSubmit($event)"
+                ></app-arquivo>
+                </div>
+              </div>
+
+              <div class="p-field p-col-12">
+                &nbsp;
+              </div>
+
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+                <h5>Análise</h5>
+                <p-selectButton #ofst [options]="ddOficioStatusId" id="oficio_status"
+                                formControlName="oficio_status"></p-selectButton>
+              </div>
+
+              <div class="p-field p-col-12">
+                &nbsp;
+              </div>
+
+            </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+        </div>
+
+        <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+          <div class="p-grid">
+            <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+
+              <div class="p-grid p-input-filled">
+
+                <div class="p-col-12 formulario">
+                  <!--*** Botões ***-->
+                  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        type="submit"
+                        class="p-button-rounded"
+                        [disabled]="(ofst.value === os.oficioAnalisar.oficio_status_id) || !btnAtivo"
+                        label="Enviar"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-rounded p-button-secondary"
+                        (click)="resetForm()"
+                        label="Cancelar"
+                        [disabled]="!btnAtivo"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-rounded p-button-secondary"
+                        (click)="voltar()"
+                        label="Voltar"
+                        [disabled]="!btnAtivo"
+                      ></button>
+                    </div>
+                  </div>
+                  <!--*** FIM BOTOES ***-->
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+
+    </div>
+  </div>
+
+
+  <div class="p-fluid formulario-bg-externo">
+    <div class="p-grid formulario-bg-externo">
+      <div class="p-col-12"></div>
+      <div class="p-col-12"></div>
+    </div>
+  </div>
+
+
+</p-scrollPanel>

@@ -72,7 +72,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sfs.acao = 'analisar';
     this.criaForm();
-    if (this.aut.solicitacaoVersao === 1) {
+    if (this.aut.solicitacaoVersao === 1 && this.sfs.solA.processo_id === 0) {
       this.sub.push(this.ss.getSgstNumProcesso().pipe(take(1)).subscribe(dados => {
         this.sgstNumPro = dados[0];
         this.formSol.get('processo_numero').setValue(dados[0]);

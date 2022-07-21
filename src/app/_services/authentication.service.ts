@@ -370,7 +370,7 @@ export class AuthenticationService {
     this.agenda2 = regra?.indexOf('a2') !== -1;
     this.agenda = regra?.indexOf('ag') !== -1;
     this.andamentoproposicao = regra?.indexOf('ap') !== -1;
-    this.arquivos = regra?.indexOf('ar') !== -1;
+    this.arquivos = (regra?.indexOf('ar') !== -1 && this.config_arquivo_ativo);
     this.assunto = regra?.indexOf('as') !== -1;
     this.cadastro = regra?.indexOf('ca') !== -1;
     this.configuracao = regra?.indexOf('cf') !== -1;
@@ -480,9 +480,9 @@ export class AuthenticationService {
     this.passagemaerea_apagar = acesso.indexOf('pa_d') !== -1;
     this.passagemaerea_listar = acesso.indexOf('pa_l') !== -1;
     this.sms_incluir = acesso.indexOf('sm_i') !== -1;
-    this.arquivos_anexar = acesso.indexOf('ar_a') !== -1;
-    this.arquivos_baixar = acesso.indexOf('ar_b') !== -1;
-    this.arquivos_apagar = acesso.indexOf('ar_d') !== -1;
+    this.arquivos_anexar = (acesso.indexOf('ar_a') !== -1 && this.config_arquivo_ativo);
+    this.arquivos_baixar = (acesso.indexOf('ar_b') !== -1 && this.config_arquivo_ativo);
+    this.arquivos_apagar = (acesso.indexOf('ar_d') !== -1 && this.config_arquivo_ativo);
     // this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
     this.usuario_responsavel_sn = (regra?.indexOf('ur') !== -1 ||  acesso.indexOf('us_r') !== -1 || regra?.indexOf('up') !== -1);
     this.userRules = acesso;

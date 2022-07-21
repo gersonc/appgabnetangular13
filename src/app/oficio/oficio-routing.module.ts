@@ -10,6 +10,7 @@ import {OficioIncluirResolver} from "./_resolvers/oficio-incluir.resolver";
 import {OficioAlterarComponent} from "./oficio-alterar/oficio-alterar.component";
 import {OficioFormResolver} from "./_resolvers/oficio-form.resolver";
 import {OficioExcluirComponent} from "./oficio-excluir/oficio-excluir.component";
+import {OficioAnalisarComponent} from "./oficio-analisar/oficio-analisar.component";
 
 const oficioRoutes: Routes = [
   {
@@ -94,6 +95,18 @@ const oficioRoutes: Routes = [
           scopes: Scope.oficio_apagar
         }
       },
+      {
+        path: 'analisar',
+        component: OficioAnalisarComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.oficio,
+          scopes: [Scope.oficio_deferir, Scope.oficio_indeferir]
+        }
+      },
+
+
+
     ]
   },
   {

@@ -240,6 +240,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
           label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
           command: () => {
             this.oficioAnalisar(this.os.Contexto);
+            console.log(this.os.Contexto);
           }
         });
     }
@@ -339,14 +340,15 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  oficioAnalisar(sol: OficioListarI) {
+  oficioAnalisar(ofi: OficioListarI) {
     if (this.aut.solicitacao_analisar) {
       this.os.salvaState();
       this.dtb.saveState();
-      this.ofs.acao = 'analisar';
+      // this.ofs.acao = 'analisar';
+      this.os.oficioAnalisar = ofi;
       // this.sfs.parseListagemAnalisarForm(sol);
       // this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
-      this.router.navigate(['/solic/analisar']);
+      this.router.navigate(['/oficio/analisar']);
     } else {
       console.log('SEM PERMISSAO');
     }

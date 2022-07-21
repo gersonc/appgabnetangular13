@@ -118,14 +118,17 @@ export class OficioService {
   }
 
   onContextMenuSelect(event) {
+    console.log('onContextMenuSelect', event);
+    this.idx = event.index;
     this.Contexto = event.data;
   }
 
   onRowExpand(evento) {
+    this.idx = this.oficios.findIndex(o => o.oficio_id === +evento.data.oficio_id);
     if (this.tabela.titulos.length === 0) {
       this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
     }
-    console.log('onRowExpand',evento);
+    console.log('onRowExpand', evento);
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
@@ -486,6 +489,12 @@ export class OficioService {
   deleteOficioId(oficio_id: number): Observable<any[]> {
     const url = this.url.oficio + '/' + oficio_id;
     return this.http.delete<any[]>(url);
+  }
+
+  putOficioAnalisar(dados: any): Observable<any[]> {
+    const url = this.url.oficio + '/analisar';
+    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   onDestroy(): void {

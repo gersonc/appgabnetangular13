@@ -32,6 +32,8 @@ import {ExplorerModule} from "../explorer/explorer.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import { OficioExcluirComponent } from './oficio-excluir/oficio-excluir.component';
+import { OficioAnalisarComponent } from './oficio-analisar/oficio-analisar.component';
+import {SelectButtonModule} from "primeng/selectbutton";
 
 
 
@@ -43,7 +45,8 @@ import { OficioExcluirComponent } from './oficio-excluir/oficio-excluir.componen
     OficioIncluirComponent,
     OficioAlterarComponent,
     OficioDetalheComponent,
-    OficioExcluirComponent
+    OficioExcluirComponent,
+    OficioAnalisarComponent
   ],
     imports: [
         CommonModule,
@@ -71,7 +74,8 @@ import { OficioExcluirComponent } from './oficio-excluir/oficio-excluir.componen
         CardModule,
         ExplorerModule,
         ImpressaoModule,
-        KillViewModule
+        KillViewModule,
+        SelectButtonModule
     ],
   exports: [
     OficioComponent,

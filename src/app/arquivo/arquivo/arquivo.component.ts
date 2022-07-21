@@ -106,7 +106,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
         }
         case 'analisar': {
           this.mostraH6 = false;
-          this.listaArquivos = true;
+          this.listaArquivos = false;
           this.disabled = false;
           this.showUploadButton = false;
           this.modo = 'basic';
@@ -228,6 +228,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   blockSubmit(ev: boolean) {
+    console.log('blockSubmit', ev);
     this.ass.setCarregador(ev);
     this.onBlockSubmit.emit(ev);
   }
@@ -269,6 +270,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onGravados(ev: ArquivoInterface[]) {
+    console.log('onGravados', ev);
     this.onArquivosGravados.emit(ev);
   }
 

@@ -228,30 +228,6 @@ export class OficioIncluirComponent implements OnInit {
 
   }
 
-  /*getProcessoId(processo_id: number) {
-    this.sub.push(this.os.getProcessoId(this.processo_id)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.oficio_codigo = dados['oficio_codigo'];
-          this.ofs.oficio.oficio_processo_id = dados['processo_id'];
-          this.processo_numero = dados['processo_numero'];
-          this.solicitacao_cadastro_nome = dados['solicitacao_cadastro_nome'];
-          this.solicitacao_assunto_nome = dados['solicitacao_assunto_nome'];
-          this.solicitacao_data = dados['solicitacao_data'];
-          this.solicitacao_area_interesse_nome = dados['solicitacao_area_interesse_nome'];
-          this.solicitacao_descricao = dados['solicitacao_descricao'];
-          this.solicitacao_descricao_texto = dados['solicitacao_descricao_texto'];
-          this.solicitacao_descricao_delta = dados['solicitacao_descricao_delta'];
-          this.cadastro_municipio_nome = dados['cadastro_municipio_nome'];
-        },
-        error: (erro) => {
-          console.log(erro);
-        },
-        complete: () => {
-        }
-      }));
-  }*/
 
   resetForm() {
     this.formOfIncluir.reset();
