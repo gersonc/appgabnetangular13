@@ -20,6 +20,11 @@ export class OficioIncluirResolver implements Resolve<boolean> {
   private oficioProcessoId: DdOficioProcessoIdI = {
     processo_id: 0
   };
+
+  processo_id = 0;
+  solicitacao_id = 0;
+  url: string | null = null
+
   resp: Subject<boolean>;
   resp$: Observable<boolean>
   private sub: Subscription[] = [];
@@ -56,6 +61,15 @@ export class OficioIncluirResolver implements Resolve<boolean> {
   }
 
   carregaDropDown(): boolean {
+    if(this.url !== null){
+      if(this.url === 'processo') {
+        if(this.ofs.processo_id === 0) {
+          this.ofs.url = '/proce/listar';
+        } else {
+          this.ofs.url = '/proce/listar2';
+        }
+      }
+    }
 
     this.dds = [];
     this.resp = new Subject<boolean>();
@@ -116,6 +130,13 @@ export class OficioIncluirResolver implements Resolve<boolean> {
 
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    if (route.routeConfig.path !== undefined && route.routeConfig.path === 'processo') {
+      this.ofs.processo_id = +route.params.processo_id;
+      this.ofs.solicitacao_id = +route.params.solicitacao_id;
+      this.url = 'processo';
+    }
+    console.log('route',route);
+    console.log('state',state);
     if (this.carregaDropDown()) {
       return this.resp$.pipe(
         take(1),

@@ -47,6 +47,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 /*import {ExporterTextoModule} from "../shared/exporter-texto/exporter-texto.module";*/
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
+import {FocusTrapModule} from "primeng/focustrap";
 
 
 @NgModule({
@@ -115,7 +116,8 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
         /*CelulaModule,*/
         /*ExporterTextoModule,*/
         ExporterAcessoModule,
-        KillViewModule
+        KillViewModule,
+        FocusTrapModule
     ],
   exports: [
     SolicComponent,

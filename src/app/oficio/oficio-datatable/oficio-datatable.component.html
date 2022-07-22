@@ -61,7 +61,7 @@
                     (click)="men.toggle($event)"></button>
           </div>
 
-          <div class="p-mr-0">
+          <div class="p-mr-0" *ngIf="aut.oficio_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
             <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
                     (click)="oficioIncluir()"></button>
           </div>

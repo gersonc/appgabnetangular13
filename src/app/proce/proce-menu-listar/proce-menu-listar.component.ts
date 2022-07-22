@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {VersaoService} from "../../_services/versao.service";
@@ -32,13 +32,13 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
     public pdd: ProceDropdownMenuService,
     public authenticationService: AuthenticationService,
     private router: Router,
-
   ) { }
 
   ngOnInit() {
+
     this.formListar = this.formBuilder.group({
       cadastro_regiao_id: [null],
-      processo_numero: [null],
+      processo_id: [null],
       cadastro_municipio_id: [null],
       cadastro_tipo_id: [null],
       cadastro_id: [null],
@@ -53,10 +53,12 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
       solicitacao_data1: [null],
       solicitacao_data2: [null],
     });
-
     this.carregaDropDown();
-
     this.mi.showMenuInterno();
+  }
+
+  onDiv(ev) {
+    console.log('focusin', ev);
   }
 
   carregaDropDown() {
@@ -79,6 +81,7 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
       }
     ));
     this.pdd.gravaDropDown();
+
   }
 
   onMudaForm() {
@@ -86,24 +89,59 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
     let proBusca: ProceBuscaI;
     proBusca = this.formListar.getRawValue();
     this.ps.novaBusca(proBusca);
-    /*this.ps.busca = proBusca;
-    this.ps.busca.rows = this.ps.tabela.rows;*/
     this.ps.buscaMenu();
     this.mi.hideMenu();
   }
 
   limpar() {
     this.formListar.reset();
+    const k: string[] = Object.keys(this.formListar.controls);
+    k.forEach(s => {
+      this.formListar.get(s).enable({onlySelf: true, emitEvent: true});
+    });
+  }
+
+  processoNumeroChange(ev) {
+    console.log('processoNumeroChange', ev);
+    const k: string[] = Object.keys(this.formListar.controls);
+    if (ev.value !== undefined && ev.value !== null && +ev.value > 0) {
+      const e = +ev.value;
+      this.formListar.reset();
+      k.forEach(s => {
+          if (s !== 'processo_id') {
+            this.formListar.get(s).disable({onlySelf: true, emitEvent: true});
+          } else {
+            this.formListar.get(s).setValue(e);
+          }
+      });
+    } else {
+      k.forEach(s => {
+        this.formListar.get(s).enable({onlySelf: true, emitEvent: true});
+      });
+      this.formListar.get('processo_id').setValue(null);
+    }
+  }
+
+  processoNumeroClear() {
+    const k: string[] = Object.keys(this.formListar.controls);
+    k.forEach(s => {
+      this.formListar.get(s).enable({onlySelf: true, emitEvent: true});
+    });
+    this.formListar.get('processo_id').setValue(null);
   }
 
 
 
   onKey(event) {
-    let a = 0;
-    event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
+    console.log(event);
+    // this.onMudaForm()
   }
 
   fechar() {
+  }
+
+  incluirOficio() {
+      this.router.navigate(['oficio/processo', {processo_id: 0, solicitacao_id: 0}]);
   }
 
   ngOnDestroy(): void {

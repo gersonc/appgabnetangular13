@@ -52,7 +52,7 @@ export class OficioIncluirComponent implements OnInit {
   oficod = false;
   resp: any[];
   solicitacao = false;
-  url: string;
+  url: string | null = null;
   botoesInativos = false;
   botaoEnviarVF = false;
   arquivoDesativado = false;
@@ -134,7 +134,15 @@ export class OficioIncluirComponent implements OnInit {
     if (this.ofs.oficioProcessoId !== null) {
       this.lb = this.ofs.oficioProcessoId;
       this.herancaSN = true;
+    } else {
+      if (this.ofs.url !== '') {
+        // this.location.go('../' + this.ofs.url);
+        this.herancaSN = false;
+      }
     }
+
+
+
     this.criaForm();
   }
 
@@ -257,9 +265,9 @@ export class OficioIncluirComponent implements OnInit {
       });
       this.ofs.resetOficio();
       this.resetForm();
-      this.botaoEnviarVF = false;
+      this.botaoEnviarVF = false
       this.mostraForm = true;
-      // this.voltarListar();
+      this.voltarListar();
     }
   }
 
@@ -287,7 +295,9 @@ export class OficioIncluirComponent implements OnInit {
       this.ofs.solicitacao_id = 0;
       this.ofs.oficioProcessoId = null;
       const url: string = this.ofs.url;
+      console.log('url', url, this.ofs.url);
       this.ofs.url = '';
+
       this.router.navigate([url]);
     } else {
       if (this.resp === undefined) {

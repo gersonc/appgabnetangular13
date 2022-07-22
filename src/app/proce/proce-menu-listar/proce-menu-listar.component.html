@@ -1,17 +1,20 @@
-<div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-  <form [formGroup]="formListar" (keyup)="onKey($event)" class="menuinterno-form">
+<div class="p-fluid formulario-bg-externo espacoInferiorMenu" (mouseenter)="bt0.focus()" pFocusTrap>
+  <form #frm [formGroup]="formListar" (keyup.enter)="onKey($event)" (ngSubmit)="onMudaForm()" class="menuinterno-form">
 
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
         <div class="p-mr-2">
           <button
+            #bt0
+            id="bt0"
             pButton
             type="submit"
             icon="pi pi-search"
             iconPos="left"
             label="Procurar"
             class="p-button-rounded p-button-secondary"
-            (click)="onMudaForm()"
+            tabIndex="0"
+            autofocus
           ></button>
         </div>
         <div class="p-mr-2">
@@ -34,14 +37,16 @@
 
         <!-- oficio_processo_id -->
         <div *ngIf="ddProce.ddProcesso_numero" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-          <label for="processo_numero">Número do processo</label>
+          <label for="processo_id">Número do processo</label>
           <p-dropdown
-            id="processo_numero"
+            id="processo_id"
             [options]="ddProce.ddProcesso_numero"
             [style]="{'width':'100%'}"
             placeholder="TODOS"
-            formControlName="processo_numero"
+            formControlName="processo_id"
             [showClear]="true"
+            (onChange)="processoNumeroChange($event)"
+            (onClear)="processoNumeroClear()"
           ></p-dropdown>
         </div>
 
@@ -244,7 +249,18 @@
         </div>
         <div class="p-mr-2">
           <button
-            *ngIf="authenticationService.oficio_incluir"
+            *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn"
+            pButton
+            type="button"
+            icon="pi pi-times"
+            iconPos="left"
+            label="Inclui Ofício"
+            class="p-button-rounded p-button-secondary"
+            (click)="incluirOficio()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
             pButton
             type="button"
             icon="pi pi-times"

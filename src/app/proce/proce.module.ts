@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import { ProceComponent } from './proce.component';
-import { ProceMenuListarComponent } from './proce-menu-listar/proce-menu-listar.component';
-import { ProceDatatableComponent } from './proce-datatable/proce-datatable.component';
-import { ProceDetalheComponent } from './proce-detalhe/proce-detalhe.component';
-import { ProceAnalisarComponent } from './proce-analisar/proce-analisar.component';
+import {ProceComponent} from './proce.component';
+import {ProceMenuListarComponent} from './proce-menu-listar/proce-menu-listar.component';
+import {ProceDatatableComponent} from './proce-datatable/proce-datatable.component';
+import {ProceDetalheComponent} from './proce-detalhe/proce-detalhe.component';
+import {ProceAnalisarComponent} from './proce-analisar/proce-analisar.component';
 import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {ButtonModule} from "primeng/button";
@@ -29,19 +29,14 @@ import {AutoCompleteModule} from "primeng/autocomplete";
 import {CalendarModule} from "primeng/calendar";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {AccordionModule} from "primeng/accordion";
-import {EditorModule} from "primeng/editor";
 import {ProceRoutingModule} from "./proce-routing.module";
 import {HistModule} from "../hist/hist.module";
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
-// import {CelulaQuillModule} from "../shared/celula-quill/celula-quill.module";
-// import {CampoExtendidoModule} from "../shared/campo-extendido/campo-extendido.module";
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {SelectButtonModule} from "primeng/selectbutton";
-import { ProceExcluirComponent } from './proce-excluir/proce-excluir.component';
-
-
-
+import {ProceExcluirComponent} from './proce-excluir/proce-excluir.component';
+import {FocusTrapModule} from "primeng/focustrap";
 
 
 @NgModule({
@@ -53,48 +48,47 @@ import { ProceExcluirComponent } from './proce-excluir/proce-excluir.component';
     ProceAnalisarComponent,
     ProceExcluirComponent
   ],
-    imports: [
-        CommonModule,
-        ProceRoutingModule,
-        SidebarModule,
-        ScrollPanelModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        TableModule,
-        MenuModule,
-        RippleModule,
-        TooltipModule,
-        DialogModule,
-        ListboxModule,
-        ContextMenuModule,
-        ToastModule,
-        QuillModule,
-        FormsModule,
-        InputTextModule,
-        ArquivoModule,
-        ExplorerModule,
-        UtilModule,
-        AutoCompleteModule,
-        CalendarModule,
-        InputSwitchModule,
-        AccordionModule,
-        EditorModule,
-        UtilModule,
-        HistModule,
-        QuillViewModule,
-        /*CelulaQuillModule,*/
-        /*CampoExtendidoModule,*/
-        ExporterAcessoModule,
-        ImpressaoModule,
-        SelectButtonModule,
-    ],
+  imports: [
+    CommonModule,
+    ProceRoutingModule,
+    SidebarModule,
+    ScrollPanelModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    TableModule,
+    MenuModule,
+    RippleModule,
+    TooltipModule,
+    DialogModule,
+    ListboxModule,
+    ContextMenuModule,
+    ToastModule,
+    QuillModule,
+    FormsModule,
+    InputTextModule,
+    ArquivoModule,
+    ExplorerModule,
+    UtilModule,
+    AutoCompleteModule,
+    CalendarModule,
+    InputSwitchModule,
+    AccordionModule,
+    FocusTrapModule,
+    UtilModule,
+    HistModule,
+    QuillViewModule,
+    ExporterAcessoModule,
+    ImpressaoModule,
+    SelectButtonModule,
+  ],
   exports: [
     ProceComponent,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   ]
 })
-export class ProceModule { }
+export class ProceModule {
+}

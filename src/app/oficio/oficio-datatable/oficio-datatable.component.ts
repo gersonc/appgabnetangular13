@@ -294,7 +294,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES DE CRUD ===========================================================
 
   oficioIncluir(): void {
-    if (this.aut.solicitacao_incluir) {
+    if (this.aut.oficio_incluir || this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
       this.ofs.acao = 'incluir';
       this.os.salvaState();
       this.dtb.saveState();
@@ -344,10 +344,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.solicitacao_analisar) {
       this.os.salvaState();
       this.dtb.saveState();
-      // this.ofs.acao = 'analisar';
       this.os.oficioAnalisar = ofi;
-      // this.sfs.parseListagemAnalisarForm(sol);
-      // this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
       this.router.navigate(['/oficio/analisar']);
     } else {
       console.log('SEM PERMISSAO');

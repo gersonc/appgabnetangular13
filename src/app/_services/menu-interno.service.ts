@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {ElementRef, Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {CarregadorService} from "./carregador.service";
 import {MenuDatatableService} from "./menu-datatable.service";
@@ -15,26 +15,27 @@ export class MenuInternoService {
   public mostraInternoMenu$ = this.mostraMenuInternoSource.asObservable();
   public loading = true;
 
-
-
   constructor(
-    public cs: CarregadorService,
+    // public cs: CarregadorService,
     public md: MenuDatatableService
   ) { }
 
   mudaMenuInterno(valor: boolean | null = null) {
     if (valor !== this.mostraMenuInterno) {
       if (valor === true) {
-        this.mostraMenuInterno = true;
+        this.showMenuInterno();
+        // this.mostraMenuInterno = true;
       }
       if (valor === false) {
-        this.mostraMenuInterno = false;
-        this.md.hide();
+        this.hideMenu()
+        //this.mostraMenuInterno = false;
+        // this.md.hide();
       }
       if (valor === null) {
-        this.mostraMenuInterno = true;
+        // this.mostraMenuInterno = true;
+        this.showMenuInterno();
       }
-      this.mostraMenuInternoSource.next(this.mostraMenuInterno);
+      // this.mostraMenuInternoSource.next(this.mostraMenuInterno);
     }
   }
 
@@ -64,17 +65,21 @@ export class MenuInternoService {
   }
 
   hideMenu(): void {
-    if (this.mostraMenuInterno) {
+    // if (this.mostraMenuInterno) {
       this.mostraMenuInterno = false;
       this.md.hide();
       this.mostraMenuInternoSource.next(this.mostraMenuInterno);
-    }
+    // }
   }
 
   showMenuInterno(): void {
-    if (!this.mostraMenuInterno) {
+    // if (!this.mostraMenuInterno) {
       this.mostraMenuInterno = true;
       this.mostraMenuInternoSource.next(this.mostraMenuInterno);
-    }
+    // }
   }
+
+
+
+
 }

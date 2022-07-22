@@ -1,9 +1,10 @@
-<div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+<div class="p-fluid formulario-bg-externo espacoInferiorMenu" (mouseenter)="bt0.focus()" pFocusTrap>
   <form [formGroup]="formListarSolicitacao" (keyup)="onKey($event)" class="menuinterno-form">
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
         <div class="p-mr-2">
           <button
+            #bt0
             pButton
             type="button"
             icon="pi pi-search"
@@ -11,6 +12,7 @@
             label="Procurar"
             class="p-button-rounded p-button-secondary"
             (click)="onMudaForm()"
+            autofocus
           ></button>
         </div>
         <div class="p-mr-2">

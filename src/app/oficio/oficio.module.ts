@@ -34,6 +34,7 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import { OficioExcluirComponent } from './oficio-excluir/oficio-excluir.component';
 import { OficioAnalisarComponent } from './oficio-analisar/oficio-analisar.component';
 import {SelectButtonModule} from "primeng/selectbutton";
+import {FocusTrapModule} from "primeng/focustrap";
 
 
 
@@ -75,7 +76,8 @@ import {SelectButtonModule} from "primeng/selectbutton";
         ExplorerModule,
         ImpressaoModule,
         KillViewModule,
-        SelectButtonModule
+        SelectButtonModule,
+        FocusTrapModule
     ],
   exports: [
     OficioComponent,
