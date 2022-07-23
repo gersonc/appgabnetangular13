@@ -136,8 +136,12 @@ export class OficioIncluirComponent implements OnInit {
       this.herancaSN = true;
     } else {
       if (this.ofs.url !== '') {
-        // this.location.go('../' + this.ofs.url);
-        this.herancaSN = false;
+        if (this.ofs.processo_id === 0) {
+          this.herancaSN = false;
+        }
+        if (this.ofs.processo_id > 0) {
+          this.herancaSN = true;
+        }
       }
     }
 
@@ -295,9 +299,7 @@ export class OficioIncluirComponent implements OnInit {
       this.ofs.solicitacao_id = 0;
       this.ofs.oficioProcessoId = null;
       const url: string = this.ofs.url;
-      console.log('url', url, this.ofs.url);
       this.ofs.url = '';
-
       this.router.navigate([url]);
     } else {
       if (this.resp === undefined) {

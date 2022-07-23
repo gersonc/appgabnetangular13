@@ -5,6 +5,8 @@ export function Stripslashes(str?: string): string | null {
   return (str + '')
     .replace(/\\(.?)/g, function (s, n1) {
       switch (n1) {
+        case '"':
+          return "'"
         case '\\':
           return '\\'
         case '0':

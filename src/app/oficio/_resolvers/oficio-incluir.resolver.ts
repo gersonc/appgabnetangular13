@@ -63,11 +63,12 @@ export class OficioIncluirResolver implements Resolve<boolean> {
   carregaDropDown(): boolean {
     if(this.url !== null){
       if(this.url === 'processo') {
-        if(this.ofs.processo_id === 0) {
+        /*if(this.ofs.processo_id === 0) {
           this.ofs.url = '/proce/listar';
         } else {
           this.ofs.url = '/proce/listar2';
-        }
+        }*/
+        this.ofs.url = '/proce/listar';
       }
     }
 

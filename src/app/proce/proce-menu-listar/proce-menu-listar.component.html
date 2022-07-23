@@ -17,6 +17,17 @@
             autofocus
           ></button>
         </div>
+        <div *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn" class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-file-o"
+            iconPos="left"
+            label="Inclui Ofício"
+            class="p-button-rounded p-button-secondary"
+            (click)="incluirOficio()"
+          ></button>
+        </div>
         <div class="p-mr-2">
           <button
             *ngIf="authenticationService.oficio_incluir"
@@ -247,9 +258,8 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn" class="p-mr-2">
           <button
-            *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn"
             pButton
             type="button"
             icon="pi pi-times"

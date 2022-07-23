@@ -275,77 +275,80 @@ export class SolicService {
   tabelaPdf(n: number): void  {
     // 1 - selecionados
     // 2 - pagina
-    if (n === 1) {
-      TabelaPdfService.tabelaPdf(
-        'solicitacoes',
-        'SOLICITAÇÕES',
-        this.tabela.selectedColumns,
-        this.selecionados,
-        solicSolicitacaoCamposTexto
-      );
-    }
-    if (n === 2) {
-      TabelaPdfService.tabelaPdf(
-        'solicitacoes',
-        'SOLICITAÇÕES',
-        this.tabela.selectedColumns,
-        this.solicitacoes,
-        solicSolicitacaoCamposTexto
-      );
-    }
-    if (n === 3) {
-      let busca: SolicBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns,
-      busca.todos = true;
-      busca.first = undefined;
-      let solicRelatorio: SolicPaginacaoInterface;
-      this.sub.push(this.postSolicitacaoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            solicRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            TabelaPdfService.tabelaPdf(
-              'solicitacoes',
-              'SOLICITAÇÕES',
-              this.tabela.selectedColumns,
-              solicRelatorio.solicitacao,
-              solicSolicitacaoCamposTexto
-            );
-          }
-        })
-      );
-
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (n === 1) {
+        TabelaPdfService.tabelaPdf(
+          'solicitacoes',
+          'SOLICITAÇÕES',
+          this.tabela.selectedColumns,
+          this.selecionados,
+          solicSolicitacaoCamposTexto
+        );
+      }
+      if (n === 2) {
+        TabelaPdfService.tabelaPdf(
+          'solicitacoes',
+          'SOLICITAÇÕES',
+          this.tabela.selectedColumns,
+          this.solicitacoes,
+          solicSolicitacaoCamposTexto
+        );
+      }
+      if (n === 3) {
+        let busca: SolicBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns,
+          busca.todos = true;
+        busca.first = undefined;
+        let solicRelatorio: SolicPaginacaoInterface;
+        this.sub.push(this.postSolicitacaoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              solicRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              TabelaPdfService.tabelaPdf(
+                'solicitacoes',
+                'SOLICITAÇÕES',
+                this.tabela.selectedColumns,
+                solicRelatorio.solicitacao,
+                solicSolicitacaoCamposTexto
+              );
+            }
+          })
+        );
+      }
     }
   }
 
   exportToXLSX(td: number = 1) {
-    // const cp = this.ss.excelCamposTexto();
+
     if (td === 3) {
-      let busca: SolicBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = true;
-      busca.first = undefined;
-      busca.excel = true;
-      let solicRelatorio: SolicPaginacaoInterface;
-      this.sub.push(this.postSolicitacaoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            solicRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            ExcelService.criaExcelFile('solicitacao', limpaCampoTexto(solicSolicitacaoCamposTexto, solicRelatorio.solicitacao), this.tabela.selectedColumns);
-          }
-        })
-      );
+      if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+        let busca: SolicBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.excel = true;
+        let solicRelatorio: SolicPaginacaoInterface;
+        this.sub.push(this.postSolicitacaoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              solicRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              ExcelService.criaExcelFile('solicitacao', limpaCampoTexto(solicSolicitacaoCamposTexto, solicRelatorio.solicitacao), this.tabela.selectedColumns);
+            }
+          })
+        );
+      }
     }
     if (this.solicitacoes.length > 0 && td === 2) {
       ExcelService.criaExcelFile('solicitacao', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.solicitacoes), this.tabela.selectedColumns);
@@ -358,27 +361,29 @@ export class SolicService {
   }
 
   exportToCsvTodos(td: boolean = true) {
-    if (td === true) {
-      let busca: SolicBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = td;
-      busca.first = undefined;
-      let slolicRelatorio: SolicPaginacaoInterface;
-      this.sub.push(this.postSolicitacaoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            slolicRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            CsvService.jsonToCsv('solicitacao', this.tabela.selectedColumns, slolicRelatorio.solicitacao);
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (td === true) {
+        let busca: SolicBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = td;
+        busca.first = undefined;
+        let slolicRelatorio: SolicPaginacaoInterface;
+        this.sub.push(this.postSolicitacaoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              slolicRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              CsvService.jsonToCsv('solicitacao', this.tabela.selectedColumns, slolicRelatorio.solicitacao);
 
-          }
-        })
-      );
+            }
+          })
+        );
+      }
     }
   }
 

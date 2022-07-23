@@ -9,7 +9,7 @@ import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} 
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {HistAuxService} from "../../hist/_services/hist-aux.service";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
-import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
+import {limpaCampoTexto, limpaCampoTextoPlus} from "../../shared/functions/limpa-campo-texto";
 import {CelulaI} from "../../_models/celula-i";
 import {CelulaService} from "../../_services/celula.service";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
@@ -228,114 +228,117 @@ export class ProceService {
   }
 
   imprimirTabela(n: number) {
-    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'PROCESSOS');
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+        PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'PROCESSOS');
+      }
+
+      if (n === 2 && this.processos.length > 0) {
+        PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.processos, 'PROCESSOS');
+      }
+
+      if (n === 3) {
+        let busca: ProceBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.excel = true;
+        let proceRelatorio: ProcePaginacaoInterface;
+        this.sub.push(this.postProcessoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              proceRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              PrintJSService.imprimirTabela2(this.tabela.selectedColumns, proceRelatorio.processos, 'PROCESSOS');
+            }
+          })
+        );
+      }
     }
-
-    if (n === 2 && this.processos.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.processos, 'PROCESSOS');
-    }
-
-    if (n === 3) {
-      let busca: ProceBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = true;
-      busca.first = undefined;
-      busca.excel = true;
-      let proceRelatorio: ProcePaginacaoInterface;
-      this.sub.push(this.postProcessoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            proceRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, proceRelatorio.processos, 'PROCESSOS');
-          }
-        })
-      );
-    }
-
-
   }
 
   tabelaPdf(n: number): void  {
-    // 1 - selecionados
-    // 2 - pagina
-    if (n === 1) {
-      TabelaPdfService.tabelaPdf(
-        'processos',
-        'PROCESSOS',
-        this.tabela.selectedColumns,
-        this.selecionados,
-        proceProcessoCamposTexto
-      );
-    }
-    if (n === 2) {
-      TabelaPdfService.tabelaPdf(
-        'processos',
-        'PROCESSOS',
-        this.tabela.selectedColumns,
-        this.processos,
-        proceProcessoCamposTexto
-      );
-    }
-    if (n === 3) {
-      let busca: ProceBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns,
-        busca.todos = true;
-      busca.first = undefined;
-      let proceRelatorio: ProcePaginacaoInterface;
-      this.sub.push(this.postProcessoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            proceRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            TabelaPdfService.tabelaPdf(
-              'processos',
-              'PROCESSOS',
-              this.tabela.selectedColumns,
-              proceRelatorio.processos,
-              proceProcessoCamposTexto
-            );
-          }
-        })
-      );
-
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      // 1 - selecionados
+      // 2 - pagina
+      if (n === 1) {
+        TabelaPdfService.tabelaPdf(
+          'processos',
+          'PROCESSOS',
+          this.tabela.selectedColumns,
+          this.selecionados,
+          proceProcessoCamposTexto
+        );
+      }
+      if (n === 2) {
+        TabelaPdfService.tabelaPdf(
+          'processos',
+          'PROCESSOS',
+          this.tabela.selectedColumns,
+          this.processos,
+          proceProcessoCamposTexto
+        );
+      }
+      if (n === 3) {
+        let busca: ProceBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns,
+          busca.todos = true;
+        busca.first = undefined;
+        let proceRelatorio: ProcePaginacaoInterface;
+        this.sub.push(this.postProcessoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              proceRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              TabelaPdfService.tabelaPdf(
+                'processos',
+                'PROCESSOS',
+                this.tabela.selectedColumns,
+                proceRelatorio.processos,
+                proceProcessoCamposTexto
+              );
+            }
+          })
+        );
+      }
     }
   }
 
   exportToXLSX(td: number = 1) {
     // const cp = this.ss.excelCamposTexto();
     if (td === 3) {
-      let busca: ProceBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = true;
-      busca.first = undefined;
-      busca.excel = true;
-      let proceRelatorio: ProcePaginacaoInterface;
-      this.sub.push(this.postProcessoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            proceRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            ExcelService.criaExcelFile('processo', limpaCampoTexto(proceProcessoCamposTexto, proceRelatorio.processos), this.tabela.selectedColumns);
-          }
-        })
-      );
+      if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+        let busca: ProceBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.excel = true;
+        let proceRelatorio: ProcePaginacaoInterface;
+        this.sub.push(this.postProcessoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              proceRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              ExcelService.criaExcelFile('processo', limpaCampoTexto(proceProcessoCamposTexto, proceRelatorio.processos), this.tabela.selectedColumns);
+            }
+          })
+        );
+      }
     }
     if (this.processos.length > 0 && td === 2) {
       ExcelService.criaExcelFile('processo', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.processos), this.tabela.selectedColumns);
@@ -348,27 +351,29 @@ export class ProceService {
   }
 
   exportToCsvTodos(td: boolean = true) {
-    if (td === true) {
-      let busca: ProceBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = td;
-      busca.first = undefined;
-      let proceRelatorio: ProcePaginacaoInterface;
-      this.sub.push(this.postProcessoRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            proceRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            CsvService.jsonToCsv('processo', this.tabela.selectedColumns, proceRelatorio.processos);
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (td === true) {
+        let busca: ProceBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = td;
+        busca.first = undefined;
+        let proceRelatorio: ProcePaginacaoInterface;
+        this.sub.push(this.postProcessoRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              proceRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              CsvService.jsonToCsv('processo', this.tabela.selectedColumns, limpaCampoTextoPlus(proceProcessoCamposTexto, proceRelatorio.processos));
 
-          }
-        })
-      );
+            }
+          })
+        );
+      }
     }
   }
 

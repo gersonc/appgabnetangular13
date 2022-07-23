@@ -1,7 +1,12 @@
 <ng-container *ngIf="arqs" >
+
+  <div class="p-d-flex">
   <ng-container *ngFor="let arquivo of arqs">
+    <div class="p-mr-2">
     <app-explorer-detalhe [arquivo]="arquivo"></app-explorer-detalhe>
+    </div>
   </ng-container>
+  </div>
 </ng-container>
 
 

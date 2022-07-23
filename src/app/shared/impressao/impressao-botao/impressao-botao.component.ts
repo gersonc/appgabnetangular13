@@ -26,6 +26,11 @@ export class ImpressaoBotaoComponent implements OnInit {
 
   imprimir() {
     const ref: HTMLTableElement = this.dados[1];
+    let t = document.getElementById("printSection");
+    if (t) {
+      let b = document.getElementById('body');
+      let throwawayNode = b.removeChild(t);
+    }
     const tit: string = this.dados[0];
     let printSection = document.createElement("div");
     printSection.id = "printSection";

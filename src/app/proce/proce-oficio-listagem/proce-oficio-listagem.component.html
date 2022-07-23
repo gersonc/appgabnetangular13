@@ -1,0 +1,204 @@
+<p-scrollPanel class="detalhe">
+  <table #detalheoficio class="detalhefull">
+    <tr>
+      <th>
+        OFÍCIOS
+      </th>
+    </tr>
+    <ng-container *ngFor="let ofi of oficios; let i=index">
+      <tr>
+        <td>
+
+          <table class="tabela">
+            <caption>OFÍCIO <span *ngIf="ofi.oficio_codigo"> - Código: {{ofi.oficio_codigo}}</span> <span
+              *ngIf="ofi.oficio_orgao_solicitado_nome"> - Orgão Solicitado: {{ofi.oficio_orgao_solicitado_nome}}</span>
+            </caption>
+            <thead class="detalheTitulo-horiz">
+            <tr>
+              <th colspan="2">
+                OFÍCIO <span *ngIf="ofi.oficio_codigo"> - Código: {{ofi.oficio_codigo}}</span> <span
+                *ngIf="ofi.oficio_orgao_solicitado_nome"> - Orgão Solicitado: {{ofi.oficio_orgao_solicitado_nome}}</span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="ofi.oficio_codigo">
+              <td style="width: 3%;" nowrap>
+                Código:
+              </td>
+              <td>
+                {{ofi.oficio_codigo}}
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 3%;" nowrap>
+                Orgão Solicitado:
+              </td>
+              <td>
+                {{ofi.oficio_orgao_solicitado_nome}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_numero">
+              <td style="width: 3%;" nowrap>
+                Número do ofício:
+              </td>
+              <td>
+                {{ofi.oficio_numero}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_status">
+              <td style="width: 3%;" nowrap>
+                Situação:
+              </td>
+              <td>
+                {{ofi.oficio_status}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_data_emissao">
+              <td style="width: 3%;" nowrap>
+                Data da emissão:
+              </td>
+              <td>
+                {{ofi.oficio_data_emissao}}
+              </td>
+            <tr *ngIf="ofi.oficio_prioridade_nome">
+              <td style="width: 3%;" nowrap>
+                Prioridade:
+              </td>
+              <td>
+                {{ofi.oficio_prioridade_nome}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_protocolo_numero">
+              <td style="width: 3%;" nowrap>
+                Número do protocolo:
+              </td>
+              <td>
+                {{ofi.oficio_protocolo_numero}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_data_protocolo">
+              <td style="width: 3%;" nowrap>
+                Data do protocolo:
+              </td>
+              <td>
+                {{ofi.oficio_data_protocolo}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_orgao_protocolante_nome">
+              <td style="width: 3%;" nowrap>
+                Orgão protocolante:
+              </td>
+              <td>
+                {{ofi.oficio_orgao_protocolante_nome}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_protocolante_funcionario">
+              <td style="width: 3%;" nowrap>
+                Funcionário do orgão:
+              </td>
+              <td>
+                {{ofi.oficio_protocolante_funcionario}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_tipo_andamento_nome">
+              <td style="width: 3%;" nowrap>
+                Tipo de andamento:
+              </td>
+              <td>
+                {{ofi.oficio_tipo_andamento_nome}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_data_recebimento">
+              <td style="width: 3%;" nowrap>
+                Data recebimeento:
+              </td>
+              <td>
+                {{ofi.oficio_data_recebimento}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_convenio">
+              <td style="width: 3%;" nowrap>
+                Concênio:
+              </td>
+              <td>
+                {{ofi.oficio_convenio}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_valor_solicitado">
+              <td style="width: 3%;" nowrap>
+                Valor solicitado:
+              </td>
+              <td>
+                {{ofi.oficio_valor_solicitado}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_valor_recebido">
+              <td style="width: 3%;" nowrap>
+                Valor recebido:
+              </td>
+              <td>
+                {{ofi.oficio_valor_recebido}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_data_pagamento">
+              <td style="width: 3%;" nowrap>
+                Data do pagamento:
+              </td>
+              <td>
+                {{ofi.oficio_data_pagamento}}
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_prazo">
+              <td style="width: 3%;" nowrap>
+                Prazo:
+              </td>
+              <td>
+                {{ofi.oficio_prazo}}
+              </td>
+            </tr>
+
+            <tr *ngIf="ofi.oficio_descricao_acao">
+              <th colspan="2">
+                Descrição da ação:
+              </th>
+            </tr>
+            <tr *ngIf="ofi.oficio_descricao_acao">
+              <th colspan="2">
+                <quill-view [content]="stripslashes(ofi.oficio_descricao_acao)" [format]="'html'" theme="snow"></quill-view>
+              </th>
+            </tr>
+            <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+              <td colspan="2">
+                Arquivos do Processo:
+              </td>
+            </tr>
+            <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+              <td colspan="2">
+                <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <br>
+          <br>
+
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+        </td>
+      </tr>
+    </ng-container>
+  </table>
+  <br>
+</p-scrollPanel>
+
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
+  &nbsp;&nbsp;
+  <app-exporter-detalhe [arquivoNome]="'processo_oficios'" [classe]="'tabela'"></app-exporter-detalhe>
+  &nbsp;&nbsp;
+  <app-impressao-botao [dados]="['OFÍCIOS',detalheoficio]"></app-impressao-botao>
+</div>

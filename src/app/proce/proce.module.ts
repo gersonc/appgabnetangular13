@@ -37,6 +37,7 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {ProceExcluirComponent} from './proce-excluir/proce-excluir.component';
 import {FocusTrapModule} from "primeng/focustrap";
+import { ProceOficioListagemComponent } from './proce-oficio-listagem/proce-oficio-listagem.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {FocusTrapModule} from "primeng/focustrap";
     ProceDatatableComponent,
     ProceDetalheComponent,
     ProceAnalisarComponent,
-    ProceExcluirComponent
+    ProceExcluirComponent,
+    ProceOficioListagemComponent
   ],
   imports: [
     CommonModule,

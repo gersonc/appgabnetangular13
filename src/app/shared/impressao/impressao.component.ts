@@ -85,6 +85,11 @@ export class ImpressaoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   imprimir() {
+    let t = document.getElementById("printSection");
+    if (t) {
+      let b = document.getElementById('body');
+      let throwawayNode = b.removeChild(t);
+    }
     let printSection = document.createElement("div");
     printSection.id = "printSection";
     document.body.appendChild(printSection);

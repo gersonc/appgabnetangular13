@@ -10,6 +10,7 @@ import {ProceService} from "../_services/proce.service";
 import {AuthenticationService, MenuInternoService} from "../../_services";
 import {ProceFormService} from "../_services/proce-form.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
+import {ProceOficioI} from "../_model/proc-i";
 
 
 @Component({
@@ -28,7 +29,9 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   authApagar = false;
   authIncluir = false;
   showDetalhe = false;
-  proDetalhe?: ProceListarI;
+  showOficio = false;
+  proDetalhe: ProceListarI | null = null;
+  oficios: ProceOficioI[] | null = null;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   mostraSeletor = false;
@@ -380,9 +383,16 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.proDetalhe = pro;
   }
 
+  listarOficio(oficios: ProceOficioI[]) {
+    this.oficios = oficios;
+    this.showOficio = true;
+  }
+
   escondeDetalhe() {
     this.showDetalhe = false;
+    this.showOficio = false;
     this.proDetalhe = null;
+    this.oficios = null;
   }
 
   //  HISTIRICO - ANDAMENTO ***********************************************************
@@ -437,21 +447,36 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   processoAnalisar(pro) {
-    if (this.aut.processo_analisar) {
       this.ps.salvaState();
       this.dtb.saveState();
       this.pfs.acao = 'analisar';
       this.pfs.parseListagemAnalisarForm(pro);
       this.router.navigate(['/proce/analisar']);
-    } else {
-      console.log('SEM PERMISSAO');
-    }
   }
 
   processoAnalisarCtx() {
-    if (this.ps.Contexto.processo_status_id === 1 || this.ps.Contexto.processo_status_id === 4) {
-
+    if ((this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.processo_deferir || this.aut.processo_indeferir || this.aut.processo_analisar)) {
+      if (this.ps.Contexto.processo_status_id === 1 || this.ps.Contexto.processo_status_id === 4 || this.ps.Contexto.processo_status_id === 0) {
+        this.ps.salvaState();
+        this.dtb.saveState();
+        this.pfs.acao = 'analisar';
+        this.pfs.parseListagemAnalisarForm(this.ps.Contexto);
+        this.router.navigate(['/proce/analisar']);
+      }
+      if ((this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) && (this.ps.Contexto.processo_status_id === 2 || this.ps.Contexto.processo_status_id === 3)) {
+        this.ps.salvaState();
+        this.dtb.saveState();
+        this.pfs.acao = 'analisar';
+        this.pfs.parseListagemAnalisarForm(this.ps.Contexto);
+        this.router.navigate(['/proce/analisar']);
+      }
     }
+  }
+
+  incluirOficio(pro) {
+    this.ps.salvaState();
+    this.dtb.saveState();
+    this.router.navigate(['oficio/processo', {processo_id: pro.processo_id, solicitacao_id: pro.solicitacao_id}]);
   }
 
   stripslashes(str?: string): string | null {

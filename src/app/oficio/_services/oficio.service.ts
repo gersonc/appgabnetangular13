@@ -9,7 +9,7 @@ import {OficioListarI, OficioPaginacaoI, OficoCamposTexto} from "../_models/ofic
 import {CelulaI} from "../../_models/celula-i";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 import {CelulaService} from "../../_services/celula.service";
-import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
+import {limpaCampoTexto, limpaCampoTextoPlus} from "../../shared/functions/limpa-campo-texto";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {OficioBuscaI} from "../_models/oficio-busca-i";
 import {DdOficioProcessoIdI} from "../_models/dd-oficio-processo-id-i";
@@ -241,147 +241,151 @@ export class OficioService {
   }
 
   imprimirTabela(n: number) {
-    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'OFÍCIOS');
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+        PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'OFÍCIOS');
+      }
+
+      if (n === 2 && this.oficios.length > 0) {
+        PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.oficios, 'OFÍCIOS');
+      }
+
+      if (n === 3) {
+        let busca: OficioBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.excel = true;
+        let oficioRelatorio: OficioPaginacaoI;
+        this.sub.push(this.postOficioRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              oficioRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              PrintJSService.imprimirTabela2(this.tabela.selectedColumns, oficioRelatorio.oficios, 'OFÍCIOS');
+            }
+          })
+        );
+      }
     }
-
-    if (n === 2 && this.oficios.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.oficios, 'OFÍCIOS');
-    }
-
-    if (n === 3) {
-      let busca: OficioBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = true;
-      busca.first = undefined;
-      busca.excel = true;
-      let oficioRelatorio: OficioPaginacaoI;
-      this.sub.push(this.postOficioRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            oficioRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, oficioRelatorio.oficios, 'OFÍCIOS');
-          }
-        })
-      );
-    }
-
-
   }
 
   tabelaPdf(n: number): void  {
     // 1 - selecionados
     // 2 - pagina
-    if (n === 1) {
-      TabelaPdfService.tabelaPdf(
-        'oficios',
-        'OFÍCIOS',
-        this.tabela.selectedColumns,
-        this.selecionados,
-        OficoCamposTexto
-      );
-    }
-    if (n === 2) {
-      TabelaPdfService.tabelaPdf(
-        'oficios',
-        'OFÍCIOS',
-        this.tabela.selectedColumns,
-        this.oficios,
-        OficoCamposTexto
-      );
-    }
-    if (n === 3) {
-      let busca: OficioBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns,
-        busca.todos = true;
-      busca.first = undefined;
-      let oficioRelatorio: OficioPaginacaoI;
-      this.sub.push(this.postOficioRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            oficioRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            TabelaPdfService.tabelaPdf(
-              'oficios',
-              'OFÍCIOS',
-              this.tabela.selectedColumns,
-              oficioRelatorio.oficios,
-              OficoCamposTexto
-            );
-          }
-        })
-      );
-
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (n === 1) {
+        TabelaPdfService.tabelaPdf(
+          'oficios',
+          'OFÍCIOS',
+          this.tabela.selectedColumns,
+          this.selecionados,
+          OficoCamposTexto
+        );
+      }
+      if (n === 2) {
+        TabelaPdfService.tabelaPdf(
+          'oficios',
+          'OFÍCIOS',
+          this.tabela.selectedColumns,
+          this.oficios,
+          OficoCamposTexto
+        );
+      }
+      if (n === 3) {
+        let busca: OficioBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns,
+          busca.todos = true;
+        busca.first = undefined;
+        let oficioRelatorio: OficioPaginacaoI;
+        this.sub.push(this.postOficioRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              oficioRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              TabelaPdfService.tabelaPdf(
+                'oficios',
+                'OFÍCIOS',
+                this.tabela.selectedColumns,
+                oficioRelatorio.oficios,
+                OficoCamposTexto
+              );
+            }
+          })
+        );
+      }
     }
   }
 
   exportToXLSX(td: number = 1) {
-    // const cp = this.ss.excelCamposTexto();
-    if (td === 3) {
-      let busca: OficioBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = true;
-      busca.first = undefined;
-      busca.excel = true;
-      let oficioRelatorio: OficioPaginacaoI;
-      this.sub.push(this.postOficioRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            oficioRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            ExcelService.criaExcelFile('oficio', limpaCampoTexto(OficoCamposTexto, oficioRelatorio.oficios), this.tabela.selectedColumns);
-          }
-        })
-      );
-    }
-    if (this.oficios.length > 0 && td === 2) {
-      ExcelService.criaExcelFile('oficio', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.oficios), this.tabela.selectedColumns);
-      return true;
-    }
-    if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
-      ExcelService.criaExcelFile('oficio', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
-      return true;
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      // const cp = this.ss.excelCamposTexto();
+      if (td === 3) {
+        let busca: OficioBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.excel = true;
+        let oficioRelatorio: OficioPaginacaoI;
+        this.sub.push(this.postOficioRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              oficioRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              ExcelService.criaExcelFile('oficio', limpaCampoTexto(OficoCamposTexto, oficioRelatorio.oficios), this.tabela.selectedColumns);
+            }
+          })
+        );
+      }
+      if (this.oficios.length > 0 && td === 2) {
+        ExcelService.criaExcelFile('oficio', limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.oficios), this.tabela.selectedColumns);
+        return true;
+      }
+      if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
+        ExcelService.criaExcelFile('oficio', limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.selecionados), this.tabela.selectedColumns);
+        return true;
+      }
     }
   }
 
   exportToCsvTodos(td: boolean = true) {
-    if (td === true) {
-      let busca: OficioBuscaI = this.busca;
-      busca.rows = undefined;
-      busca.campos = this.tabela.selectedColumns;
-      busca.todos = td;
-      busca.first = undefined;
-      let oficioRelatorio: OficioPaginacaoI;
-      this.sub.push(this.postOficioRelatorio(busca)
-        .subscribe({
-          next: (dados) => {
-            oficioRelatorio = dados
-          },
-          error: err => {
-            console.error('ERRO-->', err);
-          },
-          complete: () => {
-            CsvService.jsonToCsv('oficio', this.tabela.selectedColumns, oficioRelatorio.oficios);
-
-          }
-        })
-      );
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (td === true) {
+        let busca: OficioBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = td;
+        busca.first = undefined;
+        let oficioRelatorio: OficioPaginacaoI;
+        this.sub.push(this.postOficioRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              oficioRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              CsvService.jsonToCsv('oficio', this.tabela.selectedColumns, limpaCampoTextoPlus(OficoCamposTexto, oficioRelatorio.oficios));
+            }
+          })
+        );
+      }
     }
   }
 

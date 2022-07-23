@@ -39,6 +39,7 @@ export interface OficioBuscaI extends BuscaI {
   first?: number;
   sortOrder?: number;
   sortField?: string;
+  sortcampo?: string;
   todos?: boolean;
   campos?: ColunasI[];
   ids?: number[];

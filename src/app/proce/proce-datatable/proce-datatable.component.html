@@ -196,6 +196,34 @@
                 </button>
               </div>
 
+              <div  *ngIf="((pro.oficios && pro.oficios.length > 0) && (aut.oficio_listar || aut.usuario_responsavel_sn || aut.usuario_principal_sn))" class="p-mr-2">
+                <button
+                  (click)="listarOficio(pro.oficios)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-list"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Listar Ofícios"
+                  tooltipPosition="top"
+                >
+                </button>
+              </div>
+
+              <div  *ngIf="pro.processo_status_id !== 0 && (aut.oficio_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn)" class="p-mr-2">
+                <button
+                  (click)="incluirOficio(pro)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-file-o"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Incluir Ofício"
+                  tooltipPosition="top"
+                >
+                </button>
+              </div>
+
               <div *ngIf="ps.expandidoSN && permListHist && pro.historico_processo.length > 0" class="p-mr-2">
                 <button
                   pButton
@@ -313,9 +341,9 @@
 
 
 <!--*** DETALHE ****************************************************************************************************-->
-<ng-container *ngIf="showDetalhe">
+<ng-container *ngIf="showDetalhe || showOficio">
   <p-dialog
-    [(visible)]="showDetalhe"
+    [(visible)]="showDetalhe || showOficio"
     [modal]="true"
     [dismissableMask]="false"
     [style]="{width: '80vw'}"
@@ -323,8 +351,8 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-proce-detalhe [pro]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-proce-detalhe>
-    <!--<app-processo-detalhe [proDetalhe]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-processo-detalhe>-->
+    <app-proce-detalhe *ngIf="showDetalhe" [pro]="proDetalhe" (hideDetalhe)="escondeDetalhe()"></app-proce-detalhe>
+    <app-proce-oficio-listagem *ngIf="showOficio" [oficios]="oficios" (hideDetalhe)="escondeDetalhe()"></app-proce-oficio-listagem>
   </p-dialog>
 </ng-container>
 
