@@ -1,3 +1,4 @@
+import {HistI} from "../../../src/app/hist/_models/hist-i";
 
 export class EmendaArray {
   public static getArrayTitulo() {
@@ -160,7 +161,7 @@ export interface EmendaListarInterface {
   emenda_porcentagem?: string;
   cadastro_cpfcnpj?: string;
   cadastro_municipio_nome?: string;
-  historico_emenda?: HistoricoEmendaInterface[];
+  historico_emenda?: HistI[];
   historico_emenda_num?: number;
 }
 

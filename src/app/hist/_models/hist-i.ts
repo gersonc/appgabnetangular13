@@ -8,6 +8,7 @@ export interface HistI {
   historico_andamento_texto?: string | null;
   historico_solicitacao_id?: number | null;
   historico_processo_id?: number | null;
+  historico_emenda_id?: number | null;
 }
 
 export interface HistFormI {

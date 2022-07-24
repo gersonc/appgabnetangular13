@@ -1,0 +1,45 @@
+import {ColunasI} from "../../_models/colunas-i";
+
+export interface EmendaBuscaI {
+  emenda_id?: number;
+  emenda_id2?: number;
+  emenda_situacao?: string;
+  emenda_situacao_id?: number;
+  emenda_tipo_emenda_id?: number;
+  emenda_cadastro_tipo_id?: number;
+  emenda_autor_nome?: string;
+  emenda_cadastro_id?: number;
+  emenda_autor_id?: number;
+  emenda_cadastro_id2?: number;
+  emenda_ogu_id?: number;
+  emenda_orgao_solicitado_nome?: string;
+  emenda_numero?: string;
+  emenda_assunto_id?: number;
+  emenda_crnr?: string;
+  emenda_local_id?: number;
+  emenda_gmdna?: string;
+  emenda_numero_protocolo?: string;
+  emenda_uggestao?: string;
+  emenda_funcional_programatica?: string;
+  emenda_regiao?: string;
+  emenda_numero_empenho?: string;
+  emenda_data_solicitacao1?: string;
+  emenda_data_solicitacao2?: string;
+  emenda_processo?: string;
+  emenda_contrato?: string;
+  emenda_data_empenho1?: string;
+  emenda_data_empenho2?: string;
+  emenda_numero_ordem_bancaria?: string;
+  emenda_data_pagamento1?: string;
+  emenda_data_pagamento2?: string;
+  cadastro_municipio_id?: number;
+  cadastro_regiao_id?: number;
+  rows?: number;
+  first?: number;
+  sortOrder?: number;
+  sortField?: string;
+  todos?: boolean;
+  campos?: ColunasI[];
+  ids?: number[];
+  excel?: boolean;
+}
