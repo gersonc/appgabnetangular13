@@ -14597,8 +14597,14 @@ app-arquivo.formulario > h5 {
 }
 
 .formulario .p-inputnumber-input.p-inputtext {
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  font-weight: var(--formulario-field-input-font-weight);
+  padding: 0.3rem 0.75rem;
+  /*padding-top: 0.2rem;
+  padding-bottom: 0.2rem;*/
+}
+
+.formulario .p-inputnumber-input.p-inputtext {
+  text-align: right;
 }
 
 .formulario .p-inputtext {

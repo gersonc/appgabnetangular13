@@ -15,9 +15,8 @@
             autofocus
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="p-mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
           <button
-            *ngIf="authenticationService.cadastro_incluir"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -259,9 +258,8 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="p-mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
           <button
-            *ngIf="authenticationService.cadastro_incluir"
             pButton
             type="button"
             icon="pi pi-plus"

@@ -1,1 +1,609 @@
-<p>emenda-form works!</p>
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <form [formGroup]="formEmenda" (ngSubmit)="onSubmit()">
+      <div class="p-fluid formulario-bg-externo">
+
+        <div class="p-d-flex p-jc-center">
+          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+            <span class="formulario-titulo">{{titulo}}</span>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+
+
+              <!--*** COLUNA 1 ***-->
+              <div class="p-col-12 formulario">
+                <div class="p-fluid p-formgrid p-grid formulario">
+
+                  <!--*** Tipo de Cadastro ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_cadastro_tipo_id')">
+                    <label for="emenda_cadastro_tipo_id"><span class="atencao">*</span>Tipo de Cadastro</label>
+                    <p-dropdown
+                      id="emenda_cadastro_tipo_id"
+                      formControlName="emenda_cadastro_tipo_id"
+                      placeholder="Selecione"
+                      [options]="ddEmenda_cadastro_tipo_id"
+                      [required]="true"
+                      [group]="true"
+                      [autofocus]="true"
+                      (onChange)="ativaCadastroId()"
+                      name="emenda_cadastro_tipo_id"
+                      [ngClass]="aplicaCssErro('emenda_cadastro_tipo_id')"
+                    ></p-dropdown>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_cadastro_tipo_id')" msgErro="Tipo de Cadastro é obrigatório.">
+                    </app-campo-control-erro>
+                  </div>
+
+                  <!--*** Solicitante ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_cadastro_id')">
+                    <label for="emenda_cadastro_id"><span class="atencao">*</span>Solicitante</label>
+                    <div class="p-inputgroup">
+                      <p-autoComplete
+                        #emdId
+                        id="emenda_cadastro_id"
+                        formControlName="emenda_cadastro_id"
+                        [suggestions]="sgt"
+                        (completeMethod)="autoComp($event, 'cadastro')"
+                        [dropdown]="true"
+                        field="label"
+                        [forceSelection]="true"
+                        [minLength]="3"
+                        [delay]="500"
+                        dataKey="value"
+                        [maxlength]="50"
+                        [required]="true"
+                        [emptyMessage]="emptyMessage"
+                        placeholder="Solicitante "
+                        [ngClass]="aplicaCssErro('emenda_cadastro_id')"
+                      ></p-autoComplete>
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-user-plus"
+                        *ngIf="aut.cadastro_incluir"
+                        (click)="goIncluir()"
+                        [disabled]="cadastroDisabled"
+                      ></button>
+                    </div>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_cadastro_id')" msgErro="Solicitante é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** emenda_autor_nome ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_autor_nome')">
+                    <label for="emenda_autor_nome"><span class="atencao">*</span>Autor</label>
+                    <input
+                      id="emenda_autor_nome"
+                      formControlName="emenda_autor_nome"
+                      type="text"
+                      [maxlength]="50"
+                      [ngClass]="aplicaCssErro('emenda_autor_nome')"
+                      pInputText
+                    />
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_autor_nome')" msgErro="Autor é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** emenda_assunto_id ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_assunto_id')">
+                    <label for="emenda_assunto_id"><span class="atencao">*</span>Assunto</label>
+                    <div class="p-inputgroup">
+                      <p-dropdown
+                        id="emenda_assunto_id"
+                        formControlName="emenda_assunto_id"
+                        placeholder="Selecione"
+                        [options]="ddEmenda_assunto_id"
+                        [required]="true"
+                        [style]="{'width':'100%'}"
+                        [ngClass]="aplicaCssErro('emenda_assunto_id')"
+                      ></p-dropdown>
+                      <app-configaux-incluir
+                        [desabilitado]="false"
+                        [titulo]="'Alterar assunto'"
+                        [tituloCampo]="'Assunto'"
+                        [campoNome]="'emenda_assunto_id'"
+                        [tamanho]="50"
+                        [tamanhomax]="100"
+                        [dropdown]="'ddEmenda_assunto_id'"
+                        [arrai]="ddEmenda_assunto_id"
+                        (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                        (onBlockSubmit)="onBlockSubmit($event)"
+                      ></app-configaux-incluir>
+                    </div>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_assunto_id')" msgErro="Assunto é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** emenda_tipo_emenda_id ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_tipo_emenda_id')">
+                    <label for="emenda_tipo_emenda_id"><span class="atencao">*</span>Tipo de emenda</label>
+                    <p-dropdown
+                      id="emenda_tipo_emenda_id"
+                      formControlName="emenda_tipo_emenda_id"
+                      placeholder="Selecione"
+                      [options]="ddEmenda_tipo_emenda_id"
+                      [required]="true"
+                      [ngClass]="aplicaCssErro('emenda_tipo_emenda_id')"
+                    ></p-dropdown>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_tipo_emenda_id')" msgErro="Tipo de emenda é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** emenda_orgao_solicitado_nome ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_orgao_solicitado_nome')">
+                    <label for="emenda_orgao_solicitado_nome"><span class="atencao">*</span>Orgão Solicitado</label>
+                    <input
+                      id="emenda_orgao_solicitado_nome"
+                      formControlName="emenda_orgao_solicitado_nome"
+                      type="text"
+                      [maxlength]="50"
+                      [ngClass]="aplicaCssErro('emenda_orgao_solicitado_nome')"
+                      pInputText
+                    />
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_orgao_solicitado_nome')" msgErro="Orgão solicitado é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** emenda_situacao ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_situacao_id')">
+                    <label for="emenda_situacao_id"><span class="atencao">*</span>Situação</label>
+                    <p-dropdown
+                      id="emenda_situacao_id"
+                      formControlName="emenda_situacao_id"
+                      placeholder="Selecione"
+                      [options]="ddEmenda_situacao_id"
+                      [required]="true"
+                      [ngClass]="aplicaCssErro('emenda_situacao_id')"
+                    ></p-dropdown>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_situacao_id')" msgErro="Situação é obrigatório."></app-campo-control-erro>
+                  </div>
+
+                  <!--*** emenda_numero ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_numero">Número da emenda</label>
+                    <input
+                      id="emenda_numero"
+                      formControlName="emenda_numero"
+                      type="text"
+                      [size]="30"
+                      [maxlength]="30"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_funcional_programatica ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_funcional_programatica">Funcional programática</label>
+                    <input
+                      id="emenda_funcional_programatica"
+                      formControlName="emenda_funcional_programatica"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_numero_protocolo ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_numero_protocolo">Número do protocolo</label>
+                    <input
+                      id="emenda_numero_protocolo"
+                      formControlName="emenda_numero_protocolo"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+
+                  <!--*** emenda_local_id ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_local_id">Núcleo</label>
+                    <p-dropdown
+                      id="emenda_local_id"
+                      formControlName="emenda_local_id"
+                      placeholder="Selecione"
+                      [options]="ddEmenda_local_id"
+                    ></p-dropdown>
+                  </div>
+
+                  <!--*** emenda_data_solicitacao ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                       [ngClass]="aplicaCssErro('emenda_data_solicitacao')">
+                    <label for="emenda_data_solicitacao">Data da solicitação</label>
+                    <p-calendar
+                      id="emenda_data_solicitacao"
+                      formControlName="emenda_data_solicitacao"
+                      dateFormat="dd/mm/yy"
+                      placeholder="dd/mm/aaaa"
+                    ></p-calendar>
+                  </div>
+
+                  <!--*** emenda_processo ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_processo">Contrato/Processo</label>
+                    <input
+                      id="emenda_processo"
+                      formControlName="emenda_processo"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_contrato ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_contrato">Contrato Caixa</label>
+                    <input
+                      id="emenda_contrato"
+                      formControlName="emenda_contrato"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_ogu_id ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_ogu_id">O.G.U.</label>
+                    <p-dropdown
+                      id="emenda_ogu_id"
+                      formControlName="emenda_ogu_id"
+                      placeholder="Selecione"
+                      [options]="ddEmenda_ogu_id"
+                    ></p-dropdown>
+                  </div>
+
+                  <!--*** emenda_crnr ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_crnr">CR.NR.</label>
+                    <input
+                      id="emenda_crnr"
+                      formControlName="emenda_crnr"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_gmdna ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_gmdna">GDM/MA</label>
+                    <input
+                      id="emenda_gmdna"
+                      formControlName="emenda_gmdna"
+                      type="text"
+                      [size]="15"
+                      [maxlength]="20"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_uggestao ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_uggestao">UG/GESTÃO</label>
+                    <input
+                      id="emenda_uggestao"
+                      formControlName="emenda_uggestao"
+                      type="text"
+                      [size]="15"
+                      [maxlength]="20"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_siconv ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_siconv">SICONV</label>
+                    <input
+                      id="emenda_siconv"
+                      formControlName="emenda_siconv"
+                      type="text"
+                      [size]="15"
+                      [maxlength]="30"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_porcentagem ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_porcentagem">% Concluida</label>
+                    <p-inputNumber
+                      id="emenda_porcentagem"
+                      formControlName="emenda_porcentagem"
+                      mode="decimal"
+                      buttonLayout="horizontal"
+                      suffix="%"
+                      [showButtons]="true"
+                      [min]="0"
+                      [max]="100"
+                      incrementButtonIcon="pi pi-plus"
+                      decrementButtonIcon="pi pi-minus"
+                    >
+                    </p-inputNumber>
+                  </div>
+
+                  <!--*** emenda_valor_solicitadado ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_valor_solicitadado">Valor solicitado</label>
+                    <p-inputNumber
+                      formControlName="emenda_valor_solicitadado"
+                      id="emenda_valor_solicitadado"
+                      mode="currency"
+                      currency="BRL"
+                      locale="pt-BR"
+                      [minFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                  </div>
+
+                  <!--*** emenda_valor_empenhado ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_valor_empenhado">Valor empenhado</label>
+                    <p-inputNumber
+                      formControlName="emenda_valor_empenhado"
+                      id="emenda_valor_empenhado"
+                      mode="currency"
+                      currency="BRL"
+                      locale="pt-BR"
+                      [minFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                  </div>
+
+                  <!--*** emenda_data_empenho ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_data_empenho">Data do empenho</label>
+                    <p-calendar
+                      id="emenda_data_empenho"
+                      formControlName="emenda_data_empenho"
+                      dateFormat="dd/mm/yy"
+                      placeholder="dd/mm/aaaa"
+                    ></p-calendar>
+                  </div>
+
+                  <!--*** emenda_numero_empenho ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_numero_empenho">Número do empenho</label>
+                    <input
+                      id="emenda_numero_empenho"
+                      formControlName="emenda_numero_empenho"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+
+                  <!--*** emenda_data_pagamento ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_data_pagamento">Data do pagamento (1&deg; parcela ou a vista)</label>
+                    <p-calendar
+                      id="emenda_data_pagamento"
+                      formControlName="emenda_data_pagamento"
+                      dateFormat="dd/mm/yy"
+                      placeholder="dd/mm/aaaa"
+                    ></p-calendar>
+                  </div>
+
+                  <!--*** emenda_valor_pago ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_valor_pago">Valor pago</label>
+                    <p-inputNumber
+                      formControlName="emenda_valor_pago"
+                      id="emenda_valor_pago"
+                      mode="currency"
+                      currency="BRL"
+                      locale="pt-BR"
+                      [minFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                    <!--<div class="p-inputgroup">
+                      <span class="p-inputgroup-addon">R$</span>
+                      <p-inputNumber id="emenda_valor_pago" formControlName="emenda_valor_pago"></p-inputNumber>
+                      <span class="p-inputgroup-addon">,00</span>
+                    </div>-->
+                  </div>
+
+                  <!--*** emenda_numero_ordem_bancaria ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="emenda_numero_ordem_bancaria">Órdem bancária</label>
+                    <input
+                      id="emenda_numero_ordem_bancaria"
+                      formControlName="emenda_numero_ordem_bancaria"
+                      type="text"
+                      [size]="40"
+                      [maxlength]="50"
+                      pInputText
+                    />
+                  </div>
+                </div>
+              </div>
+              <!--*** FIM COLUNA 1 ***-->
+
+
+              <!--*** COLUNA 4 ***-->
+              <div class="p-col-12 formulario">
+                <div class="p-fluid p-formgrid p-grid">
+
+                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                    <p-accordion>
+                      <p-accordionTab header="Informações sobre pagamento (quando parcelado)">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="emenda_observacao_pagamento"
+                                [format]="format0"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="emenda_observacao_pagamento"
+                                (onContentChanged)="onContentChanged($event, 'emenda_observacao_pagamento')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+                      <p-accordionTab header="Justificativa">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="emenda_justificativa"
+                                [format]="format1"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="emenda_justificativa"
+                                (onContentChanged)="onContentChanged($event, 'emenda_justificativa')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+
+                      <p-accordionTab header="Histórico / Andamento">
+                        <div class="p-d-flex p-jc-center">
+                          <div class="formulario-quill">
+                            <div class="qeditor">
+                              <quill-editor
+                                class="formulario"
+                                id="historico_andamento"
+                                [format]="format2"
+                                [defaultEmptyValue]="null"
+                                [theme]="'snow'"
+                                [modules]="modulos"
+                                [debounceTime]="10"
+                                [placeholder]="''"
+                                formControlName="historico_andamento"
+                                (onContentChanged)="onContentChanged($event, 'historico_andamento')"
+                              ></quill-editor>
+                            </div>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+
+                    </p-accordion>
+                  </div>
+
+                  <ng-container *ngIf="aut.arquivos">
+                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                      <app-arquivo *ngIf="efs.acao === 'incluir'"
+                                   [modulo]="'emenda'"
+                                   [modelo]="'incluir'"
+                                   [registro_id]="arquivo_registro_id"
+                                   [uploadDisabled]="arquivoDesativado || !formEmenda.valid"
+                                   [enviarArquivos]="enviarArquivos"
+                                   (onBlockSubmit)="onBlockSubmit($event)"
+                                   (onUpload)="onUpload($event)"
+                                   (onPossuiArquivos)="onPossuiArquivos($event)"
+                                   [clearArquivos]="clearArquivos"
+                      ></app-arquivo>
+                      <app-arquivo *ngIf="efs.acao === 'alterar'"
+                                   [modulo]="'emenda'"
+                                   [uploadDisabled]="arquivoDesativado"
+                                   [arqs]="efs.emendaListar.emenda_arquivos"
+                                   [registro_id]="efs.emenda.emenda_id"
+                                   (onPossuiArquivos)="onPossuiArquivos($event)"
+                                   [modelo]="'alterar'"
+                                   [stiloClass]="'formulario'"
+                                   [buscaArquivos]="false"
+                      ></app-arquivo>
+                    </div>
+                  </ng-container>
+
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        </div>
+
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+        <div class="p-grid">
+          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+            <div class="p-grid p-input-filled">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="submit"
+                      class="p-button-rounded"
+                      [disabled]="!formEmenda.valid || !mostraForm"
+                      label="Enviar"
+                    ></button>
+                    <!--<button
+                      pButton
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="!formEmenda.valid || !mostraForm"
+                      (click)="enviarEmenda()"
+                      label="Alterar"
+                    ></button>-->
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Cancelar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Voltar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-fluid formulario-bg-externo">
+        <div class="p-grid formulario-bg-externo">
+          <div class="p-col-12"></div>
+          <div class="p-col-12"></div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</p-scrollPanel>

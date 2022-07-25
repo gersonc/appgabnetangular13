@@ -1,7 +1,7 @@
 import {SelectItem} from "primeng/api";
 
 export interface EmendaDropdownMenuI {
-  dd_emenda_situacao: SelectItem[];
+  dd_emenda_situacao_id: SelectItem[];
   dd_emenda_tipo: SelectItem[];
   dd_emenda_cadastro_tipo: SelectItem[];
   dd_emenda_ogu: SelectItem[];

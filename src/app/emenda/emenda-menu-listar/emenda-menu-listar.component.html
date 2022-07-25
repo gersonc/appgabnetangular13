@@ -13,9 +13,8 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="p-mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
           <button
-            *ngIf="aut.emenda_incluir"
             pButton
             type="button"
             icon="pi pi-times"
@@ -31,12 +30,12 @@
       <div class="p-fluid p-formgrid p-grid formulario">
 
         <!-- emenda_situacao_id -->
-        <div *ngIf="drd.dd_emenda_situacao.length > 0"
+        <div *ngIf="drd.dd_emenda_situacao_id.length > 0"
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="emenda_situacao_id">Situação</label>
           <p-dropdown
             id="emenda_situacao_id"
-            [options]="drd.dd_emenda_situacao"
+            [options]="drd.dd_emenda_situacao_id"
             [style]="{'width':'100%'}"
             placeholder="TODAS"
             formControlName="emenda_situacao_id"
@@ -352,8 +351,8 @@
             [options]="drd.dd_emenda_data_solicitacao1"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
-            inputId="emenda_data_solicitacao"
-            formControlName="emenda_data_solicitacao"
+            inputId="emenda_data_solicitacao1"
+            formControlName="emenda_data_solicitacao1"
             placeholder="TODAS"
             [showClear]="true"
           ></p-dropdown>
@@ -482,9 +481,8 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="p-mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
           <button
-            *ngIf="aut.emenda_incluir"
             pButton
             type="button"
             icon="pi pi-plus"

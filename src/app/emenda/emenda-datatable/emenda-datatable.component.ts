@@ -184,13 +184,15 @@ export class EmendaDatatableComponent implements OnInit {
   resetSelectedColumns(): void {
     this.es.criaTabela();
     this.es.tabela.selectedColumns = [
-      {field: 'emenda_processo', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
+      {field: 'emenda_orgao_solicitado_nome', header: 'ORGÃO SOLICITADO', sortable: 'true', width: '200px'},
       {field: 'emenda_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '200px'},
-      {field: 'emenda_codigo', header: 'CODIGO', sortable: 'true', width: '150px'},
-      {field: 'emenda_numero', header: 'NÚMERO', sortable: 'true', width: '150px'},
       {field: 'emenda_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '300px'},
+      {field: 'emenda_tipo_emenda_nome', header: 'TIPO DE EMENDA', sortable: 'true', width: '300px'},
       {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '300px'},
-      {field: 'emenda_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'}
+      {field: 'emenda_data_solicitacao', header: 'DT. SOLICITAÇÃO', sortable: 'true', width: '300px'},
+      {field: 'emenda_processo', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
+      {field: 'emenda_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
+      {field: 'emenda_codigo', header: 'CODIGO', sortable: 'true', width: '150px'}
     ];
   }
 

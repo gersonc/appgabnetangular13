@@ -20,6 +20,14 @@ import {TooltipModule} from "primeng/tooltip";
 import {DialogModule} from "primeng/dialog";
 import {UtilModule} from "../util/util.module";
 import {ContextMenuModule} from "primeng/contextmenu";
+import {AutoCompleteModule} from "primeng/autocomplete";
+import {InputTextModule} from "primeng/inputtext";
+import {ConfigauxModule} from "../configaux/configaux.module";
+import {CalendarModule} from "primeng/calendar";
+import {InputNumberModule} from "primeng/inputnumber";
+import {AccordionModule} from "primeng/accordion";
+import {QuillModule} from "ngx-quill";
+import {ArquivoModule} from "../arquivo/arquivo.module";
 
 
 @NgModule({
@@ -45,7 +53,15 @@ import {ContextMenuModule} from "primeng/contextmenu";
     TooltipModule,
     DialogModule,
     UtilModule,
-    ContextMenuModule
+    ContextMenuModule,
+    AutoCompleteModule,
+    InputTextModule,
+    ConfigauxModule,
+    CalendarModule,
+    InputNumberModule,
+    AccordionModule,
+    QuillModule,
+    ArquivoModule
   ]
 })
 export class EmendaModule { }

@@ -8,6 +8,7 @@ import {AuthenticationService, MenuInternoService} from "../../_services";
 import {EmendaDropdownMenuI} from "../_models/emenda-dropdown-menu-i";
 import {EmendaService} from "../_services/emenda.service";
 import {Subscription} from "rxjs";
+import {EmendaFormService} from "../_services/emenda-form.service";
 
 @Component({
   selector: 'app-emenda-menu-listar',
@@ -28,7 +29,8 @@ export class EmendaMenuListarComponent implements OnInit {
     public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public es: EmendaService
+    public es: EmendaService,
+    private efs: EmendaFormService
   ) { }
 
   ngOnInit() {
@@ -104,9 +106,9 @@ export class EmendaMenuListarComponent implements OnInit {
   }
 
   goIncluir() {
-    if (this.aut.emenda_incluir) {
-      this.es.acao = 'incluir';
-      // this.sfs.criaTipoAnalise(this.aut.solicitacao_analisar);
+    if (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.emenda_incluir) {
+      // this.es.acao = 'incluir';
+      this.efs.acao = 'incluir';
       this.mi.mudaMenuInterno(false);
       this.router.navigate(['emenda/incluir']);
     } else {

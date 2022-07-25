@@ -5,6 +5,8 @@ import {EmendaDatatableComponent} from "./emenda-datatable/emenda-datatable.comp
 import {EmendaComponent} from "./emenda.component";
 import {Rule, Scope} from "../_models";
 import {AuthChildGuard} from "../_guards";
+import {EmendaFormComponent} from "./emenda-form/emenda-form.component";
+import {EmendaFormResolver} from "./_resolvers/emenda-form.resolver";
 
 const routes: Routes = [
   {
@@ -34,7 +36,33 @@ const routes: Routes = [
         resolve: {
           dados: EmendaListarResolver
         }
+      },
+      {
+        path: 'incluir',
+        component: EmendaFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.emenda,
+          scopes: Scope.emenda_incluir
+        },
+        resolve: {
+          dados: EmendaFormResolver
+        }
+      },
+      {
+        path: 'alterar',
+        component: EmendaFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.emenda,
+          scopes: Scope.emenda_alterar
+        },
+        resolve: {
+          dados: EmendaFormResolver
+        }
       }
+
+
     ]
   }
 ];

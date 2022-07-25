@@ -10,7 +10,7 @@ export interface EmendaListarI {
   emenda_autor_tipo_id?: number;
   emenda_autor_tipo_nome?: string;
   emenda_autor_nome?: string;
-  emenda_situacao_id?: string;
+  emenda_situacao_id?: number;
   emenda_situacao_nome?: string;
   emenda_situacao?: string;
   emenda_numero?: string;
