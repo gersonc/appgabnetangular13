@@ -28,25 +28,6 @@ export class EmendaFormService {
     this.emenda = new EmendaForm();
   }
 
-  /*parceDdEmendaProcessoId(sol: any) {
-    this.emendaProcessoId = {
-      processo_id: this.processo_id,
-      solicitacao_id: this.solicitacao_id,
-      processo_numero: (sol.processo_numero !== undefined) ? sol.processo_numero : null,
-      solicitacao_cadastro_nome: sol.solicitacao_cadastro_nome,
-      solicitacao_data: sol.solicitacao_data,
-      solicitacao_assunto_nome: sol.solicitacao_assunto_nome,
-      solicitacao_orgao: (sol.solicitacao_orgao !== undefined) ? sol.solicitacao_orgao : null,
-      solicitacao_area_interesse_nome: sol.solicitacao_area_interesse_nome,
-      solicitacao_descricao: (sol.solicitacao_descricao !== undefined) ? sol.solicitacao_descricao : null,
-      solicitacao_descricao_texto: (sol.solicitacao_descricao_texto !== undefined) ? sol.solicitacao_descricao_texto : null,
-      solicitacao_descricao_delta: (sol.solicitacao_descricao_delta !== undefined) ? sol.solicitacao_descricao_delta : null,
-      cadastro_bairro: (sol.cadastro_bairro !== undefined) ? sol.cadastro_bairro : null,
-      cadastro_municipio_nome: sol.solicitacao_cadastro_nome,
-      emenda_codigo: (sol.emenda_codigo !== undefined) ? sol.emenda_codigo : null
-    }
-  }*/
-
   parceEmendaFormulario(o: EmendaListarI): EmendaFormI {
     this.emenda = new EmendaForm();
     this.emendaListar = o;
@@ -62,20 +43,20 @@ export class EmendaFormService {
     r.emenda_orgao_solicitado_nome = o.emenda_orgao_solicitado_nome;
     r.emenda_numero_protocolo = o.emenda_numero_protocolo;
     r.emenda_assunto_id = o.emenda_assunto_id;
-    r.emenda_data_solicitacao = o.emenda_data_solicitacao;
+    r.emenda_data_solicitacao = o.emenda_data_solicitacao2;
     r.emenda_processo = o.emenda_processo;
     r.emenda_tipo_emenda_id = o.emenda_tipo_emenda_id;
     r.emenda_ogu_id = o.emenda_ogu_id;
-    r.emenda_valor_solicitadado = +o.emenda_valor_solicitadado;
+    r.emenda_valor_solicitado = +o.emenda_valor_solicitado;
     r.emenda_valor_empenhado = +o.emenda_valor_empenhado;
-    r.emenda_data_empenho = o.emenda_data_empenho;
+    r.emenda_data_empenho = o.emenda_data_empenho2;
     r.emenda_numero_empenho = o.emenda_numero_empenho;
     r.emenda_crnr = o.emenda_crnr;
     r.emenda_gmdna = o.emenda_gmdna;
     r.emenda_observacao_pagamento = o.emenda_observacao_pagamento;
     r.emenda_observacao_pagamento_delta = o.emenda_observacao_pagamento_delta;
     r.emenda_observacao_pagamento_texto = o.emenda_observacao_pagamento_texto;
-    r.emenda_data_pagamento = o.emenda_data_pagamento;
+    r.emenda_data_pagamento = o.emenda_data_pagamento2;
     r.emenda_valor_pago = +o.emenda_valor_pago;
     r.emenda_numero_ordem_bancaria = o.emenda_numero_ordem_bancaria;
     r.emenda_justificativa = o.emenda_justificativa;
@@ -93,6 +74,7 @@ export class EmendaFormService {
     r.historico_andamento_delta = null;
     r.historico_andamento_texto = null;
     this.emenda = r;
+    console.log('r',r);
     return r;
   }
 }

@@ -2,11 +2,6 @@ import {TituloI, TitulosI} from "./titulo-i";
 import {ColunasI} from "./colunas-i";
 import {CelulaI} from "./celula-i";
 
-/*export interface BuscaCampoI {
-  field: string;
-  header: string;
-}*/
-
 export interface TotalI {
   num: number;
 }
@@ -27,9 +22,9 @@ export interface DatatableI {
   totalRecords?: number;
   currentPage?: number;
   pageCount?: number;
-  // titulos?: TSMap<string, TSMap<string, string>>;
   titulos?: TitulosI[];
   camposTexto?: string[];
+  camposCurrency?: string[];
   camposSelecionados?: ColunasI[];
   total?: TotalI;
   cols?: any[];

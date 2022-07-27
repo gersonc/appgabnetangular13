@@ -456,8 +456,13 @@
   },
   "emenda_porcentagem": {
     "field": "emenda_porcentagem",
-    "mtitulo": "% CONCLUIDA",
-    "titulo": "% Concluida"
+    "mtitulo": "\u0025 PORCENTAGEM",
+    "titulo": "\u0025 Porcentagem"
+  },
+  "emenda_situacao_nome": {
+    "field": "emenda_situacao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
   },
   "emenda_processo": {
     "field": "emenda_processo",
@@ -504,8 +509,8 @@
     "mtitulo": "VL PAGAMENTO",
     "titulo": "Vl Pagamento"
   },
-  "emenda_valor_solicitadado": {
-    "field": "emenda_valor_solicitadado",
+  "emenda_valor_solicitado": {
+    "field": "emenda_valor_solicitado",
     "mtitulo": "VL. SOLICITADO",
     "titulo": "Vl. Solicitado"
   },

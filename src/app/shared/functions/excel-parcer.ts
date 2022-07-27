@@ -49,7 +49,10 @@ export function ExcelParcer(valores: any[], campos: ColunasI[]): any[] {
           }
         };
       } else {
-        returnValue[key] = {v: item[key], t: 's', s: {alignment: {wrapText: true, vertical: "top"}}}
+        returnValue[key] = {
+          v: item[key],
+          t: (typeof item[key] === 'string') ? 's' : 'n',
+          s: {alignment: {wrapText: true, vertical: "top"}}}
       }
     })
     tituloVF = false;

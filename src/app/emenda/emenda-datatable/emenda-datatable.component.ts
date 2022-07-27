@@ -10,6 +10,7 @@ import {EmendaFormService} from "../_services/emenda-form.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import {EmendaListarI} from "../_models/emenda-listar-i";
 
+
 @Component({
   selector: 'app-emenda-datatable',
   templateUrl: './emenda-datatable.component.html',
@@ -17,7 +18,7 @@ import {EmendaListarI} from "../_models/emenda-listar-i";
 })
 export class EmendaDatatableComponent implements OnInit {
   @ViewChild('dtb', {static: true}) public dtb: any;
-  altura = `${WindowsService.altura - 150}` + 'px';
+  altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
   authAlterar = false;
@@ -30,6 +31,15 @@ export class EmendaDatatableComponent implements OnInit {
   contextoMenu: MenuItem[];
   mostraSeletor = false;
   cols: any[] = [];
+  real = Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+  valCols: string[] = [
+    'emenda_valor_solicitado',
+    'emenda_valor_empenhado',
+    'emenda_valor_pago'
+  ];
 
 
   constructor(
@@ -121,6 +131,9 @@ export class EmendaDatatableComponent implements OnInit {
         this.es.busca.todos = false;
       }
     ));
+
+    this.getColunas();
+
   }
 
   mostraMenu(): void {
@@ -147,7 +160,6 @@ export class EmendaDatatableComponent implements OnInit {
       {field: 'emenda_id', header: 'ID', sortable: 'true', width: '80px'},
       {field: 'emenda_cadastro_tipo_nome', header: 'TIPO DE SOLICITANTE', sortable: 'true', width: '150px'},
       {field: 'emenda_cadastro_nome', header: 'SOLICITANTE', sortable: 'true', width: '150px'},
-      {field: 'emenda_autor_tipo_nome', header: 'TIPO DE AUTOR', sortable: 'true', width: '150px'},
       {field: 'emenda_autor_nome', header: 'AUTOR', sortable: 'true', width: '200px'},
       {field: 'emenda_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
       {field: 'emenda_numero', header: 'NÚM EMENDA', sortable: 'true', width: '200px'},
@@ -159,7 +171,7 @@ export class EmendaDatatableComponent implements OnInit {
       {field: 'emenda_processo', header: 'CONTRATO/PROCESSO', sortable: 'true', width: '300px'},
       {field: 'emenda_tipo_emenda_nome', header: 'TIPO DE EMENDA', sortable: 'true', width: '300px'},
       {field: 'emenda_ogu_nome', header: 'O.G.U.', sortable: 'true', width: '300px'},
-      {field: 'emenda_valor_solicitadado', header: 'VL. SOLICITADO', sortable: 'true', width: '300px'},
+      {field: 'emenda_valor_solicitado', header: 'VL. SOLICITADO', sortable: 'true', width: '300px'},
       {field: 'emenda_valor_empenhado', header: 'VL. EMPENHADO', sortable: 'true', width: '200px'},
       {field: 'emenda_data_empenho', header: 'DT. EMPENHO', sortable: 'true', width: '200px'},
       {field: 'emenda_numero_empenho', header: 'NUM EMPENHO', sortable: 'true', width: '300px'},
@@ -175,7 +187,7 @@ export class EmendaDatatableComponent implements OnInit {
       {field: 'emenda_siconv', header: 'SICONV', sortable: 'true', width: '150px'},
       {field: 'emenda_regiao', header: 'REGIÃO', sortable: 'true', width: '150px'},
       {field: 'emenda_contrato', header: 'CONTRATO CAIXA', sortable: 'true', width: '150px'},
-      {field: 'emenda_porcentagem', header: '% CONCLUIDA', sortable: 'true', width: '150px'},
+      {field: 'emenda_porcentagem', header: 'PORCENTAGEM', sortable: 'true', width: '150px'},
       {field: 'cadastro_cpfcnpj', header: 'CPF/CNPJ', sortable: 'true', width: '150px'},
       {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '150px'},
     ];
@@ -192,7 +204,7 @@ export class EmendaDatatableComponent implements OnInit {
       {field: 'emenda_data_solicitacao', header: 'DT. SOLICITAÇÃO', sortable: 'true', width: '300px'},
       {field: 'emenda_processo', header: 'Nº PROCESSO', sortable: 'true', width: '150px'},
       {field: 'emenda_assunto_nome', header: 'ASSUNTO', sortable: 'true', width: '300px'},
-      {field: 'emenda_codigo', header: 'CODIGO', sortable: 'true', width: '150px'}
+      {field: 'emenda_numero', header: 'NÚM EMENDA', sortable: 'true', width: '150px'}
     ];
   }
 
@@ -320,6 +332,7 @@ export class EmendaDatatableComponent implements OnInit {
 
   emendaAlterar(eme: EmendaListarI) {
     if (this.aut.emenda_alterar) {
+      console.log('emendaAlterar', eme);
       this.es.salvaState();
       this.dtb.saveState();
       this.efs.acao = 'alterar';
@@ -360,8 +373,13 @@ export class EmendaDatatableComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
+    this.es.selecionados = [];
     this.sub.forEach(s => s.unsubscribe());
   }
 
-
+  getColunas() {
+    this.es.colunas = this.cols.map(t => {
+      return t.field;
+    });
+  }
 }

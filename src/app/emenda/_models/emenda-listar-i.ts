@@ -26,8 +26,8 @@ export interface EmendaListarI {
   emenda_tipo_emenda_nome?: string;
   emenda_ogu_id?: number;
   emenda_ogu_nome?: string;
-  emenda_valor_solicitadado?: string;
-  emenda_valor_empenhado?: string;
+  emenda_valor_solicitado?: number;
+  emenda_valor_empenhado?: number;
   emenda_data_empenho2?: string;
   emenda_data_empenho?: string;
   emenda_numero_empenho?: string;
@@ -38,7 +38,7 @@ export interface EmendaListarI {
   emenda_observacao_pagamento_texto?: string;
   emenda_data_pagamento2?: string;
   emenda_data_pagamento?: string;
-  emenda_valor_pago?: string;
+  emenda_valor_pago?: number;
   emenda_numero_ordem_bancaria?: string;
   emenda_justificativa?: string;
   emenda_justificativa_delta?: string;

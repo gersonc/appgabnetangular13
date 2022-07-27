@@ -42,7 +42,13 @@ export class EmendaService {
   sortOrder = 1;
   lazy = false;
   acao: string | null = null;
-
+  colunas: string[] =[];
+  mostraSoma = false;
+  mostraBtnSoma = false;
+  cp0 = false;
+  cp1 = false;
+  cp2 = false;
+  totais: EmendaListarI[] = [];
 
 
   constructor(
@@ -68,6 +74,11 @@ export class EmendaService {
       } else {
         this.tabela.sortField = 'emenda_situacao_nome';
         this.tabela.camposTexto = emendascampostexto;
+        this.tabela.camposCurrency = [
+          'emenda_valor_solicitado',
+          'emenda_valor_empenhado',
+          'emenda_valor_pago'
+        ];
         if (this.busca === undefined) {
           this.criaBusca();
         }
@@ -120,6 +131,7 @@ export class EmendaService {
 
   resetSelecionados() {
     this.selecionados = [];
+    this.calcular();
   }
 
   onContextMenuSelect(event) {
@@ -136,7 +148,6 @@ export class EmendaService {
     let ev = evento.data;
     this.has.histFormI = {
       hist: {
-        historico_processo_id: +evento.data.processo_id,
         historico_emenda_id: +evento.data.emenda_id
       }
     };
@@ -426,6 +437,7 @@ export class EmendaService {
           }
         }
       }
+      this.calcular();
     } else {
       this.busca.rows = this.tabela.rows;
       this.busca.first = this.tabela.first;
@@ -447,6 +459,7 @@ export class EmendaService {
           error: err => console.error('ERRO-->', err),
           complete: () => {
             this.lazy = false;
+            this.calcular();
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {
               this.tabela.totalRecords = +this.tabela.total.num;
             }
@@ -459,6 +472,7 @@ export class EmendaService {
               this.tabela.pageCount = m
             }
             this.stateSN = false;
+
           }
         })
       );
@@ -571,4 +585,28 @@ export class EmendaService {
     this.expandidoSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }
+
+
+  calcular() {
+    this.totais = [];
+    let tt: EmendaListarI = {};
+    this.colunas.forEach( f => {
+      tt[f] = null;
+    });
+      if (this.selecionados.length > 0) {
+        tt.emenda_valor_solicitado = this.selecionados.reduce( (a, b) => a + b.emenda_valor_solicitado, 0);
+        tt.emenda_valor_empenhado = this.selecionados.reduce((a, b) => a + b.emenda_valor_empenhado, 0);
+        tt.emenda_valor_pago = this.selecionados.reduce((a, b) => a + b.emenda_valor_pago, 0);
+      } else {
+        if (this.emendas.length > 0) {
+          tt.emenda_valor_solicitado = this.emendas.reduce( (a, b) => a + b.emenda_valor_solicitado, 0);
+          tt.emenda_valor_empenhado = this.emendas.reduce((a, b) => a + b.emenda_valor_empenhado, 0);
+          tt.emenda_valor_pago = this.emendas.reduce((a, b) => a + b.emenda_valor_pago, 0);
+          }
+      }
+    this.totais = [tt];
+  }
+
+
+
 }

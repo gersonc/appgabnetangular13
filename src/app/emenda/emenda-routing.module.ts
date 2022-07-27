@@ -38,6 +38,15 @@ const routes: Routes = [
         }
       },
       {
+        path: 'listar2',
+        component: EmendaDatatableComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.emenda,
+          scopes: Scope.emenda_listar
+        }
+      },
+      {
         path: 'incluir',
         component: EmendaFormComponent,
         canActivate: [AuthChildGuard],

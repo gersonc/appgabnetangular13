@@ -222,6 +222,7 @@
                       formControlName="emenda_data_solicitacao"
                       dateFormat="dd/mm/yy"
                       placeholder="dd/mm/aaaa"
+                      dataType="date"
                     ></p-calendar>
                   </div>
 
@@ -332,12 +333,12 @@
                     </p-inputNumber>
                   </div>
 
-                  <!--*** emenda_valor_solicitadado ***-->
+                  <!--*** emenda_valor_solicitado ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="emenda_valor_solicitadado">Valor solicitado</label>
+                    <label for="emenda_valor_solicitado">Valor solicitado</label>
                     <p-inputNumber
-                      formControlName="emenda_valor_solicitadado"
-                      id="emenda_valor_solicitadado"
+                      formControlName="emenda_valor_solicitado"
+                      id="emenda_valor_solicitado"
                       mode="currency"
                       currency="BRL"
                       locale="pt-BR"
@@ -368,6 +369,7 @@
                       formControlName="emenda_data_empenho"
                       dateFormat="dd/mm/yy"
                       placeholder="dd/mm/aaaa"
+                      dataType="date"
                     ></p-calendar>
                   </div>
 
@@ -392,6 +394,7 @@
                       formControlName="emenda_data_pagamento"
                       dateFormat="dd/mm/yy"
                       placeholder="dd/mm/aaaa"
+                      dataType="date"
                     ></p-calendar>
                   </div>
 
@@ -582,7 +585,7 @@
                       pButton
                       type="button"
                       class="p-button-rounded p-button-secondary"
-                      (click)="voltarListar()"
+                      (click)="voltar()"
                       label="Voltar"
                       [disabled]="botaoEnviarVF"
                     ></button>

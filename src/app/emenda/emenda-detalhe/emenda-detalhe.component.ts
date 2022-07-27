@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {EmendaListarI} from "../_models/emenda-listar-i";
+import {Stripslashes} from "../../shared/functions/stripslashes";
+import {AuthenticationService} from "../../_services";
+import {TitulosI} from "../../_models/titulo-i";
 
 @Component({
   selector: 'app-emenda-detalhe',
@@ -6,10 +10,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./emenda-detalhe.component.css']
 })
 export class EmendaDetalheComponent implements OnInit {
+  @Input() emenda: EmendaListarI
+  @Input() camposTexto: string[];
+  @Input() camposCurrency: string[];
+  @Input() titulos: TitulosI[];
+  @Output() hideDetalhe = new EventEmitter<boolean>();
 
-  constructor() { }
+  constructor(
+    public aut: AuthenticationService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  fechar() {
+    this.hideDetalhe.emit(true);
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
 }

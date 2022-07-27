@@ -13,7 +13,7 @@ export interface EmendaFormI {
   emenda_processo?: string;
   emenda_tipo_emenda_id?: number;
   emenda_ogu_id?: number;
-  emenda_valor_solicitadado?: number;
+  emenda_valor_solicitado?: number;
   emenda_valor_empenhado?: number;
   emenda_data_empenho?: string;
   emenda_numero_empenho?: string;
@@ -56,7 +56,7 @@ export class EmendaForm implements EmendaFormI {
   emenda_processo?: string;
   emenda_tipo_emenda_id?: number;
   emenda_ogu_id?: number;
-  emenda_valor_solicitadado?: number;
+  emenda_valor_solicitado?: number;
   emenda_valor_empenhado?: number;
   emenda_data_empenho?: string;
   emenda_numero_empenho?: string;
@@ -74,11 +74,8 @@ export class EmendaForm implements EmendaFormI {
   emenda_local_id?: number;
   emenda_uggestao?: string;
   emenda_siconv?: string;
-  // emenda_regiao_id?: number;
   emenda_contrato?: string;
   emenda_porcentagem?: number;
-  // cadastro_cpfcnpj?: string;
-  // cadastro_municipio_nome?: string;
   historico_andamento?: string;
   historico_andamento_delta?: string;
   historico_andamento_texto?: string;

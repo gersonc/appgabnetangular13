@@ -13,6 +13,7 @@ import {VersaoService} from "../../_services/versao.service";
 import {EmendaFormService} from "../_services/emenda-form.service";
 import {EmendaService} from "../_services/emenda.service";
 import {take} from "rxjs/operators";
+import { DateTime } from "luxon";
 import {SolicListarI} from "../../solic/_models/solic-listar-i";
 
 @Component({
@@ -115,11 +116,12 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
       }
       if (this.efs.acao === 'alterar') {
         this.novoRegistro = {
-          value: +this.efs.emendaListar.emenda_cadastro_id,
-          label: this.efs.emendaListar.emenda_cadastro_nome
+          label: this.efs.emendaListar.emenda_cadastro_nome,
+          value: +this.efs.emendaListar.emenda_cadastro_id
         };
         this.sgt.push(this.novoRegistro);
       }
+
     }
     this.carregaDropdownSessionStorage();
     this.criaForm();
@@ -176,7 +178,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
       emenda_numero_protocolo: [this.efs.emenda.emenda_numero_protocolo],
       emenda_assunto_id: [this.efs.emenda.emenda_assunto_id, Validators.required],
       emenda_local_id: [this.efs.emenda.emenda_local_id],
-      emenda_data_solicitacao: [this.efs.emenda.emenda_data_solicitacao],
+      emenda_data_solicitacao: [null],
       emenda_processo: [this.efs.emenda.emenda_processo],
       emenda_contrato: [this.efs.emenda.emenda_contrato],
       emenda_tipo_emenda_id: [this.efs.emenda.emenda_tipo_emenda_id, Validators.required],
@@ -185,11 +187,11 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
       emenda_gmdna: [this.efs.emenda.emenda_gmdna],
       emenda_uggestao: [this.efs.emenda.emenda_uggestao],
       emenda_siconv: [this.efs.emenda.emenda_siconv],
-      emenda_valor_solicitadado: [this.efs.emenda.emenda_valor_solicitadado],
+      emenda_valor_solicitado: [this.efs.emenda.emenda_valor_solicitado],
       emenda_valor_empenhado: [this.efs.emenda.emenda_valor_empenhado],
-      emenda_data_empenho: [this.efs.emenda.emenda_data_empenho],
+      emenda_data_empenho: [null],
       emenda_numero_empenho: [this.efs.emenda.emenda_numero_empenho],
-      emenda_data_pagamento: [this.efs.emenda.emenda_data_pagamento],
+      emenda_data_pagamento: [null],
       emenda_valor_pago: [this.efs.emenda.emenda_valor_pago],
       emenda_numero_ordem_bancaria: [this.efs.emenda.emenda_numero_ordem_bancaria],
       emenda_observacao_pagamento: [null],
@@ -206,8 +208,29 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.efs.acao === 'alterar') {
+      this.novoRegistro = {
+        value: +this.efs.emendaListar.emenda_cadastro_id,
+        label: this.efs.emendaListar.emenda_cadastro_nome,
+        disabled: false
+      };
       this.sgt.push(this.novoRegistro);
       this.formEmenda.get('emenda_cadastro_id').patchValue(this.novoRegistro);
+      this.formEmenda.get('emenda_cadastro_id').enable();
+      if (this.efs.emenda.emenda_data_solicitacao !== undefined && this.efs.emenda.emenda_data_solicitacao !== null) {
+        const dt1: DateTime = DateTime.fromSQL(this.efs.emenda.emenda_data_solicitacao);
+        this.formEmenda.get('emenda_data_solicitacao').patchValue(dt1.toJSDate());
+      }
+      if (this.efs.emenda.emenda_data_pagamento !== undefined && this.efs.emenda.emenda_data_pagamento !== null) {
+        const dt2: DateTime = DateTime.fromSQL(this.efs.emenda.emenda_data_pagamento);
+        this.formEmenda.get('emenda_data_pagamento').patchValue(dt2.toJSDate());
+      }
+      if (this.efs.emenda.emenda_data_empenho !== undefined && this.efs.emenda.emenda_data_empenho !== null) {
+        const dt3: DateTime = DateTime.fromSQL(this.efs.emenda.emenda_data_empenho);
+        this.formEmenda.get('emenda_data_empenho').patchValue(dt3.toJSDate());
+      }
+
+
+
 
       const cp0 = InOutCampoTexto(this.efs.emenda.emenda_observacao_pagamento, this.efs.emenda.emenda_observacao_pagamento_delta);
       this.format0 = cp0.format;
@@ -215,12 +238,14 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
         this.formEmenda.get('solicitacao_descricao').setValue(cp0.valor);
       }
 
-      const cp1 = InOutCampoTexto(this.efs.emenda.emenda_justificativa!, this.efs.emenda.emenda_justificativa_delta);
-      this.format0 = cp1.format;
+      const cp1 = InOutCampoTexto(this.efs.emenda.emenda_justificativa, this.efs.emenda.emenda_justificativa_delta);
+      console.log('cp1', cp1);
+      this.format1 = cp1.format;
       if (cp1.vf) {
         this.formEmenda.get('emenda_justificativa').setValue(cp1.valor);
       }
     }
+    console.log('emendaAlterar2', this.formEmenda.getRawValue());
   }
 
   ativaCadastroId() {
@@ -328,7 +353,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
     // this.mostraForm = true;
     const e: EmendaFormI = this.criaEnvio();
     console.log(e);
-    /*this.sub.push(this.es.incluirEmenda(e)
+    this.sub.push(this.es.incluirEmenda(e)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
@@ -343,8 +368,8 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           if (this.resp[0]) {
-            if (sessionStorage.getItem('emenda-dropdown-menu')) {
-              sessionStorage.removeItem('emenda-dropdown-menu');
+            if (sessionStorage.getItem('emenda-menu-dropdown')) {
+              sessionStorage.removeItem('emenda-menu-dropdown');
             }
             if (this.possuiArquivos) {
               this.arquivo_registro_id = +this.resp[1];
@@ -374,7 +399,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
           }
         }
       })
-    );*/
+    );
   }
 
   incluirSolicitacao() {
@@ -400,6 +425,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
                 this.arquivo_registro_id = +this.resp[1];
                 this.enviarArquivos = true;
               } else {
+                this.dd.ddSubscription('emenda-menu-dropdown');
                 this.ms.add({
                   key: 'toastprincipal',
                   severity: 'success',
@@ -495,7 +521,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
   criaEnvio(): EmendaFormI {
     let e = new EmendaForm();
     if (this.efs.acao === 'alterar') {
-      e.emenda_id = +this.formEmenda.get('emenda_id').value;
+      e.emenda_id = this.efs.emenda.emenda_id;
     }
     e.emenda_cadastro_tipo_id = +this.formEmenda.get('emenda_cadastro_tipo_id').value;
     const tmp1: SelectItem = this.formEmenda.get('emenda_cadastro_id').value;
@@ -514,8 +540,8 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
     e.emenda_processo = this.formEmenda.get('emenda_processo').value;
     e.emenda_tipo_emenda_id = +this.formEmenda.get('emenda_tipo_emenda_id').value;
     e.emenda_ogu_id = (this.formEmenda.get('emenda_ogu_id').value !== null) ? +this.formEmenda.get('emenda_ogu_id').value : null;
-    if (this.formEmenda.get('emenda_valor_solicitadado').value !== null) {
-      e.emenda_valor_solicitadado = +this.formEmenda.get('emenda_valor_solicitadado').value;
+    if (this.formEmenda.get('emenda_valor_solicitado').value !== null) {
+      e.emenda_valor_solicitado = +this.formEmenda.get('emenda_valor_solicitado').value;
     }
     if (this.formEmenda.get('emenda_valor_empenhado').value !== null) {
       e.emenda_valor_empenhado = +this.formEmenda.get('emenda_valor_empenhado').value;
@@ -560,9 +586,12 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
       e.historico_andamento_delta = JSON.stringify(this.cpoEditor['historico_andamento'].delta);
       e.historico_andamento_texto = this.cpoEditor['historico_andamento'].text;
     }
-    for (const key in e) {
-      if (e[key] === null) {
-        delete e[key];
+
+    if (this.efs.acao === 'incluir') {
+      for (const key in e) {
+        if (e[key] === null) {
+          delete e[key];
+        }
       }
     }
    return e;
@@ -586,6 +615,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
         summary: 'INCLUIR EMENDA',
         detail: this.resp[2]
       });
+      this.dd.ddSubscription('emenda-menu-dropdown');
       this.efs.resetEmenda();
       this.resetForm();
       this.resp = [];
@@ -604,6 +634,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
   }
 
   voltar() {
+    this.efs.resetEmenda();
     this.efs.emendaListar = undefined;
     this.efs.acao = null;
     this.es.stateSN = false;
@@ -613,7 +644,13 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.mostraForm = true;
-    this.formEmenda.reset();
+    if (this.efs.acao === 'incluir') {
+      this.formEmenda.reset();
+    } else {
+      this.criaForm();
+      this.adicionaDadosIncluidos();
+    }
+
     if (this.possuiArquivos) {
       this.clearArquivos = true;
     }

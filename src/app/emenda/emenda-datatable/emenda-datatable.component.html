@@ -35,12 +35,15 @@
          (onStateRestore)="es.onStateRestore($event)"
          (onContextMenuSelect)="es.onContextMenuSelect($event)"
          (sortFunction)="es.customSort($event)"
+         (onRowSelect)="es.calcular()"
+         (onRowUnselect)="es.calcular()"
          [customSort]="true"
          [tableStyle]="{'font-size':'1rem'}"
+         [frozenValue]="es.totais"
          stateStorage="session"
          stateKey="emenda-table"
          selectionMode="multiple"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
 
   <!--*** TOPO *****************************************************************************************************-->
@@ -115,15 +118,20 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-eme let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="eme" [pContextMenuRow]="eme" [pContextMenuRowIndex]="rowIndex" [pSelectableRowIndex]="rowIndex">
+    <tr [pSelectableRow]="eme" [pContextMenuRow]="eme" [pContextMenuRowIndex]="rowIndex"
+        [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
       <td>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
-      <td *ngFor="let col of columns" [style.width]="col.width" >
-        <app-exporter-celula [celula]="{
+      <td *ngFor="let col of columns" [style.width]="col.width">
+        <ng-container *ngIf="valCols.indexOf(col.field) !== -1">
+          {{real.format(eme[col.field])}}
+        </ng-container>
+        <ng-container *ngIf="valCols.indexOf(col.field) === -1">
+          <app-exporter-celula [celula]="{
           valor: stripslashes(eme[col.field]),
           field: col.field,
           header:col.header,
@@ -132,9 +140,27 @@
           cpdelta: null,
           cptexto: null
            }"></app-exporter-celula>
+        </ng-container>
       </td>
     </tr>
   </ng-template>
+
+  <ng-template pTemplate="frozenrows" let-eme let-columns="columns">
+    <tr>
+      <td></td>
+
+      <ng-container *ngFor="let col of columns">
+        <td *ngIf="valCols.indexOf(col.field) !== -1"
+            style="background: var(--primary-color); color: var(--primary-color-text)">
+          {{real.format(eme[col.field])}}
+        </td>
+        <td *ngIf="valCols.indexOf(col.field) === -1" style="background: var(--surface-b);">
+          {{eme[col.field]}}
+        </td>
+      </ng-container>
+    </tr>
+  </ng-template>
+
 
   <!--*** EXPANDIDO ************************************************************************************************-->
   <ng-template pTemplate="rowexpansion" let-eme let-columns="columns" let-rowIndex="rowIndex">
@@ -157,7 +183,9 @@
                 </button>
               </div>
 
-              <div *ngIf="((aut.emenda_alterar && eme.emenda_status_nome =='EM ANDAMENTO') || (aut.usuario_principal_sn || aut.usuario_responsavel_sn))"  class="p-mr-2">
+              <div
+                *ngIf="((aut.emenda_alterar && eme.emenda_status_nome =='EM ANDAMENTO') || (aut.usuario_principal_sn || aut.usuario_responsavel_sn))"
+                class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -208,7 +236,6 @@
                 </div>
               </div>
             </div>
-
 
 
           </div>
