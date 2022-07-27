@@ -33,8 +33,13 @@ export class HistExcluirComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('excluie');
-    this.excluir = ((this.modulo === 'processo' && this.aut.historico_apagar) || (this.modulo === 'solicitacao' && this.aut.historico_solicitacao_apagar));
+    console.log('excluir');
+    this.excluir = (
+      (this.modulo === 'processo' && this.aut.historico_apagar) ||
+      (this.modulo === 'solicitacao' && this.aut.historico_solicitacao_apagar) ||
+      (this.modulo === 'emenda' && (this.aut.emenda_incluir || this.aut.emenda_alterar || this.aut.emenda_apagar)) ||
+      (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn)
+    );
   }
 
   confirm(event: Event) {

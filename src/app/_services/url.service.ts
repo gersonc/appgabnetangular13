@@ -50,6 +50,7 @@ export class UrlService {
   uploadlocal = this.url + 'arquivo2';
   historicoProcesso = this.url + 'historico/processo';
   historicoSolicitacao = this.url + 'historico/solicitacao';
+  historicoEmenda = this.url + 'historico/emenda';
   ping = this.url + 'ping';
   explorer = this.url + 'pasta';
   dd = this.url + 'dd';

@@ -1,93 +1,340 @@
-<p-scrollPanel class="detalhe" id="detalheEmenda">
-  <table class="detalhefull">
+<p-scrollPanel class="detalhe">
+  <table #detalheemenda class="detalhefull">
     <tr>
       <td>
-        <table class="table-hover tabela" #tabemenda id="tabemenda">
+
+        <table #detemenda class="table-hover tabela">
           <caption>EMENDA</caption>
-          <ng-container *ngFor="let em of emenda; let i=index">
-            <tr *ngIf="em[1]">
-              <th>
-                {{em[0]}}
-              </th>
-              <td>
-                {{em[1]}}
-              </td>
-            </tr>
-          </ng-container>
-
-          <tr *ngIf="dados.emenda.emenda_justificativa" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
-              {{emenda_titulo['emenda_justificativa']}}:
-              <div *ngIf="dados.emenda.emenda_justificativa" style="margin-top: .25em">
-                <quill-view-html id="justificativa" #justificativa [content]="dados.emenda.emenda_justificativa" class="detalhe"></quill-view-html>
-              </div>
-            </th>
-          </tr>
-
-        </table>
-
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <app-arquivo
-          [modulo]="'emenda'"
-          [modelo]="'detalhe'"
-          [registro_id]="dados.emenda.emenda_id"
-        ></app-arquivo>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <br>
-      </td>
-    </tr>
-    <tr *ngIf="emenda.historico_emenda.length > 0">
-      <td>
-        <table class="table-hover tabela" #tabhistorico id="tabhistorico" style="width: 100%">
-          <caption>HISTÓRICO</caption>
+          <thead class="detalheTitulo-horiz">
           <tr>
-            <th>
-              {{historico_emenda_titulo['his_data']}}
-            </th>
-            <th>
-              {{historico_emenda_titulo['his_usuario']}}
-            </th>
-            <th>
-              {{historico_emenda_titulo['his_texto']}}
+            <th colspan="2">
+              EMENDA
             </th>
           </tr>
-          <tr *ngFor="let hi of dados.emenda.historico_emenda">
-            <td>{{hi.his_data}}</td>
-            <td>{{hi.his_usuario}}</td>
-            <td>{{hi.his_texto}}</td>
+          </thead>
+          <tbody class="detalhe-horiz">
+          <tr *ngIf="emenda.emenda_situacao_nome">
+            <th>
+              Situação:
+            </th>
+            <td>
+              {{emenda.emenda_situacao_nome}}
+            </td>
           </tr>
+          <tr *ngIf="emenda.emenda_orgao_solicitado_nome">
+            <th>
+              Orgão Solicitado:
+            </th>
+            <td>
+              {{emenda.emenda_orgao_solicitado_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_cadastro_tipo_nome">
+            <th>
+              Tipo de Solicitante:
+            </th>
+            <td>
+              {{emenda.emenda_cadastro_tipo_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_cadastro_nome">
+            <th>
+              Solicitante:
+            </th>
+            <td>
+              {{emenda.emenda_cadastro_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.cadastro_cpfcnpj">
+            <th>
+              C.N.P.J.:
+            </th>
+            <td>
+              {{emenda.cadastro_cpfcnpj}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.cadastro_municipio_nome">
+            <th>
+              Município:
+            </th>
+            <td>
+              {{emenda.cadastro_municipio_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.cadastro_regiao_nome">
+            <th>
+              Região:
+            </th>
+            <td>
+              {{emenda.cadastro_regiao_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_local_nome">
+            <th>
+              Núcleo:
+            </th>
+            <td>
+              {{emenda.emenda_local_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_assunto_nome">
+            <th>
+              Assunto:
+            </th>
+            <td>
+              {{emenda.emenda_assunto_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_autor_nome">
+            <th>
+              Autor:
+            </th>
+            <td>
+              {{emenda.emenda_autor_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_tipo_emenda_nome">
+            <th>
+              Tipo de Emenda:
+            </th>
+            <td>
+              {{emenda.emenda_tipo_emenda_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_justificativa" class="novaPagina">
+            <th colspan="2" class="tituloEditor">
+              Justificativa:
+            </th>
+          </tr>
+          <tr *ngIf="emenda.emenda_justificativa" class="novaPagina">
+            <td colspan="2" class="tituloEditor">
+              <div *ngIf="emenda.emenda_justificativa" style="margin-top: .25em">
+                <app-kill-view
+                  [kill]="{html: emenda.emenda_justificativa, delta: emenda.emenda_justificativa_delta}"></app-kill-view>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_processo">
+            <th>
+              Processo:
+            </th>
+            <td>
+              {{emenda.emenda_processo}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_numero">
+            <th>
+              Número:
+            </th>
+            <td>
+              {{emenda.emenda_numero}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_contrato">
+            <th>
+              Contrato:
+            </th>
+            <td>
+              {{emenda.emenda_contrato}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_funcional_programatica">
+            <th>
+              Funcional Programática:
+            </th>
+            <td>
+              {{emenda.emenda_funcional_programatica}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_numero_protocolo">
+            <th>
+              Númerodo Protocolo:
+            </th>
+            <td>
+              {{emenda.emenda_numero_protocolo}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_ogu_nome">
+            <th>
+              O.G.U.:
+            </th>
+            <td>
+              {{emenda.emenda_ogu_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_crnr">
+            <th>
+              C.R.N.R.:
+            </th>
+            <td>
+              {{emenda.emenda_crnr}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_gmdna">
+            <th>
+              G.M.D.N.A.:
+            </th>
+            <td>
+              {{emenda.emenda_gmdna}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_uggestao">
+            <th>
+              U.G. Gestão:
+            </th>
+            <td>
+              {{emenda.emenda_uggestao}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_siconv">
+            <th>
+              SICONV:
+            </th>
+            <td>
+              {{emenda.emenda_siconv}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_data_solicitacao">
+            <th>
+              Data da Solicitação:
+            </th>
+            <td>
+              {{emenda.emenda_data_solicitacao}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_valor_solicitado">
+            <th>
+              Valor Solicitado:
+            </th>
+            <td>
+              {{real.format(emenda.emenda_valor_solicitado)}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_data_empenho">
+            <th>
+              Data do Empenho:
+            </th>
+            <td>
+              {{emenda.emenda_data_empenho}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_valor_empenhado">
+            <th>
+              Valor do Empenho:
+            </th>
+            <td>
+              {{real.format(emenda.emenda_valor_empenhado)}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_numero_empenho">
+            <th>
+              Número do Empenho:
+            </th>
+            <td>
+              {{emenda.emenda_numero_empenho}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_numero_ordem_bancaria">
+            <th>
+              Órdem Bancária:
+            </th>
+            <td>
+              {{emenda.emenda_numero_ordem_bancaria}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_data_pagamento">
+            <th>
+              Data do Pagamento:
+            </th>
+            <td>
+              {{emenda.emenda_data_pagamento}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_valor_pago">
+            <th>
+              Valor Pago:
+            </th>
+            <td>
+              {{real.format(emenda.emenda_valor_pago)}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_porcentagem">
+            <th>
+              % Paga:
+            </th>
+            <td>
+              {{emenda.emenda_porcentagem}}
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_observacao_pagamento" class="novaPagina">
+            <th colspan="2" class="tituloEditor">
+              Obsevações sobre Pagamento:
+            </th>
+          </tr>
+          <tr *ngIf="emenda.emenda_observacao_pagamento" class="novaPagina">
+            <td colspan="2" class="tituloEditor">
+              <div *ngIf="emenda.emenda_observacao_pagamento" style="margin-top: .25em">
+                <app-kill-view
+                  [kill]="{html: emenda.emenda_observacao_pagamento, delta: emenda.emenda_observacao_pagamento_delta}"></app-kill-view>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="emenda.emenda_arquivos.length > 0 && aut.arquivos_baixar">
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="emenda.emenda_arquivos"></app-detalhe-explorer>
+            </td>
+          </tr>
+          <tr *ngIf="emenda.historico_emenda.length > 0" class="novaPagina">
+            <td>
+              <br>
+
+              <table class="table-hover tabela">
+                <caption>ANDAMENTOS DA EMENDA</caption>
+                <thead class="detalheTitulo-horiz">
+                <tr>
+                  <th colspan="2">
+                    ANDAMENTOS DA EMENDA
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <th style="width: 3%;" nowrap>
+                    Data:
+                  </th>
+                  <th>
+                    Andamento:
+                  </th>
+                </tr>
+                <tr *ngFor="let ands of emenda.historico_emenda">
+                  <td style="width: 3%; vertical-align:top;" nowrap>
+                    {{ands.historico_data}}
+                  </td>
+                  <td>
+                    <quill-view [content]="stripslashes(ands.historico_andamento)" [format]="'html'"
+                                theme="snow"></quill-view>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+            </td>
+          </tr>
+
+
+          </tbody>
         </table>
-      </td>
-    </tr>
-    <tr *ngIf="dados.emenda.historico_emenda">
-      <td><br></td>
-    </tr>
-    <tr>
-      <td>
-        <app-arquivo
-          [modulo]="'emenda'"
-          [modelo]="'detalhe'"
-          [registro_id]="dados.emenda.emenda_id"
-        ></app-arquivo>
+
       </td>
     </tr>
   </table>
   <br>
 </p-scrollPanel>
+
 <div class="botoesdetalhe">
-  <button pButton type="button" icon="pi pi-times" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
+  <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="pi pi-file-pdf" label="PDF"
-          class="p-button-raised p-button-rounded p-button-secondary"
-          (click)="getPdf(false)"></button>
+  <app-exporter-detalhe [arquivoNome]="'emenda_detalhes'" [classe]="'tabela'"></app-exporter-detalhe>
   &nbsp;&nbsp;
-  <button pButton type="button" icon="pi pi-print" label="IMPRIMIR"
-          class="p-button-raised p-button-rounded p-button-secondary"
-          (click)="getPdf(true)"></button>
+  <app-impressao-botao [dados]="['EMeNDA',detalheemenda]"></app-impressao-botao>
 </div>

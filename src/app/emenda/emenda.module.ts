@@ -28,6 +28,10 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {AccordionModule} from "primeng/accordion";
 import {QuillModule} from "ngx-quill";
 import {ArquivoModule} from "../arquivo/arquivo.module";
+import {KillViewModule} from "../shared/kill-view/kill-view.module";
+import {ExplorerModule} from "../explorer/explorer.module";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
+import {HistModule} from "../hist/hist.module";
 
 
 @NgModule({
@@ -38,30 +42,34 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
     EmendaFormComponent,
     EmendaDetalheComponent
   ],
-  imports: [
-    CommonModule,
-    EmendaRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    TableModule,
-    MenuModule,
-    ExporterAcessoModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    UtilModule,
-    ContextMenuModule,
-    AutoCompleteModule,
-    InputTextModule,
-    ConfigauxModule,
-    CalendarModule,
-    InputNumberModule,
-    AccordionModule,
-    QuillModule,
-    ArquivoModule
-  ]
+    imports: [
+        CommonModule,
+        EmendaRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        TableModule,
+        MenuModule,
+        ExporterAcessoModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        UtilModule,
+        ContextMenuModule,
+        AutoCompleteModule,
+        InputTextModule,
+        ConfigauxModule,
+        CalendarModule,
+        InputNumberModule,
+        AccordionModule,
+        QuillModule,
+        ArquivoModule,
+        KillViewModule,
+        ExplorerModule,
+        ImpressaoModule,
+        HistModule
+    ]
 })
 export class EmendaModule { }

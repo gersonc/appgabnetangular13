@@ -522,23 +522,54 @@ export class EmendaService {
     return this.http.delete<any>(url);
   }
 
-  postVerificarNumOficio(dados: any): Observable<any> {
-    let url: string;
-    url = this.url.emenda + '/verificanumoficio';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(url, dados, httpOptions);
-  }
+  /*recebeRegistro(h: HistFormI) {
+    if (h.modulo === 'solicitacao') {
+      if (h.acao === 'incluir') {
+        if (Array.isArray(this.solicitacoes[h.idx].historico_solicitcao)) {
+          this.solicitacoes[h.idx].historico_solicitcao.push(h.hist);
+        } else {
+          this.solicitacoes[h.idx].historico_solicitcao = [h.hist];
+        }
+      }
+      if (h.acao === 'alterar') {
+        const m: HistI[] = this.solicitacoes[h.idx].historico_solicitcao;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_solicitcao.splice(n, 1, h.hist);
+      }
+      if (h.acao === 'apagar') {
+        const m: HistI[] = this.solicitacoes[h.idx].historico_solicitcao;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_solicitcao.splice(n, 1);
+      }
+    }
+    if (h.modulo === 'processo') {
+      if (h.acao === 'incluir') {
+        if (Array.isArray(this.solicitacoes[h.idx].historico_processo)) {
+          this.solicitacoes[h.idx].historico_processo.push(h.hist);
+        } else {
+          this.solicitacoes[h.idx].historico_processo = [h.hist];
+        }
+      }
+      if (h.acao === 'alterar') {
+        const m: HistI[] = this.solicitacoes[h.idx].historico_processo;
+        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
+        this.solicitacoes[h.idx].historico_processo.splice(n, 1, h.hist);
+      }
+      if (h.acao === 'apagar') {
+        this.solicitacoes[h.idx].historico_processo.splice(this.solicitacoes[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
+      }
+    }
+  }*/
 
-  postVerificarNumProesso(dados: any): Observable<any> {
-    let url: string;
-    url = this.url.proce + '/validarnum';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(url, dados, httpOptions);
-  }
-
-  getSgstNumProcesso(): Observable<any> {
-    const url = this.url.proce + '/sugestnum';
-    return this.http.get<any>(url);
+  montaHistorico(modulo: string, idx: number) {
+    this.has.histFormI.modulo = modulo;
+    this.has.histFormI.idx = idx;
+    this.has.histListI = {
+      idx: idx,
+      modulo: modulo,
+      hist: this.expandido.historico_emenda,
+      registro_id: +this.expandido.emenda_id
+    }
   }
 
   recebeRegistro(h: HistFormI) {

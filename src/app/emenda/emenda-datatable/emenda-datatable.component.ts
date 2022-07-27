@@ -9,6 +9,7 @@ import {EmendaService} from "../_services/emenda.service";
 import {EmendaFormService} from "../_services/emenda-form.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import {EmendaListarI} from "../_models/emenda-listar-i";
+import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 
 
 @Component({
@@ -21,16 +22,29 @@ export class EmendaDatatableComponent implements OnInit {
   altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
-  authAlterar = false;
+  /*authAlterar = false;
   authAnalisar = false;
   authApagar = false;
-  authIncluir = false;
+  authIncluir = false;*/
   showDetalhe = false;
-  ofiDetalhe?: EmendaListarI;
+  emendaDetalhe?: EmendaListarI;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   mostraSeletor = false;
   cols: any[] = [];
+
+  histListI: HistListI;
+  showHistorico = false;
+  tituloHistoricoDialog = 'ANDAMENTOS';
+  histAcao: string = '';
+  histFormI?: HistFormI;
+  cssMostra: string | null = null;
+  permListHist: boolean = false;
+  permInclHist: boolean = false;
+  permitirAcao: boolean = true;
+
+
+
   real = Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -52,6 +66,12 @@ export class EmendaDatatableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.es.selecionados === undefined || this.es.selecionados === null || !Array.isArray(this.es.selecionados)) {
+      this.es.selecionados = [];
+    }
+    this.permListHist = (this.aut.emenda_listar || this.aut.emenda_incluir || this.aut.emenda_alterar || this.aut.emenda_apagar ||  this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+    this.permInclHist = (this.aut.emenda_listar || this.aut.emenda_incluir || this.aut.emenda_alterar || this.aut.emenda_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+
     this.montaColunas();
 
     if (!this.es.stateSN) {
@@ -249,20 +269,7 @@ export class EmendaDatatableComponent implements OnInit {
         }
       }];
 
-    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.emenda_alterar) {
-      this.authAnalisar = true;
-      this.contextoMenu.push(
-        {
-          label: 'ANALISAR', icon: 'pi pi-exclamation-circle', style: {'font-size': '1em'},
-          command: () => {
-            this.emendaAnalisar(this.es.Contexto);
-            console.log(this.es.Contexto);
-          }
-        });
-    }
-
-    if (this.aut.solicitacao_alterar) {
-      this.authAlterar = true;
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_alterar) {
       this.contextoMenu.push(
         {
           label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
@@ -272,8 +279,7 @@ export class EmendaDatatableComponent implements OnInit {
         });
     }
 
-    if (this.aut.solicitacao_apagar) {
-      this.authApagar = true;
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_apagar) {
       this.contextoMenu.push(
         {
           label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
@@ -320,14 +326,14 @@ export class EmendaDatatableComponent implements OnInit {
     }
   }
 
-  emendaDetalheCompleto(ofi: EmendaListarI) {
+  emendaDetalheCompleto(eme: EmendaListarI) {
     this.showDetalhe = true;
-    this.ofiDetalhe = ofi;
+    this.emendaDetalhe = eme;
   }
 
   escondeDetalhe() {
     this.showDetalhe = false;
-    this.ofiDetalhe = null;
+    this.emendaDetalhe = null;
   }
 
   emendaAlterar(eme: EmendaListarI) {
@@ -371,6 +377,45 @@ export class EmendaDatatableComponent implements OnInit {
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
   }
+
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao: boolean = true, historicos?: HistI[]) {
+    this.tituloHistoricoDialog = 'EMENDA';
+    this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
+    this.histAcao = acao;
+    this.permitirAcao = permitirAcao;
+    if (acao === 'listar') {
+      this.histListI = {
+        hist: historicos,
+        idx: idx,
+        registro_id: registro_id,
+        modulo: modulo
+      }
+      this.es.montaHistorico(modulo, idx);
+    }
+    if (acao === 'incluir') {
+      this.histFormI = {
+        idx: idx,
+        acao: acao,
+        modulo: modulo,
+        hist: {
+          historico_emenda_id: (modulo === 'emenda') ? registro_id : undefined,
+        }
+      }
+    }
+    this.showHistorico = true;
+    this.mostraDialog(true);
+  }
+
+  mostraDialog(ev: boolean) {
+    this.cssMostra = (ev) ? null : 'p-d-none';
+  }
+
+  recebeRegistro(h: HistFormI) {
+    this.es.recebeRegistro(h);
+  }
+
+
+
 
   ngOnDestroy(): void {
     this.es.selecionados = [];

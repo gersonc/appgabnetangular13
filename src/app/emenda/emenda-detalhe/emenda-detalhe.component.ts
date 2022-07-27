@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EmendaListarI} from "../_models/emenda-listar-i";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import {AuthenticationService} from "../../_services";
-import {TitulosI} from "../../_models/titulo-i";
 
 @Component({
   selector: 'app-emenda-detalhe',
@@ -11,10 +10,12 @@ import {TitulosI} from "../../_models/titulo-i";
 })
 export class EmendaDetalheComponent implements OnInit {
   @Input() emenda: EmendaListarI
-  @Input() camposTexto: string[];
-  @Input() camposCurrency: string[];
-  @Input() titulos: TitulosI[];
   @Output() hideDetalhe = new EventEmitter<boolean>();
+
+  real = Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
 
   constructor(
     public aut: AuthenticationService,

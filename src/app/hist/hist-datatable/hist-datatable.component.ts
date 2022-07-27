@@ -52,6 +52,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   sub: Subscription[] = [];
   resp: [boolean, string, string] = [false,'',''];
   msg: any[] = [];
+  autMaster = false;
 
 
   constructor(
@@ -64,23 +65,30 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.modulo = this.histListI.modulo;
-    // this.registro_id = this.histListI.registro_id;
-    // this.idx = this.histListI.idx;
+    this.autMaster = (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
     if(this.histListI.modulo === 'solicitacao') {
       this.caption = 'ANDAMENTOS DA SOLICITAÇÃO';
-      this.incluir = this.aut.historico_solicitacao_incluir;
-      this.alterar = this.aut.historico_solicitacao_alterar;
-      this.apagar = this.aut.historico_solicitacao_apagar;
-    } else {
+      this.incluir = (this.aut.historico_solicitacao_incluir || this.autMaster);
+      this.alterar = (this.aut.historico_solicitacao_alterar || this.autMaster);
+      this.apagar = (this.aut.historico_solicitacao_apagar || this.autMaster);
+    }
+    if(this.histListI.modulo === 'processo') {
       this.caption = 'ANDAMENTOS DO PROCESSO';
-      this.incluir = this.aut.historico_incluir;
-      this.alterar = this.aut.historico_alterar;
-      this.apagar = this.aut.historico_apagar;
+      this.incluir = (this.aut.historico_incluir || this.autMaster);
+      this.alterar = (this.aut.historico_alterar || this.autMaster);
+      this.apagar = (this.aut.historico_apagar || this.autMaster);
+    }
+    if(this.histListI.modulo === 'emenda') {
+      this.caption = 'ANDAMENTOS DA EMENDA';
+      this.incluir = (this.aut.emenda_incluir || this.aut.emenda_alterar || this.aut.emenda_apagar || this.autMaster);
+      this.alterar = (this.aut.emenda_incluir || this.aut.emenda_alterar || this.aut.emenda_apagar || this.autMaster);
+      this.apagar = (this.aut.emenda_incluir || this.aut.emenda_alterar || this.aut.emenda_apagar || this.autMaster);
     }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+  }
 
   fechar() {
     this.dialogExterno.emit(false);
@@ -151,7 +159,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   historicoAcao(acao: string, idx?: number, historico?: HistI) {
-    this.tituloHistoricoDialog = (this.histListI.modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
+    this.tituloHistoricoDialog = (this.histListI.modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : (this.histListI.modulo === 'solicitacao') ? 'PROCESSO - ' : 'EMENDA - ';
     this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
     if (acao === 'alterar') {
       this.histFormI = {
@@ -169,6 +177,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
         hist: {
           historico_solicitacao_id: (this.histListI.modulo === 'solicitacao') ? this.histListI.registro_id: undefined,
           historico_processo_id: (this.histListI.modulo === 'processo') ? this.histListI.registro_id : undefined,
+          historico_emenda_id: (this.histListI.modulo === 'emenda') ? this.histListI.registro_id : undefined,
         }
       }
     }

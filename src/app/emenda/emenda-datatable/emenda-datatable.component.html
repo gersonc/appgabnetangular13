@@ -74,7 +74,7 @@
           <div class="p-mx-2">EMENDAS</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2" *ngIf="es.selecionados.length > 0">
+          <div class="p-mr-2" *ngIf="es.selecionados !== undefined &&  es.selecionados !== null &&  es.selecionados.length > 0">
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="es.resetSelecionados()"></button>
           </div>
@@ -163,7 +163,7 @@
 
 
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-eme let-columns="columns" let-rowIndex="rowIndex">
+  <ng-template pTemplate="rowexpansion" let-eme let-columns="columns" let-indice="rowIndex">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -226,6 +226,35 @@
                 >
                 </button>
               </div>
+
+              <div *ngIf="es.expandidoSN && permListHist && eme.historico_emenda.length > 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-list"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Listar Andamentos da Emenda"
+                  tooltipPosition="top"
+                  (click)="historicoAcao(eme.emenda_id, 'listar', 'emenda', indice, permListHist, eme.historico_emenda)"
+                >
+                </button>
+              </div>
+              <div *ngIf="es.expandidoSN && permInclHist" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-file-o"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Incluir Andamentos da Emenda"
+                  tooltipPosition="top"
+                  (click)="historicoAcao(eme.emenda_id, 'incluir', 'emenda', indice, permInclHist)"
+                >
+                </button>
+              </div>
+
+
             </div>
 
             <div class="p-grid">
@@ -287,7 +316,6 @@
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
 
-<!--*** DETALHE ****************************************************************************************************-->
 <ng-container *ngIf="showDetalhe">
   <p-dialog
     [(visible)]="showDetalhe"
@@ -298,9 +326,28 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <!--<app-emenda-detalhe [emenda]="emeDetalhe" (hideDetalhe)="escondeDetalhe()"></app-emenda-detalhe>-->
+    <app-emenda-detalhe [emenda]="emendaDetalhe" (hideDetalhe)="escondeDetalhe()"></app-emenda-detalhe>
   </p-dialog>
 </ng-container>
 
-
-
+<!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
+<ng-container *ngIf="showHistorico">
+  <div [ngClass]="cssMostra">
+    <p-dialog
+      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+      [style]="{width: '80vw'}"
+      [(visible)]="showHistorico"
+      styleClass="tablistagem"
+      [header]="tituloHistoricoDialog"
+      [modal]="true"
+      [dismissableMask]="false"
+      [baseZIndex]="0"
+    >
+      <app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"
+                     [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+      <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico"
+                          [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
+                          (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>
+    </p-dialog>
+  </div>
+</ng-container>
