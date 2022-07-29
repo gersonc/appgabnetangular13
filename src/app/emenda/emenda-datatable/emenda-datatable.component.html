@@ -184,17 +184,16 @@
               </div>
 
               <div
-                *ngIf="((aut.emenda_alterar && eme.emenda_status_nome =='EM ANDAMENTO') || (aut.usuario_principal_sn || aut.usuario_responsavel_sn))"
-                class="p-mr-2">
+                *ngIf="(aut.emenda_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
-                  icon="pi pi-exclamation-circle"
+                  icon="pi pi-percentage"
                   class="p-button-rounded p-button-success"
-                  pTooltip="Analisar"
+                  pTooltip="Atualizar"
                   tooltipPosition="top"
-                  (click)="emendaAnalisar(eme)"
+                  (click)="emendaAtualizar(eme)"
                 >
                 </button>
               </div>
@@ -213,7 +212,7 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.emenda_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+              <div *ngIf="aut.emenda_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn || permissaoApagarArquivo(eme)" class="p-mr-2">
                 <button
                   pButton
                   pRipple

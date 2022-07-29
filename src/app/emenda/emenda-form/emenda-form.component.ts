@@ -229,13 +229,10 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
         this.formEmenda.get('emenda_data_empenho').patchValue(dt3.toJSDate());
       }
 
-
-
-
       const cp0 = InOutCampoTexto(this.efs.emenda.emenda_observacao_pagamento, this.efs.emenda.emenda_observacao_pagamento_delta);
       this.format0 = cp0.format;
       if (cp0.vf) {
-        this.formEmenda.get('solicitacao_descricao').setValue(cp0.valor);
+        this.formEmenda.get('emenda_observacao_pagamento').setValue(cp0.valor);
       }
 
       const cp1 = InOutCampoTexto(this.efs.emenda.emenda_justificativa, this.efs.emenda.emenda_justificativa_delta);
@@ -400,58 +397,6 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
-
-  incluirSolicitacao() {
-    if (this.formEmenda.valid) {
-      this.arquivoDesativado = true;
-      const e = this.criaEnvio();
-      this.ms.fundoSN(false);
-      this.sub.push(this.es.incluirEmenda(e)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            this.resp = dados;
-          },
-          error: (err) => {
-            this.mostraForm = true;
-            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
-            console.error(err);
-          },
-          complete: () => {
-            if (this.resp[0]) {
-              sessionStorage.removeItem('solic-menu-dropdown');
-              if (this.possuiArquivos) {
-                this.arquivo_registro_id = +this.resp[1];
-                this.enviarArquivos = true;
-              } else {
-                this.dd.ddSubscription('emenda-menu-dropdown');
-                this.ms.add({
-                  key: 'toastprincipal',
-                  severity: 'success',
-                  summary: 'INCLUIR SOLICITAÇÃO',
-                  detail: this.resp[2]
-                });
-                this.efs.resetEmenda();
-                this.resetForm();
-                this.voltarListar();
-              }
-            } else {
-              this.mostraForm = true;
-              console.error('ERRO - INCLUIR ', this.resp[2]);
-              this.ms.add({
-                key: 'toastprincipal',
-                severity: 'warn',
-                summary: 'ATENÇÃO - ERRO',
-                detail: this.resp[2]
-              });
-            }
-          }
-        })
-      );
-    } else {
-      this.verificaValidacoesForm(this.formEmenda);
-    }
   }
 
   alterarEmenda() {

@@ -17,6 +17,15 @@
         </div>
         <div class="p-mr-2">
           <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenuOfico.reset()"
+            label="Limpar"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
             *ngIf="ddOficio.ddOficio_processo_id.length > 0 && (aut.oficio_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn)"
             pButton
             type="button"
@@ -460,6 +469,15 @@
             label="Procurar"
             class="p-button-rounded p-button-secondary"
             (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenuOfico.reset()"
+            label="Limpar"
           ></button>
         </div>
         <div class="p-mr-2">

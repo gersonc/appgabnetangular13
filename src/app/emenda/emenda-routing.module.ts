@@ -7,6 +7,9 @@ import {Rule, Scope} from "../_models";
 import {AuthChildGuard} from "../_guards";
 import {EmendaFormComponent} from "./emenda-form/emenda-form.component";
 import {EmendaFormResolver} from "./_resolvers/emenda-form.resolver";
+import {EmendaExcluirComponent} from "./emenda-excluir/emenda-excluir.component";
+import {EmendaAtualizarComponent} from "./emenda-atualizar/emenda-atualisar.component";
+import {EmendaAtualizarResolver} from "./_resolvers/emenda-atualizar.resolver";
 
 const routes: Routes = [
   {
@@ -68,6 +71,27 @@ const routes: Routes = [
         },
         resolve: {
           dados: EmendaFormResolver
+        }
+      },
+      {
+        path: 'apagar',
+        component: EmendaExcluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.emenda,
+          scopes: Scope.emenda_apagar
+        }
+      },
+      {
+        path: 'atualizar',
+        component: EmendaAtualizarComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.emenda,
+          scopes: Scope.emenda_alterar
+        },
+        resolve: {
+          dados: EmendaAtualizarResolver
         }
       }
 

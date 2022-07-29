@@ -15,6 +15,15 @@
             autofocus
           ></button>
         </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="formListarSolicitacao.reset()"
+            label="Limpar"
+          ></button>
+        </div>
         <div class="p-mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
           <button
             pButton
@@ -256,6 +265,15 @@
             label="Procurar"
             class="p-button-rounded p-button-secondary"
             (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="formListarSolicitacao.reset()"
+            label="Limpar"
           ></button>
         </div>
         <div class="p-mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">

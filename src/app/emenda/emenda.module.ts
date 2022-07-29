@@ -32,6 +32,8 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {HistModule} from "../hist/hist.module";
+import { EmendaExcluirComponent } from './emenda-excluir/emenda-excluir.component';
+import { EmendaAtualizarComponent } from './emenda-atualizar/emenda-atualisar.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import {HistModule} from "../hist/hist.module";
     EmendaMenuListarComponent,
     EmendaDatatableComponent,
     EmendaFormComponent,
-    EmendaDetalheComponent
+    EmendaDetalheComponent,
+    EmendaExcluirComponent,
+    EmendaAtualizarComponent
   ],
     imports: [
         CommonModule,

@@ -16,6 +16,7 @@ import {EmendaListarI, EmendaPaginacaoInterface, emendascampostexto} from "../_m
 import {EmendaFormI} from "../_models/emenda-form-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {SolicFormAnalisar} from "../../solic/_models/solic-form-analisar-i";
+import {EmendaAtualizar} from "../_models/emenda-atualizar-i";
 
 
 @Injectable({
@@ -27,7 +28,6 @@ export class EmendaService {
   idx?: number;
   emendaUrl = this.url.emenda;
   sub: Subscription[] = [];
-  detalhe: EmendaListarI | null = null;
   emendas: EmendaListarI[] = [];
   selecionados: EmendaListarI[] = [];
   Contexto: EmendaListarI;
@@ -37,7 +37,7 @@ export class EmendaService {
   expandido?: EmendaListarI;
   expandidoSN = false;
   emendaApagar: EmendaListarI | null = null;
-  emendaAnalisar: EmendaListarI | null = null;
+  // emendaAnalisar: EmendaListarI | null = null;
   sortField = 'emenda_situacao';
   sortOrder = 1;
   lazy = false;
@@ -491,11 +491,6 @@ export class EmendaService {
     return this.http.post<EmendaPaginacaoInterface>(url, busca, httpOptions);
   }
 
-  /*getEmendaDetalhe(id: number) {
-    const url = this.url.emenda + '/detalhe/' + id;
-    return this.http.get<SolicDetalheI>(url);
-  }*/
-
   incluirEmenda(dados: EmendaFormI): Observable<any> {
     let url: string;
     url = this.url.emenda + '/incluir';
@@ -510,9 +505,9 @@ export class EmendaService {
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
-  analisarEmenda(dados: SolicFormAnalisar): Observable<any> {
+  atualizarEmenda(dados: EmendaAtualizar): Observable<any> {
     let url: string;
-    url = this.url.emenda + '/analisar';
+    url = this.url.emenda + '/atualizar';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
@@ -521,45 +516,6 @@ export class EmendaService {
     const url = this.url.emenda + '/' + id;
     return this.http.delete<any>(url);
   }
-
-  /*recebeRegistro(h: HistFormI) {
-    if (h.modulo === 'solicitacao') {
-      if (h.acao === 'incluir') {
-        if (Array.isArray(this.solicitacoes[h.idx].historico_solicitcao)) {
-          this.solicitacoes[h.idx].historico_solicitcao.push(h.hist);
-        } else {
-          this.solicitacoes[h.idx].historico_solicitcao = [h.hist];
-        }
-      }
-      if (h.acao === 'alterar') {
-        const m: HistI[] = this.solicitacoes[h.idx].historico_solicitcao;
-        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
-        this.solicitacoes[h.idx].historico_solicitcao.splice(n, 1, h.hist);
-      }
-      if (h.acao === 'apagar') {
-        const m: HistI[] = this.solicitacoes[h.idx].historico_solicitcao;
-        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
-        this.solicitacoes[h.idx].historico_solicitcao.splice(n, 1);
-      }
-    }
-    if (h.modulo === 'processo') {
-      if (h.acao === 'incluir') {
-        if (Array.isArray(this.solicitacoes[h.idx].historico_processo)) {
-          this.solicitacoes[h.idx].historico_processo.push(h.hist);
-        } else {
-          this.solicitacoes[h.idx].historico_processo = [h.hist];
-        }
-      }
-      if (h.acao === 'alterar') {
-        const m: HistI[] = this.solicitacoes[h.idx].historico_processo;
-        const n: number = m.findIndex(s => s.historico_id === h.hist.historico_id);
-        this.solicitacoes[h.idx].historico_processo.splice(n, 1, h.hist);
-      }
-      if (h.acao === 'apagar') {
-        this.solicitacoes[h.idx].historico_processo.splice(this.solicitacoes[h.idx].historico_processo.findIndex(hs => hs.historico_id = h.hist.historico_id), 1);
-      }
-    }
-  }*/
 
   montaHistorico(modulo: string, idx: number) {
     this.has.histFormI.modulo = modulo;

@@ -14,255 +14,257 @@
               <table class="detalhefull">
                 <tr>
                   <td>
-        <table #detoficio class="table-hover tabela">
-          <caption>OFÍCIO</caption>
-          <thead class="detalheTitulo-horiz">
-          <tr>
-            <th colspan="2">
-              OFÍCIO
-            </th>
-          </tr>
-          </thead>
-          <tbody class="detalhe-horiz">
-          <tr *ngIf="os.oficioApagar.oficio_status_nome">
-            <th>
-              Situação:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_status_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_processo_numero">
-            <th>
-              Número do processo:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_processo_numero}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_numero">
-            <th>
-              Número do ofício:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_numero}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_codigo">
-            <th>
-              Código:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_codigo}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_tipo_solicitante_nome">
-            <th>
-              Tipo de solicitante:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_tipo_solicitante_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_cadastro_nome">
-            <th>
-              Solicitante:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_cadastro_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_municipio_nome">
-            <th>
-              Município:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_municipio_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_assunto_nome">
-            <th>
-              Assunto:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_assunto_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_area_interesse_nome">
-            <th>
-              Área de interesse:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_area_interesse_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_data_emissao">
-            <th>
-              Data da emissão:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_data_emissao}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.solicitacao_local_nome">
-            <th>
-              Núcleo:
-            </th>
-            <td>
-              {{os.oficioApagar.solicitacao_local_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_prioridade_nome">
-            <th>
-              Prioridade:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_prioridade_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_protocolo_numero">
-            <th>
-              Número do protocolo:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_protocolo_numero}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_data_protocolo">
-            <th>
-              Data do protocolo:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_data_protocolo}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_orgao_solicitado_nome">
-            <th>
-              Orgão solicitado:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_orgao_solicitado_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_orgao_protocolante_nome">
-            <th>
-              Orgão protocolante:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_orgao_protocolante_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_protocolante_funcionario">
-            <th>
-              Funcionário do orgão:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_protocolante_funcionario}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_tipo_andamento_nome">
-            <th>
-              Tipo de andamento:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_tipo_andamento_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_tipo_recebimento_nome">
-            <th>
-              Tipo de recebimento:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_tipo_recebimento_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_data_recebimento">
-            <th>
-              Data recebimeento:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_data_recebimento}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.solicitacao_reponsavel_analize_nome">
-            <th>
-              Responsável pela analise:
-            </th>
-            <td>
-              {{os.oficioApagar.solicitacao_reponsavel_analize_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_convenio">
-            <th>
-              Concênio:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_convenio}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_valor_solicitado">
-            <th>
-              Valor solicitado:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_valor_solicitado}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_valor_recebido">
-            <th>
-              Valor recebido:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_valor_recebido}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_data_pagamento">
-            <th>
-              Data do pagamento:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_data_pagamento}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_data_empenho">
-            <th>
-              Data do empenho:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_cadastro_nome}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_prazo">
-            <th>
-              Prazo:
-            </th>
-            <td>
-              {{os.oficioApagar.oficio_prazo}}
-            </td>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_solicitacao_descricao" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
-              Solicitação:
-              <div *ngIf="os.oficioApagar.oficio_solicitacao_descricao" style="margin-top: .25em">
-                <quill-view [content]="stripslashes(os.oficioApagar.oficio_solicitacao_descricao)" [format]="'html'" theme="snow"></quill-view>
-              </div>
-            </th>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_descricao_acao" class="novaPagina">
-            <th colspan="2" class="tituloEditor">
-              Descrição da ação:
-              <div *ngIf="os.oficioApagar.oficio_descricao_acao" style="margin-top: .25em">
-                <quill-view [content]="stripslashes(os.oficioApagar.oficio_descricao_acao)" [format]="'html'" theme="snow"></quill-view>
-              </div>
-            </th>
-          </tr>
-          <tr *ngIf="os.oficioApagar.oficio_arquivos.length > 0 && aut.arquivos_baixar">
-            <td colspan="2">
-              <app-detalhe-explorer [arquivos]="os.oficioApagar.oficio_arquivos"></app-detalhe-explorer>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+                    <table #detoficio class="table-hover tabela">
+                      <caption>OFÍCIO</caption>
+                      <thead class="detalheTitulo-horiz">
+                      <tr>
+                        <th colspan="2">
+                          OFÍCIO
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody class="detalhe-horiz">
+                      <tr *ngIf="os.oficioApagar.oficio_status_nome">
+                        <th>
+                          Situação:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_status_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_processo_numero">
+                        <th>
+                          Número do processo:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_processo_numero}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_numero">
+                        <th>
+                          Número do ofício:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_numero}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_codigo">
+                        <th>
+                          Código:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_codigo}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_tipo_solicitante_nome">
+                        <th>
+                          Tipo de solicitante:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_tipo_solicitante_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_cadastro_nome">
+                        <th>
+                          Solicitante:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_cadastro_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_municipio_nome">
+                        <th>
+                          Município:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_municipio_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_assunto_nome">
+                        <th>
+                          Assunto:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_assunto_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_area_interesse_nome">
+                        <th>
+                          Área de interesse:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_area_interesse_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_data_emissao">
+                        <th>
+                          Data da emissão:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_data_emissao}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.solicitacao_local_nome">
+                        <th>
+                          Núcleo:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.solicitacao_local_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_prioridade_nome">
+                        <th>
+                          Prioridade:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_prioridade_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_protocolo_numero">
+                        <th>
+                          Número do protocolo:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_protocolo_numero}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_data_protocolo">
+                        <th>
+                          Data do protocolo:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_data_protocolo}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_orgao_solicitado_nome">
+                        <th>
+                          Orgão solicitado:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_orgao_solicitado_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_orgao_protocolante_nome">
+                        <th>
+                          Orgão protocolante:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_orgao_protocolante_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_protocolante_funcionario">
+                        <th>
+                          Funcionário do orgão:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_protocolante_funcionario}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_tipo_andamento_nome">
+                        <th>
+                          Tipo de andamento:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_tipo_andamento_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_tipo_recebimento_nome">
+                        <th>
+                          Tipo de recebimento:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_tipo_recebimento_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_data_recebimento">
+                        <th>
+                          Data recebimeento:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_data_recebimento}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.solicitacao_reponsavel_analize_nome">
+                        <th>
+                          Responsável pela analise:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.solicitacao_reponsavel_analize_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_convenio">
+                        <th>
+                          Concênio:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_convenio}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_valor_solicitado">
+                        <th>
+                          Valor solicitado:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_valor_solicitado}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_valor_recebido">
+                        <th>
+                          Valor recebido:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_valor_recebido}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_data_pagamento">
+                        <th>
+                          Data do pagamento:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_data_pagamento}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_data_empenho">
+                        <th>
+                          Data do empenho:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_cadastro_nome}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_prazo">
+                        <th>
+                          Prazo:
+                        </th>
+                        <td>
+                          {{os.oficioApagar.oficio_prazo}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_solicitacao_descricao" class="novaPagina">
+                        <th colspan="2" class="tituloEditor">
+                          Solicitação:
+                          <div *ngIf="os.oficioApagar.oficio_solicitacao_descricao" style="margin-top: .25em">
+                            <quill-view [content]="stripslashes(os.oficioApagar.oficio_solicitacao_descricao)"
+                                        [format]="'html'" theme="snow"></quill-view>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_descricao_acao" class="novaPagina">
+                        <th colspan="2" class="tituloEditor">
+                          Descrição da ação:
+                          <div *ngIf="os.oficioApagar.oficio_descricao_acao" style="margin-top: .25em">
+                            <quill-view [content]="stripslashes(os.oficioApagar.oficio_descricao_acao)"
+                                        [format]="'html'" theme="snow"></quill-view>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr *ngIf="os.oficioApagar.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+                        <td colspan="2">
+                          <app-detalhe-explorer [arquivos]="os.oficioApagar.oficio_arquivos"></app-detalhe-explorer>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
                   </td>
                 </tr>
 
@@ -328,11 +330,14 @@
     </div>
   </div>
 </p-scrollPanel>
-<p-dialog header="ATENÇÃO" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70"
+<p-dialog header="ATENÇÃO" [(visible)]="display" [modal]="true" [responsive]="true"
+          [style]="{width: '350px', minWidth: '200px'}" [minY]="70"
           [maximizable]="true" [baseZIndex]="10000">
   <p>{{msg}}</p>
   <p-footer>
-    <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-check" (click)="excluirOficio()" label="Sim"></button>
-    <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-close" (click)="fecharDialog()" label="Não"></button>
+    <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-check" (click)="excluirOficio()"
+            label="Sim"></button>
+    <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-close"
+            (click)="fecharDialog()" label="Não"></button>
   </p-footer>
 </p-dialog>

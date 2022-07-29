@@ -45,6 +45,7 @@ export class EmendaDatatableComponent implements OnInit {
 
 
 
+
   real = Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -337,8 +338,7 @@ export class EmendaDatatableComponent implements OnInit {
   }
 
   emendaAlterar(eme: EmendaListarI) {
-    if (this.aut.emenda_alterar) {
-      console.log('emendaAlterar', eme);
+    if (this.aut.emenda_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       this.es.salvaState();
       this.dtb.saveState();
       this.efs.acao = 'alterar';
@@ -351,10 +351,9 @@ export class EmendaDatatableComponent implements OnInit {
 
   }
 
-  emendaApagar(ofi: EmendaListarI) {
-    if (this.aut.solicitacao_apagar) {
-      this.es.emendaApagar = ofi;
-      this.efs.acao = 'alterar';
+  emendaApagar(eme: EmendaListarI) {
+    if ((this.aut.emenda_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn ) && this.permissaoApagarArquivo(eme)) {
+      this.es.emendaApagar = eme;
       this.es.salvaState();
       this.dtb.saveState();
       this.router.navigate(['/emenda/apagar']);
@@ -363,12 +362,15 @@ export class EmendaDatatableComponent implements OnInit {
     }
   }
 
-  emendaAnalisar(ofi: EmendaListarI) {
-    if (this.aut.solicitacao_analisar) {
+  emendaAtualizar(eme: EmendaListarI) {
+    if (this.aut.emenda_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      console.log('emendaAtualizar', eme);
       this.es.salvaState();
       this.dtb.saveState();
-      this.es.emendaAnalisar = ofi;
-      this.router.navigate(['/emenda/analisar']);
+      this.efs.emendaListar = eme;
+      this.efs.resetAtualizar();
+      this.efs.parceEmendaAtualizar(eme);
+      this.router.navigate(['/emenda/atualizar']);
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -404,6 +406,13 @@ export class EmendaDatatableComponent implements OnInit {
     }
     this.showHistorico = true;
     this.mostraDialog(true);
+  }
+
+  permissaoApagarArquivo(eme: EmendaListarI): boolean {
+    if (this.aut.arquivos_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      return true
+    }
+    return !(eme.emenda_arquivos !== undefined && eme.emenda_arquivos !== null && Array.isArray(eme.emenda_arquivos) && eme.emenda_arquivos.length > 0);
   }
 
   mostraDialog(ev: boolean) {

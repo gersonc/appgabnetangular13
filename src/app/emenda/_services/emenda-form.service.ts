@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {EmendaForm, EmendaFormI} from "../_models/emenda-form-i";
 import {EmendaListarI} from "../_models/emenda-listar-i";
+import {EmendaAtualizar, EmendaAtualizarI} from "../_models/emenda-atualizar-i";
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,8 @@ import {EmendaListarI} from "../_models/emenda-listar-i";
 export class EmendaFormService {
   emendaListar?: EmendaListarI;
   emenda?: EmendaFormI;
-  // solicitacao_id = 0;
-  // processo_id = 0;
+  emendaAt: EmendaAtualizarI;
   url = '';
-  // emendaProcessoId?: DdEmendaProcessoIdI | null = null;
   public acao?: string | null = null;
   public btnEnviar = true;
   public analiseCpoEmendaNome: any = {ativo: false, tipo: null, cpoTitulo: null};
@@ -24,8 +23,40 @@ export class EmendaFormService {
     this.emenda = new EmendaForm();
   }
 
+  criaAnalize
+
   resetEmenda() {
     this.emenda = new EmendaForm();
+  }
+
+  resetAtualizar() {
+    this.emendaAt = new EmendaAtualizar();
+  }
+
+  parceEmendaAtualizar(o: EmendaListarI): EmendaAtualizarI {
+    this.emenda = new EmendaAtualizar();
+    this.emendaListar = o;
+    this.resetAtualizar();
+    const r = new EmendaAtualizar();
+    r.emenda_id = o.emenda_id;
+    r.emenda_situacao_id = o.emenda_situacao_id;
+    r.emenda_valor_empenhado = +o.emenda_valor_empenhado;
+    r.emenda_data_empenho = o.emenda_data_empenho2;
+    r.emenda_numero_empenho = o.emenda_numero_empenho;
+    r.emenda_observacao_pagamento = o.emenda_observacao_pagamento;
+    r.emenda_observacao_pagamento_delta = o.emenda_observacao_pagamento_delta;
+    r.emenda_observacao_pagamento_texto = o.emenda_observacao_pagamento_texto;
+    r.emenda_data_pagamento = o.emenda_data_pagamento2;
+    r.emenda_valor_pago = +o.emenda_valor_pago;
+    r.emenda_numero_ordem_bancaria = o.emenda_numero_ordem_bancaria;
+    r.emenda_contrato = o.emenda_contrato;
+    r.emenda_porcentagem = +o.emenda_porcentagem;
+    r.historico_andamento = null;
+    r.historico_andamento_delta = null;
+    r.historico_andamento_texto = null;
+    this.emendaAt = r;
+    console.log('r',r);
+    return r;
   }
 
   parceEmendaFormulario(o: EmendaListarI): EmendaFormI {
@@ -65,16 +96,12 @@ export class EmendaFormService {
     r.emenda_local_id = o.emenda_local_id;
     r.emenda_uggestao = o.emenda_uggestao;
     r.emenda_siconv = o.emenda_siconv;
-    // r.emenda_regiao = o.emenda_regiao;
     r.emenda_contrato = o.emenda_contrato;
     r.emenda_porcentagem = +o.emenda_porcentagem;
-    // r.cadastro_cpfcnpj = o.cadastro_cpfcnpj;
-    // r.cadastro_municipio_nome = o.cadastro_municipio_nome;
     r.historico_andamento = null;
     r.historico_andamento_delta = null;
     r.historico_andamento_texto = null;
     this.emenda = r;
-    console.log('r',r);
     return r;
   }
 }

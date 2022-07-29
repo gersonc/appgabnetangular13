@@ -1,0 +1,400 @@
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">EMENDA - APAGAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+              <table #detemenda class="table-hover tabela">
+                <caption>EMENDA</caption>
+                <thead class="detalheTitulo-horiz">
+                <tr>
+                  <th colspan="2">
+                    EMENDA
+                  </th>
+                </tr>
+                </thead>
+                <tbody class="detalhe-horiz">
+                <tr *ngIf="es.emendaApagar.emenda_situacao_nome">
+                  <th>
+                    Situação:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_situacao_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_orgao_solicitado_nome">
+                  <th>
+                    Orgão Solicitado:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_orgao_solicitado_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_cadastro_tipo_nome">
+                  <th>
+                    Tipo de Solicitante:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_cadastro_tipo_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_cadastro_nome">
+                  <th>
+                    Solicitante:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_cadastro_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.cadastro_cpfcnpj">
+                  <th>
+                    C.N.P.J.:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.cadastro_cpfcnpj}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.cadastro_municipio_nome">
+                  <th>
+                    Município:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.cadastro_municipio_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.cadastro_regiao_nome">
+                  <th>
+                    Região:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.cadastro_regiao_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_local_nome">
+                  <th>
+                    Núcleo:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_local_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_assunto_nome">
+                  <th>
+                    Assunto:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_assunto_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_autor_nome">
+                  <th>
+                    Autor:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_autor_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_tipo_emenda_nome">
+                  <th>
+                    Tipo de Emenda:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_tipo_emenda_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_justificativa" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Justificativa:
+                  </th>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_justificativa" class="novaPagina">
+                  <td colspan="2" class="tituloEditor">
+                    <div *ngIf="es.emendaApagar.emenda_justificativa" style="margin-top: .25em">
+                      <app-kill-view
+                        [kill]="{html: es.emendaApagar.emenda_justificativa, delta: es.emendaApagar.emenda_justificativa_delta}"></app-kill-view>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_processo">
+                  <th>
+                    Processo:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_processo}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_numero">
+                  <th>
+                    Número:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_contrato">
+                  <th>
+                    Contrato:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_contrato}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_funcional_programatica">
+                  <th>
+                    Funcional Programática:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_funcional_programatica}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_numero_protocolo">
+                  <th>
+                    Númerodo Protocolo:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_numero_protocolo}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_ogu_nome">
+                  <th>
+                    O.G.U.:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_ogu_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_crnr">
+                  <th>
+                    C.R.N.R.:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_crnr}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_gmdna">
+                  <th>
+                    G.M.D.N.A.:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_gmdna}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_uggestao">
+                  <th>
+                    U.G. Gestão:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_uggestao}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_siconv">
+                  <th>
+                    SICONV:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_siconv}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_data_solicitacao">
+                  <th>
+                    Data da Solicitação:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_data_solicitacao}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_valor_solicitado">
+                  <th>
+                    Valor Solicitado:
+                  </th>
+                  <td>
+                    {{real.format(es.emendaApagar.emenda_valor_solicitado)}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_data_empenho">
+                  <th>
+                    Data do Empenho:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_data_empenho}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_valor_empenhado">
+                  <th>
+                    Valor do Empenho:
+                  </th>
+                  <td>
+                    {{real.format(es.emendaApagar.emenda_valor_empenhado)}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_numero_empenho">
+                  <th>
+                    Número do Empenho:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_numero_empenho}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_numero_ordem_bancaria">
+                  <th>
+                    Órdem Bancária:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_numero_ordem_bancaria}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_data_pagamento">
+                  <th>
+                    Data do Pagamento:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_data_pagamento}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_valor_pago">
+                  <th>
+                    Valor Pago:
+                  </th>
+                  <td>
+                    {{real.format(es.emendaApagar.emenda_valor_pago)}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_porcentagem">
+                  <th>
+                    % Paga:
+                  </th>
+                  <td>
+                    {{es.emendaApagar.emenda_porcentagem}}
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_observacao_pagamento" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Obsevações sobre Pagamento:
+                  </th>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_observacao_pagamento" class="novaPagina">
+                  <td colspan="2" class="tituloEditor">
+                    <div *ngIf="es.emendaApagar.emenda_observacao_pagamento" style="margin-top: .25em">
+                      <app-kill-view [kill]="{html: es.emendaApagar.emenda_observacao_pagamento, delta: es.emendaApagar.emenda_observacao_pagamento_delta}"></app-kill-view>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.emenda_arquivos.length > 0 && aut.arquivos_baixar">
+                  <td colspan="2">
+                    <app-detalhe-explorer [arquivos]="es.emendaApagar.emenda_arquivos"></app-detalhe-explorer>
+                  </td>
+                </tr>
+                <tr *ngIf="es.emendaApagar.historico_emenda.length > 0" class="novaPagina">
+                  <td>
+                    <br>
+
+                    <table class="table-hover tabela">
+                      <caption>ANDAMENTOS DA EMENDA</caption>
+                      <thead class="detalheTitulo-horiz">
+                      <tr>
+                        <th colspan="2">
+                          ANDAMENTOS DA EMENDA
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <th style="width: 3%;" nowrap>
+                          Data:
+                        </th>
+                        <th>
+                          Andamento:
+                        </th>
+                      </tr>
+                      <tr *ngFor="let ands of es.emendaApagar.historico_emenda">
+                        <td style="width: 3%; vertical-align:top;" nowrap>
+                          {{ands.historico_data}}
+                        </td>
+                        <td>
+                          <quill-view [content]="stripslashes(ands.historico_andamento)" [format]="'html'" theme="snow"></quill-view>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </td>
+                </tr>
+
+
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+
+    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+            <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      [disabled]="botaoEnviarInativo"
+                      type="button"
+                      class="p-button-rounded p-button-danger"
+                      (click)="showDialog()"
+                      label="APAGAR"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltar()"
+                      [disabled]="botoesInativos"
+                      label="Voltar"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid formulario-bg-externo">
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+      </div>
+    </div>
+  </div>
+</p-scrollPanel>
+<p-dialog header="ATENÇÃO" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  <p>{{msg}}</p>
+  <p-footer>
+    <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-check" (click)="excluirEmenda()" label="Sim"></button>
+    <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-close" (click)="fecharDialog()" label="Não"></button>
+  </p-footer>
+</p-dialog>

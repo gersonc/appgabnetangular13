@@ -13,6 +13,15 @@
             (click)="onMudaForm()"
           ></button>
         </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenuEmenda.reset()"
+            label="Limpar"
+          ></button>
+        </div>
         <div class="p-mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
           <button
             pButton
@@ -479,6 +488,15 @@
             label="Procurar"
             class="p-button-rounded p-button-secondary"
             (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenuEmenda.reset()"
+            label="Limpar"
           ></button>
         </div>
         <div class="p-mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
