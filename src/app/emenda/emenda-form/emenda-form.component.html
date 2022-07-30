@@ -97,6 +97,8 @@
                         formControlName="emenda_assunto_id"
                         placeholder="Selecione"
                         [options]="ddEmenda_assunto_id"
+                        [filter]="ddEmenda_assunto_id.length > 50"
+                        filterBy="label"
                         [required]="true"
                         [style]="{'width':'100%'}"
                         [ngClass]="aplicaCssErro('emenda_assunto_id')"

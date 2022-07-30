@@ -17,6 +17,8 @@ import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {CelulaI} from "../../_models/celula-i";
 import {CelulaService} from "../../_services/celula.service";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
+import {TituloI, TitulosI} from "../../_models/titulo-i";
+
 
 
 @Injectable({
@@ -42,7 +44,7 @@ export class SolicService {
   sortField = 'solicitacao_situacao';
   sortOrder = 1;
   lazy = false;
-
+  titulos: TituloI[] | null = null;
 
 
   constructor(
@@ -54,6 +56,10 @@ export class SolicService {
   ) {
     this.solicitacaoUrl = this.url.solic;
     this.celulaService.modulo = 'Solicitação'
+  }
+
+  getTitulosModulo(cps: string[]) {
+    this.ts.buscaTitulos('solic', cps);
   }
 
   buscaMenu() {
@@ -126,9 +132,17 @@ export class SolicService {
     this.Contexto = event.data;
   }
 
+  montaTitulos(cps: string[]) {
+    this.tabela.campos = [];
+    this.tabela.campos = cps;
+    this.tabela.titulos = [];
+    this.titulos = this.ts.buscaTitulos('solic', cps);
+    // this.ts.buscaTitulos(cps);
+  }
+
   onRowExpand(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
+      this.titulos = this.ts.mTitulo['solic'];
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
@@ -140,7 +154,7 @@ export class SolicService {
         historico_solicitacao_id: +evento.data.solicitacao_id
       }
     };
-    this.tabela.titulos.forEach(t => {
+    this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
           let celula: CelulaI = {
@@ -230,12 +244,7 @@ export class SolicService {
     this.solicitacaoBusca();
   }
 
-  montaTitulos(cps: string[]) {
-    this.tabela.campos = [];
-    this.tabela.campos = cps;
-    this.tabela.titulos = [];
-    this.ts.buscaTitulos(cps);
-  }
+
 
   imprimirTabela(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
@@ -565,13 +574,13 @@ export class SolicService {
     }
   }
 
-  getTodosTitulos() {
+  /*getTodosTitulos() {
     this.ts.getTodos();
-  }
+  }*/
 
-  getTudo(): any {
+  /*getTudo(): any {
     return this.ts.getTudo();
-  }
+  }*/
 
   onDestroy(): void {
     sessionStorage.removeItem('solic-busca');

@@ -17,6 +17,7 @@ import {EmendaFormI} from "../_models/emenda-form-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {SolicFormAnalisar} from "../../solic/_models/solic-form-analisar-i";
 import {EmendaAtualizar} from "../_models/emenda-atualizar-i";
+import {TituloI} from "../../_models/titulo-i";
 
 
 @Injectable({
@@ -49,6 +50,7 @@ export class EmendaService {
   cp1 = false;
   cp2 = false;
   totais: EmendaListarI[] = [];
+  titulos: TituloI[] | null = null;
 
 
   constructor(
@@ -138,9 +140,16 @@ export class EmendaService {
     this.Contexto = event.data;
   }
 
+  montaTitulos(cps: string[]) {
+    this.tabela.campos = [];
+    this.tabela.campos = cps;
+    this.tabela.titulos = [];
+    this.titulos = this.ts.buscaTitulos('emenda', cps);
+  }
+
   onRowExpand(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
+      this.titulos = this.ts.mTitulo['emenda'];
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
@@ -151,7 +160,7 @@ export class EmendaService {
         historico_emenda_id: +evento.data.emenda_id
       }
     };
-    this.tabela.titulos.forEach(t => {
+    this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
           let celula: CelulaI = {
@@ -251,13 +260,6 @@ export class EmendaService {
     this.busca.emenda_contrato = (b.emenda_contrato !== undefined) ? b.emenda_contrato : undefined;
     this.busca.emenda_numero_ordem_bancaria = (b.emenda_numero_ordem_bancaria !== undefined) ? b.emenda_numero_ordem_bancaria : undefined;
     this.emendaBusca();
-  }
-
-  montaTitulos(cps: string[]) {
-    this.tabela.campos = [];
-    this.tabela.campos = cps;
-    this.tabela.titulos = [];
-    this.ts.buscaTitulos(cps);
   }
 
   imprimirTabela(n: number) {

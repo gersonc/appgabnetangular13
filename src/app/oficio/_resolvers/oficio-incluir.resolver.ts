@@ -136,8 +136,6 @@ export class OficioIncluirResolver implements Resolve<boolean> {
       this.ofs.solicitacao_id = +route.params.solicitacao_id;
       this.url = 'processo';
     }
-    console.log('route',route);
-    console.log('state',state);
     if (this.carregaDropDown()) {
       return this.resp$.pipe(
         take(1),

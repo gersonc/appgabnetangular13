@@ -129,7 +129,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     this.mi.mudaMenuInterno();
   }
 
-  mapeiaColunas() {
+  /*mapeiaColunas() {
     let cp: string[] = [];
     const n = this.cols.length;
     let ct = 1
@@ -142,6 +142,14 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
         this.os.montaTitulos(cp);
       }
     });
+  }*/
+
+  mapeiaColunas() {
+    if (this.os.titulos === undefined || this.os.titulos === null || (Array.isArray(this.os.titulos) && this.os.titulos.length === 0)) {
+      this.os.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
+    }
   }
 
   montaColunas() {

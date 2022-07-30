@@ -97,6 +97,8 @@
           <label for="solicitacao_cadastro_id">Solicitante</label>
           <p-dropdown
             id="solicitacao_cadastro_id"
+            [filter]="ddSolicitacao.ddSolicitacao_cadastro_id.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_cadastro_id"
             formControlName="solicitacao_cadastro_id"
             placeholder="TODAS"
@@ -109,6 +111,8 @@
           <label for="solicitacao_assunto_id">Assunto</label>
           <p-dropdown
             id="solicitacao_assunto_id"
+            [filter]="ddSolicitacao.ddSolicitacao_assunto_id.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_assunto_id"
             formControlName="solicitacao_assunto_id"
             placeholder="TODOS"
@@ -146,6 +150,8 @@
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="cadastro_municipio_id">Município</label>
           <p-dropdown
+            [filter]="ddSolicitacao.ddSolicitacao_cadastro_municipio_id.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_cadastro_municipio_id"
             id="cadastro_municipio_id"
             formControlName="cadastro_municipio_id"
@@ -158,6 +164,8 @@
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="cadastro_regiao_id">Bairro</label>
           <p-dropdown
+            [filter]="ddSolicitacao.ddSolicitacao_cadastro_bairro.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_cadastro_bairro"
             id="ddSolicitacao_cadastro_bairro"
             formControlName="cadastro_bairro"
@@ -170,6 +178,8 @@
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="cadastro_regiao_id">Região</label>
           <p-dropdown
+            [filter]="ddSolicitacao.ddSolicitacao_cadastro_regiao_id.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_cadastro_regiao_id"
             id="cadastro_regiao_id"
             formControlName="cadastro_regiao_id"
@@ -206,6 +216,8 @@
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="solicitacao_area_interesse_id">Área de interesse</label>
           <p-dropdown
+            [filter]="ddSolicitacao.ddSolicitacao_area_interesse_id.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_area_interesse_id"
             id="solicitacao_area_interesse_id"
             formControlName="solicitacao_area_interesse_id"
@@ -230,6 +242,8 @@
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="solicitacao_cadastro_tipo_id">Data</label>
           <p-dropdown
+            [filter]="ddSolicitacao.ddSolicitacao_data.length > 50"
+            filterBy="label"
             [options]="ddSolicitacao.ddSolicitacao_data"
             id="solicitacao_data"
             formControlName="solicitacao_data"

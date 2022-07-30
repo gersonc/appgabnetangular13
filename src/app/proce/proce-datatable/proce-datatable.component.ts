@@ -151,7 +151,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.mi.mudaMenuInterno();
   }
 
-  mapeiaColunas() {
+  /*mapeiaColunas() {
     let cp: string[] = [];
     const n = this.cols.length;
     let ct = 1
@@ -164,6 +164,14 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
         this.ps.montaTitulos(cp);
       }
     });
+  }*/
+
+  mapeiaColunas() {
+    if (this.ps.titulos === undefined || this.ps.titulos === null || (Array.isArray(this.ps.titulos) && this.ps.titulos.length === 0)) {
+      this.ps.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
+    }
   }
 
   montaColunas() {
@@ -233,10 +241,10 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
       /*{field: 'oficio', header: 'OFÍCIOS', sortable: 'false', width: '300px'},*/
 
-      {field: 'historico_data', header: 'HIST. PROC. DT.', sortable: 'true', width: '200px'},
-      {field: 'historico_andamento', header: 'HIST. PROC. ANDAMENTO', sortable: 'false', width: '400px'},
-      {field: 'historico_solicitacao_data', header: 'HIST. SOL.. DT.', sortable: 'true', width: '200px'},
-      {field: 'historico_solicitacao_andamento', header: 'HIST. SOL. ANDAMENTO', sortable: 'false', width: '400px'},
+      {field: 'historico_data', header: 'DATA AND. PROC.', sortable: 'true', width: '200px'},
+      {field: 'historico_andamento', header: 'ANDAMENTO PROCESSO', sortable: 'false', width: '400px'},
+      {field: 'historico_solicitacao_data', header: 'DATA AND. SOLIC.', sortable: 'true', width: '200px'},
+      {field: 'historico_solicitacao_andamento', header: 'ANDAMENTO SOLICITAÇÃO', sortable: 'false', width: '400px'},
 
     ];
   }

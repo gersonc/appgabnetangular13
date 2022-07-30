@@ -240,9 +240,9 @@ export class EmendaAtualizarComponent implements OnInit, OnDestroy {
   voltarListar() {
     this.efs.emendaListar = undefined;
     if (sessionStorage.getItem('emenda-busca')) {
-      this.router.navigate(['/emenda/listar/busca']);
-    } else {
       this.router.navigate(['/emenda/listar']);
+    } else {
+      this.router.navigate(['/emenda/listar2']);
     }
   }
 

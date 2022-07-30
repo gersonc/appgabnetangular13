@@ -74,6 +74,8 @@
           <label for="emenda_cadastro_id">Solicitante</label>
           <p-dropdown
             id="emenda_cadastro_id"
+            [filter]="drd.dd_emenda_cadastro.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_cadastro"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -89,6 +91,8 @@
           <label for="emenda_cadastro_id2">C.N.P.J. (solicitante)</label>
           <p-dropdown
             id="emenda_cadastro_id2"
+            [filter]="drd.dd_emenda_cpfcnpj.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_cpfcnpj"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -104,6 +108,8 @@
           <label for="emenda_orgao_solicitado_nome">Orgão solicitado</label>
           <p-dropdown
             id="emenda_orgao_solicitado_nome"
+            [filter]="drd.dd_emenda_orgao_solicitado.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_orgao_solicitado"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -119,6 +125,8 @@
           <label for="emenda_assunto_id">Assunto</label>
           <p-dropdown
             id="emenda_assunto_id"
+            [filter]="drd.dd_emenda_assunto.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_assunto"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -148,6 +156,8 @@
           <label for="emenda_numero_protocolo">Número do protocolo</label>
           <p-dropdown
             id="emenda_numero_protocolo"
+            [filter]="drd.dd_emenda_numero_protocolo.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_numero_protocolo"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -163,6 +173,8 @@
           <label for="emenda_numero_empenho">Número do empenho</label>
           <p-dropdown
             id="emenda_numero_empenho"
+            [filter]="drd.dd_emenda_numero_empenho.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_numero_empenho"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -178,6 +190,8 @@
           <label for="emenda_processo">Número do processo</label>
           <p-dropdown
             id="emenda_processo"
+            [filter]="drd.dd_emenda_processo.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_processo"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -193,6 +207,8 @@
           <label for="emenda_numero_ordem_bancaria">Órdem bancária</label>
           <p-dropdown
             id="emenda_numero_ordem_bancaria"
+            [filter]="drd.dd_emenda_numero_ordem_bancaria.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_numero_ordem_bancaria"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -208,6 +224,8 @@
           <p-dropdown
             id="emenda_regiao"
             [options]="drd.dd_emenda_regiao"
+            [filter]="drd.dd_emenda_regiao.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_regiao"
@@ -222,6 +240,8 @@
           <p-dropdown
             id="emenda_id2"
             [options]="drd.dd_emenda_codigo"
+            [filter]="drd.dd_emenda_codigo.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_id2"
@@ -257,6 +277,8 @@
           <p-dropdown
             id="emenda_funcional_programatica"
             [options]="drd.dd_emenda_funcional_programatica"
+            [filter]="drd.dd_emenda_funcional_programatica.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_funcional_programatica"
@@ -270,6 +292,8 @@
           <label for="emenda_autor_nome">Autor</label>
           <p-dropdown
             id="emenda_autor_nome"
+            [filter]="drd.dd_emenda_autor.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_autor"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -284,6 +308,8 @@
           <label for="emenda_crnr">CR.NR.</label>
           <p-dropdown
             id="emenda_crnr"
+            [filter]="drd.dd_emenda_crnr.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_crnr"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -312,6 +338,8 @@
           <label for="emenda_numero">Número da emenda</label>
           <p-dropdown
             id="emenda_numero"
+            [filter]="drd.dd_emenda_numero.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_numero"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -326,6 +354,8 @@
           <label for="emenda_gmdna">GND/MA</label>
           <p-dropdown
             id="emenda_gmdna"
+            [filter]="drd.dd_emenda_gmdna.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_gmdna"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -342,6 +372,8 @@
           <p-dropdown
             id="emenda_uggestao"
             [options]="drd.dd_emenda_uggestao"
+            [filter]="drd.dd_emenda_uggestao.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             inputId="emenda_uggestao"
@@ -358,6 +390,8 @@
           <p-dropdown
             id="emenda_data_solicitacao1"
             [options]="drd.dd_emenda_data_solicitacao1"
+            [filter]="drd.dd_emenda_data_solicitacao1.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             inputId="emenda_data_solicitacao1"
@@ -373,6 +407,8 @@
           <label for="emenda_data_solicitacao2">Até</label>
           <p-dropdown
             id="emenda_data_solicitacao2"
+            [filter]="drd.dd_emenda_data_solicitacao2.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_data_solicitacao2"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -390,6 +426,8 @@
           <label for="emenda_data_empenho1">Data do empenho</label>
           <p-dropdown
             id="emenda_data_empenho1"
+            [filter]="drd.dd_emenda_data_empenho1.length > 50"
+            filterBy="label"
             [options]="drd.dd_emenda_data_empenho1"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
@@ -406,6 +444,8 @@
           <p-dropdown
             id="emenda_data_empenho2"
             [options]="drd.dd_emenda_data_empenho2"
+            [filter]="drd.dd_emenda_data_empenho2.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_data_empenho2"
@@ -421,6 +461,8 @@
           <p-dropdown
             id="emenda_data_pagamento1"
             [options]="drd.dd_emenda_data_pagamento1"
+            [filter]="drd.dd_emenda_data_pagamento1.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_data_pagamento1"
@@ -436,6 +478,8 @@
           <p-dropdown
             id="emenda_data_pagamento2"
             [options]="drd.dd_emenda_data_pagamento2"
+            [filter]="drd.dd_emenda_data_pagamento2.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_data_pagamento2"
@@ -451,6 +495,8 @@
           <p-dropdown
             id="cadastro_municipio_id"
             [options]="drd.dd_emenda_cadastro_municipio"
+            [filter]="drd.dd_emenda_cadastro_municipio.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="cadastro_municipio_id"
@@ -466,6 +512,8 @@
           <p-dropdown
             id="emenda_contrato"
             [options]="drd.dd_emenda_contrato"
+            [filter]="drd.dd_emenda_contrato.length > 50"
+            filterBy="label"
             [style]="{'width':'100%'}"
             [emptyMessage]="'SEM REGISTROS'"
             formControlName="emenda_contrato"

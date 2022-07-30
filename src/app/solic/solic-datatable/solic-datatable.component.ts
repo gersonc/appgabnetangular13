@@ -135,9 +135,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
     this.sub.push(this.ss.busca$.subscribe(
       () => {
-        if (this.ss.tabela.titulos === undefined) {
-          this.mapeiaColunas();
-        }
+        this.mapeiaColunas();
         this.ss.busca.todos = false;
       }
     ));
@@ -151,6 +149,14 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   mapeiaColunas() {
+    if (this.ss.titulos === undefined || this.ss.titulos === null || (Array.isArray(this.ss.titulos) && this.ss.titulos.length === 0)) {
+      this.ss.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
+    }
+
+    /*console.log('mapeiaColunas1', cps);
+    console.log('mapeiaColunas2', cps.slice(1));
     let cp: string[] = [];
     const n = this.cols.length;
     let ct = 1
@@ -162,7 +168,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       if (ct === n) {
         this.ss.montaTitulos(cp);
       }
-    });
+    });*/
   }
 
   montaColunas() {
@@ -407,8 +413,10 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   solicitacaoDetalheCompleto(sol: SolicListarI) {
+    // this.ss.showTitulos();
     this.showDetalhe = true;
     this.solDetalhe = sol;
+    console.log(this.ss.titulos);
   }
 
   escondeDetalhe() {

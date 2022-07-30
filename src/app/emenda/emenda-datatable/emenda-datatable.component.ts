@@ -161,7 +161,7 @@ export class EmendaDatatableComponent implements OnInit {
     this.mi.mudaMenuInterno();
   }
 
-  mapeiaColunas() {
+  /*mapeiaColunas() {
     let cp: string[] = [];
     const n = this.cols.length;
     let ct = 1
@@ -174,6 +174,14 @@ export class EmendaDatatableComponent implements OnInit {
         this.es.montaTitulos(cp);
       }
     });
+  }*/
+
+  mapeiaColunas() {
+    if (this.es.titulos === undefined || this.es.titulos === null || (Array.isArray(this.es.titulos) && this.es.titulos.length === 0)) {
+      this.es.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
+    }
   }
 
   montaColunas() {
@@ -198,7 +206,7 @@ export class EmendaDatatableComponent implements OnInit {
       {field: 'emenda_numero_empenho', header: 'NUM EMPENHO', sortable: 'true', width: '300px'},
       {field: 'emenda_crnr', header: 'CR.NR.', sortable: 'true', width: '250px'},
       {field: 'emenda_gmdna', header: 'GND/MA', sortable: 'true', width: '200px'},
-      {field: 'emenda_ebservacao_pagamento', header: 'INFO. PGTO', sortable: 'true', width: '200px'},
+      {field: 'emenda_observacao_pagamento', header: 'INFO. PGTO', sortable: 'true', width: '200px'},
       {field: 'emenda_data_pagamento', header: 'DT. PAGAMENTO', sortable: 'true', width: '200px'},
       {field: 'emenda_valor_pago', header: 'VL PAGAMENTO', sortable: 'true', width: '200px'},
       {field: 'emenda_numero_ordem_bancaria', header: 'ORD. BANCÁRIA', sortable: 'true', width: '200px'},

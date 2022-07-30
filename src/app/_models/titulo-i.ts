@@ -1,15 +1,27 @@
 import {ValorI} from "./valor-i";
 
-export interface TitulosI {
+export interface TituloI {
   field: string;
   mtitulo?: string;
   titulo?: string;
 }
 
-export interface  TituloI {
-  [index: string]: TitulosI;
+export interface  TitulosI {
+  [index: string]: TituloI;
 }
 
+export interface Mtitulos {
+  [index: string]: TituloI[];
+}
+
+export interface TituloMinI {
+  [index: string]: string;
+}
+
+
+
+
+/*
 export class Titulos  {
   private _titulos: TitulosI[] = []
 
@@ -162,5 +174,7 @@ export class Titulos  {
   }
 
 }
+*/
+
 
 

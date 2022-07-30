@@ -51,6 +51,8 @@
           <label for="processo_id">Número do processo</label>
           <p-dropdown
             id="processo_id"
+            [filter]="ddProce.ddProcesso_numero.length > 50"
+            filterBy="label"
             [options]="ddProce.ddProcesso_numero"
             [style]="{'width':'100%'}"
             placeholder="TODOS"
@@ -108,6 +110,8 @@
           <p-dropdown
             id="cadastro_id"
             [options]="ddProce.ddProcesso_cadastro_id"
+            [filter]="ddProce.ddProcesso_cadastro_id.length > 50"
+            filterBy="label"
             optionLabel="label"
             formControlName="cadastro_id"
             placeholder="TODOS"
@@ -121,6 +125,8 @@
           <label for="solicitacao_orgao">Orgão Solicitante</label>
           <p-dropdown
             id="solicitacao_orgao"
+            [filter]="ddProce.ddProcesso_solicitacao_orgao.length > 50"
+            filterBy="label"
             [options]="ddProce.ddProcesso_solicitacao_orgao"
             optionLabel="label"
             formControlName="solicitacao_orgao"
@@ -135,6 +141,8 @@
           <label for="solicitacao_area_interesse_id">Área de interesse</label>
           <p-dropdown
             [options]="ddProce.ddProcesso_solicitacao_area_interesse_id"
+            [filter]="ddProce.ddProcesso_solicitacao_area_interesse_id.length > 50"
+            filterBy="label"
             optionLabel="label"
             id="solicitacao_area_interesse_id"
             formControlName="solicitacao_area_interesse_id"
@@ -148,6 +156,8 @@
              class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
           <label for="solicitacao_assunto_id">Assunto</label>
           <p-dropdown
+            [filter]="ddProce.ddProcesso_solicitacao_assunto_id.length > 50"
+            filterBy="label"
             [options]="ddProce.ddProcesso_solicitacao_assunto_id"
             optionLabel="label"
             id="solicitacao_assunto_id"
@@ -163,6 +173,8 @@
           <label for="cadastro_municipio_id">Município</label>
           <p-dropdown
             id="cadastro_municipio_id"
+            [filter]="ddProce.ddProcesso_cadastro_municipio_id.length > 50"
+            filterBy="label"
             [options]="ddProce.ddProcesso_cadastro_municipio_id"
             optionLabel="label"
             formControlName="cadastro_municipio_id"
@@ -177,6 +189,8 @@
           <label for="cadastro_regiao_id">Região</label>
           <p-dropdown
             id="cadastro_regiao_id"
+            [filter]="ddProce.ddProcesso_cadastro_regiao_id.length > 50"
+            filterBy="label"
             [options]="ddProce.ddProcesso_cadastro_regiao_id"
             optionLabel="label"
             formControlName="cadastro_regiao_id"
@@ -218,6 +232,8 @@
           <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
             <label for="solicitacao_data1">De</label>
             <p-dropdown
+              [filter]="ddProce.ddProcesso_solicitacao_data1.length > 50"
+              filterBy="label"
               [options]="ddProce.ddProcesso_solicitacao_data1"
               optionLabel="label"
               optionValue="value"
@@ -232,6 +248,8 @@
           <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
             <label for="solicitacao_data2">até</label>
             <p-dropdown
+              [filter]="ddProce.ddProcesso_solicitacao_data2.length > 50"
+              filterBy="label"
               [options]="ddProce.ddProcesso_solicitacao_data2"
               optionLabel="label"
               id="solicitacao_data2"

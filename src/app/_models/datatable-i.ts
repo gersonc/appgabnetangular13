@@ -22,7 +22,7 @@ export interface DatatableI {
   totalRecords?: number;
   currentPage?: number;
   pageCount?: number;
-  titulos?: TitulosI[];
+  titulos?: any[];
   camposTexto?: string[];
   camposCurrency?: string[];
   camposSelecionados?: ColunasI[];

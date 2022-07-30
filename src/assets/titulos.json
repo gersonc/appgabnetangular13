@@ -834,6 +834,16 @@
     "mtitulo": "ST. PROCESSO",
     "titulo": "St. Processo"
   },
+  "historico_solicitacao_andamento": {
+    "field": "historico_solicitacao_andamento",
+    "mtitulo": "ANDAMENTO SOLICITAÇÃO",
+    "titulo": "Andamento Solicitação"
+  },
+  "historico_solicitacao_data": {
+    "field": "historico_solicitacao_data",
+    "mtitulo": "DATA AND. SOLIC.",
+    "titulo": "Data And. Solic."
+  },
   "proposicao_area_interesse_nome": {
     "field": "proposicao_area_interesse_nome",
     "mtitulo": "ÁREA DE INTERESSE",

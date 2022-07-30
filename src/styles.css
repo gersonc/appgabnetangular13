@@ -17068,8 +17068,9 @@ tr.detsol {
   color: #ffffff !important;
   height: 0 !important;
   font-size: 0 !important;
-  border-top-width: 0;
-  border-bottom-width: 0;
+  border-top-color: transparent !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
   border-left-width: 1px !important;
   border-right-width: 1px !important;
 }
@@ -17079,8 +17080,9 @@ tr.detsol {
   color: #ffffff !important;
   height: 0 !important;
   font-size: 0 !important;
-  border-top-width: 0;
-  border-bottom-width: 0;
+  border-top-color: transparent !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
   border-left-width: 1px !important;
   border-right-width: 1px !important;
 }
@@ -17096,6 +17098,7 @@ tr.detsol {
   border-right-width: 1px !important;
 }
 
+
 table .table-hover.tabela .detalhe-horiz {
   min-width: 100%;
   border-top-color: #ffffff !important;
@@ -17108,10 +17111,37 @@ table .table-hover.tabela .detalhe-horiz {
   white-space: nowrap !important;
 }
 
-.tabela .detalhe-horiz th {
+
+.tabela .detalhe-horiz th:first-child {
   font-weight: normal;
   text-align: left;
   width: 3%;
+  white-space: nowrap !important;
+}
+
+.tabela .detalhe-vert td:first-child {
+  font-weight: normal;
+  text-align: left;
+  width: 3%;
+  white-space: nowrap !important;
+}
+
+.tabela .detalhe-vert td {
+  font-weight: normal;
+  text-align: left;
+  white-space: nowrap !important;
+}
+
+.tabela .detalhe-vert th:first-child {
+  font-weight: bold;
+  text-align: left;
+  width: 3%;
+  white-space: nowrap !important;
+}
+
+.tabela .detalhe-vert th {
+  font-weight: bold;
+  text-align: left;
   white-space: nowrap !important;
 }
 

@@ -48,6 +48,8 @@
           <label for="oficio_processo_id">Número do processo</label>
           <p-dropdown
             id="oficio_processo_id"
+            [filter]="ddOficio.ddOficio_processo_id.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_processo_id"
             [style]="{'width':'100%'}"
             placeholder="TODOS"
@@ -62,6 +64,8 @@
           <label for="oficio_codigo">Código do ofício</label>
           <p-dropdown
             id="oficio_codigo"
+            [filter]="ddOficio.ddOficio_codigo.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_codigo"
             [style]="{'width':'100%'}"
             formControlName="oficio_codigo"
@@ -76,6 +80,8 @@
           <label for="oficio_numero">Número do ofício</label>
           <p-dropdown
             id="oficio_numero"
+            [filter]="ddOficio.ddOficio_numero.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_numero"
             [style]="{'width':'100%'}"
             formControlName="oficio_numero"
@@ -90,6 +96,8 @@
           <label for="oficio_convenio">Convenio</label>
           <p-dropdown
             id="oficio_convenio"
+            [filter]="ddOficio.ddOficio_convenio.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_convenio"
             [style]="{'width':'100%'}"
             formControlName="oficio_convenio"
@@ -104,6 +112,8 @@
           <label for="oficio_protocolo_numero">Protocólo</label>
           <p-dropdown
             id="oficio_protocolo_numero"
+            [filter]="ddOficio.ddOficio_protocolo_numero.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_protocolo_numero"
             [style]="{'width':'100%'}"
             formControlName="oficio_protocolo_numero"
@@ -118,6 +128,8 @@
           <label for="oficio_municipio_id">Município</label>
           <p-dropdown
             id="oficio_municipio_id"
+            [filter]="ddOficio.ddOficio_municipio_id.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_municipio_id"
             [style]="{'width':'100%'}"
             inputId="oficio_municipio_id"
@@ -148,6 +160,8 @@
           <label for="oficio_cadastro_id">Solicitante</label>
           <p-dropdown
             id="oficio_cadastro_id"
+            [filter]="ddOficio.ddOficio_cadastro_id.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_cadastro_id"
             [style]="{'width':'100%'}"
             inputId="oficio_cadastro_id"
@@ -163,6 +177,8 @@
           <label for="oficio_assunto_id">Assunto</label>
           <p-dropdown
             id="oficio_assunto_id"
+            [filter]="ddOficio.ddOficio_assunto_id.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_assunto_id"
             [style]="{'width':'100%'}"
             inputId="oficio_assunto_id"
@@ -178,6 +194,8 @@
           <label for="oficio_area_interesse_id">Área de interesse</label>
           <p-dropdown
             id="oficio_area_interesse_id"
+            [filter]="ddOficio.ddOficio_area_interesse_id.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_area_interesse_id"
             [style]="{'width':'100%'}"
             inputId="oficio_area_interesse_id"
@@ -223,6 +241,8 @@
           <label for="oficio_orgao_solicitado_nome">Orgão solicitado</label>
           <p-dropdown
             id="oficio_orgao_solicitado_nome"
+            [filter]="ddOficio.ddOficio_orgao_solicitado_nome.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_orgao_solicitado_nome"
             [style]="{'width':'100%'}"
             inputId="oficio_orgao_solicitado_nome"
@@ -238,6 +258,8 @@
           <label for="oficio_orgao_protocolante_nome">Orgão protocolante</label>
           <p-dropdown
             id="oficio_orgao_protocolante_nome"
+            [filter]="ddOficio.ddOficio_orgao_protocolante_nome.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_orgao_protocolante_nome"
             [style]="{'width':'100%'}"
             inputId="oficio_orgao_protocolante_nome"
@@ -298,6 +320,8 @@
           <label for="oficio_data_emissao1">Data da emissão</label>
           <p-dropdown
             id="oficio_data_emissao1"
+            [filter]="ddOficio.ddOficio_data_emissao1.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_emissao1"
             [style]="{'width':'100%'}"
             inputId="oficio_data_emissao1"
@@ -313,6 +337,8 @@
           <label for="oficio_data_emissao2">até</label>
           <p-dropdown
             id="oficio_data_emissao2"
+            [filter]="ddOficio.ddOficio_data_emissao2.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_emissao2"
             [style]="{'width':'100%'}"
             inputId="oficio_data_emissao2"
@@ -328,6 +354,8 @@
           <label for="oficio_data_empenho1">Data do empenho</label>
           <p-dropdown
             id="oficio_data_empenho1"
+            [filter]="ddOficio.ddOficio_data_empenho1.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_empenho1"
             [style]="{'width':'100%'}"
             inputId="oficio_data_empenho1"
@@ -343,6 +371,8 @@
           <label for="oficio_data_empenho2">até</label>
           <p-dropdown
             id="oficio_data_empenho2"
+            [filter]="ddOficio.ddOficio_data_empenho2.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_empenho2"
             [style]="{'width':'100%'}"
             inputId="oficio_data_empenho2"
@@ -358,6 +388,8 @@
           <label for="oficio_data_protocolo1">Data do protocólo</label>
           <p-dropdown
             id="oficio_data_protocolo1"
+            [filter]="ddOficio.ddOficio_data_protocolo1.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_protocolo1"
             [style]="{'width':'100%'}"
             inputId="oficio_data_protocolo1"
@@ -373,6 +405,8 @@
           <label for="oficio_data_protocolo2">até</label>
           <p-dropdown
             id="oficio_data_protocolo2"
+            [filter]="ddOficio.ddOficio_data_protocolo2.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_protocolo2"
             [style]="{'width':'100%'}"
             inputId="oficio_data_protocolo2"
@@ -388,6 +422,8 @@
           <label for="oficio_data_pagamento1">Data do pagamento</label>
           <p-dropdown
             id="oficio_data_pagamento1"
+            [filter]="ddOficio.ddOficio_data_pagamento1.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_pagamento1"
             [style]="{'width':'100%'}"
             inputId="oficio_data_pagamento1"
@@ -403,6 +439,8 @@
           <label for="oficio_data_pagamento2">até</label>
           <p-dropdown
             id="oficio_data_pagamento2"
+            [filter]="ddOficio.ddOficio_data_pagamento2.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_data_pagamento2"
             [style]="{'width':'100%'}"
             inputId="oficio_data_pagamento2"
@@ -418,6 +456,8 @@
           <label for="oficio_prazo1">Prazo</label>
           <p-dropdown
             id="oficio_prazo1"
+            [filter]="ddOficio.ddOficio_prazo1.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_prazo1"
             [style]="{'width':'100%'}"
             inputId="oficio_prazo1"
@@ -433,6 +473,8 @@
           <label for="oficio_prazo2">até</label>
           <p-dropdown
             id="oficio_prazo2"
+            [filter]="ddOficio.ddOficio_prazo2.length > 50"
+            filterBy="label"
             [options]="ddOficio.ddOficio_prazo2"
             [style]="{'width':'100%'}"
             inputId="oficio_prazo2"

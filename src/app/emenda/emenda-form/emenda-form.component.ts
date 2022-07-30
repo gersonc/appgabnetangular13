@@ -461,8 +461,6 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   criaEnvio(): EmendaFormI {
     let e = new EmendaForm();
     if (this.efs.acao === 'alterar') {
@@ -542,8 +540,6 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
    return e;
   }
 
-
-
   onBlockSubmit(ev: boolean) {
     this.mostraForm = !ev;
   }
@@ -572,9 +568,9 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
     this.efs.emendaListar = undefined;
     this.efs.acao = null;
     if (sessionStorage.getItem('emenda-busca')) {
-      this.router.navigate(['/emenda/listar/busca']);
-    } else {
       this.router.navigate(['/emenda/listar']);
+    } else {
+      this.router.navigate(['/emenda/listar2']);
     }
   }
 

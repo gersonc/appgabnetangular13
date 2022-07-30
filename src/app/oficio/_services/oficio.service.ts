@@ -14,6 +14,7 @@ import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {OficioBuscaI} from "../_models/oficio-busca-i";
 import {DdOficioProcessoIdI} from "../_models/dd-oficio-processo-id-i";
 import {OficioFormularioInterface} from "../_models/oficio-formulario";
+import {TituloI} from "../../_models/titulo-i";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class OficioService {
   sortField = 'oficio_status_nome';
   sortOrder = 1;
   lazy = false;
-
+  titulos: TituloI[] | null = null;
 
 
   constructor(
@@ -123,18 +124,25 @@ export class OficioService {
     this.Contexto = event.data;
   }
 
+  montaTitulos(cps: string[]) {
+    this.tabela.campos = [];
+    this.tabela.campos = cps;
+    this.tabela.titulos = [];
+    this.titulos = this.ts.buscaTitulos('oficio', cps);
+    // this.ts.buscaTitulos(cps);
+  }
+
   onRowExpand(evento) {
-    this.idx = this.oficios.findIndex(o => o.oficio_id === +evento.data.oficio_id);
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
+      this.titulos = this.ts.mTitulo['oficio'];
     }
-    console.log('onRowExpand', evento);
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
     let ev = evento.data;
 
-    this.tabela.titulos.forEach(t => {
+    // this.tabela.titulos.forEach(t => {
+    this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
           let celula: CelulaI = {
@@ -231,13 +239,6 @@ export class OficioService {
     this.busca.oficio_prazo2 = (b.oficio_prazo2 !== undefined) ? b.oficio_prazo2 : undefined;
     this.busca.oficio_descricao_acao = (b.oficio_descricao_acao !== undefined) ? b.oficio_descricao_acao : undefined;
     this.oficioBusca();
-  }
-
-  montaTitulos(cps: string[]) {
-    this.tabela.campos = [];
-    this.tabela.campos = cps;
-    this.tabela.titulos = [];
-    this.ts.buscaTitulos(cps);
   }
 
   imprimirTabela(n: number) {

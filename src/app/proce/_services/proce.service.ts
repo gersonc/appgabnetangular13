@@ -17,6 +17,7 @@ import {ProceListarI, ProcePaginacaoInterface} from "../_model/proce-listar-i";
 import {proceProcessoCamposTexto} from "../_model/proc-i";
 import {ProceBuscaI} from "../_model/proce-busca-i";
 import {ProcFormAnalisarI} from "../_model/proc-form-analisar-i";
+import {TituloI} from "../../_models/titulo-i";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,7 @@ export class ProceService {
   sortOrder = 1;
   lazy = false;
   msgCtxH: boolean = true;
+  titulos: TituloI[] | null = null;
 
   constructor(
     private url: UrlService,
@@ -124,9 +126,17 @@ export class ProceService {
     this.Contexto = evento.data;
   }
 
+  montaTitulos(cps: string[]) {
+    this.tabela.campos = [];
+    this.tabela.campos = cps;
+    this.tabela.titulos = [];
+    this.titulos = this.ts.buscaTitulos('proce', cps);
+    // this.ts.buscaTitulos(cps);
+  }
+
   onRowExpand(evento) {
-    if (this.tabela.titulos.length === 0) {
-      this.tabela.titulos = this.ts.buscaTitulos(this.tabela.campos);
+    if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
+      this.titulos = this.ts.mTitulo['proce'];
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
@@ -138,7 +148,8 @@ export class ProceService {
         historico_solicitacao_id: +evento.data.solicitacao_id
       }
     };
-    this.tabela.titulos.forEach(t => {
+    // this.tabela.titulos.forEach(t => {
+    this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
           let celula: CelulaI = {
@@ -218,13 +229,6 @@ export class ProceService {
     this.busca.solicitacao_orgao = (b.solicitacao_orgao !== undefined) ? b.solicitacao_orgao : undefined;
     this.busca.processo_numero = (b.processo_numero !== undefined) ? b.processo_numero : undefined;
     this.proceBusca();
-  }
-
-  montaTitulos(cps: string[]) {
-    this.tabela.campos = [];
-    this.tabela.campos = cps;
-    this.tabela.titulos = [];
-    this.ts.buscaTitulos(cps);
   }
 
   imprimirTabela(n: number) {
