@@ -21,12 +21,12 @@
             iconPos="left"
             label="Limpar"
             class="p-button-rounded p-button-secondary"
-            (click)="onLimparForm()"
+            (click)="formMenuProposicao.reset()"
           ></button>
         </div>
         <div class="p-mr-2">
           <button
-            *ngIf="authenticationService.oficio_incluir"
+            *ngIf="aut.oficio_incluir"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -46,11 +46,11 @@
           <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- proposicao_tipo_id -->
-            <div *ngIf="ddProposicao_tipo_id" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_tipo_id" class="p-field p-col-12">
               <label for="proposicao_tipo_id">Tipo</label>
               <p-dropdown
                 id="proposicao_tipo_id"
-                [options]="ddProposicao_tipo_id"
+                [options]="drd.ddProposicao_tipo_id"
                 [style]="estilo1"
                 placeholder="TODOS"
                 formControlName="proposicao_tipo_id"
@@ -59,11 +59,11 @@
             </div>
 
             <!-- proposicao_numero -->
-            <div *ngIf="ddProposicao_numero" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_id" class="p-field p-col-12">
               <label for="proposicao_numero">Número</label>
               <p-dropdown
                 id="proposicao_numero"
-                [options]="ddProposicao_numero"
+                [options]="drd.ddProposicao_id"
                 [style]="estilo1"
                 optionLabel="label"
                 formControlName="proposicao_numero"
@@ -73,11 +73,11 @@
             </div>
 
             <!-- proposicao_autor -->
-            <div *ngIf="ddProposicao_autor" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_autor" class="p-field p-col-12">
               <label for="proposicao_autor">Autor</label>
               <p-dropdown
                 id="proposicao_autor"
-                [options]="ddProposicao_autor"
+                [options]="drd.ddProposicao_autor"
                 [style]="estilo1"
                 optionLabel="label"
                 formControlName="proposicao_autor"
@@ -87,11 +87,11 @@
             </div>
 
             <!-- proposicao_relator -->
-            <div *ngIf="ddProposicao_relator" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_relator" class="p-field p-col-12">
               <label for="proposicao_relator">Relator</label>
               <p-dropdown
                 id="proposicao_relator"
-                [options]="ddProposicao_relator"
+                [options]="drd.ddProposicao_relator"
                 [style]="estilo1"
                 optionLabel="label"
                 formControlName="proposicao_relator"
@@ -101,11 +101,11 @@
             </div>
 
             <!-- proposicao_area_interesse_id -->
-            <div *ngIf="ddProposicao_area_interesse_id" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_area_interesse_id" class="p-field p-col-12">
               <label for="proposicao_area_interesse_id">Área de Interesse</label>
               <p-dropdown
                 id="proposicao_area_interesse_id"
-                [options]="ddProposicao_area_interesse_id"
+                [options]="drd.ddProposicao_area_interesse_id"
                 [style]="estilo1"
                 optionLabel="label"
                 formControlName="proposicao_area_interesse_id"
@@ -115,11 +115,11 @@
             </div>
 
             <!-- proposicao_parecer -->
-            <div *ngIf="ddProposicao_parecer" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_parecer" class="p-field p-col-12">
               <label for="proposicao_parecer">Parecer</label>
               <p-dropdown
                 id="proposicao_parecer"
-                [options]="ddProposicao_parecer"
+                [options]="drd.ddProposicao_parecer"
                 [style]="estilo1"
                 optionLabel="label"
                 formControlName="proposicao_parecer"
@@ -129,11 +129,11 @@
             </div>
 
             <!-- proposicao_origem_id -->
-            <div *ngIf="ddProposicao_origem_id" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_origem_id" class="p-field p-col-12">
               <label for="proposicao_origem_id">Orgão de origem</label>
               <p-dropdown
                 id="proposicao_origem_id"
-                [options]="ddProposicao_origem_id"
+                [options]="drd.ddProposicao_origem_id"
                 [style]="estilo1"
                 optionLabel="label"
                 formControlName="proposicao_origem_id"
@@ -149,10 +149,10 @@
           <div class="p-fluid p-formgrid p-grid formulario">
 
             <!-- proposicao_emenda_tipo_id -->
-            <div *ngIf="ddProposicao_emenda_tipo_id" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_emenda_tipo_id" class="p-field p-col-12">
               <label for="proposicao_emenda_tipo_id">Tipo de emenda</label>
               <p-dropdown
-                [options]="ddProposicao_emenda_tipo_id"
+                [options]="drd.ddProposicao_emenda_tipo_id"
                 [style]="estilo1"
                 optionLabel="label"
                 id="proposicao_emenda_tipo_id"
@@ -163,10 +163,10 @@
             </div>
 
             <!-- proposicao_situacao_id -->
-            <div *ngIf="ddProposicao_situacao_id" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_situacao_id" class="p-field p-col-12">
               <label for="proposicao_situacao_id">Situação</label>
               <p-dropdown
-                [options]="ddProposicao_situacao_id"
+                [options]="drd.ddProposicao_situacao_id"
                 [style]="estilo1"
                 optionLabel="label"
                 id="proposicao_situacao_id"
@@ -177,10 +177,10 @@
             </div>
 
             <!-- proposicao_relator_atual -->
-            <div *ngIf="ddProposicao_relator_atual" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_relator_atual" class="p-field p-col-12">
               <label for="proposicao_relator_atual">Relator atual</label>
               <p-dropdown
-                [options]="ddProposicao_relator_atual"
+                [options]="drd.ddProposicao_relator_atual"
                 [style]="estilo1"
                 optionLabel="label"
                 id="proposicao_relator_atual"
@@ -191,10 +191,10 @@
             </div>
 
             <!-- proposicao_orgao_id -->
-            <div *ngIf="ddProposicao_orgao_id" class="p-field p-col-12">
+            <div *ngIf="drd.ddProposicao_orgao_id" class="p-field p-col-12">
               <label for="proposicao_orgao_id">Orgão atual</label>
               <p-dropdown
-                [options]="ddProposicao_orgao_id"
+                [options]="drd.ddProposicao_orgao_id"
                 [style]="estilo1"
                 optionLabel="label"
                 id="proposicao_orgao_id"
@@ -206,11 +206,11 @@
 
             <!-- proposicao_data1 -->
 
-            <div *ngIf="ddProposicao_data1 && ddProposicao_data2"
+            <div *ngIf="drd.ddProposicao_data1 && drd.ddProposicao_data2"
                  class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
               <label for="proposicao_data1">Data apresentação</label>
               <p-dropdown
-                [options]="ddProposicao_data1"
+                [options]="drd.ddProposicao_data1"
                 [style]="estilo1"
                 optionLabel="label"
                 id="proposicao_data1"
@@ -224,7 +224,7 @@
             <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
               <label for="proposicao_data2">até</label>
               <p-dropdown
-                [options]="ddProposicao_data2"
+                [options]="drd.ddProposicao_data2"
                 [style]="estilo1"
                 optionLabel="label"
                 id="proposicao_data2"
@@ -284,12 +284,12 @@
               iconPos="left"
               label="Limpar"
               class="p-button-rounded p-button-secondary"
-              (click)="onLimparForm()"
+              (click)="formMenuProposicao.reset()"
             ></button>
           </div>
           <div class="p-mr-2">
             <button
-              *ngIf="authenticationService.oficio_incluir"
+              *ngIf="aut.oficio_incluir"
               pButton
               type="button"
               icon="pi pi-plus"

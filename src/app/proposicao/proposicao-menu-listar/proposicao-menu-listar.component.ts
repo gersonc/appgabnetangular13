@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { SelectItem } from 'primeng/api';
-import { DropdownnomeidClass } from '../../_models';
-import { AuthenticationService, CarregadorService, DropdownService, MenuInternoService} from '../../_services';
-import { ProposicaoBuscaService } from '../_services';
-import { ProposicaoBuscaInterface } from '../_models';
+import { AuthenticationService, MenuInternoService} from '../../_services';
+import {EmendaDropdownMenuService} from "../../emenda/_services/emenda-dropdown-menu.service";
+import {ProposicaoService} from "../_services/proposicao.service";
+import {ProposicaoFormService} from "../_services/proposicao-form.service";
+import {ProposicaoBuscaI} from "../_models/proposicao-busca-i";
+import {ProposicaoDropdownMenuListarInterface} from "../_models/proposicao-dropdown-menu-listar";
+import {Subscription} from "rxjs";
+
 
 @Component({
   selector: 'app-proposicao-menu-listar',
@@ -15,33 +18,22 @@ import { ProposicaoBuscaInterface } from '../_models';
 })
 export class ProposicaoMenuListarComponent implements OnInit {
   public formMenuProposicao: FormGroup;
-  public items: Array<any> = [];
-  public ddNomeIdArray = new DropdownnomeidClass();
-  public ddProposicao_tipo_id: SelectItem[] = [];
-  public ddProposicao_numero: SelectItem[] = [];
-  public ddProposicao_autor: SelectItem[] = [];
-  public ddProposicao_relator: SelectItem[] = [];
-  public ddProposicao_area_interesse_id: SelectItem[] = [];
-  public ddProposicao_parecer: SelectItem[] = [];
-  public ddProposicao_origem_id: SelectItem[] = [];
-  public ddProposicao_emenda_tipo_id: SelectItem[] = [];
-  public ddProposicao_situacao_id: SelectItem[] = [];
-  public ddProposicao_relator_atual: SelectItem[] = [];
-  public ddProposicao_orgao_id: SelectItem[] = [];
-  public ddProposicao_data1: SelectItem[] = [];
-  public ddProposicao_data2: SelectItem[] = [];
+  drd: ProposicaoDropdownMenuListarInterface | null = null;
+  public ptBr: any;
+  private sub: Subscription[] = [];
+
   estilo1 = {width: '100%'};
   estilo2 = {maxWidth: '400px'};
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
+    private dd: EmendaDropdownMenuService,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
+    public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cs: CarregadorService,
-    private pbs: ProposicaoBuscaService
+    private ps: ProposicaoService,
+    private pfs: ProposicaoFormService
   ) { }
 
   ngOnInit() {
@@ -66,56 +58,48 @@ export class ProposicaoMenuListarComponent implements OnInit {
 
     this.carregaDropDown();
 
-    if (!this.pbs.buscaStateSN) {
-      if (sessionStorage.getItem('proposicao-listagem')) {
-        sessionStorage.removeItem('proposicao-listagem');
-      }
-      this.mi.showMenuInterno();
-    }
+    this.mi.showMenuInterno();
   }
+
 
   carregaDropDown() {
-    let dr = JSON.parse(sessionStorage.getItem('proposicao-dropdown'));
-    this.ddProposicao_tipo_id = dr.ddProposicao_tipo_id;
-    this.ddProposicao_numero = dr.ddProposicao_numero;
-    this.ddProposicao_autor = dr.ddProposicao_autor;
-    this.ddProposicao_relator = dr.ddProposicao_relator;
-    this.ddProposicao_area_interesse_id = dr.ddProposicao_area_interesse_id;
-    this.ddProposicao_parecer = dr.ddProposicao_parecer;
-    this.ddProposicao_origem_id = dr.ddProposicao_origem_id;
-    this.ddProposicao_emenda_tipo_id = dr.ddProposicao_emenda_tipo_id;
-    this.ddProposicao_situacao_id = dr.ddProposicao_situacao_id;
-    this.ddProposicao_relator_atual = dr.ddProposicao_relator_atual;
-    this.ddProposicao_orgao_id = dr.ddProposicao_orgao_id;
-    this.ddProposicao_data1 = dr.ddProposicao_data1;
-    this.ddProposicao_data2 = dr.ddProposicao_data2;
-    dr = null;
-    this.cs.escondeCarregador();
+    if (sessionStorage.getItem('proposicao-menu-dropdown')) {
+      this.drd = JSON.parse(sessionStorage.getItem('proposicao-menu-dropdown'));
+    } else {
+      this.getCarregaDropDown();
+    }
   }
 
+  getCarregaDropDown() {
+    this.sub.push(this.dd.resp$.subscribe(
+      (dados: boolean ) => {
+      },
+      error => {
+        console.error(error.toString());
+      },
+      () => {
+        this.carregaDropDown();
+      }
+    ));
+    this.dd.gravaDropDown();
+  }
+
+
   onMudaForm() {
-    this.pbs.resetProposicaoBusca();
-    let propBusca: ProposicaoBuscaInterface;
-    propBusca = this.formMenuProposicao.getRawValue();
-    for (const propName in propBusca ) {
-      if (propBusca[propName] == null) {
-        propBusca[propName] = '';
-      }
-      if ( typeof propBusca[propName] === 'object' ) {
-        propBusca[propName] = propBusca[propName].value;
-      }
-      this.pbs.proposicaoBusca[propName] = propBusca[propName].toString();
-    }
-    this.pbs.buscaMenu();
+    this.ps.resetProposicaoBusca();
+    let proposicaoBusca: ProposicaoBuscaI;
+    proposicaoBusca = this.formMenuProposicao.getRawValue();
+    this.ps.novaBusca(proposicaoBusca);
+    this.ps.buscaMenu();
     this.mi.hideMenu();
-    this.cs.mostraCarregador();
   }
 
   goIncluir() {
-    if (this.authenticationService.proposicao_incluir) {
-      this.mi.hideMenu();
-      this.cs.mostraCarregador();
-      this.router.navigate(['/proposicao/incluir']);
+    if (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.proposicao_incluir) {
+      // this.es.acao = 'incluir';
+      this.pfs.acao = 'incluir';
+      this.mi.mudaMenuInterno(false);
+      this.router.navigate(['proposicao/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }
@@ -126,8 +110,11 @@ export class ProposicaoMenuListarComponent implements OnInit {
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
   }
 
-  onLimparForm() {
-    this.formMenuProposicao.reset();
+  fechar() {
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 
 }

@@ -1,0 +1,65 @@
+export interface ProposicaoFormI {
+  proposicao_id?: number;
+  proposicao_numero?: string;
+  proposicao_tipo_id?: number;
+  proposicao_relator?: string;
+  proposicao_relator_atual?: string;
+  proposicao_data_apresentacao?: string;
+  proposicao_area_interesse_id?: number;
+  proposicao_ementa?: string;
+  proposicao_ementa_delta?: string;
+  proposicao_ementa_texto?: string;
+  proposicao_texto?: string;
+  proposicao_texto_delta?: string;
+  proposicao_texto_texto?: string;
+  proposicao_situacao_id?: number;
+  proposicao_situacao_nome?: string;
+  proposicao_parecer?: string;
+  proposicao_origem_id?: number;
+  proposicao_orgao_id?: number;
+  proposicao_emenda_tipo_id?: number;
+  proposicao_autor?: string;
+  andamento_proposicao_id?: number;
+  andamento_proposicao_data?: string;
+  andamento_proposicao_texto?: string;
+  andamento_proposicao_texto_delta?: string;
+  andamento_proposicao_texto_texto?: string;
+  andamento_proposicao_relator_atual?: string;
+  andamento_proposicao_orgao_id?: number;
+  andamento_proposicao_orgao_nome?: string;
+  andamento_proposicao_situacao_id?: number;
+  andamento_proposicao_situacao_nome?: string;
+}
+
+export class ProposicaoForm implements ProposicaoFormI {
+  proposicao_id?: number;
+  proposicao_numero?: string;
+  proposicao_tipo_id?: number;
+  proposicao_relator?: string;
+  proposicao_relator_atual?: string;
+  proposicao_data_apresentacao?: string;
+  proposicao_area_interesse_id?: number;
+  proposicao_ementa?: string;
+  proposicao_ementa_delta?: string;
+  proposicao_ementa_texto?: string;
+  proposicao_texto?: string;
+  proposicao_texto_delta?: string;
+  proposicao_texto_texto?: string;
+  proposicao_situacao_id?: number;
+  proposicao_situacao_nome?: string;
+  proposicao_parecer?: string;
+  proposicao_origem_id?: number;
+  proposicao_orgao_id?: number;
+  proposicao_emenda_tipo_id?: number;
+  proposicao_autor?: string;
+  andamento_proposicao_id?: number;
+  andamento_proposicao_data?: string;
+  andamento_proposicao_texto?: string;
+  andamento_proposicao_texto_delta?: string;
+  andamento_proposicao_texto_texto?: string;
+  andamento_proposicao_relator_atual?: string;
+  andamento_proposicao_orgao_id?: number;
+  andamento_proposicao_orgao_nome?: string;
+  andamento_proposicao_situacao_id?: number;
+  andamento_proposicao_situacao_nome?: string;
+}

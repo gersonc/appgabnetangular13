@@ -9,7 +9,7 @@ import {EmendaService} from "./_services/emenda.service";
   templateUrl: './emenda.component.html',
   styleUrls: ['./emenda.component.css']
 })
-export class EmendaComponent implements OnInit {
+export class EmendaComponent implements OnInit, OnInit {
   public altura = (window.innerHeight) + 'px';
   sub: Subscription[] = [];
   public mostraMenuInterno = false;

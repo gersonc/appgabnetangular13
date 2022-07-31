@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuInternoService } from '../_services';
 import { ArquivoService } from '../arquivo/_services';
-import { ProposicaoBuscaService } from './_services';
 import { Subscription } from "rxjs";
+import {ProposicaoService} from "./_services/proposicao.service";
 
 @Component({
   selector: 'app-proposicao',
@@ -17,7 +17,7 @@ export class ProposicaoComponent implements OnDestroy, OnInit {
   constructor(
     public mi: MenuInternoService,
     private as: ArquivoService,
-    private pbs: ProposicaoBuscaService
+    private ps: ProposicaoService
   ) { }
 
   ngOnInit() {
@@ -27,12 +27,10 @@ export class ProposicaoComponent implements OnDestroy, OnInit {
       })
     );
     this.as.getPermissoes();
-    this.pbs.criarProposicaoBusca();
     if (!sessionStorage.getItem('proposicao-busca')) {
-      this.pbs.buscaStateSN = false;
       this.mi.mudaMenuInterno(true);
     } else {
-      if (this.pbs.buscaStateSN) {
+      if (this.ps.stateSN) {
         this.mi.mudaMenuInterno(false);
       } else {
         this.mi.mudaMenuInterno(true);
@@ -45,7 +43,7 @@ export class ProposicaoComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
+    this.ps.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }
-
 }

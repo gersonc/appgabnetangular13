@@ -15,7 +15,6 @@ import {EmendaBuscaI} from "../_models/emenda-busca-i";
 import {EmendaListarI, EmendaPaginacaoInterface, emendascampostexto} from "../_models/emenda-listar-i";
 import {EmendaFormI} from "../_models/emenda-form-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
-import {SolicFormAnalisar} from "../../solic/_models/solic-form-analisar-i";
 import {EmendaAtualizar} from "../_models/emenda-atualizar-i";
 import {TituloI} from "../../_models/titulo-i";
 
