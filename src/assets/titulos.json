@@ -21,13 +21,18 @@
   },
   "andamento_proposicao_relator_atual": {
     "field": "andamento_proposicao_relator_atual",
-    "mtitulo": "RELATOR ATUAL",
-    "titulo": "Relator Atual"
+    "mtitulo": "ANDAMENTO - RELATOR ATUAL",
+    "titulo": "Andamento - Relator Atual"
   },
   "andamento_proposicao_situacao_nome": {
     "field": "andamento_proposicao_situacao_nome",
     "mtitulo": "SITUAÇÃO",
     "titulo": "Situação"
+  },
+  "andamento_proposicao_texto": {
+    "field": "andamento_proposicao_texto",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
   },
   "ano": {
     "field": "ano",

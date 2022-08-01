@@ -1,6 +1,7 @@
 export interface AndamentoProposicaoI {
   andamento_proposicao_id?: number;
   andamento_proposicao_proposicao_id?: number;
+  andamento_proposicao_data2?: string;
   andamento_proposicao_data?: string;
   andamento_proposicao_texto?: string;
   andamento_proposicao_texto_delta?: string;
@@ -15,6 +16,7 @@ export interface AndamentoProposicaoI {
 export class AndamentoProposicao implements AndamentoProposicaoI {
   andamento_proposicao_id?: number;
   andamento_proposicao_proposicao_id?: number;
+  andamento_proposicao_data2?: string;
   andamento_proposicao_data?: string;
   andamento_proposicao_texto?: string;
   andamento_proposicao_texto_delta?: string;
@@ -29,6 +31,7 @@ export class AndamentoProposicao implements AndamentoProposicaoI {
 export interface AndamentoProposicaoFormI extends AndamentoProposicaoI{
   andamento_proposicao_id?: number;
   andamento_proposicao_proposicao_id?: number;
+  andamento_proposicao_data2?: string;
   andamento_proposicao_data?: string;
   andamento_proposicao_texto?: string;
   andamento_proposicao_texto_delta?: string;
@@ -43,17 +46,19 @@ export interface AndamentoProposicaoFormI extends AndamentoProposicaoI{
   sn_situacao?: boolean;
 }
 
-export interface AndPropFormI {
-  idx?: number;
-  acao?: string;
-  andamentoProposicaoForm?: AndamentoProposicaoFormI;
-}
-
-export interface AndPropListI {
+export interface AndPropI {
   idx?: number;
   acao?: string;
   registro_id?: number;
   andamentoProposicaoListar?: AndamentoProposicaoI[];
+  andamentoProposicaoForm?: AndamentoProposicaoFormI;
 }
+
+/*export interface AndPropListI {
+  idx?: number;
+  acao?: string;
+  registro_id?: number;
+  andamentoProposicaoListar?: AndamentoProposicaoI[];
+}*/
 
 

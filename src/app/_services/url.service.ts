@@ -11,7 +11,7 @@ export class UrlService {
    url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
    // url = (location.hostname === 'localhost') ? 'http://gn5.gabnet.com.br/api' : 'api/';
 
-
+    // url = 'api/';
 
   // url = location.hostname !== ('gn5.gabnet.com.br' || 'localhost') ? '/gn5/api/' : '/api/';
   // url = 'http://gn5.gabnet.com.br/api/';

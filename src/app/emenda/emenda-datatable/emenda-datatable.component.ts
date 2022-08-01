@@ -22,10 +22,6 @@ export class EmendaDatatableComponent implements OnInit {
   altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
-  /*authAlterar = false;
-  authAnalisar = false;
-  authApagar = false;
-  authIncluir = false;*/
   showDetalhe = false;
   emendaDetalhe?: EmendaListarI;
   itemsAcao: MenuItem[];

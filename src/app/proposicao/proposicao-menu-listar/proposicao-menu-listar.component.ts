@@ -40,7 +40,7 @@ export class ProposicaoMenuListarComponent implements OnInit {
 
     this.formMenuProposicao = this.formBuilder.group({
       proposicao_tipo_id: [null],
-      proposicao_numero: [null],
+      proposicao_id: [null],
       proposicao_autor: [null],
       proposicao_relator: [null],
       proposicao_area_interesse_id: [null],

@@ -30,7 +30,7 @@ export interface ProposicaoListarI extends ProposicaoI{
   proposicao_emenda_tipo_id?: number;
   proposicao_emenda_tipo_nome?: string;
   proposicao_autor?: string;
-  proposicao_arquivo?: ArquivoListagem[];
+  proposicao_arquivos?: ArquivoListagem[];
   andamento_proposicao_id?: number;
   andamento_proposicao_data?: string;
   andamento_proposicao_texto?: string;

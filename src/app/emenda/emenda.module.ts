@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { EmendaRoutingModule } from './emenda-routing.module';
-import { EmendaComponent } from './emenda.component';
-import { EmendaMenuListarComponent } from './emenda-menu-listar/emenda-menu-listar.component';
-import { EmendaDatatableComponent } from './emenda-datatable/emenda-datatable.component';
-import { EmendaFormComponent } from './emenda-form/emenda-form.component';
-import { EmendaDetalheComponent } from './emenda-detalhe/emenda-detalhe.component';
+import {EmendaRoutingModule} from './emenda-routing.module';
+import {EmendaComponent} from './emenda.component';
+import {EmendaMenuListarComponent} from './emenda-menu-listar/emenda-menu-listar.component';
+import {EmendaDatatableComponent} from './emenda-datatable/emenda-datatable.component';
+import {EmendaFormComponent} from './emenda-form/emenda-form.component';
+import {EmendaDetalheComponent} from './emenda-detalhe/emenda-detalhe.component';
 import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {ButtonModule} from "primeng/button";
@@ -32,8 +32,10 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {HistModule} from "../hist/hist.module";
-import { EmendaExcluirComponent } from './emenda-excluir/emenda-excluir.component';
-import { EmendaAtualizarComponent } from './emenda-atualizar/emenda-atualisar.component';
+import {EmendaExcluirComponent} from './emenda-excluir/emenda-excluir.component';
+import {EmendaAtualizarComponent} from './emenda-atualizar/emenda-atualisar.component';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 
 
 @NgModule({
@@ -46,34 +48,42 @@ import { EmendaAtualizarComponent } from './emenda-atualizar/emenda-atualisar.co
     EmendaExcluirComponent,
     EmendaAtualizarComponent
   ],
-    imports: [
-        CommonModule,
-        EmendaRoutingModule,
-        SidebarModule,
-        ScrollPanelModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        TableModule,
-        MenuModule,
-        ExporterAcessoModule,
-        RippleModule,
-        TooltipModule,
-        DialogModule,
-        UtilModule,
-        ContextMenuModule,
-        AutoCompleteModule,
-        InputTextModule,
-        ConfigauxModule,
-        CalendarModule,
-        InputNumberModule,
-        AccordionModule,
-        QuillModule,
-        ArquivoModule,
-        KillViewModule,
-        ExplorerModule,
-        ImpressaoModule,
-        HistModule
-    ]
+  imports: [
+    CommonModule,
+    EmendaRoutingModule,
+    SidebarModule,
+    ScrollPanelModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    TableModule,
+    MenuModule,
+    ExporterAcessoModule,
+    RippleModule,
+    TooltipModule,
+    DialogModule,
+    UtilModule,
+    ContextMenuModule,
+    AutoCompleteModule,
+    InputTextModule,
+    ConfigauxModule,
+    CalendarModule,
+    InputNumberModule,
+    AccordionModule,
+    QuillModule,
+    ArquivoModule,
+    KillViewModule,
+    ExplorerModule,
+    ImpressaoModule,
+    HistModule
+  ],
+  exports: [
+    EmendaComponent
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ]
 })
-export class EmendaModule { }
+export class EmendaModule {
+}

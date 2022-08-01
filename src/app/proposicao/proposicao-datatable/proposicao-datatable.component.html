@@ -1,17 +1,17 @@
 <!--*** INICIO *****************************************************************************************************-->
-<p-table #dtpp
-         id="dtpp"
-         [value]="proposicao"
-         [columns]="selectedColumns"
-         [rows]="rows"
+<p-table #dtb
+         id="tabelaproposicao"
+         [value]="ps.proposicoes"
+         [columns]="ps.tabela.selectedColumns"
+         [rows]="ps.tabela.rows"
          [lazy]="true"
          [lazyLoadOnInit]="false"
-         [totalRecords]="totalRecords"
-         [sortField]="sortCampo"
+         [totalRecords]="ps.tabela.totalRecords"
+         [sortField]="ps.tabela.sortField"
          dataKey="proposicao_id"
          [scrollable]="true"
          [scrollHeight]="altura"
-         [(selection)]="selecionados"
+         [(selection)]="ps.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
          [autoLayout]="false"
@@ -23,50 +23,72 @@
          [responsive]="false"
          rowExpandMode="single"
          [rowsPerPageOptions]="[50,100,200,500,1000]"
-         (onLazyLoad)="onLazyLoad($event)"
-         (onColReorder)="onColReorder($event)"
-         (onRowExpand)="onRowExpand($event)"
-         [(contextMenuSelection)]="ppContexto"
+         [(first)]="ps.tabela.first"
+         [(contextMenuSelection)]="ps.Contexto"
          contextMenuSelectionMode="joint"
          [contextMenu]="cm"
-         (onContextMenuSelect)="onContextMenuSelect($event)"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="ps.onRowExpand($event)"
+         (onRowCollapse)="ps.onRowCollapse($event)"
+         (onStateSave)="ps.setState($event)"
+         (onStateRestore)="ps.onStateRestore($event)"
+         (onContextMenuSelect)="ps.onContextMenuSelect($event)"
+         (sortFunction)="ps.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'var(--font-padrao)', 'border-collapse':'separate'}"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         [tableStyle]="{'font-size':'1rem'}"
          stateStorage="session"
-         stateKey="proposicao-listagem"
+         stateKey="proposicao-table"
          selectionMode="multiple"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
 
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <div class="p-d-flex p-jc-between p-ai-center">
-      <div class="p-d-inline-flex">
-        <div class="p-mx-2">
-          <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
-                  (click)="mostraMenu()"></button>
+    <div [ngClass]="{'hide-datatable': md.mdt}">
+      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
+        <div class="p-d-inline-flex">
+          <div class="p-mx-2">
+            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                    (click)="mostraMenu()"></button>
+          </div>
+          <div class="p-mr-2">
+            <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                    (click)="mostraSelectColunas()"></button>
+          </div>
+          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
+            <button pButton type="button" label="Relatórios" icon="pi pi-info" class="p-button-text p-button-sm"
+                    (click)="men.toggle($event)"></button>
+          </div>
+
+          <div class="p-mr-0" *ngIf="aut.proposicao_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
+            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                    (click)="proposicaoIncluir()"></button>
+          </div>
         </div>
-        <div class="p-mr-2">
-          <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
-                  (click)="mostraSelectColunas()"></button>
+
+        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mx-2">PROPOSIÇÕES</div>
         </div>
-        <div class="p-mr-2">
-          <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
-                  (click)="men.toggle($event)"></button>
+        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mr-2" *ngIf="ps.selecionados !== undefined &&  ps.selecionados !== null &&  ps.selecionados.length > 0">
+            <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
+                    (click)="ps.resetSelecionados()"></button>
+          </div>
+          <div class="p-mr-2">Página {{ps.tabela.currentPage}} de {{ps.tabela.pageCount}} - Num.
+            Registros: {{ps.tabela.totalRecords}}</div>
         </div>
-        <div class="p-mr-0">
-          <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
-                  (click)="proposicaoIncluir()"></button>
+
+        <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
+          <div class="p-mx-2">PROPOSIÇÕES</div>
+          <div class="p-mr-2">Página {{ps.tabela.currentPage}} de {{ps.tabela.pageCount}} - Num.
+            Registros: {{ps.tabela.totalRecords}}</div>
         </div>
-      </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-2">PROPOSIÇÃO</div>
-      </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+
+
       </div>
     </div>
-    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <p-menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -81,7 +103,7 @@
       <th></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
-          [style.width]="col.largura"
+          [style.width]="col.width"
           pReorderableColumn
           pResizableColumn
       >
@@ -93,21 +115,31 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-prop let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="prop" [pContextMenuRow]="prop" [pSelectableRowIndex]="rowIndex">
-      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+    <tr [pSelectableRow]="prop" [pContextMenuRow]="prop" [pContextMenuRowIndex]="rowIndex"
+        [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
+      <td>
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="prop" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" [style.width]="col.largura"
-          [style.background-color]="prop[col.field]=='EM ANDAMENTO' ? '#ffdab7' : ''">
-        {{prop[col.field]}}
+
+      <td *ngFor="let col of columns" [style.width]="col.width">
+
+          <app-exporter-celula [celula]="{
+          valor: stripslashes(prop[col.field]),
+          field: col.field,
+          header:col.header,
+          txtVF: ps.testaCampoTexto(col.field),
+          cphtml: stripslashes(prop[col.field]),
+          cpdelta: null,
+          cptexto: null
+           }"></app-exporter-celula>
       </td>
     </tr>
   </ng-template>
 
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-prop let-indice="rowIndex" let-columns="columns">
+  <ng-template pTemplate="rowexpansion" let-prop let-columns="columns" let-indice="rowIndex">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -119,75 +151,96 @@
                   pRipple
                   type="button"
                   icon="pi pi-eye"
-                  class="p-button-rounded p-button-raised"
+                  class="p-button-rounded"
                   pTooltip="Detalhes"
                   tooltipPosition="top"
                   (click)="proposicaoDetalheCompleto(prop)"
                 >
                 </button>
               </div>
-              <div *ngIf="authenticationService.proposicao_alterar" class="p-mr-2">
+
+              <!--<div
+                *ngIf="(aut.proposicao_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn)" class="p-mr-2">
                 <button
-                  (click)="proposicaoAlterar(prop)"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-percentage"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Atualizar"
+                  tooltipPosition="top"
+                  (click)="proposicaoAtualizar(prop)"
+                >
+                </button>
+              </div>-->
+
+              <div *ngIf="aut.proposicao_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+                <button
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-pencil"
-                  class="p-button-rounded p-button-raised p-button-warning"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
+                  (click)="proposicaoAlterar(prop)"
                 >
                 </button>
               </div>
-              <div *ngIf="authenticationService.andamentoproposicao_incluir" class="p-mr-2">
+
+              <div *ngIf="aut.proposicao_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn || permissaoApagarArquivo(prop)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
-                  (click)="andamentoIncluir(prop)"
-                  type="button"
-                  icon="pi pi-plus"
-                  class="p-button-rounded p-button-raised p-button-success"
-                  pTooltip="Incluir Andamento"
-                  tooltipPosition="top"
-                >
-                </button>
-              </div>
-              <div *ngIf="authenticationService.andamentoproposicao_listar" class="p-mr-2">
-                <button
-                  pButton
-                  pRipple
-                  (click)="andamentoListar(prop)"
-                  type="button"
-                  icon="pi pi-exclamation-circle"
-                  class="p-button-rounded p-button-raised p-button-info"
-                  pTooltip="Listar / Editar Andamentos"
-                  tooltipPosition="top"
-                >
-                </button>
-              </div>
-              <div *ngIf="authenticationService.proposicao_apagar" class="p-mr-2">
-                <button
-                  pButton
-                  pRipple
-                  (click)="proposicaoApagar(prop)"
                   type="button"
                   icon="pi pi-trash"
-                  class="p-button-rounded p-button-raised p-button-danger"
+                  class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
+                  (click)="proposicaoApagar(prop)"
                 >
                 </button>
               </div>
+
+              <div *ngIf="ps.expandidoSN && permListHist && prop.andamento_proposicao.length > 0" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-list"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Listar Andamentos da Emenda"
+                  tooltipPosition="top"
+                  (click)="historicoAcao(prop.proposicao_id, 'listar', 'proposicao', indice, permListHist, prop.historico_proposicao)"
+                >
+                </button>
+              </div>
+              <div *ngIf="ps.expandidoSN && permInclHist" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-file-o"
+                  class="p-button-rounded p-button-cyan"
+                  pTooltip="Incluir Andamentos da Emenda"
+                  tooltipPosition="top"
+                  (click)="historicoAcao(prop.proposicao_id, 'incluir', 'proposicao', indice, permInclHist)"
+                >
+                </button>
+              </div>
+
+
             </div>
 
             <div class="p-grid">
-              <div *ngFor="let linhas of dadosExp" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+              <div *ngFor="let ce of ps.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  {{linhas[1]}}
+                  <h5>{{ce.header}}</h5>
+                  <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
               </div>
             </div>
+
 
           </div>
         </div>
@@ -212,28 +265,64 @@
 <!--*** FIM ********************************************************************************************************-->
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
-<p-dialog
-  header="Selecione as colunas."
-  [(visible)]="mostraSeletor"
-  [modal]="true"
-  [style]="{width: '300px'}"
-  [dismissableMask]="true"
-  styleClass="tablistagem"
-  (onHide)="hideSeletor($event)"
+<p-dialog *ngIf="ps.tabela.mostraSeletor"
+          id="seletor"
+          header="Selecione as colunas."
+          [(visible)]="ps.tabela.mostraSeletor"
+          [modal]="true"
+          styleClass="tablistagem"
+          [style]="{width: '40rem'}"
+          [dismissableMask]="true"
 >
-  <p-listbox
-    [options]="cols"
-    [(ngModel)]="selectedColumns"
-    [multiple]="true"
-    [checkbox]="true"
-    [filter]="true"
-    optionLabel="header"
-    [style]="{width: '270px'}"
-    [listStyle]="{'max-height':'300px', 'width':'250px'}"
-    (onChange)="onChangeSeletorColunas($event)"
-  ></p-listbox>
+  <app-seletor-colunas [todas]="cols" [(ativas)]="ps.tabela.selectedColumns"></app-seletor-colunas>
+  <p-footer>
+    <div class="p-d-flex p-jc-start p-pb-2">
+      <div class="p-mr-2">
+        <button pButton type="button" label="Fehar " icon="pi pi-times"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
+      </div>
+      <div class="p-mr-2">
+        <button pButton type="button" label="Reset " icon="pi pi-backward"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
+      </div>
+    </div>
+  </p-footer>
 </p-dialog>
+<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
-<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
-<p-toast key="proposicaoToast" position="center"></p-toast>
 
+<ng-container *ngIf="showDetalhe">
+  <p-dialog
+    [(visible)]="showDetalhe"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{width: '80vw'}"
+    styleClass="tablistagem"
+    header="DETALHE"
+    (onHide)="escondeDetalhe()"
+  >
+    <app-proposicao-detalhe [proposicao]="proposicaoDetalhe" (hideDetalhe)="escondeDetalhe()"></app-proposicao-detalhe>
+  </p-dialog>
+</ng-container>
+
+<!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
+<ng-container *ngIf="showHistorico">
+  <div [ngClass]="cssMostra">
+    <p-dialog
+      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+      [style]="{width: '80vw'}"
+      [(visible)]="showHistorico"
+      styleClass="tablistagem"
+      [header]="tituloHistoricoDialog"
+      [modal]="true"
+      [dismissableMask]="false"
+      [baseZIndex]="0"
+    >
+      <!--<app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"
+                     [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+      <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico"
+                          [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
+                          (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>-->
+    </p-dialog>
+  </div>
+</ng-container>

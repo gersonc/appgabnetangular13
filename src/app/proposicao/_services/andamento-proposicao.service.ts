@@ -2,18 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { UrlService } from '../../_services';
-import {
-  AndamentoProposicaoFormI,
-  AndamentoProposicaoI, AndPropFormI,
-  AndPropListI
-} from "../_models/andamento-proposicao-i";
+import {AndamentoProposicaoFormI, AndPropI} from "../_models/andamento-proposicao-i";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AndamentoProposicaoService {
-  andPropForm: AndPropFormI | null = null;
-  andPropList: AndPropListI | null = null;
+  andPropForm: AndPropI | null = null;
+  andPropList: AndPropI | null = null;
 
   constructor(private url: UrlService, private http: HttpClient) { }
 

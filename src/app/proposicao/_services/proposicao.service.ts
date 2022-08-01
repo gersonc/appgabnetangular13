@@ -17,7 +17,7 @@ import {ProposicaoBuscaI} from "../_models/proposicao-busca-i";
 import {ProposicaoFormI} from "../_models/proposicao-form";
 import {AndamentoProposicaoService} from "./andamento-proposicao.service";
 import {ProposicaoI} from "../_models/proposicao-i";
-import {AndamentoProposicaoI, AndPropFormI, AndPropListI} from "../_models/andamento-proposicao-i";
+import {AndamentoProposicaoI, AndPropI} from "../_models/andamento-proposicao-i";
 
 
 @Injectable({
@@ -149,6 +149,7 @@ export class ProposicaoService {
     const cl: CelulaI[] = [];
     let ev = evento.data;
     this.aps.andPropForm = {
+      andamentoProposicaoListar: evento.data.andamento_proposicao,
       andamentoProposicaoForm: {
         andamento_proposicao_proposicao_id: +evento.data.proposicao_id
       }
@@ -504,7 +505,7 @@ export class ProposicaoService {
     }
   }
 
-  recebeRegistro(h: AndPropListI) {
+  recebeRegistro(h: AndPropI) {
       if (h.acao === 'incluir') {
         if (Array.isArray(this.proposicoes[h.idx].andamento_proposicao)) {
           this.proposicoes[h.idx].andamento_proposicao.push(h.andamentoProposicaoListar[0]);
