@@ -133,67 +133,66 @@
               <app-detalhe-explorer [arquivos]="proposicao.proposicao_arquivos"></app-detalhe-explorer>
             </td>
           </tr>
-          <tr *ngIf="proposicao.andamento_proposicao.length > 0" class="novaPagina">
-            <td colspan="2">
-              <br>
-
-              <table class="table-hover tabela">
-                <caption>ANDAMENTOS DA PROPOPSIÇÃO</caption>
-                <thead class="detalheTitulo">
-                <tr>
-                  <th colspan="4">
-                    ANDAMENTOS DA PROPOPSIÇÃO
-                  </th>
-                </tr>
-                </thead>
-                <tbody class="detalhe-vert">
-                <tr>
-                  <th style="width: 3%;" nowrap>
-                    Data:
-                  </th>
-                  <th>
-                    Redator:
-                  </th>
-                  <th>
-                    Orgão:
-                  </th>
-                  <th>
-                    Situação:
-                  </th>
-                </tr>
-                <ng-container  *ngFor="let and of proposicao.andamento_proposicao">
-                  <tr>
-                    <td style="width: 3%; vertical-align:top;" nowrap>
-                      {{and.andamento_proposicao_data}}
-                    </td>
-                    <td>
-                      {{and.andamento_proposicao_relator_atual}}
-                    </td>
-                    <td>
-                      {{and.andamento_proposicao_orgao_nome}}
-                    </td>
-                    <td>
-                      {{and.andamento_proposicao_situacao_nome}}
-                    </td>
-                  </tr>
-                  <tr *ngIf="and.andamento_proposicao_texto">
-                    <td colspan="4">
-                      <quill-view [content]="stripslashes(and.andamento_proposicao_texto)" [format]="'html'" theme="snow"></quill-view>
-                    </td>
-                  </tr>
-                </ng-container>
-                </tbody>
-              </table>
-
-            </td>
-          </tr>
-
-
           </tbody>
         </table>
 
       </td>
     </tr>
+
+    <tr *ngIf="proposicao.andamento_proposicao.length > 0" class="novaPagina">
+      <td>
+        <br>
+        <table class="table-hover tabela">
+          <caption>ANDAMENTOS DA PROPOPSIÇÃO</caption>
+          <thead class="detalheTitulo">
+          <tr>
+            <th colspan="4">
+              ANDAMENTOS DA PROPOPSIÇÃO
+            </th>
+          </tr>
+          </thead>
+          <tbody class="detalhe-vert">
+          <tr>
+            <th style="width: 3%;" nowrap>
+              Data:
+            </th>
+            <th>
+              Redator:
+            </th>
+            <th>
+              Orgão:
+            </th>
+            <th>
+              Situação:
+            </th>
+          </tr>
+          <ng-container  *ngFor="let and of proposicao.andamento_proposicao">
+            <tr>
+              <td style="width: 3%; vertical-align:top;" nowrap>
+                {{and.andamento_proposicao_data}}
+              </td>
+              <td>
+                {{and.andamento_proposicao_relator_atual}}
+              </td>
+              <td>
+                {{and.andamento_proposicao_orgao_nome}}
+              </td>
+              <td>
+                {{and.andamento_proposicao_situacao_nome}}
+              </td>
+            </tr>
+            <tr *ngIf="and.andamento_proposicao_texto">
+              <td colspan="4">
+                <quill-view [content]="stripslashes(and.andamento_proposicao_texto)" [format]="'html'" theme="snow"></quill-view>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+
   </table>
   <br>
 </p-scrollPanel>
