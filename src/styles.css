@@ -17707,3 +17707,16 @@ p-toast.toastprincipal {
   }
 }
 
+.formulario .p-accordion .p-accordion-content .andamento-proposicao {
+  width: 100%;
+  padding: 2rem;
+  background-color: var(--input-filled);
+}
+
+.formulario .p-accordion .p-accordion-content .andamento-proposicao .andamento-proposicao-interno {
+  width: 100%;
+  padding: 2rem;
+  background-color: var(--formulario-bg-interno-color);
+  border-radius: 5px;
+}
+

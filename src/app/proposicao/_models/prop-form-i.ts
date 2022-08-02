@@ -1,4 +1,4 @@
-export interface ProposicaoFormI {
+export interface PropFormI {
   proposicao_id?: number;
   proposicao_numero?: string;
   proposicao_tipo_id?: number;
@@ -31,7 +31,7 @@ export interface ProposicaoFormI {
   andamento_proposicao_situacao_nome?: string;
 }
 
-export class ProposicaoForm implements ProposicaoFormI {
+export class PropForm implements PropFormI {
   proposicao_id?: number;
   proposicao_numero?: string;
   proposicao_tipo_id?: number;

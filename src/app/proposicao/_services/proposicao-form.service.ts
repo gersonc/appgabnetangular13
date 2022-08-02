@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ProposicaoListarI} from "../_models/proposicao-listar-i";
-import {ProposicaoForm, ProposicaoFormI} from "../_models/proposicao-form";
+import {PropForm, PropFormI} from "../_models/prop-form-i";
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import {ProposicaoForm, ProposicaoFormI} from "../_models/proposicao-form";
 export class ProposicaoFormService {
 
   proposicaoListar: ProposicaoListarI;
-  proposicao: ProposicaoFormI;
+  proposicao: PropFormI;
   url = '';
   public acao?: string | null = null;
   public btnEnviar = true;
@@ -17,24 +18,24 @@ export class ProposicaoFormService {
   }
 
   criaProposicao() {
-    this.proposicao = new ProposicaoForm();
+    this.proposicao = new PropForm();
   }
 
   resetProposicao() {
     delete this.proposicao;
-    this.proposicao = new ProposicaoForm();
+    this.proposicao = new PropForm();
   }
 
-  parceProposicaoFormulario(l: ProposicaoListarI): ProposicaoFormI {
-    this.proposicao = new ProposicaoForm();
+  parceProposicaoFormulario(l: ProposicaoListarI): PropFormI {
+    this.proposicao = new PropForm();
     this.proposicaoListar = l;
-    const r = new ProposicaoForm();
+    const r = new PropForm();
     r.proposicao_id = +l.proposicao_id;
     r.proposicao_numero = l.proposicao_numero;
     r.proposicao_tipo_id = +l.proposicao_tipo_id;
     r.proposicao_relator = l.proposicao_relator;
-    r.proposicao_relator_atual = l.proposicao_relator_atual;
-    r.proposicao_data_apresentacao = l.proposicao_data_apresentacao;
+    r.proposicao_relator_atual = (l.proposicao_relator_atual === undefined || l.proposicao_relator_atual === null) ? l.proposicao_relator : l.proposicao_relator_atual;
+    r.proposicao_data_apresentacao = l.proposicao_data_apresentacao2;
     r.proposicao_area_interesse_id = +l.proposicao_area_interesse_id;
     r.proposicao_ementa = l.proposicao_ementa;
     r.proposicao_ementa_delta = l.proposicao_ementa_delta;
@@ -49,13 +50,13 @@ export class ProposicaoFormService {
     r.proposicao_emenda_tipo_id = +l.proposicao_emenda_tipo_id;
     r.proposicao_autor = l.proposicao_autor;
     r.andamento_proposicao_id = +l.andamento_proposicao_id;
-    r.andamento_proposicao_data = l.andamento_proposicao_data;
+    /*r.andamento_proposicao_data = l.andamento_proposicao_data;
     r.andamento_proposicao_texto = l.andamento_proposicao_texto;
     r.andamento_proposicao_texto_delta = l.andamento_proposicao_texto_delta;
     r.andamento_proposicao_texto_texto = l.andamento_proposicao_texto_texto;
     r.andamento_proposicao_relator_atual = l.andamento_proposicao_relator_atual;
     r.andamento_proposicao_orgao_id = +l.andamento_proposicao_orgao_id;
-    r.andamento_proposicao_situacao_id = +l.andamento_proposicao_situacao_id;
+    r.andamento_proposicao_situacao_id = +l.andamento_proposicao_situacao_id;*/
     this.proposicao = r;
     return r;
   }

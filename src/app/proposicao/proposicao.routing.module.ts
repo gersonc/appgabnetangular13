@@ -6,6 +6,8 @@ import { Rule, Scope } from '../_models';
 import { ProposicaoComponent } from './proposicao.component';
 import { ProposicaoDatatableComponent } from './proposicao-datatable/proposicao-datatable.component';
 import {ProposicaoListarResolver} from "./_resolvers/proposicao-listar.resolver";
+import {ProposicaoFormComponent} from "./proposicao-form/proposicao-form.component";
+import {ProposicaoFormResolver} from "./_resolvers/proposicao-form.resolver";
 
 
 const proposicaoRoutes: Routes = [
@@ -46,6 +48,39 @@ const proposicaoRoutes: Routes = [
           scopes: Scope.proposicao_listar
         }
       },
+      {
+        path: 'incluir',
+        component: ProposicaoFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.proposicao,
+          scopes: Scope.proposicao_incluir
+        },
+        resolve: {
+          dados: ProposicaoFormResolver
+        }
+      },
+      {
+        path: 'incluir2',
+        component: ProposicaoFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.proposicao,
+          scopes: Scope.proposicao_incluir
+        }
+      },
+      {
+        path: 'alterar',
+        component: ProposicaoFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.proposicao,
+          scopes: Scope.proposicao_alterar
+        },
+        resolve: {
+          dados: ProposicaoFormResolver
+        }
+      }
     ]
   }
 ];

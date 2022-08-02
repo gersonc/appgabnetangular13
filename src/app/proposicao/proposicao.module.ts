@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ErrorInterceptor, JwtInterceptor} from '../_helpers';
 
-import { ProposicaoComponent } from './proposicao.component';
-import { ProposicaoMenuListarComponent } from './proposicao-menu-listar/proposicao-menu-listar.component';
-import { ProposicaoDatatableComponent } from './proposicao-datatable/proposicao-datatable.component';
-import { ProposicaoRoutingModule } from './proposicao.routing.module';
+import {ProposicaoComponent} from './proposicao.component';
+import {ProposicaoMenuListarComponent} from './proposicao-menu-listar/proposicao-menu-listar.component';
+import {ProposicaoDatatableComponent} from './proposicao-datatable/proposicao-datatable.component';
+import {ProposicaoRoutingModule} from './proposicao.routing.module';
 
 import {RippleModule} from "primeng/ripple";
 import {SidebarModule} from "primeng/sidebar";
@@ -28,14 +28,20 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {QuillModule} from "ngx-quill";
+import {ProposicaoFormComponent} from "./proposicao-form/proposicao-form.component";
+import {ConfigauxModule} from "../configaux/configaux.module";
+import {CalendarModule} from "primeng/calendar";
+import {ArquivoModule} from "../arquivo/arquivo.module";
+import {AccordionModule} from "primeng/accordion";
 
 @NgModule({
-    declarations: [
-        ProposicaoComponent,
-        ProposicaoMenuListarComponent,
-        ProposicaoDatatableComponent,
-        ProposicaoDetalheComponent,
-    ],
+  declarations: [
+    ProposicaoComponent,
+    ProposicaoMenuListarComponent,
+    ProposicaoDatatableComponent,
+    ProposicaoDetalheComponent,
+    ProposicaoFormComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -59,13 +65,18 @@ import {QuillModule} from "ngx-quill";
     KillViewModule,
     ExplorerModule,
     QuillModule,
+    ConfigauxModule,
+    CalendarModule,
+    ArquivoModule,
+    AccordionModule,
   ],
   exports: [
     ProposicaoComponent
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ]
 })
-export class ProposicaoModule { }
+export class ProposicaoModule {
+}

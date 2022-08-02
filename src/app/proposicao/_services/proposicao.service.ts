@@ -11,13 +11,13 @@ import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 import {take} from "rxjs/operators";
-import {HistFormI, HistI} from "../../hist/_models/hist-i";
+
 import {proposicaocampostexto, ProposicaoListarI, ProposicaoPaginacaoI} from "../_models/proposicao-listar-i";
 import {ProposicaoBuscaI} from "../_models/proposicao-busca-i";
-import {ProposicaoFormI} from "../_models/proposicao-form";
 import {AndamentoProposicaoService} from "./andamento-proposicao.service";
 import {ProposicaoI} from "../_models/proposicao-i";
 import {AndamentoProposicaoI, AndPropI} from "../_models/andamento-proposicao-i";
+import {PropFormI} from "../_models/prop-form-i";
 
 
 @Injectable({
@@ -470,14 +470,14 @@ export class ProposicaoService {
     return this.http.post<ProposicaoPaginacaoI>(url, busca, httpOptions);
   }
 
-  incluirProposicao(dados: ProposicaoFormI): Observable<any> {
+  incluirProposicao(dados: PropFormI): Observable<any> {
     let url: string;
     url = this.url.proposicao + '/incluir';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
-  alterarProposicao(dados: ProposicaoFormI): Observable<any> {
+  alterarProposicao(dados: PropFormI): Observable<any> {
     let url: string;
     url = this.url.proposicao + '/alterar';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};

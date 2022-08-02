@@ -349,7 +349,6 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
     // this.botaoEnviarVF = false;
     // this.mostraForm = true;
     const e: EmendaFormI = this.criaEnvio();
-    console.log(e);
     this.sub.push(this.es.incluirEmenda(e)
       .pipe(take(1))
       .subscribe({
@@ -361,7 +360,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
           this.mostraForm = true;
           this.arquivoDesativado = false;
           this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
-          console.log(err);
+          console.error(err);
         },
         complete: () => {
           if (this.resp[0]) {
