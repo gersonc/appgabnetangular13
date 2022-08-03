@@ -29,6 +29,9 @@ export interface PropFormI {
   andamento_proposicao_orgao_nome?: string;
   andamento_proposicao_situacao_id?: number;
   andamento_proposicao_situacao_nome?: string;
+  sn_relator_atual?: number;
+  sn_orgao?: number;
+  sn_situacao?: number;
 }
 
 export class PropForm implements PropFormI {
@@ -62,4 +65,7 @@ export class PropForm implements PropFormI {
   andamento_proposicao_orgao_nome?: string;
   andamento_proposicao_situacao_id?: number;
   andamento_proposicao_situacao_nome?: string;
+  sn_relator_atual?: number;
+  sn_orgao?: number;
+  sn_situacao?: number;
 }

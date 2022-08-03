@@ -50,6 +50,9 @@ export class ProposicaoFormService {
     r.proposicao_emenda_tipo_id = +l.proposicao_emenda_tipo_id;
     r.proposicao_autor = l.proposicao_autor;
     r.andamento_proposicao_id = +l.andamento_proposicao_id;
+    r.sn_relator_atual = 0;
+    r.sn_orgao = 0;
+    r.sn_situacao = 0;
     /*r.andamento_proposicao_data = l.andamento_proposicao_data;
     r.andamento_proposicao_texto = l.andamento_proposicao_texto;
     r.andamento_proposicao_texto_delta = l.andamento_proposicao_texto_delta;

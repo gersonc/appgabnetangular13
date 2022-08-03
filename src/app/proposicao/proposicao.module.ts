@@ -33,6 +33,7 @@ import {ConfigauxModule} from "../configaux/configaux.module";
 import {CalendarModule} from "primeng/calendar";
 import {ArquivoModule} from "../arquivo/arquivo.module";
 import {AccordionModule} from "primeng/accordion";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 @NgModule({
   declarations: [
@@ -42,34 +43,35 @@ import {AccordionModule} from "primeng/accordion";
     ProposicaoDetalheComponent,
     ProposicaoFormComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    ProposicaoRoutingModule,
-    RippleModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    DropdownModule,
-    InputTextModule,
-    TableModule,
-    MenuModule,
-    ExporterAcessoModule,
-    TooltipModule,
-    DialogModule,
-    UtilModule,
-    ContextMenuModule,
-    ImpressaoModule,
-    KillViewModule,
-    ExplorerModule,
-    QuillModule,
-    ConfigauxModule,
-    CalendarModule,
-    ArquivoModule,
-    AccordionModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        ProposicaoRoutingModule,
+        RippleModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        DropdownModule,
+        InputTextModule,
+        TableModule,
+        MenuModule,
+        ExporterAcessoModule,
+        TooltipModule,
+        DialogModule,
+        UtilModule,
+        ContextMenuModule,
+        ImpressaoModule,
+        KillViewModule,
+        ExplorerModule,
+        QuillModule,
+        ConfigauxModule,
+        CalendarModule,
+        ArquivoModule,
+        AccordionModule,
+        InputSwitchModule,
+    ],
   exports: [
     ProposicaoComponent
   ],

@@ -40,7 +40,7 @@ const proposicaoRoutes: Routes = [
         }
       },
       {
-        path: 'listar/busca',
+        path: 'listar2',
         component: ProposicaoDatatableComponent,
         canActivate: [AuthChildGuard],
         data: {

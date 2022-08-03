@@ -1,27 +1,27 @@
 <ng-container *ngIf="aut.configuracao_incluir">
   <div class="p-fluid p-inputgroup" style="font-size: 1rem;height: 2rem;">
-  <button
-    class="confaux p-button-secondary p-button-icon-only"
-    pButton
-    [pTooltip]="_titulo"
-    type="button"
-    icon="pi pi-plus"
-    (click)="mostraForm()"
-    [disabled]="_desabilitado"
-  ></button>
+    <button
+      class="confaux p-button-secondary p-button-icon-only"
+      pButton
+      [pTooltip]="_titulo"
+      type="button"
+      icon="pi pi-plus"
+      (click)="mostraForm()"
+      [disabled]="_desabilitado"
+    ></button>
   </div>
 </ng-container>
-  <p-dialog
-    [header]="_titulo"
-    [(visible)]="visivel"
-    [modal]="false"
-    [responsive]="true"
-    [closable]="true"
-    [blockScroll]="true"
-    [style]="{ width: '500px' }"
-    (onHide)="onHide()"
-  >
-    <div class="p-grid">
+<p-dialog
+  [header]="_titulo"
+  [(visible)]="visivel"
+  [modal]="true"
+  [closable]="true"
+  [blockScroll]="true"
+  [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
+  [style]="{width: '60vw'}"
+  (onHide)="onHide()"
+>
+  <div class="p-grid">
     <div class="p-col-12">
       <h6>{{_tituloCampo}}</h6>
       <input
@@ -46,10 +46,10 @@
         (onClick)="cancelar()"
       ></p-button>
     </div>
-    </div>
-  </p-dialog>
-  <p-toast key="confauxToast" [style]="{marginTop: '80px'}"></p-toast>
-  <ng-container *ngIf="mostraSpinner">
-    <p-progressSpinner [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
-  </ng-container>
+  </div>
+</p-dialog>
+<p-toast key="confauxToast" [style]="{marginTop: '80px'}"></p-toast>
+<ng-container *ngIf="mostraSpinner">
+  <p-progressSpinner [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+</ng-container>
 

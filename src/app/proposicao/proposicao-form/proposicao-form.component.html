@@ -20,11 +20,12 @@
                   <!--*** proposicao_tipo_id ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErro('proposicao_tipo_id')">
-                    <label for="proposicao_tipo_id">Tipo</label>
+                    <label for="proposicao_tipo_id"><span class="atencao">*</span>Tipo</label>
                     <div class="p-inputgroup">
                       <p-dropdown
                         id="proposicao_tipo_id"
                         formControlName="proposicao_tipo_id"
+                        placeholder="Selecione"
                         [options]="ddProposicao_tipo_id"
                         [style]="{'width':'100%'}"
                         [autofocus]="true"
@@ -47,7 +48,7 @@
 
                   <!--*** proposicao_numero ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="proposicao_numero"> Número</label>
+                    <label for="proposicao_numero">Número</label>
                     <input
                       id="proposicao_numero"
                       formControlName="proposicao_numero"
@@ -60,7 +61,7 @@
 
                   <!--*** proposicao_numero ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="proposicao_autor"> Autor</label>
+                    <label for="proposicao_autor">Autor</label>
                     <input
                       id="proposicao_autor"
                       formControlName="proposicao_autor"
@@ -73,7 +74,7 @@
 
                   <!--*** proposicao_numero ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="proposicao_relator"> Relator</label>
+                    <label for="proposicao_relator">Relator</label>
                     <input
                       id="proposicao_relator"
                       formControlName="proposicao_relator"
@@ -87,8 +88,7 @@
                   <!--*** proposicao_data_apresentacao ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErro('proposicao_data_apresentacao')">
-                    <label for="proposicao_data_apresentacao"><span class="atencao">*</span> Data de
-                      apresentação</label>
+                    <label for="proposicao_data_apresentacao"><span class="atencao">*</span>Data de apresentação</label>
                     <p-calendar
                       id="proposicao_data_apresentacao"
                       formControlName="proposicao_data_apresentacao"
@@ -102,8 +102,7 @@
                   <!--*** proposicao_area_interesse_id ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErro('proposicao_area_interesse_id')">
-                    <label for="proposicao_area_interesse_id"><span class="atencao">*</span> Área de
-                      interesse</label>
+                    <label for="proposicao_area_interesse_id"><span class="atencao">*</span>Área de interesse</label>
                     <p-dropdown
                       id="proposicao_area_interesse_id"
                       formControlName="proposicao_area_interesse_id"
@@ -118,7 +117,7 @@
                   <!--*** proposicao_parecer ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErro('proposicao_parecer')">
-                    <label for="proposicao_parecer"><span class="atencao">*</span> Parecer</label>
+                    <label for="proposicao_parecer"><span class="atencao">*</span>Parecer</label>
                     <p-dropdown
                       id="proposicao_parecer"
                       formControlName="proposicao_parecer"
@@ -133,7 +132,7 @@
                   <!--*** proposicao_origem_id ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErro('proposicao_origem_id')">
-                    <label for="proposicao_origem_id"><span class="atencao">*</span> Orgão de origem</label>
+                    <label for="proposicao_origem_id"><span class="atencao">*</span>Orgão de origem</label>
                     <div class="p-inputgroup">
                       <p-dropdown
                         id="proposicao_origem_id"
@@ -162,8 +161,7 @@
 
                   <!--*** proposicao_emenda_tipo_id ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_emenda_tipo_id')">
-                    <label for="proposicao_emenda_tipo_id"><span class="atencao">*</span> Tipo de
-                      emenda</label>
+                    <label for="proposicao_emenda_tipo_id"><span class="atencao">*</span>Tipo de emenda</label>
                     <div class="p-inputgroup">
                       <p-dropdown
                         id="proposicao_emenda_tipo_id"
@@ -190,8 +188,8 @@
                   </div>
 
                   <!--*** proposicao_situacao_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_situacao_id')">
-                    <label for="proposicao_situacao_id"><span class="atencao">*</span> Situação</label>
+                  <div *ngIf="pfs.acao === 'incluir'" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_situacao_id')">
+                    <label for="proposicao_situacao_id"><span class="atencao">*</span>Situação</label>
                     <div class="p-inputgroup">
                       <p-dropdown
                         id="proposicao_situacao_id"
@@ -286,14 +284,13 @@
                                         formControlName="andamento_proposicao_data"
                                         dateFormat="dd/mm/yy"
                                         placeholder="dd/mm/aaaa"
-
-                                        dataType="string"
+                                        dataType="date"
                                       ></p-calendar>
                                     </div>
                                     <div class="p-field p-md-6 p-lg-6 p-xl-8"></div>
 
                                     <!--*** proposicao_tipo_id ***-->
-                                    <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                    <div *ngIf="sn0.checked" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                                       <label for="proposicao_relator_atual">Relator atual</label>
                                       <input
                                         id="proposicao_relator_atual"
@@ -304,11 +301,13 @@
                                         pInputText
                                       />
                                     </div>
-                                    <div class="p-field p-md-6 p-lg-6 p-xl-8"></div>
+                                    <div class="formulario-switch p-field" [ngClass]="sn0.checked ? 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-8' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                                      <h5>Mudar Relator</h5>
+                                      <p-inputSwitch #sn0 formControlName="sn_relator_atual"></p-inputSwitch>
+                                    </div>
 
                                     <!--*** andamento_proposicao_orgao_id ***-->
-                                    <div
-                                      class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                    <div *ngIf="sn1.checked" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                                       <label for="proposicao_orgao_id">Orgão atual</label>
                                       <div class="p-inputgroup">
                                         <p-dropdown
@@ -333,7 +332,40 @@
                                         ></app-configaux-incluir>
                                       </div>
                                     </div>
-                                    <div class="p-field p-md-6 p-lg-6 p-xl-8"></div>
+                                    <div class="formulario-switch p-field" [ngClass]="sn1.checked ? 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-8' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                                      <h5>Mudar Orgão</h5>
+                                      <p-inputSwitch #sn1 formControlName="sn_orgao"></p-inputSwitch>
+                                    </div>
+
+                                    <div *ngIf="pfs.acao === 'alterar' && sit" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                      <label for="proposicao_situacao_id2"><span class="atencao">*</span>Situação</label>
+                                      <div class="p-inputgroup">
+                                        <p-dropdown
+                                          id="proposicao_situacao_id2"
+                                          formControlName="proposicao_situacao_id"
+                                          placeholder="Selecione"
+                                          [options]="ddProposicao_situacao_id"
+                                          [style]="{'width':'100%'}"
+                                          [showClear]="true"
+                                        ></p-dropdown>
+                                        <app-configaux-incluir
+                                          [desabilitado]="false"
+                                          [titulo]="'Incluir Situação'"
+                                          [tituloCampo]="'Situação'"
+                                          [campoNome]="'proposicao_situacao_id'"
+                                          [tamanho]="50"
+                                          [tamanhomax]="100"
+                                          [dropdown]="'ddProposicao_situacao_id'"
+                                          [arrai]="ddProposicao_situacao_id"
+                                          (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                                          (onBlockSubmit)="onBlockSubmit($event)"
+                                        ></app-configaux-incluir>
+                                      </div>
+                                    </div>
+                                    <div *ngIf="pfs.acao === 'alterar'" class="formulario-switch p-field" [ngClass]="sn2.checked ? 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-8' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                                      <h5>Mudar Situação</h5>
+                                      <p-inputSwitch #sn2 formControlName="sn_situacao" (onChange)="trocaSituacao($event)"></p-inputSwitch>
+                                    </div>
 
 
                                     <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
@@ -439,7 +471,7 @@
                       class="p-button-raised p-button-rounded p-button-secondary"
                       (click)="resetForm()"
                       label="Cancelar"
-                      [disabled]="botaoEnviarVF || mostraForm"
+                      [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
                   <div class="p-mr-2">
@@ -447,12 +479,12 @@
                       pButton
                       type="button"
                       class="p-button-raised p-button-rounded p-button-secondary"
-                      (click)="voltarListar()"
+                      (click)="voltar()"
                       label="Voltar"
-                      [disabled]="botaoEnviarVF || mostraForm"
+                      [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <!--<div class="p-mr-2">
                     <button
                       pButton
                       type="button"
@@ -461,7 +493,7 @@
                       label="Incluir andamento"
                       [disabled]="botaoEnviarVF || mostraForm"
                     ></button>
-                  </div>
+                  </div>-->
                 </div>
                 <!--*** FIM BOTOES ***-->
               </div>

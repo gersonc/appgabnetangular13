@@ -47,7 +47,7 @@ export class ProposicaoFormResolver implements Resolve<boolean | never> {
     }
     // ****** tipo_recebimento_id *****
     if (!sessionStorage.getItem('dropdown-situacao_proposicao')) {
-      this.dds.push('dropdown-situacao_proposicaoo');
+      this.dds.push('dropdown-situacao_proposicao');
     }
     // ****** ogu_id *****
     if (!sessionStorage.getItem('dropdown-orgao_proposicao')) {

@@ -13,7 +13,6 @@ import {MsgService} from "../../_services/msg.service";
 import {ProposicaoFormService} from "../_services/proposicao-form.service";
 import {ProposicaoService} from "../_services/proposicao.service";
 import {take} from "rxjs/operators";
-import {EmendaListarI} from "../../emenda/_models/emenda-listar-i";
 
 @Component({
   selector: 'app-proposicao-form',
@@ -37,14 +36,16 @@ export class ProposicaoFormComponent implements OnInit {
   resp: any[] = [];
   sub: Subscription[] = [];
   // botaoEnviarVF = false;
-  mostraForm = true;
+  mostraForm = false;
   arquivoDesativado = false;
   enviarArquivos = false;
   botaoEnviarVF = false;
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
-  stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
+  st0 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
+  st1 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
+  st2 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
   titulo = 'PROPOSIÇÃO - INCLUIR';
   readonly = false;
   checked: boolean = false;
@@ -71,6 +72,8 @@ export class ProposicaoFormComponent implements OnInit {
       ['clean']                        // link and image, video
     ]
   };
+
+  sit = false;
 
   mostraAnamento = true;
 
@@ -129,15 +132,20 @@ export class ProposicaoFormComponent implements OnInit {
       proposicao_relator_atual: [this.pfs.proposicao.proposicao_relator_atual],
       proposicao_orgao_id: [this.pfs.proposicao.proposicao_orgao_id],
       andamento_proposicao_data: [null],
-      andamento_proposicao_texto: [null]
+      andamento_proposicao_texto: [null],
+      sn_relator_atual: [false],
+      sn_orgao: [false],
+      sn_situacao: [false]
     });
     this.getValorAlterar();
   }
 
   getValorAlterar() {
 
+    if (this.pfs.acao === 'incluir') {
       const dt1: DateTime = DateTime.now().setZone('America/Sao_Paulo');
       this.formProp.get('proposicao_data_apresentacao').patchValue(dt1.toJSDate());
+    }
 
 
     if (this.pfs.acao === 'alterar') {
@@ -151,28 +159,26 @@ export class ProposicaoFormComponent implements OnInit {
       }
 
       const cp1 = InOutCampoTexto(this.pfs.proposicao.proposicao_texto, this.pfs.proposicao.proposicao_texto_delta);
-      console.log('cp1', cp1);
       this.format1 = cp1.format;
       if (cp1.vf) {
         this.formProp.get('proposicao_texto').setValue(cp1.valor);
       }
+    }
 
-      const dt = new Date();
-      const hoje = dt.toLocaleString('pt-BR')
-      this.formProp.get('andamento_proposicao_data').patchValue(hoje);
+      const dt: DateTime = DateTime.now().setZone('America/Sao_Paulo');
+      this.formProp.get('andamento_proposicao_data').patchValue(dt.toJSDate());
 
-      const cp2 = InOutCampoTexto(this.pfs.proposicao.andamento_proposicao_texto, this.pfs.proposicao.andamento_proposicao_texto_delta);
-      console.log('cp2', cp2);
+      /*const cp2 = InOutCampoTexto(this.pfs.proposicao.andamento_proposicao_texto, this.pfs.proposicao.andamento_proposicao_texto_delta);
       this.format2 = cp2.format;
       if (cp2.vf) {
         this.formProp.get('andamento_proposicao_texto').setValue(cp2.valor);
-      }
-    }
+      }*/
+
 
   }
 
   onSubmit() {
-    this.mostraForm = false;
+    this.mostraForm = true;
     this.botaoEnviarVF = true;
     this.arquivoDesativado = true;
     this.verificaValidacoesForm(this.formProp);
@@ -187,7 +193,7 @@ export class ProposicaoFormComponent implements OnInit {
       }
     } else {
       this.arquivoDesativado = false;
-      this.mostraForm = true;
+      this.mostraForm = false;
       this.botaoEnviarVF = false;
     }
 
@@ -195,6 +201,11 @@ export class ProposicaoFormComponent implements OnInit {
 
   criaProposicao() {
     let p = new PropForm();
+
+    p.sn_relator_atual= this.formProp.get('sn_relator_atual').value ? 1 : 0;
+    p.sn_orgao= this.formProp.get('sn_orgao').value ? 1 : 0;
+    p.sn_situacao= this.formProp.get('sn_situacao').value ? 1 : 0;
+
     if (this.pfs.acao === 'alterar') {
       p.proposicao_id = +this.pfs.proposicao.proposicao_id;
     }
@@ -203,8 +214,8 @@ export class ProposicaoFormComponent implements OnInit {
     p.proposicao_relator = this.formProp.get('proposicao_relator').value;
     p.proposicao_relator_atual = this.formProp.get('proposicao_relator_atual').value;
     if (this.formProp.get('proposicao_data_apresentacao').value !== null) {
-      const tmp2: Date = this.formProp.get('proposicao_data_apresentacao').value;
-      p.proposicao_data_apresentacao = tmp2.toISOString().slice(0, 10);
+      const tmp2: DateTime = DateTime.fromJSDate(this.formProp.get('proposicao_data_apresentacao').value) ;
+      p.proposicao_data_apresentacao = tmp2.toSQLDate();
     }
     p.proposicao_area_interesse_id = this.formProp.get('proposicao_area_interesse_id').value;
     if (this.cpoEditor['proposicao_ementa'] !== undefined && this.cpoEditor['proposicao_ementa'] !== null) {
@@ -224,8 +235,10 @@ export class ProposicaoFormComponent implements OnInit {
     p.proposicao_emenda_tipo_id = this.formProp.get('proposicao_emenda_tipo_id').value;
     p.proposicao_autor = this.formProp.get('proposicao_autor').value;
     if (this.formProp.get('andamento_proposicao_data').value !== null) {
-      const tmp3: Date = this.formProp.get('andamento_proposicao_data').value;
-      p.andamento_proposicao_data = tmp3.toISOString().slice(0, 10);
+      const tmp3: DateTime = DateTime.fromJSDate(this.formProp.get('andamento_proposicao_data').value);
+      p.andamento_proposicao_data = tmp3.toSQLDate();
+    } else {
+      p.andamento_proposicao_data = p.proposicao_data_apresentacao;
     }
     if (this.cpoEditor['andamento_proposicao_texto'] !== undefined && this.cpoEditor['andamento_proposicao_texto'] !== null) {
       p.andamento_proposicao_texto = this.cpoEditor['andamento_proposicao_texto'].html;
@@ -254,7 +267,7 @@ export class ProposicaoFormComponent implements OnInit {
         },
         error: (err) => {
           this.botaoEnviarVF = false;
-          this.mostraForm = true;
+          this.mostraForm = false;
           this.arquivoDesativado = false;
           this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
           console.error(err);
@@ -280,7 +293,7 @@ export class ProposicaoFormComponent implements OnInit {
             }
           } else {
             this.botaoEnviarVF = false;
-            this.mostraForm = true;
+            this.mostraForm = false;
             this.arquivoDesativado = false;
             console.error('ERRO - INCLUIR ', this.resp[2]);
             this.ms.add({
@@ -293,10 +306,15 @@ export class ProposicaoFormComponent implements OnInit {
         }
       })
     );
+    this.botaoEnviarVF = false;
+    this.mostraForm = false;
+    this.arquivoDesativado = false;
   }
 
   alterarProposicao() {
-    if (this.formProp.valid) {
+    const p: PropFormI = this.criaProposicao();
+    console.log(p);
+    /*if (this.formProp.valid) {
       this.arquivoDesativado = true;
       const p: PropFormI = this.criaProposicao();
       this.ms.fundoSN(false);
@@ -309,7 +327,7 @@ export class ProposicaoFormComponent implements OnInit {
           error: (err) => {
             this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             console.error(err);
-            this.mostraForm = true;
+            this.mostraForm = false;
           },
           complete: () => {
             if (this.resp[0]) {
@@ -341,7 +359,7 @@ export class ProposicaoFormComponent implements OnInit {
                 this.voltarListar();
               }
             } else {
-              this.mostraForm = true;
+              this.mostraForm = false;
               console.error('ERRO - ALTERAR ', this.resp[2]);
               this.ms.add({key: 'toastprincipal',
                 severity: 'warn',
@@ -354,7 +372,10 @@ export class ProposicaoFormComponent implements OnInit {
       );
     } else {
       this.verificaValidacoesForm(this.formProp);
-    }
+    }*/
+    this.botaoEnviarVF = false;
+    this.mostraForm = false;
+    this.arquivoDesativado = false;
   }
 
   onBlockSubmit(ev: boolean) {
@@ -401,7 +422,7 @@ export class ProposicaoFormComponent implements OnInit {
   }
 
   resetForm() {
-    this.mostraForm = true;
+    this.mostraForm = false;
     if (this.pfs.acao === 'incluir') {
       this.formProp.reset();
     } else {
@@ -475,6 +496,10 @@ export class ProposicaoFormComponent implements OnInit {
   mostrarAndamento() {
     this.mostraAnamento = !this.mostraAnamento;
   }
+
+ trocaSituacao(ev) {
+   this.sit =  ev.checked;
+ }
 
   onContentChanged(ev, campo: string) {
     this.cpoEditor[campo] = {
