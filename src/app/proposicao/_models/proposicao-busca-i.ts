@@ -25,4 +25,3 @@ export interface ProposicaoBuscaI {
   ids?: number[];
   excel?: boolean;
 }
-
