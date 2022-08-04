@@ -1,54 +1,92 @@
 <ng-container *ngIf="aut.configuracao_incluir">
   <div class="p-fluid p-inputgroup" style="font-size: 1rem;height: 2rem;">
     <button
+      #incaux
       class="confaux p-button-secondary p-button-icon-only"
       pButton
-      [pTooltip]="_titulo"
+      [pTooltip]="titulo"
       type="button"
       icon="pi pi-plus"
       (click)="mostraForm()"
-      [disabled]="_desabilitado"
+      [disabled]="desabilitado"
     ></button>
   </div>
 </ng-container>
 <p-dialog
-  [header]="_titulo"
+  appendTo="body"
+  [header]="titulo"
   [(visible)]="visivel"
   [modal]="true"
   [closable]="true"
   [blockScroll]="true"
   [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
   [style]="{width: '60vw'}"
+  styleClass="tablistagem"
   (onHide)="onHide()"
 >
-  <div class="p-grid">
-    <div class="p-col-12">
-      <h6>{{_tituloCampo}}</h6>
-      <input
-        type="text"
-        [(ngModel)]="valor"
-        size="{{_tamanho}}"
-        minlength="2"
-        maxlength="{{tamanhomax}}"
-        (keyup)="mostraBtn()"
-        pInputText
-      />
-    </div>
-    <div class="p-col-12">
-      <p-button
-        *ngIf="ativaBtn"
-        label="Incluir"
-        (onClick)="incluir()"
-      ></p-button>
-      &nbsp;
-      <p-button
-        label="Cancelar / Fechar"
-        (onClick)="cancelar()"
-      ></p-button>
-    </div>
-  </div>
+  <table class="historicoformdialog tabela">
+    <tr>
+      <td>
+
+        <table class="historicoformdialog tabela">
+          <tr>
+            <td>
+              <div class="p-grid p-input-filled">
+
+                <div class="p-formgrid p-grid p-input-filled formulario">
+
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+                  <label for="input1">{{tituloCampo}}</label>
+                  <input
+                    id="input1"
+                    [(ngModel)]="valor"
+                    type="text"
+                    size="40"
+                    minlength="2"
+                    [maxlength]="tamanhomax"
+                    (keyup)="mostraBtn()"
+                    pInputText
+                    style="width: 100%"
+                  />
+                </div>
+                  <div class="p-col-12 formulario">
+                    <!--*** Botões ***-->
+                    <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                      <div class="p-mr-2">
+                        <button
+                          pButton
+                        pRipple
+                        type="button"
+                        *ngIf="ativaBtn"
+                        label="Incluir"
+                        (click)="incluir()"
+                          class="p-button-raised p-button-rounded"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        label="Cancelar / Fechar"
+                        (click)="cancelar()"
+                        class="p-button-raised p-button-rounded p-button-secondary"
+                      ></button>
+                    </div>
+
+                  </div>
+                  <!--*** FIM BOTOES ***-->
+                </div>
+
+              </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </p-dialog>
-<p-toast key="confauxToast" [style]="{marginTop: '80px'}"></p-toast>
 <ng-container *ngIf="mostraSpinner">
   <p-progressSpinner [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
 </ng-container>

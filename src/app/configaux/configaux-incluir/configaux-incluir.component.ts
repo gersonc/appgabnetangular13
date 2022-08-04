@@ -3,6 +3,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { UrlService } from '../../_services';
 import { AuthenticationService, IncluirAuxService } from '../../_services';
 import { take } from 'rxjs/operators';
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-configaux-incluir',
@@ -38,7 +39,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
   private resp: any[];
 
   constructor(
-    private ms: MessageService,
+    private ms: MsgService,
     private url: UrlService,
     public aut: AuthenticationService,
     private auxService: IncluirAuxService
@@ -112,7 +113,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
                   };
                   this.ms.add(
                     {
-                      key: 'confauxToast',
+                      key: 'toastprincipal',
                       severity: 'success',
                       summary: 'INCLUIR',
                       detail: this.resp[2]
@@ -123,7 +124,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
                 } else {
                   this.ms.add(
                     {
-                      key: 'confauxToast',
+                      key: 'toastprincipal',
                       severity: 'warn',
                       summary: 'ATENÇÃO',
                       detail: this.resp[2]

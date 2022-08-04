@@ -13,6 +13,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputTextModule } from 'primeng/inputtext';
 import {TooltipModule} from "primeng/tooltip";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   declarations: [ConfigauxIncluirComponent],
@@ -26,7 +27,8 @@ import {TooltipModule} from "primeng/tooltip";
         ToastModule,
         OverlayPanelModule,
         ProgressSpinnerModule,
-        TooltipModule
+        TooltipModule,
+        RippleModule
     ],
   entryComponents: [
     ConfigauxIncluirComponent
