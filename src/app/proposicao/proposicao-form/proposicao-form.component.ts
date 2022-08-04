@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PropForm, PropFormI} from "../_models/prop-form-i";
@@ -13,6 +13,7 @@ import {MsgService} from "../../_services/msg.service";
 import {ProposicaoFormService} from "../_services/proposicao-form.service";
 import {ProposicaoService} from "../_services/proposicao.service";
 import {take} from "rxjs/operators";
+import Quill from "quill";
 
 @Component({
   selector: 'app-proposicao-form',
@@ -20,7 +21,7 @@ import {take} from "rxjs/operators";
   styleUrls: ['./proposicao-form.component.css']
 })
 export class ProposicaoFormComponent implements OnInit {
-
+  // @ViewChild('quill0', { static: true }) public quill0: ;
   proposicaoListarI: ProposicaoListarI;
   proposicao: PropFormI;
   formProp: FormGroup;
@@ -55,6 +56,9 @@ export class ProposicaoFormComponent implements OnInit {
   format1: 'html' | 'object' | 'text' | 'json' = 'html';
   format2: 'html' | 'object' | 'text' | 'json' = 'html';
   format3: 'html' | 'object' | 'text' | 'json' = 'html';
+  kill0: Quill;
+  kill1: Quill;
+  kill2: Quill;
 
   modulos = {
     toolbar: [
@@ -90,7 +94,6 @@ export class ProposicaoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('this.pfs.proposicaoListar', this.pfs.proposicaoListar);
     if (this.pfs.acao === 'incluir') {
       const dt = new Date();
       const hoje = dt.toLocaleString('pt-BR');
@@ -163,6 +166,9 @@ export class ProposicaoFormComponent implements OnInit {
       if (cp1.vf) {
         this.formProp.get('proposicao_texto').setValue(cp1.valor);
       }
+      this.formProp.get('andamento_proposicao_texto').setValue(null);
+
+
     }
 
       const dt: DateTime = DateTime.now().setZone('America/Sao_Paulo');
@@ -184,7 +190,6 @@ export class ProposicaoFormComponent implements OnInit {
     this.verificaValidacoesForm(this.formProp);
     if (this.formProp.valid) {
       const r = this.formProp.getRawValue();
-      console.log('onSubmit', r);
       if (this.pfs.acao === 'incluir') {
         this.incluirProposicao();
       }
@@ -199,7 +204,7 @@ export class ProposicaoFormComponent implements OnInit {
 
   }
 
-  criaProposicao() {
+  criaProposicao(): PropForm {
     let p = new PropForm();
 
     p.sn_relator_atual= this.formProp.get('sn_relator_atual').value ? 1 : 0;
@@ -218,15 +223,30 @@ export class ProposicaoFormComponent implements OnInit {
       p.proposicao_data_apresentacao = tmp2.toSQLDate();
     }
     p.proposicao_area_interesse_id = this.formProp.get('proposicao_area_interesse_id').value;
+
     if (this.cpoEditor['proposicao_ementa'] !== undefined && this.cpoEditor['proposicao_ementa'] !== null) {
       p.proposicao_ementa = this.cpoEditor['proposicao_ementa'].html;
       p.proposicao_ementa_delta = JSON.stringify(this.cpoEditor['proposicao_ementa'].delta);
       p.proposicao_ementa_texto = this.cpoEditor['proposicao_ementa'].text;
     }
+    if (this.pfs.acao === 'alterar' && this.cpoEditor['proposicao_ementa'] === undefined) {
+      p.proposicao_ementa = this.formProp.get('proposicao_ementa').value;
+      if (p.proposicao_ementa !== null) {
+        p.proposicao_ementa_delta = JSON.stringify(this.kill0.getContents());
+        p.proposicao_ementa_texto = this.kill0.getText();
+      }
+    }
     if (this.cpoEditor['proposicao_texto'] !== undefined && this.cpoEditor['proposicao_texto'] !== null) {
       p.proposicao_texto = this.cpoEditor['proposicao_texto'].html;
       p.proposicao_texto_delta = JSON.stringify(this.cpoEditor['proposicao_texto'].delta);
       p.proposicao_texto_texto = this.cpoEditor['proposicao_texto'].text;
+    }
+    if (this.pfs.acao === 'alterar' && this.cpoEditor['proposicao_texto'] === undefined) {
+      p.proposicao_texto = this.formProp.get('proposicao_texto').value;
+      if (p.proposicao_texto !== null) {
+        p.proposicao_texto_delta = JSON.stringify(this.kill1.getContents());
+        p.proposicao_texto_texto = this.kill1.getText();
+      }
     }
     p.proposicao_situacao_id = this.formProp.get('proposicao_situacao_id').value;
     p.proposicao_parecer = this.formProp.get('proposicao_parecer').value;
@@ -245,20 +265,30 @@ export class ProposicaoFormComponent implements OnInit {
       p.andamento_proposicao_texto_delta = JSON.stringify(this.cpoEditor['andamento_proposicao_texto'].delta);
       p.andamento_proposicao_texto_texto = this.cpoEditor['andamento_proposicao_texto'].text;
     }
+
     if (this.pfs.acao === 'incluir') {
       for (const key in p) {
         if (p[key] === null) {
           delete p[key];
         }
       }
+      return p;
     }
 
-    return p;
+    if (this.pfs.acao === 'alterar') {
+      for (const key in p) {
+        if (p[key] === this.pfs.proposicaoOld[key]) {
+          delete p[key];
+        }
+      }
+      return p;
+    }
+
+
   }
 
   incluirProposicao() {
     const p: PropFormI = this.criaProposicao();
-    console.log(p);
     this.sub.push(this.ps.incluirProposicao(p)
       .pipe(take(1))
       .subscribe({
@@ -312,9 +342,27 @@ export class ProposicaoFormComponent implements OnInit {
   }
 
   alterarProposicao() {
+    let valida = true;
     const p: PropFormI = this.criaProposicao();
-    console.log(p);
-    /*if (this.formProp.valid) {
+    const ob: string[] = Object.keys(p);
+    if (ob.length < 5) {
+      const teste = [
+        'andamento_proposicao_data',
+        'sn_relator_atual',
+        'sn_orgao',
+        'sn_situacao'
+      ];
+      let ct = 0;
+      const valida = (ob.reduce((a: number, b: string) => {
+        let newReducedValue = a;
+        if(teste.indexOf(b) === -1 ) {
+          newReducedValue = a + 1;
+        }
+        return newReducedValue;
+      }, 0)) > 0;
+    }
+
+    if (this.formProp.valid && valida) {
       this.arquivoDesativado = true;
       const p: PropFormI = this.criaProposicao();
       this.ms.fundoSN(false);
@@ -372,7 +420,7 @@ export class ProposicaoFormComponent implements OnInit {
       );
     } else {
       this.verificaValidacoesForm(this.formProp);
-    }*/
+    }
     this.botaoEnviarVF = false;
     this.mostraForm = false;
     this.arquivoDesativado = false;
@@ -404,6 +452,8 @@ export class ProposicaoFormComponent implements OnInit {
 
   voltarListar() {
     this.pfs.proposicaoListar = undefined;
+    this.pfs.proposicaoOld = undefined;
+    this.pfs.proposicao = undefined;
     this.pfs.acao = null;
     if (sessionStorage.getItem('proposicao-busca')) {
       this.router.navigate(['/proposicao/listar']);
@@ -415,6 +465,8 @@ export class ProposicaoFormComponent implements OnInit {
   voltar() {
     this.pfs.resetProposicao();
     this.pfs.proposicaoListar = undefined;
+    this.pfs.proposicaoOld = undefined;
+    this.pfs.proposicao = undefined;
     this.pfs.acao = null;
     this.ps.stateSN = false;
     sessionStorage.removeItem('proposicao-busca');
@@ -500,6 +552,19 @@ export class ProposicaoFormComponent implements OnInit {
  trocaSituacao(ev) {
    this.sit =  ev.checked;
  }
+
+  onEditorCreated0(ev) {
+    this.kill0 = ev;
+    this.kill0.update('user');
+  }
+
+  onEditorCreated1(ev) {
+    this.kill1 = ev;
+  }
+
+  onEditorCreated2(ev) {
+    this.kill2 = ev;
+  }
 
   onContentChanged(ev, campo: string) {
     this.cpoEditor[campo] = {

@@ -239,6 +239,7 @@
                                 [debounceTime]="10"
                                 [placeholder]="''"
                                 formControlName="proposicao_ementa"
+                                (onEditorCreated)="onEditorCreated0($event)"
                                 (onContentChanged)="onContentChanged($event, 'proposicao_ementa')"
                               ></quill-editor>
                             </div>
@@ -250,6 +251,7 @@
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
+                                (onEditorCreated)="onEditorCreated1($event)"
                                 class="formulario"
                                 id="proposicao_texto"
                                 [format]="format1"
@@ -383,6 +385,7 @@
                                               [debounceTime]="10"
                                               [placeholder]="''"
                                               formControlName="andamento_proposicao_texto"
+                                              (onEditorCreated)="onEditorCreated2($event)"
                                               (onContentChanged)="onContentChanged($event, 'andamento_proposicao_texto')"
                                             ></quill-editor>
                                           </div>
