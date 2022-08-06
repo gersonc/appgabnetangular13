@@ -13,6 +13,7 @@ export class ProposicaoListarResolver implements Resolve<boolean> {
   private sub: Subscription[] = [];
   private resp = new Subject<boolean>();
   private resp$ = this.resp.asObservable();
+  dds: string[] = [];
 
   constructor(
     private router: Router,
@@ -21,11 +22,30 @@ export class ProposicaoListarResolver implements Resolve<boolean> {
 
 
   populaDropdown() {
+    this.dds = [];
+    // ****** tipo_recebimento_id *****
+    if (!sessionStorage.getItem('dropdown-situacao_proposicao')) {
+      this.dds.push('dropdown-situacao_proposicao');
+    }
+    // ****** ogu_id *****
+    if (!sessionStorage.getItem('dropdown-orgao_proposicao')) {
+      this.dds.push('dropdown-orgao_proposicao');
+    }
+
     if (!sessionStorage.getItem('proposicao-menu-dropdown')) {
-      this.sub.push(this.dd.getDd('proposicao-menu-dropdown')
+      this.dds.push('proposicao-menu-dropdown');
+    }
+
+
+    if (this.dds.length > 0) {
+      // this.sub.push(this.dd.getDd('proposicao-menu-dropdown')
+      this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
         .subscribe((dados) => {
-            sessionStorage.setItem('proposicao-menu-dropdown', JSON.stringify(dados));
+            // sessionStorage.setItem('proposicao-menu-dropdown', JSON.stringify(dados));
+            this.dds.forEach(nome => {
+              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
+            });
           },
           (err) => console.error(err),
           () => {
@@ -52,7 +72,7 @@ export class ProposicaoListarResolver implements Resolve<boolean> {
 
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    if (!sessionStorage.getItem('proposicao-menu-dropdown')) {
+    if (!sessionStorage.getItem('proposicao-menu-dropdown') || !sessionStorage.getItem('dropdown-situacao_proposicao') || !sessionStorage.getItem('dropdown-orgao_proposicao')) {
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),

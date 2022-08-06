@@ -34,6 +34,8 @@ import {CalendarModule} from "primeng/calendar";
 import {ArquivoModule} from "../arquivo/arquivo.module";
 import {AccordionModule} from "primeng/accordion";
 import {InputSwitchModule} from "primeng/inputswitch";
+import {ProposicaoExcluirComponent} from "./proposicao-excluir/proposicao-excluir.component";
+import {AndamentoProposicaoModule} from "../andamento-proposicao/andamento-proposicao.module";
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {InputSwitchModule} from "primeng/inputswitch";
     ProposicaoMenuListarComponent,
     ProposicaoDatatableComponent,
     ProposicaoDetalheComponent,
-    ProposicaoFormComponent
+    ProposicaoFormComponent,
+    ProposicaoExcluirComponent
   ],
     imports: [
         CommonModule,
@@ -71,6 +74,7 @@ import {InputSwitchModule} from "primeng/inputswitch";
         ArquivoModule,
         AccordionModule,
         InputSwitchModule,
+        AndamentoProposicaoModule,
     ],
   exports: [
     ProposicaoComponent

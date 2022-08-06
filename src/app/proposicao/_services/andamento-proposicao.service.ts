@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { UrlService } from '../../_services';
-import {AndamentoProposicaoFormI, AndPropI} from "../_models/andamento-proposicao-i";
+import {AndamentoProposicaoFormI, AndamentoProposicaoI, AndPropI} from "../_models/andamento-proposicao-i";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AndamentoProposicaoService {
+  apListar: AndamentoProposicaoI[] | null = null;
+  ap: AndamentoProposicaoI | null = null;
+  proposicao_id: number = 0;
+  idx: number = -1;
   andPropForm: AndPropI | null = null;
   andPropList: AndPropI | null = null;
 

@@ -1,0 +1,267 @@
+<p-scrollPanel [styleClass]="'formulario'">
+  <div class="formulario externo">
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">PROPOSIÇÃO - APAGAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+              <table #detproposicao class="table-hover tabela">
+                <caption>PROPOSIÇÃO</caption>
+                <thead class="detalheTitulo-horiz">
+                <tr>
+                  <th colspan="2">
+                    PROPOSIÇÃO
+                  </th>
+                </tr>
+                </thead>
+                <tbody class="detalhe-horiz">
+                <tr *ngIf="ps.proposicaoApagar.proposicao_tipo_nome">
+                  <th>
+                    Tipo:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_numero">
+                  <th>
+                    Número:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_numero}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.andamento_proposicao_situacao_nome">
+                  <th>
+                    Situação:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.andamento_proposicao_situacao_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_autor">
+                  <th>
+                    Autor:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_autor}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_relator">
+                  <th>
+                    Relator:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_relator}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_origem_nome">
+                  <th>
+                    Orgão de origem:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_origem_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_data_apresentacao">
+                  <th>
+                    Data de apresentação:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_data_apresentacao}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_area_interesse_nome">
+                  <th>
+                    Área de interesse:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_area_interesse_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_area_interesse_nome">
+                  <th>
+                    Área de interesse:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_area_interesse_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_parecer">
+                  <th>
+                    Parecer:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_parecer}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_orgao_nome">
+                  <th>
+                    Orgão Atual:
+                  </th>
+                  <td>
+                    {{ps.proposicaoApagar.proposicao_orgao_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_ementa" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Ementa:
+                  </th>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_ementa">
+                  <td colspan="2" class="tituloEditor">
+                    <div *ngIf="ps.proposicaoApagar.proposicao_ementa" style="margin-top: .25em">
+                      <app-kill-view
+                        [kill]="{html: ps.proposicaoApagar.proposicao_ementa, delta: ps.proposicaoApagar.proposicao_ementa_delta}"></app-kill-view>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr *ngIf="ps.proposicaoApagar.proposicao_texto" class="novaPagina">
+                  <th colspan="2" class="tituloEditor">
+                    Texto:
+                  </th>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_texto">
+                  <td colspan="2" class="tituloEditor">
+                    <div *ngIf="ps.proposicaoApagar.proposicao_texto" style="margin-top: .25em">
+                      <app-kill-view
+                        [kill]="{html: ps.proposicaoApagar.proposicao_texto, delta: ps.proposicaoApagar.proposicao_texto_delta}"></app-kill-view>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.proposicao_arquivos.length > 0 && aut.arquivos_baixar">
+                  <td colspan="2">
+                    <app-detalhe-explorer [arquivos]="ps.proposicaoApagar.proposicao_arquivos"></app-detalhe-explorer>
+                  </td>
+                </tr>
+                <tr *ngIf="ps.proposicaoApagar.andamento_proposicao.length > 0" class="novaPagina">
+                  <td colspan="2">
+                    <br>
+
+                    <table class="table-hover tabela">
+                      <caption>ANDAMENTOS DA PROPOPSIÇÃO</caption>
+                      <thead class="detalheTitulo">
+                      <tr>
+                        <th colspan="4">
+                          ANDAMENTOS DA PROPOPSIÇÃO
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody class="detalhe-vert">
+                      <tr>
+                        <th style="width: 3%;" nowrap>
+                          Data:
+                        </th>
+                        <th>
+                          Redator:
+                        </th>
+                        <th>
+                          Orgão:
+                        </th>
+                        <th>
+                          Situação:
+                        </th>
+                      </tr>
+                      <ng-container  *ngFor="let and of ps.proposicaoApagar.andamento_proposicao">
+                        <tr>
+                          <td style="width: 3%; vertical-align:top;" nowrap>
+                            {{and.andamento_proposicao_data}}
+                          </td>
+                          <td>
+                            {{and.andamento_proposicao_relator_atual}}
+                          </td>
+                          <td>
+                            {{and.andamento_proposicao_orgao_nome}}
+                          </td>
+                          <td>
+                            {{and.andamento_proposicao_situacao_nome}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="and.andamento_proposicao_texto">
+                          <td colspan="4">
+                            <quill-view [content]="stripslashes(and.andamento_proposicao_texto)" [format]="'html'" theme="snow"></quill-view>
+                          </td>
+                        </tr>
+                      </ng-container>
+                      </tbody>
+                    </table>
+
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+
+    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+            <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      [disabled]="botaoEnviarInativo"
+                      type="button"
+                      class="p-button-rounded p-button-danger"
+                      (click)="showDialog()"
+                      label="APAGAR"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltar()"
+                      [disabled]="botoesInativos"
+                      label="Voltar"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid formulario-bg-externo">
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+      </div>
+    </div>
+  </div>
+</p-scrollPanel>
+<p-dialog header="ATENÇÃO" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  <p>{{msg}}</p>
+  <p-footer>
+    <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-check" (click)="excluirProposicao()" label="Sim"></button>
+    <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-close" (click)="fecharDialog()" label="Não"></button>
+  </p-footer>
+</p-dialog>

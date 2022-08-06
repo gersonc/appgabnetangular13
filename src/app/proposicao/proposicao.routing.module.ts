@@ -8,6 +8,7 @@ import { ProposicaoDatatableComponent } from './proposicao-datatable/proposicao-
 import {ProposicaoListarResolver} from "./_resolvers/proposicao-listar.resolver";
 import {ProposicaoFormComponent} from "./proposicao-form/proposicao-form.component";
 import {ProposicaoFormResolver} from "./_resolvers/proposicao-form.resolver";
+import {ProposicaoExcluirComponent} from "./proposicao-excluir/proposicao-excluir.component";
 
 
 const proposicaoRoutes: Routes = [
@@ -79,6 +80,15 @@ const proposicaoRoutes: Routes = [
         },
         resolve: {
           dados: ProposicaoFormResolver
+        }
+      },
+      {
+        path: 'apagar',
+        component: ProposicaoExcluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.proposicao,
+          scopes: Scope.proposicao_apagar
         }
       }
     ]

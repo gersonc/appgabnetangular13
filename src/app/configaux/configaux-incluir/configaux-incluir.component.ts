@@ -173,7 +173,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
       },
       {
         nome: 'ddProposicao_emenda_tipo_id',
-        tabela: 'emenda_proposicao',
+        tabela: 'proposicao_emenda_tipo',
         campo_id: 'emenda_proposicao_id',
         campo_nome: 'emenda_proposicao_nome',
         parametros: null

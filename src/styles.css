@@ -140,6 +140,12 @@
 
   --fc-button-border-color: var(--surface-300);
   --fc-button-bg-color: #2c3e50;
+
+
+
+
+
+
 }
 
 :root {
@@ -240,27 +246,7 @@ body {
   font-family: var(--font-family);
 }
 
-@media screen and (min-width: 1200px) {
-
-}
-
-@media screen and (min-width: 992px) {
-
-}
-
-@media screen and (min-width: 768px) {
-
-}
-
-@media screen and (min-width: 576px) {
-
-}
-
-@media screen and (max-width: 769px) {
-  .calform .p-datepicker table th, .p-datepicker table td {
-    padding: 0;
-  }
-}
+andamento-proposicao-expandido
 
 
 /*
@@ -17719,4 +17705,71 @@ p-toast.toastprincipal {
   background-color: var(--formulario-bg-interno-color);
   border-radius: 5px;
 }
+
+.formulario .andamento-proposicao {
+  width: 100%;
+  padding: 2rem;
+  background-color: var(--input-filled);
+}
+
+.andamento-proposicao-expandido {
+  width: 70vw;
+  padding: 2rem;
+  margin: 1rem;
+  background-color: var(--formulario-bg-interno-color);
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 1400px) {
+  .andamento-proposicao-expandido {
+    width: 70vw;
+    padding: 2rem;
+    margin: 1rem;
+    background-color: var(--formulario-bg-interno-color);
+    border-radius: 5px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .andamento-proposicao-expandido {
+    width: 75vw;
+    padding: 1.5rem;
+    margin: .75rem;
+    background-color: var(--formulario-bg-interno-color);
+    border-radius: 5px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .andamento-proposicao-expandido {
+    width: 80vw;
+    padding: 1rem;
+    margin: .50rem;
+    background-color: var(--formulario-bg-interno-color);
+    border-radius: 5px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .andamento-proposicao-expandido {
+    width: 85vw;
+    padding: .75rem;
+    margin: .25rem;
+    background-color: var(--formulario-bg-interno-color);
+    border-radius: 5px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .andamento-proposicao-expandido {
+    width: 90vw;
+    padding: .50rem;
+    margin: 0;
+    background-color: var(--formulario-bg-interno-color);
+    border-radius: 5px;
+  }
+}
+
+
+
 

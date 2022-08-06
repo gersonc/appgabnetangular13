@@ -141,6 +141,7 @@ export class ProposicaoService {
   }
 
   onRowExpand(evento) {
+    console.log('onRowExpand', evento);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.ts.mTitulo['proposicao'];
     }
@@ -148,7 +149,10 @@ export class ProposicaoService {
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
     let ev = evento.data;
+    this.aps.proposicao_id = +evento.data.proposicao_id;
+    this.aps.apListar = evento.data.andamento_proposicao;
     this.aps.andPropForm = {
+      registro_id: +evento.data.proposicao_id,
       andamentoProposicaoListar: evento.data.andamento_proposicao,
       andamentoProposicaoForm: {
         andamento_proposicao_proposicao_id: +evento.data.proposicao_id
@@ -496,13 +500,9 @@ export class ProposicaoService {
     return this.http.delete<any>(url);
   }
 
-  montaHistorico(modulo: string, idx: number) {
+  montaHistorico(idx: number) {
+    this.aps.idx = idx;
     this.aps.andPropForm.idx = idx;
-    this.aps.andPropList = {
-      idx: idx,
-      andamentoProposicaoListar: this.expandido.andamento_proposicao,
-      registro_id: +this.expandido.proposicao_id
-    }
   }
 
   recebeRegistro(h: AndPropI) {

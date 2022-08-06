@@ -31,11 +31,13 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   contextoMenu: MenuItem[];
   mostraSeletor = false;
   cols: any[] = [];
+  idx = -1;
+  acaoAndamento = '';
 
   andProp: AndPropI;
   showHistorico = false;
-  tituloHistoricoDialog = 'ANDAMENTOS';
-  histAcao: string = '';
+  // tituloHistoricoDialog = 'ANDAMENTOS';
+  // histAcao: string = '';
   histFormI?: AndamentoProposicaoI;
   cssMostra: string | null = null;
   permListHist: boolean = false;
@@ -345,27 +347,15 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
     return Stripslashes(str)
   }
 
-  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao: boolean = true, andamentos?: AndamentoProposicaoI[]) {
-    this.tituloHistoricoDialog = 'EMENDA';
-    this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
-    this.histAcao = acao;
-    this.permitirAcao = permitirAcao;
+  historicoAcao(idx: number, acao: string) {
+    this.acaoAndamento = acao;
     if (acao === 'listar') {
-      this.andProp = {
-        andamentoProposicaoListar: andamentos,
-        idx: idx,
-        registro_id: registro_id,
-      }
-      this.ps.montaHistorico(modulo, idx);
+      this.idx = idx;
+
+      this.ps.montaHistorico(idx);
     }
     if (acao === 'incluir') {
-      this.andProp = {
-        idx: idx,
-        acao: acao,
-        andamentoProposicaoForm: {
-          andamento_proposicao_proposicao_id: registro_id
-        }
-      }
+      this.idx = idx;
     }
     this.showHistorico = true;
     this.mostraDialog(true);

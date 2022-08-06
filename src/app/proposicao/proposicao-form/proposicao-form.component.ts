@@ -211,9 +211,6 @@ export class ProposicaoFormComponent implements OnInit {
     p.sn_orgao= this.formProp.get('sn_orgao').value ? 1 : 0;
     p.sn_situacao= this.formProp.get('sn_situacao').value ? 1 : 0;
 
-    if (this.pfs.acao === 'alterar') {
-      p.proposicao_id = +this.pfs.proposicao.proposicao_id;
-    }
     p.proposicao_numero = this.formProp.get('proposicao_numero').value;
     p.proposicao_tipo_id = this.formProp.get('proposicao_tipo_id').value;
     p.proposicao_relator = this.formProp.get('proposicao_relator').value;
@@ -277,10 +274,13 @@ export class ProposicaoFormComponent implements OnInit {
 
     if (this.pfs.acao === 'alterar') {
       for (const key in p) {
-        if (p[key] === this.pfs.proposicaoOld[key]) {
-          delete p[key];
+        if (key !== 'sn_relator_atual' && key !== 'sn_orgao' && key !== 'sn_situacao') {
+          if (p[key] === this.pfs.proposicaoOld[key]) {
+            delete p[key];
+          }
         }
       }
+      p.proposicao_id = +this.pfs.proposicao.proposicao_id;
       return p;
     }
 
