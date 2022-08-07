@@ -141,7 +141,6 @@ export class ProposicaoService {
   }
 
   onRowExpand(evento) {
-    console.log('onRowExpand', evento);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.ts.mTitulo['proposicao'];
     }
@@ -500,10 +499,10 @@ export class ProposicaoService {
     return this.http.delete<any>(url);
   }
 
-  montaHistorico(idx: number) {
+  /*montaHistorico(idx: number) {
     this.aps.idx = idx;
     this.aps.andPropForm.idx = idx;
-  }
+  }*/
 
   recebeRegistro(h: AndPropI) {
       if (h.acao === 'incluir') {

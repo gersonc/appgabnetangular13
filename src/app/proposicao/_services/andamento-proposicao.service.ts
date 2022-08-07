@@ -43,4 +43,9 @@ export class AndamentoProposicaoService {
     const url = this.url.andamentoproposicao + '/' + id + '/' + id2;
     return this.http.delete<any[]>(url);
   }
+
+  apagar(id: number): Observable<any[]> {
+    const url = this.url.andamentoproposicao + '/apagar/' + id ;
+    return this.http.delete<any[]>(url);
+  }
 }

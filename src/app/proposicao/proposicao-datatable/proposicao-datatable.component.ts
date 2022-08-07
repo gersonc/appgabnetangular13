@@ -347,12 +347,11 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
     return Stripslashes(str)
   }
 
-  historicoAcao(idx: number, acao: string) {
+  andamentoAcao(idx: number, acao: string) {
     this.acaoAndamento = acao;
     if (acao === 'listar') {
       this.idx = idx;
-
-      this.ps.montaHistorico(idx);
+      // this.ps.montaHistorico(idx);
     }
     if (acao === 'incluir') {
       this.idx = idx;
@@ -375,9 +374,6 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   recebeRegistro(h: AndPropI) {
     this.ps.recebeRegistro(h);
   }
-
-
-
 
   ngOnDestroy(): void {
     this.ps.selecionados = [];

@@ -15,7 +15,10 @@ import {QuillModule} from "ngx-quill";
 import {DialogModule} from "primeng/dialog";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {ConfigauxModule} from "../configaux/configaux.module";
-
+import {UtilModule} from "../util/util.module";
+import {ReactiveFormsModule} from "@angular/forms";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ConfirmationService} from 'primeng-lts/api';
 
 
 @NgModule({
@@ -24,21 +27,24 @@ import {ConfigauxModule} from "../configaux/configaux.module";
     AndamentoProposicaoListarComponent,
     AndamentoProposicaoFormComponent
   ],
-  imports: [
-    CommonModule,
-    TableModule,
-    TooltipModule,
-    ButtonModule,
-    RippleModule,
-    QuillViewModule,
-    CalendarModule,
-    PaginatorModule,
-    InputTextModule,
-    QuillModule,
-    DialogModule,
-    InputSwitchModule,
-    ConfigauxModule
-  ],
+    imports: [
+        CommonModule,
+        TableModule,
+        TooltipModule,
+        ButtonModule,
+        RippleModule,
+        QuillViewModule,
+        CalendarModule,
+        PaginatorModule,
+        InputTextModule,
+        QuillModule,
+        DialogModule,
+        InputSwitchModule,
+        ConfigauxModule,
+        UtilModule,
+        ReactiveFormsModule,
+        ConfirmPopupModule
+    ],
   exports: [
     AndamentoProposicaoComponent,
     AndamentoProposicaoListarComponent

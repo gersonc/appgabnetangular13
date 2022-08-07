@@ -488,6 +488,13 @@ export class ProposicaoFormComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  verificaRequired(campo: string) {
+    return (
+      this.formProp.get(campo).hasError('required') &&
+      (this.formProp.get(campo).touched || this.formProp.get(campo).dirty)
+    );
+  }
+
   verificaValidTouched(campo: string) {
     return (
       !this.formProp.get(campo).valid &&

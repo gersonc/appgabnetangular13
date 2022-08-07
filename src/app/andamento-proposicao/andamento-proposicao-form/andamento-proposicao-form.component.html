@@ -1,1 +1,179 @@
-<p>andamento-proposicao-form works!</p>
+<form [formGroup]="formAnd" (ngSubmit)="onSubmit()">
+  <table class="historicoformdialog tabela">
+    <tr>
+      <td>
+
+        <table class="historicoformdialog tabela">
+          <tr>
+            <td>
+
+              <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+
+                <div class="p-field p-col-12 p-sm-12 p-md-8 p-lg-6 p-xl-4"
+                     [ngClass]="aplicaCssErro('andamento_proposicao_data')">
+                  <label for="andamento_proposicao_data"><span class="atencao">*</span>Data</label>
+                  <p-calendar
+                    id="andamento_proposicao_data"
+                    formControlName="andamento_proposicao_data"
+                    dateFormat="dd/mm/yy"
+                    placeholder="dd/mm/aaaa"
+                    dataType="date"
+                    [required]="true"
+                    [ngClass]="aplicaCssErro('andamento_proposicao_data')"
+                  ></p-calendar>
+                  <app-campo-erro msgErro="Data é obrigatória."
+                                  [mostrarErro]="verificaRequired('andamento_proposicao_data')"></app-campo-erro>
+                </div>
+                <div class="p-field p-md-4 p-lg-6 p-xl-8 formulario"></div>
+
+                <div *ngIf="sn_relator_atual" class="p-field p-col-12 p-sm-12 p-md-8 p-lg-7 p-xl-6">
+                  <h5>Relator atual</h5>
+                  <input
+                    id="proposicao_relator_atual"
+                    formControlName="andamento_proposicao_relator_atual"
+                    type="text"
+                    maxlength="70"
+                    style="width: 100%"
+                    pInputText
+                  />
+                </div>
+                <div class="formulario-switch p-field"
+                     [ngClass]="sn_relator_atual ? 'p-col-12 p-sm-12 p-md-4 p-lg-5 p-xl-6' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                  <h5>Mudar Relator</h5>
+                  <p-inputSwitch formControlName="sn_relator_atual" (onChange)="onChange0($event)"></p-inputSwitch>
+                </div>
+
+                <!--*** andamento_proposicao_orgao_id ***-->
+                <div *ngIf="sn_orgao" class="p-field p-col-12 p-sm-12 p-md-8 p-lg-7 p-xl-6">
+                  <label for="proposicao_orgao_id">Orgão atual</label>
+                  <div class="p-inputgroup">
+                    <p-dropdown
+                      id="proposicao_orgao_id"
+                      formControlName="andamento_proposicao_orgao_id"
+                      placeholder="Selecione"
+                      [options]="ddProposicao_orgao_id"
+                      [style]="{'width':'100%'}"
+                      [showClear]="true"
+                    ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="false"
+                      [titulo]="'Incluir Orgão atual'"
+                      [tituloCampo]="'Orgão atual'"
+                      [campoNome]="'form.andamento_proposicao_orgao_id'"
+                      [tamanho]="50"
+                      [tamanhomax]="100"
+                      [dropdown]="'ddProposicao_orgao_id'"
+                      [arrai]="ddProposicao_orgao_id"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                  </div>
+                </div>
+                <div class="formulario-switch p-field"
+                     [ngClass]="sn_orgao ? 'p-col-12 p-sm-12 p-md-4 p-lg-5 p-xl-6' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                  <h5>Mudar Orgão</h5>
+                  <p-inputSwitch formControlName="sn_orgao" (onChange)="onChange1($event)"></p-inputSwitch>
+                </div>
+
+                <div *ngIf="sn_situacao" class="p-field p-col-12 p-sm-12 p-md-8 p-lg-7 p-xl-6">
+                  <label for="proposicao_situacao_id2">Situação</label>
+                  <div class="p-inputgroup">
+                    <p-dropdown
+                      id="proposicao_situacao_id2"
+                      formControlName="andamento_proposicao_situacao_id"
+                      placeholder="Selecione"
+                      [options]="ddProposicao_situacao_id"
+                      [style]="{'width':'100%'}"
+                      [showClear]="true"
+                    ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="false"
+                      [titulo]="'Incluir Situação'"
+                      [tituloCampo]="'Situação'"
+                      [campoNome]="'proposicao_situacao_id'"
+                      [tamanho]="50"
+                      [tamanhomax]="100"
+                      [dropdown]="'ddProposicao_situacao_id'"
+                      [arrai]="ddProposicao_situacao_id"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                  </div>
+                </div>
+                <div class="formulario-switch p-field"
+                     [ngClass]="sn_orgao ? 'p-col-12 p-sm-12 p-md-4 p-lg-5 p-xl-6' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                  <h5>Mudar Situação</h5>
+                  <p-inputSwitch #sn2 formControlName="sn_situacao"  (onChange)="onChange2($event)"></p-inputSwitch>
+                </div>
+
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                  <label for="andamento_proposicao_texto">Andamento</label>
+                  <div class="p-d-flex p-jc-start">
+                    <div class="formulario-quill">
+                      <div class="qeditor">
+                        <quill-editor
+                          class="formulario"
+                          id="andamento_proposicao_texto"
+                          formControlName="andamento_proposicao_texto"
+                          [format]="cp.format"
+                          [defaultEmptyValue]="null"
+                          [theme]="'snow'"
+                          [modules]="modulos"
+                          [debounceTime]="10"
+                          [placeholder]="''"
+                          (onEditorCreated)="onEditorCreated($event)"
+                        ></quill-editor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-field p-col-12">
+                  <!--*** Botões ***-->
+                  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        pRipple
+                        type="submit"
+                        class="botaoinferior p-button-rounded"
+                        [label]="acao.toUpperCase()"
+                        [disabled]="!formAnd.valid || !formAnd.dirty || botaoEnviarVF"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        class="botaoinferior p-ripple p-button-rounded p-button-secondary"
+                        (click)="resetForm()"
+                        label="LIMPAR"
+                        [disabled]="!formAnd.dirty || botaoEnviarVF"
+                      ></button>
+                    </div>
+                    <div class="p-mr-2">
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        class="botaoinferior p-button-rounded p-button-secondary"
+                        (click)="fechar()"
+                        label="FECHAR"
+                        [disabled]="botaoEnviarVF"
+                      ></button>
+                    </div>
+                  </div>
+                  <!--*** FIM BOTOES ***-->
+                </div>
+
+              </div>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</form>
+

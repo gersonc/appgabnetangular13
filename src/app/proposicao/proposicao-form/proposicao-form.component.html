@@ -18,8 +18,7 @@
                 <div class="p-fluid p-formgrid p-grid formulario">
 
                   <!--*** proposicao_tipo_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
-                       [ngClass]="aplicaCssErro('proposicao_tipo_id')">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_tipo_id')">
                     <label for="proposicao_tipo_id"><span class="atencao">*</span>Tipo</label>
                     <div class="p-inputgroup">
                       <p-dropdown
@@ -30,6 +29,7 @@
                         [style]="{'width':'100%'}"
                         [autofocus]="true"
                         [showClear]="true"
+                        [ngClass]="aplicaCssErro('proposicao_tipo_id')"
                       ></p-dropdown>
                       <app-configaux-incluir
                         [desabilitado]="false"
@@ -44,6 +44,7 @@
                         (onBlockSubmit)="onBlockSubmit($event)"
                       ></app-configaux-incluir>
                     </div>
+                    <app-campo-erro msgErro="Tipo é obrigatório." [mostrarErro]="verificaRequired('proposicao_tipo_id')"></app-campo-erro>
                   </div>
 
                   <!--*** proposicao_numero ***-->
@@ -95,8 +96,9 @@
                       dateFormat="dd/mm/yy"
                       placeholder="dd/mm/aaaa"
                       dataType="date"
+                      [ngClass]="aplicaCssErro('proposicao_tipo_id')"
                     ></p-calendar>
-                    <app-campo-control-erro msgErro="Data de apresentação é obrigatória."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaRequired('proposicao_data_apresentacao')" msgErro="Data de apresentação é obrigatória."></app-campo-control-erro>
                   </div>
 
                   <!--*** proposicao_area_interesse_id ***-->
@@ -110,13 +112,13 @@
                       [options]="ddProposicao_area_interesse_id"
                       [style]="{'width':'100%'}"
                       [showClear]="true"
+                      [ngClass]="aplicaCssErro('proposicao_area_interesse_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro msgErro="Área de interesse é obrigatória."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaRequired('proposicao_area_interesse_id')" msgErro="Área de interesse é obrigatória."></app-campo-control-erro>
                   </div>
 
                   <!--*** proposicao_parecer ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
-                       [ngClass]="aplicaCssErro('proposicao_parecer')">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_parecer')">
                     <label for="proposicao_parecer"><span class="atencao">*</span>Parecer</label>
                     <p-dropdown
                       id="proposicao_parecer"
@@ -125,8 +127,9 @@
                       [options]="ddProposicao_parecer"
                       [style]="{'width':'100%'}"
                       [showClear]="true"
+                      [ngClass]="aplicaCssErro('proposicao_parecer')"
                     ></p-dropdown>
-                    <app-campo-control-erro msgErro="Parecer é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaRequired('proposicao_parecer')" msgErro="Parecer é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** proposicao_origem_id ***-->
@@ -153,8 +156,9 @@
                         [arrai]="ddProposicao_origem_id"
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
                         (onBlockSubmit)="onBlockSubmit($event)"
+                        [ngClass]="aplicaCssErro('proposicao_origem_id')"
                       ></app-configaux-incluir>
-                      <app-campo-control-erro msgErro="Orgão de origem é obrigatório."></app-campo-control-erro>
+                      <app-campo-control-erro [mostrarErro]="verificaRequired('proposicao_origem_id')" msgErro="Orgão de origem é obrigatório."></app-campo-control-erro>
                     </div>
                   </div>
 
@@ -170,6 +174,7 @@
                         [options]="ddProposicao_emenda_tipo_id"
                         [style]="{'width':'100%'}"
                         [showClear]="true"
+                        [ngClass]="aplicaCssErro('proposicao_emenda_tipo_id')"
                       ></p-dropdown>
                       <app-configaux-incluir
                         [desabilitado]="false"
@@ -182,9 +187,10 @@
                         [arrai]="ddProposicao_emenda_tipo_id"
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
                         (onBlockSubmit)="onBlockSubmit($event)"
+                        [ngClass]="aplicaCssErro('proposicao_emenda_tipo_id')"
                       ></app-configaux-incluir>
                     </div>
-                    <app-campo-control-erro msgErro="Tipo de emenda é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaRequired('proposicao_emenda_tipo_id')" msgErro="Tipo de emenda é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** proposicao_situacao_id ***-->
@@ -198,6 +204,7 @@
                         [options]="ddProposicao_situacao_id"
                         [style]="{'width':'100%'}"
                         [showClear]="true"
+                        [ngClass]="aplicaCssErro('proposicao_situacao_id')"
                       ></p-dropdown>
                       <app-configaux-incluir
                         [desabilitado]="false"
@@ -210,9 +217,10 @@
                         [arrai]="ddProposicao_situacao_id"
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
                         (onBlockSubmit)="onBlockSubmit($event)"
+
                       ></app-configaux-incluir>
                     </div>
-                    <app-campo-control-erro msgErro="Situação é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaRequired('proposicao_situacao_id')" msgErro="Situação é obrigatório."></app-campo-control-erro>
                   </div>
                 </div>
               </div>
@@ -340,7 +348,7 @@
                                     </div>
 
                                     <div *ngIf="pfs.acao === 'alterar' && sit" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                                      <label for="proposicao_situacao_id2"><span class="atencao">*</span>Situação</label>
+                                      <label for="proposicao_situacao_id2">Situação</label>
                                       <div class="p-inputgroup">
                                         <p-dropdown
                                           id="proposicao_situacao_id2"

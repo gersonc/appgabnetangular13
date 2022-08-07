@@ -211,7 +211,7 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Listar Andamentos da Proposição"
                   tooltipPosition="top"
-                  (click)="historicoAcao(indice, 'listar')"
+                  (click)="andamentoAcao(indice, 'listar')"
                 >
                 </button>
               </div>
@@ -224,7 +224,7 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Incluir Andamentos da Proposição"
                   tooltipPosition="top"
-                  (click)="historicoAcao(indice, 'incluir')"
+                  (click)="andamentoAcao(indice, 'incluir')"
                 >
                 </button>
               </div>
@@ -244,6 +244,37 @@
 
           </div>
         </div>
+        <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
+        <ng-container *ngIf="showHistorico">
+          <div [ngClass]="cssMostra">
+            <p-dialog
+              [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+              [style]="{width: '80vw'}"
+              [(visible)]="showHistorico"
+              styleClass="tablistagem"
+              [header]="'ANDAMENTOS PROPOSIÇÃO'"
+              [modal]="true"
+              [dismissableMask]="false"
+              [baseZIndex]="0"
+              [blockScroll]="true"
+            >
+              <app-andamento-proposicao-listar
+                *ngIf="showHistorico && acaoAndamento==='listar'"
+                [(apListar)]="prop.andamento_proposicao"
+                [(display)]="showHistorico"
+                (dialogExterno)="mostraDialog($event)"
+                (novoRegistro)="recebeRegistro($event)"
+              ></app-andamento-proposicao-listar>
+
+
+              <!--<app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"
+                             [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico"
+                                  [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
+                                  (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>-->
+            </p-dialog>
+          </div>
+        </ng-container>
       </td>
     </tr>
   </ng-template>
@@ -305,27 +336,4 @@
   </p-dialog>
 </ng-container>
 
-<!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
-<ng-container *ngIf="showHistorico">
-  <div [ngClass]="cssMostra">
-    <p-dialog
-      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
-      [style]="{width: '80vw'}"
-      [(visible)]="showHistorico"
-      styleClass="tablistagem"
-      [header]="'ANDAMENTOS PROPOSIÇÃO'"
-      [modal]="true"
-      [dismissableMask]="false"
-      [baseZIndex]="0"
-    >
-      <app-andamento-proposicao-listar [acaol]="acaoAndamento"></app-andamento-proposicao-listar>
 
-
-      <!--<app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"
-                     [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-      <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico"
-                          [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
-                          (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>-->
-    </p-dialog>
-  </div>
-</ng-container>
