@@ -3,6 +3,7 @@ import {CelulaI} from "../../../_models/celula-i";
 import {ExporterService} from "../../../_services/exporter.service";
 import {limpaTextoNull} from "../../functions/limpa-texto";
 import {CAMPOSCOMUNICACAO} from "../../email-telefone-celular/email-telefone-celular-i";
+import {Stripslashes} from "../../functions/stripslashes";
 
 @Component({
   selector: 'app-exporter-expandido',
@@ -35,6 +36,7 @@ export class ExporterExpandidoComponent implements OnInit {
   }
 
   mostraTexto() {
+    this.celula.cphtml = Stripslashes(this.celula.cphtml);
     this.es.mostraTexto(this.celula);
   }
 

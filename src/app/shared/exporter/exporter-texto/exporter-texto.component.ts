@@ -14,7 +14,12 @@ import {QUILLTOWORDCONFIG} from "../../functions/quill-to-word-config";
   styleUrls: ['./exporter-texto.component.css']
 })
 export class ExporterTextoComponent implements OnInit {
-  readOnly = false;
+  readOnly = true;
+
+
+  modulos = {
+    toolbar: []
+  };
 
   constructor(
     public es: ExporterService

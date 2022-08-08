@@ -41,9 +41,9 @@ export interface AndamentoProposicaoFormI extends AndamentoProposicaoI{
   andamento_proposicao_orgao_nome?: string;
   andamento_proposicao_situacao_id?: number;
   andamento_proposicao_situacao_nome?: string;
-  sn_relator_atual?: boolean;
-  sn_orgao?: boolean;
-  sn_situacao?: boolean;
+  sn_relator_atual?: number;
+  sn_orgao?: number;
+  sn_situacao?: number;
 }
 
 export interface AndPropI {

@@ -349,13 +349,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
 
   andamentoAcao(idx: number, acao: string) {
     this.acaoAndamento = acao;
-    if (acao === 'listar') {
-      this.idx = idx;
-      // this.ps.montaHistorico(idx);
-    }
-    if (acao === 'incluir') {
-      this.idx = idx;
-    }
+    this.idx = idx;
     this.showHistorico = true;
     this.mostraDialog(true);
   }
@@ -371,8 +365,20 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
     this.cssMostra = (ev) ? null : 'p-d-none';
   }
 
-  recebeRegistro(h: AndPropI) {
-    this.ps.recebeRegistro(h);
+  recebeRegistro(p: ProposicaoListarI) {
+    this.ps.proposicoes[this.idx] = p;
+    const a: any = {
+      data: p
+    }
+    this.ps.onRowExpand(a);
+    /*const idx = this.ps.proposicoes.findIndex(i => i.proposicao_id === p.andamento_proposicao_proposicao_id);
+    const pp: ProposicaoListarI = this.ps.proposicoes[idx];
+    const ap:AndamentoProposicaoI[] = pp.andamento_proposicao;
+    const apidx = ap.findIndex(a => a.andamento_proposicao_id === p.andamento_proposicao_id);
+    if (apidx === -1) {
+      ap.push(p)
+    }*/
+    // this.ps.recebeRegistro(h);
   }
 
   ngOnDestroy(): void {

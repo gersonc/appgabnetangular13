@@ -260,11 +260,21 @@
             >
               <app-andamento-proposicao-listar
                 *ngIf="showHistorico && acaoAndamento==='listar'"
-                [(apListar)]="prop.andamento_proposicao"
                 [(display)]="showHistorico"
+                [proposicao]="ps.expandido"
                 (dialogExterno)="mostraDialog($event)"
                 (novoRegistro)="recebeRegistro($event)"
               ></app-andamento-proposicao-listar>
+
+              <app-andamento-proposicao-form
+                *ngIf="showHistorico && acaoAndamento==='incluir'"
+                [idx]="idx"
+                [andamento_proposicao_proposicao_id]="prop.proposicao_id"
+                [acao]="'incluir'"
+                [proposicao]="ps.expandido"
+                [(display)]="showHistorico"
+                (novoRegistro)="recebeRegistro($event)"
+              ></app-andamento-proposicao-form>
 
 
               <!--<app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"

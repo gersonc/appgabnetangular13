@@ -28,7 +28,7 @@ export class AndamentoProposicaoService {
 
 
   incluir(dados: AndamentoProposicaoFormI): Observable<any[]> {
-    const url = this.url.andamentoproposicao + '/incluir';
+    const url = this.url.andamentoproposicao;
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, dados, httpOptions);
   }
@@ -40,12 +40,12 @@ export class AndamentoProposicaoService {
   }
 
   delete(id: number, id2 = 0): Observable<any[]> {
-    const url = this.url.andamentoproposicao + '/' + id + '/' + id2;
+    const url = this.url.andamentoproposicao + '/apagar/' + id + '/' + id2;
     return this.http.delete<any[]>(url);
   }
 
   apagar(id: number): Observable<any[]> {
-    const url = this.url.andamentoproposicao + '/apagar/' + id ;
+    const url = this.url.andamentoproposicao + '/' + id ;
     return this.http.delete<any[]>(url);
   }
 }

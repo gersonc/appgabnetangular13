@@ -47,7 +47,8 @@ import {ConfirmationService} from 'primeng-lts/api';
     ],
   exports: [
     AndamentoProposicaoComponent,
-    AndamentoProposicaoListarComponent
+    AndamentoProposicaoListarComponent,
+    AndamentoProposicaoFormComponent
   ],
 })
 export class AndamentoProposicaoModule { }

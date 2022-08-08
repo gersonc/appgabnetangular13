@@ -22,6 +22,8 @@ import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {HistFormI} from "../../hist/_models/hist-i";
 import {Table} from "primeng/table/table";
+import {Stripslashes} from "../../shared/functions/stripslashes";
+import {ProposicaoListarI} from "../../proposicao/_models/proposicao-listar-i";
 
 
 @Component({
@@ -33,15 +35,11 @@ import {Table} from "primeng/table/table";
 export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
   @ViewChild('tbl', { static: true }) tbl: Table;
   @Output() dialogExterno = new EventEmitter<boolean>();
-  @Output() novoRegistro = new EventEmitter<AndamentoProposicaoI[]>();
+  @Output() novoRegistro = new EventEmitter<ProposicaoListarI>();
   @Output() displayChange = new EventEmitter<boolean>();
   @Input() display: boolean = false;
-
-  @Output() apListarChange = new EventEmitter<AndamentoProposicaoI[]>();
-  @Input() apListar: AndamentoProposicaoI[];
-
-  // @Input() acaol?: string;
-  // @Output() acaolChange = new EventEmitter<string>();
+  @Input() proposicao: ProposicaoListarI;
+  @Input() idx: number;
 
   resp: [boolean, string, string] = [false,'',''];
   sub: Subscription[] = [];
@@ -60,8 +58,9 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
   permitirIncluir = false;
   displayDelete = false;
   btnIdx = '';
-  idx = -1;
+  // idx = -1;
   andamento_proposicao_proposicao_id: number;
+  andamento: AndamentoProposicaoI | null = null;
 
   imprimir = false;
   showForm = false;
@@ -77,6 +76,7 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    console.log('proposicao', this.proposicao);
     this.permitirAcao = (this.aut.andamentoproposicao_alterar || this.aut.andamentoproposicao_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
     this.permitirAlterar = (this.aut.andamentoproposicao_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
     this.permitirApagar = (this.aut.andamentoproposicao_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
@@ -86,7 +86,7 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
 
 
   montaColunas() {
-    this.andamento_proposicao_proposicao_id = +this.apListar[0].andamento_proposicao_proposicao_id
+    this.andamento_proposicao_proposicao_id = +this.proposicao.proposicao_id;
     this.cols = [
       {field: 'andamento_proposicao_data', header: 'DATA', sortable: 'true', width: '90px'},
       {field: 'andamento_proposicao_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '275px'},
@@ -99,17 +99,10 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
 
 
   editar(rowData, rowIndex) {
-    console.log('onRowEditInit', rowData);
       const a: AndamentoProposicaoI = rowData;
+      this.andamento = this.proposicao.andamento_proposicao[rowIndex];
       this.andexp = a;
       this.form = rowData;
-      /*this.form.andamento_proposicao_id = a.andamento_proposicao_id;
-      this.form.andamento_proposicao_situacao_id = +a.andamento_proposicao_situacao_id;
-      this.form.andamento_proposicao_relator_atual = a.andamento_proposicao_relator_atual;
-      this.form.andamento_proposicao_texto = a.andamento_proposicao_texto;
-      this.form.andamento_proposicao_orgao_id = a.andamento_proposicao_orgao_id;
-      this.form.andamento_proposicao_data = a.andamento_proposicao_data;*/
-      this.idx = +rowIndex;
       this.showForm = true;
   }
 
@@ -142,10 +135,34 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
                   summary: 'ANDAMENTO',
                   detail: this.resp[1],
                 });
-                this.apListar.splice(idx,1);
+                this.proposicao.andamento_proposicao.splice(idx,1);
                 this.tbl.reset();
-                if (this.apListar.length === 0) {
+                const i: number = this.proposicao.andamento_proposicao.length;
+                if (i === 0) {
+                  this.proposicao.andamento_proposicao_relator_atual = null;
+                  this.proposicao.proposicao_orgao_id = null;
+                  this.proposicao.proposicao_orgao_nome = null;
+                  this.proposicao.andamento_proposicao_texto = null;
+                  this.proposicao.andamento_proposicao_texto_delta = null;
+                  this.proposicao.andamento_proposicao_texto_texto = null;
+                  this.proposicao.andamento_proposicao_data = null;
+                  this.proposicao.andamento_proposicao_id = null;
+                  this.novoRegistro.emit(this.proposicao);
                   this.fechar();
+                } else {
+                  const j = i - 1;
+                  const a = this.proposicao.andamento_proposicao[j];
+                  this.proposicao.andamento_proposicao_relator_atual = a.andamento_proposicao_relator_atual;
+                  this.proposicao.proposicao_orgao_id = a.andamento_proposicao_orgao_id;
+                  this.proposicao.proposicao_orgao_nome = a.andamento_proposicao_orgao_nome;
+                  this.proposicao.proposicao_situacao_id = a.andamento_proposicao_situacao_id;
+                  this.proposicao.proposicao_situacao_nome = a.andamento_proposicao_situacao_nome;
+                  this.proposicao.andamento_proposicao_texto = a.andamento_proposicao_texto;
+                  this.proposicao.andamento_proposicao_texto_delta = a.andamento_proposicao_texto_delta;
+                  this.proposicao.andamento_proposicao_texto_texto = a.andamento_proposicao_texto_texto;
+                  this.proposicao.andamento_proposicao_data = a.andamento_proposicao_data;
+                  this.proposicao.andamento_proposicao_id = +a.andamento_proposicao_id;
+                  this.novoRegistro.emit(this.proposicao);
                 }
               } else {
                 this.ms.add({
@@ -174,6 +191,10 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
     this.displayChange.emit(false);
   }
 
+  apListarChange2(ev: ProposicaoListarI[]) {
+    this.proposicao.andamento_proposicao = ev;
+  }
+
   fecharTgl() {
     document.getElementById(this.btnIdx).click();
   }
@@ -188,6 +209,10 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
 
   onRowCollapse(ev: any) {
 
+  }
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
   ngOnDestroy(): void {

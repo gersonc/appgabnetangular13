@@ -141,6 +141,7 @@ export class ProposicaoService {
   }
 
   onRowExpand(evento) {
+    console.log('onRowExpand', evento);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.ts.mTitulo['proposicao'];
     }

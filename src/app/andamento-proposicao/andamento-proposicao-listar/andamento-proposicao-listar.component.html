@@ -2,10 +2,10 @@
 <ng-container *ngIf="!imprimir && !showForm">
 <p-table
   #tbl
-  [value]="apListar"
+  [value]="proposicao.andamento_proposicao"
   [columns]="cols"
   [lazy]="false"
-  [totalRecords]="apListar.length"
+  [totalRecords]="proposicao.andamento_proposicao.length"
   [sortField]="sortField"
   dataKey="andamento_proposicao_id"
   [scrollable]="true"
@@ -28,7 +28,7 @@
       <div class="p-mx-2">ANDAMENTOS DA PROPOSIÇÃO</div>
     </div>
     <div class="p-d-inline-flex p-ai-end">
-      <div class="p-mr-2">Num. Registros: {{apListar.length}}</div>
+      <div class="p-mr-2">Num. Registros: {{proposicao.andamento_proposicao.length}}</div>
     </div>
   </ng-template>
 
@@ -81,65 +81,119 @@
         </div>
       </td>
       <td *ngFor="let col of columns" [style.width]="col.width" style="vertical-align: top">
-        <app-quill-view *ngIf="col.field === 'andamento_proposicao_texto'"
-                        [cphtml]="rowData['andamento_proposicao_texto']"
-                        [cpdelta]="rowData['andamento_proposicao_texto_delta']"></app-quill-view>
+        <quill-view *ngIf="col.field === 'andamento_proposicao_texto'" [content]="stripslashes(rowData['andamento_proposicao_texto'])" [format]="'html'" theme="snow"></quill-view>
         <div *ngIf="col.field !== 'andamento_proposicao_texto'" class="p-text-uppercase">{{rowData[col.field]}}</div>
       </td>
     </tr>
   </ng-template>
 
 </p-table>
+  <div class="p-d-flex p-jc-start p-pb-1 p-pt-4">
+    <div class="p-mr-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        class="botaoinferior p-ripple p-button-rounded p-button-secondary"
+        label="Fechar"
+        [disabled]="botaoEnviarVF"
+        (click)="fechar()"
+      ></button>
+    </div>
+    <div *ngIf="permitirIncluir" class="p-mr-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        class="botaoinferior p-ripple p-button-rounded"
+        (click)="incluir()"
+        label="Incluir"
+        [disabled]="botaoEnviarVF"
+      ></button>
+    </div>
+  </div>
 </ng-container>
 
 <ng-container *ngIf="!imprimir && showForm">
   <ng-container *ngIf="acao==='alterar'">
     <app-andamento-proposicao-form
-      [apListar]="apListar"
-      [(andamento)]="form"
+      (apListarChange)="proposicao.andamento_proposicao"
       [acao]="acao"
+      [proposicao]="proposicao"
+      [andamento] ="andamento"
       [andamento_proposicao_proposicao_id]="andamento_proposicao_proposicao_id"
+      [listarVF]="true"
       [idx]="idx"
       [(display)]="showForm"
     ></app-andamento-proposicao-form>
   </ng-container>
   <ng-container *ngIf="acao==='incluir'">
     <app-andamento-proposicao-form
-      [apListar]="apListar"
+      (apListarChange)="apListarChange2($event)"
       [acao]="acao"
+      [listarVF]="true"
+      [idx]="idx"
+      [proposicao]="proposicao"
       [andamento_proposicao_proposicao_id]="andamento_proposicao_proposicao_id"
       [(display)]="showForm"
     ></app-andamento-proposicao-form>
   </ng-container>
 </ng-container>
 
+
+
+<!--<ng-container *ngIf="imprimir && apListar.length > 0 && showForm">
+  <table class="table-hover tabela">
+    <caption>ANDAMENTOS DA PROPOPSIÇÃO</caption>
+    <thead class="detalheTitulo">
+    <tr>
+      <th colspan="4">
+        ANDAMENTOS DA PROPOPSIÇÃO
+      </th>
+    </tr>
+    </thead>
+    <tbody class="detalhe-vert">
+    <tr>
+      <th style="width: 3%;" nowrap>
+        Data:
+      </th>
+      <th>
+        Redator:
+      </th>
+      <th>
+        Orgão:
+      </th>
+      <th>
+        Situação:
+      </th>
+    </tr>
+    <ng-container  *ngFor="let and of apListar">
+      <tr>
+        <td style="width: 3%; vertical-align:top;" nowrap>
+          {{and.andamento_proposicao_data}}
+        </td>
+        <td>
+          {{and.andamento_proposicao_relator_atual}}
+        </td>
+        <td>
+          {{and.andamento_proposicao_orgao_nome}}
+        </td>
+        <td>
+          {{and.andamento_proposicao_situacao_nome}}
+        </td>
+      </tr>
+      <tr *ngIf="and.andamento_proposicao_texto">
+        <td colspan="4">
+          <quill-view [content]="stripslashes(and.andamento_proposicao_texto)" [format]="'html'" theme="snow"></quill-view>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</ng-container>-->
+
 <!--*** FIM ********************************************************************************************************-->
 
-<br>
-<div class="botoesdetalhe2">
-  <div class="p-mr-2">
-    <button
-      pButton
-      pRipple
-      type="button"
-      class="botaoinferior p-button-secondary"
-      label="Fechar"
-      [disabled]="botaoEnviarVF"
-      (click)="fechar()"
-    ></button>
-  </div>
-  <div *ngIf="permitirIncluir" class="p-mr-2">
-    <button
-      pButton
-      pRipple
-      icon="pi pi-plus"
-      type="button"
-      class="botaoinferior p-ripple p-button-rounded"
-      (click)="incluir()"
-      label="Incluir"
-      [disabled]="botaoEnviarVF"
-    ></button>
-  </div>
-</div>
+
 
 
