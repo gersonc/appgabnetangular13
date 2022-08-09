@@ -48,7 +48,7 @@ export class ProposicaoService {
   cp0 = false;
   cp1 = false;
   cp2 = false;
-  totais: ProposicaoListarI[] = [];
+  // totais: ProposicaoListarI[] = [];
   titulos: TituloI[] | null = null;
 
 

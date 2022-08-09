@@ -31,7 +31,7 @@ import {TarefaExibirComponent} from "../tarefa-exibir/tarefa-exibir.component";
 import {Config} from 'quill-to-word';
 import * as quillToWord from 'quill-to-word';
 import {Editor} from "primeng/editor";
-import {TelefoneFormularioComponent} from "../../telefone/telefone-formulario/telefone-formulario.component";
+// import {TelefoneFormularioComponent} from "../../telefone/telefone-formulario/telefone-formulario.component";
 declare var jsPDF: any;
 
 @Component({

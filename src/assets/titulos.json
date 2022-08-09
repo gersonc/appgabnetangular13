@@ -1099,6 +1099,11 @@
     "mtitulo": "AUTOR",
     "titulo": "Autor"
   },
+  "telefone_id": {
+    "field": "telefone_id",
+    "mtitulo": "ID",
+    "titulo": "Id"
+  },
   "telefone_assunto": {
     "field": "telefone_assunto",
     "mtitulo": "ASSUNTO",
@@ -1106,6 +1111,16 @@
   },
   "telefone_data": {
     "field": "telefone_data",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "telefone_data3": {
+    "field": "telefone_data3",
+    "mtitulo": "DATA",
+    "titulo": "Data"
+  },
+  "telefone_data2": {
+    "field": "telefone_data2",
     "mtitulo": "DATA",
     "titulo": "Data"
   },
@@ -1126,6 +1141,16 @@
   },
   "telefone_observacao": {
     "field": "telefone_observacao",
+    "mtitulo": "OBSERVAÇÃO",
+    "titulo": "Observação"
+  },
+  "telefone_observacao_delta": {
+    "field": "telefone_observacao_delta",
+    "mtitulo": "OBSERVAÇÃO",
+    "titulo": "Observação"
+  },
+  "telefone_observacao_texto": {
+    "field": "telefone_observacao_texto",
     "mtitulo": "OBSERVAÇÃO",
     "titulo": "Observação"
   },

@@ -1,78 +1,115 @@
-export interface TelefoneSQLInterface {
-  sql: string;
-}
+import {ColunasI} from "../../_models/colunas-i";
+import {TotalI} from "../../shared-datatables/models/total-i";
 
-export interface TelefoneTotalInterface {
-  num: number;
-}
-
-export interface TelefoneBuscaCampoInterface {
-  field: string;
-  header: string;
-}
 export interface TelefoneInterface {
-  telefone_assunto?: string|null;
-  telefone_data?: string|null;
-  telefone_ddd?: string|null;
-  telefone_de?: string|null;
-  telefone_id?: number|null;
-  telefone_local_id?: number|null;
-  telefone_local_nome?: string|null;
-  telefone_observacao?: string|null;
-  telefone_para?: string|null;
-  telefone_resolvido_id?: number|null;
-  telefone_resolvido?: string | number|null;
-  telefone_telefone?: string|null;
-  telefone_tipo?: number | string|null;
-  telefone_tipo_id?: number|null;
-  telefone_usuario_nome?: string|null;
+  telefone_assunto?: string;
+  telefone_data?: string;
+  telefone_data2?: string;
+  telefone_data3?: Date;
+  telefone_ddd?: string;
+  telefone_de?: string;
+  telefone_id?: number;
+  telefone_local_id?: number;
+  telefone_local_nome?: string;
+  telefone_observacao?: string;
+  telefone_observacao_delta?: string;
+  telefone_observacao_texto?: string;
+  telefone_para?: string;
+  telefone_resolvido_id?: number;
+  telefone_resolvido?: string | number;
+  telefone_telefone?: string;
+  telefone_tipo?: number | string;
+  telefone_tipo_id?: number;
+  telefone_usuario_nome?: string;
+}
+
+export interface TelefoneInterface2 {
+  telefone_assunto?: string;
+  telefone_data?: string;
+  telefone_data2?: string;
+  telefone_ddd?: string;
+  telefone_de?: string;
+  telefone_id?: number;
+  telefone_local_id?: number;
+  telefone_local_nome?: string;
+  telefone_observacao?: string;
+  telefone_observacao_delta?: string;
+  telefone_observacao_texto?: string;
+  telefone_para?: string;
+  telefone_resolvido_id?: number;
+  telefone_resolvido?: string | number;
+  telefone_telefone?: string;
+  telefone_tipo?: number | string;
+  telefone_tipo_id?: number;
+  telefone_usuario_nome?: string;
 }
 
 export interface TelefoneBuscaInterface {
-  telefone_assunto1?: string|null;
-  telefone_assunto2?: string[]|null;
-  telefone_data1?: string|null;
-  telefone_data2?: string|null;
-  telefone_ddd?: string|null;
-  telefone_de?: string|null;
-  telefone_id?: number|null;
-  telefone_local_id?: number|null;
-  telefone_para?: string|null;
-  telefone_resolvido?: number|null;
-  telefone_telefone?: string|null;
-  telefone_tipo?: number|null;
-  telefone_usuario_nome?: string|null;
-  numlinhas?: string|null;
-  inicio?: string|null;
-  sortorder?: string|null;
-  sortcampo?: string|null;
-  todos?: boolean|null;
-  campos?: TelefoneBuscaCampoInterface[]|null;
-  ids?: TelefoneBuscaCampoInterface[]|null;
+  telefone_assunto1?: string;
+  telefone_assunto2?: string[];
+  telefone_data1?: string;
+  telefone_data2?: string;
+  telefone_ddd?: string;
+  telefone_de?: string;
+  telefone_id?: number;
+  telefone_local_id?: number;
+  telefone_para?: string;
+  telefone_resolvido_id?: number;
+  telefone_telefone?: string;
+  telefone_tipo?: number;
+  telefone_usuario_nome?: string;
+  rows?: number;
+  first?: number;
+  sortOrder?: number;
+  sortField?: string;
+  todos?: boolean;
+  campos?: ColunasI[];
+  ids?: number[];
+  excel?: boolean;
 }
 
 export interface TelefonePaginacaoInterface {
-  telefone: TelefoneInterface[];
-  total: TelefoneTotalInterface;
-  sql: TelefoneSQLInterface;
+  telefones: TelefoneInterface2[];
+  total: TotalI;
+}
+
+export interface TelefoneFormI {
+  telefone_id?: number;
+  telefone_tipo?: number;
+  telefone_data?: string;
+  telefone_de?: string;
+  telefone_para?: string;
+  telefone_ddd?: string;
+  telefone_telefone?: string;
+  telefone_assunto?: string;
+  telefone_local_id?: number;
+  telefone_local_nome?: string;
+  telefone_observacao?: string;
+  telefone_observacao_delta?: string;
+  telefone_observacao_texto?: string;
+  telefone_resolvido?: number;
+  telefone_usuario_nome?: string;
 }
 
 export class TelefoneFormulario implements TelefoneInterface {
-  telefone_assunto = null;
-  telefone_data = null;
-  telefone_ddd = null;
-  telefone_de = null;
-  telefone_id = null;
-  telefone_local_id = null;
-  telefone_local_nome = null;
-  telefone_observacao = null;
-  telefone_para = null;
-  telefone_resolvido_id = null;
-  telefone_resolvido = null;
-  telefone_telefone = null;
-  telefone_tipo = null;
-  telefone_tipo_id = null;
-  telefone_usuario_nome = null;
+  telefone_assunto?: string;
+  telefone_data?: string;
+  telefone_data2?: string;
+  telefone_ddd?: string;
+  telefone_de?: string;
+  telefone_id?: number;
+  telefone_local_id?: number;
+  telefone_local_nome?: string;
+  telefone_observacao?: string;
+  telefone_observacao_delta?: string;
+  telefone_observacao_texto?: string;
+  telefone_para?: string;
+  telefone_resolvido_id?: number;
+  telefone_resolvido?: string | number;
+  telefone_telefone?: string;
+  telefone_tipo?: number | string;
+  telefone_tipo_id?: number;
+  telefone_usuario_nome?: string;
 }
 
 export class TelefoneBusca implements TelefoneBuscaInterface {
@@ -102,3 +139,7 @@ export interface TelefoneDetalheInterface {
   telefone: TelefoneInterface;
   telefone_titulo: any[];
 }
+
+export const telefonecampostexto: string[] = [
+  'telefone_observacao'
+];

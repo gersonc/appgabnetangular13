@@ -1,24 +1,21 @@
 import { Component, OnInit, OnChanges, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LazyLoadEvent, SelectItem, MenuItem } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
 import {AuthenticationService, MenuInternoService} from '../../_services';
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import {ProposicaoListarI} from "../_models/proposicao-listar-i";
-import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {ProposicaoService} from "../_services/proposicao.service";
 import {ProposicaoFormService} from "../_services/proposicao-form.service";
 import {AndamentoProposicaoI, AndPropI} from "../_models/andamento-proposicao-i";
+import {MenuDatatableService} from "../../_services/menu-datatable.service";
 
 
 @Component({
   selector: 'app-proposicao-datatable',
   templateUrl: './proposicao-datatable.component.html',
-  styleUrls: ['./proposicao-datatable.component.css'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [ DialogService ]
+  styleUrls: ['./proposicao-datatable.component.css']
 })
 export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
@@ -47,8 +44,8 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
-    private router: Router,
     public md: MenuDatatableService,
+    private router: Router,
     public ps: ProposicaoService,
     public pfs: ProposicaoFormService
   ) { }

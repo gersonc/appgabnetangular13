@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuInternoService, MostraMenuService} from '../_services';
-import { TelefoneBuscaService } from './_services';
-import { DialogService } from 'primeng/dynamicdialog';
+import {MenuInternoService} from '../_services';
 import {Subscription} from "rxjs";
+import {ArquivoService} from "../arquivo/_services";
+import {TelefoneService} from "./_services/telefone.service";
 
 @Component({
   selector: 'app-telefone',
   templateUrl: './telefone.component.html',
-  styleUrls: ['./telefone.component.css'],
-  providers: [ DialogService ]
+  styleUrls: ['./telefone.component.css']
 })
 export class TelefoneComponent implements OnInit {
   public altura = (window.innerHeight) + 'px';
@@ -17,8 +16,8 @@ export class TelefoneComponent implements OnInit {
 
   constructor(
     public mi: MenuInternoService,
-    private tbs: TelefoneBuscaService,
-    public dialogService: DialogService,
+    private as: ArquivoService,
+    private ts: TelefoneService,
   ) {
   }
 
@@ -28,12 +27,11 @@ export class TelefoneComponent implements OnInit {
         this.mostraMenuInterno = vf;
       })
     );
-    this.tbs.criarTelefoneBusca();
+    this.as.getPermissoes();
     if (!sessionStorage.getItem('telefone-busca')) {
-      this.tbs.buscaStateSN = false;
       this.mi.mudaMenuInterno(true);
     } else {
-      if (this.tbs.buscaStateSN) {
+      if (this.ts.stateSN) {
         this.mi.mudaMenuInterno(false);
       } else {
         this.mi.mudaMenuInterno(true);
@@ -46,6 +44,7 @@ export class TelefoneComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
+    this.ts.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }
 

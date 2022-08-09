@@ -30,7 +30,6 @@ export class ProposicaoMenuListarComponent implements OnInit {
     private dd: EmendaDropdownMenuService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private ps: ProposicaoService,
     private pfs: ProposicaoFormService

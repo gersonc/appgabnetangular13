@@ -1,25 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
-import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
+import {DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { TelefoneBuscaService } from '../_services';
 import { take } from 'rxjs/operators';
-import { TelefoneFormularioComponent } from '../telefone-formulario/telefone-formulario.component';
-import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import {TelefoneService} from "../_services/telefone.service";
+import {TelefoneDropdownService} from "../_services/telefone-dropdown.service";
+import {TelefoneBuscaInterface} from "../_models";
+import {TelefoneFormService} from "../_services/telefone-form.service";
 
 @Component({
   selector: 'app-telefone-menu-listar',
   templateUrl: './telefone-menu-listar.component.html',
-  styleUrls: ['./telefone-menu-listar.component.css'],
-  providers: [ DialogService ]
+  styleUrls: ['./telefone-menu-listar.component.css']
 })
 export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   public formMenuTelefone?: FormGroup;
-  public items: Array<any> = [];
   ptBr: any;
   sub: Subscription[] = [];
   public sgt?: string[];
@@ -38,19 +36,16 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dd: DropdownService,
+    private tdd: TelefoneDropdownService,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
+    public aut: AuthenticationService,
     private autocompleteservice: AutocompleteService,
-    private activatedRoute: ActivatedRoute,
-    public dialogService: DialogService,
     private router: Router,
-    private cs: CarregadorService,
-    private tbs: TelefoneBuscaService
+    private ts: TelefoneService,
+    private tfs: TelefoneFormService
   ) { }
 
   ngOnInit() {
-    console.log('menuinit');
-    this.configuraCalendario();
 
     this.formMenuTelefone = this.formBuilder.group({
       telefone_assunto1: [null],
@@ -69,40 +64,24 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
 
     this.carregaDropDown();
 
-    if (!this.tbs.buscaStateSN) {
-      if (sessionStorage.getItem('telefone-listagem')) {
-        sessionStorage.removeItem('telefone-listagem');
-      }
-      this.mi.showMenuInterno();
-    }
-
-    this.sub.push(this.tbs.atualisaMenu$.subscribe(
-      (dados: boolean) => {
-        if (dados) {
-          this.ddTelefone_usuario_nome = JSON.parse(sessionStorage.getItem('telefone-dropdown')!);
-        }}
-    ));
-  }
-
-  configuraCalendario() {
-    this.ptBr = {
-      firstDayOfWeek: 1,
-      dayNames: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
-      dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
-      dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-      monthNames: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'septembro',
-        'outubro', 'novembro', 'dezembro'],
-      monthNamesShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
-      today: 'Hoje',
-      clear: 'Limpar',
-      dateFormat: 'dd/mm/yy'
-    };
+    this.mi.showMenuInterno();
   }
 
   carregaDropDown() {
-    this.ddTelefone_local_id = JSON.parse(sessionStorage.getItem('dropdown-local')!);
-    this.ddTelefone_usuario_nome = JSON.parse(sessionStorage.getItem('telefone-dropdown')!);
-    this.cs.escondeCarregador();
+    if (sessionStorage.getItem('dropdown-local')) {
+      this.ddTelefone_local_id = JSON.parse(sessionStorage.getItem('dropdown-local'));
+    }
+    if (sessionStorage.getItem('telefone-dropdown')) {
+      this.ddTelefone_usuario_nome = JSON.parse(sessionStorage.getItem('telefone-dropdown')!);
+    }
+    if (!sessionStorage.getItem('dropdown-local') || !sessionStorage.getItem('telefone-dropdown')) {
+      this.getCarregaDropDown();
+    }
+  }
+
+  getCarregaDropDown() {
+    this.tdd.getDD();
+    this.carregaDropDown();
   }
 
   autoComp (event: any, campo: string) {
@@ -122,32 +101,31 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   }
 
   onMudaForm() {
-    this.tbs.resetTelefoneBusca();
-    this.tbs.tb = this.formMenuTelefone!.getRawValue();
-    this.tbs.buscaMenu();
+    this.ts.resetTelefoneBusca();
+    let telefoneBusca: TelefoneBuscaInterface;
+    telefoneBusca = this.formMenuTelefone.getRawValue();
+    this.ts.novaBusca(telefoneBusca);
+    this.ts.buscaMenu();
     this.mi.hideMenu();
-    this.cs.mostraCarregador();
   }
 
   goIncluir() {
-    if (this.authenticationService.telefone_incluir) {
-      const ref = this.dialogService.open(TelefoneFormularioComponent, {
-        data: {
-          acao: 'incluir',
-          origem: 'menu'
-        },
-        header: 'INCLUIR TELEFONEMA',
-        width: '60%',
-        styleClass: 'tablistagem',
-        dismissableMask: true,
-        showHeader: true
-      });
+    if (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.telefone_incluir) {
+      // this.es.acao = 'incluir';
+      this.tfs.acao = 'incluir';
+      this.mi.mudaMenuInterno(false);
+      // this.router.navigate(['proposicao/incluir']);
+    } else {
+      console.error('SEM PERMISSAO');
     }
   }
 
-  onKey(event: any) {
+  onKey(event) {
     let a = 0;
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
+  }
+
+  fechar() {
   }
 
   ngOnDestroy(): void {

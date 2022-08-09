@@ -1,72 +1,95 @@
 <!--*** INICIO *****************************************************************************************************-->
 <p-table #dttf
          id="tabelatelefone"
-         [value]="telefone"
-         [columns]="selectedColumns"
-         [rows]="rows"
+         [value]="ts.telefones"
+         [columns]="ts.tabela.selectedColumns"
+         [rows]="ts.tabela.rows"
          [lazy]="true"
          [lazyLoadOnInit]="false"
-         [totalRecords]="totalRecords"
-         [sortField]="sortCampo"
+         [totalRecords]="ts.tabela.totalRecords"
+         [sortField]="ts.tabela.sortField"
          dataKey="telefone_id"
          [scrollable]="true"
          [scrollHeight]="altura"
-         [(selection)]="selecionados"
+         [(selection)]="ts.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
          [autoLayout]="false"
          columnResizeMode="expand"
          [rowHover]="true"
          [paginator]="true"
-         [alwaysShowPaginator]="false"
+         [alwaysShowPaginator]="true"
          [pageLinks]="5"
          [responsive]="false"
          rowExpandMode="single"
          [rowsPerPageOptions]="[50,100,200,500,1000]"
-         (onLazyLoad)="onLazyLoad($event)"
-         (onColReorder)="onColReorder($event)"
-         (onRowExpand)="onRowExpand($event)"
-         [(contextMenuSelection)]="ofContexto"
+         [(first)]="ts.tabela.first"
+         [(contextMenuSelection)]="ts.Contexto"
          contextMenuSelectionMode="joint"
          [contextMenu]="cm"
-         (onContextMenuSelect)="onContextMenuSelect($event)"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="ts.onRowExpand($event)"
+         (onRowCollapse)="ts.onRowCollapse($event)"
+         (onStateSave)="ts.setState($event)"
+         (onStateRestore)="ts.onStateRestore($event)"
+         (onContextMenuSelect)="ts.onContextMenuSelect($event)"
+         (sortFunction)="ts.customSort($event)"
+         (rowsChange)="ts.onPageChange($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'12px', 'border-collapse':'separate'}"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         [tableStyle]="{'font-size':'1rem'}"
          stateStorage="session"
-         stateKey="telefone-listagem"
+         stateKey="telefone-table"
          selectionMode="multiple"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
 
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <div class="p-d-flex p-jc-between p-ai-center">
-      <div class="p-d-inline-flex">
-        <div class="p-mx-2">
-          <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
-                  (click)="mostraMenu()"></button>
+    <div [ngClass]="{'hide-datatable': md.mdt}">
+      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
+        <div class="p-d-inline-flex">
+          <div class="p-mx-2">
+            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                    (click)="mostraMenu()"></button>
+          </div>
+          <div class="p-mr-2">
+            <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
+                    (click)="mostraSelectColunas()"></button>
+          </div>
+          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
+            <button pButton type="button" label="Relatórios" icon="pi pi-info" class="p-button-text p-button-sm"
+                    (click)="men.toggle($event)"></button>
+          </div>
+
+          <div class="p-mr-0" *ngIf="aut.telefone_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
+            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                    (click)="telefoneIncluir()"></button>
+          </div>
         </div>
-        <div class="p-mr-2">
-          <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
-                  (click)="mostraSelectColunas()"></button>
+
+        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mx-2">TELEFONEMAS</div>
         </div>
-        <div class="p-mr-2">
-          <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
-                  (click)="men.toggle($event)"></button>
+        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+          <div class="p-mr-2" *ngIf="ts.selecionados !== undefined &&  ts.selecionados !== null &&  ts.selecionados.length > 0">
+            <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
+                    (click)="ts.resetSelecionados()"></button>
+          </div>
+          <div class="p-mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
+            Registros: {{ts.tabela.totalRecords}}</div>
         </div>
-        <div class="p-mr-0">
-          <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
-                  (click)="telefoneIncluir()"></button>
+
+        <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
+          <div class="p-mx-2">TELEFONEMAS</div>
+          <div class="p-mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
+            Registros: {{ts.tabela.totalRecords}}</div>
         </div>
-      </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-2">TELEFONE</div>
-      </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+
+
       </div>
     </div>
-    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <p-menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -81,7 +104,7 @@
       <th></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
-          [style.width]="col.largura"
+          [style.width]="col.width"
           pReorderableColumn
           pResizableColumn
       >
@@ -93,169 +116,147 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-tel let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="tel" [pContextMenuRow]="tel" [pSelectableRowIndex]="rowIndex">
-      <td style="width: 50px; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
+    <tr [pSelectableRow]="tel" [pContextMenuRow]="tel" [pContextMenuRowIndex]="rowIndex"
+        [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
+      <td>
+        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="tel" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
-          style="padding-bottom: 0; padding-top: .3em;">
-        {{tel[col.field]}}
+
+      <td *ngFor="let col of columns" [style.width]="col.width">
+
+        <app-exporter-celula [celula]="{
+          valor: (col.field==='telefone_data2') ? tel[col.field].toLocaleDateString('pt-BR') : stripslashes(tel[col.field]),
+          field: col.field,
+          header:col.header,
+          txtVF: ts.testaCampoTexto(col.field),
+          cphtml: stripslashes(tel[col.field]),
+          cpdelta: null,
+          cptexto: null
+           }"></app-exporter-celula>
       </td>
     </tr>
   </ng-template>
 
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-tel let-indice="rowIndex" let-columns="columns">
+  <ng-template pTemplate="rowexpansion" let-tel let-columns="columns" let-indice="rowIndex">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
           <div class="p-fluid">
-
             <div class="p-d-flex p-jc-start p-pb-2">
               <div class="p-mr-2">
                 <button
-                  (click)="getPdf(tel)"
                   pButton
                   pRipple
                   type="button"
-                  icon="pi pi-file-pdf"
-                  class="p-button-rounded p-button-raised"
-                  pTooltip="PDF"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
+                  pTooltip="Detalhes"
                   tooltipPosition="top"
-                  [disabled]="btnInativo"
+                  (click)="telefoneDetalheCompleto(tel)"
                 >
                 </button>
               </div>
-              <div class="p-mr-2">
+
+              <!--<div
+                *ngIf="(aut.telefone_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn)" class="p-mr-2">
                 <button
-                  (click)="getPdf(tel, true)"
                   pButton
                   pRipple
                   type="button"
-                  icon="pi pi-print"
-                  class="p-button-rounded p-button-raised p-button-info"
-                  pTooltip="Imprimir"
+                  icon="pi pi-percentage"
+                  class="p-button-rounded p-button-success"
+                  pTooltip="Atualizar"
                   tooltipPosition="top"
-                  [disabled]="btnInativo"
+                  (click)="telefoneAtualizar(tel)"
                 >
                 </button>
-              </div>
-              <div *ngIf="authenticationService.telefone_alterar" class="p-mr-2">
+              </div>-->
+
+              <div *ngIf="aut.telefone_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
-                  (click)="telefoneAlterar(tel)"
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-pencil"
-                  class="p-button-rounded p-button-raised p-button-warning"
+                  class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
-                  [disabled]="btnInativo"
+                  (click)="telefoneAlterar(tel)"
                 >
                 </button>
               </div>
-              <div *ngIf="authenticationService.telefone_apagar" class="p-mr-2">
+
+              <div *ngIf="aut.telefone_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
-                  (click)="telefoneApagar(tel)"
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-trash"
-                  class="p-button-rounded p-button-raised p-button-danger"
+                  class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
-                  [disabled]="btnInativo"
+                  (click)="telefoneApagar(tel)"
                 >
                 </button>
               </div>
             </div>
 
-            <div class="p-grid" id="contx">
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+            <div class="p-grid">
+              <div *ngFor="let ce of ts.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div class="registros p-shadow-1">
-                  <h5>ID</h5>
-                  {{tel.telefone_id}}
+                  <h5>{{ce.header}}</h5>
+                  <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
               </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>DATA E HORA</h5>
-                  {{tel.telefone_data}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>PARA</h5>
-                  {{tel.telefone_para}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>DE</h5>
-                  {{tel.telefone_de}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>ASSUNTO</h5>
-                  {{tel.telefone_assunto}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>DDD</h5>
-                  {{tel.telefone_ddd}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>TELEFONE</h5>
-                  {{tel.telefone_telefone}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>NÚCLEO</h5>
-                  {{tel.telefone_local_nome}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>RESOLVIDO</h5>
-                  {{tel.telefone_resolvido}}
-                </div>
-              </div>
-
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>ATENDENTE</h5>
-                  {{tel.telefone_usuario_nome}}
-                </div>
-              </div>
-
-              <div *ngIf="tel.telefone_observacao" class="p-col-12">
-                <div class="registros p-shadow-1">
-                  <h5>OBSERVAÇÃO</h5>
-                  {{tel.telefone_observacao}}
-                </div>
-              </div>
-
-
             </div>
+
 
           </div>
         </div>
+        <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
+        <ng-container *ngIf="ts.showForm">
+          <div [ngClass]="cssMostra">
+            <p-dialog
+              [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+              [style]="{width: '80vw'}"
+              [(visible)]="ts.showForm"
+              styleClass="tablistagem"
+              [header]="'ANDAMENTOS PROPOSIÇÃO'"
+              [modal]="true"
+              [dismissableMask]="false"
+              [baseZIndex]="0"
+              [blockScroll]="true"
+            >
+              <!--<app-andamento-telefone-listar
+                *ngIf="ts.showForm && acaoAndamento==='listar'"
+                [(display)]="ts.showForm"
+                [telefone]="ts.expandido"
+                (dialogExterno)="mostraDialog($event)"
+                (novoRegistro)="recebeRegistro($event)"
+              ></app-andamento-telefone-listar>
+
+              <app-andamento-telefone-form
+                *ngIf="ts.showForm && acaoAndamento==='incluir'"
+                [idx]="idx"
+                [andamento_telefone_telefone_id]="tel.telefone_id"
+                [acao]="'incluir'"
+                [telefone]="ts.expandido"
+                [(display)]="ts.showForm"
+                (novoRegistro)="recebeRegistro($event)"
+              ></app-andamento-telefone-form>-->
+
+
+              <!--<app-hist-form *ngIf="ts.showForm && histAcao === 'incluir'" [histFormI]="histFormI"
+                             [(display)]="ts.showForm" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
+              <app-hist-datatable *ngIf="ts.showForm && histAcao === 'listar'" [(display)]="ts.showForm"
+                                  [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
+                                  (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>-->
+            </p-dialog>
+          </div>
+        </ng-container>
       </td>
     </tr>
   </ng-template>
@@ -278,40 +279,44 @@
 <!--*** FIM ********************************************************************************************************-->
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
-
-<p-dialog
-  header="Selecione as colunas."
-  [(visible)]="mostraSeletor"
-  [modal]="true"
-  [style]="{width: '300px'}"
-  [dismissableMask]="true"
-  styleClass="tablistagem"
-  (onHide)="hideSeletor($event)"
+<p-dialog *ngIf="ts.tabela.mostraSeletor"
+          id="seletor"
+          header="Selecione as colunas."
+          [(visible)]="ts.tabela.mostraSeletor"
+          [modal]="true"
+          styleClass="tablistagem"
+          [style]="{width: '40rem'}"
+          [dismissableMask]="true"
 >
-  <p-listbox
-    [options]="cols"
-    [(ngModel)]="selectedColumns"
-    [multiple]="true"
-    [checkbox]="true"
-    [filter]="true"
-    optionLabel="header"
-    [style]="{width: '270px'}"
-    [listStyle]="{'max-height':'300px', 'width':'250px'}"
-    (onChange)="onChangeSeletorColunas($event)"
-  ></p-listbox>
+  <app-seletor-colunas [todas]="cols" [(ativas)]="ts.tabela.selectedColumns"></app-seletor-colunas>
+  <p-footer>
+    <div class="p-d-flex p-jc-start p-pb-2">
+      <div class="p-mr-2">
+        <button pButton type="button" label="Fehar " icon="pi pi-times"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
+      </div>
+      <div class="p-mr-2">
+        <button pButton type="button" label="Reset " icon="pi pi-backward"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
+      </div>
+    </div>
+  </p-footer>
 </p-dialog>
-<p-confirmDialog
-  [style]="{width: '50vw'}"
-  [baseZIndex]="10000"
-  [autoZIndex]="true"
-  acceptLabel="Sim"
-  rejectLabel="Não"
-  styleClass="tablistagem"
-  acceptIcon="pi pi-trash"
-  acceptButtonStyleClass="p-button-rounded p-button-danger"
-  rejectIcon="pi pi-times"
-  rejectButtonStyleClass="p-button-rounded"
-></p-confirmDialog>
-<p-contextMenu #cm [model]="contextoMenu"></p-contextMenu>
-<p-toast key="telefoneToast" position="center"></p-toast>
+<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+
+
+<ng-container *ngIf="showDetalhe">
+  <p-dialog
+    [(visible)]="showDetalhe"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{width: '80vw'}"
+    styleClass="tablistagem"
+    header="DETALHE"
+    (onHide)="escondeDetalhe()"
+  >
+    <!--<app-telefone-detalhe [telefone]="telefoneDetalhe" (hideDetalhe)="escondeDetalhe()"></app-telefone-detalhe>-->
+  </p-dialog>
+</ng-container>
+
 

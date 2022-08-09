@@ -4,7 +4,8 @@ import { AuthChildGuard } from '../_guards';
 import { Rule, Scope } from '../_models';
 import { TelefoneComponent } from './telefone.component';
 import { TelefoneDatatableComponent } from './telefone-datatable/telefone-datatable.component';
-import { TelefoneListarResolver } from './_resolvers';
+import {TelefoneListarResolver} from "./_resolvers/telefone-listar.resolver";
+
 
 
 const telefoneRoutes: Routes = [

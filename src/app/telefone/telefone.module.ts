@@ -28,16 +28,16 @@ import { ToastModule } from 'primeng/toast';
 import { ChipsModule } from 'primeng/chips';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { KeyFilterModule } from 'primeng/keyfilter';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ConfirmationService} from 'primeng-lts/api';
 
 
 import { TelefoneRoutingModule } from './telefone-routing.module';
 import { TelefoneComponent } from './telefone.component';
 import { TelefoneMenuListarComponent } from './telefone-menu-listar/telefone-menu-listar.component';
 import { TelefoneDatatableComponent } from './telefone-datatable/telefone-datatable.component';
-import { TelefoneFormularioComponent } from './telefone-formulario/telefone-formulario.component';
 import {RippleModule} from "primeng/ripple";
+import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 
 
 @NgModule({
@@ -45,7 +45,6 @@ import {RippleModule} from "primeng/ripple";
     TelefoneComponent,
     TelefoneMenuListarComponent,
     TelefoneDatatableComponent,
-    TelefoneFormularioComponent,
   ],
     imports: [
         CommonModule,
@@ -74,21 +73,18 @@ import {RippleModule} from "primeng/ripple";
         SelectButtonModule,
         ToastModule,
         KeyFilterModule,
-        ConfirmDialogModule,
+        ConfirmPopupModule,
         InputTextareaModule,
         TelefoneRoutingModule,
-        RippleModule
+        RippleModule,
+        ExporterAcessoModule
     ],
   exports: [
     TelefoneComponent
   ],
-  entryComponents: [
-    TelefoneFormularioComponent,
-  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    ConfirmationService
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]
 })
 export class TelefoneModule { }
