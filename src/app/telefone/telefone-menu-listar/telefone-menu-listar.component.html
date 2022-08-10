@@ -13,6 +13,17 @@
             (click)="onMudaForm()"
           ></button>
         </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="limpar()"
+          ></button>
+        </div>
         <div *ngIf="aut.telefone_incluir" class="p-mr-2">
           <button
             *ngIf="aut.telefone_incluir"
@@ -55,7 +66,8 @@
                 yearRange="2000:2035"
                 placeholder="dd/mm/aaaa"
                 [showTime]="true"
-                dataType="string"
+                dataType="date"
+                hourFormat="24"
               ></p-calendar>
             </div>
 
@@ -70,7 +82,8 @@
                 yearRange="2000:2035"
                 placeholder="dd/mm/aaaa"
                 [showTime]="true"
-                dataType="string"
+                dataType="date"
+                hourFormat="24"
               ></p-calendar>
             </div>
 
@@ -91,6 +104,7 @@
             <div class="p-field p-col-12">
               <label for="telefone_assunto1">Assunto começa com</label>
               <p-autoComplete
+                #a1
                 id="telefone_assunto1"
                 formControlName="telefone_assunto1"
                 [maxlength]="50"
@@ -100,6 +114,7 @@
                 dropdownMode="current"
                 (completeMethod)="autoComp($event,'telefone_assunto')"
                 [inputStyle]="{'padding-right':'0'}"
+                (onBlur)="testaAssunto1(a1.value)"
               ></p-autoComplete>
             </div>
 
@@ -107,10 +122,14 @@
             <div class="p-field p-col-12">
               <label for="telefone_assunto2">Assunto contém</label>
               <p-chips
+                #a2
                 id="telefone_assunto2"
                 formControlName="telefone_assunto2"
                 [addOnTab]="true"
                 [addOnBlur]="true"
+                [separator]="','"
+                (onAdd)="onAddAssunto2($event, a2.value)"
+                pTooltip="Separe expressões utilizando ',' ou a tecla 'TAB', cada expressão deve conter no mínimo 4 caracteres."
               ></p-chips>
             </div>
 
@@ -224,6 +243,17 @@
             label="Procurar"
             class="p-button-rounded p-button-secondary"
             (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="limpar()"
           ></button>
         </div>
         <div *ngIf="aut.telefone_incluir" class="p-mr-2">

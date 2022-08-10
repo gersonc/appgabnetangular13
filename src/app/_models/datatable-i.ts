@@ -46,4 +46,5 @@ export class Datatable implements DatatableI {
   currentPage = 0;
   pageCount = 0;
   titulos = undefined;
+  ids = undefined;
 }

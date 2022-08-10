@@ -40,6 +40,8 @@ export class OficioService {
   sortOrder = 1;
   lazy = false;
   titulos: TituloI[] | null = null;
+  mudaRows = 50;
+  rowsPerPageOptions = [50];
 
 
   constructor(
@@ -394,7 +396,7 @@ export class OficioService {
   }
 
   oficioBusca(): void {
-    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids) {
+    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.oficios;
@@ -440,6 +442,7 @@ export class OficioService {
             this.lazy = false;
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {
               this.tabela.totalRecords = +this.tabela.total.num;
+              this.mudaRowsPerPageOptions(this.tabela.totalRecords);
             }
             const n = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
             if (+this.tabela.currentPage !== n) {
@@ -500,6 +503,20 @@ export class OficioService {
     const url = this.url.oficio + '/analisar';
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.put<any[]>(url, dados, httpOptions);
+  }
+
+  rowsChange(ev) {
+    this.mudaRows = this.tabela.rows;
+  }
+
+  mudaRowsPerPageOptions(t: number) {
+    let anterior = 50;
+    let teste = [50];
+    while (anterior < t) {
+      anterior = anterior * 2;
+      teste.push(anterior);
+    }
+    this.rowsPerPageOptions = teste;
   }
 
   onDestroy(): void {

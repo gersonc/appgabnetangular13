@@ -10,6 +10,7 @@ import {TelefoneService} from "../_services/telefone.service";
 import {TelefoneDropdownService} from "../_services/telefone-dropdown.service";
 import {TelefoneBuscaInterface} from "../_models";
 import {TelefoneFormService} from "../_services/telefone-form.service";
+import {DateTime} from "luxon";
 
 @Component({
   selector: 'app-telefone-menu-listar',
@@ -102,11 +103,74 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
 
   onMudaForm() {
     this.ts.resetTelefoneBusca();
-    let telefoneBusca: TelefoneBuscaInterface;
-    telefoneBusca = this.formMenuTelefone.getRawValue();
-    this.ts.novaBusca(telefoneBusca);
+    this.ts.novaBusca(this.criaBusca());
+    delete this.ts.busca.ids;
     this.ts.buscaMenu();
     this.mi.hideMenu();
+  }
+
+  criaBusca(): TelefoneBuscaInterface {
+    let b: TelefoneBuscaInterface = {};
+    const f = this.formMenuTelefone.getRawValue();
+    if (f.telefone_assunto1 !== null) {
+      b.telefone_assunto1 = f.telefone_assunto1;
+      b.telefone_assunto1 = b.telefone_assunto1.toUpperCase();
+    }
+    if (f.telefone_assunto2 !== null && Array.isArray(f.telefone_assunto2)) {
+      const c: string[] = f.telefone_assunto2;
+      b.telefone_assunto2 = c.map(a => {return a.toUpperCase()});
+    }
+    if (f.telefone_data1 !== null) {
+      b.telefone_data1 = DateTime.fromJSDate(f.telefone_data1).toFormat('yyyy-LL-dd HH:mm:ss');
+    }
+    if (f.telefone_data2 !== null) {
+      b.telefone_data2 = DateTime.fromJSDate(f.telefone_data2).toFormat('yyyy-LL-dd HH:mm:ss');
+    }
+    if (f.telefone_ddd !== null) {
+      b.telefone_ddd = f.telefone_ddd.toUpperCase();
+    }
+    if (f.telefone_para !== null) {
+      b.telefone_para = f.telefone_para.toUpperCase();
+    }
+    if (f.telefone_de !== null) {
+      b.telefone_de = f.telefone_de.toUpperCase();
+    }
+    if (f.telefone_usuario_nome !== null) {
+      b.telefone_usuario_nome = f.telefone_usuario_nome.toUpperCase();
+    }
+    if (f.telefone_id !== undefined && f.telefone_id !== null) {
+      b.telefone_id = +f.telefone_id;
+    }
+    if (f.telefone_local_id !== null) {
+      b.telefone_local_id = +f.telefone_local_id;
+    }
+    if (f.telefone_tipo !== null) {
+      b.telefone_tipo = +f.telefone_tipo;
+    }
+    if (f.telefone_resolvido !== null && +f.telefone_resolvido !== 999) {
+      b.telefone_resolvido_id = +f.telefone_resolvido;
+    }
+    if (f.telefone_telefone !== null) {
+      b.telefone_telefone = f.telefone_telefone.toUpperCase();
+    }
+    return b;
+  }
+
+  limpar() {
+    this.formMenuTelefone = this.formBuilder.group({
+      telefone_assunto1: [null],
+      telefone_assunto2: [null],
+      telefone_data1: [null],
+      telefone_data2: [null],
+      telefone_ddd: [null],
+      telefone_de: [null],
+      telefone_local_id: [null],
+      telefone_para: [null],
+      telefone_resolvido: [999],
+      telefone_telefone: [null],
+      telefone_tipo: [2],
+      telefone_usuario_nome: [null]
+    });
   }
 
   goIncluir() {
@@ -123,6 +187,26 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   onKey(event) {
     let a = 0;
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
+  }
+
+  testaAssunto1(ev) {
+    if (ev === null) {
+      this.formMenuTelefone.get('telefone_assunto1').patchValue(null);
+    }
+  }
+
+  onAddAssunto2(ev, ev2) {
+    const v1: string = ev.value;
+    const v2: string[] = ev2;
+    if (v1.length < 4) {
+      if (v2.length === 1) {
+        this.formMenuTelefone.get('telefone_assunto2').patchValue(null);
+      } else {
+        ev2.pop();
+        this.formMenuTelefone.get('telefone_assunto2').patchValue(ev2);
+      }
+    }
+    console.log('onAddAssunto2',ev, ev2);
   }
 
   fechar() {

@@ -129,21 +129,6 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     this.mi.mudaMenuInterno();
   }
 
-  /*mapeiaColunas() {
-    let cp: string[] = [];
-    const n = this.cols.length;
-    let ct = 1
-    this.cols.forEach(c => {
-      if (c.field !== 'oficio_id') {
-        cp.push(c.field);
-      }
-      ct++;
-      if (ct === n) {
-        this.os.montaTitulos(cp);
-      }
-    });
-  }*/
-
   mapeiaColunas() {
     if (this.os.titulos === undefined || this.os.titulos === null || (Array.isArray(this.os.titulos) && this.os.titulos.length === 0)) {
       this.os.montaTitulos(this.cols.map(cl => {
@@ -281,20 +266,27 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
     if (this.os.tabela.sortField !== event.sortField) {
       this.os.tabela.sortField = event.sortField;
+      ct++;
     }
     if (this.os.tabela.first !== +event.first) {
       this.os.tabela.first = +event.first;
+      ct++;
     }
     if (event.rows !== undefined && this.os.tabela.rows !== +event.rows) {
       this.os.tabela.rows = +event.rows;
+      ct++;
     }
     if (this.os.tabela.sortOrder !== +event.sortOrder) {
       this.os.tabela.sortOrder = +event.sortOrder;
+      ct++;
     }
-    this.os.lazy = true;
-    this.os.oficioBusca();
+    if (ct > 0) {
+      this.os.lazy = true;
+      this.os.oficioBusca();
+    }
   }
 
   // FUNCOES DE BUSCA ==========================================================

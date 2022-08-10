@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { LazyLoadEvent, MenuItem, ConfirmationService } from 'primeng/api';
-import { WindowsService } from '../../_layout/_service';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ConfirmationService, LazyLoadEvent, MenuItem} from 'primeng/api';
+import {WindowsService} from '../../_layout/_service';
 import {TelefoneFormService} from "../_services/telefone-form.service";
 import {TelefoneService} from "../_services/telefone.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
@@ -131,30 +131,30 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
 
   montaColunas() {
     this.cols = [
-      { field: 'telefone_id', header: 'ID', sortable: 'true', width: '80px' },
-      { field: 'telefone_data3', header: 'DATA E HORA', sortable: 'true', width: '200px' },
-      { field: 'telefone_para', header: 'PARA', sortable: 'true', width: '300px' },
-      { field: 'telefone_de', header: 'DE', sortable: 'true', width: '300px' },
-      { field: 'telefone_assunto', header: 'ASSUNTO', sortable: 'true', width: '300px' },
-      { field: 'telefone_ddd', header: 'DDD', sortable: 'true', width: '150px' },
-      { field: 'telefone_telefone', header: 'TELEFONE', sortable: 'true', width: '200px' },
-      { field: 'telefone_local_nome', header: 'NÚCLEO', sortable: 'true', width: '250px' },
-      { field: 'telefone_resolvido', header: 'RESOLVIDO', sortable: 'true', width: '150px' },
-      { field: 'telefone_usuario_nome', header: 'ATENDENTE', sortable: 'true', width: '200px' },
-      { field: 'telefone_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px' }
+      {field: 'telefone_id', header: 'ID', sortable: 'true', width: '80px'},
+      {field: 'telefone_data', header: 'DATA E HORA', sortable: 'true', width: '200px'},
+      {field: 'telefone_para', header: 'PARA', sortable: 'true', width: '300px'},
+      {field: 'telefone_de', header: 'DE', sortable: 'true', width: '300px'},
+      {field: 'telefone_assunto', header: 'ASSUNTO', sortable: 'true', width: '300px'},
+      {field: 'telefone_ddd', header: 'DDD', sortable: 'true', width: '150px'},
+      {field: 'telefone_telefone', header: 'TELEFONE', sortable: 'true', width: '200px'},
+      {field: 'telefone_local_nome', header: 'NÚCLEO', sortable: 'true', width: '250px'},
+      {field: 'telefone_resolvido', header: 'RESOLVIDO', sortable: 'true', width: '150px'},
+      {field: 'telefone_usuario_nome', header: 'ATENDENTE', sortable: 'true', width: '200px'},
+      {field: 'telefone_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
     ];
   }
 
   resetSelectedColumns(): void {
     this.ts.criaTabela();
     this.ts.tabela.selectedColumns = [
-      { field: 'telefone_data', header: 'DATA E HORA', sortable: 'true', width: '200px' },
-      { field: 'telefone_para', header: 'PARA', sortable: 'true', width: '300px' },
-      { field: 'telefone_de', header: 'DE', sortable: 'true', width: '300px' },
-      { field: 'telefone_assunto', header: 'ASSUNTO', sortable: 'true', width: '300px' },
-      { field: 'telefone_ddd', header: 'DDD', sortable: 'true', width: '150px' },
-      { field: 'telefone_telefone', header: 'TELEFONE', sortable: 'true', width: '200px' },
-      { field: 'telefone_resolvido', header: 'RESOLVIDO', sortable: 'true', width: '150px'}
+      {field: 'telefone_data', header: 'DATA E HORA', sortable: 'true', width: '200px'},
+      {field: 'telefone_para', header: 'PARA', sortable: 'true', width: '300px'},
+      {field: 'telefone_de', header: 'DE', sortable: 'true', width: '300px'},
+      {field: 'telefone_assunto', header: 'ASSUNTO', sortable: 'true', width: '300px'},
+      {field: 'telefone_ddd', header: 'DDD', sortable: 'true', width: '150px'},
+      {field: 'telefone_telefone', header: 'TELEFONE', sortable: 'true', width: '200px'},
+      {field: 'telefone_resolvido', header: 'RESOLVIDO', sortable: 'true', width: '150px'}
     ];
   }
 
@@ -190,71 +190,78 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
     }
   }*/
 
-    mostraMenu(): void {
-      this.mi.mudaMenuInterno();
-    }
+  mostraMenu(): void {
+    this.mi.mudaMenuInterno();
+  }
 
-    mapeiaColunas() {
-      if (this.ts.titulos === undefined || this.ts.titulos === null || (Array.isArray(this.ts.titulos) && this.ts.titulos.length === 0)) {
-        this.ts.montaTitulos(this.cols.map(cl => {
-          return cl.field
-        }).slice(1));
-      }
+  mapeiaColunas() {
+    if (this.ts.titulos === undefined || this.ts.titulos === null || (Array.isArray(this.ts.titulos) && this.ts.titulos.length === 0)) {
+      this.ts.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
     }
+  }
 
-    montaMenuContexto() {
-      this.contextoMenu = [
+  montaMenuContexto() {
+    this.contextoMenu = [
+      {
+        label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
+        command: () => {
+          this.telefoneDetalheCompleto(this.ts.Contexto);
+        }
+      }];
+
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_alterar) {
+      this.contextoMenu.push(
         {
-          label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
+          label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => {
-            this.telefoneDetalheCompleto(this.ts.Contexto);
+            this.telefoneAlterar(this.ts.Contexto);
           }
-        }];
-
-      if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_alterar) {
-        this.contextoMenu.push(
-          {
-            label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
-            command: () => {
-              this.telefoneAlterar(this.ts.Contexto);
-            }
-          });
-      }
-
-      if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_apagar) {
-        this.contextoMenu.push(
-          {
-            label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-            command: () => {
-              this.telefoneApagar(this.ts.Contexto);
-            }
-          });
-      }
+        });
     }
 
-    onColReorder(event): void {
-      this.mapeiaColunas();
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_apagar) {
+      this.contextoMenu.push(
+        {
+          label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
+          command: () => {
+            this.telefoneApagar(this.ts.Contexto);
+          }
+        });
     }
+  }
 
-    onLazyLoad(event: LazyLoadEvent): void {
-      if (this.ts.tabela.sortField !== event.sortField) {
+  onColReorder(event): void {
+    this.mapeiaColunas();
+  }
+
+  onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
+    if (this.ts.tabela.sortField !== event.sortField) {
       this.ts.tabela.sortField = event.sortField;
+      ct++;
     }
     if (this.ts.tabela.first !== +event.first) {
       this.ts.tabela.first = +event.first;
+      ct++;
     }
     if (event.rows !== undefined && this.ts.tabela.rows !== +event.rows) {
       this.ts.tabela.rows = +event.rows;
+      ct++;
     }
     if (this.ts.tabela.sortOrder !== +event.sortOrder) {
       this.ts.tabela.sortOrder = +event.sortOrder;
+      ct++;
     }
-    this.ts.lazy = true;
-    this.ts.telefoneBusca();
+    if (ct > 0) {
+      this.ts.lazy = true;
+      this.ts.telefoneBusca();
+    }
   }
 
-    telefoneIncluir(): void {
-      if (this.aut.telefone_incluir || this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
+  telefoneIncluir(): void {
+    if (this.aut.telefone_incluir || this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
       this.tfs.acao = 'incluir';
       this.ts.salvaState();
       this.dtb.saveState();
@@ -264,73 +271,71 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-    telefoneDetalheCompleto(prop: TelefoneInterface) {
-      this.showDetalhe = true;
-      this.telefoneDetalhe = prop;
+  telefoneDetalheCompleto(prop: TelefoneInterface) {
+    this.showDetalhe = true;
+    this.telefoneDetalhe = prop;
+  }
+
+  escondeDetalhe() {
+    this.showDetalhe = false;
+    this.telefoneDetalhe = null;
+  }
+
+  telefoneAlterar(prop: TelefoneInterface) {
+    if (this.aut.telefone_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      this.ts.salvaState();
+      this.dtb.saveState();
+      this.tfs.acao = 'alterar';
+      this.tfs.telefoneListar = prop;
+      this.tfs.parceTelefoneForm(prop);
+    } else {
+      console.log('SEM PERMISSAO');
     }
 
-    escondeDetalhe() {
-      this.showDetalhe = false;
-      this.telefoneDetalhe = null;
+  }
+
+  telefoneApagar(prop: TelefoneInterface) {
+    if (this.aut.telefone_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      this.ts.telefoneApagar = prop;
+      this.ts.salvaState();
+      this.dtb.saveState();
+    } else {
+      console.log('SEM PERMISSAO');
     }
+  }
 
-    telefoneAlterar(prop: TelefoneInterface) {
-      if (this.aut.telefone_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-        this.ts.salvaState();
-        this.dtb.saveState();
-        this.tfs.acao = 'alterar';
-        this.tfs.telefoneListar = prop;
-        this.tfs.parceTelefoneForm(prop);
-      } else {
-        console.log('SEM PERMISSAO');
-      }
-
+  /*telefoneAtualizar(eme: TelefoneInterface) {
+    if (this.aut.telefone_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      console.log('telefoneAtualizar', eme);
+      this.ts.salvaState();
+      this.dtb.saveState();
+      this.tfs.telefoneListar = eme;
+      this.tfs.resetAtualizar();
+      this.tfs.parceEmendaAtualizar(eme);
+      this.router.navigate(['/telefone/atualizar']);
+    } else {
+      console.log('SEM PERMISSAO');
     }
+  }*/
 
-    telefoneApagar(prop: TelefoneInterface) {
-      if (this.aut.telefone_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn ) {
-        this.ts.telefoneApagar = prop;
-        this.ts.salvaState();
-        this.dtb.saveState();
-      } else {
-        console.log('SEM PERMISSAO');
-      }
-    }
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
+  }
 
-    /*telefoneAtualizar(eme: TelefoneInterface) {
-      if (this.aut.telefone_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-        console.log('telefoneAtualizar', eme);
-        this.ts.salvaState();
-        this.dtb.saveState();
-        this.tfs.telefoneListar = eme;
-        this.tfs.resetAtualizar();
-        this.tfs.parceEmendaAtualizar(eme);
-        this.router.navigate(['/telefone/atualizar']);
-      } else {
-        console.log('SEM PERMISSAO');
-      }
-    }*/
+  mostraDialog(ev: boolean) {
+    this.cssMostra = (ev) ? null : 'p-d-none';
+  }
 
-    stripslashes(str?: string): string | null {
-      return Stripslashes(str)
-    }
+  ngOnDestroy(): void {
+    this.ts.selecionados = [];
+    this.sub.forEach(s => s.unsubscribe());
+  }
 
-    mostraDialog(ev: boolean) {
-      this.cssMostra = (ev) ? null : 'p-d-none';
-    }
-
-    ngOnDestroy(): void {
-      this.ts.selecionados = [];
-      this.sub.forEach(s => s.unsubscribe());
-    }
-
-    getColunas() {
-      this.ts.colunas = this.cols.map(t => {
-        return t.field;
-      });
-    }
-
-
+  getColunas() {
+    this.ts.colunas = this.cols.map(t => {
+      return t.field;
+    });
+  }
 
 
 }

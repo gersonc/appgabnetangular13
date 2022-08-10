@@ -157,20 +157,6 @@ export class EmendaDatatableComponent implements OnInit {
     this.mi.mudaMenuInterno();
   }
 
-  /*mapeiaColunas() {
-    let cp: string[] = [];
-    const n = this.cols.length;
-    let ct = 1
-    this.cols.forEach(c => {
-      if (c.field !== 'emenda_id') {
-        cp.push(c.field);
-      }
-      ct++;
-      if (ct === n) {
-        this.es.montaTitulos(cp);
-      }
-    });
-  }*/
 
   mapeiaColunas() {
     if (this.es.titulos === undefined || this.es.titulos === null || (Array.isArray(this.es.titulos) && this.es.titulos.length === 0)) {
@@ -300,20 +286,27 @@ export class EmendaDatatableComponent implements OnInit {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
     if (this.es.tabela.sortField !== event.sortField) {
       this.es.tabela.sortField = event.sortField;
+      ct++;
     }
     if (this.es.tabela.first !== +event.first) {
       this.es.tabela.first = +event.first;
+      ct++;
     }
     if (event.rows !== undefined && this.es.tabela.rows !== +event.rows) {
       this.es.tabela.rows = +event.rows;
+      ct++;
     }
     if (this.es.tabela.sortOrder !== +event.sortOrder) {
       this.es.tabela.sortOrder = +event.sortOrder;
+      ct++;
     }
-    this.es.lazy = true;
-    this.es.emendaBusca();
+    if (ct > 0) {
+      this.es.lazy = true;
+      this.es.emendaBusca();
+    }
   }
 
   // FUNCOES DE BUSCA ==========================================================

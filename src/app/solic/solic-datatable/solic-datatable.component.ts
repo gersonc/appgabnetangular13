@@ -154,21 +154,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
         return cl.field
       }).slice(1));
     }
-
-    /*console.log('mapeiaColunas1', cps);
-    console.log('mapeiaColunas2', cps.slice(1));
-    let cp: string[] = [];
-    const n = this.cols.length;
-    let ct = 1
-    this.cols.forEach(c => {
-      if (c.field !== 'solicitacao_id') {
-        cp.push(c.field);
-      }
-      ct++;
-      if (ct === n) {
-        this.ss.montaTitulos(cp);
-      }
-    });*/
   }
 
   montaColunas() {
@@ -380,20 +365,27 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
     if (this.ss.tabela.sortField !== event.sortField) {
       this.ss.tabela.sortField = event.sortField;
+      ct++;
     }
     if (this.ss.tabela.first !== +event.first) {
       this.ss.tabela.first = +event.first;
+      ct++;
     }
     if (event.rows !== undefined && this.ss.tabela.rows !== +event.rows) {
       this.ss.tabela.rows = +event.rows;
+      ct++;
     }
     if (this.ss.tabela.sortOrder !== +event.sortOrder) {
       this.ss.tabela.sortOrder = +event.sortOrder;
+      ct++;
     }
-    this.ss.lazy = true;
-    this.ss.solicitacaoBusca();
+    if (ct > 0) {
+      this.ss.lazy = true;
+      this.ss.solicitacaoBusca();
+    }
   }
 
   // FUNCOES DE BUSCA ==========================================================

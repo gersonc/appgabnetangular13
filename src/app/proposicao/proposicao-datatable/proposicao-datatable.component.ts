@@ -260,20 +260,27 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
     if (this.ps.tabela.sortField !== event.sortField) {
       this.ps.tabela.sortField = event.sortField;
+      ct++;
     }
     if (this.ps.tabela.first !== +event.first) {
       this.ps.tabela.first = +event.first;
+      ct++;
     }
     if (event.rows !== undefined && this.ps.tabela.rows !== +event.rows) {
       this.ps.tabela.rows = +event.rows;
+      ct++;
     }
     if (this.ps.tabela.sortOrder !== +event.sortOrder) {
       this.ps.tabela.sortOrder = +event.sortOrder;
+      ct++;
     }
-    this.ps.lazy = true;
-    this.ps.proposicaoBusca();
+    if (ct > 0) {
+      this.ps.lazy = true;
+      this.ps.proposicaoBusca();
+    }
   }
 
   // FUNCOES DE BUSCA ==========================================================

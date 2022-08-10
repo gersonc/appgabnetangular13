@@ -37,13 +37,15 @@ export class TelefoneService {
   expandido?: TelefoneInterface;
   expandidoSN = false;
   telefoneApagar: TelefoneInterface | null = null;
-  sortField = 'telefone_data2';
+  sortField = 'telefone_data';
   sortOrder = -1;
   lazy = false;
   acao: string | null = null;
   colunas: string[] =[];
   titulos: TituloI[] | null = null;
   showForm = false;
+  mudaRows = 50;
+  rowsPerPageOptions = [50];
 
   // tl: TelefoneInterface | undefined;
   // expandidoDados: any = false;
@@ -99,6 +101,7 @@ export class TelefoneService {
   }
 
   novaBusca(busca: TelefoneBuscaInterface) {
+    console.log('novaBusca1', busca);
     if (busca === undefined) {
       this.busca = {
         todos: this.tabela.todos,
@@ -114,8 +117,9 @@ export class TelefoneService {
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
       this.busca.sortOrder = 1;
-      this.busca.sortField = 'telefone_data2';
+      this.busca.sortField = 'telefone_data';
     }
+    console.log('novaBusca2', this.busca);
   }
 
   resetTelefoneBusca() {
@@ -140,7 +144,6 @@ export class TelefoneService {
 
 
   onRowExpand(evento) {
-    console.log('onRowExpand', evento);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['telefone'];
     }
@@ -384,7 +387,8 @@ export class TelefoneService {
   }
 
   telefoneBusca(): void {
-    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids) {
+    this.tabela.sortField = (this.tabela.sortField === 'telefone_data') ? 'telefone_data2' : this.tabela.sortField;
+    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.telefones;
@@ -397,7 +401,8 @@ export class TelefoneService {
             tmp.sort((first, second) => (second[this.tabela.sortField] > first[this.tabela.sortField]) ? 1 : ((first[this.tabela.sortField] > second[this.tabela.sortField]) ? -1 : 0));
             this.telefones = tmp;
           }
-        } else {
+        }
+        if (+this.busca.sortOrder === +this.tabela.sortOrder && this.busca.sortField !== this.tabela.sortField) {
           if (this.busca.sortField !== this.tabela.sortField) {
             this.busca.sortField = this.tabela.sortField;
             this.busca.sortOrder = 1;
@@ -412,7 +417,6 @@ export class TelefoneService {
       this.busca.first = this.tabela.first;
       this.busca.sortOrder = this.tabela.sortOrder;
       this.busca.sortField = this.tabela.sortField;
-      this.busca.rows = this.tabela.rows;
       if (this.busca.todos === undefined && this.tabela.todos === undefined) {
         this.busca.todos = false;
         this.tabela.todos = false;
@@ -435,6 +439,7 @@ export class TelefoneService {
             this.lazy = false;
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {
               this.tabela.totalRecords = +this.tabela.total.num;
+              this.mudaRowsPerPageOptions(this.tabela.totalRecords);
             }
             const n = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
             if (+this.tabela.currentPage !== n) {
@@ -451,6 +456,7 @@ export class TelefoneService {
       );
     }
   }
+
 
   postTelefoneBusca(dados: TelefoneBuscaInterface): Observable<TelefonePaginacaoInterface> {
     const url = this.url.telefone + '/listar';
@@ -481,9 +487,21 @@ export class TelefoneService {
     return this.http.delete<any[]>(url);
   }
 
-  onPageChange(ev) {
-    console.log('onPageChange', ev);
+  rowsChange(ev) {
+    this.mudaRows = this.tabela.rows;
   }
+
+  mudaRowsPerPageOptions(t: number) {
+    let anterior = 50;
+    let teste = [50];
+    while (anterior < t) {
+      anterior = anterior * 2;
+      teste.push(anterior);
+    }
+    this.rowsPerPageOptions = teste;
+  }
+
+
 
   onDestroy(): void {
     sessionStorage.removeItem('telefone-busca');

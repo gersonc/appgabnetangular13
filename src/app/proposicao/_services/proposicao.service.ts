@@ -50,6 +50,8 @@ export class ProposicaoService {
   cp2 = false;
   // totais: ProposicaoListarI[] = [];
   titulos: TituloI[] | null = null;
+  mudaRows = 50;
+  rowsPerPageOptions = [50];
 
 
   constructor(
@@ -399,7 +401,7 @@ export class ProposicaoService {
   }
 
   proposicaoBusca(): void {
-    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids) {
+    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.proposicoes;
@@ -445,6 +447,7 @@ export class ProposicaoService {
             this.lazy = false;
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {
               this.tabela.totalRecords = +this.tabela.total.num;
+              this.mudaRowsPerPageOptions(this.tabela.totalRecords);
             }
             const n = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
             if (+this.tabela.currentPage !== n) {
@@ -525,12 +528,18 @@ export class ProposicaoService {
       }
   }
 
-  getTodosTitulos() {
-    this.ts.getTodos();
+  rowsChange(ev) {
+    this.mudaRows = this.tabela.rows;
   }
 
-  getTudo(): any {
-    return this.ts.getTudo();
+  mudaRowsPerPageOptions(t: number) {
+    let anterior = 50;
+    let teste = [50];
+    while (anterior < t) {
+      anterior = anterior * 2;
+      teste.push(anterior);
+    }
+    this.rowsPerPageOptions = teste;
   }
 
   onDestroy(): void {

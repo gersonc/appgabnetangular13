@@ -151,21 +151,6 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     this.mi.mudaMenuInterno();
   }
 
-  /*mapeiaColunas() {
-    let cp: string[] = [];
-    const n = this.cols.length;
-    let ct = 1
-    this.cols.forEach(c => {
-      if (c.field !== 'processo_id') {
-        cp.push(c.field);
-      }
-      ct++;
-      if (ct === n) {
-        this.ps.montaTitulos(cp);
-      }
-    });
-  }*/
-
   mapeiaColunas() {
     if (this.ps.titulos === undefined || this.ps.titulos === null || (Array.isArray(this.ps.titulos) && this.ps.titulos.length === 0)) {
       this.ps.montaTitulos(this.cols.map(cl => {
@@ -366,20 +351,27 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
     if (this.ps.tabela.sortField !== event.sortField) {
       this.ps.tabela.sortField = event.sortField;
+      ct++;
     }
     if (this.ps.tabela.first !== +event.first) {
       this.ps.tabela.first = +event.first;
+      ct++;
     }
     if (event.rows !== undefined && this.ps.tabela.rows !== +event.rows) {
       this.ps.tabela.rows = +event.rows;
+      ct++;
     }
     if (this.ps.tabela.sortOrder !== +event.sortOrder) {
       this.ps.tabela.sortOrder = +event.sortOrder;
+      ct++;
     }
-    this.ps.lazy = true;
-    this.ps.proceBusca();
+    if (ct > 0) {
+      this.ps.lazy = true;
+      this.ps.proceBusca();
+    }
   }
 
   onStateSave(ev) {

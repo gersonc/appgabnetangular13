@@ -44,6 +44,8 @@ export class ProceService {
   lazy = false;
   msgCtxH: boolean = true;
   titulos: TituloI[] | null = null;
+  mudaRows = 50;
+  rowsPerPageOptions = [50];
 
   constructor(
     private url: UrlService,
@@ -382,7 +384,7 @@ export class ProceService {
   }
 
   proceBusca(): void {
-    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids) {
+    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.processos;
@@ -428,6 +430,7 @@ export class ProceService {
           this.lazy = false;
           if (+this.tabela.totalRecords !== +this.tabela.total.num) {
             this.tabela.totalRecords = +this.tabela.total.num;
+            this.mudaRowsPerPageOptions(this.tabela.totalRecords);
           }
           const n = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
           if (+this.tabela.currentPage !== n) {
@@ -529,6 +532,20 @@ export class ProceService {
       hist: (modulo === 'processo') ? this.expandido.historico_processo : this.expandido.historico_solicitcao,
       registro_id: (modulo === 'processo') ? +this.expandido.processo_id : +this.expandido.solicitacao_id
     }
+  }
+
+  rowsChange(ev) {
+    this.mudaRows = this.tabela.rows;
+  }
+
+  mudaRowsPerPageOptions(t: number) {
+    let anterior = 50;
+    let teste = [50];
+    while (anterior < t) {
+      anterior = anterior * 2;
+      teste.push(anterior);
+    }
+    this.rowsPerPageOptions = teste;
   }
 
   onDestroy(): void {
