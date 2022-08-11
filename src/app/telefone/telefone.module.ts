@@ -38,6 +38,8 @@ import { TelefoneMenuListarComponent } from './telefone-menu-listar/telefone-men
 import { TelefoneDatatableComponent } from './telefone-datatable/telefone-datatable.component';
 import {RippleModule} from "primeng/ripple";
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
+import { TelefoneFormComponent } from './telefone-form/telefone-form.component';
+import {QuillModule} from "ngx-quill";
 
 
 @NgModule({
@@ -45,42 +47,45 @@ import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.mo
     TelefoneComponent,
     TelefoneMenuListarComponent,
     TelefoneDatatableComponent,
+    TelefoneFormComponent,
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        UtilModule,
-        TableModule,
-        ButtonModule,
-        SidebarModule,
-        AutoCompleteModule,
-        PaginatorModule,
-        DropdownModule,
-        DialogModule,
-        DynamicDialogModule,
-        InputTextModule,
-        ScrollPanelModule,
-        CalendarModule,
-        MenuModule,
-        ListboxModule,
-        InputSwitchModule,
-        ProgressSpinnerModule,
-        ChipsModule,
-        ContextMenuModule,
-        TooltipModule,
-        SelectButtonModule,
-        ToastModule,
-        KeyFilterModule,
-        ConfirmPopupModule,
-        InputTextareaModule,
-        TelefoneRoutingModule,
-        RippleModule,
-        ExporterAcessoModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    UtilModule,
+    TableModule,
+    ButtonModule,
+    SidebarModule,
+    AutoCompleteModule,
+    PaginatorModule,
+    DropdownModule,
+    DialogModule,
+    DynamicDialogModule,
+    InputTextModule,
+    ScrollPanelModule,
+    CalendarModule,
+    MenuModule,
+    ListboxModule,
+    InputSwitchModule,
+    ProgressSpinnerModule,
+    ChipsModule,
+    ContextMenuModule,
+    TooltipModule,
+    SelectButtonModule,
+    ToastModule,
+    KeyFilterModule,
+    ConfirmPopupModule,
+    InputTextareaModule,
+    TelefoneRoutingModule,
+    RippleModule,
+    ExporterAcessoModule,
+    QuillModule
+  ],
   exports: [
-    TelefoneComponent
+    TelefoneComponent,
+    TelefoneFormComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

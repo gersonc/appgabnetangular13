@@ -216,47 +216,6 @@
 
           </div>
         </div>
-        <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
-        <ng-container *ngIf="ts.showForm">
-          <div [ngClass]="cssMostra">
-            <p-dialog
-              [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
-              [style]="{width: '80vw'}"
-              [(visible)]="ts.showForm"
-              styleClass="tablistagem"
-              [header]="'ANDAMENTOS PROPOSIÇÃO'"
-              [modal]="true"
-              [dismissableMask]="false"
-              [baseZIndex]="0"
-              [blockScroll]="true"
-            >
-              <!--<app-andamento-telefone-listar
-                *ngIf="ts.showForm && acaoAndamento==='listar'"
-                [(display)]="ts.showForm"
-                [telefone]="ts.expandido"
-                (dialogExterno)="mostraDialog($event)"
-                (novoRegistro)="recebeRegistro($event)"
-              ></app-andamento-telefone-listar>
-
-              <app-andamento-telefone-form
-                *ngIf="ts.showForm && acaoAndamento==='incluir'"
-                [idx]="idx"
-                [andamento_telefone_telefone_id]="tel.telefone_id"
-                [acao]="'incluir'"
-                [telefone]="ts.expandido"
-                [(display)]="ts.showForm"
-                (novoRegistro)="recebeRegistro($event)"
-              ></app-andamento-telefone-form>-->
-
-
-              <!--<app-hist-form *ngIf="ts.showForm && histAcao === 'incluir'" [histFormI]="histFormI"
-                             [(display)]="ts.showForm" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-              <app-hist-datatable *ngIf="ts.showForm && histAcao === 'listar'" [(display)]="ts.showForm"
-                                  [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
-                                  (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>-->
-            </p-dialog>
-          </div>
-        </ng-container>
       </td>
     </tr>
   </ng-template>
@@ -303,6 +262,38 @@
   </p-footer>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+
+
+<!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
+<ng-container *ngIf="ts.showForm">
+  <div [ngClass]="cssMostra">
+    <p-dialog
+      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+      [style]="{width: '80vw'}"
+      [(visible)]="ts.showForm"
+      styleClass="tablistagem"
+      [header]="'ANDAMENTOS PROPOSIÇÃO'"
+      [modal]="true"
+      [dismissableMask]="false"
+      [baseZIndex]="0"
+      [blockScroll]="true"
+    >
+      <app-telefone-form *ngIf="ts.showForm"></app-telefone-form>
+
+      <!--<app-andamento-telefone-form
+        *ngIf="ts.showForm && acaoAndamento==='incluir'"
+        [idx]="idx"
+        [andamento_telefone_telefone_id]="tel.telefone_id"
+        [acao]="'incluir'"
+        [telefone]="ts.expandido"
+        [(display)]="ts.showForm"
+        (novoRegistro)="recebeRegistro($event)"
+      ></app-andamento-telefone-form>-->
+
+    </p-dialog>
+  </div>
+</ng-container>
+
 
 
 <ng-container *ngIf="showDetalhe">

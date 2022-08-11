@@ -77,6 +77,7 @@ export interface TelefoneFormI {
   telefone_id?: number;
   telefone_tipo?: number;
   telefone_data?: string;
+  telefone_data2?: Date;
   telefone_de?: string;
   telefone_para?: string;
   telefone_ddd?: string;

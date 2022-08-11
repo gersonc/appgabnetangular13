@@ -11,6 +11,7 @@ export class TelefoneFormService {
   url = '';
   public acao?: string | null = null;
   public btnEnviar = true;
+  showForm = false;
 
   constructor() { }
 
@@ -47,6 +48,25 @@ export class TelefoneFormService {
     this.telefone = r;
     this.telefoneOld = r;
     return r
+  }
+
+  criaFormIncluir() {
+    this.telefone = {};
+    this.telefone.telefone_data2 = null;
+    this.telefone.telefone_tipo = null;
+    this.telefone.telefone_data = null;
+    this.telefone.telefone_de = null;
+    this.telefone.telefone_para = null;
+    this.telefone.telefone_ddd = null;
+    this.telefone.telefone_telefone = null;
+    this.telefone.telefone_assunto = null;
+    this.telefone.telefone_local_id = null;
+    this.telefone.telefone_local_nome = null;
+    this.telefone.telefone_observacao = null;
+    this.telefone.telefone_observacao_delta = null;
+    this.telefone.telefone_observacao_texto = null;
+    this.telefone.telefone_resolvido = null;
+    this.telefone.telefone_usuario_nome = null;
   }
 
 }

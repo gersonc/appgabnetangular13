@@ -177,7 +177,9 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
     if (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.telefone_incluir) {
       // this.es.acao = 'incluir';
       this.tfs.acao = 'incluir';
+      this.tfs.criaFormIncluir()
       this.mi.mudaMenuInterno(false);
+      this.ts.showForm = true;
       // this.router.navigate(['proposicao/incluir']);
     } else {
       console.error('SEM PERMISSAO');
