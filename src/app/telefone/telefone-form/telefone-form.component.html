@@ -1,6 +1,6 @@
 <!--<p-scrollPanel class="detalhe">-->
 <div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
-  <form [formGroup]="formTelefone">
+  <form [formGroup]="formTelefone" (ngSubmit)="onSubmit()">
     <div class="p-fluid">
 
       <div class="p-d-flex p-jc-center">
@@ -21,8 +21,9 @@
                   [options]="ddTelefone_tipo"
                   formControlName="telefone_tipo"
                   [style]="{'max-width':'90%'}"
+                  [ngClass]="aplicaCssErro('telefone_tipo')"
                 ></p-selectButton>
-                <app-campo-control-erro msgErro="Tipo é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_tipo')" msgErro="Tipo é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_data -->
@@ -34,13 +35,15 @@
                   dateFormat="dd/mm/yy"
                   [yearNavigator]="true"
                   yearRange="2000:2035"
-                  placeholder="dd/mm/aaaa"
+                  placeholder="dd/mm/aaaa hh:mm"
+                  hourFormat="24"
                   [showTime]="true"
                   dataType="date"
                   [styleClass]="'estreito'"
                   [style]="{'max-width':'90%'}"
+                  [ngClass]="aplicaCssErro('telefone_data')"
                 ></p-calendar>
-                <app-campo-control-erro msgErro="Data é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_data')" msgErro="Data é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_de -->
@@ -54,8 +57,9 @@
                   [maxlength]="50"
                   pInputText
                   [style]="{'max-width':'90%'}"
+                  [ngClass]="aplicaCssErro('telefone_de')"
                 />
-                <app-campo-control-erro msgErro="De é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_de')" msgErro="De é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_para -->
@@ -69,8 +73,9 @@
                   [maxlength]="50"
                   pInputText
                   [style]="{'max-width':'90%'}"
+                  [ngClass]="aplicaCssErro('telefone_para')"
                 />
-                <app-campo-control-erro msgErro="Para é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_para')" msgErro="Para é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_assunto -->
@@ -85,8 +90,9 @@
                   [maxlength]="100"
                   pInputText
                   [style]="{'max-width':'90%'}"
+                  [ngClass]="aplicaCssErro('telefone_assunto')"
                 />
-                <app-campo-control-erro msgErro="Assunto é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_assunto')" msgErro="Assunto é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_ddd -->
@@ -117,8 +123,9 @@
                   [size]="40"
                   [maxlength]="50"
                   [style]="{'max-width':'90%'}"
+                  [ngClass]="aplicaCssErro('telefone_telefone')"
                 >
-                <app-campo-control-erro msgErro="Telefone é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_telefone')" msgErro="Telefone é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_local_id -->
@@ -132,8 +139,9 @@
                   formControlName="telefone_local_id"
                   placeholder="SELECIONE"
                   [showClear]="true"
+                  [ngClass]="aplicaCssErro('telefone_local_id')"
                 ></p-dropdown>
-                <app-campo-control-erro msgErro="Núcleo é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_local_id')" msgErro="Núcleo é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_usuario_nome -->
@@ -147,8 +155,9 @@
                   formControlName="telefone_usuario_nome"
                   placeholder="SELECIONE"
                   [showClear]="true"
+                  [ngClass]="aplicaCssErro('telefone_usuario_nome')"
                 ></p-dropdown>
-                <app-campo-control-erro msgErro="Atendente é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_usuario_nome')" msgErro="Atendente é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_resolvido -->
@@ -161,8 +170,9 @@
                   formControlName="telefone_resolvido"
                   [style]="{'max-width':'90%'}"
                   styleClass="formulario"
+                  [ngClass]="aplicaCssErro('telefone_resolvido')"
                 ></p-selectButton>
-                <app-campo-control-erro msgErro="Situação é obrigatório."></app-campo-control-erro>
+                <app-campo-control-erro [mostrarErro]="verificaRequired('telefone_resolvido')" msgErro="Situação é obrigatório."></app-campo-control-erro>
               </div>
 
               <!-- telefone_observacao -->
@@ -212,17 +222,16 @@
               <!--*** Botões ***-->
               <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
                 <div class="p-d-inline-flex">
-                  <div class="p-mr-2">
+                  <div class="p-ml-2" [ngClass]="{'p-d-none': !formTelefone.valid}">
                     <button
                       pButton
-                      type="button"
+                      type="submit"
                       class="p-button-rounded"
-                      [disabled]="!formTelefone.valid || !mostraForm"
-                      (click)="enviarTelefone()"
+                      [disabled]="!formTelefone.valid || mostraForm"
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="p-mx-2">
                     <button
                       pButton
                       type="button"

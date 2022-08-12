@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from '../../_services';
 import {
-  TelefoneBuscaInterface, telefonecampostexto,
+  TelefoneBuscaInterface, telefonecampostexto, TelefoneFormI,
   TelefoneFormulario,
   TelefoneInterface,
   TelefonePaginacaoInterface
@@ -132,6 +132,8 @@ export class TelefoneService {
   }
 
   onContextMenuSelect(event) {
+    console.log(event);
+    this.idx = +event.index;
     this.Contexto = event.data;
   }
 
@@ -470,17 +472,19 @@ export class TelefoneService {
     return this.http.post<TelefonePaginacaoInterface>(url, dados, httpOptions);
   }
 
-  incluirTelefone(dados: TelefoneFormulario): Observable<any[]> {
-    const url = this.url.telefone + '/incluir';
+  incluirTelefone(dados: TelefoneFormI): Observable<any[]> {
+    const url = this.url.telefone;
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
-  alterarTelefone(dados: TelefoneFormulario): Observable<any[]> {
+  alterarTelefone(dados: TelefoneFormI): Observable<any[]> {
     const url = this.url.telefone;
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.put<any[]>(url, dados, httpOptions);
   }
+
+
 
   excluirTelefone(telefone_id: number): Observable<any[]> {
     const url = this.url.telefone + '/' + telefone_id;

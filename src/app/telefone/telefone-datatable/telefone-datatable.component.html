@@ -1,5 +1,5 @@
 <!--*** INICIO *****************************************************************************************************-->
-<p-table #dttf
+<p-table #dtb
          id="tabelatelefone"
          [value]="ts.telefones"
          [columns]="ts.tabela.selectedColumns"
@@ -21,7 +21,7 @@
          rowExpandMode="single"
          [(first)]="ts.tabela.first"
          [(contextMenuSelection)]="ts.Contexto"
-         contextMenuSelectionMode="joint"
+         contextMenuSelectionMode="separate"
          [contextMenu]="cm"
          [pageLinks]="5"
          [paginator]="true"
@@ -184,7 +184,7 @@
                   class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
-                  (click)="telefoneAlterar(tel)"
+                  (click)="telefoneAlterar(tel, indice)"
                 >
                 </button>
               </div>
@@ -198,7 +198,7 @@
                   class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
-                  (click)="telefoneApagar(tel)"
+                  (click)="telefoneApagar(indice, tel)"
                 >
                 </button>
               </div>
@@ -263,7 +263,7 @@
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
-
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
 <ng-container *ngIf="ts.showForm">
   <div [ngClass]="cssMostra">

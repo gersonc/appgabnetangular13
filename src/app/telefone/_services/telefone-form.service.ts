@@ -22,17 +22,19 @@ export class TelefoneFormService {
 
   resetTelefone() {
     delete this.telefone;
-    delete this.telefoneOld;
-    this.telefone = {};
-    this.telefoneOld = {};
+    delete this.telefoneListar;
+    this.telefone = null;
+    this.telefoneListar = null;
   }
 
   parceTelefoneForm(t: TelefoneInterface): TelefoneFormI {
+    this.telefoneListar = t;
     this.telefone = {};
     let r: TelefoneFormI = {};
     r.telefone_id = +t.telefone_id;
-    r.telefone_tipo = +t.telefone_tipo_id;
-    r.telefone_data = t.telefone_data2;
+    r.telefone_tipo = +t.telefone_tipo;
+    r.telefone_data = null;
+    r.telefone_data2 = t.telefone_data3;
     r.telefone_de = t.telefone_de;
     r.telefone_para = t.telefone_para;
     r.telefone_ddd = t.telefone_ddd;
@@ -46,7 +48,6 @@ export class TelefoneFormService {
     r.telefone_resolvido = +t.telefone_resolvido_id;
     r.telefone_usuario_nome = t.telefone_usuario_nome;
     this.telefone = r;
-    this.telefoneOld = r;
     return r
   }
 

@@ -40,6 +40,7 @@ import {RippleModule} from "primeng/ripple";
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 import { TelefoneFormComponent } from './telefone-form/telefone-form.component';
 import {QuillModule} from "ngx-quill";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import {QuillModule} from "ngx-quill";
     TelefoneRoutingModule,
     RippleModule,
     ExporterAcessoModule,
-    QuillModule
+    QuillModule,
+    ConfirmDialogModule
   ],
   exports: [
     TelefoneComponent,

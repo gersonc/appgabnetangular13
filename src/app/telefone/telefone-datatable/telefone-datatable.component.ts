@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {ConfirmationService, LazyLoadEvent, MenuItem} from 'primeng/api';
+import {ConfirmationService, LazyLoadEvent, MenuItem, MessageService} from 'primeng/api';
 import {WindowsService} from '../../_layout/_service';
 import {TelefoneFormService} from "../_services/telefone-form.service";
 import {TelefoneService} from "../_services/telefone.service";
@@ -8,13 +8,14 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 import {TelefoneInterface} from "../_models";
 import {AuthenticationService, MenuInternoService} from "../../_services";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
+import {take} from "rxjs/operators";
 
 
 @Component({
   selector: 'app-telefone-datatable',
   templateUrl: './telefone-datatable.component.html',
   styleUrls: ['./telefone-datatable.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService, MessageService]
 })
 export class TelefoneDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
@@ -30,6 +31,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
   idx = -1;
   acaoTelefone = '';
   cssMostra: string | null = null;
+  resp: any[] = [];
 
   constructor(
     public mi: MenuInternoService,
@@ -37,7 +39,8 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
     private cf: ConfirmationService,
     public md: MenuDatatableService,
     public ts: TelefoneService,
-    public tfs: TelefoneFormService
+    public tfs: TelefoneFormService,
+    private messageService: MessageService
   ) {
   }
 
@@ -171,24 +174,6 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
     this.ts.tabela.mostraSeletor = false;
   }
 
-  /*rowColor(field: string, vl1: number): string | null {
-    if (field !== 'proposicao_situacao_nome') {
-      return null;
-    }
-
-    if (field === 'proposicao_situacao_nome') {
-      switch (vl1) {
-        case 0:
-          return 'status-1';
-        case 1:
-          return 'status-3';
-        case 2:
-          return 'status-2';
-        default:
-          return 'status-1';
-      }
-    }
-  }*/
 
   mostraMenu(): void {
     this.mi.mudaMenuInterno();
@@ -216,7 +201,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
         {
           label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => {
-            this.telefoneAlterar(this.ts.Contexto);
+            this.telefoneAlterar(this.ts.Contexto, this.ts.idx);
           }
         });
     }
@@ -226,7 +211,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
         {
           label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => {
-            this.telefoneApagar(this.ts.Contexto);
+            this.telefoneApagar(this.ts.idx, this.ts.Contexto);
           }
         });
     }
@@ -263,17 +248,16 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
   telefoneIncluir(): void {
     if (this.aut.telefone_incluir || this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
       this.tfs.acao = 'incluir';
-      this.ts.salvaState();
-      this.dtb.saveState();
-      // this.router.navigate(['/telefone/incluir']);
+      this.tfs.criaFormIncluir()
+      this.ts.showForm = true;
     } else {
       console.log('SEM PERMISSAO');
     }
   }
 
-  telefoneDetalheCompleto(prop: TelefoneInterface) {
+  telefoneDetalheCompleto(tel: TelefoneInterface) {
     this.showDetalhe = true;
-    this.telefoneDetalhe = prop;
+    this.telefoneDetalhe = tel;
   }
 
   escondeDetalhe() {
@@ -281,42 +265,60 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
     this.telefoneDetalhe = null;
   }
 
-  telefoneAlterar(prop: TelefoneInterface) {
+  telefoneAlterar(tel: TelefoneInterface, idx: number) {
     if (this.aut.telefone_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-      this.ts.salvaState();
-      this.dtb.saveState();
+      this.ts.idx = idx;
       this.tfs.acao = 'alterar';
-      this.tfs.telefoneListar = prop;
-      this.tfs.parceTelefoneForm(prop);
+      this.tfs.parceTelefoneForm(tel);
+      this.ts.showForm = true;
     } else {
       console.log('SEM PERMISSAO');
     }
-
   }
 
-  telefoneApagar(prop: TelefoneInterface) {
+  telefoneApagar(idx: number, tel: TelefoneInterface) {
+    this.ts.idx = idx;
     if (this.aut.telefone_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-      this.ts.telefoneApagar = prop;
-      this.ts.salvaState();
-      this.dtb.saveState();
-    } else {
-      console.log('SEM PERMISSAO');
-    }
-  }
 
-  /*telefoneAtualizar(eme: TelefoneInterface) {
-    if (this.aut.telefone_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-      console.log('telefoneAtualizar', eme);
-      this.ts.salvaState();
-      this.dtb.saveState();
-      this.tfs.telefoneListar = eme;
-      this.tfs.resetAtualizar();
-      this.tfs.parceEmendaAtualizar(eme);
-      this.router.navigate(['/telefone/atualizar']);
+      this.cf.confirm({
+        message: 'Você confirma apagar este registro?',
+        header: 'Confirmação',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.sub.push(this.ts.excluirTelefone(tel.telefone_id)
+            .pipe(take(1))
+            .subscribe({
+              next: (dados) => {
+                this.resp = dados;
+              },
+              error: (err) => {
+                this.messageService.add({severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+                console.error(err);
+              },
+              complete: () => {
+                if (this.resp[0]) {
+                  this.ts.telefones.splice(this.ts.idx, 1);
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'TELEFONEMA',
+                    detail: 'Registro apagado com sucesso.'
+                  });
+                } else {
+                  this.messageService.add({severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+                }
+              }
+            })
+          );
+        },
+        reject: (type) => {
+        }
+      });
+
     } else {
       console.log('SEM PERMISSAO');
     }
-  }*/
+
+  }
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
