@@ -5,10 +5,10 @@ import {WindowsService} from '../../_layout/_service';
 import {TelefoneFormService} from "../_services/telefone-form.service";
 import {TelefoneService} from "../_services/telefone.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
-import {TelefoneInterface} from "../_models";
 import {AuthenticationService, MenuInternoService} from "../../_services";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {take} from "rxjs/operators";
+import {TelefoneInterface} from "../_models/telefone";
 
 
 @Component({
@@ -142,6 +142,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
       {field: 'telefone_ddd', header: 'DDD', sortable: 'true', width: '150px'},
       {field: 'telefone_telefone', header: 'TELEFONE', sortable: 'true', width: '200px'},
       {field: 'telefone_local_nome', header: 'NÚCLEO', sortable: 'true', width: '250px'},
+      {field: 'telefone_tipo_nome', header: 'TIPO', sortable: 'true', width: '150px'},
       {field: 'telefone_resolvido', header: 'RESOLVIDO', sortable: 'true', width: '150px'},
       {field: 'telefone_usuario_nome', header: 'ATENDENTE', sortable: 'true', width: '200px'},
       {field: 'telefone_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
@@ -281,7 +282,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.telefone_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
 
       this.cf.confirm({
-        message: 'Você confirma apagar este registro?',
+        message: '<b>Você confirma apagar este registro?</b>',
         header: 'Confirmação',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {

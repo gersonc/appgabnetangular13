@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { TelefonePaginacaoInterface } from '../_models';
 import {DdService} from "../../_services/dd.service";
+import {TelefonePaginacaoInterface} from "../_models/telefone";
 
 @Injectable({
   providedIn: 'root'

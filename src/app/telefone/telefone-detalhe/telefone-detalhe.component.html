@@ -1,0 +1,128 @@
+<p-scrollPanel class="detalhe">
+  <table #detalhetelefone class="detalhefull">
+    <tr>
+      <td>
+
+        <table #dettelefone class="table-hover tabela" style="width: 100%">
+          <caption>TELEFONE</caption>
+          <thead class="detalheTitulo-horiz">
+          <tr>
+            <th colspan="2">
+              TELEFONE
+            </th>
+          </tr>
+          </thead>
+          <tbody class="detalhe-horiz">
+          <tr>
+            <th>
+              Data:
+            </th>
+            <td>
+              {{telefone.telefone_data}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Tipo:
+            </th>
+            <td>
+              {{telefone.telefone_tipo_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              De:
+            </th>
+            <td>
+              {{telefone.telefone_de}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Para:
+            </th>
+            <td>
+              {{telefone.telefone_para}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              DDD:
+            </th>
+            <td>
+              {{telefone.telefone_ddd}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Telefone:
+            </th>
+            <td>
+              {{telefone.telefone_telefone}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Resolvido:
+            </th>
+            <td>
+              {{telefone.telefone_resolvido}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Usuário:
+            </th>
+            <td>
+              {{telefone.telefone_usuario_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="telefone.telefone_local_id > 0">
+            <th>
+              Núcleo:
+            </th>
+            <td>
+              {{telefone.telefone_local_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2">
+              Assunto:
+            </th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              {{telefone.telefone_assunto}}
+            </td>
+          </tr>
+          <tr *ngIf="telefone.telefone_observacao" class="novaPagina">
+            <th colspan="2">
+              Observações:
+            </th>
+          </tr>
+          <tr>
+            <td colspan="2" class="tituloEditor">
+              <div *ngIf="telefone.telefone_observacao" style="margin-top: .25em">
+                <app-kill-view
+                  [kill]="{html: telefone.telefone_observacao, delta: telefone.telefone_observacao_delta}"></app-kill-view>
+              </div>
+            </td>
+          </tr>
+
+
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+  <br>
+</p-scrollPanel>
+
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
+  &nbsp;&nbsp;
+  <app-exporter-detalhe [arquivoNome]="'telefone_detalhes'" [classe]="'tabela'"></app-exporter-detalhe>
+  &nbsp;&nbsp;
+  <app-impressao-botao [dados]="['TELEFONE',detalhetelefone]"></app-impressao-botao>
+</div>

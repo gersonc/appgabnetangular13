@@ -17,6 +17,7 @@
           <button
             pButton
             type="button"
+            icon="pi pi-circle-off"
             class="p-button-rounded p-button-secondary"
             (click)="formMenuEmenda.reset()"
             label="Limpar"
@@ -249,12 +250,6 @@
             [showClear]="true"
           ></p-dropdown>
         </div>
-
-        <!--</div>
-      </div>
-
-      <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-        <div class="p-fluid p-formgrid p-grid formulario">-->
 
         <!-- emenda_tipo_emenda_id -->
         <div *ngIf="drd.dd_emenda_tipo.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
@@ -542,6 +537,7 @@
           <button
             pButton
             type="button"
+            icon="pi pi-circle-off"
             class="p-button-rounded p-button-secondary"
             (click)="formMenuEmenda.reset()"
             label="Limpar"

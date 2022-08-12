@@ -1174,6 +1174,11 @@
     "mtitulo": "TIPO",
     "titulo": "Tipo"
   },
+  "telefone_tipo_nome": {
+    "field": "telefone_tipo_nome",
+    "mtitulo": "TIPO",
+    "titulo": "Tipo"
+  },
   "telefone_usuario_nome": {
     "field": "telefone_usuario_nome",
     "mtitulo": "USUÁRIO",

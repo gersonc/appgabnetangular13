@@ -8,9 +8,9 @@ import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import {TelefoneService} from "../_services/telefone.service";
 import {TelefoneDropdownService} from "../_services/telefone-dropdown.service";
-import {TelefoneBuscaInterface} from "../_models";
 import {TelefoneFormService} from "../_services/telefone-form.service";
 import {DateTime} from "luxon";
+import {TelefoneBuscaInterface} from "../_models/telefone";
 
 @Component({
   selector: 'app-telefone-menu-listar',
@@ -175,12 +175,10 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
 
   goIncluir() {
     if (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.telefone_incluir) {
-      // this.es.acao = 'incluir';
       this.tfs.acao = 'incluir';
       this.tfs.criaFormIncluir()
       this.mi.mudaMenuInterno(false);
       this.ts.showForm = true;
-      // this.router.navigate(['proposicao/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }

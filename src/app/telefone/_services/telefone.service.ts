@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from '../../_services';
-import {
-  TelefoneBuscaInterface, telefonecampostexto, TelefoneFormI,
-  TelefoneFormulario,
-  TelefoneInterface,
-  TelefonePaginacaoInterface
-} from '../_models';
+
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TituloI} from "../../_models/titulo-i";
 import {TitulosService} from "../../_services/titulos.service";
@@ -18,6 +13,12 @@ import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
 import {take} from "rxjs/operators";
 import {TelefoneFormService} from "./telefone-form.service";
+import {
+  TelefoneBuscaInterface,
+  telefonecampostexto, TelefoneFormI,
+  TelefoneInterface,
+  TelefonePaginacaoInterface
+} from "../_models/telefone";
 
 @Injectable({
   providedIn: 'root'

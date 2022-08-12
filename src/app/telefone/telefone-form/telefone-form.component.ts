@@ -11,7 +11,9 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 import {Subscription} from "rxjs";
 import Quill from "quill";
 import {DateTime} from "luxon";
-import {TelefoneFormI, TelefoneInterface, TelefoneInterface2} from "../_models";
+import {TelefoneFormI, TelefoneInterface} from "../_models/telefone";
+
+
 
 @Component({
   selector: 'app-telefone-form',
@@ -102,7 +104,6 @@ export class TelefoneFormComponent implements OnInit, OnDestroy{
       telefone_usuario_nome: [this.tfs.telefone.telefone_usuario_nome, Validators.required]
     });
   }
-
 
   verificaRequired(campo: string) {
     return (
@@ -405,8 +406,6 @@ export class TelefoneFormComponent implements OnInit, OnDestroy{
       })
     );
   }
-
-
 
   onEditorCreated(ev) {
     this.kill0 = ev;

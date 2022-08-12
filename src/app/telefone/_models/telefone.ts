@@ -19,6 +19,7 @@ export interface TelefoneInterface {
   telefone_resolvido?: string | number;
   telefone_telefone?: string;
   telefone_tipo?: number | string;
+  telefone_tipo_nome?: string;
   telefone_tipo_id?: number;
   telefone_usuario_nome?: string;
 }
@@ -40,6 +41,7 @@ export interface TelefoneInterface2 {
   telefone_resolvido?: string | number;
   telefone_telefone?: string;
   telefone_tipo?: number | string;
+  telefone_tipo_nome?: string;
   telefone_tipo_id?: number;
   telefone_usuario_nome?: string;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {TelefoneFormI, TelefoneInterface} from "../_models";
+import {TelefoneFormI, TelefoneInterface} from "../_models/telefone";
+
 
 @Injectable({
   providedIn: 'root'
