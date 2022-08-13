@@ -1,37 +1,42 @@
 import { Injectable } from '@angular/core';
+import {Subject, Subscription} from "rxjs";
 import {DdService} from "../../_services/dd.service";
 import {take} from "rxjs/operators";
-import {Subject, Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TelefoneDropdownService {
-  dds: string[] = [];
-  private sub: Subscription[] = [];
+export class ContaDropdownMenuService {
+
+  private dds: any[];
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
-  // inicio = true;
+  private sub: Subscription[] = [];
+  private inicio = false;
 
   constructor(
-    private dd: DdService,
-  ) { }
+    private dd: DdService
+  ) {
+  }
 
-  getDD() {
-    if (!sessionStorage.getItem('telefone-dropdown')) {
-      this.dds.push('telefone-dropdown');
-    }
+
+  getDropdownMenu() {
+    this.inicio = true;
+    this.dds = [];
+    // ****** tipo_recebimento_id *****
     if (!sessionStorage.getItem('dropdown-local')) {
       this.dds.push('dropdown-local');
     }
-    if (!sessionStorage.getItem('dropdown-usuario_nome')) {
-      this.dds.push('dropdown-usuario_nome');
+    // ****** ogu_id *****
+    if (!sessionStorage.getItem('dropdown-conta')) {
+      this.dds.push('dropdown-conta');
     }
+
+
     if (this.dds.length > 0) {
       this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
         .subscribe((dados) => {
-            // sessionStorage.setItem('proposicao-menu-dropdown', JSON.stringify(dados));
             this.dds.forEach(nome => {
               sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
             });
@@ -49,21 +54,21 @@ export class TelefoneDropdownService {
 
 
   gravaDropDown() {
-    if (!sessionStorage.getItem('dropdown-local') || !sessionStorage.getItem('telefone-dropdown')  || !sessionStorage.getItem('dropdown-usuario_nome')) {
-      this.getDD();
+    if (!sessionStorage.getItem('dropdown-local') || !sessionStorage.getItem('dropdown-conta')) {
+      if (!this.inicio) {
+        this.getDropdownMenu();
+      }
     } else {
       this.dds = undefined;
       this.sub.forEach(s => {
         s.unsubscribe()
       });
+      this.inicio = false;
       this.resp.next(true);
       this.resp.complete();
     }
   }
 
 
-  destroy(): void {
-    this.sub.forEach(s => s.unsubscribe());
-  }
 
 }

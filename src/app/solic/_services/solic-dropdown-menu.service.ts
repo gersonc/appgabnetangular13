@@ -8,7 +8,6 @@ import {DdService} from "../../_services/dd.service";
 })
 export class SolicDropdownMenuService {
 
-
   private ddSolicitacao: any[];
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();

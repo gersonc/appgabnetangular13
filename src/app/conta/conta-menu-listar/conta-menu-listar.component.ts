@@ -5,12 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { ContaBuscaService } from '../_services';
+import {ContaBuscaService, ContaService} from '../_services';
 import { take } from 'rxjs/operators';
 import { ContaFormularioComponent } from '../conta-formulario/conta-formulario.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ContaDropdown } from '../_models';
+import {ContaDropdownMenuService} from "../_services/conta-dropdown-menu.service";
+import {ContaFormService} from "../_services/conta-form.service";
 
 @Component({
   selector: 'app-conta-menu-listar',
@@ -20,29 +22,25 @@ import { ContaDropdown } from '../_models';
 })
 export class ContaMenuListarComponent implements OnInit, OnDestroy {
   public formMenuConta: FormGroup;
-  public items: Array<any> = [];
   ptBr: any;
   sub: Subscription[] = [];
-  public sgt: string[];
   public ddConta_local_id: SelectItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
+    private cdd: ContaDropdownMenuService,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
-    // private autocompleteservice: AutocompleteService,
-    private activatedRoute: ActivatedRoute,
-    public dialogService: DialogService,
-    private router: Router,
-    private cs: CarregadorService,
-    private cd: ContaDropdown,
-    private cbs: ContaBuscaService
+    public aut: AuthenticationService,
+    public ct: ContaService,
+    private cfs: ContaFormService
   ) { }
 
   ngOnInit() {
-    this.configuraCalendario();
+    this.criaFormMenu();
+    this.carregaDropDown();
+  }
 
+  criaFormMenu() {
     this.formMenuConta = this.formBuilder.group({
       cedente_array: [null],
       conta_tipo_id: [999],
@@ -54,62 +52,42 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
       conta_vencimento_2data: [null],
       conta_local_id: [null],
     });
-
-    if (!this.cbs.buscaStateSN) {
-      if (sessionStorage.getItem('conta-listagem')) {
-        sessionStorage.removeItem('conta-listagem');
-      }
-      this.mi.mostraInternoMenu()
-    }
-
-    this.sub.push(this.cbs.atualisaMenu$.subscribe(
-      (dados: boolean) => {
-        if (dados) {
-          this.carregaDropDown();
-        }
-      }
-    ));
-  }
-
-  configuraCalendario() {
-    this.ptBr = {
-      firstDayOfWeek: 1,
-      dayNames: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
-      dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
-      dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-      monthNames: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'septembro',
-        'outubro', 'novembro', 'dezembro'],
-      monthNamesShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
-      today: 'Hoje',
-      clear: 'Limpar',
-      dateFormat: 'dd/mm/yy'
-    };
   }
 
   carregaDropDown() {
-    this.ddConta_local_id = JSON.parse(sessionStorage.getItem('dropdown-conta'));
-    this.cs.escondeCarregador();
+    if(sessionStorage.getItem('dropdown-conta')) {
+      this.ddConta_local_id = JSON.parse(sessionStorage.getItem('dropdown-conta'));
+    }
+    if(!sessionStorage.getItem('dropdown-conta') || !sessionStorage.getItem('dropdown-local')) {
+      this.getCarregaDropDown();
+    }
+
   }
 
-  /*
-  autoComp (event, campo) {
-    let sg: any[];
-    const tabela = campo.substring(0, campo.indexOf('_'));
-    this.autocompleteservice.getACSimples3(tabela, campo, event.query)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          sg = dados;
-        },
-        error: err => console.error('FE-cadastro_datatable.postCadastroListarPaginacaoSort-ERRO-->', err),
-        complete: () => {
-          this.sgt = sg;
-        }
-      });
+  getCarregaDropDown() {
+    this.sub.push(this.cdd.resp$.subscribe(
+      (dados: boolean ) => {
+      },
+      error => {
+        console.error(error.toString());
+      },
+      () => {
+        this.carregaDropDown();
+      }
+    ));
+    this.carregaDropDown();
   }
-  */
 
   onMudaForm() {
+    this.ct.resetTelefoneBusca();
+    this.ct.novaBusca(this.criaBusca());
+    delete this.ct.busca.ids;
+    this.ct.buscaMenu();
+    this.mi.hideMenu();
+  }
+
+
+  /*onMudaForm2() {
     this.cbs.resetContaBusca();
     this.cbs.cb = this.formMenuConta.getRawValue();
     if (this.formMenuConta.get('conta_tipo_id').value === 999) {
@@ -124,10 +102,10 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
     this.cbs.buscaMenu();
     this.mi.mudaMenuInterno(false);
     this.cs.mostraCarregador();
-  }
+  }*/
 
   goIncluir() {
-    if (this.authenticationService.contabilidade_incluir) {
+    if (this.aut.contabilidade_incluir) {
       const ref = this.dialogService.open(ContaFormularioComponent, {
         data: {
           acao: 'incluir',

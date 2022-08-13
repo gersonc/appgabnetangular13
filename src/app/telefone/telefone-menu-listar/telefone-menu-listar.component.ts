@@ -81,7 +81,16 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   }
 
   getCarregaDropDown() {
-    this.tdd.getDD();
+    this.sub.push(this.tdd.resp$.subscribe(
+      (dados: boolean ) => {
+      },
+      error => {
+        console.error(error.toString());
+      },
+      () => {
+        this.carregaDropDown();
+      }
+    ));
     this.carregaDropDown();
   }
 

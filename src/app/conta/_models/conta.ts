@@ -1,3 +1,5 @@
+import {ColunasI} from "../../_models/colunas-i";
+
 export interface ContaSQLInterface {
   sql: string;
 }
@@ -49,6 +51,27 @@ export interface ContaFormularioInterface extends ContaInterface {
   rptdia?: boolean | number;
   parcelas?: number;
   agenda?: boolean | number;
+}
+
+export interface ContaBuscaI {
+  conta_id?: number;
+  conta_vencimento_1data?: string;
+  conta_vencimento_2data?: string;
+  conta_debito_automatico_id?: number;
+  conta_local_id?: number;
+  conta_tipo_id?: number;
+  conta_paga_id?: number;
+  conta_pagamento_1data?: string;
+  conta_pagamento_2data?: string;
+  cedente_array?: string[];
+  rows?: number;
+  first?: number;
+  sortOrder?: number;
+  sortField?: string;
+  todos?: boolean;
+  campos?: ColunasI[];
+  ids?: number[];
+  excel?: boolean;
 }
 
 export interface ContaBuscaInterface {

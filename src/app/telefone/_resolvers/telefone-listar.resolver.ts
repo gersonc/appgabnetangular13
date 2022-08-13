@@ -9,7 +9,7 @@ import {TelefonePaginacaoInterface} from "../_models/telefone";
   providedIn: 'root'
 })
 
-export class TelefoneListarResolver implements Resolve<TelefonePaginacaoInterface | boolean> {
+export class TelefoneListarResolver implements Resolve<boolean> {
   private sub: Subscription[] = [];
   private resp = new Subject<boolean>();
   private resp$ = this.resp.asObservable();
