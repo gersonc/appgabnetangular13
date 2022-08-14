@@ -121,23 +121,18 @@
   <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded"
                let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pEditableRow]="cta">
-      <!--<td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <button *ngIf="!editing && btnExpandirVF" type="button" pButton pRipple
-                [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="cta"
-                class="p-button-rounded  p-button-text p-button-sm"
-                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-        &lt;!&ndash;<a *ngIf="!expanded && !editing && btnExpandirVF" [pRowToggler]="cta" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
-        <a *ngIf="expanded && !editing  && btnExpandirVF" [pRowToggler]="cta" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>&ndash;&gt;
-        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="p-button-success"
-                style="margin-right: .5em" (click)="onRowEditSave(cta, rowIndex)"></button>
-        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-danger"
-                (click)="onRowEditCancel(cta, rowIndex)"></button>
-      </td>-->
       <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center">
         <button *ngIf="!editing && btnExpandirVF" type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="cta" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-        <!--<a *ngIf="!expanded && !editing && btnExpandirVF" [pRowToggler]="cta" pTooltip="Expandir" tooltipPosition="top"><i class="fas fa-lg fa-expand"></i></a>
-        <a *ngIf="expanded && !editing  && btnExpandirVF" [pRowToggler]="cta" pTooltip="Recolher" tooltipPosition="top"><i class="fas fa-lg fa-compress"></i></a>-->
-        <button *ngIf="editing"  pButton type="button" pSaveEditableRow icon="pi pi-check" class="p-button-success" style="margin-right: .5em" (click)="onRowEditSave(cta, rowIndex)"></button>
+        <button
+          *ngIf="editing"
+          pButton type="button"
+          pSaveEditableRow
+          icon="pi pi-check"
+          class="p-button-success"
+          style="margin-right: .5em"
+          (click)="onRowEditSave(cta, rowIndex)"
+          [disabled]="conta_paga_id !== null && +contaEdit.conta_paga_id === +conta_paga_id && conta_pagamento3 !== null &&  contaEdit.conta_pagamento3 === conta_pagamento3"
+        ></button>
         <button *ngIf="editing"  pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-danger" (click)="onRowEditCancel(cta, rowIndex)"></button>
       </td>
 
@@ -146,19 +141,19 @@
         <p-cellEditor *ngIf="col.field === 'conta_paga'">
           <ng-template pTemplate="input">
             <!--<input pInputText type="text" [(ngModel)]="cta.conta_paga_id">-->
-            <div class="p-field-radiobutton">
-              <p-radioButton labelStyleClass="radiolabel" name="pago" value="0" [(ngModel)]="cta.conta_paga_id"
+            <div class="formulario p-field-radiobutton">
+              <p-radioButton labelStyleClass="radiolabel" name="pago" value="0" [(ngModel)]="conta_paga_id"
                              label="NÃO"></p-radioButton>&nbsp;
-              <p-radioButton labelStyleClass="radiolabel" name="pago" value="1" [(ngModel)]="cta.conta_paga_id"
+              <p-radioButton labelStyleClass="radiolabel" name="pago" value="1" [(ngModel)]="conta_paga_id"
                              label="SIM"></p-radioButton>
             </div>
           </ng-template>
           <ng-template pTemplate="output">
             <!--<div *ngIf="aut.contabilidade_alterar && btnExpandirVF" pInitEditableRow (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar" tooltipPosition="top">{{cta.conta_paga}}</div>
             <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_paga}}</div>-->
-            <div *ngIf="aut.contabilidade_alterar && btnExpandirVF" pInitEditableRow
+            <div *ngIf="(aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && btnExpandirVF" pInitEditableRow
                  (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar"
-                 tooltipPosition="top">{{cta.conta_paga}}</div>
+                 tooltipPosition="top" class="cell-edit">{{cta.conta_paga}}</div>
             <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_paga}}</div>
           </ng-template>
         </p-cellEditor>
@@ -167,13 +162,12 @@
           <ng-template pTemplate="input">
             <div class="p-field">
               <p-calendar
-                [(ngModel)]="cta.conta_pagamento"
+                [(ngModel)]="conta_pagamento3"
                 dateFormat="dd/mm/yy"
                 [yearNavigator]="true"
-                yearRange="2000:2035"
+                yearRange="2020:2035"
                 placeholder="dd/mm/aaaa"
-
-                dataType="string"
+                dataType="date"
                 class="estreito"
                 [autoZIndex]="true"
                 [appendTo]="'body'"
@@ -182,9 +176,9 @@
 
           </ng-template>
           <ng-template pTemplate="output">
-            <div *ngIf="aut.contabilidade_alterar && btnExpandirVF" pInitEditableRow
+            <div *ngIf="(aut.contabilidade_alterar  || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && btnExpandirVF" pInitEditableRow
                  (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar"
-                 tooltipPosition="top">{{cta.conta_pagamento}}</div>
+                 tooltipPosition="top"  class="cell-edit">{{cta.conta_pagamento}}&nbsp;</div>
             <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_pagamento}}</div>
           </ng-template>
         </p-cellEditor>

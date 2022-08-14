@@ -11,6 +11,7 @@ import {ContaService} from "../_services/conta.service";
 import {ContaDropdown} from "../_models/conta-dropdown";
 import {ContaI} from "../_models/conta-i";
 import {ContaFormService} from "../_services/conta-form.service";
+import {DateTime} from "luxon";
 
 @Component({
   selector: 'app-conta-datatable',
@@ -41,9 +42,11 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   botaoEnviarVF = false;
   btnExpandirVF = true;
   editando = false;
-  id: number | null = null;
-  paga_id: number | null = null;
-  pagamento: any = null;
+  conta_id: number | null = null;
+  conta_paga_id: number | null = null;
+  conta_pagamento3: Date | null = null;
+  conta_pagamento2: string | null = null;
+  conta_pagamento: string | null = null;
   idx: number | null = null;
   mostraSoma = false;
   indexSoma: number | null = null;
@@ -51,6 +54,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   indexAntes: number | null = null;
   indexDepois: number | null = null;
   btnInativo = false;
+  contaEdit?: ContaI = {};
+
+  liberaGravar = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -385,70 +391,93 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     console.log('bbbbbb', ev);
   }
 
-  onRowEditInit(c: ContaI, rowIndex: number) {
-    console.log('onRowEditInit', c, rowIndex);
+  onRowEditInit(c: any, rowIndex: number) {
+    this.contaEdit = {...c};
+    console.log('onRowEditInit', this.contaEdit, rowIndex);
     this.btnExpandirVF = false;
     if (this.editando === false) {
-      this.id = c.conta_id;
-      this.paga_id = c.conta_paga_id;
-      this.pagamento = c.conta_pagamento3;
       this.idx = rowIndex;
+      this.conta_id = c.conta_id;
+      this.conta_paga_id = c.conta_paga_id;
+      this.conta_pagamento3 = c.conta_pagamento3
+
+
       this.editando = true;
     }
   }
 
+
   onRowEditSave(cta: ContaI, rowIndex: number) {
-    console.log('aaaaaaaaaaaaaaaaaaaa');
-    this.btnExpandirVF = true;
-    if ((cta.conta_paga_id !== this.paga_id && cta.conta_paga_id !== null) ||
-      (cta.conta_pagamento3 !== this.pagamento) &&
-      cta.conta_id === this.id && rowIndex === this.idx) {
+    console.log('onRowEditSave', cta);
+    console.log('this.contaEdit', this.contaEdit);
+    console.log('conta_paga_id', this.conta_paga_id);
+    console.log('conta_pagamento3', this.conta_pagamento3);
+    console.log('conta_pagamento', this.conta_pagamento);
+    console.log('conta_paga_id', this.conta_paga_id);
+    console.log('conta_id', this.conta_id);
+    console.log('idx', this.idx);
+    if ((this.conta_paga_id !== null && this.conta_pagamento3 !== null) && (+this.conta_paga_id !== +this.contaEdit.conta_paga_id || this.conta_pagamento3 !== this.contaEdit.conta_pagamento3)) {
+      if (this.conta_pagamento3 !== null && this.conta_pagamento3 !== this.contaEdit.conta_pagamento3) {
+        this.conta_pagamento = DateTime.fromJSDate(this.conta_pagamento3).setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy');
+        cta.conta_pagamento = this.conta_pagamento;
+        cta.conta_paga = (+this.conta_paga_id === 0) ? 'NÃO' : 'SIM';
+        this.conta_pagamento2 = DateTime.fromJSDate(this.conta_pagamento3).setZone('America/Sao_Paulo').toSQLDate();
+      }
       this.sub.push(this.ct.putContaAlterarDatatable(
-        cta.conta_id, cta.conta_paga_id, cta.conta_pagamento)
+        this.conta_id, this.conta_paga_id, this.conta_pagamento)
         .pipe(take(1))
         .subscribe({
           next: (dados: any[]) => {
             this.resp = dados;
           },
           error: (err) => {
+            this.btnExpandirVF = true;
             this.botaoEnviarVF = false;
             this.messageService.add({
-              key: 'contaToast',
+              key: 'toastprincipal',
               severity: 'warn',
               summary: 'ERRO ALTERAR',
               detail: this.resp[2]
             });
             console.log(err);
             this.editando = false;
-            this.id = null;
-            this.paga_id = null;
-            this.pagamento = null;
+            this.conta_id = null;
+            this.conta_paga_id = null;
+            this.conta_pagamento3 = null;
+            this.conta_pagamento = null;
             this.idx = null;
           },
           complete: () => {
             this.editando = false;
             if (this.resp[0]) {
-              this.ct.contas[rowIndex] = this.resp[3];
+              this.contaEdit.conta_paga_id = this.conta_paga_id;
+              this.contaEdit.conta_paga = (+this.conta_paga_id === 0) ? 'NÃO' : 'SIM';
+              this.contaEdit.conta_pagamento3 = this.conta_pagamento3;
+              this.contaEdit.conta_pagamento2 = this.conta_pagamento2;
+              this.ct.contas[this.idx] = this.contaEdit;
               this.messageService.add({
-                key: 'contaToast',
+                key: 'toastprincipal',
                 severity: 'success',
                 summary: 'ALTERAR LANÇAMENTO',
                 detail: this.resp[2]
               });
+              this.btnExpandirVF = true;
               this.botaoEnviarVF = false;
             } else {
               this.botaoEnviarVF = false;
               console.error('ERRO - ALTERAR ', this.resp[2]);
               this.messageService.add({
-                key: 'contaToast',
+                key: 'toastprincipal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
               });
             }
-            this.id = null;
-            this.paga_id = null;
-            this.pagamento = null;
+            this.conta_id = null;
+            this.conta_paga_id = null;
+            this.conta_pagamento3 = null;
+            this.conta_pagamento2 = null;
+            this.conta_pagamento = null;
             this.idx = null;
           }
         })
@@ -459,9 +488,11 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   onRowEditCancel(cta, rowIndex) {
     this.btnExpandirVF = true;
     this.editando = false;
-    this.id = null;
-    this.paga_id = null;
-    this.pagamento = null;
+    this.conta_id = null;
+    this.conta_paga_id = null;
+    this.conta_pagamento3 = null;
+    this.conta_pagamento2 = null;
+    this.conta_pagamento = null;
     this.idx = null;
   }
 

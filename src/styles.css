@@ -17776,5 +17776,14 @@ p-toast.toastprincipal {
   padding-left: 2rem;
 }
 
+.cell-edit {
+
+}
+
+.cell-edit:hover {
+  cursor: grab;
+  text-decoration-line: underline;
+}
+
 
 
