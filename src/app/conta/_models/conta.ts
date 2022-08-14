@@ -53,26 +53,7 @@ export interface ContaFormularioInterface extends ContaInterface {
   agenda?: boolean | number;
 }
 
-export interface ContaBuscaI {
-  conta_id?: number;
-  conta_vencimento_1data?: string;
-  conta_vencimento_2data?: string;
-  conta_debito_automatico_id?: number;
-  conta_local_id?: number;
-  conta_tipo_id?: number;
-  conta_paga_id?: number;
-  conta_pagamento_1data?: string;
-  conta_pagamento_2data?: string;
-  cedente_array?: string[];
-  rows?: number;
-  first?: number;
-  sortOrder?: number;
-  sortField?: string;
-  todos?: boolean;
-  campos?: ColunasI[];
-  ids?: number[];
-  excel?: boolean;
-}
+
 
 export interface ContaBuscaInterface {
   conta_id?: number;
@@ -100,11 +81,7 @@ export interface ContaBuscaInterface {
   ids?: ContaBuscaCampoInterface[];
 }
 
-export interface ContaPaginacaoInterface {
-  conta: ContaInterface[];
-  total: ContaTotalInterface;
-  sql: ContaSQLInterface;
-}
+
 
 export class ContaFormulario implements ContaFormularioInterface {
   conta_id = null;
@@ -158,3 +135,6 @@ export interface ContaDetalheInterface {
   conta: ContaInterface;
   conta_titulo: any[];
 }
+
+
+

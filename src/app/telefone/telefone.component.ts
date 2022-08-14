@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuInternoService} from '../_services';
 import {Subscription} from "rxjs";
 import {ArquivoService} from "../arquivo/_services";
@@ -9,7 +9,7 @@ import {TelefoneService} from "./_services/telefone.service";
   templateUrl: './telefone.component.html',
   styleUrls: ['./telefone.component.css']
 })
-export class TelefoneComponent implements OnInit {
+export class TelefoneComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
   sub: Subscription[] = [];

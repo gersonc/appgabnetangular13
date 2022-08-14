@@ -39,6 +39,10 @@ import { ContaDatatableComponent } from './conta-datatable/conta-datatable.compo
 import { ContaFormularioComponent } from './conta-formulario/conta-formulario.component';
 import {RippleModule} from "primeng/ripple";
 import {QuillModule} from "ngx-quill";
+import { ContaDetalheComponent } from './conta-detalhe/conta-detalhe.component';
+import { ContaFormComponent } from './conta-form/conta-form.component';
+import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
+import {ExplorerModule} from "../explorer/explorer.module";
 
 
 
@@ -48,47 +52,48 @@ import {QuillModule} from "ngx-quill";
     ContaMenuListarComponent,
     ContaDatatableComponent,
     ContaFormularioComponent,
+    ContaDetalheComponent,
+    ContaFormComponent,
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        UtilModule,
-        TableModule,
-        ButtonModule,
-        SidebarModule,
-        AutoCompleteModule,
-        PaginatorModule,
-        DropdownModule,
-        DialogModule,
-        DynamicDialogModule,
-        InputTextModule,
-        ScrollPanelModule,
-        CalendarModule,
-        MenuModule,
-        ListboxModule,
-        InputSwitchModule,
-        ProgressSpinnerModule,
-        ChipsModule,
-        ContextMenuModule,
-        TooltipModule,
-        SelectButtonModule,
-        ToastModule,
-        KeyFilterModule,
-        ConfirmDialogModule,
-        InputTextareaModule,
-        RadioButtonModule,
-        ContaRoutingModule,
-        ArquivoModule,
-        RippleModule,
-        QuillModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    UtilModule,
+    TableModule,
+    ButtonModule,
+    SidebarModule,
+    AutoCompleteModule,
+    PaginatorModule,
+    DropdownModule,
+    DialogModule,
+    DynamicDialogModule,
+    InputTextModule,
+    ScrollPanelModule,
+    CalendarModule,
+    MenuModule,
+    ListboxModule,
+    InputSwitchModule,
+    ProgressSpinnerModule,
+    ChipsModule,
+    ContextMenuModule,
+    TooltipModule,
+    SelectButtonModule,
+    ToastModule,
+    KeyFilterModule,
+    ConfirmDialogModule,
+    InputTextareaModule,
+    RadioButtonModule,
+    ContaRoutingModule,
+    ArquivoModule,
+    RippleModule,
+    QuillModule,
+    ExporterAcessoModule,
+    ExplorerModule
+  ],
   exports: [
     ContaComponent
-  ],
-  entryComponents: [
-    ContaFormularioComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

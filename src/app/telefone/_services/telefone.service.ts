@@ -377,7 +377,7 @@ export class TelefoneService {
               console.error('ERRO-->', err);
             },
             complete: () => {
-              CsvService.jsonToCsv('proposicao', this.tabela.selectedColumns, telefoneRelatorio.telefones);
+              CsvService.jsonToCsv('telefonemas', this.tabela.selectedColumns, telefoneRelatorio.telefones);
 
             }
           })

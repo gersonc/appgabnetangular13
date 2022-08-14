@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {ContaBuscaService, ContaService} from './_services';
-import {MenuInternoService, MostraMenuService} from "../_services";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ContaDropdownMenuService} from "./_services/conta-dropdown-menu.service";
 import {ArquivoService} from "../arquivo/_services";
+import {ContaService} from "./_services/conta.service";
+import {MenuInternoService} from "../_services";
 
 @Component({
   selector: 'app-conta',
   templateUrl: './conta.component.html',
   styleUrls: ['./conta.component.css']
 })
-export class ContaComponent implements OnInit {
+export class ContaComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
   sub: Subscription[] = [];
@@ -30,7 +30,7 @@ export class ContaComponent implements OnInit {
       })
     );
     this.as.getPermissoes();
-    if (!sessionStorage.getItem('solic-busca')) {
+    if (!sessionStorage.getItem('contaa-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
       if (this.ct.stateSN) {
@@ -49,5 +49,10 @@ export class ContaComponent implements OnInit {
 
   onHide() {
     this.mi.mudaMenuInterno(false);
+  }
+
+  ngOnDestroy(): void {
+    this.ct.onDestroy();
+    this.sub.forEach(s => s.unsubscribe());
   }
 }

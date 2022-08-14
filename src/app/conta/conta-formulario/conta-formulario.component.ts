@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AutocompleteService, DropdownService, MostraMenuService } from '../../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AutocompleteService, MenuInternoService} from '../../_services';
+import { AuthenticationService } from '../../_services';
 import { take } from 'rxjs/operators';
-import { ContaBuscaService, ContaService } from '../_services';
-import { ContaFormulario, ContaDropdown } from '../_models';
+
+import {DdService} from "../../_services/dd.service";
+import {ContaFormService} from "../_services/conta-form.service";
+import {ContaService} from "../_services/conta.service";
+import {ContaDropdown} from "../_models/conta-dropdown";
+import {ContaFormulario} from "../_models/conta";
 
 @Component({
   selector: 'app-conta-formulario',
@@ -36,40 +39,41 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
+    // public ref: DynamicDialogRef,
+    // public config: DynamicDialogConfig,
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
-    private mm: MostraMenuService,
-    private messageService: MessageService,
-    public authenticationService: AuthenticationService,
+    private dd: DdService,
+    private mi: MenuInternoService,
+    private ms: MessageService,
+    public aut: AuthenticationService,
     private autocompleteservice: AutocompleteService,
-    private cs: CarregadorService,
-    private tbs: ContaBuscaService,
-    private contaService: ContaService,
+    // private cs: CarregadorService,
+    // private tbs: ContaBuscaService,
+    private ct: ContaService,
     public cd: ContaDropdown,
+    public cfs: ContaFormService
   ) { }
 
   ngOnInit() {
-    this.acao = this.config.data.acao;
-    this.contaService.criarConta();
+    this.cfs.acao = this.cfs.acao;
+    this.cfs.criaConta();
     this.carregaDados();
-    this.configuraCalendario();
+    // this.configuraCalendario();
     this.carregaDropDown();
     this.criaForm();
   }
 
   carregaDados() {
-    this.acao = this.config.data.acao;
-    if (this.config.data.acao === 'alterar') {
-      this.contaService.ct = this.config.data.conta;
-      this.origem = this.config.data.origem;
+    // this.cfs.acao = this.config.data.acao;
+    if (this.cfs.acao === 'alterar') {
+      // this.ct.ct = this.config.data.conta;
+      // this.origem = this.config.data.origem;
     } else {
-      this.contaService.ct.conta_id = 0;
+      // this.ct.conta_id = 0;
     }
   }
 
-  configuraCalendario() {
+  /*configuraCalendario() {
     this.ptBr = {
       firstDayOfWeek: 1,
       dayNames: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
@@ -82,28 +86,27 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       clear: 'Limpar',
       dateFormat: 'dd/mm/yy'
     };
-  }
+  }*/
 
   carregaDropDown() {
     this.ddConta_local_id = JSON.parse(sessionStorage.getItem('dropdown-local'));
-    this.cs.escondeCarregador();
   }
 
   criaForm() {
     this.formConta = this.formBuilder.group({
-      conta_id: [this.contaService.ct.conta_id],
-      conta_cedente: [this.contaService.ct.conta_cedente, Validators.required],
-      conta_valor: [this.contaService.ct.conta_valor2, Validators.required],
-      conta_vencimento: [this.contaService.ct.conta_vencimento, Validators.required],
-      conta_local_id: [this.contaService.ct.conta_local_id, Validators.required],
-      conta_tipo: [this.contaService.ct.conta_tipo_id, Validators.required],
-      conta_debito_automatico: [this.contaService.ct.conta_debito_automatico_id, Validators.required],
-      conta_observacao: [this.contaService.ct.conta_observacao],
-      conta_paga: [this.contaService.ct.conta_paga_id, Validators.required],
-      conta_pagamento: [this.contaService.ct.conta_pagamento],
-      rptdia: [this.contaService.ct.rptdia],
-      parcelas: [this.contaService.ct.parcelas],
-      agenda: [this.contaService.ct.agenda],
+      // conta_id: [this.cfs.conta.conta_id],
+      conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
+      conta_valor: [this.cfs.conta.conta_valor, Validators.required],
+      conta_vencimento: [this.cfs.conta.conta_vencimento, Validators.required],
+      conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
+      conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
+      conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
+      conta_observacao: [this.cfs.conta.conta_observacao],
+      conta_paga: [this.cfs.conta.conta_paga, Validators.required],
+      conta_pagamento: [this.cfs.conta.conta_pagamento],
+      conta_rptdia: [this.cfs.conta.conta_rptdia],
+      conta_parcelas: [this.cfs.conta.conta_parcelas],
+      conta_agenda: [this.cfs.conta.conta_agenda],
     });
   }
 
@@ -136,7 +139,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   preparaEnvio() {
     const d = new ContaFormulario();
-    d.conta_id = this.contaService.ct.conta_id;
+    if (this.cfs.acao === 'alterar') {
+      d.conta_id = this.cfs.conta.conta_id;
+    }
+
     if (this.formConta.get('conta_cedente').dirty) {
       this.contador++;
       d.conta_cedente = this.formConta.get('conta_cedente').value;
@@ -173,24 +179,23 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       this.contador++;
       d.conta_tipo = this.formConta.get('conta_tipo').value;
     }
-    if (this.acao !== 'alterar') {
+    if (this.cfs.acao !== 'alterar') {
       d.rptdia = this.formConta.get('rptdia').value ? this.formConta.get('rptdia').value : 0;
     }
-    if (this.formConta.get('parcelas').dirty && this.acao !== 'alterar' && d.rptdia > 0) {
+    if (this.formConta.get('parcelas').dirty && this.cfs.acao !== 'alterar' && d.rptdia > 0) {
       d.parcelas = this.formConta.get('parcelas').value;
     }
-    if (this.acao !== 'alterar') {
+    if (this.cfs.acao !== 'alterar') {
       d.agenda = !!this.formConta.get('agenda').value;
     }
-    if (this.acao === 'alterar') {
+    if (this.cfs.acao === 'alterar') {
       if (this.contador > 0) {
         this.botaoEnviarVF = true;
         this.mostraForm = true;
-        this.cs.mostraCarregador();
         this.enviarAlterar(d);
       } else {
-        this.messageService.add({
-          key: 'contaToast',
+        this.ms.add({
+          key: 'toastprincipal',
           severity: 'warn',
           summary: 'ATENÇÃO',
           detail: 'Nenhuma alteração efetuada!'
@@ -201,13 +206,12 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     } else {
       this.botaoEnviarVF = true;
       this.mostraForm = true;
-      this.cs.mostraCarregador();
       this.enviarIncluir(d);
     }
   }
 
   enviarIncluir(d) {
-    this.contaService.incluirConta(this.contaService.filtraConta(d))
+    /*this.ct.incluirConta(this.ct.filtraConta(d))
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
@@ -216,8 +220,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.botaoEnviarVF = false;
           this.mostraForm = false;
-          this.cs.escondeCarregador();
-          this.messageService.add({ key: 'contaToast', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2] });
+          this.ms.add({ key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2] });
           console.log(err);
         },
         complete: () => {
@@ -226,8 +229,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
               this.arquivo_registro_id = +this.resp[1];
               this.enviarArquivos = true;
             } else {
-              this.messageService.add({
-                key: 'contaToast',
+              this.ms.add({
+                key: 'toastprincipal',
                 severity: 'success',
                 summary: 'INCLUIR VENCIMENTO',
                 detail: this.resp[2]
@@ -236,26 +239,24 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
               this.resetForm();
               this.botaoEnviarVF = false;
               this.mostraForm = false;
-              this.cs.escondeCarregador();
             }
           } else {
             this.botaoEnviarVF = false;
             this.mostraForm = false;
-            this.cs.escondeCarregador();
             console.error('ERRO - INCLUIR ', this.resp[2]);
-            this.messageService.add({
-              key: 'contaToast',
+            this.ms.add({
+              key: 'toastprincipal',
               severity: 'warn',
               summary: 'ATENÇÃO - ERRO',
               detail: this.resp[2]
             });
           }
         }
-      });
+      });*/
   }
 
   enviarAlterar(d: ContaFormulario) {
-    this.contaService.putContaAlterar(d.conta_id, this.contaService.filtraConta(d))
+    /*this.ct.putContaAlterar(d.conta_id, this.ct.filtraConta(d))
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
@@ -264,14 +265,13 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.botaoEnviarVF = false;
           this.mostraForm = false;
-          this.cs.escondeCarregador();
-          this.messageService.add({ key: 'contaToast', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2] });
+          this.ms.add({ key: 'toastprincipal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2] });
           console.log(err);
         },
         complete: () => {
           if (this.resp[0]) {
-            this.messageService.add({
-              key: 'contaToast',
+            this.ms.add({
+              key: 'toastprincipal',
               severity: 'success',
               summary: 'ALTERAR LANÇAMENTO',
               detail: this.resp[2]
@@ -284,38 +284,37 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           } else {
             this.botaoEnviarVF = false;
             this.mostraForm = false;
-            this.cs.escondeCarregador();
             console.error('ERRO - ALTERAR ', this.resp[2]);
-            this.messageService.add({
-              key: 'contaToast',
+            this.ms.add({
+              key: 'toastprincipal',
               severity: 'warn',
               summary: 'ATENÇÃO - ERRO',
               detail: this.resp[2]
             });
           }
         }
-      });
+      });*/
   }
 
   resetForm() {
-    this.contaService.resetConta();
+    // this.ct.resetConta();
     this.formConta.reset();
     this.carregaDados();
     this.mostraForm = false;
   }
 
   voltarListar() {
-    if (this.acao === 'alterar') {
+    if (this.cfs.acao === 'alterar') {
       if (this.resp !== undefined) {
         if (this.resp.length === 4) {
-          this.ref.close(this.resp[3]);
+          // this.ref.close(this.resp[3]);
         }
       } else {
-        this.ref.close();
+        // this.ref.close();
       }
     }
-    if (this.acao === 'incluir') {
-      this.ref.close(this.atualisaDatatable);
+    if (this.cfs.acao === 'incluir') {
+      // this.ref.close(this.atualisaDatatable);
     }
   }
 
@@ -355,9 +354,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   onUpload(ev) {
     if (ev) {
       this.mostraForm = false;
-      this.cs.escondeCarregador();
-      this.messageService.add({
-        key: 'contaToast',
+      this.ms.add({
+        key: 'toastprincipal',
         severity: 'success',
         summary: 'VENCIMENTO',
         detail: this.resp[2]
@@ -369,7 +367,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.contaService.resetConta();
+    this.cfs.resetConta();
     this.formConta.reset();
   }
 

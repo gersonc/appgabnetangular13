@@ -4,7 +4,8 @@ import { AuthChildGuard } from '../_guards';
 import { Rule, Scope } from '../_models';
 import { ContaComponent } from './conta.component';
 import { ContaDatatableComponent } from './conta-datatable/conta-datatable.component';
-import { ContaListarResolver } from './_resolvers';
+import {ContaListarResolver} from "./_resolvers/conta-listar.resolver";
+
 
 
 const contaRoutes: Routes = [
