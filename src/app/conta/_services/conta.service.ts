@@ -146,7 +146,6 @@ export class ContaService {
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
-    console.log('expandido',this.expandido);
     const cl: CelulaI[] = [];
     let ev = evento.data;
     this.titulos.forEach(t => {
@@ -430,7 +429,12 @@ export class ContaService {
             this.contas = dados.contas.map((t) => {
               let p: ContaI = t;
               p.conta_vencimento3 = new Date(t.conta_vencimento2);
-              p.conta_pagamento3 = new Date(t.conta_pagamento2);
+              if (t.conta_pagamento2 !== undefined && t.conta_pagamento2 !== null) {
+                p.conta_pagamento3 = new Date(t.conta_pagamento2);
+              } else {
+                p.conta_pagamento3 = null;
+              }
+
               return p;
             });
             this.tabela.total = dados.total;
@@ -572,83 +576,6 @@ export class ContaService {
     this.expandidoSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

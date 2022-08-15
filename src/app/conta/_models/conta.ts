@@ -15,7 +15,7 @@ export interface ContaBuscaCampoInterface {
 export interface ContaInterface {
   conta_id?: number;
   conta_cedente?: string;
-  conta_valor?: string;
+  conta_valor?: number;
   conta_valor2?: number;
   conta_vencimento?: string;
   conta_observacao?: string;
@@ -34,7 +34,7 @@ export interface ContaInterface {
 export interface ContaFormularioInterface extends ContaInterface {
   conta_id?: number;
   conta_cedente?: string;
-  conta_valor?: string;
+  conta_valor?: number;
   conta_valor2?: number;
   conta_vencimento?: string;
   conta_observacao?: string;

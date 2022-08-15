@@ -37,16 +37,11 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
 
 
-
+  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 
   botaoEnviarVF = false;
   btnExpandirVF = true;
   editando = false;
-  conta_id: number | null = null;
-  conta_paga_id: number | null = null;
-  conta_pagamento3: Date | null = null;
-  conta_pagamento2: string | null = null;
-  conta_pagamento: string | null = null;
   idx: number | null = null;
   mostraSoma = false;
   indexSoma: number | null = null;
@@ -55,6 +50,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   indexDepois: number | null = null;
   btnInativo = false;
   contaEdit?: ContaI = {};
+  hoje = new Date();
+  testeCss= ['conta_vencimento', 'conta_valor', 'conta_pagamento'];
 
   liberaGravar = false;
 
@@ -71,6 +68,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.hoje);
     if (this.ct.selecionados === undefined || this.ct.selecionados === null || !Array.isArray(this.ct.selecionados)) {
       this.ct.selecionados = [];
     }
@@ -158,14 +156,12 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.getColunas();
   }
 
-
-
   montaColunas() {
     this.cols = [
       { field: 'conta_id', header: 'ID', sortable: 'true', width: '7rem'},
       { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '300px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '120px'},
-      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '100px'},
+      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
       { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '10rem'},
       { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '10rem'},
       { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
@@ -180,7 +176,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.ct.tabela.selectedColumns = [
       { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '300px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '120px'},
-      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '100px'},
+      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
       { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '10rem'},
       { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '10rem'},
       { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
@@ -188,7 +184,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
     ];
   }
-
 
   resetColunas() {
     this.ct.tabela.mostraSeletor = false;
@@ -202,7 +197,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   hideSeletor(): void {
     this.ct.tabela.mostraSeletor = false;
   }
-
 
   mostraMenu(): void {
     this.mi.mudaMenuInterno();
@@ -221,7 +215,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       {
         label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
         command: () => {
-          this.contaDetalheCompleto(this.ct.Contexto);
+          if (this.btnExpandirVF && !this.ct.expandidoSN) {
+            this.contaDetalheCompleto(this.ct.Contexto);
+          }
         }
       }];
 
@@ -230,7 +226,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         {
           label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => {
-            this.contaAlterar(this.ct.Contexto, this.ct.idx);
+            if (this.btnExpandirVF && !this.ct.expandidoSN) {
+              this.contaAlterar(this.ct.Contexto, this.ct.idx);
+            }
           }
         });
     }
@@ -240,7 +238,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         {
           label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => {
-            this.contaApagar(this.ct.idx, this.ct.Contexto);
+            if (this.btnExpandirVF && !this.ct.expandidoSN) {
+              this.contaApagar(this.ct.idx, this.ct.Contexto);
+            }
           }
         });
     }
@@ -357,74 +357,62 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.cssMostra = (ev) ? null : 'p-d-none';
   }
 
-
-
   getColunas() {
     this.ct.colunas = this.cols.map(t => {
       return t.field;
     });
   }
 
-
-
-
-
-
-
-
-
-
-
-  setCurrentStyles(col: any, valor: string | number) {
-    const tmp = ['conta_vencimento', 'conta_valor', 'conta_pagamento'];
-    // CSS styles: set per current state of component properties
-    return {
-      'text-align': tmp.indexOf(col.field) > -1 ? 'right' : 'left',
-      'background-color': col.field === 'conta_paga' && valor === 'NÃO' ? 'var(--atencao)' : 'inherit',
-      'width':   col.width,
-      'padding-bottom': 0,
-      'padding-top': '.3em'
-    };
+  setCurrentClass(col: any, valor: string | number, conta_paga_id: number, conta_vencimento3: Date) {
+    const esqdir: string = this.testeCss.indexOf(col.field) > -1 ? 'p-text-right' : 'p-text-left';
+    const classe: string = (col.field === 'conta_paga') ? (+conta_paga_id === 0) ? (this.hoje > conta_vencimento3) ? 'status-2' : 'status-0 ' : 'status-3' : 'inherit';
+    return classe + ' ' + esqdir;
   }
 
-  onEditInit(ev) {
-    console.log('bbbbbb', ev);
-  }
-
-  onRowEditInit(c: any, rowIndex: number) {
-    this.contaEdit = {...c};
-    console.log('onRowEditInit', this.contaEdit, rowIndex);
-    this.btnExpandirVF = false;
-    if (this.editando === false) {
-      this.idx = rowIndex;
-      this.conta_id = c.conta_id;
-      this.conta_paga_id = c.conta_paga_id;
-      this.conta_pagamento3 = c.conta_pagamento3
-
-
-      this.editando = true;
-    }
-  }
-
-
-  onRowEditSave(cta: ContaI, rowIndex: number) {
-    console.log('onRowEditSave', cta);
-    console.log('this.contaEdit', this.contaEdit);
-    console.log('conta_paga_id', this.conta_paga_id);
-    console.log('conta_pagamento3', this.conta_pagamento3);
-    console.log('conta_pagamento', this.conta_pagamento);
-    console.log('conta_paga_id', this.conta_paga_id);
-    console.log('conta_id', this.conta_id);
-    console.log('idx', this.idx);
-    if ((this.conta_paga_id !== null && this.conta_pagamento3 !== null) && (+this.conta_paga_id !== +this.contaEdit.conta_paga_id || this.conta_pagamento3 !== this.contaEdit.conta_pagamento3)) {
-      if (this.conta_pagamento3 !== null && this.conta_pagamento3 !== this.contaEdit.conta_pagamento3) {
-        this.conta_pagamento = DateTime.fromJSDate(this.conta_pagamento3).setZone('America/Sao_Paulo').toFormat('dd/LL/yyyy');
-        cta.conta_pagamento = this.conta_pagamento;
-        cta.conta_paga = (+this.conta_paga_id === 0) ? 'NÃO' : 'SIM';
-        this.conta_pagamento2 = DateTime.fromJSDate(this.conta_pagamento3).setZone('America/Sao_Paulo').toSQLDate();
+  setCurrentStyles(col: any) {
+      return {
+        'width':   col.width,
+        'padding-bottom': 0,
+        'padding-top': '.3em'
       }
+  }
+
+  onRowEditInit(c: any) {
+    this.contaEdit = {...c};
+    this.editando = true;
+    this.btnExpandirVF = false;
+  }
+
+  onNao(cta: ContaI) {
+    cta.conta_pagamento3 = null;
+    cta.conta_pagamento2 = null;
+    cta.conta_pagamento = null;
+    cta.conta_paga = 'NÃO';
+  }
+
+  onSim(cta: ContaI) {
+    if (this.contaEdit.conta_pagamento === null) {
+      const dt: DateTime = DateTime.now();
+      cta.conta_pagamento3 = dt.toJSDate();
+      cta.conta_pagamento2 = dt.toSQLDate();
+      cta.conta_pagamento = dt.toFormat('dd/MM/yyyy');
+    } else {
+      cta.conta_pagamento = this.contaEdit.conta_pagamento;
+      cta.conta_pagamento2 = this.contaEdit.conta_pagamento2;
+      cta.conta_pagamento3 = this.contaEdit.conta_pagamento3;
+    }
+    cta.conta_paga = 'SIM';
+  }
+
+  onRowEditSave(cta: ContaI) {
+    if (cta.conta_pagamento !== undefined && cta.conta_pagamento !== null) {
+      cta.conta_pagamento3 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toJSDate();
+      cta.conta_pagamento2 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toSQLDate();
+    }
+    const conta: ContaI = cta;
+    /*if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id) {
       this.sub.push(this.ct.putContaAlterarDatatable(
-        this.conta_id, this.conta_paga_id, this.conta_pagamento)
+        conta.conta_id, conta.conta_paga_id, conta.conta_pagamento2)
         .pipe(take(1))
         .subscribe({
           next: (dados: any[]) => {
@@ -482,21 +470,21 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
           }
         })
       );
-    }
+    }*/
+
+    this.btnExpandirVF = true;
+    this.editando = false;
   }
 
   onRowEditCancel(cta, rowIndex) {
     this.btnExpandirVF = true;
     this.editando = false;
-    this.conta_id = null;
-    this.conta_paga_id = null;
-    this.conta_pagamento3 = null;
-    this.conta_pagamento2 = null;
-    this.conta_pagamento = null;
     this.idx = null;
   }
 
-
+  formataValor(n: number): string {
+    return this.formatterBRL.format(n);
+  }
 
   // FUNCOES RELATORIOS=========================================================
 
@@ -510,13 +498,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       if (this.indexSoma > 0) {
         let valor = 0;
         if (this.ct.selecionados.length > 0) {
-          this.ct.selecionados.forEach((d: ContaI) => {
-            valor += +d.conta_valor2;
-          });
+          valor = this.ct.selecionados.reduce((a: number, b) => { return a + b.conta_valor2}, 0);
         } else {
-          this.ct.contas.forEach((d: ContaI) => {
-            valor += +d.conta_valor2;
-          });
+          valor = this.ct.contas.reduce((a: number, b) => { return a + b.conta_valor2}, 0);
         }
         this.soma = 'R$ ' + valor.toLocaleString('pt-BR');
         this.altura = `${WindowsService.altura - 175}` + 'px';
@@ -536,19 +520,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   achaColunaSoma(): number {
-    let a = 0;
-    const b = this.ct.tabela.selectedColumns.length;
-    for (let i = 0; i < b; i++) {
-      if (this.ct.tabela.selectedColumns[i].field === 'conta_valor') {
-        a = i + 1;
-        break;
-      }
-    }
-    if (a > 0) {
-      this.indexAntes = a;
-      this.indexDepois = b - a;
-    }
-    return a;
+    this.indexAntes = this.ct.tabela.selectedColumns.findIndex(l => l.field  === 'conta_valor') + 1;
+    this.indexDepois = (this.indexAntes > 0) ? this.ct.tabela.selectedColumns.length - this.indexAntes : this.ct.tabela.selectedColumns.length;
+    return this.indexAntes;
   }
 
 

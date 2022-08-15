@@ -24,7 +24,6 @@
          contextMenuSelectionMode="separate"
          [contextMenu]="cm"
          editMode="row"
-         (onEditInit)="onEditInit($event)"
          [pageLinks]="5"
          [paginator]="true"
          [alwaysShowPaginator]="true"
@@ -79,6 +78,7 @@
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="ct.resetSelecionados()"></button>
           </div>
+          <div class="p-mr-2"><button pButton type="button" label="Soma" icon="pi pi-dollar" class="p-button-text p-button-sm" (click)="showSoma()"></button></div>
           <div class="p-mr-2">Página {{ct.tabela.currentPage}} de {{ct.tabela.pageCount}} - Num.
             Registros: {{ct.tabela.totalRecords}}</div>
         </div>
@@ -118,73 +118,108 @@
   </ng-template>
 
   <!--*** DADOS ****************************************************************************************************-->
-  <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded"
-               let-rowIndex="rowIndex">
+  <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pEditableRow]="cta">
       <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center">
-        <button *ngIf="!editing && btnExpandirVF" type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top" [pRowToggler]="cta" class="p-button-rounded  p-button-text p-button-sm" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        <button
+          *ngIf="!editing && btnExpandirVF"
+          type="button"
+          pButton
+          pRipple
+          [pTooltip]="expanded ? 'Expandir' : 'Recolher'"
+          tooltipPosition="top"
+          [pRowToggler]="cta"
+          class="p-button-rounded p-button-text p-button-sm"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
         <button
           *ngIf="editing"
-          pButton type="button"
+          pButton
+          type="button"
           pSaveEditableRow
           icon="pi pi-check"
           class="p-button-success"
           style="margin-right: .5em"
-          (click)="onRowEditSave(cta, rowIndex)"
-          [disabled]="conta_paga_id !== null && +contaEdit.conta_paga_id === +conta_paga_id && conta_pagamento3 !== null &&  contaEdit.conta_pagamento3 === conta_pagamento3"
+          (click)="onRowEditSave(cta)"
         ></button>
-        <button *ngIf="editing"  pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-danger" (click)="onRowEditCancel(cta, rowIndex)"></button>
+        <button
+          *ngIf="editing"
+          pButton
+          type="button"
+          pCancelEditableRow
+          icon="pi pi-times"
+          class="p-button-danger"
+          (click)="onRowEditCancel(cta, rowIndex)"
+        ></button>
       </td>
 
-
-      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col, cta[col.field])" style="text-align: left">
+      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col)" [ngClass]="setCurrentClass(col, cta[col.field], cta.conta_paga_id, cta.conta_vencimento3)" style="text-align: left">
         <p-cellEditor *ngIf="col.field === 'conta_paga'">
           <ng-template pTemplate="input">
-            <!--<input pInputText type="text" [(ngModel)]="cta.conta_paga_id">-->
             <div class="formulario p-field-radiobutton">
-              <p-radioButton labelStyleClass="radiolabel" name="pago" value="0" [(ngModel)]="conta_paga_id"
-                             label="NÃO"></p-radioButton>&nbsp;
-              <p-radioButton labelStyleClass="radiolabel" name="pago" value="1" [(ngModel)]="conta_paga_id"
-                             label="SIM"></p-radioButton>
+              <p-radioButton
+                labelStyleClass="radiolabel"
+                name="pago"
+                value="0"
+                [(ngModel)]="cta.conta_paga_id"
+                label="NÃO"
+                (onClick)="onNao(cta)"
+              ></p-radioButton>&nbsp;
+              <p-radioButton
+                labelStyleClass="radiolabel"
+                name="pago"
+                value="1"
+                [(ngModel)]="cta.conta_paga_id"
+                label="SIM"
+                (onClick)="onSim(cta)"
+              ></p-radioButton>
             </div>
           </ng-template>
           <ng-template pTemplate="output">
-            <!--<div *ngIf="aut.contabilidade_alterar && btnExpandirVF" pInitEditableRow (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar" tooltipPosition="top">{{cta.conta_paga}}</div>
-            <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_paga}}</div>-->
-            <div *ngIf="(aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && btnExpandirVF" pInitEditableRow
-                 (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar"
-                 tooltipPosition="top" class="cell-edit">{{cta.conta_paga}}</div>
-            <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_paga}}</div>
+            <div
+              *ngIf="(aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
+              pInitEditableRow
+              (click)="onRowEditInit(cta)"
+              pTooltip="Alterar"
+              tooltipPosition="top"
+              class="cell-edit"
+            >{{cta.conta_paga}}</div>
+            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_paga}}</div>
           </ng-template>
         </p-cellEditor>
+
 
         <p-cellEditor *ngIf="col.field === 'conta_pagamento'">
           <ng-template pTemplate="input">
             <div class="p-field">
               <p-calendar
-                [(ngModel)]="conta_pagamento3"
+                [(ngModel)]="cta.conta_pagamento"
                 dateFormat="dd/mm/yy"
                 [yearNavigator]="true"
                 yearRange="2020:2035"
                 placeholder="dd/mm/aaaa"
-                dataType="date"
+                dataType="string"
                 class="estreito"
                 [autoZIndex]="true"
                 [appendTo]="'body'"
               ></p-calendar>
             </div>
-
           </ng-template>
           <ng-template pTemplate="output">
-            <div *ngIf="(aut.contabilidade_alterar  || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && btnExpandirVF" pInitEditableRow
-                 (click)="onRowEditInit(cta, rowIndex)" pTooltip="Alterar"
-                 tooltipPosition="top"  class="cell-edit">{{cta.conta_pagamento}}&nbsp;</div>
-            <div *ngIf="!aut.contabilidade_alterar || !btnExpandirVF">{{cta.conta_pagamento}}</div>
+            <div
+              *ngIf="(aut.contabilidade_alterar  || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
+              pInitEditableRow
+              (click)="onRowEditInit(cta)"
+              pTooltip="Alterar"
+              tooltipPosition="top"
+              class="cell-edit"
+            >{{cta.conta_pagamento}}&nbsp;</div>
+            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_pagamento}}</div>
           </ng-template>
         </p-cellEditor>
         <ng-container *ngIf="col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
           <app-exporter-celula [celula]="{
-          valor: cta[col.field],
+          valor: (col.field === 'conta_valor') ? formataValor(cta[col.field]) : cta[col.field],
           field: col.field,
           header:col.header,
           txtVF: ct.testaCampoTexto(col.field),
@@ -199,11 +234,8 @@
 
   <ng-template pTemplate="footer" let-columns>
     <tr *ngIf="mostraSoma">
-      <td
-        style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center; background-color: var(--primary-color);">
-        &nbsp;&nbsp;
-      </td>
-      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.largura"
+      <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center; background-color: var(--primary-color);"></td>
+      <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.width"
           style="text-align: right; padding-bottom: 0; padding-top: .3em; background-color: var(--primary-color); color: var(--claro)">
         <span *ngIf="col.field === 'conta_valor'">{{soma}}</span>
       </td>
@@ -216,6 +248,19 @@
         <div class="rowexpansion-corpo">
           <div class="p-fluid">
             <div class="p-d-flex p-jc-start p-pb-2">
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                  (click)="contaDetalheCompleto(cta)"
+                >
+                </button>
+              </div>
 
               <div *ngIf="aut.contabilidade_alterar" class="p-mr-2">
                 <button
@@ -247,22 +292,6 @@
               </div>
             </div>
 
-            <!--<div class="p-grid">
-              <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div *ngIf="!linhas[2]" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  {{linhas[1]}}
-                </div>
-                <div *ngIf="linhas[2] && linhas[1].length <= 30" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  {{linhas[1]}}
-                </div>
-                <div *ngIf="linhas[2] && linhas[1].length > 30" class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-                  <span class="mostratexto" (click)="mostraTexto(linhas)">{{linhas[1].substr(0,26)}}...</span>
-                </div>
-              </div>
-            </div>-->
             <div class="p-grid">
               <div *ngFor="let ce of ct.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div class="registros p-shadow-1">
@@ -273,7 +302,6 @@
               <div *ngIf="cta.conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)" class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
                 <app-detalhe-explorer [arquivos]="cta.conta_arquivo"></app-detalhe-explorer>
               </div>
-
             </div>
 
           </div>
@@ -362,7 +390,7 @@
 
 
 <ng-container *ngIf="ct.showForm">
-  <div [ngClass]="cssMostra">
+  <!--<div [ngClass]="cssMostra">-->
     <p-dialog
       [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
       [style]="{width: '80vw'}"
@@ -376,12 +404,12 @@
     >
       <app-conta-formulario *ngIf="ct.showForm"></app-conta-formulario>
     </p-dialog>
-  </div>
+  <!--</div>-->
 </ng-container>
 
 
 
-<ng-container *ngIf="showDetalhe">
+<!--<ng-container *ngIf="showDetalhe">
   <p-dialog
     [(visible)]="showDetalhe"
     [modal]="true"
@@ -391,6 +419,6 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <!--<app-telefone-detalhe [telefone]="telefoneDetalhe" (hideDetalhe)="escondeDetalhe()"></app-telefone-detalhe>-->
+    &lt;!&ndash;<app-telefone-detalhe [telefone]="telefoneDetalhe" (hideDetalhe)="escondeDetalhe()"></app-telefone-detalhe>&ndash;&gt;
   </p-dialog>
-</ng-container>
+</ng-container>-->
