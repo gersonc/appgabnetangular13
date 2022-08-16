@@ -119,7 +119,7 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pEditableRow]="cta">
+    <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pContextMenuRowIndex]="rowIndex" [pEditableRow]="cta">
       <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center">
         <button
           *ngIf="!editing && btnExpandirVF"
@@ -140,6 +140,7 @@
           icon="pi pi-check"
           class="p-button-success"
           style="margin-right: .5em"
+          [disabled]="botaoEnviarVF"
           (click)="onRowEditSave(cta)"
         ></button>
         <button
@@ -149,7 +150,8 @@
           pCancelEditableRow
           icon="pi pi-times"
           class="p-button-danger"
-          (click)="onRowEditCancel(cta, rowIndex)"
+          [disabled]="botaoEnviarVF"
+          (click)="onRowEditCancel(cta)"
         ></button>
       </td>
 

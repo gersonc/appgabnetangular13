@@ -114,12 +114,12 @@
 
                 <!-- rptdia -->
                 <div *ngIf="acao !== 'alterar'" class="p-field p-col-12">
-                  <label for="rptdia">Repetir vencimento</label>
+                  <label for="conta_rptdia">Repetir vencimento</label>
                   <p-dropdown
-                    id="rptdia"
+                    id="conta_rptdia"
                     [options]="cd.ddRptdia"
                     [style]="{'max-width':'90%'}"
-                    formControlName="rptdia"
+                    formControlName="conta_rptdia"
                     placeholder="NÃO"
                     [showClear]="true"
                     (onChange)="repetirVencimento($event)"
@@ -128,12 +128,12 @@
 
                 <!-- parcelas -->
                 <div *ngIf="acao !== 'alterar' && rptd" class="p-field p-col-12">
-                  <label for="parcelas">Num. parcelas</label>
+                  <label for="conta_parcelas">Num. parcelas</label>
                   <p-dropdown
-                    id="parcelas"
+                    id="conta_parcelas"
                     [options]="cd.ddParcelas"
                     [style]="{'max-width':'90%'}"
-                    formControlName="parcelas"
+                    formControlName="conta_parcelas"
                     placeholder="NÃO"
                     [showClear]="true"
                   ></p-dropdown>
@@ -142,7 +142,7 @@
                 <!-- agenda -->
                 <div *ngIf="acao !== 'alterar'" class="p-field p-col-12">
                   <h5>Lembrete na agenda</h5>
-                  <p-inputSwitch id="agenda" formControlName="agenda"></p-inputSwitch>
+                  <p-inputSwitch id="conta_agenda" formControlName="conta_agenda"></p-inputSwitch>
                 </div>
 
                 <!-- conta_local_id -->

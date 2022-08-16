@@ -96,7 +96,6 @@ export class ContaService {
   }
 
   novaBusca(busca: ContaBuscaI) {
-    console.log('novaBusca1', busca);
     if (busca === undefined) {
       this.busca = {
         todos: this.tabela.todos,
@@ -114,7 +113,6 @@ export class ContaService {
       this.busca.sortOrder = 1;
       this.busca.sortField = 'conta_vencimento2';
     }
-    console.log('novaBusca2', this.busca);
   }
 
   resetContaBusca() {
@@ -127,7 +125,6 @@ export class ContaService {
   }
 
   onContextMenuSelect(event) {
-    console.log(event);
     this.idx = +event.index;
     this.Contexto = event.data;
   }
@@ -210,7 +207,6 @@ export class ContaService {
   }
 
   parseBusca(b: ContaBuscaI) {
-    console.log('parseBusca');
     sessionStorage.removeItem('conta-busca');
     this.busca.todos = (b.todos !== undefined) ? b.todos : undefined;
     this.busca.rows = (b.rows !== undefined) ? +b.rows : undefined;

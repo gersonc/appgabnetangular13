@@ -10,6 +10,7 @@ import {ContaFormService} from "../_services/conta-form.service";
 import {ContaService} from "../_services/conta.service";
 import {ContaDropdown} from "../_models/conta-dropdown";
 import {ContaFormulario} from "../_models/conta";
+import {ContaFormI, ContaI} from "../_models/conta-i";
 
 @Component({
   selector: 'app-conta-formulario',
@@ -138,7 +139,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   preparaEnvio() {
-    const d = new ContaFormulario();
+    const d: ContaFormI = {};
     if (this.cfs.acao === 'alterar') {
       d.conta_id = this.cfs.conta.conta_id;
     }
@@ -180,13 +181,13 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       d.conta_tipo = this.formConta.get('conta_tipo').value;
     }
     if (this.cfs.acao !== 'alterar') {
-      d.rptdia = this.formConta.get('rptdia').value ? this.formConta.get('rptdia').value : 0;
+      d.conta_rptdia = this.formConta.get('conta_rptdia').value ? this.formConta.get('conta_rptdia').value : 0;
     }
-    if (this.formConta.get('parcelas').dirty && this.cfs.acao !== 'alterar' && d.rptdia > 0) {
-      d.parcelas = this.formConta.get('parcelas').value;
+    if (this.formConta.get('conta_parcelas').dirty && this.cfs.acao !== 'alterar' && d.conta_rptdia > 0) {
+      d.conta_parcelas = this.formConta.get('conta_parcelas').value;
     }
     if (this.cfs.acao !== 'alterar') {
-      d.agenda = !!this.formConta.get('agenda').value;
+      d.conta_agenda = (this.formConta.get('conta_agenda').value) ? 1 : 0;
     }
     if (this.cfs.acao === 'alterar') {
       if (this.contador > 0) {
@@ -210,7 +211,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     }
   }
 
-  enviarIncluir(d) {
+  enviarIncluir(d: ContaFormI) {
     /*this.ct.incluirConta(this.ct.filtraConta(d))
       .pipe(take(1))
       .subscribe({
@@ -255,7 +256,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       });*/
   }
 
-  enviarAlterar(d: ContaFormulario) {
+  enviarAlterar(d: ContaFormI) {
     /*this.ct.putContaAlterar(d.conta_id, this.ct.filtraConta(d))
       .pipe(take(1))
       .subscribe({
@@ -307,10 +308,12 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     if (this.cfs.acao === 'alterar') {
       if (this.resp !== undefined) {
         if (this.resp.length === 4) {
+          this.ct.showForm = false;
           // this.ref.close(this.resp[3]);
         }
       } else {
         // this.ref.close();
+        this.ct.showForm = false;
       }
     }
     if (this.cfs.acao === 'incluir') {

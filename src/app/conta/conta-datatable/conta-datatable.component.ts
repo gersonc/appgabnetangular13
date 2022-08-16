@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LazyLoadEvent, MenuItem, ConfirmationService } from 'primeng/api';
-import { MessageService } from 'primeng/api';
 import { WindowsService } from '../../_layout/_service';
 import {AuthenticationService, MenuInternoService} from '../../_services';
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
@@ -12,12 +11,13 @@ import {ContaDropdown} from "../_models/conta-dropdown";
 import {ContaI} from "../_models/conta-i";
 import {ContaFormService} from "../_services/conta-form.service";
 import {DateTime} from "luxon";
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-conta-datatable',
   templateUrl: './conta-datatable.component.html',
   styleUrls: ['./conta-datatable.component.css'],
-  providers: [ MessageService ]
+  providers: [ ConfirmationService ]
 })
 export class ContaDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: any;
@@ -60,7 +60,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     public aut: AuthenticationService,
     private cf: ConfirmationService,
     public md: MenuDatatableService,
-    private messageService: MessageService,
+    private ms: MsgService,
     public ct: ContaService,
     private cfs: ContaFormService,
     private cd: ContaDropdown
@@ -68,7 +68,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.hoje);
     if (this.ct.selecionados === undefined || this.ct.selecionados === null || !Array.isArray(this.ct.selecionados)) {
       this.ct.selecionados = [];
     }
@@ -294,11 +293,11 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.contaDetalhe = null;
   }
 
-  contaAlterar(tel: ContaI, idx: number) {
+  contaAlterar(cta: ContaI, idx: number) {
     if (this.aut.contabilidade_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       this.ct.idx = idx;
       this.cfs.acao = 'alterar';
-      this.cfs.parceContaForm(tel);
+      this.cfs.parceContaForm(cta);
       this.ct.showForm = true;
     } else {
       console.log('SEM PERMISSAO');
@@ -306,6 +305,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   contaApagar(idx: number, cta: ContaI) {
+    console.log(idx, this.ct.idx, cta, this.ct.Contexto);
     this.ct.idx = idx;
     if (this.aut.contabilidade_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
 
@@ -321,19 +321,20 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
                 this.resp = dados;
               },
               error: (err) => {
-                this.messageService.add({severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
                 console.error(err);
               },
               complete: () => {
                 if (this.resp[0]) {
                   this.ct.contas.splice(this.ct.idx, 1);
-                  this.messageService.add({
+                  this.ms.add({
+                    key: 'toastprincipal',
                     severity: 'info',
-                    summary: 'TELEFONEMA',
+                    summary: 'LANÇAMENTO',
                     detail: 'Registro apagado com sucesso.'
                   });
                 } else {
-                  this.messageService.add({severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+                  this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
                 }
               }
             })
@@ -405,12 +406,13 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   onRowEditSave(cta: ContaI) {
+    this.botaoEnviarVF = true;
     if (cta.conta_pagamento !== undefined && cta.conta_pagamento !== null) {
       cta.conta_pagamento3 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toJSDate();
       cta.conta_pagamento2 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toSQLDate();
     }
     const conta: ContaI = cta;
-    /*if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id) {
+    if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id) {
       this.sub.push(this.ct.putContaAlterarDatatable(
         conta.conta_id, conta.conta_paga_id, conta.conta_pagamento2)
         .pipe(take(1))
@@ -419,67 +421,68 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
             this.resp = dados;
           },
           error: (err) => {
-            this.btnExpandirVF = true;
-            this.botaoEnviarVF = false;
-            this.messageService.add({
+            this.ms.add({
               key: 'toastprincipal',
               severity: 'warn',
               summary: 'ERRO ALTERAR',
               detail: this.resp[2]
             });
             console.log(err);
-            this.editando = false;
-            this.conta_id = null;
-            this.conta_paga_id = null;
-            this.conta_pagamento3 = null;
-            this.conta_pagamento = null;
             this.idx = null;
+            cta = {...this.contaEdit};
+            this.contaEdit = {};
+            this.btnExpandirVF = true;
+            this.botaoEnviarVF = false;
           },
           complete: () => {
             this.editando = false;
             if (this.resp[0]) {
-              this.contaEdit.conta_paga_id = this.conta_paga_id;
-              this.contaEdit.conta_paga = (+this.conta_paga_id === 0) ? 'NÃO' : 'SIM';
-              this.contaEdit.conta_pagamento3 = this.conta_pagamento3;
-              this.contaEdit.conta_pagamento2 = this.conta_pagamento2;
-              this.ct.contas[this.idx] = this.contaEdit;
-              this.messageService.add({
+              // this.ct.contas[this.idx] = this.contaEdit;
+              this.ms.add({
                 key: 'toastprincipal',
                 severity: 'success',
                 summary: 'ALTERAR LANÇAMENTO',
                 detail: this.resp[2]
               });
+              this.idx = null;
+              this.contaEdit = {};
               this.btnExpandirVF = true;
               this.botaoEnviarVF = false;
             } else {
-              this.botaoEnviarVF = false;
               console.error('ERRO - ALTERAR ', this.resp[2]);
-              this.messageService.add({
+              this.ms.add({
                 key: 'toastprincipal',
                 severity: 'warn',
                 summary: 'ATENÇÃO - ERRO',
                 detail: this.resp[2]
               });
             }
-            this.conta_id = null;
-            this.conta_paga_id = null;
-            this.conta_pagamento3 = null;
-            this.conta_pagamento2 = null;
-            this.conta_pagamento = null;
+            this.idx = null;
+            cta = {...this.contaEdit};
+            this.contaEdit = {};
+            this.btnExpandirVF = true;
+            this.botaoEnviarVF = false;
             this.idx = null;
           }
         })
       );
-    }*/
+    } else {
+      this.idx = null;
+      this.contaEdit = {};
+      this.btnExpandirVF = true;
+      this.botaoEnviarVF = false;
+    }
 
-    this.btnExpandirVF = true;
-    this.editando = false;
+
   }
 
-  onRowEditCancel(cta, rowIndex) {
+  onRowEditCancel(cta) {
+    cta = {...this.contaEdit};
+    this.contaEdit = {};
     this.btnExpandirVF = true;
-    this.editando = false;
+    this.botaoEnviarVF = false;
     this.idx = null;
+    this.editando = false;
   }
 
   formataValor(n: number): string {
