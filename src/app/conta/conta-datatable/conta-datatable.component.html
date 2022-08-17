@@ -245,6 +245,7 @@
   </ng-template>
   <!--*** EXPANDIDO ************************************************************************************************-->
   <ng-template pTemplate="rowexpansion" let-cta let-indice="rowIndex" let-columns="columns">
+
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -264,7 +265,7 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.contabilidade_alterar" class="p-mr-2">
+              <div *ngIf="aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -278,7 +279,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.contabilidade_apagar" class="p-mr-2">
+              <div *ngIf="aut.contabilidade_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
                   pButton
                   pRipple

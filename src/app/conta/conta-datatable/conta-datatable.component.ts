@@ -36,7 +36,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   resp: any[] = [];
 
 
-
   formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 
   botaoEnviarVF = false;
@@ -62,7 +61,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     public md: MenuDatatableService,
     private ms: MsgService,
     public ct: ContaService,
-    private cfs: ContaFormService,
+    public cfs: ContaFormService,
     private cd: ContaDropdown
   ) {
   }

@@ -200,6 +200,33 @@
               </div>
 
 
+              <ng-container *ngIf="aut.arquivos">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                  <app-arquivo *ngIf="tfs.acao === 'incluir'"
+                               [modulo]="'proposicao'"
+                               [modelo]="'incluir'"
+                               [registro_id]="arquivo_registro_id"
+                               [uploadDisabled]="arquivoDesativado || !formTelefone.valid"
+                               [enviarArquivos]="enviarArquivos"
+                               (onBlockSubmit)="onBlockSubmit($event)"
+                               (onUpload)="onUpload($event)"
+                               (onPossuiArquivos)="onPossuiArquivos($event)"
+                               [clearArquivos]="clearArquivos"
+                  ></app-arquivo>
+                  <app-arquivo *ngIf="tfs.acao === 'alterar'"
+                               [modulo]="'proposicao'"
+                               [uploadDisabled]="arquivoDesativado"
+                               [arqs]="tfs.telefoneListar.telefone_arquivos"
+                               [registro_id]="tfs.telefone.telefone_id"
+                               (onPossuiArquivos)="onPossuiArquivos($event)"
+                               [modelo]="'alterar'"
+                               [stiloClass]="'formulario'"
+                               [buscaArquivos]="false"
+                  ></app-arquivo>
+                </div>
+              </ng-container>
+
+
             </div>
           </div>
         </div>

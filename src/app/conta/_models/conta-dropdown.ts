@@ -5,6 +5,9 @@ import { SelectItem } from 'primeng/api';
   providedIn: 'root'
 })
 export class ContaDropdown {
+
+  constructor() {}
+
   ddConta_tipo: SelectItem[] = [
     {label: 'VARIÁVEL', value: 1},
     {label: 'FIXA', value: 0},

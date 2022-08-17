@@ -174,12 +174,6 @@ export class ProposicaoFormComponent implements OnInit {
       const dt: DateTime = DateTime.now().setZone('America/Sao_Paulo');
       this.formProp.get('andamento_proposicao_data').patchValue(dt.toJSDate());
 
-      /*const cp2 = InOutCampoTexto(this.pfs.proposicao.andamento_proposicao_texto, this.pfs.proposicao.andamento_proposicao_texto_delta);
-      this.format2 = cp2.format;
-      if (cp2.vf) {
-        this.formProp.get('andamento_proposicao_texto').setValue(cp2.valor);
-      }*/
-
 
   }
 

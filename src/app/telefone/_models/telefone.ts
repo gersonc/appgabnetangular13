@@ -1,5 +1,6 @@
 import {ColunasI} from "../../_models/colunas-i";
 import {TotalI} from "../../shared-datatables/models/total-i";
+import {ArquivoListagem} from "../../explorer/_models/arquivo-pasta.interface";
 
 export interface TelefoneInterface {
   telefone_assunto?: string;
@@ -22,6 +23,7 @@ export interface TelefoneInterface {
   telefone_tipo_nome?: string;
   telefone_tipo_id?: number;
   telefone_usuario_nome?: string;
+  telefone_arquivos?: ArquivoListagem[];
 }
 
 export interface TelefoneInterface2 {
@@ -44,6 +46,7 @@ export interface TelefoneInterface2 {
   telefone_tipo_nome?: string;
   telefone_tipo_id?: number;
   telefone_usuario_nome?: string;
+  telefone_arquivos?: ArquivoListagem[];
 }
 
 export interface TelefoneBuscaInterface {

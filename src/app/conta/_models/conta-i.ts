@@ -27,6 +27,8 @@ export interface ContaI {
   conta_rptdia?: number;
   conta_parcelas?: number;
   conta_agenda?: number;
+  conta_calendario_id?: number;
+  conta_arquivos?: ArquivoListagem[];
 }
 
 export interface ContaFormI {
@@ -48,7 +50,7 @@ export interface ContaFormI {
   conta_rptdia?: number;
   conta_parcelas?: number;
   conta_agenda?: number;
-  conta_arquivo?: ArquivoListagem[];
+  conta_calendario_id?: number;
 }
 
 

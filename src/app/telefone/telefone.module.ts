@@ -30,6 +30,8 @@ import { TelefoneDetalheComponent } from './telefone-detalhe/telefone-detalhe.co
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {TelefoneRoutingModule} from "./telefone-routing.module";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {ArquivoModule} from "../arquivo/arquivo.module";
 
 
 @NgModule({
@@ -40,34 +42,36 @@ import {TelefoneRoutingModule} from "./telefone-routing.module";
     TelefoneFormComponent,
     TelefoneDetalheComponent,
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        SidebarModule,
-        RouterModule,
-        ScrollPanelModule,
-        ButtonModule,
-        SelectButtonModule,
-        CalendarModule,
-        DropdownModule,
-        AutoCompleteModule,
-        ChipsModule,
-        TooltipModule,
-        UtilModule,
-        QuillModule,
-        TableModule,
-        MenuModule,
-        ExporterAcessoModule,
-        RippleModule,
-        DialogModule,
-        ContextMenuModule,
-        ConfirmDialogModule,
-        ImpressaoModule,
-        KillViewModule,
-        TelefoneRoutingModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    SidebarModule,
+    RouterModule,
+    ScrollPanelModule,
+    ButtonModule,
+    SelectButtonModule,
+    CalendarModule,
+    DropdownModule,
+    AutoCompleteModule,
+    ChipsModule,
+    TooltipModule,
+    UtilModule,
+    QuillModule,
+    TableModule,
+    MenuModule,
+    ExporterAcessoModule,
+    RippleModule,
+    DialogModule,
+    ContextMenuModule,
+    ConfirmDialogModule,
+    ImpressaoModule,
+    KillViewModule,
+    TelefoneRoutingModule,
+    KeyFilterModule,
+    ArquivoModule
+  ],
   exports: [
     TelefoneComponent,
     TelefoneFormComponent

@@ -12,6 +12,7 @@ export class ContaFormService {
   public acao?: string | null = null;
   public btnEnviar = true;
   showForm = false;
+  idx = 0;
 
   constructor() { }
 
@@ -48,7 +49,9 @@ export class ContaFormService {
     r.conta_rptdia = t.conta_rptdia;
     r.conta_parcelas = t.conta_parcelas;
     r.conta_agenda = t.conta_agenda;
+    r.conta_calendario_id = t.conta_calendario_id
     this.conta = r;
+    console.log('parceContaForm', r, this.conta);
     return r
   }
 
@@ -71,5 +74,6 @@ export class ContaFormService {
     this.conta.conta_rptdia = 0;
     this.conta.conta_parcelas = 0;
     this.conta.conta_agenda = 0;
+    this.conta.conta_calendario_id = 0;
   }
 }
