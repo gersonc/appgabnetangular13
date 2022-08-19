@@ -80,7 +80,7 @@
 
   --secondary-bg: var(--text-color-secondary);
   --secondary-color-text: var(--primary-color-text);
-  --secondary-box-shadow: 0 0 0 0.4em var(--primary-color);
+  --secondary-box-shadow: 0 0 0 0.4em var(--gray-500);
 
   --menu-lateral-width: 1100px;
   --menu-lateral-width-1200: 70vw;
@@ -15153,6 +15153,10 @@ span.mostratexto:hover {
   color: var(--primary-color);
 }
 
+.formulario .p-dropdown .p-dropdown-trigger {
+  color: var(--text-color-secondary);
+}
+
 /*    SMS    */
 .tablistagem.p-datatable .p-datatable-footer {
   height: 3rem;
@@ -17785,5 +17789,30 @@ p-toast.toastprincipal {
   text-decoration-line: underline;
 }
 
+.formulario .p-selectbutton .p-button.p-highlight {
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--secondary-color-text);
+}
+
+.formulario .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover {
+  background: var(--gray-400);
+  border-color: var(--gray-500);
+  color: var(--text-color);
+}
+
+.formulario .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight) {
+  background: var(--input-filled);
+  border-color: var(--border-elementos-input-forms);
+  color: var(--text-color);
+}
+
+.formulario .p-button:enabled:focus, .formulario .p-buttonset > .p-button:enabled:focus, .formulario .p-splitbutton > .p-button:enabled:focus {
+  box-shadow: 0 0 0 0.2rem var(--gray-400);
+}
+
+.formulario .p-buttonset > .p-button:focus {
+  box-shadow: 0 0 0 0.2rem var(--gray-400);
+}
 
 

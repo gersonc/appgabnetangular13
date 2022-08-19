@@ -12,218 +12,237 @@
         </div>
       </div>
       <div class="p-grid">
+
         <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
+          <div class="p-my-1 p-py-2 p-px-3 p-pb-1">
+            <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
 
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
-
-                <!-- conta_cedente -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('conta_cedente')">
-                  <label for="conta_cedente"><span style="color: var(--ativo);">*</span> Tipo</label>
-                  <p-autoComplete
-                    id="conta_cedente"
-                    formControlName="conta_cedente"
-                    [maxlength]="50"
-                    [minLength]="3"
-                    [size]="40"
-                    [delay]="500"
-                    [suggestions]="sgt"
-                    dropdownMode="current"
-                    (completeMethod)="autoComp($event)"
-                  ></p-autoComplete>
-                  <app-campo-control-erro msgErro="Cedente é obrigatório."></app-campo-control-erro>
-                </div>
-
-                <!-- conta_valor -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('conta_valor')">
-                  <label for="conta_valor"><span style="color: var(--ativo);">*</span> Valor</label>
-                  <input
-                    id="conta_valor"
-                    formControlName="conta_valor"
-                    type="text"
-                    [size]="40"
-                    [maxlength]="50"
-                    pKeyFilter="money"
-                    pInputText
-                  />
-                  <app-campo-control-erro msgErro="Valor é obrigatório."></app-campo-control-erro>
-                </div>
-
-                <!-- conta_vencimento -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('conta_vencimento')">
-                  <label for="conta_vencimento"><span style="color: var(--ativo);">*</span> Data Vencimento</label>
-                  <p-calendar
-                    id="conta_vencimento"
-                    formControlName="conta_vencimento"
-                    dateFormat="dd/mm/yy"
-                    [yearNavigator]="true"
-                    yearRange="2000:2035"
-                    placeholder="dd/mm/aaaa"
-                    dataType="date"
-                    [styleClass]="'estreito'"
-                  ></p-calendar>
-                  <app-campo-control-erro msgErro="Vencimento é obrigatório."></app-campo-control-erro>
-                </div>
-
-                <!-- conta_paga -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('conta_paga')">
-                  <label for="conta_paga">
-                    <span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span> Pagamemento efetuado</label>
-                  <p-selectButton id="conta_paga" [options]="dr.ddConta_paga" formControlName="conta_paga"
-                                  #ctapg></p-selectButton>
-                  <app-campo-control-erro msgErro="Pagamemento efetuado é obrigatório."></app-campo-control-erro>
-                </div>
-
-                <!-- conta_pagamento -->
-                <div *ngIf="ctapg.value === 1" class="p-field p-col-12">
-                  <label for="conta_pagamento">Data pagamento</label>
-                  <p-calendar
-                    id="conta_pagamento"
-                    formControlName="conta_pagamento"
-                    dateFormat="dd/mm/yy"
-                    [yearNavigator]="true"
-                    yearRange="2000:2035"
-                    placeholder="dd/mm/aaaa"
-                    dataType="date"
-                    [styleClass]="'estreito'"
-                  ></p-calendar>
-                </div>
-
-                <!-- conta_tipo -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('conta_tipo')">
-                  <label for="conta_tipo"><span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span> Tipo</label>
-                  <p-selectButton id="conta_tipo" [options]="dr.ddConta_tipo"
-                                  formControlName="conta_tipo"></p-selectButton>
-                  <app-campo-control-erro msgErro="Tipo é obrigatório."></app-campo-control-erro>
-                </div>
-
-                <!-- conta_debito_automatico -->
-                <div class="p-field p-col-12"
-                     [ngClass]="aplicaCssErro('conta_debito_automatico')">
-                  <label for="conta_debito_automatico">
-                    <span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span> Débito Automático</label>
-                  <p-selectButton
-                    id="conta_debito_automatico"
-                    [options]="dr.ddConta_debito_automatico"
-                    formControlName="conta_debito_automatico"
-                  ></p-selectButton>
-                  <app-campo-control-erro msgErro="Débito Automático é obrigatório."></app-campo-control-erro>
-                </div>
-
+              <!-- conta_cedente -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('conta_cedente')">
+                <label for="conta_cedente"><span class="atencao">*</span> Cedente</label>
+                <p-autoComplete
+                  id="conta_cedente"
+                  formControlName="conta_cedente"
+                  [maxlength]="50"
+                  [minLength]="3"
+                  [size]="40"
+                  [delay]="500"
+                  [suggestions]="sgt"
+                  dropdownMode="current"
+                  (completeMethod)="autoComp($event)"
+                  [ngClass]="aplicaCssErro('conta_cedente')"
+                ></p-autoComplete>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_cedente')"
+                                        msgErro="Cedente é obrigatório."></app-campo-control-erro>
               </div>
-            </div>
 
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
+              <!-- conta_valor -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('conta_valor')">
+                <label for="conta_valor"><span class="atencao">*</span> Valor</label>
+                <input
+                  id="conta_valor"
+                  formControlName="conta_valor"
+                  type="text"
+                  [size]="40"
+                  [maxlength]="50"
+                  pKeyFilter="money"
+                  pInputText
+                  [ngClass]="aplicaCssErro('conta_valor')"
+                />
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_valor')"
+                                        msgErro="Valor é obrigatório."></app-campo-control-erro>
+              </div>
 
-                <!-- rptdia -->
-                <div *ngIf="acao !== 'alterar'" class="p-field p-col-12">
-                  <label for="conta_rptdia">Repetir vencimento</label>
-                  <p-dropdown
-                    id="conta_rptdia"
-                    [options]="dr.ddRptdia"
-                    [style]="{'max-width':'90%'}"
-                    formControlName="conta_rptdia"
-                    placeholder="NÃO"
-                    [showClear]="true"
-                    (onChange)="repetirVencimento($event)"
-                  ></p-dropdown>
-                </div>
+              <!-- conta_vencimento -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('conta_vencimento')">
+                <label for="conta_vencimento"><span class="atencao">*</span> Data Vencimento</label>
+                <p-calendar
+                  id="conta_vencimento"
+                  formControlName="conta_vencimento"
+                  dateFormat="dd/mm/yy"
+                  [yearNavigator]="true"
+                  yearRange="2000:2035"
+                  placeholder="dd/mm/aaaa"
+                  dataType="date"
+                  [styleClass]="'estreito'"
+                  [ngClass]="aplicaCssErro('conta_vencimento')"
+                ></p-calendar>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_vencimento')"
+                                        msgErro="Vencimento é obrigatório."></app-campo-control-erro>
+              </div>
 
-                <!-- parcelas -->
-                <div *ngIf="acao !== 'alterar' && rptd" class="p-field p-col-12">
-                  <label for="conta_parcelas">Num. parcelas</label>
-                  <p-dropdown
-                    id="conta_parcelas"
-                    [options]="dr.ddParcelas"
-                    [style]="{'max-width':'90%'}"
-                    formControlName="conta_parcelas"
-                    placeholder="NÃO"
-                    [showClear]="true"
-                  ></p-dropdown>
-                </div>
+              <!-- conta_paga -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('conta_paga')">
+                <label for="conta_paga">
+                  <span *ngIf="acao !== 'alterar'" class="atencao">*</span> Pagamemento efetuado</label>
+                <p-selectButton
+                  id="conta_paga"
+                  [options]="dr.ddConta_paga"
+                  formControlName="conta_paga"
+                  #ctapg
+                  [ngClass]="aplicaCssErro('conta_paga')"
+                >
+                </p-selectButton>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_paga')"
+                                        msgErro="Pagamemento efetuado é obrigatório."></app-campo-control-erro>
+              </div>
 
-                <!-- agenda -->
-                <div *ngIf="acao !== 'alterar'" class="p-field p-col-12">
-                  <h5>Lembrete na agenda</h5>
-                  <p-inputSwitch id="conta_agenda" formControlName="conta_agenda"></p-inputSwitch>
-                </div>
+              <!-- conta_pagamento -->
+              <div *ngIf="ctapg.value === 1" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <label for="conta_pagamento">Data pagamento</label>
+                <p-calendar
+                  id="conta_pagamento"
+                  formControlName="conta_pagamento"
+                  dateFormat="dd/mm/yy"
+                  [yearNavigator]="true"
+                  yearRange="2000:2035"
+                  placeholder="dd/mm/aaaa"
+                  dataType="date"
+                  [styleClass]="'estreito'"
+                  [ngClass]="aplicaCssErro('conta_pagamento')"
+                ></p-calendar>
+              </div>
 
-                <!-- conta_local_id -->
-                <div *ngIf="nucleo" class="p-field p-col-12" [ngClass]="aplicaCssErro('conta_local_id')">
-                  <label for="conta_local_id"><span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span>
-                    Núcleo</label>
-                  <p-dropdown
-                    id="conta_local_id"
-                    [options]="ddConta_local_id"
-                    [style]="{'max-width':'90%'}"
-                    formControlName="conta_local_id"
-                    placeholder="SELECIONE"
-                    [showClear]="true"
-                  ></p-dropdown>
-                  <app-campo-control-erro msgErro="Núcleo é obrigatório."></app-campo-control-erro>
-                </div>
+              <!-- conta_tipo -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('conta_tipo')">
+                <label for="conta_tipo"><span *ngIf="acao !== 'alterar'" class="atencao">*</span>
+                  Tipo</label>
+                <p-selectButton
+                  id="conta_tipo"
+                  [options]="dr.ddConta_tipo"
+                  formControlName="conta_tipo"
+                  [ngClass]="aplicaCssErro('conta_tipo')"
+                ></p-selectButton>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_tipo')"
+                                        msgErro="Tipo é obrigatório."></app-campo-control-erro>
+              </div>
 
-                <!-- conta_observacao -->
-                <div class="p-field p-col-12">
-                  <div class="p-d-flex p-jc-center">
-                    <div class="formulario-quill">
-                      <h5>Observações</h5>
-                      <div class="qeditor">
-                        <quill-editor
-                          class="formulario"
-                          id="conta_observacao"
-                          formControlName="conta_observacao"
-                          [format]="'html'"
-                          [defaultEmptyValue]="null"
-                          [theme]="'snow'"
-                          [modules]="modulos"
-                          [debounceTime]="10"
-                          [placeholder]="''"
-                          (onEditorCreated)="onEditorCreated($event)"
-                        ></quill-editor>
-                      </div>
+              <!-- conta_debito_automatico -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+                   [ngClass]="aplicaCssErro('conta_debito_automatico')">
+                <label for="conta_debito_automatico">
+                  <span *ngIf="acao !== 'alterar'" class="atencao">*</span> Débito Automático</label>
+                <p-selectButton
+                  id="conta_debito_automatico"
+                  [options]="dr.ddConta_debito_automatico"
+                  formControlName="conta_debito_automatico"
+                  [ngClass]="aplicaCssErro('conta_debito_automatico')"
+                ></p-selectButton>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_debito_automatico')"
+                                        msgErro="Débito Automático é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <!-- conta_local_id -->
+              <div *ngIf="nucleo" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+                   [ngClass]="aplicaCssErro('conta_local_id')">
+                <label for="conta_local_id"><span *ngIf="acao !== 'alterar'" class="atencao">*</span>
+                  Núcleo</label>
+                <p-dropdown
+                  id="conta_local_id"
+                  [options]="ddConta_local_id"
+                  [style]="{'max-width':'90%'}"
+                  formControlName="conta_local_id"
+                  placeholder="SELECIONE"
+                  [showClear]="true"
+                  [ngClass]="aplicaCssErro('conta_local_id')"
+                ></p-dropdown>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_local_id')"
+                                        msgErro="Núcleo é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <!-- parcelas -->
+              <div *ngIf="acao !== 'alterar' && rptd" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <label for="conta_parcelas">Num. parcelas</label>
+                <p-dropdown
+                  id="conta_parcelas"
+                  [options]="dr.ddParcelas"
+                  [style]="{'max-width':'90%'}"
+                  formControlName="conta_parcelas"
+                  placeholder="NÃO"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+
+              <!-- agenda -->
+              <div *ngIf="acao !== 'alterar'" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <h5>Lembrete na agenda</h5>
+                <p-inputSwitch id="conta_agenda" formControlName="conta_agenda"></p-inputSwitch>
+              </div>
+
+              <!-- rptdia -->
+              <div *ngIf="acao !== 'alterar'" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <label for="conta_rptdia">Repetir vencimento</label>
+                <p-dropdown
+                  id="conta_rptdia"
+                  [options]="dr.ddRptdia"
+                  [style]="{'max-width':'90%'}"
+                  formControlName="conta_rptdia"
+                  placeholder="NÃO"
+                  [showClear]="true"
+                  (onChange)="repetirVencimento($event)"
+                ></p-dropdown>
+              </div>
+
+
+              <!-- conta_observacao -->
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                <div class="p-d-flex p-jc-center">
+                  <div class="formulario-quill">
+                    <h5>Observações</h5>
+                    <div class="qeditor">
+                      <quill-editor
+                        class="formulario"
+                        id="conta_observacao"
+                        formControlName="conta_observacao"
+                        [format]="'html'"
+                        [defaultEmptyValue]="null"
+                        [theme]="'snow'"
+                        [modules]="modulos"
+                        [debounceTime]="10"
+                        [placeholder]="''"
+                        (onEditorCreated)="onEditorCreated($event)"
+                      ></quill-editor>
                     </div>
                   </div>
                 </div>
-
-
-                <ng-container *ngIf="aut.arquivos">
-                  <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                    <app-arquivo *ngIf="acao === 'incluir'"
-                                 [modulo]="'proposicao'"
-                                 [modelo]="'incluir'"
-                                 [registro_id]="arquivo_registro_id"
-                                 [uploadDisabled]="arquivoDesativado || !formConta.valid"
-                                 [enviarArquivos]="enviarArquivos"
-                                 (onBlockSubmit)="onBlockSubmit($event)"
-                                 (onUpload)="onUpload($event)"
-                                 (onPossuiArquivos)="onPossuiArquivos($event)"
-                                 [clearArquivos]="clearArquivos"
-                    ></app-arquivo>
-                    <app-arquivo *ngIf="acao === 'alterar'"
-                                 [modulo]="'proposicao'"
-                                 [uploadDisabled]="arquivoDesativado"
-                                 [arqs]="cfs.contaListar.conta_arquivos"
-                                 [registro_id]="cfs.conta.conta_id"
-                                 (onPossuiArquivos)="onPossuiArquivos($event)"
-                                 [modelo]="'alterar'"
-                                 [stiloClass]="'formulario'"
-                                 [buscaArquivos]="false"
-                    ></app-arquivo>
-                  </div>
-                </ng-container>
-
               </div>
-            </div>
 
+
+              <ng-container *ngIf="aut.arquivos">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                  <app-arquivo *ngIf="acao === 'incluir'"
+                               [modulo]="'proposicao'"
+                               [modelo]="'incluir'"
+                               [registro_id]="arquivo_registro_id"
+                               [uploadDisabled]="arquivoDesativado || !formConta.valid"
+                               [enviarArquivos]="enviarArquivos"
+                               (onBlockSubmit)="onBlockSubmit($event)"
+                               (onUpload)="onUpload($event)"
+                               (onPossuiArquivos)="onPossuiArquivos($event)"
+                               [clearArquivos]="clearArquivos"
+                  ></app-arquivo>
+                  <app-arquivo *ngIf="acao === 'alterar'"
+                               [modulo]="'proposicao'"
+                               [uploadDisabled]="arquivoDesativado"
+                               [arqs]="cfs.contaListar.conta_arquivos"
+                               [registro_id]="cfs.conta.conta_id"
+                               (onPossuiArquivos)="onPossuiArquivos($event)"
+                               [modelo]="'alterar'"
+                               [stiloClass]="'formulario'"
+                               [buscaArquivos]="false"
+                  ></app-arquivo>
+                </div>
+              </ng-container>
+
+            </div>
           </div>
         </div>
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
-      </div>
 
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+
+      </div>
     </div>
+
 
     <div class="p-grid">
       <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
@@ -236,46 +255,51 @@
             <div class="p-col-12 formulario">
               <!--*** Botões ***-->
               <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-mr-2">
-                  <button
-                    pButton
-                    type="submit"
-                    class="p-button-rounded"
-                    [disabled]="!formConta.valid || mostraForm"
-                    label="Enviar"
-                  ></button>
+                <div class="p-d-inline-flex">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="submit"
+                      class="p-button-rounded"
+                      [disabled]="!formConta.valid || mostraForm"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Limpar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Fechar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
                 </div>
-                <div class="p-mr-2">
-                  <button
-                    pButton
-                    type="button"
-                    class="p-button-rounded p-button-secondary"
-                    (click)="resetForm()"
-                    label="Limpar"
-                    [disabled]="botaoEnviarVF"
-                  ></button>
-                </div>
-                <div class="p-mr-2">
-                  <button
-                    pButton
-                    type="button"
-                    class="p-button-rounded p-button-secondary"
-                    (click)="voltarListar()"
-                    label="Fechar"
-                    [disabled]="botaoEnviarVF"
-                  ></button>
-                </div>
+                <!--*** FIM BOTOES ***-->
               </div>
-              <!--*** FIM BOTOES ***-->
-            </div>
 
+
+            </div>
           </div>
         </div>
       </div>
+
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1">&nbsp;</div>
+      </div>
     </div>
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1">&nbsp;</div>
-    </div>
   </form>
 </div>

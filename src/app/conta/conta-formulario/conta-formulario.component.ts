@@ -118,21 +118,40 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   criaForm() {
-    this.formConta = this.formBuilder.group({
-      // conta_id: [this.cfs.conta.conta_id],
-      conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
-      conta_valor: [this.cfs.conta.conta_valor, Validators.required],
-      conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
-      conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
-      conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
-      conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
-      conta_observacao: [this.cfs.conta.conta_observacao],
-      conta_paga: [this.cfs.conta.conta_paga],
-      conta_pagamento: [this.cfs.conta.conta_pagamento2],
-      conta_rptdia: [this.cfs.conta.conta_rptdia],
-      conta_parcelas: [this.cfs.conta.conta_parcelas],
-      conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
-    });
+    if (this.acao === 'incluir') {
+      this.formConta = this.formBuilder.group({
+        // conta_id: [this.cfs.conta.conta_id],
+        conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
+        conta_valor: [this.cfs.conta.conta_valor, Validators.required],
+        conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
+        conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
+        conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
+        conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
+        conta_observacao: [this.cfs.conta.conta_observacao],
+        conta_paga: [this.cfs.conta.conta_paga],
+        conta_pagamento: [this.cfs.conta.conta_pagamento2],
+        conta_rptdia: [this.cfs.conta.conta_rptdia],
+        conta_parcelas: [this.cfs.conta.conta_parcelas],
+        conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
+      });
+    }
+    if (this.acao === 'alterar') {
+      this.formConta = this.formBuilder.group({
+        // conta_id: [this.cfs.conta.conta_id],
+        conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
+        conta_valor: [this.cfs.conta.conta_valor, Validators.required],
+        conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
+        conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
+        conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
+        conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
+        conta_observacao: [this.cfs.conta.conta_observacao],
+        conta_paga: [this.cfs.conta.conta_paga],
+        conta_pagamento: [this.cfs.conta.conta_pagamento2],
+        conta_rptdia: [this.cfs.conta.conta_rptdia],
+        conta_parcelas: [this.cfs.conta.conta_parcelas],
+        conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
+      });
+    }
   }
 
   autoComp (event) {
@@ -163,7 +182,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   verificaValidTouched(campo: string) {
     return (
-      !this.formConta?.get(campo)?.valid &&
+      (!this.formConta?.get(campo)?.valid || this.formConta.get(campo).hasError('required')) &&
       (this.formConta?.get(campo)?.touched || this.formConta?.get(campo)?.dirty)
     );
   }
@@ -474,7 +493,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   onUpload(ev) {
     if (ev) {
-      this.mostraForm = false;
+      // this.mostraForm = false;
       this.ms.add({
         key: 'toastprincipal',
         severity: 'success',
@@ -482,7 +501,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         detail: this.resp[2]
       });
       this.resetForm();
-      this.botaoEnviarVF = false;
+      // this.botaoEnviarVF = false;
       this.voltarListar();
     }
   }
