@@ -43,7 +43,7 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
     this.formMenuConta = this.formBuilder.group({
       cedente_array: [null],
       conta_tipo_id: [999],
-      conta_debito_automatico_id: [999],
+      // conta_debito_automatico_id: [999],
       conta_paga_id: [999],
       conta_pagamento_1data: [null],
       conta_pagamento_2data: [null],
@@ -105,9 +105,9 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
     if (f.conta_pagamento_2data !== null) {
       b.conta_pagamento_2data = DateTime.fromJSDate(f.conta_pagamento_2data).toSQLDate();
     }
-    if (f.conta_debito_automatico_id !== undefined && f.conta_debito_automatico_id !== null && f.conta_debito_automatico_id !== 999) {
+    /*if (f.conta_debito_automatico_id !== undefined && f.conta_debito_automatico_id !== null && f.conta_debito_automatico_id !== 999) {
       b.conta_debito_automatico_id = +f.conta_debito_automatico_id;
-    }
+    }*/
     if (f.conta_local_id !== undefined && f.conta_local_id !== null && f.conta_local_id !== 999) {
       b.conta_local_id = +f.conta_local_id;
     }

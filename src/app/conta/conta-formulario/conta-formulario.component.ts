@@ -45,6 +45,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   tt = 0;
   dr = new ContaDropdown();
   index = 0;
+  ctaPaga = 0;
 
   arquivoDesativado = false;
   enviarArquivos = false;
@@ -71,7 +72,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       ['clean']                        // link and image, video
     ]
   };
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -111,6 +111,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       this.nucleo = false;
       this.cfs.conta.conta_local_id = 0;
     }
+    this.rptd = +this.cfs.conta.conta_rptdia > 0;
+    this.ctaPaga = this.cfs.conta.conta_paga;
   }
 
   carregaDropDown() {
@@ -126,11 +128,11 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
         conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
         conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
-        conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
+        // conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
         conta_observacao: [this.cfs.conta.conta_observacao],
         conta_paga: [this.cfs.conta.conta_paga],
-        conta_pagamento: [this.cfs.conta.conta_pagamento2],
-        conta_rptdia: [this.cfs.conta.conta_rptdia],
+        conta_pagamento: [this.cfs.conta.conta_pagamento2, Validators.required],
+        conta_rptdia: [this.cfs.conta.conta_rptdia, Validators.required],
         conta_parcelas: [this.cfs.conta.conta_parcelas],
         conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
       });
@@ -143,14 +145,27 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
         conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
         conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
-        conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
+        // conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
         conta_observacao: [this.cfs.conta.conta_observacao],
         conta_paga: [this.cfs.conta.conta_paga],
-        conta_pagamento: [this.cfs.conta.conta_pagamento2],
+        conta_pagamento: [this.cfs.conta.conta_pagamento2, Validators.required],
         conta_rptdia: [this.cfs.conta.conta_rptdia],
-        conta_parcelas: [this.cfs.conta.conta_parcelas],
+        conta_parcelas: [this.cfs.conta.conta_parcelas, Validators.required],
         conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
       });
+    }
+    if (this.ctaPaga === 2) {
+      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
+      this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
+    }
+    if (this.ctaPaga === 1) {
+      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
+      if (this.formConta.get('conta_pagamento').disabled) {
+        this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
+      }
+    }
+    if (this.ctaPaga === 0) {
+      this.formConta.get('conta_pagamento').setValue(null);
     }
   }
 
@@ -171,6 +186,26 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   repetirVencimento(ev) {
     this.rptd = ev.value > 0;
+    this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
+  }
+
+  onCtaPaga(ev) {
+    this.ctaPaga = +ev.value;
+    console.log('onCtaPaga',ev);
+    if (this.ctaPaga === 2) {
+      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
+      this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
+    }
+    if (this.ctaPaga === 1) {
+      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
+      if (this.formConta.get('conta_pagamento').disabled) {
+        this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
+      }
+    }
+    if (this.ctaPaga === 0) {
+      this.formConta.get('conta_pagamento').setValue(null);
+    }
+
   }
 
   verificaRequired(campo: string) {
@@ -251,6 +286,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     if (this.cfs.acao === 'alterar') {
       this.tt = 0;
       cta.conta_id = this.cfs.conta.conta_id;
+      cta.conta_uuid = this.cfs.conta.conta_uuid;
       cta.conta_calendario_id = this.cfs.conta.conta_calendario_id;
       if (t.conta_vencimento !== this.cfs.conta.conta_vencimento2) {
         cta.conta_vencimento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
@@ -285,10 +321,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.tt++;
       }
 
-      if (+t.conta_debito_automatico !== +this.cfs.conta.conta_debito_automatico) {
+      /*if (+t.conta_debito_automatico !== +this.cfs.conta.conta_debito_automatico) {
         cta.conta_debito_automatico = +t.conta_debito_automatico;
         this.tt++;
-      }
+      }*/
 
       if (+t.conta_agenda !== +this.cfs.conta.conta_agenda) {
         cta.conta_agenda = +t.conta_agenda;
@@ -320,10 +356,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         cta.conta_vencimento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
         this.tt++;
       }
-      if (t.conta_pagamento  !== null) {
-        cta.conta_pagamento = DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate();
-        this.tt++;
-      }
+
       if (t.conta_cedente.toUpperCase() !== null) {
         cta.conta_cedente = t.conta_cedente.toUpperCase();
         this.tt++;
@@ -346,26 +379,47 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
       if (+t.conta_paga !== null) {
         cta.conta_paga = +t.conta_paga;
+        if (+t.conta_paga === 1) {
+          if (t.conta_pagamento !== null) {
+            cta.conta_pagamento = DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate();
+            this.tt++;
+          }
+        }
+        if (+t.conta_paga === 2) {
+          if (t.conta_vencimento !== null) {
+            cta.conta_pagamento = t.conta_vencimento;
+            this.tt++;
+          }
+        }
+        if (+t.conta_paga === 0) {
+          this.tt++;
+        }
         this.tt++;
       }
 
-      if (+t.conta_debito_automatico !== null) {
+      /*if (+t.conta_debito_automatico !== null) {
         cta.conta_debito_automatico = +t.conta_debito_automatico;
         this.tt++;
-      }
+      }*/
 
       if (+t.conta_agenda !== null) {
         cta.conta_agenda = +t.conta_agenda;
         this.tt++;
       }
 
-      if (+t.conta_parcelas !== null) {
-        cta.conta_parcelas = +t.conta_parcelas;
-        this.tt++;
-      }
-
       if (+t.conta_rptdia !== null) {
         cta.conta_rptdia = +t.conta_rptdia;
+        if ( +t.conta_rptdia > 0) {
+          if (+t.conta_parcelas !== null) {
+            cta.conta_parcelas = +t.conta_parcelas;
+            this.tt++;
+          }
+        }
+        if ( +t.conta_rptdia == 0) {
+          cta.conta_parcelas = 0;
+          this.tt++;
+        }
+
         this.tt++;
       }
 
@@ -385,12 +439,12 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     return vf;
   }
 
-
   incluir() {
     this.sub.push(this.ct.incluirConta(this.cta)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
+          console.log(dados);
           this.resp = dados;
         },
         error: (err) => {
@@ -406,8 +460,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
               this.arquivo_registro_id = +this.resp[1];
               this.enviarArquivos = true;
             } else {
-              this.cfs.resetConta();
-              this.resetForm();
               this.ms.add({
                 key: 'toastprincipal',
                 severity: 'success',
@@ -474,10 +526,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.mostraForm = false;
     this.botaoEnviarVF = false;
     this.tt = 0;
+    this.resetForm();
     this.cfs.resetConta();
     this.formConta.reset();
     this.cta = {};
-
 
     // this.contaListarChange.emit(this.cfs.contaListar);
     this.ct.showForm = false;

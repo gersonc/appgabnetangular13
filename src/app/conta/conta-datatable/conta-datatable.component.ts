@@ -51,7 +51,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   contaEdit?: ContaI = {};
   hoje = new Date();
   testeCss= ['conta_vencimento', 'conta_valor', 'conta_pagamento'];
-
+  colWidth = '';
+  colIdx = 0;
   liberaGravar = false;
 
   constructor(
@@ -157,12 +158,12 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   montaColunas() {
     this.cols = [
       { field: 'conta_id', header: 'ID', sortable: 'true', width: '7rem'},
-      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '300px'},
+      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '120px'},
       { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
-      { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '10rem'},
+      { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
       { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '10rem'},
-      { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
+      // { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
       { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
       { field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'},
       { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
@@ -172,12 +173,12 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   resetSelectedColumns(): void {
     this.ct.criaTabela();
     this.ct.tabela.selectedColumns = [
-      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '300px'},
+      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '120px'},
       { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
-      { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '10rem'},
+      { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
       { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '10rem'},
-      { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
+      // { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
       { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
       { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
     ];
@@ -365,7 +366,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   setCurrentClass(col: any, valor: string | number, conta_paga_id: number, conta_vencimento3: Date) {
     const esqdir: string = this.testeCss.indexOf(col.field) > -1 ? 'p-text-right' : 'p-text-left';
-    const classe: string = (col.field === 'conta_paga') ? (+conta_paga_id === 0) ? (this.hoje > conta_vencimento3) ? 'status-2' : 'status-0 ' : 'status-3' : 'inherit';
+    const classe: string = (col.field === 'conta_paga') ? (+conta_paga_id === 2) ? 'status-1' : (+conta_paga_id === 0) ? (this.hoje > conta_vencimento3) ? 'status-2' : 'status-0 ' : 'status-3' : 'inherit';
     return classe + ' ' + esqdir;
   }
 
@@ -378,6 +379,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   onRowEditInit(c: any) {
+    this.colIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_paga');
+    this.colWidth = this.ct.tabela.selectedColumns[this.colIdx].width;
+    this.ct.tabela.selectedColumns[this.colIdx].width = '13rem';
     this.contaEdit = {...c};
     this.editando = true;
     this.btnExpandirVF = false;
@@ -402,6 +406,20 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       cta.conta_pagamento3 = this.contaEdit.conta_pagamento3;
     }
     cta.conta_paga = 'SIM';
+  }
+
+  onDa(cta: ContaI) {
+    if (this.contaEdit.conta_pagamento === null) {
+      const dt: DateTime = DateTime.now();
+      cta.conta_pagamento3 = cta.conta_vencimento3;
+      cta.conta_pagamento2 = cta.conta_vencimento2;
+      cta.conta_pagamento = cta.conta_vencimento;
+    } else {
+      cta.conta_pagamento = this.contaEdit.conta_pagamento;
+      cta.conta_pagamento2 = this.contaEdit.conta_pagamento2;
+      cta.conta_pagamento3 = this.contaEdit.conta_pagamento3;
+    }
+    cta.conta_paga = 'DEBT. AUT.';
   }
 
   onRowEditSave(cta: ContaI) {
@@ -432,6 +450,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
             this.contaEdit = {};
             this.btnExpandirVF = true;
             this.botaoEnviarVF = false;
+            this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
           },
           complete: () => {
             this.editando = false;
@@ -447,6 +466,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
               this.contaEdit = {};
               this.btnExpandirVF = true;
               this.botaoEnviarVF = false;
+              this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
             } else {
               console.error('ERRO - ALTERAR ', this.resp[2]);
               this.ms.add({
@@ -462,6 +482,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
             this.btnExpandirVF = true;
             this.botaoEnviarVF = false;
             this.idx = null;
+            this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
           }
         })
       );
@@ -470,6 +491,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.contaEdit = {};
       this.btnExpandirVF = true;
       this.botaoEnviarVF = false;
+      this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
     }
 
 
@@ -482,6 +504,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.botaoEnviarVF = false;
     this.idx = null;
     this.editando = false;
+    this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
   }
 
   formataValor(n: number): string {

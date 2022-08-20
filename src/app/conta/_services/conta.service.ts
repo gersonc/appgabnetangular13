@@ -136,7 +136,6 @@ export class ContaService {
     this.titulos = this.tts.buscaTitulos('conta', cps);
   }
 
-
   onRowExpand(evento) {
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['conta'];
@@ -216,7 +215,7 @@ export class ContaService {
     this.busca.conta_id = (b.conta_id !== undefined) ? +b.conta_id : undefined;
     this.busca.conta_vencimento_1data = (b.conta_vencimento_1data !== undefined) ? b.conta_vencimento_1data : undefined;
     this.busca.conta_vencimento_2data = (b.conta_vencimento_2data !== undefined) ? b.conta_vencimento_2data : undefined;
-    this.busca.conta_debito_automatico_id = (b.conta_debito_automatico_id !== undefined) ? b.conta_debito_automatico_id : undefined;
+    // this.busca.conta_debito_automatico_id = (b.conta_debito_automatico_id !== undefined) ? b.conta_debito_automatico_id : undefined;
     this.busca.conta_local_id = (b.conta_local_id !== undefined) ? +b.conta_local_id : undefined;
     this.busca.conta_tipo_id = (b.conta_tipo_id !== undefined) ? b.conta_tipo_id : undefined;
     this.busca.conta_paga_id = (b.conta_paga_id !== undefined) ? b.conta_paga_id : undefined;

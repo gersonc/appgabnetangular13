@@ -33,6 +33,7 @@ export class ContaFormService {
     this.conta = {};
     let r: ContaFormI = {};
     r.conta_id = +t.conta_id;
+    r.conta_uuid = t.conta_uuid;
     r.conta_tipo = +t.conta_tipo_id;
     r.conta_paga = +t.conta_paga_id;
     r.conta_vencimento = null;
@@ -41,13 +42,18 @@ export class ContaFormService {
     r.conta_pagamento2 = t.conta_pagamento3;
     r.conta_cedente = t.conta_cedente;
     r.conta_valor = +t.conta_valor2;
-    r.conta_debito_automatico = +t.conta_debito_automatico_id;
+    // r.conta_debito_automatico = +t.conta_debito_automatico_id;
     r.conta_local_id = +t.conta_local_id;
     r.conta_observacao = t.conta_observacao;
     r.conta_observacao_delta = t.conta_observacao_delta;
     r.conta_observacao_texto = t.conta_observacao_texto;
-    r.conta_rptdia = t.conta_rptdia;
-    r.conta_parcelas = t.conta_parcelas;
+    if (t.conta_parcelas === undefined || t.conta_parcelas === null || +t.conta_parcelas < 2 || t.conta_rptdia === undefined || t.conta_rptdia === null  || +t.conta_rptdia === 0) {
+      r.conta_rptdia = 0;
+      r.conta_parcelas = 2;
+    } else {
+      r.conta_rptdia = t.conta_rptdia;
+      r.conta_parcelas = t.conta_parcelas;
+    }
     r.conta_agenda = t.conta_agenda;
     r.conta_calendario_id = t.conta_calendario_id
     this.conta = r;
@@ -58,6 +64,7 @@ export class ContaFormService {
   criaFormIncluir() {
     this.conta = {};
     this.conta.conta_id = null;
+    this.conta.conta_uuid = null;
     this.conta.conta_cedente = null;
     this.conta.conta_valor = null;
     this.conta.conta_vencimento = null;
@@ -65,14 +72,14 @@ export class ContaFormService {
     this.conta.conta_observacao = null;
     this.conta.conta_observacao_delta = null;
     this.conta.conta_observacao_texto = null;
-    this.conta.conta_debito_automatico = null;
+    // this.conta.conta_debito_automatico = null;
     this.conta.conta_local_id = null;
     this.conta.conta_tipo = null;
     this.conta.conta_paga = null;
     this.conta.conta_pagamento = null;
     this.conta.conta_pagamento2 = null;
     this.conta.conta_rptdia = 0;
-    this.conta.conta_parcelas = 0;
+    this.conta.conta_parcelas = 2;
     this.conta.conta_agenda = 0;
     this.conta.conta_calendario_id = 0;
   }

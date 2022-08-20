@@ -9517,14 +9517,14 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 
 .p-button.p-button-secondary, .p-buttonset.p-button-secondary > .p-button, .p-splitbutton.p-button-secondary > .p-button {
   color: var(--surface-a);
-  background: var(--secondary2);
-  border: 1px solid var(--secondary2);
+  background: var(--bt-secundario-bg);
+  border: 1px solid var(--bt-secundario-bg);
 }
 
 .p-button.p-button-secondary:enabled:hover, .p-buttonset.p-button-secondary > .p-button:enabled:hover, .p-splitbutton.p-button-secondary > .p-button:enabled:hover {
-  background: var(--button-secondary-enabled-hover);
+  background: var(--secondary-color);
   color: var(--surface-a);
-  border-color: var(--button-secondary-enabled-hover);
+  border-color: var(--secondary-color);
 }
 
 .p-button.p-button-secondary:enabled:focus, .p-buttonset.p-button-secondary > .p-button:enabled:focus, .p-splitbutton.p-button-secondary > .p-button:enabled:focus {
@@ -9532,45 +9532,45 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 
 .p-button.p-button-secondary:enabled:active, .p-buttonset.p-button-secondary > .p-button:enabled:active, .p-splitbutton.p-button-secondary > .p-button:enabled:active {
-  background: var(--button-secondary-enabled-active);
+  background: var(--bt-secundario-bg);
   color: var(--surface-a);
-  border-color: var(--button-secondary-enabled-active);
+  border-color: var(--bt-secundario-bg);
 }
 
 .p-button.p-button-secondary.p-button-outlined, .p-buttonset.p-button-secondary > .p-button.p-button-outlined, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined {
   background-color: transparent;
-  color: var(--secondary2);
+  color: var(--bt-secundario-bg);
   border: 1px solid;
 }
 
 .p-button.p-button-secondary.p-button-outlined:enabled:hover, .p-buttonset.p-button-secondary > .p-button.p-button-outlined:enabled:hover, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined:enabled:hover {
   background: var(--rgba-secondary004);
-  color: var(--secondary2);
+  color: var(--bt-secundario-bg);
   border: 1px solid;
 }
 
 .p-button.p-button-secondary.p-button-outlined:enabled:active, .p-buttonset.p-button-secondary > .p-button.p-button-outlined:enabled:active, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined:enabled:active {
   background: var(--rgba-secondary016);
-  color: var(--secondary2);
+  color: var(--bt-secundario-bg);
   border: 1px solid;
 }
 
 .p-button.p-button-secondary.p-button-text, .p-buttonset.p-button-secondary > .p-button.p-button-text, .p-splitbutton.p-button-secondary > .p-button.p-button-text {
   background-color: transparent;
-  color: var(--secondary2);
+  color: var(--bt-secundario-bg);
   border-color: transparent;
 }
 
 .p-button.p-button-secondary.p-button-text:enabled:hover, .p-buttonset.p-button-secondary > .p-button.p-button-text:enabled:hover, .p-splitbutton.p-button-secondary > .p-button.p-button-text:enabled:hover {
   background: var(--rgba-secondary004);
   border-color: transparent;
-  color: var(--secondary2);
+  color: var(--bt-secundario-bg);
 }
 
 .p-button.p-button-secondary.p-button-text:enabled:active, .p-buttonset.p-button-secondary > .p-button.p-button-text:enabled:active, .p-splitbutton.p-button-secondary > .p-button.p-button-text:enabled:active {
   background: var(--rgba-secondary016);
   border-color: transparent;
-  color: var(--secondary2);
+  color: var(--bt-secundario-bg);
 }
 
 .p-button.p-button-info, .p-buttonset.p-button-info > .p-button, .p-splitbutton.p-button-info > .p-button {
@@ -13454,7 +13454,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 
 .p-badge.p-badge-secondary {
-  background-color: var(--secondary2);
+  background-color: var(--bt-secundario-bg);
   color: var(--surface-a);
 }
 
@@ -15904,6 +15904,25 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   border-bottom-left-radius: 4px;
 }
 
+.arquivo-upload {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+div.arquivo-upload {
+  width: 100%;
+  max-width: 1024px;
+  margin: auto;
+}
+
+.arquivo-upload-interno {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+
 p-fileupload .p-fileupload-buttonbar .p-button {
   color: var(--bt-secundario-color);
   background: var(--bt-secundario-bg);
@@ -15926,7 +15945,7 @@ p-fileupload .p-fileupload-buttonbar .p-button:focus {
 
 p-fileupload .p-fileupload-content {
   background: var(--input-filled) !important;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   border: 1px solid var(--text-color);
   color: var(--text-color);
   border-bottom-right-radius: 3px;
@@ -17790,8 +17809,8 @@ p-toast.toastprincipal {
 }
 
 .formulario .p-selectbutton .p-button.p-highlight {
-  background: var(--secondary-color);
-  border-color: var(--secondary-color);
+  background: var(--bt-secundario-bg);
+  border-color: var(--bt-secundario-bg);
   color: var(--secondary-color-text);
 }
 
@@ -17815,4 +17834,8 @@ p-toast.toastprincipal {
   box-shadow: 0 0 0 0.2rem var(--gray-400);
 }
 
-
+.radiolabel {
+  font-size: .9rem;
+  padding-right: .5rem;
+  padding-left: 0;
+}
