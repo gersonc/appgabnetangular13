@@ -484,11 +484,13 @@ export class ContaService {
 
   putContaAlterarDatatable(
     conta_id: number,
+    conta_valor: number,
     conta_paga_id: number | boolean,
     conta_pagamento: string): Observable<any[]> {
 
     const dados = {
       'conta_id': conta_id,
+      'conta_valor': conta_valor,
       'conta_paga': conta_paga_id,
       'conta_pagamento': conta_pagamento
     };

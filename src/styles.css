@@ -9126,6 +9126,8 @@ p-selectbutton.ng-dirty.ng-invalid > .p-selectbutton > .p-button {
   border-color: var(--invalid);
 }
 
+
+
 .p-slider {
   background: var(--surface-border);
   border: 0 none;
@@ -14542,6 +14544,12 @@ form.menuinterno-form {
 }
 
 /*
+*** p-p-selectbutton ***********************************************************************
+*/
+.formulario .p-selectbutton .p-button {
+  padding: 0.3rem 1rem;
+}
+/*
 *** p-inputnumber ***********************************************************************
 */
 .formulario .p-inputnumber-button:hover {
@@ -17838,4 +17846,14 @@ p-toast.toastprincipal {
   font-size: .9rem;
   padding-right: .5rem;
   padding-left: 0;
+}
+
+
+
+.info-icon {
+  font-size: .9rem;
+  margin-left: .5rem;
+}
+.info-icon:hover {
+  color: var(--primary-color);
 }

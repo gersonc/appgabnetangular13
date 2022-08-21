@@ -66,7 +66,7 @@ export class ContaFormService {
     this.conta.conta_id = null;
     this.conta.conta_uuid = null;
     this.conta.conta_cedente = null;
-    this.conta.conta_valor = null;
+    this.conta.conta_valor = 0.00;
     this.conta.conta_vencimento = null;
     this.conta.conta_vencimento2 = null;
     this.conta.conta_observacao = null;
@@ -74,8 +74,8 @@ export class ContaFormService {
     this.conta.conta_observacao_texto = null;
     // this.conta.conta_debito_automatico = null;
     this.conta.conta_local_id = null;
-    this.conta.conta_tipo = null;
-    this.conta.conta_paga = null;
+    this.conta.conta_tipo = 0;
+    this.conta.conta_paga = 0;
     this.conta.conta_pagamento = null;
     this.conta.conta_pagamento2 = null;
     this.conta.conta_rptdia = 0;

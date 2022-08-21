@@ -17,7 +17,7 @@
          [autoLayout]="false"
          columnResizeMode="expand"
          [rowHover]="true"
-         [responsive]="false"
+         [responsive]="true"
          rowExpandMode="single"
          [(first)]="ct.tabela.first"
          [(contextMenuSelection)]="ct.Contexto"
@@ -54,10 +54,10 @@
             <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
                     (click)="mostraMenu()"></button>
           </div>
-          <div class="p-mr-2">
+          <!--<div class="p-mr-2">
             <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
                     (click)="mostraSelectColunas()"></button>
-          </div>
+          </div>-->
           <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
             <button pButton type="button" label="Relatórios" icon="pi pi-info" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
@@ -156,6 +156,32 @@
       </td>
 
       <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col)" [ngClass]="setCurrentClass(col, cta[col.field], cta.conta_paga_id, cta.conta_vencimento3)" style="text-align: left">
+
+        <p-cellEditor *ngIf="col.field === 'conta_valor'">
+          <ng-template pTemplate="input">
+            <div class="p-field">
+              <p-inputNumber
+                [(ngModel)]="cta.conta_valor"
+                mode="currency"
+                locale="pt-BR"
+                currency="BRL"
+                [required]="true"
+              ></p-inputNumber>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="output">
+            <div
+              *ngIf="(aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
+              pInitEditableRow
+              (click)="onRowEditInit(cta)"
+              pTooltip="Alterar"
+              tooltipPosition="top"
+              class="cell-edit"
+            >{{formataValor(cta.conta_valor)}}</div>
+            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{formataValor(cta.conta_paga)}}</div>
+          </ng-template>
+        </p-cellEditor>
+
         <p-cellEditor *ngIf="col.field === 'conta_paga'">
           <ng-template pTemplate="input">
             <div class="formulario p-field-radiobutton">
@@ -203,15 +229,18 @@
           <ng-template pTemplate="input">
             <div class="p-field">
               <p-calendar
-                [(ngModel)]="cta.conta_pagamento"
+                [(ngModel)]="cta.conta_pagamento3"
                 dateFormat="dd/mm/yy"
                 [yearNavigator]="true"
                 yearRange="2020:2035"
                 placeholder="dd/mm/aaaa"
-                dataType="string"
+                dataType="date"
                 class="estreito"
                 [autoZIndex]="true"
                 [appendTo]="'body'"
+                [required]="+cta.conta_paga_id === 1"
+                [readonlyInput] = "+cta.conta_paga_id !== 1"
+                [disabled]="+cta.conta_paga_id !== 1"
               ></p-calendar>
             </div>
           </ng-template>
@@ -227,9 +256,9 @@
             <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_pagamento}}</div>
           </ng-template>
         </p-cellEditor>
-        <ng-container *ngIf="col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
+        <ng-container *ngIf="col.field !== 'conta_valor' && col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
           <app-exporter-celula [celula]="{
-          valor: (col.field === 'conta_valor') ? formataValor(cta[col.field]) : cta[col.field],
+          valor: cta[col.field],
           field: col.field,
           header:col.header,
           txtVF: ct.testaCampoTexto(col.field),
@@ -339,7 +368,7 @@
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 
-<p-dialog *ngIf="ct.tabela.mostraSeletor"
+<!--<p-dialog *ngIf="ct.tabela.mostraSeletor"
           id="seletor"
           header="Selecione as colunas."
           [(visible)]="ct.tabela.mostraSeletor"
@@ -361,7 +390,7 @@
       </div>
     </div>
   </p-footer>
-</p-dialog>
+</p-dialog>-->
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
 <!--<p-confirmDialog

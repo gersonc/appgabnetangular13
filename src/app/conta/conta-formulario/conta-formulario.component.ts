@@ -1,4 +1,14 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import {AutocompleteService, MenuInternoService} from '../../_services';
@@ -16,6 +26,7 @@ import {Subscription} from "rxjs";
 import {MsgService} from "../../_services/msg.service";
 import {DateTime} from "luxon";
 import {ContaDropdown} from "../_models/conta-dropdown";
+import {OverlayPanel} from "primeng/overlaypanel/overlaypanel";
 
 @Component({
   selector: 'app-conta-formulario',
@@ -23,6 +34,7 @@ import {ContaDropdown} from "../_models/conta-dropdown";
   styleUrls: ['./conta-formulario.component.css']
 })
 export class ContaFormularioComponent implements OnInit, OnDestroy {
+  @ViewChild('op', {static: true}) public op: OverlayPanel;
 /*  @Input() index?: number = 0;
   @Input() contaListar?: ContaI;
   @Output() contaListarChange = new EventEmitter<ContaI>();*/
@@ -46,12 +58,19 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   dr = new ContaDropdown();
   index = 0;
   ctaPaga = 0;
+  atencaoRpt = false;
 
   arquivoDesativado = false;
   enviarArquivos = false;
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
+
+  classes1 = "p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 ";
+  classes2 = "p-field p-col-12 p-sm-12 p-md-8 p-lg-4 p-xl-3 ";
+  cedenteClass = this.classes1;
+  cedenteSN = 0;
+  showCedente = false;
 
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -72,6 +91,13 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       ['clean']                        // link and image, video
     ]
   };
+  texto = '';
+  infoVf = false;
+  txtTipo = `<b>FIXA</b><br>
+Vencimentos com valores fixos.<br>
+Quando utilisada com "REPETIR VENCIMENTO" todas as parcelas<br>
+serão geradas com o mesmo valor.<br>
+Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -111,8 +137,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       this.nucleo = false;
       this.cfs.conta.conta_local_id = 0;
     }
+    this.atencaoRpt = +this.cfs.conta.conta_rptdia > 0;
     this.rptd = +this.cfs.conta.conta_rptdia > 0;
     this.ctaPaga = this.cfs.conta.conta_paga;
+    this.cfs.conta.conta_local_id = +this.aut.usuario_local_id;
   }
 
   carregaDropDown() {
@@ -152,6 +180,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         conta_rptdia: [this.cfs.conta.conta_rptdia],
         conta_parcelas: [this.cfs.conta.conta_parcelas, Validators.required],
         conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
+        cedenteSN: [false],
       });
     }
     if (this.ctaPaga === 2) {
@@ -565,6 +594,27 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
+  }
+
+  mostraInfo(ev: string) {
+      this.infoVf = true;
+      this.texto = ev;
+  }
+
+  onCedenteBlur() {
+    if (this.atencaoRpt) {
+      let c: string = this.formConta.get('conta_cedente').value;
+      if (this.cfs.conta.conta_cedente !== c.toUpperCase()) {
+        this.cedenteClass = this.classes2;
+        this.showCedente = true;
+      }
+    }
+
+  }
+
+  cedenteChange(){
+    this.cedenteSN = +this.formConta.get('cedenteSN').value;
+    console.log('cedenteChange', this.formConta.get('cedenteSN').value, this.cedenteSN);
   }
 
   ngOnDestroy(): void {

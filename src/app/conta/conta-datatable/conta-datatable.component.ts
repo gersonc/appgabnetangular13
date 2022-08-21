@@ -51,8 +51,12 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   contaEdit?: ContaI = {};
   hoje = new Date();
   testeCss= ['conta_vencimento', 'conta_valor', 'conta_pagamento'];
-  colWidth = '';
-  colIdx = 0;
+  pagaWidth = '';
+  valorWidth = '';
+  pagamentoWidth = '';
+  pagaIdx = 0;
+  valorIdx = 0;
+  pagamentoIdx = 0;
   liberaGravar = false;
 
   constructor(
@@ -157,31 +161,22 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   montaColunas() {
     this.cols = [
-      { field: 'conta_id', header: 'ID', sortable: 'true', width: '7rem'},
       { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
-      { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '120px'},
-      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
+      { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '7rem'},
+      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '8rem'},
       { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
-      { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '10rem'},
-      // { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
+      { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '6rem'},
       { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
-      { field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'},
       { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
     ];
+    if (this.aut.solicitacaoVersao < 3) {
+      this.cols.push({ field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'})
+    }
   }
 
   resetSelectedColumns(): void {
     this.ct.criaTabela();
-    this.ct.tabela.selectedColumns = [
-      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
-      { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '120px'},
-      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
-      { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
-      { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '10rem'},
-      // { field: 'conta_debito_automatico', header: 'DBTO. AUT.', sortable: 'true', width: '120px'},
-      { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
-      { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
-    ];
+    this.ct.tabela.selectedColumns = this.cols;
   }
 
   resetColunas() {
@@ -379,9 +374,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   onRowEditInit(c: any) {
-    this.colIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_paga');
-    this.colWidth = this.ct.tabela.selectedColumns[this.colIdx].width;
-    this.ct.tabela.selectedColumns[this.colIdx].width = '13rem';
+    this.getWidth();
     this.contaEdit = {...c};
     this.editando = true;
     this.btnExpandirVF = false;
@@ -409,102 +402,113 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   onDa(cta: ContaI) {
-    if (this.contaEdit.conta_pagamento === null) {
-      const dt: DateTime = DateTime.now();
-      cta.conta_pagamento3 = cta.conta_vencimento3;
-      cta.conta_pagamento2 = cta.conta_vencimento2;
-      cta.conta_pagamento = cta.conta_vencimento;
-    } else {
-      cta.conta_pagamento = this.contaEdit.conta_pagamento;
-      cta.conta_pagamento2 = this.contaEdit.conta_pagamento2;
-      cta.conta_pagamento3 = this.contaEdit.conta_pagamento3;
-    }
+    cta.conta_pagamento3 = cta.conta_vencimento3;
+    cta.conta_pagamento2 = cta.conta_vencimento2;
+    cta.conta_pagamento = cta.conta_vencimento;
     cta.conta_paga = 'DEBT. AUT.';
   }
 
   onRowEditSave(cta: ContaI) {
-    this.botaoEnviarVF = true;
-    if (cta.conta_pagamento !== undefined && cta.conta_pagamento !== null) {
-      cta.conta_pagamento3 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toJSDate();
-      cta.conta_pagamento2 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toSQLDate();
-    }
-    const conta: ContaI = cta;
-    if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id) {
-      this.sub.push(this.ct.putContaAlterarDatatable(
-        conta.conta_id, conta.conta_paga_id, conta.conta_pagamento2)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados: any[]) => {
-            this.resp = dados;
-          },
-          error: (err) => {
-            this.ms.add({
-              key: 'toastprincipal',
-              severity: 'warn',
-              summary: 'ERRO ALTERAR',
-              detail: this.resp[2]
-            });
-            console.log(err);
-            this.idx = null;
-            cta = {...this.contaEdit};
-            this.contaEdit = {};
-            this.btnExpandirVF = true;
-            this.botaoEnviarVF = false;
-            this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
-          },
-          complete: () => {
-            this.editando = false;
-            if (this.resp[0]) {
-              // this.ct.contas[this.idx] = this.contaEdit;
-              this.ms.add({
-                key: 'toastprincipal',
-                severity: 'success',
-                summary: 'ALTERAR LANÇAMENTO',
-                detail: this.resp[2]
-              });
-              this.idx = null;
-              this.contaEdit = {};
-              this.btnExpandirVF = true;
-              this.botaoEnviarVF = false;
-              this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
-            } else {
-              console.error('ERRO - ALTERAR ', this.resp[2]);
+    if (this.validaForm(cta)) {
+      this.botaoEnviarVF = true;
+      if (cta.conta_pagamento !== undefined && cta.conta_pagamento !== null) {
+        cta.conta_pagamento3 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toJSDate();
+        cta.conta_pagamento2 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toSQLDate();
+      } else {
+        cta.conta_pagamento = null;
+        cta.conta_pagamento3 = null;
+        cta.conta_pagamento2 = null;
+      }
+      if (+this.contaEdit.conta_valor !== +cta.conta_valor) {
+        cta.conta_valor2 = +cta.conta_valor;
+      }
+      const conta: ContaI = cta;
+      if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id || +this.contaEdit.conta_valor2 !== +conta.conta_valor) {
+        this.sub.push(this.ct.putContaAlterarDatatable(
+          conta.conta_id, conta.conta_valor2, conta.conta_paga_id, conta.conta_pagamento2)
+          .pipe(take(1))
+          .subscribe({
+            next: (dados: any[]) => {
+              this.resp = dados;
+            },
+            error: (err) => {
               this.ms.add({
                 key: 'toastprincipal',
                 severity: 'warn',
-                summary: 'ATENÇÃO - ERRO',
+                summary: 'ERRO ALTERAR',
                 detail: this.resp[2]
               });
+              console.error(err);
+              /*this.idx = null;
+              cta = {...this.contaEdit};
+              this.contaEdit = {};
+              this.btnExpandirVF = true;
+              this.botaoEnviarVF = false;
+              this.setWidth();*/
+              this.onRowEditCancel(cta);
+            },
+            complete: () => {
+              this.editando = false;
+              if (this.resp[0]) {
+                // this.ct.contas[this.idx] = this.contaEdit;
+                this.ms.add({
+                  key: 'toastprincipal',
+                  severity: 'success',
+                  summary: 'ALTERAR LANÇAMENTO',
+                  detail: this.resp[2]
+                });
+                this.idx = null;
+                this.contaEdit = {};
+                this.btnExpandirVF = true;
+                this.botaoEnviarVF = false;
+                this.setWidth();
+                if (this.mostraSoma) {
+                  this.mostraCalculo();
+                }
+              } else {
+                console.error('ERRO - ALTERAR ', this.resp[2]);
+                this.ms.add({
+                  key: 'toastprincipal',
+                  severity: 'warn',
+                  summary: 'ATENÇÃO - ERRO',
+                  detail: this.resp[2]
+                });
+              }
+              this.idx = null;
+              cta = {...this.contaEdit};
+              this.contaEdit = {};
+              this.btnExpandirVF = true;
+              this.botaoEnviarVF = false;
+              this.idx = null;
+              this.setWidth();
             }
-            this.idx = null;
-            cta = {...this.contaEdit};
-            this.contaEdit = {};
-            this.btnExpandirVF = true;
-            this.botaoEnviarVF = false;
-            this.idx = null;
-            this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
-          }
-        })
-      );
-    } else {
-      this.idx = null;
-      this.contaEdit = {};
-      this.btnExpandirVF = true;
-      this.botaoEnviarVF = false;
-      this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
+          })
+        );
+      } else {
+        this.idx = null;
+        this.contaEdit = {};
+        this.btnExpandirVF = true;
+        this.botaoEnviarVF = false;
+        this.setWidth();
+      }
     }
 
 
   }
 
   onRowEditCancel(cta) {
-    cta = {...this.contaEdit};
+    cta.conta_pagamento = this.contaEdit.conta_pagamento;
+    cta.conta_pagamento2 = this.contaEdit.conta_pagamento2;
+    cta.conta_pagamento3 = this.contaEdit.conta_pagamento3;
+    cta.conta_valor = this.contaEdit.conta_valor;
+    cta.conta_valor2 = this.contaEdit.conta_valor2;
+    cta.conta_paga = this.contaEdit.conta_paga;
     this.contaEdit = {};
     this.btnExpandirVF = true;
     this.botaoEnviarVF = false;
     this.idx = null;
     this.editando = false;
-    this.ct.tabela.selectedColumns[this.colIdx].width = this.colWidth;
+    this.setWidth();
   }
 
   formataValor(n: number): string {
@@ -514,7 +518,32 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES RELATORIOS=========================================================
 
 
+  getWidth() {
+    this.valorIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_valor');
+    this.valorWidth = this.ct.tabela.selectedColumns[this.valorIdx].width;
+    this.ct.tabela.selectedColumns[this.valorIdx].width = '13rem';
 
+    this.pagaIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_paga');
+    this.pagaWidth = this.ct.tabela.selectedColumns[this.pagaIdx].width;
+    this.ct.tabela.selectedColumns[this.pagaIdx].width = '15rem';
+
+    this.pagamentoIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_pagamento');
+    this.pagamentoWidth = this.ct.tabela.selectedColumns[this.pagamentoIdx].width;
+    this.ct.tabela.selectedColumns[this.pagamentoIdx].width = '13rem';
+  }
+
+  setWidth() {
+    this.ct.tabela.selectedColumns[this.valorIdx].width = this.valorWidth;
+    this.ct.tabela.selectedColumns[this.pagaIdx].width = this.pagaWidth;
+    this.ct.tabela.selectedColumns[this.pagamentoIdx].width = this.pagamentoWidth;
+
+    this.pagaWidth = '';
+    this.valorWidth = '';
+    this.pagamentoWidth = '';
+    this.pagaIdx = 0;
+    this.valorIdx = 0;
+    this.pagamentoIdx = 0;
+  }
 
 
   mostraCalculo() {
@@ -550,7 +579,79 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     return this.indexAntes;
   }
 
+  validaForm(cta: ContaI): boolean {
+    let vf = true;
+    let msg: string[] = [];
+    let ct = 0;
+    if (+cta.conta_paga_id === 1 && (cta.conta_valor === null || cta.conta_valor === 0)) {
+      msg.push('Valor inválido. <br>');
+      vf = false;
+    }
+    if (+this.contaEdit.conta_valor !== +cta.conta_valor) {
+      ct++;
+    }
+    if (+this.contaEdit.conta_paga_id !== +cta.conta_paga_id) {
+      if (+cta.conta_paga_id === 1 && cta.conta_pagamento === null) {
+        msg.push('Data de pagamento inválida. <br>');
+        vf = false;
+      }
+      if (+cta.conta_paga_id === 1 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
+        ct++;
+      }
+      if (+cta.conta_paga_id === 0 && +cta.conta_pagamento3 === null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
+        ct++;
+      }
+      if (+cta.conta_paga_id === 0 && +cta.conta_pagamento3 !== null) {
+        msg.push('Data de pagamento inválida. <br>');
+        vf = false;
+      }
+      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3 && +cta.conta_pagamento3 === +this.contaEdit.conta_vencimento3) {
+        ct++;
+      }
+      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 === null) {
+        msg.push('Data de pagamento inválida. <br>');
+        vf = false;
+      }
+    }
+    if (+this.contaEdit.conta_paga_id === +cta.conta_paga_id) {
+      if (+cta.conta_paga_id === 1 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
+        ct++;
+      }
+      if (+cta.conta_paga_id === 1 && +cta.conta_pagamento3 === null) {
+        msg.push('Data de pagamento inválida. <br>');
+        vf = false;
+      }
+      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
+        ct++;
+      }
+      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 === null) {
+        msg.push('Data de pagamento inválida. <br>');
+        vf = false;
+      }
+      if (+cta.conta_paga_id === 0 && +cta.conta_pagamento3 !== null) {
+        msg.push('Data de pagamento inválida. <br>');
+        vf = false;
+      }
+    }
 
+      if (msg.length > 0) {
+        msg.forEach(m => {
+          this.ms.add({
+            key: 'toastprincipal',
+            severity: 'warn',
+            summary: 'ERRO ALTERAR',
+            detail: m
+          });
+        })
+      }
+
+      if (ct > 0 && vf) {
+        return true;
+      } else {
+        this.botaoEnviarVF = false;
+        return false;
+      }
+  }
 
 
   /*escondeDetalhe() {

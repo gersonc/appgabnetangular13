@@ -13,7 +13,7 @@ export interface ContaI {
   // conta_debito_automatico?: string;
   conta_cedente?: string;
   conta_valor2?: number;
-  conta_valor?: string;
+  conta_valor?: number;
   conta_vencimento2?: string;
   conta_vencimento?: string;
   conta_vencimento3?: Date;
