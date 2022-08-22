@@ -47,6 +47,7 @@ export interface ContaFormI {
   conta_local_id?: number;
   conta_tipo?: number;
   conta_paga?: number;
+  conta_paga2?: number;
   conta_pagamento?: string;
   conta_pagamento2?: Date;
   conta_rptdia?: number;

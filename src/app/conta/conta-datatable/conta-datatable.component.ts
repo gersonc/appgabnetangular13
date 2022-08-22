@@ -59,6 +59,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   pagamentoIdx = 0;
   liberaGravar = false;
 
+
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
@@ -161,6 +162,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   montaColunas() {
     this.cols = [
+      { field: 'conta_id', header: 'ID', sortable: 'true', width: '80px'},
       { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '7rem'},
       { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '8rem'},
@@ -176,7 +178,18 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   resetSelectedColumns(): void {
     this.ct.criaTabela();
-    this.ct.tabela.selectedColumns = this.cols;
+    this.ct.tabela.selectedColumns = [
+      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
+      { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '7rem'},
+      { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '8rem'},
+      { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
+      { field: 'conta_pagamento', header: 'DT. PGTO.', sortable: 'true', width: '6rem'},
+      { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
+      { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
+    ];
+    if (this.aut.solicitacaoVersao < 3) {
+      this.cols.push({ field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'})
+    }
   }
 
   resetColunas() {

@@ -58,16 +58,17 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   dr = new ContaDropdown();
   index = 0;
   ctaPaga = 0;
-  atencaoRpt = false;
+  repetir = false;
 
   arquivoDesativado = false;
   enviarArquivos = false;
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
+  agendaSN = true;
 
   classes1 = "p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 ";
-  classes2 = "p-field p-col-12 p-sm-12 p-md-8 p-lg-4 p-xl-3 ";
+  classes2 = "p-field p-col-12 p-sm-12 p-md-8 p-lg-3 p-xl-3 ";
   cedenteClass = this.classes1;
   cedenteSN = 0;
   showCedente = false;
@@ -93,11 +94,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   };
   texto = '';
   infoVf = false;
-  txtTipo = `<b>FIXA</b><br>
-Vencimentos com valores fixos.<br>
-Quando utilisada com "REPETIR VENCIMENTO" todas as parcelas<br>
-serão geradas com o mesmo valor.<br>
-Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -137,7 +133,8 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
       this.nucleo = false;
       this.cfs.conta.conta_local_id = 0;
     }
-    this.atencaoRpt = +this.cfs.conta.conta_rptdia > 0;
+    this.repetir = +this.cfs.conta.conta_rptdia > 0;
+    this.agendaSN = this.acao === 'incluir' || (this.acao === 'alterar' && +this.cfs.conta.conta_agenda === 0);
     this.rptd = +this.cfs.conta.conta_rptdia > 0;
     this.ctaPaga = this.cfs.conta.conta_paga;
     this.cfs.conta.conta_local_id = +this.aut.usuario_local_id;
@@ -150,37 +147,34 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
   criaForm() {
     if (this.acao === 'incluir') {
       this.formConta = this.formBuilder.group({
-        // conta_id: [this.cfs.conta.conta_id],
         conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
-        conta_valor: [this.cfs.conta.conta_valor, Validators.required],
-        conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
-        conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
-        conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
-        // conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
-        conta_observacao: [this.cfs.conta.conta_observacao],
-        conta_paga: [this.cfs.conta.conta_paga],
-        conta_pagamento: [this.cfs.conta.conta_pagamento2, Validators.required],
-        conta_rptdia: [this.cfs.conta.conta_rptdia, Validators.required],
-        conta_parcelas: [this.cfs.conta.conta_parcelas],
-        conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
+        conta_valor: [{value: this.cfs.conta.conta_valor, disabled: true}, Validators.required],
+        conta_vencimento: [{value: this.cfs.conta.conta_vencimento2, disabled: true}, Validators.required],
+        conta_paga: [{value: this.cfs.conta.conta_paga, disabled: true}],
+        conta_pagamento: [{value: this.cfs.conta.conta_pagamento2, disabled: true}, Validators.required],
+        conta_local_id: [{value: this.cfs.conta.conta_local_id, disabled: true}, Validators.required],
+        conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}, Validators.required],
+        conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
+        conta_paga2: [{value: this.cfs.conta.conta_paga2, disabled: true}],
+        conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}, Validators.required],
+        conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: true}],
+        conta_observacao: [{value: this.cfs.conta.conta_observacao, disabled: true}],
       });
     }
     if (this.acao === 'alterar') {
+      console.log(!this.agendaSN);
       this.formConta = this.formBuilder.group({
-        // conta_id: [this.cfs.conta.conta_id],
         conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
         conta_valor: [this.cfs.conta.conta_valor, Validators.required],
         conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
-        conta_local_id: [this.cfs.conta.conta_local_id, Validators.required],
-        conta_tipo: [this.cfs.conta.conta_tipo, Validators.required],
-        // conta_debito_automatico: [this.cfs.conta.conta_debito_automatico, Validators.required],
+        conta_local_id: [this.cfs.conta.conta_local_id],
+        conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}],
         conta_observacao: [this.cfs.conta.conta_observacao],
         conta_paga: [this.cfs.conta.conta_paga],
         conta_pagamento: [this.cfs.conta.conta_pagamento2, Validators.required],
-        conta_rptdia: [this.cfs.conta.conta_rptdia],
-        conta_parcelas: [this.cfs.conta.conta_parcelas, Validators.required],
-        conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
-        cedenteSN: [false],
+        conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}],
+        conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
+        conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: !this.agendaSN}]
       });
     }
     if (this.ctaPaga === 2) {
@@ -222,7 +216,14 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
     this.ctaPaga = +ev.value;
     console.log('onCtaPaga',ev);
     if (this.ctaPaga === 2) {
-      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
+      if (this.formConta.get('conta_pagamento').dirty && this.formConta.get('conta_pagamento').value !== null) {
+        this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_pagamento').value);
+      } else {
+        if (this.cfs.conta.conta_vencimento2 !== null) {
+          this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
+        }
+      }
+
       this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
     }
     if (this.ctaPaga === 1) {
@@ -315,16 +316,12 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
     if (this.cfs.acao === 'alterar') {
       this.tt = 0;
       cta.conta_id = this.cfs.conta.conta_id;
-      cta.conta_uuid = this.cfs.conta.conta_uuid;
-      cta.conta_calendario_id = this.cfs.conta.conta_calendario_id;
-      if (t.conta_vencimento !== this.cfs.conta.conta_vencimento2) {
-        cta.conta_vencimento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
-        this.tt++;
+      if (this.cfs.conta.conta_uuid !== undefined && this.cfs.conta.conta_uuid !== null && this.cfs.conta.conta_uuid.length > 10) {
+        cta.conta_uuid = this.cfs.conta.conta_uuid;
       }
-      if (t.conta_pagamento !== this.cfs.conta.conta_pagamento2) {
-        cta.conta_pagamento = DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate();
-        this.tt++;
-      }
+      // cta.conta_calendario_id = this.cfs.conta.conta_calendario_id;
+
+
       if (t.conta_cedente.toUpperCase() !== this.cfs.conta.conta_cedente) {
         cta.conta_cedente = t.conta_cedente.toUpperCase();
         this.tt++;
@@ -340,35 +337,73 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
         this.tt++;
       }
 
-      if (+t.conta_tipo !== +this.cfs.conta.conta_tipo) {
+      /*if (+t.conta_tipo !== +this.cfs.conta.conta_tipo) {
         cta.conta_tipo = +t.conta_tipo;
+        this.tt++;
+      }*/
+
+      if (t.conta_vencimento !== this.cfs.conta.conta_vencimento2) {
+        if (t.conta_vencimento === null && +t.conta_paga > 0) {
+          return false;
+        }
+          cta.conta_vencimento = (t.conta_vencimento !== null) ? DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate() : null;
         this.tt++;
       }
 
       if (+t.conta_paga !== +this.cfs.conta.conta_paga) {
         cta.conta_paga = +t.conta_paga;
+        if (+t.conta_paga === 0) {
+          cta.conta_pagamento = null;
+          this.tt++;
+        }
+        if (+t.conta_paga === 1) {
+          if (t.conta_pagamento === null) {
+            return false;
+          }
+          cta.conta_pagamento = (t.conta_pagamento !== +this.cfs.conta.conta_pagamento2) ? DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate() : null;
+          this.tt++;
+        }
+        if (+t.conta_paga === 2) {
+          if (t.conta_pagamento === null || t.conta_vencimento === null) {
+            return false;
+          }
+          cta.conta_pagamento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
+          this.tt++;
+        }
         this.tt++;
       }
+
+      if (t.conta_pagamento !== this.cfs.conta.conta_pagamento2) {
+        cta.conta_pagamento = (t.conta_pagamento !== null) ? DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate() : null;
+        this.tt++;
+      }
+
+
 
       /*if (+t.conta_debito_automatico !== +this.cfs.conta.conta_debito_automatico) {
         cta.conta_debito_automatico = +t.conta_debito_automatico;
         this.tt++;
       }*/
 
-      if (+t.conta_agenda !== +this.cfs.conta.conta_agenda) {
+      if (this.agendaSN && +t.conta_agenda === 1) {
         cta.conta_agenda = +t.conta_agenda;
         this.tt++;
       }
 
-      if (+t.conta_parcelas !== +this.cfs.conta.conta_parcelas) {
+      /*if (+t.conta_parcelas !== +this.cfs.conta.conta_parcelas) {
         cta.conta_parcelas = +t.conta_parcelas;
         this.tt++;
-      }
+      }*/
 
-      if (+t.conta_rptdia !== +this.cfs.conta.conta_rptdia) {
+      /*if (+t.conta_rptdia !== +this.cfs.conta.conta_rptdia) {
         cta.conta_rptdia = +t.conta_rptdia;
         this.tt++;
-      }
+      }*/
+
+      /*if (!this.rptd && +t.conta_agenda !== null) {
+        cta.conta_agenda = +t.conta_agenda;
+        this.tt++;
+      }*/
 
       if (t.conta_observacao !== this.cfs.conta.conta_observacao) {
         cta.conta_observacao = this.formConta.get('conta_observacao').value;
@@ -404,6 +439,8 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
       if (+t.conta_tipo !== null) {
         cta.conta_tipo = +t.conta_tipo;
         this.tt++;
+      } else {
+        cta.conta_tipo = 0;
       }
 
       if (+t.conta_paga !== null) {
@@ -412,6 +449,8 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
           if (t.conta_pagamento !== null) {
             cta.conta_pagamento = DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate();
             this.tt++;
+          } else {
+            return false;
           }
         }
         if (+t.conta_paga === 2) {
@@ -421,6 +460,7 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
           }
         }
         if (+t.conta_paga === 0) {
+          cta.conta_pagamento = null
           this.tt++;
         }
         this.tt++;
@@ -443,9 +483,13 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
             cta.conta_parcelas = +t.conta_parcelas;
             this.tt++;
           }
+          if (+t.conta_paga2 !== null) {
+            cta.conta_paga2 = +t.conta_paga2;
+            this.tt++;
+          }
         }
         if ( +t.conta_rptdia == 0) {
-          cta.conta_parcelas = 0;
+          cta.conta_parcelas = 1;
           this.tt++;
         }
 
@@ -461,7 +505,7 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
 
     }
 
-    const vf: boolean = ((this.acao === 'alterar' && this.tt >= 1) || (this.acao === 'incluir' && this.tt >= 10));
+    const vf: boolean = ((this.acao === 'alterar' && this.tt >= 1) || (this.acao === 'incluir' && this.tt >= 8));
     if (vf) {
       this.cta = cta;
     }
@@ -599,17 +643,6 @@ Exemplos: compras em parcelas, assinaturas de revistas, etc.<br>`;
   mostraInfo(ev: string) {
       this.infoVf = true;
       this.texto = ev;
-  }
-
-  onCedenteBlur() {
-    if (this.atencaoRpt) {
-      let c: string = this.formConta.get('conta_cedente').value;
-      if (this.cfs.conta.conta_cedente !== c.toUpperCase()) {
-        this.cedenteClass = this.classes2;
-        this.showCedente = true;
-      }
-    }
-
   }
 
   cedenteChange(){

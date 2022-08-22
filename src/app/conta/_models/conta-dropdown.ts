@@ -21,7 +21,7 @@ export class ContaDropdown {
   ddConta_paga: SelectItem[] = [
     {label: 'SIM', value: 1},
     {label: 'NÃO', value: 0},
-    {label: 'DEBT. AUT.', value: 2},
+    {label: 'DEBT.AUT.', value: 2},
   ];
 
   ddRptdia: SelectItem[] = [

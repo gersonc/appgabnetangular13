@@ -170,15 +170,14 @@
             </div>
           </ng-template>
           <ng-template pTemplate="output">
-            <div
-              *ngIf="(aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
+            <div *ngIf="(aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
               pInitEditableRow
               (click)="onRowEditInit(cta)"
               pTooltip="Alterar"
               tooltipPosition="top"
               class="cell-edit"
             >{{formataValor(cta.conta_valor)}}</div>
-            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{formataValor(cta.conta_paga)}}</div>
+            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{formataValor(cta.conta_valor)}}</div>
           </ng-template>
         </p-cellEditor>
 
@@ -253,9 +252,11 @@
               tooltipPosition="top"
               class="cell-edit"
             >{{cta.conta_pagamento}}&nbsp;</div>
-            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_pagamento}}</div>
+            <div *ngIf="(!aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_pagamento}}&nbsp;</div>
           </ng-template>
         </p-cellEditor>
+
+
         <ng-container *ngIf="col.field !== 'conta_valor' && col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
           <app-exporter-celula [celula]="{
           valor: cta[col.field],
@@ -340,7 +341,7 @@
                 </div>
               </div>
               <div *ngIf="cta.conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)" class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                <app-detalhe-explorer [arquivos]="cta.conta_arquivo"></app-detalhe-explorer>
+                <app-detalhe-explorer [arquivos]="cta.conta_arquivos"></app-detalhe-explorer>
               </div>
             </div>
 
@@ -441,6 +442,7 @@
       [dismissableMask]="false"
       [baseZIndex]="0"
       [blockScroll]="true"
+      transitionOptions="350ms cubic-bezier(0, 0, 0.2, 1)"
     >
       <app-conta-formulario *ngIf="ct.showForm"></app-conta-formulario>
     </p-dialog>

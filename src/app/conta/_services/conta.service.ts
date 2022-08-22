@@ -41,6 +41,7 @@ export class ContaService {
   showForm = false;
   mudaRows = 50;
   rowsPerPageOptions = [50];
+  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 
   // tl: ContaI | undefined;
   // expandidoDados: any = false;
@@ -146,16 +147,15 @@ export class ContaService {
     let ev = evento.data;
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
-        if (ev[t.field].length > 0) {
+        if (ev[t.field].toString().length > 0) {
           let celula: CelulaI = {
             header: t.titulo,
             field: t.field,
-            valor: ev[t.field],
+            valor: (t.field !== 'conta_valor') ? ev[t.field] : this.formatterBRL.format(ev[t.field]),
             txtVF: false,
             cphtml: ev[t.field]
           }
-          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
-          if (m > -1 && ev[t.field].length > 40) {
+          if (t.field === 'conta_observacao' && ev[t.field].length > 40) {
             const d = t.field + '_delta';
             const tx = t.field + '_texto';
             celula.txtVF = true;
@@ -167,7 +167,7 @@ export class ContaService {
               celula.valor = ev[tx];
             }
           }
-          if (m > -1 && ev[t.field].length <= 40) {
+          if (t.field === 'conta_observacao' && ev[t.field].length <= 40) {
             celula.valor = limpaTexto(ev[t.field]);
           }
           cl.push(celula);
@@ -456,7 +456,6 @@ export class ContaService {
       );
     }
   }
-
 
   postContaBusca(dados: ContaBuscaI): Observable<ContaPaginacaoInterface> {
     const url = this.url.conta + '/listar';

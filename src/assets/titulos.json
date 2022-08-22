@@ -304,16 +304,6 @@
     "mtitulo": "CAMPO4",
     "titulo": "Campo4"
   },
-  "conta_cedente": {
-    "field": "conta_cedente",
-    "mtitulo": "CEDENTE",
-    "titulo": "Cedente"
-  },
-  "conta_debito_automatico": {
-    "field": "conta_debito_automatico",
-    "mtitulo": "DEBITO AUTOMÁTICO",
-    "titulo": "Debito Automático"
-  },
   "conta_local_nome": {
     "field": "conta_local_nome",
     "mtitulo": "NÚCLEO",
@@ -328,6 +318,11 @@
     "field": "conta_paga",
     "mtitulo": "PAGA",
     "titulo": "Paga"
+  },
+  "conta_cedente": {
+    "field": "conta_cedente",
+    "mtitulo": "CEDENTE",
+    "titulo": "Cedente"
   },
   "conta_pagamento": {
     "field": "conta_pagamento",

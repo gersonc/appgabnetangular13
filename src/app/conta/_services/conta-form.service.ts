@@ -42,19 +42,18 @@ export class ContaFormService {
     r.conta_pagamento2 = t.conta_pagamento3;
     r.conta_cedente = t.conta_cedente;
     r.conta_valor = +t.conta_valor2;
-    // r.conta_debito_automatico = +t.conta_debito_automatico_id;
     r.conta_local_id = +t.conta_local_id;
     r.conta_observacao = t.conta_observacao;
     r.conta_observacao_delta = t.conta_observacao_delta;
     r.conta_observacao_texto = t.conta_observacao_texto;
     if (t.conta_parcelas === undefined || t.conta_parcelas === null || +t.conta_parcelas < 2 || t.conta_rptdia === undefined || t.conta_rptdia === null  || +t.conta_rptdia === 0) {
       r.conta_rptdia = 0;
-      r.conta_parcelas = 2;
+      r.conta_parcelas = 1;
     } else {
       r.conta_rptdia = t.conta_rptdia;
       r.conta_parcelas = t.conta_parcelas;
     }
-    r.conta_agenda = t.conta_agenda;
+    r.conta_agenda = (t.conta_agenda === undefined || t.conta_agenda === null) ? 0 : t.conta_agenda;
     r.conta_calendario_id = t.conta_calendario_id
     this.conta = r;
     console.log('parceContaForm', r, this.conta);
@@ -72,10 +71,10 @@ export class ContaFormService {
     this.conta.conta_observacao = null;
     this.conta.conta_observacao_delta = null;
     this.conta.conta_observacao_texto = null;
-    // this.conta.conta_debito_automatico = null;
     this.conta.conta_local_id = null;
     this.conta.conta_tipo = 0;
     this.conta.conta_paga = 0;
+    this.conta.conta_paga2 = 0;
     this.conta.conta_pagamento = null;
     this.conta.conta_pagamento2 = null;
     this.conta.conta_rptdia = 0;
