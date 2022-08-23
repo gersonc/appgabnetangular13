@@ -45,6 +45,7 @@ import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.mo
 import {ExplorerModule} from "../explorer/explorer.module";
 import {InputNumberModule} from "primeng/inputnumber";
 import {OverlayPanelModule} from "primeng/overlaypanel";
+import {FocusTrapModule} from "primeng/focustrap";
 
 
 
@@ -94,7 +95,8 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
         ExporterAcessoModule,
         ExplorerModule,
         InputNumberModule,
-        OverlayPanelModule
+        OverlayPanelModule,
+        FocusTrapModule
     ],
   exports: [
     ContaComponent

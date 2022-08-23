@@ -65,7 +65,7 @@ export class ContaFormService {
     this.conta.conta_id = null;
     this.conta.conta_uuid = null;
     this.conta.conta_cedente = null;
-    this.conta.conta_valor = 0.00;
+    this.conta.conta_valor = null;
     this.conta.conta_vencimento = null;
     this.conta.conta_vencimento2 = null;
     this.conta.conta_observacao = null;

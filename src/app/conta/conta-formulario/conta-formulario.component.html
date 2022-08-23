@@ -29,11 +29,13 @@
                     [maxlength]="50"
                     [minLength]="3"
                     [size]="40"
-                    [delay]="500"
+                    [delay]="800"
                     [suggestions]="sgt"
                     dropdownMode="current"
                     (completeMethod)="autoComp($event)"
                     [ngClass]="aplicaCssErro('conta_cedente')"
+                    (onBlur)="mudaForm('conta_cedente')"
+                    (focusin)="autComp2($event)"
                     tabindex="0"
                   ></p-autoComplete>
                   <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_cedente')" msgErro="Cedente é obrigatório."></app-campo-control-erro>
@@ -44,6 +46,8 @@
                   <label for="conta_vencimento"><span class="atencao">*</span> Data Vencimento</label>
                   <p-calendar
                     id="conta_vencimento"
+                    [showOnFocus]="true"
+                    [touchUI]="(aut.dispositivo==='mobile')"
                     formControlName="conta_vencimento"
                     dateFormat="dd/mm/yy"
                     [yearNavigator]="true"
@@ -52,6 +56,7 @@
                     dataType="date"
                     [styleClass]="'estreito'"
                     [ngClass]="aplicaCssErro('conta_vencimento')"
+                    (ngModelChange)="mudaForm('conta_vencimento')"
                     tabindex="1"
                   ></p-calendar>
                   <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_vencimento')" msgErro="Vencimento é obrigatório."></app-campo-control-erro>
@@ -68,6 +73,7 @@
                     [size]="40"
                     [required]="true"
                     [ngClass]="aplicaCssErro('conta_valor')"
+                    (onBlur)="mudaForm('conta_valor')"
                     tabindex="2"
                   ></p-inputNumber>
                   <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_valor')" msgErro="Valor é obrigatório."></app-campo-control-erro>
@@ -81,7 +87,6 @@
                     id="conta_paga"
                     [options]="dr.ddConta_paga"
                     formControlName="conta_paga"
-                    #ctagg
                     (onChange)="onCtaPaga($event)"
                     tabindex="3"
                   >
@@ -91,12 +96,13 @@
 
 
                 <!-- conta_pagamento -->
-                <div *ngIf="ctaPaga > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="ctaPaga > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_pagamento')">
                   <label for="conta_pagamento">Data pagamento</label>
                   <p-calendar
                     id="conta_pagamento"
                     formControlName="conta_pagamento"
                     dateFormat="dd/mm/yy"
+                    [touchUI]="(aut.dispositivo==='mobile')"
                     [yearNavigator]="true"
                     yearRange="2000:2035"
                     placeholder="dd/mm/aaaa"
@@ -105,6 +111,7 @@
                     [ngClass]="aplicaCssErro('conta_pagamento')"
                     tabindex="4"
                   ></p-calendar>
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_pagamento')" msgErro="Valor é obrigatório."></app-campo-control-erro>
                 </div>
 
                 <!-- conta_local_id -->
@@ -278,7 +285,7 @@
                       pButton
                       type="submit"
                       class="p-button-rounded"
-                      [disabled]="!formConta.valid || mostraForm"
+                      [disabled]="!formConta.valid || mostraForm || dtpgtoInvalido"
                       label="Enviar"
                       tabindex="12"
                     ></button>

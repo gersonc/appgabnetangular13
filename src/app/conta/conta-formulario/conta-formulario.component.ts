@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import {AutocompleteService, MenuInternoService} from '../../_services';
@@ -22,11 +12,10 @@ import {ContaFormI, ContaI} from "../_models/conta-i";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
 import Quill from "quill";
 import {Stripslashes} from "../../shared/functions/stripslashes";
-import {Subscription} from "rxjs";
+import {of, Subscription} from "rxjs";
 import {MsgService} from "../../_services/msg.service";
 import {DateTime} from "luxon";
 import {ContaDropdown} from "../_models/conta-dropdown";
-import {OverlayPanel} from "primeng/overlaypanel/overlaypanel";
 
 @Component({
   selector: 'app-conta-formulario',
@@ -34,10 +23,6 @@ import {OverlayPanel} from "primeng/overlaypanel/overlaypanel";
   styleUrls: ['./conta-formulario.component.css']
 })
 export class ContaFormularioComponent implements OnInit, OnDestroy {
-  @ViewChild('op', {static: true}) public op: OverlayPanel;
-/*  @Input() index?: number = 0;
-  @Input() contaListar?: ContaI;
-  @Output() contaListarChange = new EventEmitter<ContaI>();*/
   public formConta: FormGroup;
   public items: Array<any> = [];
   ptBr: any;
@@ -72,6 +57,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   cedenteClass = this.classes1;
   cedenteSN = 0;
   showCedente = false;
+  autoCompOnOff = false;
 
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -94,6 +80,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   };
   texto = '';
   infoVf = false;
+  dtpgtoInvalido = true;
+
+  cedenteFocus = false;
+  conta_vencimento = new Date();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -108,15 +98,11 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.index = this.ct.idx;
-      this.acao = this.cfs.acao;
-
+    this.acao = this.cfs.acao;
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
       this.cfs.criaFormIncluir();
     }
-
-    // this.cfs.criaConta();
     this.carregaDados();
-    // this.configuraCalendario();
     this.carregaDropDown();
     this.criaForm();
   }
@@ -147,22 +133,26 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   criaForm() {
     if (this.acao === 'incluir') {
       this.formConta = this.formBuilder.group({
-        conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
-        conta_valor: [{value: this.cfs.conta.conta_valor, disabled: true}, Validators.required],
-        conta_vencimento: [{value: this.cfs.conta.conta_vencimento2, disabled: true}, Validators.required],
+        conta_cedente: [this.cfs.conta.conta_cedente, [Validators.required, Validators.minLength(2)]],
+        conta_valor: [this.cfs.conta.conta_valor, Validators.required],
+        conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
         conta_paga: [{value: this.cfs.conta.conta_paga, disabled: true}],
-        conta_pagamento: [{value: this.cfs.conta.conta_pagamento2, disabled: true}, Validators.required],
+        conta_pagamento: [{value: this.cfs.conta.conta_pagamento2, disabled: true}],
         conta_local_id: [{value: this.cfs.conta.conta_local_id, disabled: true}, Validators.required],
-        conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}, Validators.required],
+        conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}],
         conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
         conta_paga2: [{value: this.cfs.conta.conta_paga2, disabled: true}],
         conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}, Validators.required],
         conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: true}],
         conta_observacao: [{value: this.cfs.conta.conta_observacao, disabled: true}],
       });
+      this.dtpgtoInvalido = true;
+
+      //this.formConta.get('conta_cedente').
+
+
     }
     if (this.acao === 'alterar') {
-      console.log(!this.agendaSN);
       this.formConta = this.formBuilder.group({
         conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
         conta_valor: [this.cfs.conta.conta_valor, Validators.required],
@@ -176,66 +166,96 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
         conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: !this.agendaSN}]
       });
-    }
-    if (this.ctaPaga === 2) {
-      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
-      this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
-    }
-    if (this.ctaPaga === 1) {
-      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
-      if (this.formConta.get('conta_pagamento').disabled) {
-        this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
+
+
+      if (this.ctaPaga === 2) {
+        this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
+        this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
       }
-    }
-    if (this.ctaPaga === 0) {
-      this.formConta.get('conta_pagamento').setValue(null);
+      if (this.ctaPaga === 1) {
+        this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
+        if (this.formConta.get('conta_pagamento').disabled) {
+          this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
+        }
+      }
+      if (this.ctaPaga === 0) {
+        this.formConta.get('conta_pagamento').setValue(null);
+      }
+
+
+
+
+
+
     }
   }
 
   autoComp (event) {
-    let sg: any[];
-    this.autocompleteservice.getACSimples3('contas', 'conta_cedente', event.query)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          sg = dados;
-        },
-        error: err => console.error('FE-cadastro_datatable.postCadastroListarPaginacaoSort-ERRO-->', err),
-        complete: () => {
-          this.sgt = sg;
-        }
-      });
+    if (this.autoCompOnOff) {
+      let sg: any[];
+      this.autocompleteservice.getACSimples3('contas', 'conta_cedente', event.query)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            sg = dados;
+          },
+          error: err => console.error('FE-cadastro_datatable.postCadastroListarPaginacaoSort-ERRO-->', err),
+          complete: () => {
+            this.sgt = sg;
+          }
+        });
+    } else {
+      this.sgt = [];
+      return of(this.sgt);
+    }
+  }
+
+  autComp2(ev: any) {
+    this.autoCompOnOff = true;
   }
 
   repetirVencimento(ev) {
     this.rptd = ev.value > 0;
-    this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
+    if (this.acao === 'alterar') {
+      this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
+    }
+    if (this.acao === 'incluir' && this.rptd) {
+      this.formConta.get('conta_parcelas').enable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_tipo').enable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_paga2').enable({onlySelf: true, emitEvent: true});
+    }
+    if (this.acao === 'incluir' && !this.rptd) {
+      this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 2);
+      this.formConta.get('conta_parcelas').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_tipo').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
+      this.formConta.get('conta_tipo').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_paga2').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
+      this.formConta.get('conta_paga2').disable({onlySelf: true, emitEvent: true});
+    }
   }
 
   onCtaPaga(ev) {
     this.ctaPaga = +ev.value;
-    console.log('onCtaPaga',ev);
     if (this.ctaPaga === 2) {
-      if (this.formConta.get('conta_pagamento').dirty && this.formConta.get('conta_pagamento').value !== null) {
-        this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_pagamento').value);
-      } else {
-        if (this.cfs.conta.conta_vencimento2 !== null) {
-          this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
-        }
-      }
-
-      this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_pagamento').addValidators(Validators.required);
+      this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: false, emitEvent: true, emitModelToViewChange: true});
+      this.formConta.get('conta_pagamento').disable({onlySelf: false, emitEvent: true});
     }
     if (this.ctaPaga === 1) {
-      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
-      if (this.formConta.get('conta_pagamento').disabled) {
-        this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_pagamento').addValidators(Validators.required);
+      if (this.formConta.get('conta_pagamento').value === undefined || this.formConta.get('conta_pagamento').value === null) {
+        this.formConta.get('conta_pagamento').enable({onlySelf: false, emitEvent: true});
+      } else {
+        this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: false, emitEvent: true, emitModelToViewChange: true});
+        this.formConta.get('conta_pagamento').enable({onlySelf: false, emitEvent: true});
       }
     }
     if (this.ctaPaga === 0) {
-      this.formConta.get('conta_pagamento').setValue(null);
+      this.formConta.get('conta_pagamento').removeValidators(Validators.required);
+      this.formConta.get('conta_pagamento').setValue(null, {onlySelf: false, emitEvent: true, emitModelToViewChange: true});
+      this.formConta.get('conta_pagamento').disable({onlySelf: false, emitEvent: true});
     }
-
+    this.validaPagamento();
   }
 
   verificaRequired(campo: string) {
@@ -248,7 +268,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   verificaValidTouched(campo: string) {
     return (
       (!this.formConta?.get(campo)?.valid || this.formConta.get(campo).hasError('required')) &&
-      (this.formConta?.get(campo)?.touched || this.formConta?.get(campo)?.dirty)
+      (this.formConta?.get(campo)?.touched || this.formConta?.get(campo)?.dirty) && this.validaPagamento()
     );
   }
 
@@ -277,6 +297,13 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     };
   }
 
+  aplicaCssErro2() {
+    return {
+      'ng-invalid': this.validaPagamento(),
+      'ng-dirty': this.validaPagamento()
+    };
+  }
+
   onSubmit() {
     this.mostraForm = true;
     this.botaoEnviarVF = true;
@@ -299,11 +326,22 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   resetForm() {
-    // this.tel = {};
-    this.formConta.reset();
+    this.rptd = false;
+    if (this.acao === 'incluir') {
+      console.log('reset',0);
+      // this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+/*      this.formConta.get('conta_paga').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_local_id').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_rptdia').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_agenda').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_observacao').disable({onlySelf: true, emitEvent: true});*/
+
+    }
     this.criaForm();
     this.mostraForm = false;
     this.botaoEnviarVF = false;
+    this.formConta.reset();
+
   }
 
   criaEnvio() {
@@ -645,10 +683,56 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       this.texto = ev;
   }
 
-  cedenteChange(){
-    this.cedenteSN = +this.formConta.get('cedenteSN').value;
-    console.log('cedenteChange', this.formConta.get('cedenteSN').value, this.cedenteSN);
+  mudaForm(cp: string) {
+    this.autoCompOnOff = false;
+    console.log('ev');
+    if (this.acao === 'incluir') {
+      if (cp === 'conta_vencimento' && this.formConta.get('conta_vencimento').valid) {
+        this.conta_vencimento = this.formConta.get('conta_vencimento').value;
+        this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+      }
+      if (this.formConta.get('conta_cedente').valid && this.formConta.get('conta_vencimento').valid && this.formConta.get('conta_valor').valid) {
+        this.conta_vencimento = this.formConta.get('conta_vencimento').value;this.formConta.get('conta_pagamento').setValue(null, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+        this.formConta.get('conta_paga').enable({onlySelf: true, emitEvent: true});
+        this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+        this.formConta.get('conta_paga').markAsDirty();
+        this.validaPagamento();
+        this.formConta.get('conta_local_id').enable({onlySelf: true, emitEvent: true});
+        this.formConta.get('conta_rptdia').enable({onlySelf: true, emitEvent: true});
+        this.formConta.get('conta_agenda').enable({onlySelf: true, emitEvent: true});
+        this.formConta.get('conta_observacao').enable({onlySelf: true, emitEvent: true});
+      }
+
+    }
+
   }
+
+  validaPagamento(): boolean {
+    if (this.ctaPaga === 2) {
+      if(this.formConta.get('conta_vencimento').invalid || this.formConta.get('conta_vencimento').value !== this.formConta.get('conta_pagamento').value) {
+        this.dtpgtoInvalido = true;
+        return true;
+      }
+    }
+    if (this.ctaPaga === 1) {
+      if((this.formConta.get('conta_pagamento').value === undefined || this.formConta.get('conta_pagamento').value === null) && this.formConta.get('conta_pagamento').dirty)  {
+        this.dtpgtoInvalido = true;
+        return true;
+      }
+    }
+    if (this.ctaPaga === 0) {
+      if(this.formConta.get('conta_pagamento').value != null) {
+        this.dtpgtoInvalido = true;
+        return true;
+      }
+    }
+    this.dtpgtoInvalido = false;
+    return false;
+  }
+
+  /*onCtaPagto(ev) {
+    console.log('ev',ev);
+  }*/
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
