@@ -351,6 +351,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.cta = {};
     let cta: ContaFormI = {}
     const t: any = this.formConta.getRawValue();
+    console.log('t',t);
     this.mostraForm = false;
     this.botaoEnviarVF = false;
 
@@ -546,6 +547,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
     }
 
+
+
     const vf: boolean = ((this.acao === 'alterar' && this.tt >= 1) || (this.acao === 'incluir' && this.tt >= 8));
     if (vf) {
       this.cta = cta;
@@ -705,7 +708,9 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.formConta.get('conta_agenda').enable({onlySelf: true, emitEvent: true});
         this.formConta.get('conta_observacao').enable({onlySelf: true, emitEvent: true});
       }
-
+    }
+    if (this.acao === 'alterar') {
+      this.validaPagamento();
     }
 
   }
