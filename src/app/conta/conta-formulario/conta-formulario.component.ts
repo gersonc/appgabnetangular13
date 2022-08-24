@@ -326,21 +326,24 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   resetForm() {
+    this.formConta.reset();
     this.rptd = false;
     if (this.acao === 'incluir') {
       console.log('reset',0);
-      // this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-/*      this.formConta.get('conta_paga').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+      this.formConta.get('conta_paga').disable({onlySelf: true, emitEvent: true});
+      this.formConta.get('conta_pagamento').setValue(null, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+      this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
       this.formConta.get('conta_local_id').disable({onlySelf: true, emitEvent: true});
       this.formConta.get('conta_rptdia').disable({onlySelf: true, emitEvent: true});
       this.formConta.get('conta_agenda').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_observacao').disable({onlySelf: true, emitEvent: true});*/
+      this.formConta.get('conta_observacao').disable({onlySelf: true, emitEvent: true});
 
     }
     this.criaForm();
     this.mostraForm = false;
     this.botaoEnviarVF = false;
-    this.formConta.reset();
+    // this.formConta.reset();
 
   }
 

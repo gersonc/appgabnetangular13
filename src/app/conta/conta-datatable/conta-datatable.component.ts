@@ -40,6 +40,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   botaoEnviarVF = false;
   btnExpandirVF = true;
+  formValido = false;
   editando = false;
   idx: number | null = null;
   mostraSoma = false;
@@ -313,7 +314,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   contaApagar(idx: number, cta: ContaI) {
-    console.log(idx, this.ct.idx, cta, this.ct.Contexto);
     this.ct.idx = idx;
     if (this.aut.contabilidade_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
 
@@ -386,11 +386,13 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       }
   }
 
-  onRowEditInit(c: any) {
+  onRowEditInit(c: any, idx: number) {
+    this.idx = idx;
     this.getWidth();
     this.contaEdit = {...c};
     this.editando = true;
     this.btnExpandirVF = false;
+    this.botaoEnviarVF = false;
   }
 
   onNao(cta: ContaI) {
@@ -422,8 +424,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   onRowEditSave(cta: ContaI) {
-    if (this.validaForm(cta)) {
+    if (!this.validaBtnVf(cta)) {
       this.botaoEnviarVF = true;
+      this.btnExpandirVF = false;
       if (cta.conta_pagamento !== undefined && cta.conta_pagamento !== null) {
         cta.conta_pagamento3 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toJSDate();
         cta.conta_pagamento2 = DateTime.fromFormat(cta.conta_pagamento, 'dd/MM/yyyy').toSQLDate();
@@ -436,6 +439,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         cta.conta_valor2 = +cta.conta_valor;
       }
       const conta: ContaI = cta;
+      console.log(conta);
       if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id || +this.contaEdit.conta_valor2 !== +conta.conta_valor) {
         this.sub.push(this.ct.putContaAlterarDatatable(
           conta.conta_id, conta.conta_valor2, conta.conta_paga_id, conta.conta_pagamento2)
@@ -452,28 +456,23 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
                 detail: this.resp[2]
               });
               console.error(err);
-              /*this.idx = null;
-              cta = {...this.contaEdit};
-              this.contaEdit = {};
-              this.btnExpandirVF = true;
-              this.botaoEnviarVF = false;
-              this.setWidth();*/
               this.onRowEditCancel(cta);
             },
             complete: () => {
               this.editando = false;
               if (this.resp[0]) {
-                // this.ct.contas[this.idx] = this.contaEdit;
+                this.ct.contas[this.idx] = {...conta};
                 this.ms.add({
                   key: 'toastprincipal',
                   severity: 'success',
                   summary: 'ALTERAR LANÇAMENTO',
                   detail: this.resp[2]
                 });
-                this.idx = null;
                 this.contaEdit = {};
                 this.btnExpandirVF = true;
                 this.botaoEnviarVF = false;
+                this.idx = null;
+                this.editando = false;
                 this.setWidth();
                 if (this.mostraSoma) {
                   this.mostraCalculo();
@@ -486,36 +485,21 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
                   summary: 'ATENÇÃO - ERRO',
                   detail: this.resp[2]
                 });
+                this.onRowEditCancel(cta);
               }
-              this.idx = null;
-              cta = {...this.contaEdit};
-              this.contaEdit = {};
-              this.btnExpandirVF = true;
-              this.botaoEnviarVF = false;
-              this.idx = null;
-              this.setWidth();
             }
           })
         );
       } else {
-        this.idx = null;
-        this.contaEdit = {};
-        this.btnExpandirVF = true;
-        this.botaoEnviarVF = false;
-        this.setWidth();
+        this.onRowEditCancel(cta);
       }
+    } else {
+      this.onRowEditCancel(cta);
     }
-
-
   }
 
   onRowEditCancel(cta) {
-    cta.conta_pagamento = this.contaEdit.conta_pagamento;
-    cta.conta_pagamento2 = this.contaEdit.conta_pagamento2;
-    cta.conta_pagamento3 = this.contaEdit.conta_pagamento3;
-    cta.conta_valor = this.contaEdit.conta_valor;
-    cta.conta_valor2 = this.contaEdit.conta_valor2;
-    cta.conta_paga = this.contaEdit.conta_paga;
+    this.ct.contas[this.idx] = {...this.contaEdit};
     this.contaEdit = {};
     this.btnExpandirVF = true;
     this.botaoEnviarVF = false;
@@ -529,7 +513,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   // FUNCOES RELATORIOS=========================================================
-
 
   getWidth() {
     this.valorIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_valor');
@@ -557,7 +540,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     this.valorIdx = 0;
     this.pagamentoIdx = 0;
   }
-
 
   mostraCalculo() {
     if (this.mostraSoma) {
@@ -592,84 +574,35 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     return this.indexAntes;
   }
 
-  validaForm(cta: ContaI): boolean {
-    let vf = true;
-    let msg: string[] = [];
-    let ct = 0;
-    if (+cta.conta_paga_id === 1 && (cta.conta_valor === null || cta.conta_valor === 0)) {
-      msg.push('Valor inválido. <br>');
-      vf = false;
-    }
-    if (+this.contaEdit.conta_valor !== +cta.conta_valor) {
-      ct++;
-    }
-    if (+this.contaEdit.conta_paga_id !== +cta.conta_paga_id) {
-      if (+cta.conta_paga_id === 1 && cta.conta_pagamento === null) {
-        msg.push('Data de pagamento inválida. <br>');
-        vf = false;
-      }
-      if (+cta.conta_paga_id === 1 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
-        ct++;
-      }
-      if (+cta.conta_paga_id === 0 && +cta.conta_pagamento3 === null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
-        ct++;
-      }
-      if (+cta.conta_paga_id === 0 && +cta.conta_pagamento3 !== null) {
-        msg.push('Data de pagamento inválida. <br>');
-        vf = false;
-      }
-      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3 && +cta.conta_pagamento3 === +this.contaEdit.conta_vencimento3) {
-        ct++;
-      }
-      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 === null) {
-        msg.push('Data de pagamento inválida. <br>');
-        vf = false;
-      }
-    }
-    if (+this.contaEdit.conta_paga_id === +cta.conta_paga_id) {
-      if (+cta.conta_paga_id === 1 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
-        ct++;
-      }
-      if (+cta.conta_paga_id === 1 && +cta.conta_pagamento3 === null) {
-        msg.push('Data de pagamento inválida. <br>');
-        vf = false;
-      }
-      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 !== null && +cta.conta_pagamento3 !== +this.contaEdit.conta_pagamento3) {
-        ct++;
-      }
-      if (+cta.conta_paga_id === 2 && +cta.conta_pagamento3 === null) {
-        msg.push('Data de pagamento inválida. <br>');
-        vf = false;
-      }
-      if (+cta.conta_paga_id === 0 && +cta.conta_pagamento3 !== null) {
-        msg.push('Data de pagamento inválida. <br>');
-        vf = false;
-      }
-    }
-
-      if (msg.length > 0) {
-        msg.forEach(m => {
-          this.ms.add({
-            key: 'toastprincipal',
-            severity: 'warn',
-            summary: 'ERRO ALTERAR',
-            detail: m
-          });
-        })
-      }
-
-      if (ct > 0 && vf) {
-        return true;
-      } else {
-        this.botaoEnviarVF = false;
-        return false;
-      }
+  valido() {
+    let b = document.getElementById('btncancel');
+    b.focus();
   }
 
-
-  /*escondeDetalhe() {
-    this.showDetalhe = false;
-  }*/
+  validaBtnVf(cta: ContaI): boolean {
+    if (+cta.conta_paga_id === +this.contaEdit.conta_paga_id && cta.conta_pagamento === this.contaEdit.conta_pagamento && +cta.conta_valor === +this.contaEdit.conta_valor) {
+      return true;
+    }
+    if (+cta.conta_paga_id === 1 && (cta.conta_valor === null || cta.conta_valor === 0)) {
+      return true;
+    }
+    if (+cta.conta_paga_id === 1 && cta.conta_pagamento === null) {
+      return true;
+    }
+    if (+cta.conta_paga_id === 2 && (cta.conta_valor === null || cta.conta_valor === 0)) {
+      return true;
+    }
+    if (+cta.conta_paga_id === 2 && cta.conta_pagamento === null) {
+      return true;
+    }
+    if (+cta.conta_paga_id === 0 && cta.conta_valor === null) {
+      return true;
+    }
+    if (+cta.conta_paga_id === 0 && cta.conta_pagamento !== null) {
+      return true;
+    }
+    return false;
+  }
 
   ngOnDestroy(): void {
     this.ct.selecionados = [];
