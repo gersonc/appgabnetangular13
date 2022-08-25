@@ -13,6 +13,7 @@ export class ContaFormService {
   public btnEnviar = true;
   showForm = false;
   idx = 0;
+  menu = false;
 
   constructor() { }
 

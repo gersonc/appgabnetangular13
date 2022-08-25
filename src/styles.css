@@ -17857,3 +17857,96 @@ p-toast.toastprincipal {
 .info-icon:hover {
   color: var(--primary-color);
 }
+
+/*
+.tablistagem.p-dialog {
+  position: fixed;
+  !*bottom: 5rem;*!
+  top: 5rem;
+}
+
+.tablistagem.p-dialog {
+  max-height: calc(100vh - 10rem) !important;
+  width: calc(21cm + 1em);
+  !*min-width: 400px;*!
+  background: var(--formulario-bg-externo-color);
+  margin-top: 0 !important;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  margin-left: 0.75rem;
+}
+
+
+
+.tablistagem.p-dialog .p-dialog-content {
+  margin: .5em;
+  padding: .5rem;
+  border: 1px solid var(--formulario-bg-interno-color);
+  border-radius: 1em;
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+}
+
+.tablistagem.p-dialog .p-dialog-footer {
+  text-align: left;
+  padding: .3em;
+  background-color: var(--formulario-bg-externo-color) !important;
+}
+
+.tablistagem .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+  color: var(--text-color-secondary);
+  border-color: transparent;
+  background: transparent;
+}
+
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+}*/
+
+
+.tablistagem.atencao.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary-color-text);
+  border: 0 none;
+  background: var(--danger);
+  border-radius: 50%;
+  transition: box-shadow 0.15s;
+  margin-right: 0.5rem;
+}
+
+
+
+.tablistagem.atencao.p-dialog .p-dialog-header {
+  font-size: 1.3em;
+  border-bottom: 1px solid var(--danger);
+  background: var(--danger);
+  color: var(--primary-color-text);
+  padding: .5rem 1rem 0;
+}
+
+
+.tablistagem.atencao.p-dialog .p-dialog-footer {
+  text-align: left;
+  padding-top: 0;
+  padding-bottom: .2em;
+  padding-left: .3em;
+  padding-right: .3em;
+  background-color: var(--formulario-bg-externo-color) !important;
+}
+
+/*.tablistagem.atencao.p-dialog {
+  max-height: calc(100vh - 10rem) !important;
+  width: calc(21cm + 1em);
+  background: var(--danger);
+  margin-top: 0 !important;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  margin-left: 0.75rem;
+}*/

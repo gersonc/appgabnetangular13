@@ -321,7 +321,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.contabilidade_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+              <div *ngIf="permissaoArquivo(cta.conta_arquivos.length) || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -449,6 +449,44 @@
     >
       <app-conta-formulario *ngIf="ct.showForm"></app-conta-formulario>
     </p-dialog>
+  <!--</div>-->
+</ng-container>
+
+<ng-container *ngIf="showApagar">
+  <!--<div [ngClass]="cssMostra">-->
+  <p-dialog [(visible)]="showApagar" styleClass="tablistagem atencao">
+    <ng-template pTemplate="header">
+      <i class="pi pi-spin pi-exclamation-triangle" style="font-size: 2rem"></i> APAGAR REGISTRO
+    </ng-template>
+      <div *ngIf="apagarTipo===1">
+        <b>Você confirma apagar este registro?</b>
+      </div>
+      <div *ngIf="apagarTipo===2">
+        <b>Existém mais {{apagarParceleas -1}} recorrência(s) / parcela(s) vinculada a esse pagamento.</b><br>
+        <b>Você deseja apagar apenas este ou todos?</b>
+      </div>
+
+
+    <p-footer>
+      <div class="p-d-flex p-jc-start p-pb-2">
+      <div class="p-ml-1 p-mr-2">
+        <button *ngIf="apagarTipo===1" pButton pRipple type="button" (click)="acaoApagar(0)" label="Não" class="p-button-sm p-button-rounded p-button-secondary "></button>
+        <button *ngIf="apagarTipo===2" pButton pRipple type="button" (click)="acaoApagar(0)" label="Cancelar" class="p-button-sm p-button-rounded p-button-secondary "></button>
+      </div>
+      <div *ngIf="apagarTipo===2" class="p-mr-2">
+        <button pButton pRipple type="button" label="Este" (click)="acaoApagar(1)" class="p-button-sm p-button-rounded p-button-danger"></button>
+      </div>
+      <div *ngIf="apagarTipo===2" class="p-mr-2">
+        <button pButton pRipple type="button" label="Todos" (click)="acaoApagar(3)" class="p-button-sm p-button-rounded p-button-danger"></button>
+      </div>
+      <div *ngIf="apagarTipo===1" class="p-mr-2">
+        <button pButton pRipple type="button" label="Sim" (click)="acaoApagar(1)" class="p-button-sm p-button-rounded p-button-danger"></button>
+      </div>
+      </div>
+
+    </p-footer>
+  </p-dialog>
+
   <!--</div>-->
 </ng-container>
 

@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from '../../_services';
+import {
+  AuthenticationService,
+  CsvService,
+  ExcelService,
+  PrintJSService,
+  TabelaPdfService,
+  UrlService
+} from '../../_services';
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TituloI} from "../../_models/titulo-i";
 import {TitulosService} from "../../_services/titulos.service";
@@ -41,7 +48,7 @@ export class ContaService {
   showForm = false;
   mudaRows = 50;
   rowsPerPageOptions = [50];
-  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
   // tl: ContaI | undefined;
   // expandidoDados: any = false;
@@ -141,6 +148,7 @@ export class ContaService {
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['conta'];
     }
+    console.log('onRowExpand', evento);
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
@@ -500,10 +508,12 @@ export class ContaService {
 
 
 
-  excluirConta(conta_id: number): Observable<any[]> {
-    const url = this.url.conta + '/' + conta_id;
+  excluirConta(conta_id: number, todos: boolean): Observable<any[]> {
+    const td: string = todos ? '/t' : '/';
+    const url = this.url.conta + td + conta_id;
     return this.http.delete<any[]>(url);
   }
+
 
   rowsChange(ev) {
     this.mudaRows = this.tabela.rows;

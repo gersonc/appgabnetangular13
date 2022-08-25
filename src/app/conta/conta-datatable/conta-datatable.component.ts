@@ -59,7 +59,10 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   valorIdx = 0;
   pagamentoIdx = 0;
   liberaGravar = false;
-
+  showApagar = false;
+  apagarTipo = 1;
+  apagarId = 0;
+  apagarParceleas = 1;
 
   constructor(
     public mi: MenuInternoService,
@@ -284,7 +287,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   contaIncluir(): void {
     if (this.aut.contabilidade_incluir || this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
-      this.cfs.acao = 'incluir';
+      this.cfs.acao = 'incluir2';
       this.cfs.criaFormIncluir()
       this.ct.showForm = true;
     } else {
@@ -306,6 +309,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.contabilidade_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       this.ct.idx = idx;
       this.cfs.acao = 'alterar';
+      console.log('contaAlterar', cta);
       this.cfs.parceContaForm(cta);
       this.ct.showForm = true;
     } else {
@@ -315,9 +319,20 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   contaApagar(idx: number, cta: ContaI) {
     this.ct.idx = idx;
-    if (this.aut.contabilidade_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+    if (this.permissaoArquivo(cta.conta_arquivos.length) || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      if (cta.conta_parcelas !== undefined && cta.conta_parcelas !== null && cta.conta_parcelas > 1) {
+        this.apagarParceleas = cta.conta_parcelas - 1;
+        this.apagarTipo = 2;
+      } else {
+        this.apagarTipo = 1;
+      }
+      this.apagarId = cta.conta_id;
+      this.showApagar = true;
 
-      this.cf.confirm({
+
+
+
+      /*this.cf.confirm({
         message: '<b>Você confirma apagar este registro?</b>',
         header: 'Confirmação',
         icon: 'pi pi-exclamation-triangle',
@@ -350,11 +365,61 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         },
         reject: (type) => {
         }
-      });
+      });*/
 
     } else {
       console.log('SEM PERMISSAO');
     }
+  }
+
+  acaoApagar(n: number) {
+      this.sub.push(this.ct.excluirConta(this.apagarId, (n === 2))
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+            console.error(err);
+            this.showApagar = false;
+            this.apagarTipo = 1;
+            this.apagarId = 0;
+          },
+          complete: () => {
+            if (this.resp[0]) {
+              //
+              // this.ct.contas.splice(this.ct.idx, 1);
+              if (n === 1) {
+                this.ct.contas = this.ct.contas.filter(val => val.conta_id !== this.apagarId);
+              }
+              if (n === 2) {
+                this.ct.contas = this.ct.contas.filter(val => val.conta_id !== this.resp[2].includes(val.conta_id));
+              }
+              // this.ct.contas.splice(this.ct.idx, 1);
+              this.dtb.toggleRow(this.ct.tabela.dadosExpandidosRaw.data, this.ct.tabela.dadosExpandidosRaw.originalEvent);
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'info',
+                summary: 'LANÇAMENTO',
+                detail: 'Registro apagado com sucesso.'
+              });
+              this.showApagar = false;
+              this.apagarTipo = 1;
+              this.apagarId = 0;
+              this.apagarParceleas = 1;
+              this.resp = [];
+            } else {
+              this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+              this.showApagar = false;
+              this.apagarTipo = 1;
+              this.apagarId = 0;
+              this.apagarParceleas = 1;
+              this.resp = [];
+            }
+          }
+        })
+      );
 
   }
 
@@ -602,6 +667,15 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  permissaoArquivo(n: number): boolean {
+    if (n > 0) {
+      return this.aut.contabilidade_apagar && this.aut.arquivos_apagar;
+    }
+    if (n === 0) {
+      return this.aut.contabilidade_apagar;
+    }
   }
 
   ngOnDestroy(): void {

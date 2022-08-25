@@ -107,20 +107,13 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.criaForm();
   }
 
-  /*ngOnChanges(changes: SimpleChanges) {
-    if (changes.index && changes.index.currentValue !== 0) {
-      this.cfs.parceContaForm(this.contaListar);
-    }
-
-  }*/
-
   carregaDados() {
     if (this.aut.solicitacaoVersao === 3) {
       this.nucleo = false;
       this.cfs.conta.conta_local_id = 0;
     }
     this.repetir = +this.cfs.conta.conta_rptdia > 0;
-    this.agendaSN = this.acao === 'incluir' || (this.acao === 'alterar' && +this.cfs.conta.conta_agenda === 0);
+    this.agendaSN = (this.acao === 'incluir' || this.acao === 'incluir2') || (this.acao === 'alterar' && +this.cfs.conta.conta_agenda === 0);
     this.rptd = +this.cfs.conta.conta_rptdia > 0;
     this.ctaPaga = this.cfs.conta.conta_paga;
     this.cfs.conta.conta_local_id = +this.aut.usuario_local_id;
@@ -131,26 +124,22 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   criaForm() {
-    if (this.acao === 'incluir') {
+    if (this.acao === 'incluir' || this.acao === 'incluir2') {
       this.formConta = this.formBuilder.group({
         conta_cedente: [this.cfs.conta.conta_cedente, [Validators.required, Validators.minLength(2)]],
         conta_valor: [this.cfs.conta.conta_valor, Validators.required],
         conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
         conta_paga: [{value: this.cfs.conta.conta_paga, disabled: true}],
         conta_pagamento: [{value: this.cfs.conta.conta_pagamento2, disabled: true}],
-        conta_local_id: [{value: this.cfs.conta.conta_local_id, disabled: true}, Validators.required],
+        conta_local_id: [{value: this.cfs.conta.conta_local_id, disabled: true}],
         conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}],
         conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
         conta_paga2: [{value: this.cfs.conta.conta_paga2, disabled: true}],
-        conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}, Validators.required],
+        conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}],
         conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: true}],
         conta_observacao: [{value: this.cfs.conta.conta_observacao, disabled: true}],
       });
       this.dtpgtoInvalido = true;
-
-      //this.formConta.get('conta_cedente').
-
-
     }
     if (this.acao === 'alterar') {
       this.formConta = this.formBuilder.group({
@@ -161,12 +150,11 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}],
         conta_observacao: [this.cfs.conta.conta_observacao],
         conta_paga: [this.cfs.conta.conta_paga],
-        conta_pagamento: [this.cfs.conta.conta_pagamento2, Validators.required],
+        conta_pagamento: [this.cfs.conta.conta_pagamento2],
         conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}],
         conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
         conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: !this.agendaSN}]
       });
-
 
       if (this.ctaPaga === 2) {
         this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
@@ -181,12 +169,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       if (this.ctaPaga === 0) {
         this.formConta.get('conta_pagamento').setValue(null);
       }
-
-
-
-
-
-
+      this.dtpgtoInvalido = true;
     }
   }
 
@@ -219,12 +202,12 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     if (this.acao === 'alterar') {
       this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
     }
-    if (this.acao === 'incluir' && this.rptd) {
+    if ((this.acao === 'incluir' || this.acao === 'incluir2') && this.rptd) {
       this.formConta.get('conta_parcelas').enable({onlySelf: true, emitEvent: true});
       this.formConta.get('conta_tipo').enable({onlySelf: true, emitEvent: true});
       this.formConta.get('conta_paga2').enable({onlySelf: true, emitEvent: true});
     }
-    if (this.acao === 'incluir' && !this.rptd) {
+    if ((this.acao === 'incluir' || this.acao === 'incluir2') && !this.rptd) {
       this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 2);
       this.formConta.get('conta_parcelas').disable({onlySelf: true, emitEvent: true});
       this.formConta.get('conta_tipo').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
@@ -283,10 +266,17 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.verificaValidacoesForm(controle);
       }
       if (!controle.valid) {
-        ct++;
+        if (controle.disabled) {
+          if (campo !== 'conta_paga2'&& campo !== 'conta_tipo' && campo !== 'conta_pagamento' && campo !== 'conta_rptdia' && campo !== 'conta_parcelas') {
+            ct++;
+          }
+        } else {
+          ct++;
+        }
       }
       ct2++;
     });
+    console.log('verificaValidacoesForm', (ct === 0));
     return (ct === 0);
   }
 
@@ -305,11 +295,12 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log('onSubmit');
     this.mostraForm = true;
     this.botaoEnviarVF = true;
     if (this.verificaValidacoesForm(this.formConta)) {
       if(this.criaEnvio()) {
-        if (this.acao === 'incluir') {
+        if (this.acao === 'incluir' || this.acao === 'incluir2') {
           this.incluir();
         }
         if (this.acao === 'alterar') {
@@ -328,7 +319,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   resetForm() {
     this.formConta.reset();
     this.rptd = false;
-    if (this.acao === 'incluir') {
+    if (this.acao === 'incluir' || this.acao === 'incluir2') {
       console.log('reset',0);
       this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
       this.formConta.get('conta_paga').disable({onlySelf: true, emitEvent: true});
@@ -454,6 +445,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.tt++;
       }
 
+      console.log('alterar', cta);
+
     }
 
     if (this.cfs.acao === 'incluir') {
@@ -549,7 +542,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
 
 
-    const vf: boolean = ((this.acao === 'alterar' && this.tt >= 1) || (this.acao === 'incluir' && this.tt >= 8));
+    const vf: boolean = ((this.acao === 'alterar' && this.tt >= 1) || ((this.acao === 'incluir' || this.acao === 'incluir2') && this.tt >= 8));
     if (vf) {
       this.cta = cta;
     }
@@ -583,6 +576,9 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
                 summary: 'INCLUIR VENCIMENTO',
                 detail: this.resp[2]
               });
+              if (this.acao === 'incluir2') {
+                //this.ct.contas.push()
+              }
               this.voltarListar();
             }
           } else {
@@ -616,12 +612,25 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           },
           complete: () => {
             if (this.resp[0]) {
-              this.cfs.resetConta();
-              this.resetForm();
+              const p: ContaI = this.resp[3];
+              // p.conta_vencimento3 = new Date(p.conta_vencimento2);
+              if (p.conta_pagamento2 !== undefined && p.conta_pagamento2 !== null) {
+                p.conta_pagamento3 = new Date(p.conta_pagamento2);
+              } else {
+                p.conta_pagamento3 = null;
+              }
+              this.ct.contas[this.ct.idx] = p;
+              const c = {
+                data: this.ct.contas[this.ct.idx],
+                originalEvent: {}
+              }
+              this.ct.onRowExpand(c);
+              // this.cfs.resetConta();
+              // this.resetForm();
               this.ms.add({
                 key: 'toastprincipal',
                 severity: 'success',
-                summary: 'INCLUIR VENCIMENTO',
+                summary: 'ALTERAR VENCIMENTO',
                 detail: this.resp[2]
               });
               this.voltarListar();
@@ -692,7 +701,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   mudaForm(cp: string) {
     this.autoCompOnOff = false;
     console.log('ev');
-    if (this.acao === 'incluir') {
+    if (this.acao === 'incluir' || this.acao === 'incluir2') {
       if (cp === 'conta_vencimento' && this.formConta.get('conta_vencimento').valid) {
         this.conta_vencimento = this.formConta.get('conta_vencimento').value;
         this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
@@ -729,7 +738,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       }
     }
     if (this.ctaPaga === 0) {
-      if(this.formConta.get('conta_pagamento').value != null) {
+      if(this.formConta.get('conta_pagamento').value !== null) {
         this.dtpgtoInvalido = true;
         return true;
       }
