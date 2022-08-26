@@ -1,13 +1,22 @@
-import { Component, ViewChild, OnInit, OnDestroy, ElementRef, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import { NgForm, FormGroup} from '@angular/forms';
-import { MessageService, SelectItem } from 'primeng/api';
-import { DropdownService, UrlService, UuidService } from '../../_services';
-import { AuthenticationService } from '../../_services';
-import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
-import {Interval, DateTime, Duration} from 'luxon';
-import { take } from 'rxjs/operators';
-import { isArray } from 'rxjs/internal-compatibility';
-import { Subscription } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import {FormGroup, NgForm} from '@angular/forms';
+import {SelectItem} from 'primeng/api';
+import {AuthenticationService, DropdownService, UrlService, UuidService} from '../../_services';
+import {Frequency, RRule, RRuleSet, Weekday} from 'rrule';
+import {DateTime, Duration, Interval} from 'luxon';
+import {take} from 'rxjs/operators';
+import {isArray} from 'rxjs/internal-compatibility';
+import {Subscription} from 'rxjs';
 import {EventoInterface} from "../_models/evento-interface";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {CalendarioService} from "../_services/calendario.service";
@@ -24,8 +33,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() formDados: any = null;
   @Output() abreFecha = new EventEmitter();
   @Output() eventoRetorno = new EventEmitter<EventoInterface[]>();
-  @ViewChild('calForm', { static: true }) public calForm: NgForm;
-  // @ViewChild('content', { static: true }) public content: ElementRef;
+  @ViewChild('calForm', {static: true}) public calForm: NgForm;
 
   public ptBr: any | null = null;
 
@@ -63,11 +71,11 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   // FORMULARIO VARIAVEIS
   recorrente = false;
-  vfAno: boolean  | null = null;
+  vfAno: boolean | null = null;
   vfMes: boolean | null = null;
   rdMensal: string | null = null;
   rdAnual: string | null = null;
-  rdCountUntil = <'count'|'until'> 'count';
+  rdCountUntil = <'count' | 'until'>'count';
   vfApaga: boolean | null = null;
   urlUpload: string | null = null;
 
@@ -285,7 +293,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           }
           const rr = rr1.split(';');
           const rr2: any[] = [];
-          rr.forEach( (e: string) => {
+          rr.forEach((e: string) => {
             const r: string[] = e.split('=');
             let r1: any | any[] = null;
             if (r[1].indexOf(',') >= 0) {
@@ -297,7 +305,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           });
 
           if (rr3.length > 0) {
-            rr3.forEach( (e: string) => {
+            rr3.forEach((e: string) => {
               const a = e.replace('T', '').replace('Z', '');
               const b = DateTime.fromFormat(a, 'yyyyLLddHHmmss').toJSDate();
               this.exdate.push(b);
@@ -462,7 +470,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         this.type_id = 0;
       }
 
-      this.todos_usuarios_sn = (this.evento.todos_usuarios_sn === 1) ;
+      this.todos_usuarios_sn = (this.evento.todos_usuarios_sn === 1);
 
       this.usuario_id = this.evento.usuario_id; // ? this.carregaUsuario_id() : null;
 
@@ -526,11 +534,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       {value: [3], label: 'quinta'},
       {value: [4], label: 'sexta'},
       {value: [5], label: 'sábado'},
-      /*
-      {value: [+0, 1, 2, 3, 4], label: 'dia util'},
-      {value: [+0, 1, 2, 3, 4, 5, 6], label: 'semana'},
-      {value: [5, 6], label: 'fim de semana'},
-      */
     ];
     this.ddmonthday = [];
     for (let i = 1; i < 32; i++) {
@@ -613,7 +616,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   verificaValidTouched(campo: any) {
-    return  !campo.valid && (campo.touched || campo.dirty);
+    return !campo.valid && (campo.touched || campo.dirty);
   }
 
   validacao(campo: string) {
@@ -621,7 +624,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   verificaValidacoesForm(controls: FormGroup) {
-    Object.keys(controls.controls).forEach( campo => {
+    Object.keys(controls.controls).forEach(campo => {
       const controle: any = controls.controls[campo];
       controle.markAsDirty();
       controle.markAsTouched();
@@ -651,33 +654,33 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     console.log('this.cal incluir', this.cal);
     const dados: any[] = [];
     // if (this.criarData()) {
-      this.sub.push(this.cl.incluirCalendario(this.cal)
-        .pipe(take(1))
-        .subscribe({
-          next: value => {
-            this.resp = value;
-          },
-          error: err => {
-            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
-            this.botaoEnviarVF = false;
-            this.mostraForm = true;
-            console.error(err);
-          },
-          complete: () => {
+    this.sub.push(this.cl.incluirCalendario(this.cal)
+      .pipe(take(1))
+      .subscribe({
+        next: value => {
+          this.resp = value;
+        },
+        error: err => {
+          this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+          this.botaoEnviarVF = false;
+          this.mostraForm = true;
+          console.error(err);
+        },
+        complete: () => {
 
-            this.ms.add({
-              key: 'toastprincipal',
-              severity: 'success',
-              summary: 'INCLUIR EVENTO',
-              detail: this.resp[2]
-            });
-            if (this.resp[3]) {
-              this.evRetorno.push(this.resp[3]);
-            }
-            this.resetForm();
+          this.ms.add({
+            key: 'toastprincipal',
+            severity: 'success',
+            summary: 'INCLUIR EVENTO',
+            detail: this.resp[2]
+          });
+          if (this.resp[3]) {
+            this.evRetorno.push(this.resp[3]);
           }
-        })
-      );
+          this.resetForm();
+        }
+      })
+    );
     // }
   }
 
@@ -714,7 +717,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   importarCalendario() {
-   // const reader = new TxtReader();
+    // const reader = new TxtReader();
   }
 
   voltarListar() {
@@ -747,7 +750,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   mudaAte(ev) {
     if (this.start) {
       // tslint:disable-next-line:max-line-length
-      this.end = DateTime.local(this.start.getFullYear(), (this.start.getMonth() + 1), this.start.getDate(), (this.start.getHours() + 1),  this.start.getMinutes()).toJSDate();
+      this.end = DateTime.local(this.start.getFullYear(), (this.start.getMonth() + 1), this.start.getDate(), (this.start.getHours() + 1), this.start.getMinutes()).toJSDate();
     }
   }
 
@@ -791,7 +794,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.rdCountUntil = 'count';
       this.fimNumOcorrencias = null;
     }
- }
+  }
 
   todosUsuariosOnChange(ev) {
     console.log('ckbox', ev, this.todos_usuarios_sn);
@@ -917,9 +920,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         this.anoMes = null;
         this.anoPosicao = 1;
         this.anoDiasLiteral = this.ddias[this.start.getDay()].value;
-        this.anoMeses = this.start.getMonth() + 1
-        // this.anoMeses = [];
-        // this.anoMeses.push(this.start.getMonth() + 1);
+        this.anoMeses = this.start.getMonth() + 1;
         this.vfAno = false;
         break;
       }
@@ -1006,7 +1007,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   dataToSql(dt: Date): string {
     const dr: DateTime = DateTime.fromJSDate(dt);
-    return dr.toSQL({ includeOffset: false });
+    return dr.toSQL({includeOffset: false});
   }
 
   getUtc(d: Date = null) {
@@ -1048,7 +1049,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           msg = 'Ao menos um dia da semana precisa ser selecionado.';
         } else {
           const wddd: Weekday[] = [];
-          this.semanaDiasLiteral.forEach( e => {
+          this.semanaDiasLiteral.forEach(e => {
             const w = new Weekday(e);
             wddd.push(w);
           });
@@ -1076,7 +1077,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
             msg = 'Ao menos um dia da semana precisa ser selecionado.';
           } else {
             const wdd: Weekday[] = [];
-            this.mesDiasLiteral.forEach( e => {
+            this.mesDiasLiteral.forEach(e => {
               // const w = new Weekday(e);
               const w = new Weekday(e);
               wdd.push(w);
@@ -1280,15 +1281,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         } else {
           this.criaEnvio();
         }
-
-
-        /*if (this.recorrente) {
-          if (this.criarData()) {
-
-          }
-        } else {
-          this.criaEnvio();
-        }*/
       }
     }
   }
@@ -1366,11 +1358,9 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this.cpoEditor['description'] !== undefined && this.cpoEditor['description'] !== null) {
-      // if (this.cpoEditor['description'].html !== this.sfs.solicitacao.solicitacao_descricao) {
       calDados.description = this.cpoEditor['description'].html;
       calDados.description_delta = JSON.stringify(this.cpoEditor['description'].delta);
       calDados.description_texto = this.cpoEditor['description'].text;
-      // }
     }
 
     if (this.observacao !== null) {
@@ -1391,7 +1381,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       if (this.usuario_id.length > 0) {
         calDados.usuario_id = this.usuario_id;
       } else {
-          delete calDados.usuario_id;
+        delete calDados.usuario_id;
         calDados.todos_usuarios_sn = 1;
       }
     } else {
@@ -1413,7 +1403,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       delete calDados.calendario_status_id;
     }
 
-    calDados.title =  this.title;
+    calDados.title = this.title;
     this.cal.calDados = calDados;
     this.cal.calExtrutura = calExtrutura;
     this.cal.calData = calData;
@@ -1425,7 +1415,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.incluirCalendario();
     }
 
-    console.log ('this.cal', this.cal);
+    console.log('this.cal', this.cal);
   }
 
   getWeekDay(d: string): number {
@@ -1434,7 +1424,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   montasCheckboxMes(nstr: string): string {
-    return  nstr.length === 1 ? '0' + nstr : nstr;
+    return nstr.length === 1 ? '0' + nstr : nstr;
   }
 
   ngOnDestroy(): void {
@@ -1494,18 +1484,4 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       text: ev.text
     }
   }
-
-  /*carregaUsuario_id(): number[] {
-    if (typeof this.evento.usuario_id === 'string') {
-      const ntmp: number[] = [];
-        this.evento.usuario_id.split(',').map((e: string | number) => {
-          ntmp.push(Number(e));
-      });
-      return ntmp;
-    }
-    return null;
-  }*/
-
-
-
 }

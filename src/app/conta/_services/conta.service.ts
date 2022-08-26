@@ -1,14 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {
-  AuthenticationService,
-  CsvService,
-  ExcelService,
-  PrintJSService,
-  TabelaPdfService,
-  UrlService
-} from '../../_services';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from '../../_services';
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TituloI} from "../../_models/titulo-i";
 import {TitulosService} from "../../_services/titulos.service";
@@ -30,8 +23,8 @@ export class ContaService {
   idx?: number;
   contaUrl = this.url.conta;
   sub: Subscription[] = [];
-  contas: ContaI[] =[];
-  selecionados: ContaI[] =[];
+  contas: ContaI[] = [];
+  selecionados: ContaI[] = [];
   Contexto: ContaI;
   busca?: ContaBuscaI;
   tabela?: DatatableI;
@@ -43,29 +36,24 @@ export class ContaService {
   sortOrder = -1;
   lazy = false;
   acao: string | null = null;
-  colunas: string[] =[];
+  colunas: string[] = [];
   titulos: TituloI[] | null = null;
   showForm = false;
   mudaRows = 50;
   rowsPerPageOptions = [50];
-  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
   excelColumns = [
-    { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
-    { field: 'conta_vencimento3', header: 'DT. VENC.', sortable: 'true', width: '150px'},
-    { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
-    { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '100px'},
-    { field: 'conta_pagamento3', header: 'DT. PGTO.', sortable: 'true', width: '150px'},
-    { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
-    { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'},
-    { field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'}
+    {field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
+    {field: 'conta_vencimento3', header: 'DT. VENC.', sortable: 'true', width: '150px'},
+    {field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
+    {field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '100px'},
+    {field: 'conta_pagamento3', header: 'DT. PGTO.', sortable: 'true', width: '150px'},
+    {field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
+    {field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'},
+    {field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'}
   ];
 
-
-  // tl: ContaI | undefined;
-  // expandidoDados: any = false;
-
-  // private expandido = new Subject();
 
   constructor(
     private url: UrlService,
@@ -235,7 +223,6 @@ export class ContaService {
     this.busca.conta_id = (b.conta_id !== undefined) ? +b.conta_id : undefined;
     this.busca.conta_vencimento_1data = (b.conta_vencimento_1data !== undefined) ? b.conta_vencimento_1data : undefined;
     this.busca.conta_vencimento_2data = (b.conta_vencimento_2data !== undefined) ? b.conta_vencimento_2data : undefined;
-    // this.busca.conta_debito_automatico_id = (b.conta_debito_automatico_id !== undefined) ? b.conta_debito_automatico_id : undefined;
     this.busca.conta_local_id = (b.conta_local_id !== undefined) ? +b.conta_local_id : undefined;
     this.busca.conta_tipo_id = (b.conta_tipo_id !== undefined) ? b.conta_tipo_id : undefined;
     this.busca.conta_paga_id = (b.conta_paga_id !== undefined) ? b.conta_paga_id : undefined;
@@ -280,7 +267,7 @@ export class ContaService {
 
   }
 
-  tabelaPdf(n: number): void  {
+  tabelaPdf(n: number): void {
     // 1 - selecionados
     // 2 - pagina
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
@@ -333,38 +320,34 @@ export class ContaService {
 
   exportToXLSX(td: number = 1) {
     if (td === 3) {
-      //if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
-        let busca: ContaBuscaI = this.busca;
-        busca.rows = undefined;
-        // busca.campos = this.tabela.selectedColumns;
-        busca.campos = this.excelColumns;
-        busca.todos = true;
-        busca.first = undefined;
-        busca.excel = true;
-        let contaRelatorio: ContaPaginacaoInterface;
-        this.sub.push(this.postContaRelatorio(busca)
-          .subscribe({
-            next: (dados) => {
-              contaRelatorio = dados
-            },
-            error: err => {
-              console.error('ERRO-->', err);
-            },
-            complete: () => {
-              ExcelService.criaExcelFile('conta', limpaCampoTexto(contacampostexto, contaRelatorio.contas), this.excelColumns);
-            }
-          })
-        );
+      let busca: ContaBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.excelColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let contaRelatorio: ContaPaginacaoInterface;
+      this.sub.push(this.postContaRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            contaRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            ExcelService.criaExcelFile('conta', limpaCampoTexto(contacampostexto, contaRelatorio.contas), this.excelColumns);
+          }
+        })
+      );
       //}
     }
     if (this.contas.length > 0 && td === 2) {
-      // ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.contas), this.tabela.selectedColumns);
-      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.excelColumns,this.tabela.camposTexto,this.contas), this.excelColumns);
+      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.excelColumns, this.tabela.camposTexto, this.contas), this.excelColumns);
       return true;
     }
     if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
-      // ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
-      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.excelColumns,this.tabela.camposTexto,this.selecionados), this.excelColumns);
+      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.excelColumns, this.tabela.camposTexto, this.selecionados), this.excelColumns);
       return true;
     }
   }
@@ -403,7 +386,6 @@ export class ContaService {
 
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       this.tabela.sortField = (this.tabela.sortField === 'conta_vencimento') ? 'conta_vencimento3' : (this.tabela.sortField === 'conta_pagamento') ? 'conta_pagamento3' : this.tabela.sortField;
-      // this.tabela.sortField = (this.tabela.sortField === 'conta_pagamento') ? 'conta_pagamento3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.contas;
@@ -443,7 +425,6 @@ export class ContaService {
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            // this.contas = dados.contas;
             this.contas = dados.contas.map((t) => {
               let p: ContaI = t;
               p.conta_vencimento3 = new Date(t.conta_vencimento2);
@@ -482,25 +463,25 @@ export class ContaService {
 
   postContaBusca(dados: ContaBuscaI): Observable<ContaPaginacaoInterface> {
     const url = this.url.conta + '/listar';
-    const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) };
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<ContaPaginacaoInterface>(url, dados, httpOptions);
   }
 
   postContaRelatorio(dados: ContaBuscaI): Observable<ContaPaginacaoInterface> {
     const url = this.url.conta + '/relatorio';
-    const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) };
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<ContaPaginacaoInterface>(url, dados, httpOptions);
   }
 
   incluirConta(dados: ContaFormI): Observable<any[]> {
     const url = this.url.conta;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any[]> (url, dados, httpOptions);
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarConta(dados: ContaFormI): Observable<any[]> {
     const url = this.url.conta;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
@@ -517,11 +498,9 @@ export class ContaService {
       'conta_pagamento': conta_pagamento
     };
     const url = this.url.conta + '/alterar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
-
-
 
   excluirConta(conta_id: number, todos: boolean): Observable<any[]> {
     const td: string = todos ? '/t' : '/';
@@ -565,22 +544,10 @@ export class ContaService {
           continue;
         }
       }
-      /*if (this.ct[key] === undefined) {
-        delete and[key];
-        delete d[key];
-        continue;
-      }
-      if (d[key] === null) {
-        delete d[key];
-        delete and[key];
-        continue;
-      }*/
       and[key] = d[key];
     }
     return and;
   }
-
-
 
   onDestroy(): void {
     sessionStorage.removeItem('conta-busca');
@@ -597,302 +564,4 @@ export class ContaService {
     this.expandidoSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*ct: ContaFormularioInterface;
-  expandidoDados: any = false;
-
-  private expandido = new Subject();
-
-  static recuperaColunaExpandida() {
-    let resp: any;
-    if (!sessionStorage.getItem('conta-expandido')) {
-      resp = false;
-    } else {
-      resp = JSON.parse(sessionStorage.getItem('conta-expandido'));
-      sessionStorage.removeItem('conta-expandido');
-    }
-    return resp;
-  }
-
-  static gravaColunaExpandida(dados) {
-    sessionStorage.setItem('conta-expandido', JSON.stringify(dados));
-  }
-
-  criarConta() {
-    this.ct = new ContaFormulario();
-  }
-
-  resetConta() {
-    delete this.ct;
-    this.criarConta();
-  }
-
-  filtraConta(d: ContaFormulario): ContaFormulario {
-    const and = new ContaFormulario();
-    for (const key in and) {
-      if (d[key] === false) {
-        and[key] = 0;
-        continue;
-      }
-      if (d[key] === true) {
-        and[key] = 1;
-        continue;
-      }
-      if (isArray(d[key])) {
-        if (d[key].lenght > 0) {
-          and[key] = d[key];
-          continue;
-        } else {
-          delete d[key];
-          delete and[key];
-          continue;
-        }
-      }
-      if (this.ct[key] === undefined) {
-        delete and[key];
-        delete d[key];
-        continue;
-      }
-      if (d[key] === null) {
-        delete d[key];
-        delete and[key];
-        continue;
-      }
-      and[key] = d[key];
-    }
-    return and;
-  }
-
-  incluirConta(dados: ContaFormulario): Observable<any[]> {
-    const url = this.url.conta + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any[]> (url, dados, httpOptions);
-  }
-
-  postContaBusca(dados: ContaBuscaInterface): Observable<ContaPaginacaoInterface> {
-    const url = this.url.conta + '/listar';
-    const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) };
-    return this.http.post<ContaPaginacaoInterface>(url, dados, httpOptions);
-  }
-
-  getContaDetalhe(conta_id: number): Observable<ContaDetalheInterface> {
-    const url = this.url.conta + '/detalhe/' + conta_id;
-    return  this.http.get<ContaDetalheInterface>(url);
-  }
-
-  getContaAlterar(conta_id: number): Observable<ContaInterface> {
-    const url = this.url.conta + '/alterar/' + conta_id;
-    return this.http.get<ContaInterface>(url);
-  }
-
-  putContaAlterarDatatable(
-    conta_id: number,
-    conta_paga_id: number | boolean,
-    conta_pagamento: string): Observable<any[]> {
-
-    const dados = {
-      'conta_id': conta_id,
-      'conta_paga': conta_paga_id,
-      'conta_pagamento': conta_pagamento
-    };
-    const url = this.url.conta + '/alterar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.put<any[]>(url, dados, httpOptions);
-  }
-
-  putContaAlterar(conta_id: number, dados: ContaFormulario): Observable<any[]> {
-    const url = this.url.conta + '/' + conta_id;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.put<any[]>(url, dados, httpOptions);
-  }
-
-  deleteContaId(conta_id: number): Observable<any[]> {
-    const url = this.url.conta + '/' + conta_id;
-    return this.http.delete<any[]>(url);
-  }
-
-  getColunaExtendida(): Observable<any> {
-    return this.expandido;
-  }
-
-  montaColunaExpandida(ev: any[]) {
-    const campo = [
-      'conta_id',
-      'conta_cedente',
-      'conta_valor',
-      'conta_vencimento',
-      'conta_debito_automatico',
-      'conta_local_nome',
-      'conta_tipo',
-      'conta_paga',
-      'conta_pagamento',
-      'conta_observacao'
-    ];
-    const titulo = [
-      'Id',
-      'Cedente',
-      'Valor',
-      'Dt. venc.',
-      'Dbto. Aut.',
-      'Núcleo',
-      'Tipo',
-      'Pago',
-      'Dt. Pagto.',
-      'Observações'
-    ];
-    let a = 0;
-    const b: any[] = [];
-
-    for (const v in ev) {
-      if (ev[v] !== null) {
-        if (ev[v].toString().length > 0) {
-          const n = campo.indexOf(v);
-          if (n >= 0) {
-            const cc: any[] = [];
-            cc.push(titulo[n].toString());
-            /!*switch (v) {
-              case 'conta_debito_automatico' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'NÃO';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'SIM';
-                    break;
-                  }
-                  case false : {
-                    ev[v] = 'NÃO';
-                    break;
-                  }
-                  case true : {
-                    ev[v] = 'SIM';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'NÃO';
-                    break;
-                  }
-                }
-                break;
-              }
-              case 'conta_tipo' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'FIXA';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'VARIÁVEL';
-                    break;
-                  }
-                  case false : {
-                    ev[v] = 'FIXA';
-                    break;
-                  }
-                  case true : {
-                    ev[v] = 'VARIÁVEL';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'FIXA';
-                    break;
-                  }
-                }
-                break;
-              }
-              case 'conta_paga' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'NÃO';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'SIM';
-                    break;
-                  }
-                  case false : {
-                    ev[v] = 'NÃO';
-                    break;
-                  }
-                  case true : {
-                    ev[v] = 'SIM';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'NÃO';
-                    break;
-                  }
-                }
-                break;
-              }
-            }*!/
-            cc.push(ev[v].toString());
-            if (v === 'conta_observacao') {
-              cc.push(true);
-            } else {
-              cc.push(false);
-            }
-            b.push(cc);
-            a++;
-          }
-        }
-      }
-    }
-    /!*const tamanho = b.length;
-    let linhas: number = tamanho;
-    let colunas = 2;
-    if (tamanho > 10) {
-      colunas = 2;
-      linhas = Math.ceil(tamanho / 2);
-      if (linhas > 10) {
-        colunas = 3;
-        linhas = Math.ceil(tamanho / 3);
-        if (linhas > 10) {
-          colunas = 4;
-          linhas = Math.ceil(tamanho / 4);
-        }
-      }
-    } else {
-      linhas = Math.ceil(tamanho / 2);
-    }
-
-    let col: number;
-    let lin: number;
-    const idxC = [];
-
-    let contador = 0;
-    for (col = 1; col <= colunas; col++) {
-      const idcL = [];
-      for (lin = 1; lin <= linhas; lin++) {
-        if (contador < tamanho) {
-          idcL.push(b[contador]);
-        }
-        contador++;
-      }
-      idxC.push(idcL);
-    }
-    const largura = (100 / colunas).toFixed(2) + '%';
-    idxC.push(largura.toString());
-    this.expandido.next(idxC);*!/
-    this.expandido.next(b);
-  }
-
-*/
 }

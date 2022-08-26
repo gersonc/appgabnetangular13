@@ -109,7 +109,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.index = this.ct.idx;
     this.acao = this.cfs.acao;
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
-      // this.usuario_id.push(this.aut.usuario_id);
       this.cfs.criaFormIncluir();
     } else {
       this.showIncluir = true;
@@ -176,13 +175,9 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
       if (this.ctaPaga === 2) {
         this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
-        // this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
       }
       if (this.ctaPaga === 1) {
         this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
-        /*if (this.formConta.get('conta_pagamento').disabled) {
-          this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
-        }*/
       }
       if (this.ctaPaga === 0) {
         this.formConta.get('conta_pagamento').setValue(null);
@@ -264,19 +259,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.verificaValidacoesForm(controle);
       }
       if (!controle.valid) {
-        /*console.log('campo',campo);
-        if (controle.disabled) {
-          if (campo !== 'conta_paga2'&& campo !== 'conta_tipo' && campo !== 'conta_pagamento' && campo !== 'conta_rptdia' && campo !== 'conta_parcelas') {
-            ct++;
-          }
-        } else {
-          ct++;
-        }*/
         ct++;
       }
       ct2++;
     });
-    console.log('verificaValidacoesForm', (ct === 0));
     return (ct === 0);
   }
 
@@ -287,15 +273,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     };
   }
 
-  aplicaCssErro2() {
-    return {
-      'ng-invalid': this.validaPagamento(),
-      'ng-dirty': this.validaPagamento()
-    };
-  }
-
   onSubmit() {
-    console.log('onSubmit', this.ct.busca );
     this.mostraForm = true;
     this.botaoEnviarVF = true;
     if (this.verificaValidacoesForm(this.formConta)) {
@@ -334,7 +312,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.cta = {};
     let cta: ContaFormI = {}
     const t: any = this.formConta.getRawValue();
-    console.log('t',t);
+
     this.mostraForm = false;
     this.botaoEnviarVF = false;
 
@@ -344,8 +322,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       if (this.cfs.conta.conta_uuid !== undefined && this.cfs.conta.conta_uuid !== null && this.cfs.conta.conta_uuid.length > 10) {
         cta.conta_uuid = this.cfs.conta.conta_uuid;
       }
-      // cta.conta_calendario_id = this.cfs.conta.conta_calendario_id;
-
 
       if (t.conta_cedente.toUpperCase() !== this.cfs.conta.conta_cedente) {
         cta.conta_cedente = t.conta_cedente.toUpperCase();
@@ -361,11 +337,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         cta.conta_local_id = +t.conta_local_id;
         this.tt++;
       }
-
-      /*if (+t.conta_tipo !== +this.cfs.conta.conta_tipo) {
-        cta.conta_tipo = +t.conta_tipo;
-        this.tt++;
-      }*/
 
       if (t.conta_vencimento !== this.cfs.conta.conta_vencimento2) {
         if (t.conta_vencimento === null) {
@@ -418,9 +389,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         cta.conta_observacao_texto = this.kill0.getText();
         this.tt++;
       }
-
-      console.log('alterar', cta);
-
     }
 
     if (this.cfs.acao === 'incluir') {
@@ -483,11 +451,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.tt++;
       }
 
-      /*if (+t.conta_debito_automatico !== null) {
-        cta.conta_debito_automatico = +t.conta_debito_automatico;
-        this.tt++;
-      }*/
-
       if (+t.conta_agenda !== null) {
         if (t.conta_agenda) {
           cta.conta_agenda = 1;
@@ -532,15 +495,11 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
     }
 
-
-
     const vf: boolean = ((this.acao === 'alterar' && this.tt >= 1) || ((this.acao === 'incluir' || this.acao === 'incluir2') && this.tt >= 8));
     if (vf) {
       this.cta = cta;
     }
-    console.log('criaEnvio', cta);
-    return false;
-    // return vf;
+    return vf;
   }
 
   incluir() {
@@ -616,7 +575,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           complete: () => {
             if (this.resp[0]) {
               const p: ContaI = this.resp[3];
-              // p.conta_vencimento3 = new Date(p.conta_vencimento2);
               if (p.conta_pagamento2 !== undefined && p.conta_pagamento2 !== null) {
                 p.conta_pagamento3 = new Date(p.conta_pagamento2);
               } else {
@@ -628,8 +586,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
                 originalEvent: {}
               }
               this.ct.onRowExpand(c);
-              // this.cfs.resetConta();
-              // this.resetForm();
               this.ms.add({
                 key: 'toastprincipal',
                 severity: 'success',
@@ -676,7 +632,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   onUpload(ev) {
     if (ev) {
-      // this.mostraForm = false;
       this.ms.add({
         key: 'toastprincipal',
         severity: 'success',
@@ -708,25 +663,15 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   mudaForm(cp: string) {
     this.autoCompOnOff = false;
-    console.log('ev');
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
       if (cp === 'conta_vencimento' && this.formConta.get('conta_vencimento').valid) {
         this.conta_vencimento = this.formConta.get('conta_vencimento').value;
-        // this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
       }
       if (this.formConta.get('conta_cedente').valid && this.formConta.get('conta_vencimento').valid && this.formConta.get('conta_valor').valid) {
         this.conta_vencimento = this.formConta.get('conta_vencimento').value;
         this.formConta.get('conta_pagamento').setValue(null, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-        // this.formConta.get('conta_paga').enable({onlySelf: true, emitEvent: true});
-        // this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-        // this.formConta.get('conta_paga').markAsDirty();
         this.showIncluir = true;
-        /*this.formConta.get('conta_local_id').enable({onlySelf: true, emitEvent: true});
-        this.formConta.get('conta_rptdia').enable({onlySelf: true, emitEvent: true});
-        this.formConta.get('conta_agenda').enable({onlySelf: true, emitEvent: true});
-        this.formConta.get('conta_observacao').enable({onlySelf: true, emitEvent: true});*/
       }
-      // this.showIncluir = true
     }
     if (this.acao === 'alterar') {
       this.validaPagamento();
@@ -793,11 +738,9 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.formConta.get('todos_usuarios_sn').setValue(ev.checked);
     this.todos_usuarios_sn = ev.checked;
     this.agendaVF = ev.checked;
-    console.log('agenda', ev, this.agendaSN);
   }
 
   todosUsuariosOnChange(ev: boolean) {
-    console.log('eee',ev);
     if(!ev) {
       this.usuario_id.push(this.aut.usuario_id);
       this.formConta.get('usuario_id').setValue(this.usuario_id);
@@ -810,17 +753,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       }
       this.formConta.get('usuario_id').setValue(this.usuario_id);
       this.todos_usuarios_sn = ev;
-      // this.usuario_id = null;
     }
-    console.log('usuario_id',this.formConta.get('usuario_id').value);
-    /*this.todos_usuarios_sn = ev.checked;
-    console.log('todos_usuarios_sn', this.todos_usuarios_sn);
-    if (this.todos_usuarios_sn) {
-      if (this.acao === 'incluir') {
-
-      }
-    }*/
-    console.log('ckbox ', ev, this.todos_usuarios_sn);
   }
 
   onUsuarioIdChange(ev) {
@@ -830,20 +763,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       this.formConta.get('todos_usuarios_sn').setValue(true);
       this.todos_usuarios_sn = true;
     }
-    console.log('usuario_id',this.formConta.get('usuario_id').value);
   }
-
-  ddUsuario(): SelectItem[] {
-    if (this.ddUsuario_id.length === 0) {
-      return this.getUsuarioDD();
-    } else {
-      return this.ddUsuario_id;
-    }
-  }
-
-  /*onCtaPagto(ev) {
-    console.log('ev',ev);
-  }*/
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

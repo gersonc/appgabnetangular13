@@ -9,8 +9,6 @@ export interface ContaI {
   conta_tipo?: string;
   conta_paga_id?: number;
   conta_paga?: string;
-  // conta_debito_automatico_id?: number;
-  // conta_debito_automatico?: string;
   conta_cedente?: string;
   conta_valor2?: number;
   conta_valor?: number;
@@ -37,13 +35,11 @@ export interface ContaFormI {
   conta_uuid?: string;
   conta_cedente?: string;
   conta_valor?: number;
-  // conta_valor2?: number;
   conta_vencimento?: string;
   conta_vencimento2?: Date;
   conta_observacao?: string;
   conta_observacao_delta?: string;
   conta_observacao_texto?: string;
-  // conta_debito_automatico?: number;
   conta_local_id?: number;
   conta_tipo?: number;
   conta_paga?: number;
@@ -63,7 +59,6 @@ export interface ContaBuscaI {
   conta_id?: number;
   conta_vencimento_1data?: string;
   conta_vencimento_2data?: string;
-  // conta_debito_automatico_id?: number;
   conta_local_id?: number;
   conta_tipo_id?: number;
   conta_paga_id?: number;

@@ -63,7 +63,8 @@
                     (click)="men.toggle($event)"></button>
           </div>
 
-          <div class="p-mr-0" *ngIf="aut.contabilidade_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
+          <div class="p-mr-0"
+               *ngIf="aut.contabilidade_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
             <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
                     (click)="contaIncluir()"></button>
           </div>
@@ -78,7 +79,10 @@
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="ct.resetSelecionados()"></button>
           </div>
-          <div class="p-mr-2"><button pButton type="button" label="Soma" icon="pi pi-dollar" class="p-button-text p-button-sm" (click)="showSoma()"></button></div>
+          <div class="p-mr-2">
+            <button pButton type="button" label="Soma" icon="pi pi-dollar" class="p-button-text p-button-sm"
+                    (click)="showSoma()"></button>
+          </div>
           <div class="p-mr-2">Página {{ct.tabela.currentPage}} de {{ct.tabela.pageCount}} - Num.
             Registros: {{ct.tabela.totalRecords}}</div>
         </div>
@@ -118,7 +122,8 @@
   </ng-template>
 
   <!--*** DADOS ****************************************************************************************************-->
-  <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded" let-rowIndex="rowIndex">
+  <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded"
+               let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pContextMenuRowIndex]="rowIndex" [pEditableRow]="cta">
       <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center">
         <button
@@ -133,32 +138,34 @@
           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
         ></button>
         <div class="p-m-0" (mouseover)="valido()">
-        <button
-          *ngIf="editing"
-          pButton
-          type="button"
-          pSaveEditableRow
-          icon="pi pi-check"
-          class="p-button-success"
-          style="margin-right: .5em"
-          [disabled]="botaoEnviarVF || validaBtnVf(cta)"
-          (click)="onRowEditSave(cta)"
-        ></button>
-        <button
-          *ngIf="editing"
-          pButton
-          id="btncancel"
-          type="button"
-          pCancelEditableRow
-          icon="pi pi-times"
-          class="p-button-danger"
-          [disabled]="botaoEnviarVF"
-          (click)="onRowEditCancel(cta)"
-        ></button>
+          <button
+            *ngIf="editing"
+            pButton
+            type="button"
+            pSaveEditableRow
+            icon="pi pi-check"
+            class="p-button-success"
+            style="margin-right: .5em"
+            [disabled]="botaoEnviarVF || validaBtnVf(cta)"
+            (click)="onRowEditSave(cta)"
+          ></button>
+          <button
+            *ngIf="editing"
+            pButton
+            id="btncancel"
+            type="button"
+            pCancelEditableRow
+            icon="pi pi-times"
+            class="p-button-danger"
+            [disabled]="botaoEnviarVF"
+            (click)="onRowEditCancel(cta)"
+          ></button>
         </div>
       </td>
 
-      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col)" [ngClass]="setCurrentClass(col, cta[col.field], cta.conta_paga_id, cta.conta_vencimento3)" style="text-align: left">
+      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col)"
+          [ngClass]="setCurrentClass(col, cta[col.field], cta.conta_paga_id, cta.conta_vencimento3)"
+          style="text-align: left">
 
         <p-cellEditor *ngIf="col.field === 'conta_valor'">
           <ng-template pTemplate="input">
@@ -174,14 +181,16 @@
             </div>
           </ng-template>
           <ng-template pTemplate="output">
-            <div *ngIf="idx === null && (aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
+            <div
+              *ngIf="idx === null && (aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn) && !ct.expandidoSN"
               pInitEditableRow
               (click)="onRowEditInit(cta, rowIndex)"
               pTooltip="Alterar"
               tooltipPosition="top"
               class="cell-edit"
             >{{formataValor(cta.conta_valor)}}</div>
-            <div *ngIf="(idx !== null || !aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{formataValor(cta.conta_valor)}}</div>
+            <div
+              *ngIf="(idx !== null || !aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{formataValor(cta.conta_valor)}}</div>
           </ng-template>
         </p-cellEditor>
 
@@ -223,7 +232,8 @@
               tooltipPosition="top"
               class="cell-edit"
             >{{cta.conta_paga}}</div>
-            <div *ngIf="(idx !== null || !aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_paga}}</div>
+            <div
+              *ngIf="(idx !== null || !aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_paga}}</div>
           </ng-template>
         </p-cellEditor>
 
@@ -242,7 +252,7 @@
                 [autoZIndex]="true"
                 [appendTo]="'body'"
                 [required]="+cta.conta_paga_id === 1 || +cta.conta_paga_id === 2"
-                [readonlyInput] = "+cta.conta_paga_id !== 1"
+                [readonlyInput]="+cta.conta_paga_id !== 1"
                 [disabled]="+cta.conta_paga_id !== 1"
               ></p-calendar>
             </div>
@@ -255,13 +265,17 @@
               pTooltip="Alterar"
               tooltipPosition="top"
               class="cell-edit"
-            >{{cta.conta_pagamento}}&nbsp;</div>
-            <div *ngIf="(idx !== null || !aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_pagamento}}&nbsp;</div>
+            >{{cta.conta_pagamento}}&nbsp;
+            </div>
+            <div
+              *ngIf="(idx !== null || !aut.contabilidade_alterar && !aut.usuario_principal_sn && !aut.usuario_responsavel_sn) || ct.expandidoSN">{{cta.conta_pagamento}}&nbsp;
+            </div>
           </ng-template>
         </p-cellEditor>
 
 
-        <ng-container *ngIf="col.field !== 'conta_valor' && col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
+        <ng-container
+          *ngIf="col.field !== 'conta_valor' && col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
           <app-exporter-celula [celula]="{
           valor: cta[col.field],
           field: col.field,
@@ -278,7 +292,8 @@
 
   <ng-template pTemplate="footer" let-columns>
     <tr *ngIf="mostraSoma">
-      <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center; background-color: var(--primary-color);"></td>
+      <td
+        style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center; background-color: var(--primary-color);"></td>
       <td *ngFor="let col of columns" class="ui-resizable-column" [style.width]="col.width"
           style="text-align: right; padding-bottom: 0; padding-top: .3em; background-color: var(--primary-color); color: var(--claro)">
         <span *ngIf="col.field === 'conta_valor'">{{soma}}</span>
@@ -307,7 +322,8 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+              <div *ngIf="aut.contabilidade_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn"
+                   class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -321,7 +337,9 @@
                 >
                 </button>
               </div>
-              <div *ngIf="permissaoArquivo(cta.conta_arquivos.length) || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+              <div
+                *ngIf="permissaoArquivo(cta.conta_arquivos.length) || aut.usuario_principal_sn || aut.usuario_responsavel_sn"
+                class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -344,7 +362,9 @@
                   <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
               </div>
-              <div *ngIf="cta.conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)" class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+              <div
+                *ngIf="cta.conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)"
+                class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
                 <app-detalhe-explorer [arquivos]="cta.conta_arquivos"></app-detalhe-explorer>
               </div>
             </div>
@@ -370,40 +390,7 @@
   <!--*** MENU *****************************************************************************************************-->
 </p-table>
 <!--*** FIM ********************************************************************************************************-->
-
-<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
-
-<!--<p-dialog *ngIf="ct.tabela.mostraSeletor"
-          id="seletor"
-          header="Selecione as colunas."
-          [(visible)]="ct.tabela.mostraSeletor"
-          [modal]="true"
-          styleClass="tablistagem"
-          [style]="{width: '40rem'}"
-          [dismissableMask]="true"
->
-  <app-seletor-colunas [todas]="cols" [(ativas)]="ct.tabela.selectedColumns"></app-seletor-colunas>
-  <p-footer>
-    <div class="p-d-flex p-jc-start p-pb-2">
-      <div class="p-mr-2">
-        <button pButton type="button" label="Fehar " icon="pi pi-times"
-                class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
-      </div>
-      <div class="p-mr-2">
-        <button pButton type="button" label="Reset " icon="pi pi-backward"
-                class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
-      </div>
-    </div>
-  </p-footer>
-</p-dialog>-->
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
-
-<!--<p-confirmDialog
-  [style]="{maxWidth: '400px'}"
-  [baseZIndex]="10000"
-  rejectButtonStyleClass="p-button-text"
-  styleClass="tablistagem"
-></p-confirmDialog>-->
 
 <p-confirmDialog
   [style]="{width: '50vw'}"
@@ -429,77 +416,63 @@
     (onHide)="escondeDetalhe()"
   >
     <app-conta-detalhe></app-conta-detalhe>
-    <!--<app-telefone-detalhe [telefone]="contaDetalhe" (hideDetalhe)="escondeDetalhe()"></app-telefone-detalhe>-->
   </p-dialog>
 </ng-container>
 
 <ng-container *ngIf="ct.showForm">
-  <!--<div [ngClass]="cssMostra">-->
-    <p-dialog
-      [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
-      [style]="{width: '80vw'}"
-      [(visible)]="ct.showForm"
-      styleClass="tablistagem"
-      [header]="'CONTA'"
-      [modal]="true"
-      [dismissableMask]="false"
-      [baseZIndex]="0"
-      [blockScroll]="true"
-      transitionOptions="350ms cubic-bezier(0, 0, 0.2, 1)"
-    >
-      <app-conta-formulario *ngIf="ct.showForm"></app-conta-formulario>
-    </p-dialog>
-  <!--</div>-->
+  <p-dialog
+    [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+    [style]="{width: '80vw'}"
+    [(visible)]="ct.showForm"
+    styleClass="tablistagem"
+    [header]="'CONTA'"
+    [modal]="true"
+    [dismissableMask]="false"
+    [baseZIndex]="0"
+    [blockScroll]="true"
+    transitionOptions="350ms cubic-bezier(0, 0, 0.2, 1)"
+  >
+    <app-conta-formulario *ngIf="ct.showForm"></app-conta-formulario>
+  </p-dialog>
 </ng-container>
 
 <ng-container *ngIf="showApagar">
-  <!--<div [ngClass]="cssMostra">-->
   <p-dialog [(visible)]="showApagar" styleClass="tablistagem atencao">
     <ng-template pTemplate="header">
       <i class="pi pi-spin pi-exclamation-triangle" style="font-size: 2rem"></i> APAGAR REGISTRO
     </ng-template>
-      <div *ngIf="apagarTipo===1">
-        <b>Você confirma apagar este registro?</b>
-      </div>
-      <div *ngIf="apagarTipo===2">
-        <b>Existém mais {{apagarParceleas -1}} recorrência(s) / parcela(s) vinculada a esse pagamento.</b><br>
-        <b>Você deseja apagar apenas este ou todos?</b>
-      </div>
+    <div *ngIf="apagarTipo===1">
+      <b>Você confirma apagar este registro?</b>
+    </div>
+    <div *ngIf="apagarTipo===2">
+      <b>Existém mais {{apagarParceleas - 1}} recorrência(s) / parcela(s) vinculada a esse pagamento.</b><br>
+      <b>Você deseja apagar apenas este ou todos?</b>
+    </div>
 
 
     <p-footer>
       <div class="p-d-flex p-jc-start p-pb-2">
-      <div class="p-ml-1 p-mr-2">
-        <button *ngIf="apagarTipo===1" pButton pRipple type="button" (click)="acaoApagar(0)" label="Não" class="p-button-sm p-button-rounded p-button-secondary "></button>
-        <button *ngIf="apagarTipo===2" pButton pRipple type="button" (click)="acaoApagar(0)" label="Cancelar" class="p-button-sm p-button-rounded p-button-secondary "></button>
-      </div>
-      <div *ngIf="apagarTipo===2" class="p-mr-2">
-        <button pButton pRipple type="button" label="Este" (click)="acaoApagar(1)" class="p-button-sm p-button-rounded p-button-danger"></button>
-      </div>
-      <div *ngIf="apagarTipo===2" class="p-mr-2">
-        <button pButton pRipple type="button" label="Todos" (click)="acaoApagar(3)" class="p-button-sm p-button-rounded p-button-danger"></button>
-      </div>
-      <div *ngIf="apagarTipo===1" class="p-mr-2">
-        <button pButton pRipple type="button" label="Sim" (click)="acaoApagar(1)" class="p-button-sm p-button-rounded p-button-danger"></button>
-      </div>
+        <div class="p-ml-1 p-mr-2">
+          <button *ngIf="apagarTipo===1" pButton pRipple type="button" (click)="acaoApagar(0)" label="Não"
+                  class="p-button-sm p-button-rounded p-button-secondary "></button>
+          <button *ngIf="apagarTipo===2" pButton pRipple type="button" (click)="acaoApagar(0)" label="Cancelar"
+                  class="p-button-sm p-button-rounded p-button-secondary "></button>
+        </div>
+        <div *ngIf="apagarTipo===2" class="p-mr-2">
+          <button pButton pRipple type="button" label="Este" (click)="acaoApagar(1)"
+                  class="p-button-sm p-button-rounded p-button-danger"></button>
+        </div>
+        <div *ngIf="apagarTipo===2" class="p-mr-2">
+          <button pButton pRipple type="button" label="Todos" (click)="acaoApagar(3)"
+                  class="p-button-sm p-button-rounded p-button-danger"></button>
+        </div>
+        <div *ngIf="apagarTipo===1" class="p-mr-2">
+          <button pButton pRipple type="button" label="Sim" (click)="acaoApagar(1)"
+                  class="p-button-sm p-button-rounded p-button-danger"></button>
+        </div>
       </div>
 
     </p-footer>
   </p-dialog>
 
-  <!--</div>-->
 </ng-container>
-
-<!--<ng-container *ngIf="showDetalhe">
-  <p-dialog
-    [(visible)]="showDetalhe"
-    [modal]="true"
-    [dismissableMask]="false"
-    [style]="{width: '80vw'}"
-    styleClass="tablistagem"
-    header="DETALHE"
-    (onHide)="escondeDetalhe()"
-  >
-    &lt;!&ndash;<app-telefone-detalhe [telefone]="telefoneDetalhe" (hideDetalhe)="escondeDetalhe()"></app-telefone-detalhe>&ndash;&gt;
-  </p-dialog>
-</ng-container>-->

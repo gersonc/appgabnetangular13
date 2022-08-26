@@ -105,9 +105,6 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
     if (f.conta_pagamento_2data !== null) {
       b.conta_pagamento_2data = DateTime.fromJSDate(f.conta_pagamento_2data).toSQLDate();
     }
-    /*if (f.conta_debito_automatico_id !== undefined && f.conta_debito_automatico_id !== null && f.conta_debito_automatico_id !== 999) {
-      b.conta_debito_automatico_id = +f.conta_debito_automatico_id;
-    }*/
     if (f.conta_local_id !== undefined && f.conta_local_id !== null && f.conta_local_id !== 999) {
       b.conta_local_id = +f.conta_local_id;
     }
@@ -155,46 +152,6 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
     let a = 0;
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
   }
-
-
-  /*onMudaForm2() {
-    this.cbs.resetContaBusca();
-    this.cbs.cb = this.formMenuConta.getRawValue();
-    if (this.formMenuConta.get('conta_tipo_id').value === 999) {
-      this.cbs.cb.conta_tipo_id = null;
-    }
-    if (this.formMenuConta.get('conta_debito_automatico_id').value === 999) {
-      this.cbs.cb.conta_debito_automatico_id = null;
-    }
-    if (this.formMenuConta.get('conta_paga_id').value === 999) {
-      this.cbs.cb.conta_paga_id = null;
-    }
-    this.cbs.buscaMenu();
-    this.mi.mudaMenuInterno(false);
-    this.cs.mostraCarregador();
-  }*/
-
-  /*goIncluir() {
-    if (this.aut.contabilidade_incluir) {
-      const ref = this.dialogService.open(ContaFormularioComponent, {
-        data: {
-          acao: 'incluir',
-          origem: 'menu'
-        },
-        header: 'INCLUIR CONTA',
-        width: '60%',
-        styleClass: 'tablistagem',
-        /!*height: '50vh',*!/
-        dismissableMask: true,
-        showHeader: true
-      });
-    }
-  }
-
-  onKey(event) {
-    let a = 0;
-    event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
-  }*/
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

@@ -328,45 +328,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       }
       this.apagarId = cta.conta_id;
       this.showApagar = true;
-
-
-
-
-      /*this.cf.confirm({
-        message: '<b>Você confirma apagar este registro?</b>',
-        header: 'Confirmação',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.sub.push(this.ct.excluirConta(cta.conta_id)
-            .pipe(take(1))
-            .subscribe({
-              next: (dados) => {
-                this.resp = dados;
-              },
-              error: (err) => {
-                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
-                console.error(err);
-              },
-              complete: () => {
-                if (this.resp[0]) {
-                  this.ct.contas.splice(this.ct.idx, 1);
-                  this.ms.add({
-                    key: 'toastprincipal',
-                    severity: 'info',
-                    summary: 'LANÇAMENTO',
-                    detail: 'Registro apagado com sucesso.'
-                  });
-                } else {
-                  this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
-                }
-              }
-            })
-          );
-        },
-        reject: (type) => {
-        }
-      });*/
-
     } else {
       console.log('SEM PERMISSAO');
     }
@@ -388,15 +349,12 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
           },
           complete: () => {
             if (this.resp[0]) {
-              //
-              // this.ct.contas.splice(this.ct.idx, 1);
               if (n === 1) {
                 this.ct.contas = this.ct.contas.filter(val => val.conta_id !== this.apagarId);
               }
               if (n === 2) {
                 this.ct.contas = this.ct.contas.filter(val => val.conta_id !== this.resp[2].includes(val.conta_id));
               }
-              // this.ct.contas.splice(this.ct.idx, 1);
               this.dtb.toggleRow(this.ct.tabela.dadosExpandidosRaw.data, this.ct.tabela.dadosExpandidosRaw.originalEvent);
               this.ms.add({
                 key: 'toastprincipal',
