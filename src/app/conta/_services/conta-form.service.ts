@@ -29,6 +29,15 @@ export class ContaFormService {
     this.contaListar = null;
   }
 
+  resetTudo() {
+    this.resetConta();
+    this.contaListar = null;
+    this.acao = null;
+    this.btnEnviar = true;
+    this.showForm = false;
+    this.idx = 0;
+  }
+
   parceContaForm(t: ContaI): ContaFormI {
     this.contaListar = t;
     this.conta = {};
@@ -49,7 +58,7 @@ export class ContaFormService {
     r.conta_observacao_texto = t.conta_observacao_texto;
     if (t.conta_parcelas === undefined || t.conta_parcelas === null || +t.conta_parcelas < 2 || t.conta_rptdia === undefined || t.conta_rptdia === null  || +t.conta_rptdia === 0) {
       r.conta_rptdia = 0;
-      r.conta_parcelas = 1;
+      r.conta_parcelas = null;
     } else {
       r.conta_rptdia = t.conta_rptdia;
       r.conta_parcelas = t.conta_parcelas;
@@ -79,8 +88,10 @@ export class ContaFormService {
     this.conta.conta_pagamento = null;
     this.conta.conta_pagamento2 = null;
     this.conta.conta_rptdia = 0;
-    this.conta.conta_parcelas = 2;
+    this.conta.conta_parcelas = null;
     this.conta.conta_agenda = 0;
+    this.conta.todos_usuarios_sn = 1;
+    this.conta.usuario_id = [];
     this.conta.conta_calendario_id = 0;
   }
 }

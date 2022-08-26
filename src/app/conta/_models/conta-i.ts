@@ -53,6 +53,8 @@ export interface ContaFormI {
   conta_rptdia?: number;
   conta_parcelas?: number;
   conta_agenda?: number;
+  todos_usuarios_sn?: number;
+  usuario_id?: number[];
   conta_calendario_id?: number;
 }
 

@@ -17,6 +17,7 @@ import {EmendaFormI} from "../_models/emenda-form-i";
 import {HistFormI, HistI} from "../../hist/_models/hist-i";
 import {EmendaAtualizar} from "../_models/emenda-atualizar-i";
 import {TituloI} from "../../_models/titulo-i";
+import {ContaI} from "../../conta/_models/conta-i";
 
 
 @Injectable({
@@ -52,7 +53,8 @@ export class EmendaService {
   titulos: TituloI[] | null = null;
   mudaRows = 50;
   rowsPerPageOptions = [50];
-
+  colunasExcel: any[] = [];
+  colsTrocar = ['emenda_data_solicitacao', 'emenda_data_empenho', 'emenda_data_pagamento'];
 
   constructor(
     private url: UrlService,
@@ -377,11 +379,11 @@ export class EmendaService {
       }
     }
     if (this.emendas.length > 0 && td === 2) {
-      ExcelService.criaExcelFile('emenda', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.emendas), this.tabela.selectedColumns);
+      ExcelService.criaExcelFile('emenda', limpaTabelaCampoTexto(this.trocaColunas(this.tabela.selectedColumns),this.tabela.camposTexto,this.emendas), this.trocaColunas(this.tabela.selectedColumns));
       return true;
     }
     if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
-      ExcelService.criaExcelFile('emenda', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
+      ExcelService.criaExcelFile('emenda', limpaTabelaCampoTexto(this.trocaColunas(this.tabela.selectedColumns),this.tabela.camposTexto,this.selecionados), this.trocaColunas(this.tabela.selectedColumns));
       return true;
     }
   }
@@ -418,6 +420,7 @@ export class EmendaService {
 
   emendaBusca(): void {
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
+      this.tabela.sortField = (this.tabela.sortField === 'emenda_data_solicitacao') ? 'emenda_data_solicitacao3' : (this.tabela.sortField === 'emenda_data_empenho') ? 'emenda_data_empenho3' : (this.tabela.sortField === 'emenda_data_pagamento') ? 'emenda_data_pagamento3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.emendas;
@@ -456,6 +459,22 @@ export class EmendaService {
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
+            this.emendas = dados.emendas.map((t) => {
+              let p: EmendaListarI = t;
+              p.emenda_data_solicitacao3 = new Date(t.emenda_data_solicitacao2);
+              if (t.emenda_data_empenho2 !== undefined && t.emenda_data_empenho2 !== null) {
+                p.emenda_data_empenho3 = new Date(t.emenda_data_empenho2);
+              } else {
+                p.emenda_data_empenho2 = null;
+              }
+              if (t.emenda_data_pagamento2 !== undefined && t.emenda_data_pagamento2 !== null) {
+                p.emenda_data_pagamento3 = new Date(t.emenda_data_pagamento2);
+              } else {
+                p.emenda_data_pagamento3 = null;
+              }
+
+              return p;
+            });
             this.emendas = dados.emendas;
             this.tabela.total = dados.total;
           },
@@ -602,6 +621,14 @@ export class EmendaService {
           }
       }
     this.totais = [tt];
+  }
+
+  trocaColunas(cols: any[]): any[] {
+    return cols.map(c => {
+      let t = c;
+      t.field = (this.colsTrocar.indexOf(t.field) !== -1) ? t.field + '3' : t.field;
+      return t;
+    });
   }
 
 

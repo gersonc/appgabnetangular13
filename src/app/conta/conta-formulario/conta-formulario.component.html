@@ -1,9 +1,49 @@
 <div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
   <form [formGroup]="formConta" (ngSubmit)="onSubmit()">
     <input
-      *ngIf="!nucleo"
+      *ngIf="!nucleo || !showIncluir"
       type="hidden"
       formControlName="conta_local_id"
+    >
+    <input
+      *ngIf="ctaPaga===0 || !showIncluir"
+      type="hidden"
+      formControlName="conta_pagamento"
+    >
+    <input
+      *ngIf="!rptd"
+      type="hidden"
+      formControlName="conta_parcelas"
+    >
+    <input
+      *ngIf="!rptd"
+      type="hidden"
+      formControlName="conta_tipo"
+    >
+    <input
+      *ngIf="acao!=='incluir' || !rptd || !showIncluir"
+      type="hidden"
+      formControlName="conta_paga2"
+    >
+    <input
+      *ngIf="!showIncluir"
+      type="hidden"
+      formControlName="conta_paga"
+    >
+    <input
+      *ngIf="!showIncluir"
+      type="hidden"
+      formControlName="conta_rptdia"
+    >
+    <input
+      *ngIf="acao!=='incluir' || !agendaVF"
+      type="hidden"
+      formControlName="todos_usuarios_sn"
+    >
+    <input
+      *ngIf="acao!=='incluir' || todos_usuarios_sn || !agendaVF"
+      type="hidden"
+      formControlName="usuario_id"
     >
     <div class="p-fluid">
 
@@ -80,7 +120,7 @@
                 </div>
 
                 <!-- conta_paga -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <label for="conta_paga">Pagamemento efetuado</label>
                   <span id="info2" class="info-icon pi pi-question-circle" (click)="mostraInfo('info2')"></span>
                   <p-selectButton
@@ -96,7 +136,7 @@
 
 
                 <!-- conta_pagamento -->
-                <div *ngIf="ctaPaga > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_pagamento')">
+                <div *ngIf="showIncluir && ctaPaga > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_pagamento')">
                   <label for="conta_pagamento">Data pagamento</label>
                   <p-calendar
                     id="conta_pagamento"
@@ -115,7 +155,7 @@
                 </div>
 
                 <!-- conta_local_id -->
-                <div *ngIf="nucleo" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir && nucleo" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <label for="conta_local_id">Núcleo</label>
                   <p-dropdown
                     id="conta_local_id"
@@ -130,7 +170,7 @@
                 </div>
 
                 <!-- rptdia -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <label for="conta_rptdia">Repetir vencimento</label>
                   <p-dropdown
                     id="conta_rptdia"
@@ -144,7 +184,7 @@
                 </div>
 
                 <!-- parcelas -->
-                <div *ngIf="rptd" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="rptd && showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <label for="conta_parcelas">Recorrência / Num. parcelas </label>
                   <p-dropdown
                     id="conta_parcelas"
@@ -157,7 +197,7 @@
                 </div>
 
                 <!-- conta_tipo -->
-                <div *ngIf="rptd" #info2 class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="rptd && showIncluir" #info2 class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <label for="conta_tipo">Tipo</label>
                   <span id="info1" class="info-icon pi pi-question-circle" (click)="mostraInfo('info1')"></span>
                   <p-selectButton
@@ -171,7 +211,7 @@
                 </div>
 
                 <!-- conta_paga2 -->
-                <div *ngIf="acao==='incluir' && rptd" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="acao==='incluir' && rptd && showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <label for="conta_paga2">Pagtos recorrentes</label>
                   <span id="info3" class="info-icon pi pi-question-circle" (click)="mostraInfo('info3')"></span>
                   <p-selectButton
@@ -185,12 +225,46 @@
                 </div>
 
                 <!-- agenda -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <h5>Lembrete na agenda</h5>
-                  <p-inputSwitch id="conta_agenda" #info4 formControlName="conta_agenda" [readonly]="!agendaSN" tabindex="10"></p-inputSwitch>
+                  <p-inputSwitch id="conta_agenda" (onChange)="agendaOnChange($event)" #info4 formControlName="conta_agenda" [readonly]="!agendaSN" tabindex="10"></p-inputSwitch>
                   <div><small *ngIf="acao ==='alterar' && agendaSN && info4.checked" style="color: var(--erro-color)">
                     Será incluido na agenda lembrete só para essa ocorrência.
                   </small></div>
+                </div>
+
+                <!-- USUARIOS  ******************************************************************* -->
+                <div *ngIf="acao!=='incluir' || !agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"> </div>
+                <div *ngIf="acao==='incluir' && agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <h5>Todos usuários</h5>
+                  <p-inputSwitch
+                    #usersn
+                    id="todos_usuarios_sn"
+                    [name]="'todos_usuarios_sn'"
+                    formControlName="todos_usuarios_sn"
+                    (onChange)="todosUsuariosOnChange($event.checked)"
+                  ></p-inputSwitch>
+                </div>
+                <div *ngIf="todos_usuarios_sn || !agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"> </div>
+                <div *ngIf="!todos_usuarios_sn && agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <label for="usuario_id">Usuarios</label>
+                  <p-multiSelect
+                    id="usuario_id"
+                    optionLabel="label"
+                    name="usuario_id"
+                    [options]="ddUsuario_id"
+                    formControlName="usuario_id"
+                    (onChange)="onUsuarioIdChange($event)"
+                    [maxSelectedLabels]="5"
+                    [selectedItemsLabel]="'{0} selecionados'"
+                    [filter]="true"
+                    [showToggleAll]="true"
+                    [showHeader]="true"
+                    [styleClass]="'calendario-form'"
+                    optionValue="value"
+                    appendTo="body"
+                  ></p-multiSelect>
+
                 </div>
 
 

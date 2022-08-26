@@ -51,9 +51,11 @@ export function ExcelParcer(valores: any[], campos: ColunasI[]): any[] {
       } else {
         returnValue[key] = {
           v: item[key],
-          t: (typeof item[key] === 'string') ? 's' : 'n',
-          s: {alignment: {wrapText: true, vertical: "top"}}}
+          t: (typeof item[key] === 'string') ? 's' : (typeof item[key] === 'number') ? 'n' : (typeof item[key] === 'object') ? 'd' : 's',
+          s: {alignment: {wrapText: true, vertical: "top"}},
+          z: (typeof item[key] === 'object') ? "dd/mm/yyyy" : (typeof item[key] === 'number' && key.toString().search('valor')) ? "4" : null}
       }
+      // t: (typeof item[key] === 'string') ? 's' : (typeof item[key] === 'number') ? 'n' : (item[key] instanceof Date) ? 'd' : 's',
     })
     tituloVF = false;
     return returnValue;

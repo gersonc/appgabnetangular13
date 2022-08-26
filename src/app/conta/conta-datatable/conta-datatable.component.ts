@@ -192,7 +192,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'}
     ];
     if (this.aut.solicitacaoVersao < 3) {
-      this.cols.push({ field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'})
+      this.ct.tabela.selectedColumns.push({ field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'})
     }
   }
 

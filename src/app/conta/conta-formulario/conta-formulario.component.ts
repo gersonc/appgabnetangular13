@@ -28,6 +28,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   ptBr: any;
   public sgt: string[];
   public ddConta_local_id: SelectItem[] = [];
+  public ddUsuario_id: SelectItem[] = [];
   sub: Subscription[] = [];
   botaoEnviarVF = false;
   mostraForm = false;
@@ -58,6 +59,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   cedenteSN = 0;
   showCedente = false;
   autoCompOnOff = false;
+  showPaga = false;
+  showIncluir = false;
 
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -84,23 +87,33 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   cedenteFocus = false;
   conta_vencimento = new Date();
+  usuario_id: number[] = [];
+  agendaVF = true;
+  todos_usuarios_sn = true;
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DdService,
     private mi: MenuInternoService,
+    private dd: DdService,
     private ms: MsgService,
     public aut: AuthenticationService,
     private autocompleteservice: AutocompleteService,
     private ct: ContaService,
     public cfs: ContaFormService
-  ) { }
+  ) {
+    this.getUsuarioDD();
+  }
 
   ngOnInit() {
+    console.log('aut.arquivos', this.aut.arquivos);
     this.index = this.ct.idx;
     this.acao = this.cfs.acao;
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
+      // this.usuario_id.push(this.aut.usuario_id);
       this.cfs.criaFormIncluir();
+    } else {
+      this.showIncluir = true;
+      this.showPaga = true;
     }
     this.carregaDados();
     this.carregaDropDown();
@@ -124,26 +137,29 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   criaForm() {
+    this.agendaVF = (this.cfs.conta.conta_agenda === 1);
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
       this.formConta = this.formBuilder.group({
         conta_cedente: [this.cfs.conta.conta_cedente, [Validators.required, Validators.minLength(2)]],
         conta_valor: [this.cfs.conta.conta_valor, Validators.required],
         conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
-        conta_paga: [{value: this.cfs.conta.conta_paga, disabled: true}],
-        conta_pagamento: [{value: this.cfs.conta.conta_pagamento2, disabled: true}],
-        conta_local_id: [{value: this.cfs.conta.conta_local_id, disabled: true}],
-        conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}],
-        conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
-        conta_paga2: [{value: this.cfs.conta.conta_paga2, disabled: true}],
-        conta_tipo: [{value: this.cfs.conta.conta_tipo, disabled: true}],
-        conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: true}],
-        conta_observacao: [{value: this.cfs.conta.conta_observacao, disabled: true}],
+        conta_paga: [this.cfs.conta.conta_paga, Validators.required],
+        conta_pagamento: [this.cfs.conta.conta_pagamento2],
+        conta_local_id: [this.cfs.conta.conta_local_id],
+        conta_rptdia: [this.cfs.conta.conta_rptdia],
+        conta_parcelas: [this.cfs.conta.conta_parcelas],
+        conta_paga2: [this.cfs.conta.conta_paga2],
+        conta_tipo: [this.cfs.conta.conta_tipo],
+        conta_agenda: [(this.cfs.conta.conta_agenda === 1)],
+        todos_usuarios_sn: [true],
+        usuario_id: [this.usuario_id],
+        conta_observacao: [this.cfs.conta.conta_observacao]
       });
       this.dtpgtoInvalido = true;
     }
     if (this.acao === 'alterar') {
       this.formConta = this.formBuilder.group({
-        conta_cedente: [this.cfs.conta.conta_cedente, Validators.required],
+        conta_cedente: [this.cfs.conta.conta_cedente, [Validators.required, Validators.minLength(2)]],
         conta_valor: [this.cfs.conta.conta_valor, Validators.required],
         conta_vencimento: [this.cfs.conta.conta_vencimento2, Validators.required],
         conta_local_id: [this.cfs.conta.conta_local_id],
@@ -153,18 +169,20 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         conta_pagamento: [this.cfs.conta.conta_pagamento2],
         conta_rptdia: [{value: this.cfs.conta.conta_rptdia, disabled: true}],
         conta_parcelas: [{value: this.cfs.conta.conta_parcelas, disabled: true}],
+        todos_usuarios_sn: [false],
+        usuario_id: [this.usuario_id],
         conta_agenda: [{value: (this.cfs.conta.conta_agenda === 1), disabled: !this.agendaSN}]
       });
 
       if (this.ctaPaga === 2) {
         this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_vencimento2);
-        this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
+        // this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
       }
       if (this.ctaPaga === 1) {
         this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
-        if (this.formConta.get('conta_pagamento').disabled) {
+        /*if (this.formConta.get('conta_pagamento').disabled) {
           this.formConta.get('conta_pagamento').enable({onlySelf: true, emitEvent: true});
-        }
+        }*/
       }
       if (this.ctaPaga === 0) {
         this.formConta.get('conta_pagamento').setValue(null);
@@ -199,44 +217,24 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   repetirVencimento(ev) {
     this.rptd = ev.value > 0;
-    if (this.acao === 'alterar') {
-      this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
-    }
-    if ((this.acao === 'incluir' || this.acao === 'incluir2') && this.rptd) {
-      this.formConta.get('conta_parcelas').enable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_tipo').enable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_paga2').enable({onlySelf: true, emitEvent: true});
-    }
-    if ((this.acao === 'incluir' || this.acao === 'incluir2') && !this.rptd) {
-      this.formConta.get('conta_parcelas').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 2);
-      this.formConta.get('conta_parcelas').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_tipo').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
-      this.formConta.get('conta_tipo').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_paga2').setValue(this.rptd ? this.cfs.conta.conta_parcelas : 0);
-      this.formConta.get('conta_paga2').disable({onlySelf: true, emitEvent: true});
-    }
+      this.formConta.get('conta_parcelas').setValue(this.rptd ? 2 : null);
+      this.formConta.get('conta_tipo').setValue(0);
+      this.formConta.get('conta_paga2').setValue(+this.formConta.get('conta_paga').value);
   }
 
   onCtaPaga(ev) {
     this.ctaPaga = +ev.value;
     if (this.ctaPaga === 2) {
       this.formConta.get('conta_pagamento').addValidators(Validators.required);
-      this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: false, emitEvent: true, emitModelToViewChange: true});
-      this.formConta.get('conta_pagamento').disable({onlySelf: false, emitEvent: true});
+      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
     }
     if (this.ctaPaga === 1) {
       this.formConta.get('conta_pagamento').addValidators(Validators.required);
-      if (this.formConta.get('conta_pagamento').value === undefined || this.formConta.get('conta_pagamento').value === null) {
-        this.formConta.get('conta_pagamento').enable({onlySelf: false, emitEvent: true});
-      } else {
-        this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: false, emitEvent: true, emitModelToViewChange: true});
-        this.formConta.get('conta_pagamento').enable({onlySelf: false, emitEvent: true});
-      }
+      this.formConta.get('conta_pagamento').setValue(this.cfs.conta.conta_pagamento2);
     }
     if (this.ctaPaga === 0) {
       this.formConta.get('conta_pagamento').removeValidators(Validators.required);
-      this.formConta.get('conta_pagamento').setValue(null, {onlySelf: false, emitEvent: true, emitModelToViewChange: true});
-      this.formConta.get('conta_pagamento').disable({onlySelf: false, emitEvent: true});
+      this.formConta.get('conta_pagamento').setValue(null);
     }
     this.validaPagamento();
   }
@@ -266,13 +264,15 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         this.verificaValidacoesForm(controle);
       }
       if (!controle.valid) {
+        /*console.log('campo',campo);
         if (controle.disabled) {
           if (campo !== 'conta_paga2'&& campo !== 'conta_tipo' && campo !== 'conta_pagamento' && campo !== 'conta_rptdia' && campo !== 'conta_parcelas') {
             ct++;
           }
         } else {
           ct++;
-        }
+        }*/
+        ct++;
       }
       ct2++;
     });
@@ -295,7 +295,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('onSubmit');
+    console.log('onSubmit', this.ct.busca );
     this.mostraForm = true;
     this.botaoEnviarVF = true;
     if (this.verificaValidacoesForm(this.formConta)) {
@@ -318,24 +318,16 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.formConta.reset();
+    this.carregaDados();
     this.rptd = false;
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
-      console.log('reset',0);
-      this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-      this.formConta.get('conta_paga').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_pagamento').setValue(null, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-      this.formConta.get('conta_pagamento').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_local_id').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_rptdia').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_agenda').disable({onlySelf: true, emitEvent: true});
-      this.formConta.get('conta_observacao').disable({onlySelf: true, emitEvent: true});
-
+      this.showIncluir = false;
     }
     this.criaForm();
     this.mostraForm = false;
     this.botaoEnviarVF = false;
-    // this.formConta.reset();
-
+    this.tt = 0;
+    this.cta = {};
   }
 
   criaEnvio() {
@@ -376,10 +368,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       }*/
 
       if (t.conta_vencimento !== this.cfs.conta.conta_vencimento2) {
-        if (t.conta_vencimento === null && +t.conta_paga > 0) {
+        if (t.conta_vencimento === null) {
           return false;
         }
-          cta.conta_vencimento = (t.conta_vencimento !== null) ? DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate() : null;
+        cta.conta_vencimento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
         this.tt++;
       }
 
@@ -397,46 +389,28 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           this.tt++;
         }
         if (+t.conta_paga === 2) {
-          if (t.conta_pagamento === null || t.conta_vencimento === null) {
+          if (t.conta_pagamento === null && t.conta_vencimento === null) {
             return false;
           }
-          cta.conta_pagamento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
+          if (t.conta_pagamento === null) {
+            t.conta_pagamento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
+          } else {
+            cta.conta_pagamento = DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate();
+          }
           this.tt++;
         }
         this.tt++;
       }
 
-      if (t.conta_pagamento !== this.cfs.conta.conta_pagamento2) {
+      if (t.conta_pagamento !== this.cfs.conta.conta_pagamento2 && +t.conta_paga === +this.cfs.conta.conta_paga) {
         cta.conta_pagamento = (t.conta_pagamento !== null) ? DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate() : null;
         this.tt++;
       }
-
-
-
-      /*if (+t.conta_debito_automatico !== +this.cfs.conta.conta_debito_automatico) {
-        cta.conta_debito_automatico = +t.conta_debito_automatico;
-        this.tt++;
-      }*/
 
       if (this.agendaSN && +t.conta_agenda === 1) {
         cta.conta_agenda = +t.conta_agenda;
         this.tt++;
       }
-
-      /*if (+t.conta_parcelas !== +this.cfs.conta.conta_parcelas) {
-        cta.conta_parcelas = +t.conta_parcelas;
-        this.tt++;
-      }*/
-
-      /*if (+t.conta_rptdia !== +this.cfs.conta.conta_rptdia) {
-        cta.conta_rptdia = +t.conta_rptdia;
-        this.tt++;
-      }*/
-
-      /*if (!this.rptd && +t.conta_agenda !== null) {
-        cta.conta_agenda = +t.conta_agenda;
-        this.tt++;
-      }*/
 
       if (t.conta_observacao !== this.cfs.conta.conta_observacao) {
         cta.conta_observacao = this.formConta.get('conta_observacao').value;
@@ -454,16 +428,22 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       if (t.conta_vencimento !== null) {
         cta.conta_vencimento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
         this.tt++;
+      } else {
+        return false;
       }
 
       if (t.conta_cedente.toUpperCase() !== null) {
         cta.conta_cedente = t.conta_cedente.toUpperCase();
         this.tt++;
+      } else {
+        return false;
       }
 
       if (t.conta_valor !== null) {
         cta.conta_valor = t.conta_valor;
         this.tt++;
+      } else {
+        return false;
       }
 
       if (+t.conta_local_id !== null) {
@@ -489,9 +469,11 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           }
         }
         if (+t.conta_paga === 2) {
-          if (t.conta_vencimento !== null) {
-            cta.conta_pagamento = t.conta_vencimento;
+          if (t.conta_pagamento === null) {
+            cta.conta_pagamento = DateTime.fromJSDate(t.conta_vencimento).setZone('America/Sao_Paulo').toSQLDate();
             this.tt++;
+          } else {
+            cta.conta_pagamento = DateTime.fromJSDate(t.conta_pagamento).setZone('America/Sao_Paulo').toSQLDate();
           }
         }
         if (+t.conta_paga === 0) {
@@ -507,7 +489,17 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       }*/
 
       if (+t.conta_agenda !== null) {
-        cta.conta_agenda = +t.conta_agenda;
+        if (t.conta_agenda) {
+          cta.conta_agenda = 1;
+          if (t.todos_usuarios_sn) {
+            cta.todos_usuarios_sn = 1
+          } else {
+            cta.todos_usuarios_sn = 0;
+            cta.usuario_id = t.usuario_id;
+          }
+        } else {
+          cta.conta_agenda = 0;
+        }
         this.tt++;
       }
 
@@ -546,7 +538,9 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     if (vf) {
       this.cta = cta;
     }
-    return vf;
+    console.log('criaEnvio', cta);
+    return false;
+    // return vf;
   }
 
   incluir() {
@@ -561,6 +555,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           this.botaoEnviarVF = false;
           this.mostraForm = false;
           this.arquivoDesativado = false;
+          this.tt = 0;
+          this.cta = {};
           this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
           console.error(err);
         },
@@ -577,7 +573,9 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
                 detail: this.resp[2]
               });
               if (this.acao === 'incluir2') {
-                //this.ct.contas.push()
+                this.ct.contaBusca();
+              } else {
+                this.mi.showMenuInterno();
               }
               this.voltarListar();
             }
@@ -585,6 +583,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
             this.botaoEnviarVF = false;
             this.mostraForm = false;
             this.arquivoDesativado = false;
+            this.tt = 0;
+            this.cta = {};
             console.error('ERRO - INCLUIR ', this.resp[2]);
             this.ms.add({
               key: 'toastprincipal',
@@ -608,7 +608,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
           error: (err) => {
             this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO ALTERAR', detail: this.resp[2]});
             console.error(err);
+            this.botaoEnviarVF = false;
             this.mostraForm = false;
+            this.tt = 0;
+            this.cta = {};
           },
           complete: () => {
             if (this.resp[0]) {
@@ -635,7 +638,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
               });
               this.voltarListar();
             } else {
-              this.mostraForm = false;
+              this.botaoEnviarVF = false;
+              this.mostraForm = false;;
+              this.tt = 0;
+              this.cta = {};
               console.error('ERRO - ALTERAR ', this.resp[2]);
               this.ms.add({key: 'toastprincipal',
                 severity: 'warn',
@@ -656,8 +662,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.cfs.resetConta();
     this.formConta.reset();
     this.cta = {};
-
-    // this.contaListarChange.emit(this.cfs.contaListar);
+    this.cfs.resetTudo();
     this.ct.showForm = false;
   }
 
@@ -679,7 +684,10 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
         detail: this.resp[2]
       });
       this.resetForm();
-      // this.botaoEnviarVF = false;
+      this.botaoEnviarVF = false;
+      this.mostraForm = false;
+      this.tt = 0;
+      this.cta = {};
       this.voltarListar();
     }
   }
@@ -704,19 +712,21 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
       if (cp === 'conta_vencimento' && this.formConta.get('conta_vencimento').valid) {
         this.conta_vencimento = this.formConta.get('conta_vencimento').value;
-        this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+        // this.formConta.get('conta_pagamento').setValue(this.formConta.get('conta_vencimento').value, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
       }
       if (this.formConta.get('conta_cedente').valid && this.formConta.get('conta_vencimento').valid && this.formConta.get('conta_valor').valid) {
-        this.conta_vencimento = this.formConta.get('conta_vencimento').value;this.formConta.get('conta_pagamento').setValue(null, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-        this.formConta.get('conta_paga').enable({onlySelf: true, emitEvent: true});
-        this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
-        this.formConta.get('conta_paga').markAsDirty();
-        this.validaPagamento();
-        this.formConta.get('conta_local_id').enable({onlySelf: true, emitEvent: true});
+        this.conta_vencimento = this.formConta.get('conta_vencimento').value;
+        this.formConta.get('conta_pagamento').setValue(null, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+        // this.formConta.get('conta_paga').enable({onlySelf: true, emitEvent: true});
+        // this.formConta.get('conta_paga').setValue(0, {onlySelf: true, emitEvent: true, emitModelToViewChange: true});
+        // this.formConta.get('conta_paga').markAsDirty();
+        this.showIncluir = true;
+        /*this.formConta.get('conta_local_id').enable({onlySelf: true, emitEvent: true});
         this.formConta.get('conta_rptdia').enable({onlySelf: true, emitEvent: true});
         this.formConta.get('conta_agenda').enable({onlySelf: true, emitEvent: true});
-        this.formConta.get('conta_observacao').enable({onlySelf: true, emitEvent: true});
+        this.formConta.get('conta_observacao').enable({onlySelf: true, emitEvent: true});*/
       }
+      // this.showIncluir = true
     }
     if (this.acao === 'alterar') {
       this.validaPagamento();
@@ -726,7 +736,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   validaPagamento(): boolean {
     if (this.ctaPaga === 2) {
-      if(this.formConta.get('conta_vencimento').invalid || this.formConta.get('conta_vencimento').value !== this.formConta.get('conta_pagamento').value) {
+      if(this.formConta.get('conta_vencimento').invalid || ((this.formConta.get('conta_pagamento').value === undefined || this.formConta.get('conta_pagamento').value === null) && this.formConta.get('conta_pagamento').dirty)) {
         this.dtpgtoInvalido = true;
         return true;
       }
@@ -745,6 +755,90 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     }
     this.dtpgtoInvalido = false;
     return false;
+  }
+
+  getUsuarioDD() {
+    if (this.ddUsuario_id.length === 0) {
+      if (sessionStorage.getItem('dropdown-usuario')) {
+        this.ddUsuario_id = JSON.parse(sessionStorage.getItem('dropdown-usuario'));
+        return this.ddUsuario_id;
+      } else {
+        this.sub.push(this.dd.getDd(['dropdown-usuario'])
+          .pipe(take(1))
+          .subscribe({
+            next: (dados) => {
+              sessionStorage.setItem('dropdown-usuario', JSON.stringify(dados['dropdown-usuario']));
+            },
+            error: (err) => {
+              console.error(err);
+            },
+            complete: () => {
+              this.ddUsuario_id = JSON.parse(sessionStorage.getItem('dropdown-usuario'));
+              return this.ddUsuario_id;
+            }
+          })
+        );
+      }
+    } else {
+      return this.ddUsuario_id;
+    }
+  }
+
+  agendaOnChange(ev) {
+    this.usuario_id = [];
+    if (this.formConta.get('usuario_id').hasValidator(Validators.required)) {
+      this.formConta.get('usuario_id').removeValidators([Validators.required, Validators.minLength(1)]);
+    }
+    this.formConta.get('usuario_id').setValue(this.usuario_id);
+    this.formConta.get('todos_usuarios_sn').setValue(ev.checked);
+    this.todos_usuarios_sn = ev.checked;
+    this.agendaVF = ev.checked;
+    console.log('agenda', ev, this.agendaSN);
+  }
+
+  todosUsuariosOnChange(ev: boolean) {
+    console.log('eee',ev);
+    if(!ev) {
+      this.usuario_id.push(this.aut.usuario_id);
+      this.formConta.get('usuario_id').setValue(this.usuario_id);
+      this.formConta.get('usuario_id').addValidators([Validators.required, Validators.minLength(1)]);
+      this.todos_usuarios_sn = ev;
+    } else {
+      this.usuario_id = [];
+      if (this.formConta.get('usuario_id').hasValidator(Validators.required)) {
+        this.formConta.get('usuario_id').removeValidators([Validators.required, Validators.minLength(1)]);
+      }
+      this.formConta.get('usuario_id').setValue(this.usuario_id);
+      this.todos_usuarios_sn = ev;
+      // this.usuario_id = null;
+    }
+    console.log('usuario_id',this.formConta.get('usuario_id').value);
+    /*this.todos_usuarios_sn = ev.checked;
+    console.log('todos_usuarios_sn', this.todos_usuarios_sn);
+    if (this.todos_usuarios_sn) {
+      if (this.acao === 'incluir') {
+
+      }
+    }*/
+    console.log('ckbox ', ev, this.todos_usuarios_sn);
+  }
+
+  onUsuarioIdChange(ev) {
+    if (ev.value.length === this.ddUsuario_id.length || ev.value.length === 0) {
+      this.usuario_id = [];
+      this.formConta.get('usuario_id').setValue(this.usuario_id);
+      this.formConta.get('todos_usuarios_sn').setValue(true);
+      this.todos_usuarios_sn = true;
+    }
+    console.log('usuario_id',this.formConta.get('usuario_id').value);
+  }
+
+  ddUsuario(): SelectItem[] {
+    if (this.ddUsuario_id.length === 0) {
+      return this.getUsuarioDD();
+    } else {
+      return this.ddUsuario_id;
+    }
   }
 
   /*onCtaPagto(ev) {

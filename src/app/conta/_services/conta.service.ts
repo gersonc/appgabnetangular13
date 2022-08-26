@@ -50,6 +50,18 @@ export class ContaService {
   rowsPerPageOptions = [50];
   formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
+  excelColumns = [
+    { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
+    { field: 'conta_vencimento3', header: 'DT. VENC.', sortable: 'true', width: '150px'},
+    { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '150px'},
+    { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '100px'},
+    { field: 'conta_pagamento3', header: 'DT. PGTO.', sortable: 'true', width: '150px'},
+    { field: 'conta_tipo', header: 'TIPO', sortable: 'true', width: '100px'},
+    { field: 'conta_observacao', header: 'OBSERVAÇÃO', sortable: 'false', width: '500px'},
+    { field: 'conta_local_nome', header: 'NÚCLEO', sortable: 'true', width: '200px'}
+  ];
+
+
   // tl: ContaI | undefined;
   // expandidoDados: any = false;
 
@@ -321,10 +333,11 @@ export class ContaService {
 
   exportToXLSX(td: number = 1) {
     if (td === 3) {
-      if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      //if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
         let busca: ContaBuscaI = this.busca;
         busca.rows = undefined;
-        busca.campos = this.tabela.selectedColumns;
+        // busca.campos = this.tabela.selectedColumns;
+        busca.campos = this.excelColumns;
         busca.todos = true;
         busca.first = undefined;
         busca.excel = true;
@@ -338,18 +351,20 @@ export class ContaService {
               console.error('ERRO-->', err);
             },
             complete: () => {
-              ExcelService.criaExcelFile('conta', limpaCampoTexto(contacampostexto, contaRelatorio.contas), this.tabela.selectedColumns);
+              ExcelService.criaExcelFile('conta', limpaCampoTexto(contacampostexto, contaRelatorio.contas), this.excelColumns);
             }
           })
         );
-      }
+      //}
     }
     if (this.contas.length > 0 && td === 2) {
-      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.contas), this.tabela.selectedColumns);
+      // ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.contas), this.tabela.selectedColumns);
+      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.excelColumns,this.tabela.camposTexto,this.contas), this.excelColumns);
       return true;
     }
     if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
-      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
+      // ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.tabela.selectedColumns,this.tabela.camposTexto,this.selecionados), this.tabela.selectedColumns);
+      ExcelService.criaExcelFile('conta', limpaTabelaCampoTexto(this.excelColumns,this.tabela.camposTexto,this.selecionados), this.excelColumns);
       return true;
     }
   }
@@ -387,8 +402,8 @@ export class ContaService {
   contaBusca(): void {
 
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
-      this.tabela.sortField = (this.tabela.sortField === 'conta_vencimento') ? 'conta_vencimento3' : this.tabela.sortField;
-      this.tabela.sortField = (this.tabela.sortField === 'conta_pagamento') ? 'conta_pagamento3' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === 'conta_vencimento') ? 'conta_vencimento3' : (this.tabela.sortField === 'conta_pagamento') ? 'conta_pagamento3' : this.tabela.sortField;
+      // this.tabela.sortField = (this.tabela.sortField === 'conta_pagamento') ? 'conta_pagamento3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.contas;
