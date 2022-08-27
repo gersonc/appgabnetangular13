@@ -21,6 +21,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() modelo = 'detalhe'; // Onde irá aparecer (Formilário, Detalhe etc.
   @Input() buscaArquivos: boolean = true;
   @Output() onBlockSubmit = new EventEmitter<boolean>();
+  @Output() onApagar = new EventEmitter<ArquivoInterface>();
 
 
   private baixar = false;
@@ -125,6 +126,8 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
     this.as.deleteArquivo(arq)
       .pipe(take(1))
       .subscribe( () => {
+        this.arquivos = this.arquivos.filter(val => val.arquivo_id !== arq.arquivo_id);
+        this.onApagar.emit(arq);
         this.onBlockSubmit.emit(false);
         }
       );

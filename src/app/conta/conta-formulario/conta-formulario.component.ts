@@ -16,6 +16,7 @@ import {of, Subscription} from "rxjs";
 import {MsgService} from "../../_services/msg.service";
 import {DateTime} from "luxon";
 import {ContaDropdown} from "../_models/conta-dropdown";
+import {ArquivoInterface} from "../../arquivo/_models";
 
 @Component({
   selector: 'app-conta-formulario',
@@ -98,7 +99,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     private ms: MsgService,
     public aut: AuthenticationService,
     private autocompleteservice: AutocompleteService,
-    private ct: ContaService,
+    public ct: ContaService,
     public cfs: ContaFormService
   ) {
     this.getUsuarioDD();
@@ -770,5 +771,4 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     this.cfs.resetConta();
     this.formConta.reset();
   }
-
 }

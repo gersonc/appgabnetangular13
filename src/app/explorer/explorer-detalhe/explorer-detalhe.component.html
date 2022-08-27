@@ -1,13 +1,20 @@
 
 <ng-container #arq *ngIf="arquivo">
-  <div *ngIf="alt.arquivos_baixar" class="p-d-print-none explorer-arquivo" #arq>
-    <a href="{{arquivo.arquivo_url_s3}}" class="explorer-detalhe">
+  <div *ngIf="alt.arquivos_baixar && imgSN" class="p-d-print-none explorer-arquivo" #arq (click)="showDialog()">
+    <div id="tst2" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}">
+    </div>
+    <div class="explorer-file-text">
+      {{arquivo.arquivo_nome_original}}
+    </div>
+  </div>
+  <div *ngIf="alt.arquivos_baixar && !imgSN" class="p-d-print-none explorer-arquivo" #arq (click)="download()">
+    <!--<a href="{{arquivo.arquivo_url_s3}}" class="explorer-detalhe">-->
     <div id="tst" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}">
     </div>
     <div class="explorer-file-text">
       {{arquivo.arquivo_nome_original}}
     </div>
-    </a>
+    <!--</a>-->
   </div>
   <div *ngIf="!alt.arquivos_baixar" class="p-d-print-none explorer-arquivo" #arq>
     <div class="explorer-detalhe"  pTooltip="SEM PERMISSÃO.">
@@ -25,6 +32,15 @@
   </div>
 
 
+
+
+
+  <!--<p-overlayPanel #op [showCloseIcon]="true" [dismissable]="true" [showCloseIcon]="true" [style]="{width: '450px'}">
+    <ng-template pTemplate>
+      <img src="{{arquivo.arquivo_url_s3}}" alt="{{arquivo.arquivo_nome_original}}">
+    </ng-template>
+  </p-overlayPanel>-->
+
     <!--<div expdetalhe imagem><img alt="logo" [src]="urlbackGround" class="expdetalhe"/></div>
     <div class="expdetalhe texto">{{arquivo.arquivo_nome_original}}</div>-->
 
@@ -32,4 +48,19 @@
 </ng-container>
 
 
-
+<ng-container *ngIf="display">
+  <p-dialog *ngIf="alt.arquivos_baixar && imgSN"
+            [(visible)]="display"
+            [modal]="true"
+            [draggable]="true"
+            [resizable]="true"
+            [maximizable]="true"
+            [dismissableMask]="true"
+            [styleClass]="'imgviewer tablistagem'"
+  >
+    <ng-template pTemplate="header">
+      <i class="dowloadIcon pi pi-download" style="font-size: 1rem" (click)="download()"></i>
+    </ng-template>
+    <img src="{{arquivo.arquivo_url_s3}}" alt="{{arquivo.arquivo_nome_original}}" *ngIf="alt.arquivos_baixar && imgSN">
+  </p-dialog>
+</ng-container>

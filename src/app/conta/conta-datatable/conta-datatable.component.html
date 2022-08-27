@@ -363,9 +363,12 @@
                 </div>
               </div>
               <div
-                *ngIf="cta.conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)"
+                *ngIf="ct.contas[indice].conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)"
                 class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                <app-detalhe-explorer [arquivos]="cta.conta_arquivos"></app-detalhe-explorer>
+                <div class="registros p-shadow-1">
+                  <h5 style="padding-left: 2rem;">Arquivos</h5>
+                  <app-detalhe-explorer [arquivos]="ct.contas[indice].conta_arquivos"></app-detalhe-explorer>
+                </div>
               </div>
             </div>
 

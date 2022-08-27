@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ContaFormI, ContaI} from "../_models/conta-i";
+import {ArquivoInterface} from "../../arquivo/_models";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ContaFormService {
   showForm = false;
   idx = 0;
   menu = false;
+
 
   constructor() { }
 

@@ -23,13 +23,14 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() stiloClass: string = null;
   @Input() modelo: string; // 'incluir', 'alterar', 'exibir',Onde irá aparecer (Formilário, Detalhe etc.
   @Input() clearArquivos = false;
-  @Output() arquivosChange = new EventEmitter<ArquivoInterface[]>();
+  @Output() arqsChange = new EventEmitter<ArquivoInterface[]>();
   @Output() onBlockSubmit = new EventEmitter<boolean>();
   @Output() onUpload = new EventEmitter<boolean>();
   @Output() onPossuiArquivos = new EventEmitter<boolean>();
   @Output() onProgress = new EventEmitter<number>();
   @Output() onInicioEnvio = new EventEmitter();
   @Output() onArquivosGravados = new EventEmitter<ArquivoInterface[]>()
+  @Output() onApagar = new EventEmitter<ArquivoInterface>();
 
   public listaArquivos = false;
   public showCancelButton = true;
@@ -269,8 +270,17 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
     this.onInicioEnvio.emit();
   }
 
+  onApagarAux(arq: ArquivoInterface) {
+    let arqs = this.arqs.filter(val => val.arquivo_id !== arq.arquivo_id);
+    this.arqsChange.emit(arqs);
+    this.onApagar.emit(arq);
+  }
+
   onGravados(ev: ArquivoInterface[]) {
     console.log('onGravados', ev);
+    let arqs = this.arqs;
+    arqs.push(...ev);
+    this.arqsChange.emit(arqs);
     this.onArquivosGravados.emit(ev);
   }
 

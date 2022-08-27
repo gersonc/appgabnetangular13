@@ -17858,58 +17858,6 @@ p-toast.toastprincipal {
   color: var(--primary-color);
 }
 
-/*
-.tablistagem.p-dialog {
-  position: fixed;
-  !*bottom: 5rem;*!
-  top: 5rem;
-}
-
-.tablistagem.p-dialog {
-  max-height: calc(100vh - 10rem) !important;
-  width: calc(21cm + 1em);
-  !*min-width: 400px;*!
-  background: var(--formulario-bg-externo-color);
-  margin-top: 0 !important;
-  margin-right: 0.75rem;
-  margin-bottom: 0.75rem;
-  margin-left: 0.75rem;
-}
-
-
-
-.tablistagem.p-dialog .p-dialog-content {
-  margin: .5em;
-  padding: .5rem;
-  border: 1px solid var(--formulario-bg-interno-color);
-  border-radius: 1em;
-  background: var(--formulario-bg-interno-color);
-  color: var(--text-color);
-}
-
-.tablistagem.p-dialog .p-dialog-footer {
-  text-align: left;
-  padding: .3em;
-  background-color: var(--formulario-bg-externo-color) !important;
-}
-
-.tablistagem .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
-  color: var(--text-color-secondary);
-  border-color: transparent;
-  background: transparent;
-}
-
-.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: var(--bt-secundario-box-shadow-focus);
-}
-
-.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
-  margin-right: 0;
-}*/
-
-
 .tablistagem.atencao.p-dialog .p-dialog-header .p-dialog-header-icon {
   width: 2rem;
   height: 2rem;
@@ -17941,12 +17889,48 @@ p-toast.toastprincipal {
   background-color: var(--formulario-bg-externo-color) !important;
 }
 
-/*.tablistagem.atencao.p-dialog {
-  max-height: calc(100vh - 10rem) !important;
-  width: calc(21cm + 1em);
-  background: var(--danger);
+.imgviewer.tablistagem.p-dialog {
+  position: unset;
+}
+
+.imgviewer.tablistagem.p-dialog {
+  max-height: 100vh !important;
+  max-width: 100vw !important;
+  min-width: 10vw !important;
+  width: unset;
+  height: auto;
+  background: var(--formulario-bg-externo-color);
   margin-top: 0 !important;
   margin-right: 0.75rem;
   margin-bottom: 0.75rem;
   margin-left: 0.75rem;
-}*/
+}
+
+
+.imgviewer.tablistagem.p-dialog .p-dialog-header {
+  text-align: right;
+}
+
+.imgviewer.tablistagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain ;
+}
+
+.dowloadIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--text-color);
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: box-shadow 0.15s;
+  margin-right: 0.5rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.dowloadIcon:hover {
+  cursor: pointer;
+}

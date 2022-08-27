@@ -21,7 +21,7 @@
       formControlName="conta_tipo"
     >
     <input
-      *ngIf="acao!=='incluir' || !rptd || !showIncluir"
+      *ngIf="acao==='incluir' && (!rptd || !showIncluir)"
       type="hidden"
       formControlName="conta_paga2"
     >
@@ -36,12 +36,12 @@
       formControlName="conta_rptdia"
     >
     <input
-      *ngIf="acao!=='incluir' || !agendaVF"
+      *ngIf="!agendaVF"
       type="hidden"
       formControlName="todos_usuarios_sn"
     >
     <input
-      *ngIf="acao!=='incluir' || todos_usuarios_sn || !agendaVF"
+      *ngIf="todos_usuarios_sn || !agendaVF"
       type="hidden"
       formControlName="usuario_id"
     >
@@ -234,8 +234,8 @@
                 </div>
 
                 <!-- USUARIOS  ******************************************************************* -->
-                <div *ngIf="acao!=='incluir' || !agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"> </div>
-                <div *ngIf="acao==='incluir' && agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="!agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"> </div>
+                <div *ngIf="agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
                   <h5>Todos usuários</h5>
                   <p-inputSwitch
                     #usersn
@@ -318,7 +318,7 @@
                         <app-arquivo *ngIf="acao === 'alterar'"
                                      [modulo]="'conta'"
                                      [uploadDisabled]="arquivoDesativado"
-                                     [arqs]="cfs.contaListar.conta_arquivos"
+                                     [(arqs)]="ct.contas[cfs.idx].conta_arquivos"
                                      [registro_id]="cfs.conta.conta_id"
                                      (onPossuiArquivos)="onPossuiArquivos($event)"
                                      [modelo]="'alterar'"

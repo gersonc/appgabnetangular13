@@ -286,6 +286,10 @@ export class ArquivoService {
 
   }
 
+  detalheDownload(nome: string, url: string) {
+
+  }
+
 
 
   public atualisaCotaUpload(valor: number) {
