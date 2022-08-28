@@ -1,29 +1,29 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs";
-import {ContaDropdownMenuService} from "./_services/conta-dropdown-menu.service";
-import {ArquivoService} from "../arquivo/_services";
-import {ContaService} from "./_services/conta.service";
 import {MenuInternoService} from "../_services";
+import {ArquivoService} from "../arquivo/_services";
+import {TarefaDropdownService} from "./_services/tarefa-dropdown.service";
+import {TarefaService} from "./_services/tarefa.service";
 
 @Component({
-  selector: 'app-conta',
-  templateUrl: './conta.component.html',
-  styleUrls: ['./conta.component.css']
+  selector: 'app-tarefa',
+  templateUrl: './tarefa.component.html',
+  styleUrls: ['./tarefa.component.css']
 })
-export class ContaComponent implements OnInit, OnDestroy {
+export class TarefaComponent implements OnInit {
   public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
   sub: Subscription[] = [];
 
   constructor(
     public mi: MenuInternoService,
-    private cdd: ContaDropdownMenuService,
-    private ct: ContaService,
     private as: ArquivoService,
+    private tdd: TarefaDropdownService,
+    public ts: TarefaService,
   ) { }
 
-  ngOnInit() {
-    this.ct.criaTabela();
+  ngOnInit(): void {
+    this.ts.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
@@ -33,7 +33,7 @@ export class ContaComponent implements OnInit, OnDestroy {
     if (!sessionStorage.getItem('conta-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
-      if (this.ct.stateSN) {
+      if (this.ts.stateSN) {
         this.mi.mudaMenuInterno(false);
       } else {
         this.mi.mudaMenuInterno(true);
@@ -42,9 +42,7 @@ export class ContaComponent implements OnInit, OnDestroy {
   }
 
   verificaDD() {
-    if(!sessionStorage.getItem('dropdown-conta') || !sessionStorage.getItem('dropdown-local')) {
-      this.cdd.getDropdownMenu();
-    }
+    this.tdd.dropDown();
   }
 
   onHide() {
@@ -52,7 +50,8 @@ export class ContaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ct.onDestroy();
+    this.ts.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }
+
 }

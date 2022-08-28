@@ -19,7 +19,6 @@ export class ContaDropdownMenuService {
   ) {
   }
 
-
   getDropdownMenu() {
     this.inicio = true;
     this.dds = [];
@@ -31,7 +30,6 @@ export class ContaDropdownMenuService {
     if (!sessionStorage.getItem('dropdown-conta')) {
       this.dds.push('dropdown-conta');
     }
-
 
     if (this.dds.length > 0) {
       this.sub.push(this.dd.getDd(this.dds)
@@ -52,7 +50,6 @@ export class ContaDropdownMenuService {
     }
   }
 
-
   gravaDropDown() {
     if (!sessionStorage.getItem('dropdown-local') || !sessionStorage.getItem('dropdown-conta')) {
       if (!this.inicio) {
@@ -68,7 +65,4 @@ export class ContaDropdownMenuService {
       this.resp.complete();
     }
   }
-
-
-
 }
