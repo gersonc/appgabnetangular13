@@ -106,7 +106,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('aut.arquivos', this.aut.arquivos);
     this.index = this.ct.idx;
     this.acao = this.cfs.acao;
     if (this.acao === 'incluir' || this.acao === 'incluir2') {
@@ -508,7 +507,6 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          console.log(dados);
           this.resp = dados;
         },
         error: (err) => {

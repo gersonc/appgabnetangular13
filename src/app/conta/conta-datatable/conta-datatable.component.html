@@ -418,7 +418,7 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-conta-detalhe></app-conta-detalhe>
+    <app-conta-detalhe [conta]="contaDetalhe" (hideDetalhe)="escondeDetalhe()"></app-conta-detalhe>
   </p-dialog>
 </ng-container>
 

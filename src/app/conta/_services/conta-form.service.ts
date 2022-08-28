@@ -68,7 +68,6 @@ export class ContaFormService {
     r.conta_agenda = (t.conta_agenda === undefined || t.conta_agenda === null) ? 0 : t.conta_agenda;
     r.conta_calendario_id = t.conta_calendario_id
     this.conta = r;
-    console.log('parceContaForm', r, this.conta);
     return r
   }
 

@@ -211,7 +211,6 @@ export class ExplorerDownloadService {
 
   getClassNameForExtension(name: string): string {
     name = name.toLowerCase();
-    // @ts-ignore
     const ic = this.extensions[name.slice(name.lastIndexOf('.') + 1)] || this.icons.file;
     return '/assets/img/icones/' + ic.toLowerCase() + '.png';
   }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
-
 import { UtilModule } from '../util/util.module';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -30,21 +29,21 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { RadioButtonModule } from 'primeng/radiobutton';
-
 import { ArquivoModule } from '../arquivo/arquivo.module';
 import { ContaRoutingModule } from './conta-routing.module';
 import { ContaComponent } from './conta.component';
 import { ContaMenuListarComponent } from './conta-menu-listar/conta-menu-listar.component';
 import { ContaDatatableComponent } from './conta-datatable/conta-datatable.component';
 import { ContaFormularioComponent } from './conta-formulario/conta-formulario.component';
-import {RippleModule} from "primeng/ripple";
-import {QuillModule} from "ngx-quill";
+import { RippleModule } from "primeng/ripple";
+import { QuillModule } from "ngx-quill";
 import { ContaDetalheComponent } from './conta-detalhe/conta-detalhe.component';
-import { ContaFormComponent } from './conta-form/conta-form.component';
-import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
-import {ExplorerModule} from "../explorer/explorer.module";
-import {InputNumberModule} from "primeng/inputnumber";
-import {MultiSelectModule} from "primeng/multiselect";
+import { ExporterAcessoModule } from "../shared/exporter-acesso/exporter-acesso.module";
+import { ExplorerModule } from "../explorer/explorer.module";
+import { InputNumberModule } from "primeng/inputnumber";
+import { MultiSelectModule } from "primeng/multiselect";
+import {KillViewModule} from "../shared/kill-view/kill-view.module";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
 
 
 
@@ -54,48 +53,49 @@ import {MultiSelectModule} from "primeng/multiselect";
     ContaMenuListarComponent,
     ContaDatatableComponent,
     ContaFormularioComponent,
-    ContaDetalheComponent,
-    ContaFormComponent,
+    ContaDetalheComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        UtilModule,
-        TableModule,
-        ButtonModule,
-        SidebarModule,
-        AutoCompleteModule,
-        PaginatorModule,
-        DropdownModule,
-        DialogModule,
-        DynamicDialogModule,
-        InputTextModule,
-        ScrollPanelModule,
-        CalendarModule,
-        MenuModule,
-        ListboxModule,
-        InputSwitchModule,
-        ProgressSpinnerModule,
-        ChipsModule,
-        ContextMenuModule,
-        TooltipModule,
-        SelectButtonModule,
-        ToastModule,
-        KeyFilterModule,
-        ConfirmDialogModule,
-        InputTextareaModule,
-        RadioButtonModule,
-        ContaRoutingModule,
-        ArquivoModule,
-        RippleModule,
-        QuillModule,
-        ExporterAcessoModule,
-        ExplorerModule,
-        InputNumberModule,
-        MultiSelectModule,
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    UtilModule,
+    TableModule,
+    ButtonModule,
+    SidebarModule,
+    AutoCompleteModule,
+    PaginatorModule,
+    DropdownModule,
+    DialogModule,
+    DynamicDialogModule,
+    InputTextModule,
+    ScrollPanelModule,
+    CalendarModule,
+    MenuModule,
+    ListboxModule,
+    InputSwitchModule,
+    ProgressSpinnerModule,
+    ChipsModule,
+    ContextMenuModule,
+    TooltipModule,
+    SelectButtonModule,
+    ToastModule,
+    KeyFilterModule,
+    ConfirmDialogModule,
+    InputTextareaModule,
+    RadioButtonModule,
+    ContaRoutingModule,
+    ArquivoModule,
+    RippleModule,
+    QuillModule,
+    ExporterAcessoModule,
+    ExplorerModule,
+    InputNumberModule,
+    MultiSelectModule,
+    KillViewModule,
+    ImpressaoModule,
+  ],
   exports: [
     ContaComponent
   ],

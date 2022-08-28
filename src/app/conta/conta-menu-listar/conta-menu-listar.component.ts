@@ -134,7 +134,6 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
         this.formMenuConta.get('cedente_array').patchValue(ev2);
       }
     }
-    console.log('onAddAssunto2',ev, ev2);
   }
 
   goIncluir() {

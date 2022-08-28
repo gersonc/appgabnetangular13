@@ -8,13 +8,11 @@
     </div>
   </div>
   <div *ngIf="alt.arquivos_baixar && !imgSN" class="p-d-print-none explorer-arquivo" #arq (click)="download()">
-    <!--<a href="{{arquivo.arquivo_url_s3}}" class="explorer-detalhe">-->
     <div id="tst" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}">
     </div>
     <div class="explorer-file-text">
       {{arquivo.arquivo_nome_original}}
     </div>
-    <!--</a>-->
   </div>
   <div *ngIf="!alt.arquivos_baixar" class="p-d-print-none explorer-arquivo" #arq>
     <div class="explorer-detalhe"  pTooltip="SEM PERMISSÃO.">
@@ -30,19 +28,6 @@
       <div class="p-mr-2 p-text-nowrap">{{arquivo.arquivo_nome_original}} - {{readableBytes(arquivo.arquivo_tamanho)}}</div>
     </div>
   </div>
-
-
-
-
-
-  <!--<p-overlayPanel #op [showCloseIcon]="true" [dismissable]="true" [showCloseIcon]="true" [style]="{width: '450px'}">
-    <ng-template pTemplate>
-      <img src="{{arquivo.arquivo_url_s3}}" alt="{{arquivo.arquivo_nome_original}}">
-    </ng-template>
-  </p-overlayPanel>-->
-
-    <!--<div expdetalhe imagem><img alt="logo" [src]="urlbackGround" class="expdetalhe"/></div>
-    <div class="expdetalhe texto">{{arquivo.arquivo_nome_original}}</div>-->
 
 
 </ng-container>

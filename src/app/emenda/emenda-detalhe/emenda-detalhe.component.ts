@@ -9,7 +9,7 @@ import {AuthenticationService} from "../../_services";
   styleUrls: ['./emenda-detalhe.component.css']
 })
 export class EmendaDetalheComponent implements OnInit {
-  @Input() emenda: EmendaListarI
+  @Input() emenda: EmendaListarI;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
   real = Intl.NumberFormat('pt-BR', {

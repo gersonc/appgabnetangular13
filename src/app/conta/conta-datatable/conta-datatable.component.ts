@@ -36,7 +36,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   resp: any[] = [];
 
 
-  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+  formatterBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
   botaoEnviarVF = false;
   btnExpandirVF = true;
@@ -295,9 +295,9 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  contaDetalheCompleto(tel: ContaI) {
+  contaDetalheCompleto(cta: ContaI) {
     this.showDetalhe = true;
-    this.contaDetalhe = tel;
+    this.contaDetalhe = cta;
   }
 
   escondeDetalhe() {
@@ -309,7 +309,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     if (this.aut.contabilidade_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       this.ct.idx = idx;
       this.cfs.acao = 'alterar';
-      console.log('contaAlterar', cta);
       this.cfs.parceContaForm(cta);
       this.ct.showForm = true;
     } else {
@@ -462,7 +461,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         cta.conta_valor2 = +cta.conta_valor;
       }
       const conta: ContaI = cta;
-      console.log(conta);
       if (this.contaEdit.conta_pagamento !== conta.conta_pagamento || +this.contaEdit.conta_paga_id !== +conta.conta_paga_id || +this.contaEdit.conta_valor2 !== +conta.conta_valor) {
         this.sub.push(this.ct.putContaAlterarDatatable(
           conta.conta_id, conta.conta_valor2, conta.conta_paga_id, conta.conta_pagamento2)
