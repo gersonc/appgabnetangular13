@@ -11,6 +11,7 @@ import {AuthenticationService} from "../../_services";
 export class OficioDetalheComponent implements OnInit {
   @Input() oficio: OficioListarI
   @Output() hideDetalhe = new EventEmitter<boolean>();
+  pdfOnOff = true;
 
   constructor(
     public aut: AuthenticationService,

@@ -12,6 +12,7 @@ export class EmendaDetalheComponent implements OnInit {
   @Input() emenda: EmendaListarI;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
+  pdfOnOff = true;
   real = Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'

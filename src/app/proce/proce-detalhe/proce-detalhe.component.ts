@@ -18,6 +18,7 @@ export class ProceDetalheComponent implements OnInit {
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
   impressao = false;
+  pdfOnOff = true;
 
   constructor(
     public aut: AuthenticationService,

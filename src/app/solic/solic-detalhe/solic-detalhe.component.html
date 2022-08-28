@@ -734,12 +734,12 @@
                     <app-kill-view [kill]="{html: ofi.oficio_descricao_acao, delta: ofi.oficio_descricao_acao_delta}"></app-kill-view>
                   </td>
                 </tr>
-                <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
+                <tr *ngIf="pdfOnOff && ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
                   <th colspan="2">
                     Arquivos:
                   </th>
                 </tr>
-                <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
+                <tr *ngIf="pdfOnOff && ofi.oficio_arquivos.length > 0 && aut.oficio_listar && aut.arquivos_baixar">
                   <td colspan="2">
                     <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
                   </td>
@@ -761,7 +761,7 @@
 <div class="botoesdetalhe">
   <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <app-exporter-detalhe [arquivoNome]="'solicitacao_detalhes'" [classe]="'tabela'"></app-exporter-detalhe>
+  <app-exporter-detalhe [arquivoNome]="'solicitacao_detalhes'" [classe]="'tabela'" [(pdfOnOff)]="pdfOnOff"></app-exporter-detalhe>
   &nbsp;&nbsp;
   <app-impressao-botao [dados]="['SOLICITAÇÃO',detalhesolicitacao]"></app-impressao-botao>
 </div>

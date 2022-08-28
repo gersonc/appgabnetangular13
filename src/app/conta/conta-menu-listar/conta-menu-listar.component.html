@@ -13,6 +13,17 @@
             (click)="onMudaForm()"
           ></button>
         </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="limpar()"
+          ></button>
+        </div>
         <div *ngIf="aut.contabilidade_incluir" class="p-mr-2">
           <button
             *ngIf="aut.contabilidade_incluir"
@@ -221,6 +232,17 @@
             label="Procurar"
             class="p-button-rounded p-button-secondary"
             (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="limpar()"
           ></button>
         </div>
         <div *ngIf="aut.contabilidade_incluir" class="p-mr-2">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MenuInternoService, MostraMenuService} from '../_services';
 import { TarefaBuscaService } from './_services';
 import { DialogService } from 'primeng/dynamicdialog';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-tarefa',
@@ -11,12 +12,13 @@ import { DialogService } from 'primeng/dynamicdialog';
 })
 export class TarefaComponent implements OnInit {
   public altura = (window.innerHeight - 170) + 'px';
+  sub: Subscription[] = [];
+  public mostraMenuInterno = false;
 
   constructor(
-    public mm: MostraMenuService,
+    // public mm: MostraMenuService,
     public mi: MenuInternoService,
-    private tbs: TarefaBuscaService,
-    public dialogService: DialogService,
+    private tbs: TarefaBuscaService
   ) { }
 
   ngOnInit() {

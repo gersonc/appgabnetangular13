@@ -173,7 +173,7 @@
                 Arquivos do Processo:
               </td>
             </tr>
-            <tr *ngIf="ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
+            <tr *ngIf="pdfOnOff && ofi.oficio_arquivos.length > 0 && aut.arquivos_baixar">
               <td colspan="2">
                 <app-detalhe-explorer [arquivos]="ofi.oficio_arquivos"></app-detalhe-explorer>
               </td>
@@ -198,7 +198,7 @@
 <div class="botoesdetalhe">
   <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <app-exporter-detalhe [arquivoNome]="'processo_oficios'" [classe]="'tabela'"></app-exporter-detalhe>
+  <app-exporter-detalhe [arquivoNome]="'processo_oficios'" [classe]="'tabela'" [(pdfOnOff)]="pdfOnOff"></app-exporter-detalhe>
   &nbsp;&nbsp;
   <app-impressao-botao [dados]="['OFÍCIOS',detalheoficio]"></app-impressao-botao>
 </div>

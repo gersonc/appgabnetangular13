@@ -11,6 +11,7 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 export class ProposicaoDetalheComponent implements OnInit{
   @Input() proposicao: ProposicaoListarI;
   @Output() hideDetalhe = new EventEmitter<boolean>();
+  pdfOnOff = true;
 
   constructor(
     public aut: AuthenticationService,
