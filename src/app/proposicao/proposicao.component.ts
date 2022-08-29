@@ -3,6 +3,7 @@ import { MenuInternoService } from '../_services';
 import { ArquivoService } from '../arquivo/_services';
 import { Subscription } from "rxjs";
 import {ProposicaoService} from "./_services/proposicao.service";
+import {ProposicaoMenuDropdownService} from "./_services/proposicao-menu-dropdown.service";
 
 @Component({
   selector: 'app-proposicao',
@@ -17,7 +18,8 @@ export class ProposicaoComponent implements OnDestroy, OnInit {
   constructor(
     public mi: MenuInternoService,
     private as: ArquivoService,
-    private ps: ProposicaoService
+    private ps: ProposicaoService,
+    private pdd: ProposicaoMenuDropdownService
   ) { }
 
   ngOnInit() {
@@ -35,6 +37,12 @@ export class ProposicaoComponent implements OnDestroy, OnInit {
       } else {
         this.mi.mudaMenuInterno(true);
       }
+    }
+  }
+
+  verificaDD() {
+    if (!sessionStorage.getItem('dropdown-situacao_proposicao') || !sessionStorage.getItem('dropdown-orgao_proposicao') || !sessionStorage.getItem('proposicao-menu-dropdown')) {
+      this.pdd.getDropdownMenu();
     }
   }
 

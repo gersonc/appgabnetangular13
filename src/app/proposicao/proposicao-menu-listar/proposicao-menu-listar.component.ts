@@ -9,6 +9,7 @@ import {ProposicaoFormService} from "../_services/proposicao-form.service";
 import {ProposicaoBuscaI} from "../_models/proposicao-busca-i";
 import {ProposicaoDropdownMenuListarInterface} from "../_models/proposicao-dropdown-menu-listar";
 import {Subscription} from "rxjs";
+import {ProposicaoMenuDropdownService} from "../_services/proposicao-menu-dropdown.service";
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ProposicaoMenuListarComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: EmendaDropdownMenuService,
+    private dd: ProposicaoMenuDropdownService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,
     private router: Router,

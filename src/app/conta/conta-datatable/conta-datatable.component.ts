@@ -232,7 +232,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         }
       }];
 
-    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_alterar) {
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.contabilidade_alterar) {
       this.contextoMenu.push(
         {
           label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
@@ -244,7 +244,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.solicitacao_apagar) {
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.contabilidade_apagar) {
       this.contextoMenu.push(
         {
           label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},

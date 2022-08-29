@@ -29,16 +29,8 @@ export class TarefaListarResolver implements Resolve<boolean> {
       this.dds.push('dropdown-usuario');
     }
     // ****** tarefa_situacao *****
-    if (!sessionStorage.getItem('dropdown-tarefa_situacao')) {
-      this.dds.push('dropdown-tarefa_situacao');
-    }
-
-    if (!sessionStorage.getItem('dropdown-tarefa_demandados')) {
-      this.dds.push('dropdown-tarefa_demandados');
-    }
-
-    if (!sessionStorage.getItem('dropdown-tarefa_autor')) {
-      this.dds.push('dropdown-tarefa_autor');
+    if (!sessionStorage.getItem('tarefa_menu-dropdown')) {
+      this.dds.push('tarefa_menu-dropdown');
     }
 
     if (this.dds.length > 0) {
@@ -69,7 +61,7 @@ export class TarefaListarResolver implements Resolve<boolean> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    if (!sessionStorage.getItem('dropdown-usuario') || !sessionStorage.getItem('dropdown-tarefa_situacao') || !sessionStorage.getItem('dropdown-tarefa_demandados') || !sessionStorage.getItem('dropdown-tarefa_autor')) {
+    if (!sessionStorage.getItem('dropdown-usuario') || !sessionStorage.getItem('tarefa_menu-dropdowno')) {
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),

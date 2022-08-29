@@ -10,19 +10,17 @@ export interface TarefaI {
   tarefa_data?: string;
   tarefa_data2?: string;
   tarefa_data3?: Date;
-  /*tarefa_hora?: string;
-  tarefa_hora2?: string;
-  tarefa_hora3?: Date;*/
   tarefa_titulo?: string;
   tarefa_tarefa?: string;
   tarefa_tarefa_delta?: string;
-  tarefa_tarefa_texto?: Date;
+  tarefa_tarefa_texto?: string;
   tarefa_datahora?: string;
   tarefa_datahora2?: string;
   tarefa_datahora3?: Date;
   tarefa_situacao_id?: number;
   tarefa_situacao_nome?: string;
-  tarefa_usuario_situacao?: TarefaUsuarioSituacaoI[]
+  tarefa_usuario?: TarefaUsuarioI[];
+  tarefa_usuario_situacao?: TarefaUsuarioSituacaoI[];
   tarefa_historico?: TarefaHistoricoI[];
   tarefa_arquivos?: ArquivoListagem[];
 }
@@ -47,7 +45,8 @@ export interface TarefaUsuarioSituacaoI {
 }
 
 export interface TarefaBuscaI {
-  tipo_listagem?: string;
+  tarefa_id?: number;
+  tipo_listagem?: number;
   tarefa_titulo?: string;
   tarefa_usuario_autor_id?: number;
   tarefa_usuario_id?: number;
@@ -56,7 +55,6 @@ export interface TarefaBuscaI {
   tarefa_datahora2?: string;
   tarefa_data1?: string;
   tarefa_data2?: string;
-
   tarefa_titulo_array?: string[];
   rows?: number;
   first?: number;
@@ -66,6 +64,30 @@ export interface TarefaBuscaI {
   campos?: ColunasI[];
   ids?: number[];
   excel?: boolean;
+}
+
+export interface TarefaFormI {
+  tarefa_id?: number;
+  tarefa_usuario_autor_id?: number;
+  tarefa_usuario_id?: number[];
+  tarefa_data?: string;
+  tarefa_data2?: string;
+  tarefa_data3?: Date;
+  tarefa_titulo?: string;
+  tarefa_tarefa?: string;
+  tarefa_tarefa_delta?: string;
+  tarefa_tarefa_texto?: string;
+  tarefa_email?: number;
+  agenda?: number;
+  tipo_listagem?: number;
+}
+
+export interface TarefaAtualizarI {
+  tarefa_id: number;
+  th_historico: string;
+  autorusuario: number;
+  tarefa_situacao_id: number;
+  tipo_listagem?: number;
 }
 
 

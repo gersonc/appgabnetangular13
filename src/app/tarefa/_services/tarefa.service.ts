@@ -222,14 +222,16 @@ export class TarefaService {
     this.busca.first = (b.first !== undefined) ? +b.first : undefined;
     this.busca.sortOrder = (b.sortOrder !== undefined) ? +b.sortOrder : undefined;
     this.busca.tarefa_id = (b.tarefa_id !== undefined) ? +b.tarefa_id : undefined;
-    this.busca.tarefa_vencimento_1data = (b.tarefa_vencimento_1data !== undefined) ? b.tarefa_vencimento_1data : undefined;
-    this.busca.tarefa_vencimento_2data = (b.tarefa_vencimento_2data !== undefined) ? b.tarefa_vencimento_2data : undefined;
-    this.busca.tarefa_local_id = (b.tarefa_local_id !== undefined) ? +b.tarefa_local_id : undefined;
-    this.busca.tarefa_tipo_id = (b.tarefa_tipo_id !== undefined) ? b.tarefa_tipo_id : undefined;
-    this.busca.tarefa_paga_id = (b.tarefa_paga_id !== undefined) ? b.tarefa_paga_id : undefined;
-    this.busca.tarefa_pagamento_1data = (b.tarefa_pagamento_1data !== undefined) ? b.tarefa_pagamento_1data : undefined;
-    this.busca.tarefa_pagamento_2data = (b.tarefa_pagamento_2data !== undefined) ? b.tarefa_pagamento_2data : undefined;
-    this.busca.cedente_array = (b.cedente_array !== undefined) ? b.cedente_array : undefined;
+    this.busca.tipo_listagem = (b.tipo_listagem !== undefined) ? +b.tipo_listagem : undefined;
+    this.busca.tarefa_titulo = (b.tarefa_titulo !== undefined) ? b.tarefa_titulo : undefined;
+    this.busca.tarefa_usuario_autor_id = (b.tarefa_usuario_autor_id !== undefined) ? +b.tarefa_usuario_autor_id : undefined;
+    this.busca.tarefa_usuario_id = (b.tarefa_usuario_id !== undefined) ? +b.tarefa_usuario_id : undefined;
+    this.busca.tarefa_situacao_id = (b.tarefa_situacao_id !== undefined) ? b.tarefa_situacao_id : undefined;
+    this.busca.tarefa_datahora1 = (b.tarefa_datahora1 !== undefined) ? b.tarefa_datahora1 : undefined;
+    this.busca.tarefa_datahora2 = (b.tarefa_datahora2 !== undefined) ? b.tarefa_datahora2 : undefined;
+    this.busca.tarefa_data1 = (b.tarefa_data1 !== undefined) ? b.tarefa_data1 : undefined;
+    this.busca.tarefa_data2 = (b.tarefa_data2 !== undefined) ? b.tarefa_data2 : undefined;
+    this.busca.tarefa_titulo_array = (b.tarefa_titulo_array !== undefined) ? b.tarefa_titulo_array : undefined;
     this.tarefaBusca();
   }
 
@@ -386,7 +388,7 @@ export class TarefaService {
   tarefaBusca(): void {
 
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
-      this.tabela.sortField = (this.tabela.sortField === 'tarefa_vencimento') ? 'tarefa_vencimento3' : (this.tabela.sortField === 'tarefa_pagamento') ? 'tarefa_pagamento3' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === 'tarefa_data') ? 'tarefa_data3' : (this.tabela.sortField === 'tarefa_datahora') ? 'tarefa_datahora3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.tarefas;
@@ -411,8 +413,8 @@ export class TarefaService {
         }
       }
     } else {
-      this.tabela.sortField = (this.tabela.sortField === 'tarefa_vencimento') ? 'tarefa_vencimento2' : this.tabela.sortField;
-      this.tabela.sortField = (this.tabela.sortField === 'tarefa_pagamento') ? 'tarefa_pagamento2' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === 'tarefa_data') ? 'tarefa_data2' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === 'tarefa_datahora') ? 'tarefa_datahora2' : this.tabela.sortField;
       this.busca.rows = this.tabela.rows;
       this.busca.first = this.tabela.first;
       this.busca.sortOrder = this.tabela.sortOrder;
@@ -428,13 +430,15 @@ export class TarefaService {
           next: (dados) => {
             this.tarefas = dados.tarefas.map((t) => {
               let p: TarefaI = t;
-              p.tarefa_vencimento3 = new Date(t.tarefa_vencimento2);
-              if (t.tarefa_pagamento2 !== undefined && t.tarefa_pagamento2 !== null) {
-                p.tarefa_pagamento3 = new Date(t.tarefa_pagamento2);
-              } else {
-                p.tarefa_pagamento3 = null;
+              p.tarefa_data3 = new Date(t.tarefa_data2);
+              p.tarefa_datahora3 = new Date(t.tarefa_datahora2);
+              if (t.tarefa_historico !== undefined && t.tarefa_historico !== null && Array.isArray(t.tarefa_historico) && t.tarefa_historico.length > 0) {
+                const tt = t.tarefa_historico;
+                t.tarefa_historico = tt.map((h ) => {
+                  h.th_data3 = new Date(h.th_data2);
+                  return h;
+                });
               }
-
               return p;
             });
             this.tabela.total = dados.total;

@@ -238,7 +238,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    if (this.aut.solicitacao_alterar) {
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.oficio_alterar) {
       this.authAlterar = true;
       this.contextoMenu.push(
         {
@@ -249,7 +249,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
         });
     }
 
-    if (this.aut.solicitacao_apagar) {
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.oficio_apagar) {
       this.authApagar = true;
       this.contextoMenu.push(
         {
