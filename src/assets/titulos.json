@@ -1064,7 +1064,27 @@
     "mtitulo": "PRAZO",
     "titulo": "Prazo"
   },
+  "tarefa_data2": {
+    "field": "tarefa_data2",
+    "mtitulo": "PRAZO",
+    "titulo": "Prazo"
+  },
+  "tarefa_data3": {
+    "field": "tarefa_data3",
+    "mtitulo": "PRAZO",
+    "titulo": "Prazo"
+  },
   "tarefa_datahora": {
+    "field": "tarefa_datahora",
+    "mtitulo": "DT. PEDIDO",
+    "titulo": "Dt. Pedido"
+  },
+  "tarefa_datahora2": {
+    "field": "tarefa_datahora",
+    "mtitulo": "DT. PEDIDO",
+    "titulo": "Dt. Pedido"
+  },
+  "tarefa_datahora3": {
     "field": "tarefa_datahora",
     "mtitulo": "DT. PEDIDO",
     "titulo": "Dt. Pedido"
@@ -1084,6 +1104,16 @@
     "mtitulo": "TAREFA",
     "titulo": "Tarefa"
   },
+  "tarefa_tarefa_delta": {
+    "field": "tarefa_tarefa_delta",
+    "mtitulo": "TAREFA",
+    "titulo": "Tarefa"
+  },
+  "tarefa_tarefa_texto": {
+    "field": "tarefa_tarefa_texto",
+    "mtitulo": "TAREFA",
+    "titulo": "Tarefa"
+  },
   "tarefa_titulo": {
     "field": "tarefa_titulo",
     "mtitulo": "TITULO",
@@ -1093,6 +1123,26 @@
     "field": "tarefa_usuario_autor_nome",
     "mtitulo": "AUTOR",
     "titulo": "Autor"
+  },
+  "tarefa_usuario_situacao": {
+    "field": "tarefa_usuario_situacao",
+    "mtitulo": "SIT. USUÁRIO",
+    "titulo": "Sit. Usuáario"
+  },
+  "tu_usuario_nome": {
+    "field": "tu_usuario_nome",
+    "mtitulo": "NOME",
+    "titulo": "Nome"
+  },
+  "tus_situacao_nome": {
+    "field": "tus_situacao_nome",
+    "mtitulo": "SITUAÇÃO",
+    "titulo": "Situação"
+  },
+  "tarefa_usuario": {
+    "field": "tarefa_usuario",
+    "mtitulo": "USUÁRIOS",
+    "titulo": "Usuários"
   },
   "telefone_id": {
     "field": "telefone_id",
@@ -1189,6 +1239,16 @@
     "mtitulo": "ANDAMENTO",
     "titulo": "Andamento"
   },
+  "th_historico_delta": {
+    "field": "th_historico_delta",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
+  "th_historico_texto": {
+    "field": "th_historico_texto",
+    "mtitulo": "ANDAMENTO",
+    "titulo": "Andamento"
+  },
   "th_hora": {
     "field": "th_hora",
     "mtitulo": "HORA",
@@ -1223,16 +1283,6 @@
     "field": "tratamento_nome",
     "mtitulo": "TRATAMENTO",
     "titulo": "Tratamento"
-  },
-  "tu_usuario_nome": {
-    "field": "tu_usuario_nome",
-    "mtitulo": "NOME",
-    "titulo": "Nome"
-  },
-  "tus_situacao_nome": {
-    "field": "tus_situacao_nome",
-    "mtitulo": "SITUAÇÃO",
-    "titulo": "Situação"
   },
   "url": {
     "field": "url",

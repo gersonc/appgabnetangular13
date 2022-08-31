@@ -1,15 +1,84 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {TarefaUsuarioSituacaoI} from "../_models/tarefa-i";
+import {ColunasI} from "../../_models/colunas-i";
 
 @Component({
   selector: 'app-tarefa-usuario-situacao',
   templateUrl: './tarefa-usuario-situacao.component.html',
   styleUrls: ['./tarefa-usuario-situacao.component.css']
 })
-export class TarefaUsuarioSituacaoComponent implements OnInit {
+export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
+  @Input() tus: TarefaUsuarioSituacaoI[] = [];
+  @Input() exibir: boolean;
+  @Output() exibirChange = new EventEmitter<boolean>();
+  @Input() usuarioSN: boolean;
+  @Input() situacaoSN: boolean;
+
+
+  us = false;
+  si = false;
+  show = false;
+
+  cols: ColunasI[] = [];
+  selectedColumns: ColunasI[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.cols = [
+      {field: 'tu_usuario_nome', header: 'USUÁRIO', sortable: 'true', width: '150px'},
+      {field: 'tus_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'}
+    ];
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.usuarioSN) {
+      this.showUsuario(this.usuarioSN);
+    }
+    if(changes.situacaoSN) {
+      this.showSituacao(this.situacaoSN);
+    }
+    if(changes.exibir) {
+      this.showTudo(this.exibir);
+    }
+  }
+
+  showUsuario(vf: boolean) {
+    if (vf) {
+      this.selectedColumns.push({field: 'tu_usuario_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'})
+    } else {
+      this.selectedColumns = this.selectedColumns.filter(c => c.field !== 'tu_usuario_nome');
+    }
+    this.us = vf;
+    this.showTabela();
+  }
+
+  showSituacao(vf: boolean) {
+    if (vf) {
+      this.selectedColumns.push({field: 'tus_situacao_nome', header: 'USUÁRIO', sortable: 'true', width: '150px'})
+    } else {
+      this.selectedColumns = this.selectedColumns.filter(c => c.field !== 'tus_situacao_nome');
+    }
+    this.si = vf;
+    this.showTabela();
+  }
+
+  showTabela() {
+    if (this.si || this.us) {
+      this.show = true;
+      this.exibirChange.emit(true);
+    }
+    if (!this.us && !this.si) {
+      this.show = false;
+      this.exibirChange.emit(false);
+    }
+  }
+
+  showTudo(vf: boolean) {
+    this.si = true;
+    this.us = true;
+    this.show = true;
+  }
+
 
 }

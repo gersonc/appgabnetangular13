@@ -8,84 +8,55 @@ import {TarefaMenuDropdownI} from "../_models/tarefa-menu-dropdown-i";
   providedIn: 'root'
 })
 export class TarefaDropdownService {
-  tarefaMenuDD?: TarefaMenuDropdownI | null = null;
+  tarefaMenuDD?: any[];
   private resp = new Subject<boolean>();
   public resp$ = this.resp.asObservable();
   private sub: Subscription[] = [];
-  private inicio = false;
+  inicio = true;
 
   constructor(
     private dd: DdService
-  ) {
-  }
+  ) { }
 
 
   getDropdownMenu() {
-    this.inicio = true;
-    let dds: any[] = [];
-
-    if (!sessionStorage.getItem('tarefa_menu-dropdown')) {
-      dds.push('tarefa_menu-dropdown');
-    }
-
-    if (dds.length > 0) {
-      this.sub.push(this.dd.getDd(dds)
-        .pipe(take(1))
-        .subscribe((dados) => {
-            dds.forEach(nome => {
-              this.tarefaMenuDD = JSON.parse(dados[nome]);
-              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
-            });
-          },
-          (err) => {
-            console.error(err);
-            this.inicio = false;
-          },
-          () => {
-            this.inicio = false;
-            this.onDestroy();
-            //this.gravaDropDown();
-          }
-        )
-      );
-    } else {
-      this.tarefaMenuDD = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
-      this.inicio = false;
-      // this.gravaDropDown();
-    }
-
-    /*if (dds.length > 0) {
-      this.sub.push(this.dd.getDd(dds)
-        .pipe(take(1))
-        .subscribe((dados) => {
-          this.tarefaMenuDD = JSON.parse(dados['tarefa_menu-dropdown']);
-          sessionStorage.setItem('tarefa_menu-dropdown', JSON.stringify(dados['tarefa_menu-dropdown']));
-          },
-          (err) => {
-            console.error(err);
-            this.inicio = false;
-          },
-          () => {
-            // this.gravaDropDown();
-            this.inicio = false;
-          }
-        )
-      );
-    } else {
-      // this.gravaDropDown();
-      this.inicio = false;
-    }*/
+    this.sub.push(this.dd.getDd('tarefa_menu-dropdown')
+      .pipe(take(1))
+      .subscribe((dados) => {
+          this.tarefaMenuDD = dados;
+        },
+        (err) => console.error(err),
+        () => {
+          this.gravaDropDown();
+        }
+      )
+    );
   }
 
   gravaDropDown() {
-    if (!this.inicio) {
-      this.getDropdownMenu();
+    if (!sessionStorage.getItem('tarefa_menu-dropdown')) {
+      if (!this.inicio) {
+        sessionStorage.setItem('tarefa_menu-dropdown', JSON.stringify(this.tarefaMenuDD));
+        this.sub.forEach(s => {
+          s.unsubscribe()
+        });
+        this.resp.next(true);
+        this.resp.complete();
+      }
+      if (this.inicio) {
+        this.inicio = false;
+        this.getDropdownMenu();
+      }
+    } else {
+      this.resp.next(false);
+      this.resp.complete();
     }
   }
 
-  onDestroy(): void {
+
+  /*onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
-  }
+  }*/
 
 
   /*gravaDropDown() {
@@ -104,18 +75,18 @@ export class TarefaDropdownService {
     }
   }*/
 
-  dropDown() {
+  /*dropDown() {
     if (this.tarefaMenuDD === null) {
       this.gravaDropDown();
     }
   }
 
   resetDropDown() {
-    this.tarefaMenuDD = null;
+    // this.tarefaMenuDD = null;
     sessionStorage.removeItem(sessionStorage.getItem('dropdown-tarefa_demandados'));
     this.inicio = false;
     this.gravaDropDown();
-  }
+  }*/
 
 
 

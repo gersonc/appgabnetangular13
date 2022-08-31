@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MenuItem} from 'primeng/api';
-import {MenuService} from '../_service';
 import {AuthenticationService} from '../../_services';
 
 
@@ -159,6 +158,19 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.authenticationService.contabilidade) {
+      this.items.push(
+        {
+          label: 'Tarefa',
+          icon: 'pi pi-inbox',
+          command: () => {
+            this.fechaMenuPrincipal();
+          },
+          routerLinkActiveOptions: '{exact: true}',
+          routerLink: ['/tarefa']
+        });
+    }
+
     if (this.authenticationService.passagemaerea) {
       if (this.authenticationService.passagemaerea_listar) {
         this.items.push(
@@ -203,17 +215,6 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           });
       }
     }
-
-    this.items.push(
-      {
-        label: 'Tarefa',
-        icon: 'pi pi-inbox',
-        command: () => {
-          this.fechaMenuPrincipal();
-        },
-        routerLinkActiveOptions: '{exact: true}',
-        routerLink: ['/tarefa']
-      });
 
     if (this.authenticationService.dispositivo !== 'mobile') {
       this.items.push(

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {MenuInternoService} from "../_services";
 import {ArquivoService} from "../arquivo/_services";
-import {TarefaDropdownService} from "./_services/tarefa-dropdown.service";
 import {TarefaService} from "./_services/tarefa.service";
 
 @Component({
@@ -10,7 +9,7 @@ import {TarefaService} from "./_services/tarefa.service";
   templateUrl: './tarefa.component.html',
   styleUrls: ['./tarefa.component.css']
 })
-export class TarefaComponent implements OnInit {
+export class TarefaComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
   sub: Subscription[] = [];
@@ -18,19 +17,17 @@ export class TarefaComponent implements OnInit {
   constructor(
     public mi: MenuInternoService,
     private as: ArquivoService,
-    private tdd: TarefaDropdownService,
     public ts: TarefaService,
   ) { }
 
   ngOnInit(): void {
-    this.ts.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
       })
     );
     this.as.getPermissoes();
-    if (!sessionStorage.getItem('conta-busca')) {
+    if (!sessionStorage.getItem('tarefa-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
       if (this.ts.stateSN) {
@@ -39,10 +36,6 @@ export class TarefaComponent implements OnInit {
         this.mi.mudaMenuInterno(true);
       }
     }
-  }
-
-  verificaDD() {
-    this.tdd.dropDown();
   }
 
   onHide() {

@@ -23,4 +23,5 @@ export class Rule {
   static arquivos = 'ar';
   static principal = 'up';
   static responsavel = 'ur';
+  static tarefa = 'tf';
 }

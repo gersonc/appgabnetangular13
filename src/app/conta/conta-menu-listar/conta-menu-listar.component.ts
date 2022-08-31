@@ -105,13 +105,13 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
     if (f.conta_pagamento_2data !== null) {
       b.conta_pagamento_2data = DateTime.fromJSDate(f.conta_pagamento_2data).toSQLDate();
     }
-    if (f.conta_local_id !== undefined && f.conta_local_id !== null && f.conta_local_id !== 999) {
+    if (f.conta_local_id !== undefined && f.conta_local_id !== null && +f.conta_local_id !== 999) {
       b.conta_local_id = +f.conta_local_id;
     }
-    if (f.conta_tipo_id !== undefined && f.conta_tipo_id !== null && f.conta_tipo_id !== 999) {
+    if (f.conta_tipo_id !== undefined && f.conta_tipo_id !== null && +f.conta_tipo_id !== 999) {
       b.conta_tipo_id = +f.conta_tipo_id;
     }
-    if (f.conta_paga_id !== undefined && f.conta_paga_id !== null && f.conta_paga_id !== 999) {
+    if (f.conta_paga_id !== undefined && f.conta_paga_id !== null && +f.conta_paga_id !== 999) {
       b.conta_paga_id = +f.conta_paga_id;
     }
 

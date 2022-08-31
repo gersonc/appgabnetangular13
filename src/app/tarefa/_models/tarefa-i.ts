@@ -33,15 +33,14 @@ export interface TarefaUsuarioI {
 }
 
 export interface TarefaUsuarioSituacaoI {
-  tu_id?: number;
-  tu_tarefa_id?: number;
-  tu_usuario_id?: number;
+  tarefa_id?: number;
+  tarefa_situacao_id?: number;
   tu_usuario_nome?: string;
   tus_id?: number;
-  tus_tarefa_id?: number;
   tus_usuario_id?: number;
   tus_situacao_id?: number;
   tus_situacao_nome?: string;
+  tus_tu_id?: number;
 }
 
 export interface TarefaBuscaI {

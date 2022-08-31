@@ -475,7 +475,7 @@ export class EmendaService {
 
               return p;
             });
-            this.emendas = dados.emendas;
+            // this.emendas = dados.emendas;
             this.tabela.total = dados.total;
           },
           error: err => console.error('ERRO-->', err),

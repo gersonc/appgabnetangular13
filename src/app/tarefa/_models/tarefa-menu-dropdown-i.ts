@@ -7,6 +7,7 @@ export interface TarefaMenuDropdownI {
 }
 
 export const ddTipo_listagem_id: SelectItem[] = [
+  {label: 'Todas', value: 2},
   {label: 'Enviadas', value: 1},
   {label: 'Recebidas', value: 0},
 ];

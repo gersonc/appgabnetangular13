@@ -17,20 +17,12 @@ import {ddTipo_listagem_id, TarefaMenuDropdownI} from "../_models/tarefa-menu-dr
 })
 export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   public formMenuTarefa: FormGroup;
+  dd: TarefaMenuDropdownI;
   ptBr: any;
   sub: Subscription[] = [];
+  ddTipo = ddTipo_listagem_id;
   public sgt: string[];
-  /*public ddTarefa_situacao_id: SelectItem[] = [];
-  public ddTarefa_autor_id: SelectItem[] = [];
-  public ddTarefa_demandados_id: SelectItem[] = [];*/
-  // dd: TarefaMenuDropdownI | null = null;
   public tpListagem = 0;
-  /*ddTipo_listagem: SelectItem[] = [
-    {label: 'Enviadas', value: 1},
-    {label: 'Recebidas', value: 0},
-  ];*/
-  dd = ddTipo_listagem_id;
-
   public altura = (window.innerHeight) + 'px';
   public altura2 = ((window.innerHeight) - 130) + 'px';
   estilo1 = {width: '100%'};
@@ -63,17 +55,33 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     });
   }
 
+
   carregaDropDown() {
-    if (this.cdd.tarefaMenuDD === null) {
-      this.cdd.dropDown();
+    if (sessionStorage.getItem('tarefa_menu-dropdown')) {
+      this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
+    } else {
+      this.getCarregaDropDown();
     }
   }
 
+  getCarregaDropDown() {
+    this.sub.push(this.cdd.resp$.subscribe(
+      (dados: boolean ) => {
+      },
+      error => {
+        console.error(error.toString());
+      },
+      () => {
+        this.carregaDropDown();
+      }
+    ));
+    this.cdd.gravaDropDown();
+  }
 
   onMudaForm() {
     this.ts.resetTarefaBusca();
-    this.ts.novaBusca(this.criaBusca());
     delete this.ts.busca.ids;
+    this.ts.novaBusca(this.criaBusca());
     this.ts.buscaMenu();
     this.mi.hideMenu();
   }
@@ -105,13 +113,13 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     if (f.tarefa_datahora2 !== null) {
       b.tarefa_datahora2 = DateTime.fromJSDate(f.tarefa_datahora2).toSQLDate();
     }
-    if (f.tarefa_situacao_id !== undefined && f.tarefa_situacao_id !== null && f.tarefa_situacao_id !== 999) {
+    if (f.tarefa_situacao_id !== undefined && f.tarefa_situacao_id !== null) {
       b.tarefa_situacao_id = +f.tarefa_situacao_id;
     }
-    if (f.tarefa_usuario_autor_id !== undefined && f.tarefa_usuario_autor_id !== null && f.tarefa_usuario_autor_id !== 999) {
+    if (f.tarefa_usuario_autor_id !== undefined && f.tarefa_usuario_autor_id !== null) {
       b.tarefa_usuario_autor_id = +f.tarefa_usuario_autor_id;
     }
-    if (f.tarefa_usuario_id !== undefined && f.tarefa_usuario_id !== null && f.tarefa_usuario_id !== 999) {
+    if (f.tarefa_usuario_id !== undefined && f.tarefa_usuario_id !== null) {
       b.tarefa_usuario_id = +f.tarefa_usuario_id;
     }
     return b;

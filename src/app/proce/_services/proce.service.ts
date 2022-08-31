@@ -58,7 +58,7 @@ export class ProceService {
     this.celulaService.modulo = 'Processo'
   }
 
-  buscaMenu() {;
+  buscaMenu() {
     this.proceBusca();
   }
 

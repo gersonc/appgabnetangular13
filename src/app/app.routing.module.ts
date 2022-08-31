@@ -6,7 +6,7 @@ import { Rule } from './_models';
 
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
-import {ProceModule} from "./proce/proce.module";
+
 
 const routes: Routes = [
   {
@@ -98,7 +98,11 @@ const routes: Routes = [
   },
   {
     path: 'tarefa',
-    loadChildren: () => import('./tarefa/tarefa.module').then(m => m.TarefaModule)
+    loadChildren: () => import('./tarefa/tarefa.module').then(m => m.TarefaModule),
+    canActivate: [AuthGuard],
+    data: {
+      rules: Rule.tarefa
+    }
   },
   {
     path: 'configuracao',
@@ -133,6 +137,7 @@ const routes: Routes = [
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

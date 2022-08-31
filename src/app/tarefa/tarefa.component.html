@@ -5,11 +5,11 @@
   [dismissible]="true"
   styleClass="menuinterno"
   appendTo="body"
-  (onShow)="verificaDD()"
-  (onHide)="verificaDD()"
 >
   <p-scrollPanel [styleClass]="'menu-lateral'" >
     <app-tarefa-menu-listar></app-tarefa-menu-listar>
   </p-scrollPanel>
 
 </p-sidebar>
+
+<router-outlet></router-outlet>

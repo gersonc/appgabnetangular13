@@ -150,13 +150,11 @@ export class EmendaDatatableComponent implements OnInit {
     ));
 
     this.getColunas();
-
   }
 
   mostraMenu(): void {
     this.mi.mudaMenuInterno();
   }
-
 
   mapeiaColunas() {
     if (this.es.titulos === undefined || this.es.titulos === null || (Array.isArray(this.es.titulos) && this.es.titulos.length === 0)) {
@@ -320,7 +318,7 @@ export class EmendaDatatableComponent implements OnInit {
       this.dtb.saveState();
       this.router.navigate(['/emenda/incluir']);
     } else {
-      console.log('SEM PERMISSAO');
+      console.error('SEM PERMISSAO');
     }
   }
 
@@ -343,7 +341,7 @@ export class EmendaDatatableComponent implements OnInit {
       this.efs.parceEmendaFormulario(eme);
       this.router.navigate(['/emenda/alterar']);
     } else {
-      console.log('SEM PERMISSAO');
+      console.error('SEM PERMISSAO');
     }
 
   }
@@ -355,13 +353,12 @@ export class EmendaDatatableComponent implements OnInit {
       this.dtb.saveState();
       this.router.navigate(['/emenda/apagar']);
     } else {
-      console.log('SEM PERMISSAO');
+      console.error('SEM PERMISSAO');
     }
   }
 
   emendaAtualizar(eme: EmendaListarI) {
     if (this.aut.emenda_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-      console.log('emendaAtualizar', eme);
       this.es.salvaState();
       this.dtb.saveState();
       this.efs.emendaListar = eme;
@@ -369,7 +366,7 @@ export class EmendaDatatableComponent implements OnInit {
       this.efs.parceEmendaAtualizar(eme);
       this.router.navigate(['/emenda/atualizar']);
     } else {
-      console.log('SEM PERMISSAO');
+      console.error('SEM PERMISSAO');
     }
   }
 
@@ -419,8 +416,6 @@ export class EmendaDatatableComponent implements OnInit {
   recebeRegistro(h: HistFormI) {
     this.es.recebeRegistro(h);
   }
-
-
 
 
   ngOnDestroy(): void {

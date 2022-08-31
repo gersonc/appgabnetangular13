@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {MenuInternoService} from "../_services";
 import {ArquivoService} from "../arquivo/_services";
@@ -9,7 +9,7 @@ import {EmendaService} from "./_services/emenda.service";
   templateUrl: './emenda.component.html',
   styleUrls: ['./emenda.component.css']
 })
-export class EmendaComponent implements OnInit, OnInit {
+export class EmendaComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   sub: Subscription[] = [];
   public mostraMenuInterno = false;
@@ -18,8 +18,7 @@ export class EmendaComponent implements OnInit, OnInit {
     public mi: MenuInternoService,
     private as: ArquivoService,
     public es: EmendaService
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
@@ -28,7 +27,7 @@ export class EmendaComponent implements OnInit, OnInit {
       })
     );
     this.as.getPermissoes();
-    if (!sessionStorage.getItem('solic-busca')) {
+    if (!sessionStorage.getItem('emenda-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
       if (this.es.stateSN) {

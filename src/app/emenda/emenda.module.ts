@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
+import {ReactiveFormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {EmendaRoutingModule} from './emenda-routing.module';
 import {EmendaComponent} from './emenda.component';
 import {EmendaMenuListarComponent} from './emenda-menu-listar/emenda-menu-listar.component';
@@ -10,7 +12,6 @@ import {EmendaDetalheComponent} from './emenda-detalhe/emenda-detalhe.component'
 import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {ButtonModule} from "primeng/button";
-import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {TableModule} from "primeng/table";
 import {MenuModule} from "primeng/menu";
@@ -34,8 +35,7 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {HistModule} from "../hist/hist.module";
 import {EmendaExcluirComponent} from './emenda-excluir/emenda-excluir.component';
 import {EmendaAtualizarComponent} from './emenda-atualizar/emenda-atualisar.component';
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
+
 
 
 @NgModule({
@@ -50,11 +50,11 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     EmendaRoutingModule,
     SidebarModule,
     ScrollPanelModule,
     ButtonModule,
-    ReactiveFormsModule,
     DropdownModule,
     TableModule,
     MenuModule,

@@ -35,7 +35,7 @@ export class TarefaService {
   expandidoSN = false;
   tarefaApagar: TarefaI | null = null;
   sortField = 'tarefa_data';
-  sortOrder = -1;
+  sortOrder = 1;
   lazy = false;
   acao: string | null = null;
   colunas: string[] = [];
@@ -43,7 +43,8 @@ export class TarefaService {
   showForm = false;
   mudaRows = 50;
   rowsPerPageOptions = [50];
-  formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
+  colsTrocar = ['tarefa_data', 'tarefa_datahora'];
+  // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
   excelColumns = [
     {field: 'tarefa_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
@@ -78,12 +79,11 @@ export class TarefaService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        this.tabela.sortField = 'tarefa_vencimento2';
+        this.tabela.sortField = 'tarefa_data';
         this.tabela.camposTexto = tarefacampostexto;
         if (this.busca === undefined) {
           this.criaBusca();
         }
-
       }
     }
   }
@@ -121,7 +121,7 @@ export class TarefaService {
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
       this.busca.sortOrder = 1;
-      this.busca.sortField = 'tarefa_vencimento2';
+      this.busca.sortField = 'tarefa_data';
     }
   }
 
@@ -160,7 +160,7 @@ export class TarefaService {
           let celula: CelulaI = {
             header: t.titulo,
             field: t.field,
-            valor: (t.field !== 'tarefa_valor') ? ev[t.field] : this.formatterBRL.format(ev[t.field]),
+            valor: ev[t.field],
             txtVF: false,
             cphtml: ev[t.field]
           }
@@ -323,9 +323,10 @@ export class TarefaService {
 
   exportToXLSX(td: number = 1) {
     if (td === 3) {
+      if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       let busca: TarefaBuscaI = this.busca;
       busca.rows = undefined;
-      busca.campos = this.excelColumns;
+        busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
       busca.first = undefined;
       busca.excel = true;
@@ -343,7 +344,7 @@ export class TarefaService {
           }
         })
       );
-      //}
+     }
     }
     if (this.tarefas.length > 0 && td === 2) {
       ExcelService.criaExcelFile('tarefa', limpaTabelaCampoTexto(this.excelColumns, this.tabela.camposTexto, this.tarefas), this.excelColumns);
@@ -386,13 +387,12 @@ export class TarefaService {
   }
 
   tarefaBusca(): void {
-
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       this.tabela.sortField = (this.tabela.sortField === 'tarefa_data') ? 'tarefa_data3' : (this.tabela.sortField === 'tarefa_datahora') ? 'tarefa_datahora3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.tarefas;
-        if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
+        if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
           this.busca.sortOrder = +this.tabela.sortOrder;
           if (+this.tabela.sortOrder === 1) {
             tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
@@ -401,14 +401,14 @@ export class TarefaService {
             tmp.sort((first, second) => (second[this.tabela.sortField] > first[this.tabela.sortField]) ? 1 : ((first[this.tabela.sortField] > second[this.tabela.sortField]) ? -1 : 0));
             this.tarefas = tmp;
           }
-        }
-        if (+this.busca.sortOrder === +this.tabela.sortOrder && this.busca.sortField !== this.tabela.sortField) {
+        } else {
           if (this.busca.sortField !== this.tabela.sortField) {
-            this.busca.sortField = this.tabela.sortField;
-            this.busca.sortOrder = 1;
-            tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
-            this.tarefas = tmp;
-            this.tabela.sortOrder = 1;
+              this.busca.sortField = this.tabela.sortField;
+              this.busca.sortOrder = 1;
+              tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
+              this.tarefas = tmp;
+              this.tabela.sortOrder = 1;
+
           }
         }
       }
@@ -555,18 +555,22 @@ export class TarefaService {
   }
 
   onDestroy(): void {
-    sessionStorage.removeItem('tarefa-busca');
-    sessionStorage.removeItem('tarefa-tabela');
-    sessionStorage.removeItem('tarefa-table');
-    this.tfs.tarefa = null;
-    this.tfs.tarefaOld = null;
-    this.tfs.tarefaListar = null;
-    this.tabela = undefined;
-    this.busca = undefined;
-    this.selecionados = undefined;
-    this.Contexto = undefined;
-    this.stateSN = false;
-    this.expandidoSN = false;
+    if (!this.stateSN) {
+      sessionStorage.removeItem('tarefa-busca');
+      sessionStorage.removeItem('tarefa-tabela');
+      sessionStorage.removeItem('tarefa-table');
+      this.tfs.tarefa = null;
+      this.tfs.tarefaOld = null;
+      this.tfs.tarefaListar = null;
+      this.tabela = undefined;
+      this.busca = undefined;
+      this.selecionados = undefined;
+      this.Contexto = undefined;
+      this.stateSN = false;
+      this.expandidoSN = false;
+      this.tarefas = [];
+    }
+
     this.sub.forEach(s => s.unsubscribe());
   }
 }

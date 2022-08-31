@@ -40,6 +40,9 @@ export class TarefaDatatableComponent implements OnInit {
   permInclHist: boolean = false;
   permitirAcao: boolean = true;
 
+  showUsuarioSituacao = true;
+  tarefa_historico = true;
+
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
@@ -141,6 +144,14 @@ export class TarefaDatatableComponent implements OnInit {
     this.mi.mudaMenuInterno();
   }
 
+  /*mapeiaColunas() {
+    if (this.ts.titulos === undefined || this.ts.titulos === null || (Array.isArray(this.ts.titulos) && this.ts.titulos.length === 0)) {
+      this.ts.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
+    }
+  }*/
+
   mapeiaColunas() {
     if (this.ts.titulos === undefined || this.ts.titulos === null || (Array.isArray(this.ts.titulos) && this.ts.titulos.length === 0)) {
       this.ts.montaTitulos(this.cols.map(cl => {
@@ -156,13 +167,23 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
       {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
-      /*{field: 'tarefa_usuario', header: 'DEMANDADOS', sortable: 'true', width: '170px'},
-      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '170px'},*/
       {field: 'tarefa_autor', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      /*{field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '170px'},
-      {field: 'tarefa_historico', header: 'ULTIMOS ANDAMENTOS', sortable: 'true', width: '170px'},*/
+      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
     ];
+    /*this.cols = [
+      {field: 'tarefa_id', header: 'ID', sortable: 'true', width: '80px'},
+      {field: 'tarefa_titulo', header: 'TITULO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
+      {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_usuario', header: 'DEMANDADOS', sortable: 'true', width: '170px'},
+      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '170px'},
+      {field: 'tarefa_autor', header: 'AUTOR', sortable: 'true', width: '150px'},
+      {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '170px'},
+      {field: 'tarefa_historico', header: 'ULTIMOS ANDAMENTOS', sortable: 'true', width: '170px'},
+    ];*/
   }
 
   resetSelectedColumns(): void {
@@ -173,12 +194,9 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
       {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
-      /*{field: 'tarefa_usuario', header: 'DEMANDADOS', sortable: 'true', width: '170px'},
-      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '170px'},*/
       {field: 'tarefa_autor', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      /*{field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '170px'},
-      {field: 'tarefa_historico', header: 'ULTIMOS ANDAMENTOS', sortable: 'true', width: '170px'},*/
+      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
     ];
   }
 
@@ -309,7 +327,7 @@ export class TarefaDatatableComponent implements OnInit {
       this.dtb.saveState();
       this.router.navigate(['/tarefa/apagar']);
     } else {
-      console.log('SEM PERMISSAO');
+      console.error('SEM PERMISSAO');
     }
   }
 

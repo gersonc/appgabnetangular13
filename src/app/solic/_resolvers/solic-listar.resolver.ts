@@ -6,8 +6,8 @@ import {
 } from '@angular/router';
 import {EMPTY, Observable, of, Subject, Subscription} from 'rxjs';
 import {mergeMap, take} from "rxjs/operators";
-import {SolicPaginacaoInterface} from "../_models/solic-listar-i";
-import {SolicService} from "../_services/solic.service";
+// import {SolicPaginacaoInterface} from "../_models/solic-listar-i";
+// import {SolicService} from "../_services/solic.service";
 import {DdService} from "../../_services/dd.service";
 
 @Injectable({
@@ -22,7 +22,7 @@ export class SolicListarResolver implements  Resolve<boolean> {
 
   constructor(
     private router: Router,
-    private solicitacaoService: SolicService,
+    // private solicitacaoService: SolicService,
     private dd: DdService
   ) {
     // this.solicitacaoService.criaTabela();

@@ -54,8 +54,8 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
       passagem_beneficiario: [null],
       passagem_trecho: [null],
       passagem_voo: [null],
-      passagem_aerolinha_id: [999],
-      passagem_voado_id: [999],
+      passagem_aerolinha_id: [null],
+      passagem_voado_id: [null],
       passagem_data1: [null],
       passagem_data2: [null],
     });

@@ -592,17 +592,20 @@ export class SolicService {
   }
 
   onDestroy(): void {
-    sessionStorage.removeItem('solic-busca');
-    sessionStorage.removeItem('solic-tabela');
-    sessionStorage.removeItem('solic-table');
-    this.tabela = undefined;
-    this.busca = undefined;
-    this.selecionados = undefined;
-    this.Contexto = undefined;
-    this.stateSN = false;
-    this.has.histFormI = undefined;
-    this.has.hist = undefined;
-    this.expandidoSN = false;
+    if (!this.stateSN) {
+      sessionStorage.removeItem('solic-busca');
+      sessionStorage.removeItem('solic-tabela');
+      sessionStorage.removeItem('solic-table');
+      this.tabela = undefined;
+      this.busca = undefined;
+      this.selecionados = undefined;
+      this.Contexto = undefined;
+      this.stateSN = false;
+      this.has.histFormI = undefined;
+      this.has.hist = undefined;
+      this.expandidoSN = false;
+      this.solicitacoes = [];
+    }
     this.sub.forEach(s => s.unsubscribe());
   }
 }

@@ -33,6 +33,7 @@ export class TarefaListarResolver implements Resolve<boolean> {
       this.dds.push('tarefa_menu-dropdown');
     }
 
+
     if (this.dds.length > 0) {
       this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
@@ -52,6 +53,7 @@ export class TarefaListarResolver implements Resolve<boolean> {
     }
   }
 
+
   gravaDropDown() {
     this.resp.next(true);
   }
@@ -61,7 +63,7 @@ export class TarefaListarResolver implements Resolve<boolean> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    if (!sessionStorage.getItem('dropdown-usuario') || !sessionStorage.getItem('tarefa_menu-dropdowno')) {
+    if (!sessionStorage.getItem('dropdown-usuario') || !sessionStorage.getItem('tarefa_menu-dropdown')) {
       this.populaDropdown();
       return this.resp$.pipe(
         take(1),

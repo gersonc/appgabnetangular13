@@ -69,7 +69,7 @@
         </div>
 
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mx-2">PROPOSIÇÕES</div>
+          <div class="p-mx-2">TAREFAS</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
           <div class="p-mr-2" *ngIf="ts.selecionados !== undefined &&  ts.selecionados !== null &&  ts.selecionados.length > 0">
@@ -81,7 +81,7 @@
         </div>
 
         <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
-          <div class="p-mx-2">PROPOSIÇÕES</div>
+          <div class="p-mx-2">TAREFAS</div>
           <div class="p-mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
             Registros: {{ts.tabela.totalRecords}}</div>
         </div>
@@ -125,16 +125,21 @@
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width">
-
-        <app-exporter-celula [celula]="{
-          valor: stripslashes(tarf[col.field]),
-          field: col.field,
-          header:col.header,
-          txtVF: ts.testaCampoTexto(col.field),
-          cphtml: stripslashes(tarf[col.field]),
-          cpdelta: null,
-          cptexto: null
-           }"></app-exporter-celula>
+        <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
+          <app-tarefa-usuario-situacao [(exibir)]="showUsuarioSituacao" [tus]="tarf[col.field]"></app-tarefa-usuario-situacao>
+        </ng-container>
+        <ng-container *ngIf="col.field==='tarefa_historico'"></ng-container>
+        <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_historico'">
+          <app-exporter-celula [celula]="{
+            valor: stripslashes(tarf[col.field]),
+            field: col.field,
+            header:col.header,
+            txtVF: ts.testaCampoTexto(col.field),
+            cphtml: stripslashes(tarf[col.field]),
+            cpdelta: null,
+            cptexto: null
+             }"></app-exporter-celula>
+        </ng-container>
       </td>
     </tr>
   </ng-template>

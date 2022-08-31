@@ -119,7 +119,8 @@ export class AuthenticationService {
     "te",
     "us",
     "up",
-    "ur"
+    "ur",
+    "tf"
   ];
   public permissoes_carregadas = false;
   public agenda2 = false;
@@ -144,6 +145,7 @@ export class AuthenticationService {
   public solicitacao = false;
   public sms = false;
   public telefone = false;
+  public tarefa = false;
   public usuario = false;
   public configuracao_incluir = false;
   public configuracao_alterar = false;
@@ -307,6 +309,7 @@ export class AuthenticationService {
         r.push(this.acessoRule[i]);
       }
     }
+    r.push('tf');
     return r;
   }
 
@@ -392,6 +395,7 @@ export class AuthenticationService {
     this.telefone = regra?.indexOf('te') !== -1;
     this.usuario = regra?.indexOf('us') !== -1;
     this.usuario_principal_sn = regra?.indexOf('up') !== -1;
+    this.tarefa = regra?.indexOf('tf') !== -1;
     // this.usuario_responsavel_sn = regra?.indexOf('ur') !== -1;
     this.userScops = regra;
 
@@ -513,6 +517,7 @@ export class AuthenticationService {
     this.solicitacao = false;
     this.sms = false;
     this.telefone = false;
+    this.tarefa = false;
     this.usuario = false;
     this.configuracao_incluir = false;
     this.configuracao_alterar = false;

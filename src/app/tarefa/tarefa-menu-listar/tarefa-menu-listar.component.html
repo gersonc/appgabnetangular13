@@ -34,7 +34,7 @@
             <!-- tp_listagem -->
             <div class="p-field p-col-12">
               <label for="tpListagem">De (Autor)</label>
-              <p-selectButton #tpl id="tpListagem" [options]="dd" formControlName="tipo_listagem"></p-selectButton>
+              <p-selectButton #tpl id="tpListagem" [options]="ddTipo" formControlName="tipo_listagem"></p-selectButton>
             </div>
 
 
@@ -43,7 +43,7 @@
               <label for="tarefa_usuario_autor_id">De (Autor)</label>
               <p-dropdown
                 id="tarefa_usuario_autor_id"
-                [options]="cdd.tarefaMenuDD.ddTarefa_autor_id"
+                [options]="dd.ddTarefa_autor_id"
                 [style]="estilo1"
                 formControlName="tarefa_usuario_autor_id"
                 placeholder="TODOS"
@@ -56,7 +56,7 @@
               <label for="tarefa_usuario_id">Para (Demandados)</label>
               <p-dropdown
                 id="tarefa_usuario_id"
-                [options]="cdd.tarefaMenuDD.ddTarefa_demandados_id"
+                [options]="dd.ddTarefa_demandados_id"
                 [style]="estilo1"
                 formControlName="tarefa_usuario_id"
                 placeholder="TODOS"
@@ -82,7 +82,7 @@
               <label for="tarefa_situacao_id">Situação</label>
               <p-dropdown
                 id="tarefa_situacao_id"
-                [options]="cdd.tarefaMenuDD.ddTarefa_situacao_id"
+                [options]="dd.ddTarefa_situacao_id"
                 [style]="estilo1"
                 formControlName="tarefa_situacao_id"
                 placeholder="TODOS"
