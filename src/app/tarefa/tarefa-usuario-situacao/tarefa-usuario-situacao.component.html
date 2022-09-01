@@ -2,12 +2,12 @@
 <p-table
   [value]="tus"
   [columns]="cols"
-  styleClass="tablistagem p-datatable-sm"
+  styleClass="tabtarefa p-datatable-sm"
 >
 
   <ng-template pTemplate="body" let-taus let-cols="columns">
     <tr>
-      <td *ngFor="let col of cols" [style.width]="col.width">
+      <td *ngFor="let col of cols" [style.width]="col.width" [ngClass]="rowColor(taus['tus_situacao_id'])">
         {{taus[col.field]}}
       </td>
     </tr>

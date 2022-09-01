@@ -10,6 +10,7 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 import {Subscription} from "rxjs";
 import {TarefaI} from "../_models/tarefa-i";
 import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
+import {breakTextIntoLines} from "pdf-lib";
 
 @Component({
   selector: 'app-tarefa-datatable',
@@ -392,6 +393,29 @@ export class TarefaDatatableComponent implements OnInit {
     this.ts.colunas = this.cols.map(t => {
       return t.field;
     });
+  }
+
+  rowStyle(field: string, vl1: number): string | null {
+    switch (field) {
+      case 'tarefa_situacao_nome':
+        switch (vl1) {
+          case 1:
+            return 'tstatus-1';
+          case 2:
+            return 'tstatus-2';
+          case 3:
+            return 'tstatus-3';
+          case 4:
+            return 'tstatus-4';
+          default:
+            return 'tstatus-0';
+        }
+      case 'tarefa_usuario_situacao':
+      case 'tarefa_historico':
+        return 'tarefa';
+    default:
+      return null;
+    }
   }
 
 }

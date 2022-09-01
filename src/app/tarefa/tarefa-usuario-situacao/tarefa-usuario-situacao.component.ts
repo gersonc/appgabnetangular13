@@ -80,5 +80,20 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
     this.show = true;
   }
 
+  rowColor(tus_situacao_id?: number): string | null {
+      switch (tus_situacao_id) {
+        case 1:
+          return 'tstatus-1';
+        case 2:
+          return 'tstatus-2';
+        case 3:
+          return 'tstatus-3';
+        case 4:
+          return 'tstatus-4';
+        default:
+          return 'tstatus-0';
+      }
+  }
+
 
 }

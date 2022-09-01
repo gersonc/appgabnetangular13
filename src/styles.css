@@ -13800,7 +13800,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-spacing: .2em;
 }
 
-.caltabela tr, td {
+.caltabela tr, .caltabela td {
   border-width: 1px 2px 1px 2px;
   border-style: solid;
   border-color: transparent;
@@ -14737,73 +14737,6 @@ div.formulario-quill {
   font-size: 1rem;
 }
 
-.tablistagem.p-datatable .p-datatable-header {
-  background: var(--primary-color);
-  color: var(--primary-color-text);
-  border: solid var(--surface-d);
-  border-width: 1px 0 0 0;
-  font-weight: 600;
-}
-
-.tablistagem.p-datatable .p-datatable-header .p-button.p-button-text {
-  background-color: transparent;
-  color: var(--primary-color-text);
-  border-color: transparent;
-}
-
-.tablistagem.p-datatable .p-datatable-header .p-button.p-button-text:enabled:hover {
-  background: var(--primary-color-text);
-  color: var(--primary-color);
-  border-color: transparent;
-}
-
-.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded:focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: none;
-}
-
-.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded {
-  border-radius: 50%;
-  height: 1.5rem;
-}
-
-.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-sm {
-  font-size: 1rem;
-  padding: 0.3rem 0.3rem;
-}
-
-.tablistagem.p-datatable .p-datatable-tbody tr, td {
-  border: 0;
-  border-radius: 0;
-}
-
-.tablistagem.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
-  padding: 0 0.5rem;
-}
-
-.tablistagem.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td:first-child {
-  width: 3rem;
-}
-
-.tablistagem.p-datatable.p-datatable-sm .p-datatable-thead > tr > th:first-child {
-  width: 3rem;
-}
-
-.tablistagem.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight {
-  background: var(--bt-secundario-bg);
-  color: var(--bt-secundario-color);
-}
-
-.tablistagem.p-datatable .p-datatable-tbody > tr.p-highlight {
-  background: var(--bt-secundario-bg);
-  color: var(--bt-secundario-color);
-}
-
-.tablistagem.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td > p-cellEditor > p-inputMask .p-inputmask.p-inputtext.p-filled {
-  padding: .2em 0.5em;
-  background-color: var(--input-filled);
-}
 
 /*  CONTEXTMENU  */
 .tablistagem.p-contextmenu {
@@ -17933,4 +17866,228 @@ p-toast.toastprincipal {
 
 .dowloadIcon:hover {
   cursor: pointer;
+}
+
+
+
+/*
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.status-1 {
+  background-color: var(--pink-200);
+}
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-1 {
+  background-color: var(--pink-200);
+}
+
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.status-2 {
+  background-color: var(--yellow-200);
+}
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-2 {
+  background-color: var(--yellow-200);
+}
+
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.status-3 {
+  background-color: var(--green-200);
+}
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-3 {
+  background-color: var(--green-200);
+}
+
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.status-4 {
+  background-color: var(--blue-200);
+}
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-4 {
+  background-color: var(--blue-200);
+}
+
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.status-0 {
+  background-color: var(--gray-300);
+}
+
+.tabtarefa.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.status-0 {
+  background-color: var(--gray-300);
+}
+*/
+
+
+
+
+td.tstatus-1 {
+  background-color: var(--pink-200);
+  font-weight: 500;
+}
+
+td.tstatus-1:hover {
+  background-color: var(--pink-300);
+  font-weight: 500;
+  cursor: cell;
+}
+
+td.tstatus-1:active {
+  background-color: var(--pink-400);
+  font-weight: 500;
+}
+
+td.tstatus-2 {
+  background-color: var(--yellow-200);
+  font-weight: 500;
+}
+
+td.tstatus-2:hover {
+  background-color: var(--yellow-300);
+  font-weight: 500;
+  cursor: cell;
+}
+
+td.tstatus-2:active {
+  background-color: var(--yellow-400);
+  font-weight: 500;
+}
+
+td.tstatus-3 {
+  background-color: var(--green-200);
+  font-weight: 500;
+}
+
+td.tstatus-3:hover {
+  background-color: var(--green-300);
+  font-weight: 500;
+  cursor: cell;
+}
+
+td.tstatus-3:active {
+  background-color: var(--green-400);
+  font-weight: 500;
+}
+
+td.tstatus-4 {
+  background-color: var(--blue-200);
+  font-weight: 500;
+}
+
+td.tstatus-0 {
+  background-color: var(--gray-300);
+  font-weight: 500;
+}
+
+.tarefa td {
+  vertical-align: top !important;
+}
+
+.tabtarefa.p-datatable-sm table, .tabtarefa.p-datatable-sm tr, .tabtarefa.p-datatable-sm td {
+  border: .4rem solid transparent;
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 5px;
+}
+
+/*
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.tarefaestatus-1 {
+  background-color: var(--pink-100);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.tarefaestatus-1 {
+  background-color: var(--pink-200);
+}
+
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.tarefaestatus-2 {
+  background-color: var(--yellow-100);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.tarefaestatus-2 {
+  background-color: var(--yellow-200);
+}
+
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.tarefaestatus-3 {
+  background-color: var(--green-100);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.tarefaestatus-3 {
+  background-color: var(--green-200);
+}
+
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.tarefaestatus-4 {
+  background-color: var(--blue-100);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.tarefaestatus-4 {
+  background-color: var(--blue-200);
+}
+
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr > td.tarefaestatus-0 {
+  background-color: var(--gray-200);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td.tarefaestatus-0 {
+  background-color: var(--gray-300);
+}
+*/
+
+td.tarefaestatus-1 {
+  background-color: var(--pink-200);
+  font-weight: 500;
+}
+
+td.tarefaestatus-1:hover {
+  background-color: var(--pink-300);
+  font-weight: 500;
+  cursor: cell;
+}
+
+td.tarefaestatus-1:active {
+  background-color: var(--pink-400);
+  font-weight: 500;
+}
+
+td.tarefaestatus-2 {
+  background-color: var(--yellow-200);
+  font-weight: 500;
+}
+
+td.tarefaestatus-2:hover {
+  background-color: var(--yellow-300);
+  font-weight: 500;
+  cursor: cell;
+}
+
+td.tarefaestatus-2:active {
+  background-color: var(--yellow-400);
+  font-weight: 500;
+}
+
+td.tarefaestatus-3 {
+  background-color: var(--green-200);
+  font-weight: 500;
+}
+
+td.tarefaestatus-3:hover {
+  background-color: var(--green-300);
+  font-weight: 500;
+  cursor: cell;
+}
+
+td.tarefaestatus-3:active {
+  background-color: var(--green-400);
+  font-weight: 500;
+}
+
+td.tarefaestatus-4 {
+  background-color: var(--blue-200);
+  font-weight: 500;
+}
+
+td.tarefaestatus-0 {
+  background-color: var(--gray-300);
+  font-weight: 500;
 }

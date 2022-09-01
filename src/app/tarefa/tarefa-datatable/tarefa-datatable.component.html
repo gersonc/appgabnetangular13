@@ -41,7 +41,7 @@
          stateStorage="session"
          stateKey="tarefa-table"
          selectionMode="multiple"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
+         styleClass="tablistagem tarefa p-datatable-sm p-datatable-striped p-datatable-gridlines"
 >
 
   <!--*** TOPO *****************************************************************************************************-->
@@ -124,7 +124,7 @@
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
-      <td *ngFor="let col of columns" [style.width]="col.width">
+      <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
           <app-tarefa-usuario-situacao [(exibir)]="showUsuarioSituacao" [tus]="tarf[col.field]"></app-tarefa-usuario-situacao>
         </ng-container>
