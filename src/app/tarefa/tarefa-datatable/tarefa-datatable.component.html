@@ -37,7 +37,7 @@
          (onContextMenuSelect)="ts.onContextMenuSelect($event)"
          (sortFunction)="ts.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'1rem'}"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
          stateStorage="session"
          stateKey="tarefa-table"
          selectionMode="multiple"
@@ -116,8 +116,7 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-tarf let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="tarf" [pContextMenuRow]="tarf" [pContextMenuRowIndex]="rowIndex"
-        [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
+    <tr [pSelectableRow]="tarf" [pContextMenuRow]="tarf" [pContextMenuRowIndex]="rowIndex" [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
       <td>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="tarf" class="p-button-rounded  p-button-text p-button-sm"
@@ -128,8 +127,13 @@
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
           <app-tarefa-usuario-situacao [(exibir)]="showUsuarioSituacao" [tus]="tarf[col.field]"></app-tarefa-usuario-situacao>
         </ng-container>
-        <ng-container *ngIf="col.field==='tarefa_historico'"></ng-container>
-        <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_historico'">
+        <ng-container *ngIf="col.field==='tarefa_historico'">
+          <app-tarefa-historico [(exibirh)]="showHistorico" [tah]="tarf[col.field]"></app-tarefa-historico>
+        </ng-container>
+        <ng-container *ngIf="col.field==='tarefa_usuario_situacao_andamento'">
+          <app-tarefa-usuario-situacao-andamento [(exibirtus)]="showHistorico" [tus]="tarf[col.field]" [index]="rowIndex" [usuarioSN]="usuarioSN" [situacaoSN]="situacaoSN" [andamentoSN]="andamentoSN"></app-tarefa-usuario-situacao-andamento>
+        </ng-container>
+        <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_historico' && col.field!=='tarefa_usuario_situacao_andamento'">
           <app-exporter-celula [celula]="{
             valor: stripslashes(tarf[col.field]),
             field: col.field,

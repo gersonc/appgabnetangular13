@@ -22,6 +22,7 @@ export interface TarefaI {
   tarefa_usuario?: TarefaUsuarioI[];
   tarefa_usuario_situacao?: TarefaUsuarioSituacaoI[];
   tarefa_historico?: TarefaHistoricoI[];
+  tarefa_usuario_situacao_andamento?: TarefaUsuarioSituacaoAndamentoI[];
   tarefa_arquivos?: ArquivoListagem[];
 }
 
@@ -42,6 +43,20 @@ export interface TarefaUsuarioSituacaoI {
   tus_situacao_nome?: string;
   tus_tu_id?: number;
 }
+
+export interface TarefaUsuarioSituacaoAndamentoI {
+  tarefa_id?: number;
+  tarefa_situacao_id?: number;
+  tu_usuario_nome?: string;
+  tus_id?: number;
+  tus_usuario_id?: number;
+  tus_situacao_id?: number;
+  tus_situacao_nome?: string;
+  tus_tu_id?: number;
+  tarefa_historico?: TarefaHistoricoI[];
+}
+
+
 
 export interface TarefaBuscaI {
   tarefa_id?: number;

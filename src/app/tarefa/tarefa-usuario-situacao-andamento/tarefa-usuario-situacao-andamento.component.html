@@ -1,0 +1,38 @@
+<div *ngIf="tus.length > 0" class="tusa">
+  <div class="table">
+    <div *ngFor="let col of tus" class="row-group">
+      <div class="row">
+        <div *ngIf="usuarioSN" class="simples cell" [ngClass]="rowColor(col.tus_situacao_id)">{{col.tu_usuario_nome}}</div>
+        <div *ngIf="situacaoSN" class="simples cell" [ngClass]="rowColor(col.tus_situacao_id)">{{col.tus_situacao_nome}}</div>
+        <div  *ngIf="andamentoSN" class="longa cell">
+
+
+          <div *ngIf="col.tarefa_historico.length > 0" class="tua">
+
+            <div class="table">
+              <div *ngFor="let co of col.tarefa_historico" class="row">
+                <div class="cell simples">{{co.th_data}}</div>
+                <div class="cell longa">
+                  <quill-view [content]="co.th_historico" format="html" theme="bubble"
+                              class="tarefa-historico"></quill-view>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="usuarioSN" class="espacoh cell"></div>
+        <div class="espacoh cell"></div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

@@ -1,18 +1,20 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {TarefaUsuarioSituacaoI} from "../_models/tarefa-i";
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {TarefaUsuarioSituacaoAndamentoI, TarefaUsuarioSituacaoI} from "../_models/tarefa-i";
 import {ColunasI} from "../../_models/colunas-i";
 
 @Component({
-  selector: 'app-tarefa-usuario-situacao',
-  templateUrl: './tarefa-usuario-situacao.component.html',
-  styleUrls: ['./tarefa-usuario-situacao.component.css']
+  selector: 'app-tarefa-usuario-situacao-andamento',
+  templateUrl: './tarefa-usuario-situacao-andamento.component.html',
+  styleUrls: ['./tarefa-usuario-situacao-andamento.component.css']
 })
-export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
-  @Input() tus: TarefaUsuarioSituacaoI[] = [];
-  @Input() exibir: boolean;
-  @Output() exibirChange = new EventEmitter<boolean>();
+export class TarefaUsuarioSituacaoAndamentoComponent implements OnInit {
+  @Input() tus: TarefaUsuarioSituacaoAndamentoI[] = [];
+  @Input() exibirtus: boolean;
+  @Input() index: number;
+  @Output() exibirtusChange = new EventEmitter<boolean>();
   @Input() usuarioSN: boolean;
   @Input() situacaoSN: boolean;
+  @Input() andamentoSN: boolean;
 
 
   us = false;
@@ -40,7 +42,7 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
       this.showSituacao(this.situacaoSN);
     }
     if(changes.exibir) {
-      this.showTudo(this.exibir);
+      this.showTudo(this.exibirtus);
     }
   }
 
@@ -67,11 +69,11 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
   showTabela() {
     if (this.si || this.us) {
       this.show = true;
-      this.exibirChange.emit(true);
+      this.exibirtusChange.emit(true);
     }
     if (!this.us && !this.si) {
       this.show = false;
-      this.exibirChange.emit(false);
+      this.exibirtusChange.emit(false);
     }
   }
 
@@ -82,18 +84,22 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
   }
 
   rowColor(tus_situacao_id?: number): string | null {
-      switch (tus_situacao_id) {
-        case 1:
-          return 'tstatus-1';
-        case 2:
-          return 'tstatus-2';
-        case 3:
-          return 'tstatus-3';
-        case 4:
-          return 'tstatus-4';
-        default:
-          return 'tstatus-0';
-      }
+    switch (tus_situacao_id) {
+      case 1:
+        return 'tstatus-1';
+      case 2:
+        return 'tstatus-2';
+      case 3:
+        return 'tstatus-3';
+      case 4:
+        return 'tstatus-4';
+      default:
+        return 'tstatus-0';
+    }
+  }
+
+  rowfundo(): string | null {
+    return (this.index % 2 == 0) ? 'fundo-par' : 'fundo-impar';
   }
 
 

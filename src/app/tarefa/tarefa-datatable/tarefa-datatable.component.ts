@@ -32,17 +32,20 @@ export class TarefaDatatableComponent implements OnInit {
   acaoHistorico = '';
 
   // andProp: AndPropI;
-  showHistorico = false;
+  showHistorico = true;
   // tituloHistoricoDialog = 'ANDAMENTOS';
   // histAcao: string = '';
   histFormI?: TarefaHistoricoI;
   cssMostra: string | null = null;
-  permListHist: boolean = false;
-  permInclHist: boolean = false;
+  permListHist: boolean = true;
+  permInclHist: boolean = true;
   permitirAcao: boolean = true;
 
   showUsuarioSituacao = true;
   tarefa_historico = true;
+  usuarioSN = true;
+  situacaoSN = true;
+  andamentoSN = true;
 
   constructor(
     public mi: MenuInternoService,
@@ -168,9 +171,11 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
       {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_autor', header: 'AUTOR', sortable: 'true', width: '150px'},
+      {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
+      {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '500px'},
+      {field: 'tarefa_usuario_situacao_andamento', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
     ];
     /*this.cols = [
       {field: 'tarefa_id', header: 'ID', sortable: 'true', width: '80px'},
@@ -195,9 +200,11 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
       {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_autor', header: 'AUTOR', sortable: 'true', width: '150px'},
+      {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
+      {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
+      {field: 'tarefa_usuario_situacao_andamento', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
     ];
   }
 
