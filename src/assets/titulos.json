@@ -1129,6 +1129,16 @@
     "mtitulo": "SIT. USUÁRIO",
     "titulo": "Sit. Usuáario"
   },
+  "tarefa_historico": {
+    "field": "tarefa_historico",
+    "mtitulo": "ANDAMENTOS",
+    "titulo": "Andamentos"
+  },
+  "tarefa_usuario_situacao_andamento": {
+    "field": "tarefa_usuario_situacao_andamento",
+    "mtitulo": "SIT. USUÁRIO",
+    "titulo": "Sit. Usuáario"
+  },
   "tu_usuario_nome": {
     "field": "tu_usuario_nome",
     "mtitulo": "NOME",

@@ -173,8 +173,8 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
-      {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '500px'},
+      // {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
+      // {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '500px'},
       {field: 'tarefa_usuario_situacao_andamento', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
     ];
     /*this.cols = [
@@ -202,8 +202,8 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
-      {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
+      // {field: 'tarefa_usuario_situacao', header: 'SITUAÇÃO DEMANDADOS', sortable: 'true', width: '350px'},
+      // {field: 'tarefa_historico', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
       {field: 'tarefa_usuario_situacao_andamento', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
     ];
   }

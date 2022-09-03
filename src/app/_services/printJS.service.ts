@@ -98,4 +98,36 @@ export class PrintJSService {
         gridStyle: tabStyle
       });
   }
+
+
+  public static imprimirTabela3(dados: any[], titulos: any[]) {
+
+
+    // const d = JSON.stringify(dados);
+    console.log(dados);
+
+    // const dados = UtilService.camposValoresParaPrintJS(campos, valores);
+
+    /*const titTabStyle =
+      'padding-left: .3em;' +
+      'padding-right: .3em;' +
+      'font-weight: bold;' +
+      'font-size: 12px;' +
+      'border: 0.5px solid lightgray;' +
+      'font-family: sans-serif;';
+
+    const tabStyle = 'padding-left: .3em;' +
+      'padding-right: .3em;' +
+      'border: 0.5px solid lightgray;' +
+      'font-weight: normal;' +
+      'font-family: sans-serif;' +
+      'font-size: 10px;';*/
+
+    printJS(
+      {
+        printable: dados,
+        properties: titulos,
+        type: 'json'
+      });
+  }
 }

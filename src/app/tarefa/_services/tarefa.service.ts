@@ -147,8 +147,10 @@ export class TarefaService {
   }
 
   onRowExpand(evento) {
+    console.log('onRowExpand', evento);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['tarefa'];
+      console.log('titulos', this.titulos);
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
@@ -241,7 +243,37 @@ export class TarefaService {
     }
 
     if (n === 2 && this.tarefas.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.tarefas, 'TAREFAS');
+      const dados = this.tarefas.map(t => {
+        let h: any[] = [];
+        if (t.tarefa_historico.length > 0) {
+          h = t.tarefa_historico.map(i => {
+            const hi = {
+              data: i.th_data,
+              usuario: i.th_usuario_nome,
+              andamento: i.th_historico
+            }
+            return hi;
+          });
+        }
+        // const h = t.tarefa_historico
+        let f: any = {
+          tarefa_titulo: t.tarefa_titulo,
+          tarefa_tarefa: t.tarefa_tarefa,
+          tarefa_situacao_nome: t.tarefa_situacao_nome,
+          tarefa_historico: h
+        }
+        return f;
+      });
+
+      const ti: any[] = [
+        'tarefa_titulo',
+        'tarefa_tarefa',
+        'tarefa_situacao_nome',
+        ['data','usuario','andamento']
+      ]
+
+      // PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.tarefas, 'TAREFAS');
+      PrintJSService.imprimirTabela3(dados, ti);
     }
 
     if (n === 3) {
