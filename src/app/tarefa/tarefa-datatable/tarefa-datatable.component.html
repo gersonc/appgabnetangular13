@@ -101,7 +101,7 @@
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 40px;"></th>
+      <th style="width: 3.5rem;"></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.width"
@@ -142,36 +142,21 @@
     <tr [pSelectableRow]="tarf" [pContextMenuRow]="tarf" [pContextMenuRowIndex]="rowIndex"
         [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
 
-      <td style="width: 40px;">
+      <td style="width: 3.5rem;">
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="tarf" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
-        <!--<ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
+        <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
           <app-tarefa-usuario-situacao [(exibir)]="showUsuarioSituacao" [tus]="tarf[col.field]"></app-tarefa-usuario-situacao>
 
         </ng-container>
-        <ng-container *ngIf="col.field==='tarefa_historico'">
-          &lt;!&ndash;<app-tarefa-historico [(exibirh)]="showHistorico" [tah]="tarf[col.field]"></app-tarefa-historico>&ndash;&gt;
-          <ng-container *ngIf="tarf[col.field]">
-            <div *ngFor="let c of tarf[col.field]" class="tarefa-andamento">
-              <div class="p-mb-0 p-ml-2 tarefa-historico-data">{{c.th_data}}</div>
-              <div class="p-mb-0 p-ml-2 tarefa-historico-usuario">{{c.th_usuario_nome}}</div>
-              <div class="p-mb-0 p-ml-2 tarefa-historico">
-                &lt;!&ndash;<div style="overflow-wrap: unset;">&ndash;&gt;
-                <quill-view [content]="c.th_historico" format="html" theme="bubble" class="tarefa-historico" ></quill-view>
-                &lt;!&ndash;</div>&ndash;&gt;
-              </div>
-              <div class="tarefainternospc"></div>
-            </div>
-          </ng-container>
-        </ng-container>
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao_andamento'">
           <app-tarefa-usuario-situacao-andamento [(exibirtus)]="showHistorico" [tus]="tarf[col.field]" [index]="rowIndex" [usuarioSN]="usuarioSN" [situacaoSN]="situacaoSN" [andamentoSN]="andamentoSN"></app-tarefa-usuario-situacao-andamento>
-        </ng-container>-->
-        <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_historico' && col.field!=='tarefa_usuario_situacao_andamento'">
+        </ng-container>
+        <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_usuario_situacao_andamento'">
           <app-exporter-celula [celula]="{
             valor: stripslashes(tarf[col.field]),
             field: col.field,
@@ -349,7 +334,6 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-tarefa-exporter *ngIf="showDetalhe" [campos]="cols" [valores]="ts.tarefas"></app-tarefa-exporter>
     <!--<app-tarefa-detalhe [tarefa]="tarefaDetalhe" (hideDetalhe)="escondeDetalhe()"></app-tarefa-detalhe>-->
   </p-dialog>
 </ng-container>
