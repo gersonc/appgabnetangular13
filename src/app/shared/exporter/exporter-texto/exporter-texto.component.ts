@@ -67,7 +67,7 @@ export class ExporterTextoComponent implements OnInit {
   }
 
   stripslashes(str?: string): string | null {
-    return Stripslashes(str)
+    return Stripslashes(str);
   }
 
 }

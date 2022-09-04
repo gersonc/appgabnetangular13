@@ -31,7 +31,6 @@ import { CalendarModule} from "primeng/calendar";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {QuillModule} from "ngx-quill";
 import { TarefaUsuarioSituacaoAndamentoComponent } from './tarefa-usuario-situacao-andamento/tarefa-usuario-situacao-andamento.component';
-import { TarefaExporterComponent } from './tarefa-exporter/tarefa-exporter.component';
 
 
 @NgModule({
@@ -45,8 +44,7 @@ import { TarefaExporterComponent } from './tarefa-exporter/tarefa-exporter.compo
     TarefaUsuarioComponent,
     TarefaUsuarioSituacaoComponent,
     TarefaHistoricoComponent,
-    TarefaUsuarioSituacaoAndamentoComponent,
-    TarefaExporterComponent
+    TarefaUsuarioSituacaoAndamentoComponent
   ],
     imports: [
         CommonModule,

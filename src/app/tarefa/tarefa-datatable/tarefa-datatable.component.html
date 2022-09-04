@@ -292,47 +292,6 @@
 
           </div>
         </div>
-        <!--*** HISTORICO ANDAMENTOS ****************************************************************************************-->
-        <ng-container *ngIf="showHistorico">
-          <div [ngClass]="cssMostra">
-            <p-dialog
-              [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
-              [style]="{width: '80vw'}"
-              [(visible)]="showHistorico"
-              styleClass="tablistagem"
-              [header]="'ANDAMENTOS PROPOSIÇÃO'"
-              [modal]="true"
-              [dismissableMask]="false"
-              [baseZIndex]="0"
-              [blockScroll]="true"
-            >
-              <!--<app-andamento-tarefa-listar
-                *ngIf="showHistorico && acaoAndamento==='listar'"
-                [(display)]="showHistorico"
-                [tarefa]="ts.expandido"
-                (dialogExterno)="mostraDialog($event)"
-                (novoRegistro)="recebeRegistro($event)"
-              ></app-andamento-tarefa-listar>-->
-
-              <!--<app-andamento-tarefa-form
-                *ngIf="showHistorico && acaoAndamento==='incluir'"
-                [idx]="idx"
-                [andamento_tarefa_tarefa_id]="tarf.tarefa_id"
-                [acao]="'incluir'"
-                [tarefa]="ts.expandido"
-                [(display)]="showHistorico"
-                (novoRegistro)="recebeRegistro($event)"
-              ></app-andamento-tarefa-form>-->
-
-
-              <!--<app-hist-form *ngIf="showHistorico && histAcao === 'incluir'" [histFormI]="histFormI"
-                             [(display)]="showHistorico" (novoRegistro)="recebeRegistro($event)"></app-hist-form>
-              <app-hist-datatable *ngIf="showHistorico && histAcao === 'listar'" [(display)]="showHistorico"
-                                  [histListI]="histListI" [permitirAcao]="permitirAcao" (dialogExterno)="mostraDialog($event)"
-                                  (novoRegistro)="recebeRegistro($event)"></app-hist-datatable>-->
-            </p-dialog>
-          </div>
-        </ng-container>
       </td>
     </tr>
   </ng-template>
@@ -390,7 +349,7 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-tarefa-exporter [campos]="cols" [valores]="ts.tarefas"></app-tarefa-exporter>
+    <app-tarefa-exporter *ngIf="showDetalhe" [campos]="cols" [valores]="ts.tarefas"></app-tarefa-exporter>
     <!--<app-tarefa-detalhe [tarefa]="tarefaDetalhe" (hideDetalhe)="escondeDetalhe()"></app-tarefa-detalhe>-->
   </p-dialog>
 </ng-container>

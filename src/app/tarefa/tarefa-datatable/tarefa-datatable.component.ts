@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 import {TarefaI} from "../_models/tarefa-i";
 import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
 import {breakTextIntoLines} from "pdf-lib";
+import {TarefaPrintService} from "../_services/tarefa-print.service";
 
 @Component({
   selector: 'app-tarefa-datatable',
@@ -53,7 +54,8 @@ export class TarefaDatatableComponent implements OnInit {
     public md: MenuDatatableService,
     private router: Router,
     public ts: TarefaService,
-    public tfs: TarefaFormService
+    public tfs: TarefaFormService,
+    public tp: TarefaPrintService
   ) { }
 
   ngOnInit() {
@@ -310,8 +312,13 @@ export class TarefaDatatableComponent implements OnInit {
   }
 
   tarefaDetalheCompleto(tar: TarefaI) {
-    this.showDetalhe = true;
-    this.tarefaDetalhe = tar;
+    this.tp.valores = this.ts.tarefas;
+    // this.tp.valores = [tar];
+    // this.tp.PrintElem();
+    // this.tp.getPdf();
+    this.tp.getPdf();
+    // this.showDetalhe = true;
+    // this.tarefaDetalhe = tar;
   }
 
   escondeDetalhe() {

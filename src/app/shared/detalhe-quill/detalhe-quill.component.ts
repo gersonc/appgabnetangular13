@@ -27,8 +27,6 @@ import {Stripslashes} from "../functions/stripslashes";
         </p-footer>
       </p-dialog>
     </ng-container>`
-  /*templateUrl: './detalhe-quill.component.html',
-  styleUrls: ['./detalhe-quill.component.css']*/
 })
 export class DetalheQuillComponent implements OnInit, OnChanges {
   @Input() detalhe?: DetalheQuillI | null;
