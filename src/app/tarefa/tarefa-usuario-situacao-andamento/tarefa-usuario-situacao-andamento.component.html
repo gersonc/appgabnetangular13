@@ -2,12 +2,22 @@
   <div class="table">
     <div *ngFor="let col of tus" class="row-group">
       <div class="row">
-        <div *ngIf="usuarioSN" class="simples cell" [ngClass]="rowColor(col.tus_situacao_id)">{{col.tu_usuario_nome}}</div>
-        <div *ngIf="situacaoSN" class="simples cell" [ngClass]="rowColor(col.tus_situacao_id)">{{col.tus_situacao_nome}}</div>
-        <div  *ngIf="andamentoSN" class="longa cell">
+        <div *ngIf="usuarioSN || situacaoSN" class="cell" [ngClass]="rowColor(col.tus_situacao_id)">
+          <div *ngIf="usuarioSN" class="simples">{{col.tu_usuario_nome}}</div>
+          <div *ngIf="situacaoSN" class="simples">{{col.tus_situacao_nome}}</div>
+          <div *ngIf="situacaoSN" class="longa"></div>
+        </div>
+      </div>
+      <ng-container *ngIf="andamentoSN && col.tarefa_historico.length > 0">
 
+      <div *ngFor="let co of col.tarefa_historico" class="row andamento">
+        <div class="cell">
+          <div class="simples">{{co.th_data}}</div>
+          <div class="longa">
+            <quill-view [content]="co.th_historico" format="html" theme="bubble" class="tarefa-historico"></quill-view>
+          </div>
 
-          <div *ngIf="col.tarefa_historico.length > 0" class="tua">
+          <!--<div class="tua">
 
             <div class="table">
               <div *ngFor="let co of col.tarefa_historico" class="row">
@@ -21,18 +31,21 @@
             </div>
 
 
-          </div>
+          </div>-->
 
 
         </div>
       </div>
+
+
+      </ng-container>
       <div class="row">
         <div *ngIf="usuarioSN" class="espacoh cell"></div>
         <div class="espacoh cell"></div>
       </div>
+
+
     </div>
-
-
   </div>
 
 </div>

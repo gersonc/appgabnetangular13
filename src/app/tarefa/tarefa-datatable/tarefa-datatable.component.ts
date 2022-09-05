@@ -47,6 +47,7 @@ export class TarefaDatatableComponent implements OnInit {
   usuarioSN = true;
   situacaoSN = true;
   andamentoSN = true;
+  usuario_id = 111;
 
   constructor(
     public mi: MenuInternoService,
@@ -59,6 +60,7 @@ export class TarefaDatatableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.usuario_id = +this.aut.usuario_id;
     if (this.ts.selecionados === undefined || this.ts.selecionados === null || !Array.isArray(this.ts.selecionados)) {
       this.ts.selecionados = [];
     }
@@ -170,13 +172,13 @@ export class TarefaDatatableComponent implements OnInit {
     this.cols = [
       {field: 'tarefa_id', header: 'ID', sortable: 'true', width: '80px'},
       {field: 'tarefa_titulo', header: 'TITULO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
+      {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '400px'},
       {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_usuario_situacao', header: 'DEMANDADOS SITUAÇÃO', sortable: 'false', width: '250px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_usuario_situacao', header: 'DEMANDADOS SITUAÇÃO', sortable: 'true', width: '350px'},
-      {field: 'tarefa_usuario_situacao_andamento', header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS', sortable: 'true', width: '900px'},
+      {field: 'tarefa_usuario_situacao_andamento', header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS', sortable: 'false', width: '400px'},
     ];
   }
 
@@ -184,12 +186,12 @@ export class TarefaDatatableComponent implements OnInit {
     this.ts.criaTabela();
     this.ts.tabela.selectedColumns = [
       {field: 'tarefa_titulo', header: 'TITULO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '500px'},
+      {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '400px'},
       {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_usuario_situacao', header: 'DEMANDADOS SITUAÇÃO', sortable: 'false', width: '250px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_usuario_situacao', header: 'DEMANDADOS SITUAÇÃO', sortable: 'true', width: '350px'},
       // {field: 'tarefa_usuario_situacao_andamento', header: 'ANDAMENTOS', sortable: 'true', width: '900px'},
     ];
   }
@@ -306,7 +308,7 @@ export class TarefaDatatableComponent implements OnInit {
   }
 
   escondeDetalhe() {
-    this.showDetalhe = false;
+    // this.showDetalhe = false;
     this.tarefaDetalhe = null;
   }
 
@@ -415,5 +417,6 @@ export class TarefaDatatableComponent implements OnInit {
       return null;
     }
   }
+
 
 }

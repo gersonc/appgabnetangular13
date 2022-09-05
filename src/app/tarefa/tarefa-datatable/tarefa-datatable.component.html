@@ -72,7 +72,8 @@
           <div class="p-mx-2">TAREFAS</div>
         </div>
         <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2" *ngIf="ts.selecionados !== undefined &&  ts.selecionados !== null &&  ts.selecionados.length > 0">
+          <div class="p-mr-2"
+               *ngIf="ts.selecionados !== undefined &&  ts.selecionados !== null &&  ts.selecionados.length > 0">
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="ts.resetSelecionados()"></button>
           </div>
@@ -104,16 +105,16 @@
       <th style="width: 3.5rem;"></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
+          [pSortableColumnDisabled]="col.field ==='tarefa_usuario_situacao' || col.field ==='tarefa_usuario_situacao_andamento'"
           [style.width]="col.width"
           pReorderableColumn
           pResizableColumn
       >
         {{col.header}}
-        <p-sortIcon [field]="col.field"></p-sortIcon>
+        <p-sortIcon *ngIf="col.field !=='tarefa_usuario_situacao' && col.field !=='tarefa_usuario_situacao_andamento'" [field]="col.field"></p-sortIcon>
       </th>
     </tr>
   </ng-template>
-
 
 
   <!--<ng-template pTemplate="colgroup" let-columns>
@@ -139,22 +140,45 @@
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-tarf let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="tarf" [pContextMenuRow]="tarf" [pContextMenuRowIndex]="rowIndex"
-        [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
+    <tr
+      [pSelectableRow]="tarf"
+      [pContextMenuRow]="tarf"
+      [pContextMenuRowIndex]="rowIndex"
+      [pSelectableRowIndex]="rowIndex"
+      class="p-selectable-row"
+    >
 
       <td style="width: 3.5rem;">
-        <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
-                [pRowToggler]="tarf" class="p-button-rounded  p-button-text p-button-sm"
-                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        <button
+          type="button"
+          pButton pRipple
+          [pTooltip]="expanded ? 'Recolher' : 'Expandir'"
+          tooltipPosition="top"
+          [pRowToggler]="tarf"
+          class="p-button-rounded  p-button-text p-button-sm"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
-          <app-tarefa-usuario-situacao [(exibir)]="showUsuarioSituacao" [tus]="tarf[col.field]"></app-tarefa-usuario-situacao>
-
+          <app-tarefa-usuario-situacao
+            [(exibir)]="showUsuarioSituacao"
+            [tus]="tarf[col.field]"
+            [tarefa]="tarf"
+            [index]="rowIndex"
+            [usuario_id]="usuario_id"
+          ></app-tarefa-usuario-situacao>
         </ng-container>
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao_andamento'">
-          <app-tarefa-usuario-situacao-andamento [(exibirtus)]="showHistorico" [tus]="tarf[col.field]" [index]="rowIndex" [usuarioSN]="usuarioSN" [situacaoSN]="situacaoSN" [andamentoSN]="andamentoSN"></app-tarefa-usuario-situacao-andamento>
+          <app-tarefa-usuario-situacao-andamento
+            [(exibirtus)]="showHistorico"
+            [tus]="tarf[col.field]"
+            [index]="rowIndex"
+            [usuarioSN]="usuarioSN"
+            [situacaoSN]="situacaoSN"
+            [andamentoSN]="andamentoSN"
+          ></app-tarefa-usuario-situacao-andamento>
         </ng-container>
         <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_usuario_situacao_andamento'">
           <app-exporter-celula [celula]="{
@@ -235,7 +259,8 @@
                 </button>
               </div>
 
-              <div *ngIf="ts.expandidoSN && permListHist && tarf.tarefa_usuario_situacao_andamento.length > 0" class="p-mr-2">
+              <div *ngIf="ts.expandidoSN && permListHist && tarf.tarefa_usuario_situacao_andamento.length > 0"
+                   class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -266,13 +291,99 @@
             </div>
 
             <div class="p-grid">
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_titulo}}</h5>
+                  {{tarf['tarefa_titulo']}}
+                </div>
+              </div>
+              <div
+                *ngIf="tarf['tarefa_tarefa'] !== null && tarf['tarefa_tarefa'].length > 0"
+                class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6"
+              >
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_tarefa}}</h5>
+                  <app-exporter-celula [celula]="{
+                        valor: stripslashes(tarf['tarefa_tarefa']),
+                        field: 'tarefa_tarefa',
+                        header: ts.tTit.tarefa_tarefa,
+                        txtVF: ts.testaCampoTexto('tarefa_tarefa'),
+                        cphtml: stripslashes(tarf['tarefa_tarefa']),
+                        cpdelta: null,
+                        cptexto: null
+                      }">
+                  </app-exporter-celula>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_situacao_nome}}</h5>
+                  <div
+                    [ngClass]="rowStyle('tarefa_situacao_nome', tarf['tarefa_situacao_id'])">{{tarf['tarefa_situacao_nome']}}</div>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_data}}</h5>
+                  {{tarf['tarefa_data']}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_usuario_autor_nome}}</h5>
+                  {{tarf['tarefa_usuario_autor_nome']}}
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_datahora}}</h5>
+                  {{tarf['tarefa_datahora']}}
+                </div>
+              </div>
+
+            </div>
+            <div class="p-grid">
+
+
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-8 p-xl-9">
+                <div class="registrostarefa p-shadow-1">
+                  <h5>{{ts.tTit.tarefa_usuario_situacao_andamento}}</h5>
+                  <app-tarefa-usuario-situacao-andamento
+                    *ngIf="ts.expandidoSN"
+                    [(exibirtus)]="ts.expandidoSN"
+                    [tus]="tarf['tarefa_usuario_situacao_andamento']"
+                    [index]="indice" [usuarioSN]="usuarioSN"
+                    [situacaoSN]="situacaoSN"
+                    [andamentoSN]="andamentoSN"
+                  ></app-tarefa-usuario-situacao-andamento>
+                </div>
+              </div>
+
+
+
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+              <div class="registrostarefa p-shadow-1">
+                <h5>{{ts.tTit.tarefa_usuario_situacao}}</h5>
+                <app-tarefa-usuario-situacao
+                  *ngIf="ts.expandidoSN"
+                  [(exibir)]="ts.expandidoSN"
+                  [tus]="tarf['tarefa_usuario_situacao']"
+                ></app-tarefa-usuario-situacao>
+              </div>
+            </div>
+          </div>
+            <!--<div class="p-grid">
               <div *ngFor="let ce of ts.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
+                <div class="registrostarefa p-shadow-1">
                   <h5>{{ce.header}}</h5>
                   <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
               </div>
-            </div>
+            </div>-->
 
 
           </div>
@@ -322,7 +433,6 @@
   </p-footer>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
-
 
 <ng-container *ngIf="showDetalhe">
   <p-dialog

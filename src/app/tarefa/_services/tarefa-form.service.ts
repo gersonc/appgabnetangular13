@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {TarefaFormI, TarefaI} from "../_models/tarefa-i";
+import {SelectItem} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class TarefaFormService {
   showForm = false;
   idx = 0;
   menu = false;
+
+  ddTarefa_situacao_id: SelectItem[] = [];
 
   constructor() { }
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HTTP_INTERCEPTORS} from "@angular/common/http";
 import { TarefaRoutingModule} from "./tarefa-routing.module";
 import { ErrorInterceptor, JwtInterceptor} from "../_helpers";
@@ -66,7 +66,8 @@ import { TarefaUsuarioSituacaoAndamentoComponent } from './tarefa-usuario-situac
         InputTextModule,
         CalendarModule,
         KillViewModule,
-        QuillModule
+        QuillModule,
+        FormsModule
     ],
   exports: [
     TarefaComponent,

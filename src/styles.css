@@ -18223,20 +18223,31 @@ div.tarefa-historico {
   display: table-row;
 }
 
+
+.tusa .row.andamento {
+  display: table-row;
+}
+
+.tusa .row.andamento:nth-child(odd) {
+  display: table-row;
+  background: var(--surface-200);
+}
+
 .tusa .cell {
-  display: table-cell;;
+  display: table-cell;
 }
 
-.tusa .simples.cell {
-  width: 9rem;
+.tusa .cell .simples {
+  float: left;
+  width: 12rem;
 }
 
-.tusa .longa.cell {
+.tusa .cell .longa {
   width: auto;
   child-align: left;
 }
 
-.tusa .espacoh.cell {
+.tusa .cell .espacoh {
   height: .25rem;
   background-color: transparent;
 }
@@ -18290,8 +18301,68 @@ div.tarefa-historico {
   background-color: var(--surface-200);
 }
 
+
+.tablistagem h5 {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: var(--formulario-field-label-font-weight) !important;
+  display: block !important;
+  top: 50%;
+  margin-top: 0;
+  margin-bottom: 0.3rem !important;
+}
+
+.tablistagem .registrostarefa:not(h5) {
+  font-size: 1.2em !important;
+}
+
+.tablistagem .registrostarefa {
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+  padding: .5rem;
+  border-radius: .5rem;
+  overflow: visible;
+}
+
+
+.tus .p-dropdown
+
+.tus .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
+  margin: 0;
+  padding: 0.1rem 1rem;
+  font-weight: 600;
+}
+
+.tus .p-dropdown-panel .p-dropdown-items {
+  padding: 0.1rem 0;
+}
+
+.tus .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  margin: 0;
+  font-size: .8em;
+  font-weight: 400;
+  padding: 0.1rem 2rem;
+  border-bottom: 1px solid;
+  border-bottom-color: var(--border-elementos-input-forms);
+}
+
+.tus .p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--bt-secundario-border-active);
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+
+.tus .p-dropdown .p-button.p-button-icon-only {
+  padding: 0.1rem 0;
+}
+
+.tus .p-dropdown-label {
+  font-size: 0.8rem;
+  font-weight: var(--formulario-field-input-font-weight);
+}
+
+/*
 .reltarefa {
-  /*font: 10pt Georgia, "Times New Roman", Times, serif;*/
+  !*font: 10pt Georgia, "Times New Roman", Times, serif;*!
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
   line-height: 1.3;
@@ -18386,7 +18457,7 @@ div.tarefa-historico {
   }
 
   .reltarefa {
-    /*font: 10pt Georgia, "Times New Roman", Times, serif;*/
+    !*font: 10pt Georgia, "Times New Roman", Times, serif;*!
     font-family: Helvetica, Arial, sans-serif;
     font-size: 12px;
     line-height: 1.3;
@@ -18419,3 +18490,4 @@ div.tarefa-historico {
   }
 
 }
+*/

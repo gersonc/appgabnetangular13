@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {TarefaUsuarioSituacaoI} from "../_models/tarefa-i";
+import {TarefaI, TarefaUsuarioSituacaoI} from "../_models/tarefa-i";
 import {ColunasI} from "../../_models/colunas-i";
+import {SelectItem} from "primeng/api";
+import {TarefaSituacaoService} from "../_services/tarefa-situacao.service";
 
 @Component({
   selector: 'app-tarefa-usuario-situacao',
@@ -8,11 +10,15 @@ import {ColunasI} from "../../_models/colunas-i";
   styleUrls: ['./tarefa-usuario-situacao.component.css']
 })
 export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
+  @Input() tarefa?: TarefaI;
+  @Output() tarefaChange = new EventEmitter<TarefaI>();
   @Input() tus: TarefaUsuarioSituacaoI[] = [];
   @Input() exibir: boolean;
   @Output() exibirChange = new EventEmitter<boolean>();
   @Input() usuarioSN: boolean;
   @Input() situacaoSN: boolean;
+  @Input() index?: number;
+  @Input() usuario_id: number = 0;
 
 
   us = false;
@@ -20,10 +26,24 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
   show = false;
   teste = false;
 
+  user_id = 61;
+
+  currentStyles = {
+    height: '40px',
+    zIndex : 10000,
+  };
+
+
+
+  mostraSeletor = false;
+
   cols: ColunasI[] = [];
   selectedColumns: ColunasI[] = [];
 
-  constructor() { }
+
+  constructor(
+    public tss: TarefaSituacaoService,
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -76,9 +96,11 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
   }
 
   showTudo(vf: boolean) {
+
     this.si = true;
     this.us = true;
     this.show = true;
+    console.log(this.usuario_id);
   }
 
   rowColor(tus_situacao_id?: number): string | null {
@@ -94,6 +116,22 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
         default:
           return 'tstatus-0';
       }
+  }
+
+  alterarClick() {
+    if (this.tss.ddTarefa_situacao_id.length === 0) {
+      this.tss.ddTarefa_situacao_id = JSON.parse(sessionStorage.getItem('dropdown-tarefa_situacao'));
+      console.log(this.tss.ddTarefa_situacao_id);
+    }
+    this.mostraSeletor = true;
+  }
+
+  gravarClick() {
+    this.mostraSeletor = false;
+  }
+
+  getStyle(userId: number): any {
+    return (this.mostraSeletor && this.user_id === userId) ? null : this.currentStyles;
   }
 
 

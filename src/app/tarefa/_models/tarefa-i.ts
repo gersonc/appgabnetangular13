@@ -115,3 +115,14 @@ export const tarefacampostexto: string[] = [
   'th_historico'
 ];
 
+export class TarefaTitulo {
+ tarefa_titulo = '';
+ tarefa_tarefa = '';
+ tarefa_situacao_nome = '';
+ tarefa_data = '';
+ tarefa_usuario_autor_nome = '';
+ tarefa_datahora = '';
+ tarefa_usuario_situacao = '';
+ tarefa_usuario_situacao_andamento = '';
+}
+

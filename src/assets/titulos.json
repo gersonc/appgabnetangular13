@@ -1127,7 +1127,7 @@
   "tarefa_usuario_situacao": {
     "field": "tarefa_usuario_situacao",
     "mtitulo": "SIT. USUÁRIO",
-    "titulo": "Sit. Usuáario"
+    "titulo": "Sit. Usuário"
   },
   "tarefa_historico": {
     "field": "tarefa_historico",
@@ -1137,7 +1137,7 @@
   "tarefa_usuario_situacao_andamento": {
     "field": "tarefa_usuario_situacao_andamento",
     "mtitulo": "SIT. USUÁRIO",
-    "titulo": "Sit. Usuáario"
+    "titulo": "Sit. Usuário"
   },
   "tu_usuario_nome": {
     "field": "tu_usuario_nome",

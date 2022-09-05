@@ -59,6 +59,9 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   carregaDropDown() {
     if (sessionStorage.getItem('tarefa_menu-dropdown')) {
       this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
+      if (!sessionStorage.getItem('dropdown-tarefa_situacao')) {
+        sessionStorage.setItem('dropdown-tarefa_situacao', JSON.stringify(this.dd.ddTarefa_situacao_id));
+      }
     } else {
       this.getCarregaDropDown();
     }

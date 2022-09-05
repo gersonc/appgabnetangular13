@@ -9,7 +9,7 @@ import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} 
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {TarefaFormService} from "./tarefa-form.service";
-import {TarefaBuscaI, tarefacampostexto, TarefaI, TarefaPaginacaoI} from "../_models/tarefa-i";
+import {TarefaBuscaI, tarefacampostexto, TarefaI, TarefaPaginacaoI, TarefaTitulo} from "../_models/tarefa-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TarefaFormI} from "../_models/tarefa-form-i";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
@@ -44,6 +44,7 @@ export class TarefaService {
   mudaRows = 50;
   rowsPerPageOptions = [50];
   colsTrocar = ['tarefa_data', 'tarefa_datahora'];
+  tTit = new TarefaTitulo();
   // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
   excelColumns = [
@@ -150,8 +151,12 @@ export class TarefaService {
     console.log('onRowExpand', evento);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['tarefa'];
-      console.log('titulos', this.titulos);
     }
+      if (this.tTit.tarefa_tarefa === '') {
+        this.getTitulo();
+        console.log('tTit', this.tTit);
+      }
+
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
@@ -166,7 +171,7 @@ export class TarefaService {
             txtVF: false,
             cphtml: ev[t.field]
           }
-          if (t.field === 'tarefa_observacao' && ev[t.field].length > 40) {
+          if (t.field === 'tarefa_tarefa' && ev[t.field].length > 40) {
             const d = t.field + '_delta';
             const tx = t.field + '_texto';
             celula.txtVF = true;
@@ -178,7 +183,7 @@ export class TarefaService {
               celula.valor = ev[tx];
             }
           }
-          if (t.field === 'tarefa_observacao' && ev[t.field].length <= 40) {
+          if (t.field === 'tarefa_tarefa' && ev[t.field].length <= 40) {
             celula.valor = limpaTexto(ev[t.field]);
           }
           cl.push(celula);
@@ -604,5 +609,24 @@ export class TarefaService {
     }
 
     this.sub.forEach(s => s.unsubscribe());
+  }
+
+  getTitulo() {
+    const t0 =  this.titulos.find(t => t.field === 'tarefa_titulo');
+    this.tTit.tarefa_titulo = t0.titulo;
+    const t1 =  this.titulos.find(t => t.field === 'tarefa_tarefa');
+    this.tTit.tarefa_tarefa = t1.titulo;
+    const t2 =  this.titulos.find(t => t.field === 'tarefa_situacao_nome');
+    this.tTit.tarefa_situacao_nome = t2.titulo;
+    const t3 =  this.titulos.find(t => t.field === 'tarefa_data');
+    this.tTit.tarefa_data = t3.titulo;
+    const t4 =  this.titulos.find(t => t.field === 'tarefa_usuario_autor_nome');
+    this.tTit.tarefa_usuario_autor_nome = t4.titulo;
+    const t5 =  this.titulos.find(t => t.field === 'tarefa_datahora');
+    this.tTit.tarefa_datahora = t5.titulo;
+    const t6 =  this.titulos.find(t => t.field === 'tarefa_usuario_situacao');
+    this.tTit.tarefa_usuario_situacao = t6.titulo;
+    const t7 =  this.titulos.find(t => t.field === 'tarefa_usuario_situacao_andamento');
+    this.tTit.tarefa_usuario_situacao_andamento = t7.titulo;
   }
 }
