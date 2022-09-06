@@ -31,6 +31,8 @@ import { CalendarModule} from "primeng/calendar";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {QuillModule} from "ngx-quill";
 import { TarefaUsuarioSituacaoAndamentoComponent } from './tarefa-usuario-situacao-andamento/tarefa-usuario-situacao-andamento.component';
+import { TarefaAtualizarFormComponent } from './tarefa-atualizar-form/tarefa-atualizar-form.component';
+import {ArquivoModule} from "../arquivo/arquivo.module";
 
 
 @NgModule({
@@ -44,31 +46,33 @@ import { TarefaUsuarioSituacaoAndamentoComponent } from './tarefa-usuario-situac
     TarefaUsuarioComponent,
     TarefaUsuarioSituacaoComponent,
     TarefaHistoricoComponent,
-    TarefaUsuarioSituacaoAndamentoComponent
+    TarefaUsuarioSituacaoAndamentoComponent,
+    TarefaAtualizarFormComponent
   ],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        TarefaRoutingModule,
-        SidebarModule,
-        ScrollPanelModule,
-        TableModule,
-        MenuModule,
-        TooltipModule,
-        RippleModule,
-        ButtonModule,
-        ExporterAcessoModule,
-        DialogModule,
-        UtilModule,
-        ContextMenuModule,
-        SelectButtonModule,
-        DropdownModule,
-        InputTextModule,
-        CalendarModule,
-        KillViewModule,
-        QuillModule,
-        FormsModule
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TarefaRoutingModule,
+    SidebarModule,
+    ScrollPanelModule,
+    TableModule,
+    MenuModule,
+    TooltipModule,
+    RippleModule,
+    ButtonModule,
+    ExporterAcessoModule,
+    DialogModule,
+    UtilModule,
+    ContextMenuModule,
+    SelectButtonModule,
+    DropdownModule,
+    InputTextModule,
+    CalendarModule,
+    KillViewModule,
+    QuillModule,
+    FormsModule,
+    ArquivoModule
+  ],
   exports: [
     TarefaComponent,
   ],

@@ -4,7 +4,7 @@
          [value]="ts.tarefas"
          [columns]="ts.tabela.selectedColumns"
          [rows]="ts.tabela.rows"
-         [lazy]="true"
+         [lazy]="ts.lazy"
          [lazyLoadOnInit]="false"
          [totalRecords]="ts.tabela.totalRecords"
          [sortField]="ts.tabela.sortField"
@@ -168,6 +168,7 @@
             [tarefa]="tarf"
             [index]="rowIndex"
             [usuario_id]="usuario_id"
+            (mostraForm)="mostraTusFormEvent($event)"
           ></app-tarefa-usuario-situacao>
         </ng-container>
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao_andamento'">
@@ -370,7 +371,6 @@
                 <h5>{{ts.tTit.tarefa_usuario_situacao}}</h5>
                 <app-tarefa-usuario-situacao
                   *ngIf="ts.expandidoSN"
-                  [(exibir)]="ts.expandidoSN"
                   [tus]="tarf['tarefa_usuario_situacao']"
                 ></app-tarefa-usuario-situacao>
               </div>
@@ -448,4 +448,19 @@
   </p-dialog>
 </ng-container>
 
+
+<ng-container *ngIf="ts.showTusForm">
+  <p-dialog
+    [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
+    [style]="{maxWidth: '1350px', width: '80vw'}"
+    [(visible)]="ts.showTusForm"
+    [modal]="true"
+    [dismissableMask]="false"
+    [closable]="false"
+    styleClass="tablistagem"
+    header="TAREFA - USUÁRIO SITUAÇÃO"
+  >
+    <app-tarefa-atualizar-form *ngIf="ts.showTusForm" (fechar)="fechaTusForm($event)"></app-tarefa-atualizar-form>
+  </p-dialog>
+</ng-container>
 

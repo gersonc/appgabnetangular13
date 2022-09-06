@@ -9,7 +9,14 @@ import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} 
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {TarefaFormService} from "./tarefa-form.service";
-import {TarefaBuscaI, tarefacampostexto, TarefaI, TarefaPaginacaoI, TarefaTitulo} from "../_models/tarefa-i";
+import {
+  TarefaBuscaI,
+  tarefacampostexto,
+  TarefaI,
+  TarefaPaginacaoI,
+  TarefaTitulo,
+  TarefaUsuarioSituacaoAtualisarFormI
+} from "../_models/tarefa-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TarefaFormI} from "../_models/tarefa-form-i";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
@@ -45,6 +52,7 @@ export class TarefaService {
   rowsPerPageOptions = [50];
   colsTrocar = ['tarefa_data', 'tarefa_datahora'];
   tTit = new TarefaTitulo();
+  showTusForm = false;
   // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
   excelColumns = [
@@ -550,6 +558,11 @@ export class TarefaService {
     return this.http.delete<any[]>(url);
   }
 
+  putTarefaAtualizarUsuarioSituacao(tusa: TarefaUsuarioSituacaoAtualisarFormI): Observable<any[]> {
+    const url = this.url.tarefa + '/atualizar/usuario/situacao';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, tusa, httpOptions);
+  }
 
   rowsChange(ev) {
     this.mudaRows = this.tabela.rows;

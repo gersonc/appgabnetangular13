@@ -13,12 +13,11 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
   @Input() tarefa?: TarefaI;
   @Output() tarefaChange = new EventEmitter<TarefaI>();
   @Input() tus: TarefaUsuarioSituacaoI[] = [];
-  @Input() exibir: boolean;
-  @Output() exibirChange = new EventEmitter<boolean>();
-  @Input() usuarioSN: boolean;
-  @Input() situacaoSN: boolean;
   @Input() index?: number;
   @Input() usuario_id: number = 0;
+  @Input() exibir: boolean;
+  @Output() exibirChange = new EventEmitter<boolean>();
+  @Output() mostraForm = new EventEmitter<boolean>();
 
 
   us = false;
@@ -46,25 +45,16 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.cols = [
+    /*this.cols = [
       {field: 'tu_usuario_nome', header: 'USUÁRIO', sortable: 'true', width: '150px'},
       {field: 'tus_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'}
-    ];
+    ];*/
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.usuarioSN) {
-      this.showUsuario(this.usuarioSN);
-    }
-    if(changes.situacaoSN) {
-      this.showSituacao(this.situacaoSN);
-    }
-    if(changes.exibir) {
-      this.showTudo(this.exibir);
-    }
   }
 
-  showUsuario(vf: boolean) {
+  /*showUsuario(vf: boolean) {
     if (vf) {
       this.selectedColumns.push({field: 'tu_usuario_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'})
     } else {
@@ -72,9 +62,9 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
     }
     this.us = vf;
     this.showTabela();
-  }
+  }*/
 
-  showSituacao(vf: boolean) {
+  /*showSituacao(vf: boolean) {
     if (vf) {
       this.selectedColumns.push({field: 'tus_situacao_nome', header: 'USUÁRIO', sortable: 'true', width: '150px'})
     } else {
@@ -82,9 +72,9 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
     }
     this.si = vf;
     this.showTabela();
-  }
+  }*/
 
-  showTabela() {
+  /*showTabela() {
     if (this.si || this.us) {
       this.show = true;
       this.exibirChange.emit(true);
@@ -93,15 +83,15 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
       this.show = false;
       this.exibirChange.emit(false);
     }
-  }
+  }*/
 
-  showTudo(vf: boolean) {
+  /*showTudo(vf: boolean) {
 
     this.si = true;
     this.us = true;
     this.show = true;
     console.log(this.usuario_id);
-  }
+  }*/
 
   rowColor(tus_situacao_id?: number): string | null {
       switch (tus_situacao_id) {
@@ -118,12 +108,18 @@ export class TarefaUsuarioSituacaoComponent implements OnInit, OnChanges {
       }
   }
 
-  alterarClick() {
+  alterarClick(tus) {
     if (this.tss.ddTarefa_situacao_id.length === 0) {
       this.tss.ddTarefa_situacao_id = JSON.parse(sessionStorage.getItem('dropdown-tarefa_situacao'));
       console.log(this.tss.ddTarefa_situacao_id);
     }
+    this.tss.tarefa = this.tarefa;
+    this.tss.tus = tus;
+    this.tss.usuario_id = this.usuario_id;
+    this.tss.index = this.index;
+    this.tss.exibir = true
     this.mostraSeletor = true;
+    this.mostraForm.emit(true);
   }
 
   gravarClick() {

@@ -418,5 +418,14 @@ export class TarefaDatatableComponent implements OnInit {
     }
   }
 
+  fechaTusForm(ev) {
+    this.ts.showTusForm = false;
+    this.showUsuarioSituacao = false;
+  }
+
+  mostraTusFormEvent(ev: boolean) {
+    this.ts.showTusForm = true;
+  }
+
 
 }

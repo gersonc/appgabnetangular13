@@ -115,6 +115,23 @@ export const tarefacampostexto: string[] = [
   'th_historico'
 ];
 
+export interface TarefaUsuarioSituacaoFormI {
+  tus_id?: number;
+  tus_tarefa_id?: number;
+  tus_usuario_id?: number;
+  tus_situacao_id?: number;
+}
+
+export interface TarefaUsuarioSituacaoAtualisarFormI {
+  tarefa_id?: number;
+  tarefa_situacao_id?: number;
+  tarefa_usuario_situacao?: TarefaUsuarioSituacaoFormI;
+  tarefa_historico?: TarefaHistoricoI
+
+}
+
+
+
 export class TarefaTitulo {
  tarefa_titulo = '';
  tarefa_tarefa = '';

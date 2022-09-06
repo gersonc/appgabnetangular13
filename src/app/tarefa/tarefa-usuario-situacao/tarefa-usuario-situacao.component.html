@@ -19,15 +19,15 @@
 <ng-container *ngIf="!teste">
   <div *ngFor="let col of tus" class="p-d-block">
     <div class="p-d-block" [ngClass]="rowColor(col.tus_situacao_id)">
-      <div *ngIf="user_id !== col.tus_usuario_id" class="p-mb-0 p-ml-2 tarefainterno">{{col.tu_usuario_nome}}</div>
-      <div *ngIf="user_id === col.tus_usuario_id && !mostraSeletor" class="p-mb-0 p-ml-2 tarefainterno">{{col.tu_usuario_nome}}</div>
+      <div class="p-mb-0 p-ml-2 tarefainterno">{{col.tu_usuario_nome}}</div>
       <div *ngIf="user_id !== col.tus_usuario_id" class="p-mb-0 p-ml-2 tarefainterno">{{col.tus_situacao_nome}}</div>
-      <div *ngIf="user_id === col.tus_usuario_id && !mostraSeletor" class="p-mb-0 p-ml-2 tarefainterno" (click)="alterarClick()">{{col.tus_situacao_nome}}</div>
-      <div *ngIf="user_id === col.tus_usuario_id && mostraSeletor" class="p-mb-0 p-ml-2 tarefainterno"  [ngStyle]="getStyle(col.tus_usuario_id)">
+      <div *ngIf="user_id === col.tus_usuario_id && !mostraSeletor" class="p-mb-0 p-ml-2 tarefainterno" (click)="alterarClick(col)">{{col.tus_situacao_nome}}</div>
+      <div *ngIf="user_id === col.tus_usuario_id && mostraSeletor" class="p-mb-0 p-ml-2 tarefainterno">{{col.tus_situacao_nome}}</div>
+      <!--<div *ngIf="user_id === col.tus_usuario_id && mostraSeletor" class="p-mb-0 p-ml-2 tarefainterno"  [ngStyle]="getStyle(col.tus_usuario_id)">
         <p-dropdown [styleClass]="'tus'" [options]="tss.ddTarefa_situacao_id" [(ngModel)]="col.tus_situacao_id" appendTo="body" baseZIndex="10000"></p-dropdown>
         <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded p-button-success p-button-text"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" (click)="gravarClick()"></button>
-      </div>
+      </div>-->
     </div>
     <div class="tarefainternospc"></div>
   </div>

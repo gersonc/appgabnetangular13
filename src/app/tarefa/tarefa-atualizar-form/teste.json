@@ -1,0 +1,19 @@
+{
+  "tarefa_id": 1,
+  "tarefa_usuario_situacao": {
+    "tus_id": 1,
+    "tus_usuario_id": 102,
+    "tus_tarefa_id": 1,
+    "tus_situacao_id": 2
+  },
+  "tarefa_situacao_id": 2,
+  "tarefa_historico": {
+    "th_tarefa_id": 1,
+    "th_data": "2022-09-06 04:32:23",
+    "th_usuario_id": 61,
+    "th_usuario_nome": "DANIEL",
+    "th_historico": "<p>vbnv bn vn<span style=\"color: rgb(0, 138, 0);\">nbv nbv nv n</span>vnbv bvnbb vb</p><p>jhg jh<strong>g hjghjg j jg jhg jhg</strong> jhg jhgjhjh</p><p>ghg fhf ghf hgf hgf hgf ghfgh</p>",
+    "th_historico_delta": "{\"ops\":[{\"insert\":\"vbnv bn vn\"},{\"attributes\":{\"color\":\"#008a00\"},\"insert\":\"nbv nbv nv n\"},{\"insert\":\"vnbv bvnbb vb\\njhg jh\"},{\"attributes\":{\"bold\":true},\"insert\":\"g hjghjg j jg jhg jhg\"},{\"insert\":\" jhg jhgjhjh\\nghg fhf ghf hgf hgf hgf ghfgh\\n\"}]}",
+    "th_historico_texto": "vbnv bn vnnbv nbv nv nvnbv bvnbb vb\njhg jhg hjghjg j jg jhg jhg jhg jhgjhjh\nghg fhf ghf hgf hgf hgf ghfgh\n"
+  }
+}
