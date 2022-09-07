@@ -18325,7 +18325,6 @@ div.tarefa-historico {
 }
 
 
-.tus .p-dropdown
 
 .tus .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
   margin: 0;
@@ -18359,6 +18358,9 @@ div.tarefa-historico {
   font-size: 0.8rem;
   font-weight: var(--formulario-field-input-font-weight);
 }
+
+
+
 
 /*
 .reltarefa {

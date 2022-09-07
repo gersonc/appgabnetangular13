@@ -12,6 +12,9 @@ import {TarefaI} from "../_models/tarefa-i";
 import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
 import {breakTextIntoLines} from "pdf-lib";
 import {TarefaPrintService} from "../_services/tarefa-print.service";
+import * as printJS from 'print-js';
+import {Configuration} from "print-js";
+
 
 @Component({
   selector: 'app-tarefa-datatable',
@@ -48,6 +51,7 @@ export class TarefaDatatableComponent implements OnInit {
   situacaoSN = true;
   andamentoSN = true;
   usuario_id = 111;
+  imprimirSN = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -109,7 +113,9 @@ export class TarefaDatatableComponent implements OnInit {
       },
       {
         label: 'IMPRIMIR - PÁGINA', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
-          this.ts.imprimirTabela(2);
+          this.imprimirSN = true;
+          this.imprimirTabela();
+          // this.ts.imprimirTabela(2);
         }
       },
       {
@@ -300,9 +306,9 @@ export class TarefaDatatableComponent implements OnInit {
   tarefaDetalheCompleto(tar: TarefaI) {
     this.tp.valores = this.ts.tarefas;
     // this.tp.valores = [tar];
-    // this.tp.PrintElem();
+    this.tp.PrintElem();
     // this.tp.getPdf();
-    this.tp.getPdf();
+    // this.tp.getPdf();
     // this.showDetalhe = true;
     // this.tarefaDetalhe = tar;
   }
@@ -425,6 +431,34 @@ export class TarefaDatatableComponent implements OnInit {
 
   mostraTusFormEvent(ev: boolean) {
     this.ts.showTusForm = true;
+  }
+
+
+  teste(): boolean {
+    let el = document.querySelector("div.p-datatable-scrollable-view");// p-datatable-scrollable-view
+    el.setAttribute('id', 'pagimprimir');
+    return true;
+  }
+
+  imprimirTabela() {
+    if(this.teste()) {
+      const cf: Configuration = {
+        printable: 'pagimprimir',
+        type: 'html',
+        css: '/assets/css/tarefa.css',
+        ignoreElements: ['button']
+      }
+      printJS(cf);
+      this.imprimirSN = false;
+    }
+  }
+
+
+  onPrintDialogClose2() {
+    this.imprimirSN = false;
+  }
+  getImprimit(): boolean {
+    return !this.imprimirSN;
   }
 
 

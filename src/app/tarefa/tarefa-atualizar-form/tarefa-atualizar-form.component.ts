@@ -89,7 +89,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.botaoEnviarVF = true;
     this.disabled = true;
-    this.kdisabled = true;
+    // this.kdisabled = true;
     this.atualizar();
   }
 
@@ -108,6 +108,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
       this.kdisabled = true;
     }
   }
+
 
   getSituacaoNome(id: number): string {
     const r: SelectItem = this.tss.ddTarefa_situacao_id.find(d => d.value === id);
@@ -179,21 +180,20 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
       th_usuario_id: this.tss.tus.tus_usuario_id,
       th_usuario_nome: this.tss.tus.tu_usuario_nome
     }
-    if (this.th_historico !== null && this.th_historico.length > 0) {
-      h.th_historico = this.th_historico;
-    } else {
-      h.th_historico = 'Situação do demandado passou de ' + this.tss.tus.tus_situacao_nome + ' para ' + this.getSituacaoNome(this.tus_situacao_id);
+    if (this.th_historico === null || this.th_historico.length < 3) {
+    //   h.th_historico = this.th_historico;
+    // } else {
+      this.th_historico += '<p>Situação do demandado passou de ' + this.tss.tus.tus_situacao_nome + ' para ' + this.getSituacaoNome(this.tus_situacao_id) + '</p>';
     }
 
     if (mudaTarefaSN) {
-      h.th_historico += ' <br>';
-      h.th_historico += 'A situação da tarefa passou de ' + this.tss.tarefa.tarefa_situacao_nome + ' para ' + this.getSituacaoNome(envio.tarefa_situacao_id);
+      this.th_historico += '<p>A situação da tarefa passou de ' + this.tss.tarefa.tarefa_situacao_nome + ' para ' + this.getSituacaoNome(envio.tarefa_situacao_id) + '</p>';
     }
-    this.kdisabled = false;
-    const l: number = this.kill0.getLength();
-    this.kill0.deleteText(0, l);
+    // this.kdisabled = false;
+    // const l: number = this.kill0.getLength();
+    // this.kill0.deleteText(0, l);
     // this.kill0.update('user');
-    this.th_historico = h.th_historico;
+    h.th_historico = this.th_historico;
     this.kill0.update('user');
     h.th_historico_delta = JSON.stringify(this.kill.delta);
     h.th_historico_texto = this.kill.text;

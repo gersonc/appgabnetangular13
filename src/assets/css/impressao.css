@@ -80,6 +80,9 @@ page[size="A5"][layout="landscape"] {
   table, pre { page-break-inside:avoid }
   ul, ol, dl  { page-break-before:avoid }
 
+  th {
+    page-break-before:avoid;
+  }
 
   table, td, th {
     border: 1px solid;

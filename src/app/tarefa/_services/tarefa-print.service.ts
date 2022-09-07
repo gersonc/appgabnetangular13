@@ -4,6 +4,7 @@ import {striptags} from "striptags";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import jsPDF from 'jspdf'
 import {autoTable, applyPlugin, UserOptions } from 'jspdf-autotable';
+import {ColunasI} from "../../_models/colunas-i";
 applyPlugin(jsPDF);
 
 interface jsPDFCustom extends jsPDF {
@@ -16,6 +17,9 @@ interface jsPDFCustom extends jsPDF {
 export class TarefaPrintService {
 
   valores: TarefaI[] = [];
+  campos: ColunasI[] = [];
+  camposSituacao: ColunasI[] = [];
+  camposAndamento: ColunasI[] = [];
 
   constructor() { }
 
@@ -274,10 +278,11 @@ export class TarefaPrintService {
     padding-right: 2px;
     padding-left: 5px;
     white-space: normal;
+    border: 0.3px solid #000000;
   }
 
   table {
-    border: 1px solid #000000;
+    border: .5px solid #000000;
   }
 
   th {

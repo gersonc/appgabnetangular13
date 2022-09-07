@@ -96,13 +96,14 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
+      <!--<col *ngIf="getImprimit()">-->
       <col *ngFor="let col of columns">
     </colgroup>
   </ng-template>
 
   <ng-template pTemplate="header" let-columns>
-    <tr>
-      <th style="width: 3.5rem;"></th>
+    <tr class="tarefa-print">
+      <th style="width: 2rem;"></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [pSortableColumnDisabled]="col.field ==='tarefa_usuario_situacao' || col.field ==='tarefa_usuario_situacao_andamento'"
@@ -117,26 +118,6 @@
   </ng-template>
 
 
-  <!--<ng-template pTemplate="colgroup" let-columns>
-    <colgroup>
-      <col *ngFor="let col of columns">
-    </colgroup>
-  </ng-template>
-
-  <ng-template pTemplate="header" let-columns>
-    <tr>
-      <th></th>
-      <th *ngFor="let col of columns"
-          [pSortableColumn]="col.field"
-          [style.width]="col.width"
-          pReorderableColumn
-          pResizableColumn
-      >
-        {{col.header}}
-        <p-sortIcon [field]="col.field"></p-sortIcon>
-      </th>
-    </tr>
-  </ng-template>-->
 
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-tarf let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
@@ -145,10 +126,11 @@
       [pContextMenuRow]="tarf"
       [pContextMenuRowIndex]="rowIndex"
       [pSelectableRowIndex]="rowIndex"
-      class="p-selectable-row"
+      class="p-selectable-row tarefa-print"
     >
 
-      <td style="width: 3.5rem;">
+      <td *ngIf="getImprimit()" style="width: 2rem;">
+        <div class="p-d-print-none">
         <button
           type="button"
           pButton pRipple
@@ -158,11 +140,22 @@
           class="p-button-rounded  p-button-text p-button-sm"
           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
         ></button>
+        </div>
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
+          <ng-container *ngIf="!getImprimit()">
+            <table>
+              <tr *ngFor="let tus of tarf[col.field]">
+                <td>{{tus.tu_usuario_nome}}</td>
+                <td>{{tus.tus_situacao_nome}}</td>
+              </tr>
+            </table>
+
+          </ng-container>
           <app-tarefa-usuario-situacao
+            *ngIf="getImprimit()"
             [(exibir)]="showUsuarioSituacao"
             [tus]="tarf[col.field]"
             [tarefa]="tarf"
@@ -391,7 +384,6 @@
       </td>
     </tr>
   </ng-template>
-
   <!--*** TABELA VAZIA *********************************************************************************************-->
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
@@ -407,7 +399,6 @@
   <!--*** MENU *****************************************************************************************************-->
 </p-table>
 <!--*** FIM ********************************************************************************************************-->
-
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 <p-dialog *ngIf="ts.tabela.mostraSeletor"
           id="seletor"
@@ -433,7 +424,6 @@
   </p-footer>
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
-
 <ng-container *ngIf="showDetalhe">
   <p-dialog
     [(visible)]="showDetalhe"
@@ -447,8 +437,6 @@
     <!--<app-tarefa-detalhe [tarefa]="tarefaDetalhe" (hideDetalhe)="escondeDetalhe()"></app-tarefa-detalhe>-->
   </p-dialog>
 </ng-container>
-
-
 <ng-container *ngIf="ts.showTusForm">
   <p-dialog
     [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
