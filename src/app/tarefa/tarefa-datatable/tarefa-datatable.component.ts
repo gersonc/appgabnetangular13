@@ -14,6 +14,7 @@ import {breakTextIntoLines} from "pdf-lib";
 import {TarefaPrintService} from "../_services/tarefa-print.service";
 import * as printJS from 'print-js';
 import {Configuration} from "print-js";
+import {ITitulos} from "../../_models/titulo-i";
 
 
 @Component({
@@ -71,9 +72,7 @@ export class TarefaDatatableComponent implements OnInit {
 
     this.montaColunas();
 
-    if (!this.ts.stateSN) {
-      this.resetSelectedColumns();
-    }
+
 
     this.itemsAcao = [
       {
@@ -113,9 +112,9 @@ export class TarefaDatatableComponent implements OnInit {
       },
       {
         label: 'IMPRIMIR - PÁGINA', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
-          this.imprimirSN = true;
-          this.imprimirTabela();
-          // this.ts.imprimirTabela(2);
+          // this.imprimirSN = true;
+          // this.imprimirTabela();
+          this.ts.imprimirTabela(2);
         }
       },
       {
@@ -186,6 +185,9 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_situacao_andamento', header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS', sortable: 'false', width: '400px'},
     ];
+    if (!this.ts.stateSN) {
+      this.resetSelectedColumns();
+    }
   }
 
   resetSelectedColumns(): void {
@@ -306,10 +308,10 @@ export class TarefaDatatableComponent implements OnInit {
   tarefaDetalheCompleto(tar: TarefaI) {
     this.tp.valores = this.ts.tarefas;
     // this.tp.valores = [tar];
-    this.tp.PrintElem();
+    // this.tp.PrintElem();
     // this.tp.getPdf();
     // this.tp.getPdf();
-    // this.showDetalhe = true;
+    this.showDetalhe = true;
     // this.tarefaDetalhe = tar;
   }
 
@@ -429,6 +431,10 @@ export class TarefaDatatableComponent implements OnInit {
     this.showUsuarioSituacao = false;
   }
 
+  fechaDetalhes(ev) {
+    this.showDetalhe = false;
+  }
+
   mostraTusFormEvent(ev: boolean) {
     this.ts.showTusForm = true;
   }
@@ -441,6 +447,12 @@ export class TarefaDatatableComponent implements OnInit {
   }
 
   imprimirTabela() {
+    console.log('tabela.selectedColumns', this.ts.tabela.selectedColumns);
+    /*const t: ITitulos[] = this.ts.getTitulos();
+    console.log('iTitulos', t);
+    console.log("iTitulost['tarefa']", t['tarefa']);
+    const tt: string[] = Object.keys(t['tarefa']);
+    console.log('tt', tt);
     if(this.teste()) {
       const cf: Configuration = {
         printable: 'pagimprimir',
@@ -450,7 +462,8 @@ export class TarefaDatatableComponent implements OnInit {
       }
       printJS(cf);
       this.imprimirSN = false;
-    }
+    }*/
+    this.showDetalhe = true
   }
 
 

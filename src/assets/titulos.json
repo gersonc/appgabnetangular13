@@ -1059,6 +1059,11 @@
     "mtitulo": "STATUS",
     "titulo": "Status"
   },
+  "tarefa_id": {
+    "field": "tarefa_id",
+    "mtitulo": "ID",
+    "titulo": "Id"
+  },
   "tarefa_data": {
     "field": "tarefa_data",
     "mtitulo": "PRAZO",

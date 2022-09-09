@@ -12,111 +12,58 @@
 -->
 
 <div class="tarefa-print">
-  <table class="tarefa-print">
+  <table #tabela1 id="tabela1" class="tarefa-print">
+    <caption>TAREFAS</caption>
     <thead>
     <tr>
-      <th><strong>TAREFAS</strong></th>
-      <th>ABCDEFG</th>
-      <th>ABCDEFG</th>
-      <th>ABCDEFG</th>
-      <th>ABCDEFG</th>
-      <th>ABCDEFG</th>
-      <th>ABCDEFG</th>
+      <ng-container *ngFor="let t of cps0">
+        <th>{{tit['tarefa'][t].titulo}}</th>
+      </ng-container>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>jkljlkjlkjlkj</td>
-      <td>lkjlkjlkjl</td>
-      <td class="tstatus-1">ljlkjkljkj</td>
-      <td>ljlkjkljkj</td>
-      <td class="composta">
-        <div class="tarefa-interna-print">
-          <table width="100%">
-            <tr class="tstatus-1">
-              <td>aaaaaaaa</td>
-              <td>kjhkjhjkh</td>
-            </tr>
-            <tr class="tstatus-2">
-              <td>khkhkjhkh</td>
-              <td>kjhkhkjk</td>
-            </tr>
-            <tr class="tstatus-3">
-              <td>kjhkhkhkjh</td>
-              <td>kjhkjkjhjk</td>
-            </tr>
-            <tr>
-              <td>kjhkhkhkjh</td>
-              <td>kjhkjkjhjk</td>
-            </tr>
-          </table>
-        </div>
-      </td>
-      <td>ljlkjkljkj</td>
-      <td class="composta">
-        <div class="tarefa-interna-print">
-          <table width="100%">
-            <tr class="tstatus-1">
-              <td style="width: 40px;">aaaaaaaa</td>
-              <td></td>
-              <td style="width: 50%">hhhhhhhhhhhh</td>
-            </tr>
-            <tr>
-              <td>bbbbbbb</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr>
-              <td>cccccccc</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr class="tstatus-2">
-              <td style="width: 40px;">aaaaaaaa</td>
-              <td></td>
-              <td style="width: 50%">hhhhhhhhhhhh</td>
-            </tr>
-            <tr>
-              <td>bbbbbbb</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr>
-              <td>cccccccc</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr class="tstatus-3">
-              <td style="width: 40px;">aaaaaaaa</td>
-              <td></td>
-              <td style="width: 50%">hhhhhhhhhhhh</td>
-            </tr>
-            <tr>
-              <td>bbbbbbb</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr>
-              <td>cccccccc</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr>
-              <td style="width: 40px;">aaaaaaaa</td>
-              <td></td>
-              <td style="width: 50%">hhhhhhhhhhhh</td>
-            </tr>
-            <tr>
-              <td>bbbbbbb</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-            <tr>
-              <td>cccccccc</td>
-              <td colspan="2">kjhkjkjhjk</td>
-            </tr>
-          </table>
-        </div>
-      </td>
+    <tr *ngFor="let v of valores; index as i;">
+      <ng-container *ngFor="let c of cps0">
+        <td
+          *ngIf="c !== 'tarefa_situacao_nome' && c !== 'tarefa_usuario_situacao' && c !== 'tarefa_usuario_situacao_andamento'">
+          {{v[c]}}
+        </td>
+        <td *ngIf="c==='tarefa_situacao_nome'" [ngClass]="rowStyle(+v['tarefa_situacao_id'])">
+          {{v[c]}}
+        </td>
+        <td *ngIf="c === 'tarefa_usuario_situacao'" class="composta">
+          <!--<div id="idx-{{i}}" class="tarefa-interna-print">-->
+            <table id="idx-{{i}}" class="tarefa-interna-print">
+              <tr *ngFor="let s of v['tarefa_usuario_situacao']" [ngClass]="rowStyle(+s['tus_situacao_id'])">
+                <td *ngFor="let d of cps1">{{s[d]}}</td>
+              </tr>
+            </table>
+          <!--</div>-->
+        </td>
+        <td *ngIf="c === 'tarefa_usuario_situacao_andamento'" class="composta">
+          <div class="tarefa-interna-print">
+            <!--<table width="100%">
+              <ng-container *ngFor="let h of v['tarefa_usuario_situacao_andamento']">
+                <tr [ngClass]="rowStyle(+h['tus_situacao_id'])">
+                  <td style="width: 40px;">{{h['tu_usuario_nome']}}</td>
+                  <td></td>
+                  <td style="width: 50%">{{h['tus_situacao_nome']}}</td>
+                </tr>
+                <tr *ngFor="let hi of h['tarefa_historico']">
+                  <td>{{hi['th_data']}}</td>
+                  <td colspan="2">{{stripslashes(hi['th_historico'])}}</td>
+                </tr>
+              </ng-container>
+            </table>-->
+          </div>
+        </td>
+      </ng-container>
     </tr>
 
     </tbody>
   </table>
 </div>
-
+<button (click)="getPdf(tabela1);"></button>
 <!--
 
 </body>

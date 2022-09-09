@@ -19,7 +19,9 @@ export interface TituloMinI {
 }
 
 
-
+export interface ITitulos {
+  [index: string]: TitulosI[];
+}
 
 /*
 export class Titulos  {

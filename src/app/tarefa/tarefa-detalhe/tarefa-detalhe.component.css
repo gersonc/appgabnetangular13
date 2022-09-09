@@ -1,0 +1,378 @@
+:root {
+  --pink-200: #f69ebc;
+  --pink2-200: rgba(246,158,188,1.00);
+  --yellow-200: #fde4a5;
+  --yellow2-200: rgba(253,228,165,1.00);;
+  --green-200: #b2ddb4;
+  --green2-200: rgba(178,221,180,1.00);
+}
+
+
+body {
+  background: rgb(254, 254, 254);
+}
+
+page {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+  /*border: 1.25cm solid #000;*/
+}
+
+page[size="A4"] {
+  width: 21cm;
+  height: 29.7cm;
+}
+
+page[size="A4"][layout="landscape"] {
+  width: 29.7cm;
+  height: 21cm;
+}
+
+page[size="A3"] {
+  width: 29.7cm;
+  height: 42cm;
+}
+
+page[size="A3"][layout="landscape"] {
+  width: 42cm;
+  height: 29.7cm;
+}
+
+page[size="A5"] {
+  width: 14.8cm;
+  height: 21cm;
+}
+
+page[size="A5"][layout="landscape"] {
+  width: 21cm;
+  height: 14.8cm;
+}
+
+@media print {
+
+  table, pre {
+    border-collapse: collapse;
+    page-break-inside: avoid
+  }
+
+  th {
+    page-break-before: avoid;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /*td .tarefa-print:first-child {
+    display: none !important;
+    visibility: hidden;
+  }
+
+  th .tarefa-print:first-child {
+    display: none !important;
+    visibility: hidden;
+  }
+*/
+  button {
+    display: none !important;
+    visibility: hidden;
+  }
+
+  .tstatus-1 {
+    background-color: var(--pink2-200);
+    font-weight: 500;
+  }
+  .tstatus-2 {
+    background-color: var(--yellow2-200);
+    font-weight: 500;
+  }
+  .tstatus-3 {
+    background-color: var(--green2-200);
+    font-weight: 500;
+  }
+
+
+  .tarefa-print {
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
+
+
+  .tarefa-print table {
+    width: 100%;
+    border-collapse: collapse;
+    text-indent: initial;
+    border-spacing: 0.01pt;
+    border-color: grey;
+  }
+
+  .tarefa-print caption {
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    font-size: 2em;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .tarefa-print tbody {
+    vertical-align: top !important;
+    background-color: #fff
+  }
+
+  .tarefa-print table, tr, th, td {
+    border: 0.01pt solid #000000;
+  }
+
+  /*.tarefa-print th:first-child {
+    display: none !important;
+    visibility: hidden;
+  }
+
+  .tarefa-print td:first-child {
+    display: none !important;
+    visibility: hidden;
+  }*/
+
+  .tarefa-print th {
+    font-size: 1.3em;
+    font-weight: 500;
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+  }
+
+  .tarefa-print td {
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+  }
+
+  .tarefa-print td.composta {
+    padding: 0 !important;
+  }
+
+  .tarefa-interna-print {
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
+
+  .tarefa-interna-print table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+    border: 0;
+  }
+
+
+  .tarefa-interna-print tr {
+    border-top: 0.01pt solid #000000;
+    border-bottom: 0.01pt solid #000000;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  tr.tarefa-interna-print:first-child {
+    border-top: 0;
+  }
+
+
+  .tarefa-interna-print tr:first-child {
+    border-top: 0;
+  }
+
+  .tarefa-interna-print tr:last-child {
+    border-bottom: 0;
+  }
+
+  .tarefa-interna-print td:first-child {
+    display: table-cell !important;
+    visibility: visible;
+  }
+
+  .tarefa-interna-print td {
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+  }
+
+  .tarefa-interna-print td {
+    border: 0;
+  }
+
+  .tarefa-interna-print td[colspan="2"] {
+    border-left: 1px solid #000000;
+  }
+
+  .tarefa-interna-print tr:first-child > td {
+    padding-top: 0;
+  }
+
+  .tarefa-interna-print tr:last-child > td {
+    padding-bottom: 0;
+  }
+
+
+  .tarefa-interna-print .segunda {
+    border-left: 1px solid #000000;
+  }
+
+
+
+}
+
+
+@media screen {
+  .tstatus-1 {
+    background-color: var(--pink-200);
+    font-weight: 500;
+  }
+  .tstatus-2 {
+    background-color: var(--yellow-200);
+    font-weight: 500;
+  }
+  .tstatus-3 {
+    background-color: var(--green-200);
+    font-weight: 500;
+  }
+
+
+  .tarefa-print {
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
+
+
+  .tarefa-print table {
+    width: 100%;
+    border-collapse: collapse;
+    text-indent: initial;
+    border-spacing: 1px;
+    border-color: grey;
+  }
+
+  .tarefa-print caption {
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    font-size: 2em;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .tarefa-print tbody {
+    vertical-align: top !important;
+    background-color: #fff
+  }
+
+  .tarefa-print table, tr, th, td {
+    border: 1px solid #000000;
+  }
+
+/*  .tarefa-print th:first-child {
+    display: none !important;
+    visibility: hidden;
+  }
+
+  .tarefa-print td:first-child {
+    display: none !important;
+    visibility: hidden;
+  }*/
+
+  .tarefa-print th {
+    font-size: 1.3em;
+    font-weight: 500;
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+  }
+
+  .tarefa-print td {
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+  }
+
+  .tarefa-print td.composta {
+    padding: 0 !important;
+  }
+
+  .tarefa-interna-print {
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
+
+  table.tarefa-interna-print {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+    border: 0;
+  }
+
+
+  .tarefa-interna-print tr {
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    border-left: 0;
+    border-right: 0;
+  }
+
+
+  .tarefa-interna-print tr:first-child {
+    border-top: 0;
+  }
+
+  .tarefa-interna-print tr:last-child {
+    border-bottom: 0;
+  }
+
+  .tarefa-interna-print td:first-child {
+    display: table-cell !important;
+    visibility: visible;
+  }
+
+  .tarefa-interna-print td {
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+  }
+
+  .tarefa-interna-print td {
+    border: 0;
+  }
+
+  .tarefa-interna-print td[colspan="2"] {
+    border-left: 1px solid #000000;
+  }
+
+  .tarefa-interna-print tr:first-child > td {
+    padding-top: 0;
+  }
+
+  .tarefa-interna-print tr:last-child > td {
+    padding-bottom: 0;
+  }
+
+  .tarefa-interna-print .segunda {
+    border-left: 1px solid #000000;
+  }
+
+}
+
+

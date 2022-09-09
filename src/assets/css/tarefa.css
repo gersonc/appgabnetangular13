@@ -128,10 +128,10 @@ page[size="A5"][layout="landscape"] {
     border: 0.01pt solid #000000;
   }
 
-  .tarefa-print th:first-child {
+  /*.tarefa-print th:first-child {
     display: none !important;
     visibility: hidden;
-  }
+  }*/
 
   .tarefa-print td:first-child {
     display: none !important;
@@ -190,10 +190,10 @@ page[size="A5"][layout="landscape"] {
     border-bottom: 0;
   }
 
-  .tarefa-interna-print td:first-child {
+  /*.tarefa-interna-print td:first-child {
     display: table-cell !important;
     visibility: visible;
-  }
+  }*/
 
   .tarefa-interna-print td {
     padding-left: .5em;
@@ -275,15 +275,15 @@ page[size="A5"][layout="landscape"] {
     border: 1px solid #000000;
   }
 
-  .tarefa-print th:first-child {
+  /*.tarefa-print th:first-child {
     display: none !important;
     visibility: hidden;
-  }
+  }*/
 
-  .tarefa-print td:first-child {
+  /*.tarefa-print td:first-child {
     display: none !important;
     visibility: hidden;
-  }
+  }*/
 
   .tarefa-print th {
     font-size: 1.3em;

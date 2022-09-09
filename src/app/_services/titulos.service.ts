@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Mtitulos, TituloI, TituloMinI, TitulosI} from "../_models/titulo-i";
+import {ITitulos, Mtitulos, TituloI, TituloMinI, TitulosI} from "../_models/titulo-i";
 import {HttpClient} from "@angular/common/http";
 import {take} from "rxjs/operators";
 @Injectable({
@@ -17,6 +17,8 @@ export class TitulosService {
     tt: null,
     ttt: null
   }
+
+  iTitulos: ITitulos[] = [];
 
   mTitulo: Mtitulos[] = [];
   // titulos2: TitulosI[] = [];
@@ -65,6 +67,27 @@ export class TitulosService {
     } else {
       return [];
     }
+  }
+
+  getITitulos(modulo: string, cps: string[]): TitulosI {
+    if (this.iTitulos[modulo] !== undefined) {
+      // console.log('this.iTitulos[modulo][0]', this.iTitulos[0]);
+      return this.iTitulos[modulo];
+    }
+    this.iTitulos[modulo] = {};
+    cps.forEach(cp => {
+      if (this.titulosi[cp] !== undefined) {
+        this.iTitulos[modulo][cp] = this.titulosi[cp];
+      } else {
+        this.iTitulos[modulo][cp] = {
+          field: cp,
+          mtitulo: 'N/F',
+          titulo: 'N/F'
+        };
+      }
+    });
+    // console.log('this.iTitulos[modulo][0]', this.iTitulos[0]);
+    return this.iTitulos[modulo];
   }
 
   /*buscaTitulos2(modulo: string, cps: string[] = []) {

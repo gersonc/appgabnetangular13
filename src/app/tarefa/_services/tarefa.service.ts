@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {TituloI} from "../../_models/titulo-i";
+import {ITitulos, TituloI} from "../../_models/titulo-i";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {TitulosService} from "../../_services/titulos.service";
 import {CelulaI} from "../../_models/celula-i";
@@ -21,6 +21,8 @@ import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TarefaFormI} from "../_models/tarefa-form-i";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {take} from "rxjs/operators";
+import {ColunasI} from "../../_models/colunas-i";
+import {TarefaPrintService} from "./tarefa-print.service";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +57,32 @@ export class TarefaService {
   showTusForm = false;
   // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
+  iTitulos: ITitulos[] | null = null;
+
+  colsTarefa: string[] = [
+    'tarefa_id',
+    'tarefa_titulo',
+    'tarefa_tarefa',
+    'tarefa_situacao_nome',
+    'tarefa_usuario_situacao',
+    'tarefa_data',
+    'tarefa_usuario_autor_nome',
+    'tarefa_datahora',
+    'tarefa_usuario_situacao_andamento',
+  ];
+
+  colSituacao: string[] = [
+    'tu_usuario_nome',
+    'tus_situacao_nome',
+  ];
+
+  colAndamento: string[] = [
+    'tu_usuario_nome',
+    'tus_situacao_nome',
+    'th_data',
+    'th_historico'
+  ];
+
   excelColumns = [
     {field: 'tarefa_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
     {field: 'tarefa_vencimento3', header: 'DT. VENC.', sortable: 'true', width: '150px'},
@@ -72,7 +100,8 @@ export class TarefaService {
     private http: HttpClient,
     private tts: TitulosService,
     private celulaService: CelulaService,
-    private tfs: TarefaFormService
+    private tfs: TarefaFormService,
+    private tps: TarefaPrintService
   ) {
     this.tarefaUrl = this.url.tarefa;
     this.celulaService.modulo = 'Tarefa';
@@ -156,7 +185,7 @@ export class TarefaService {
   }
 
   onRowExpand(evento) {
-    console.log('onRowExpand', evento);
+    console.log('this.tts.titulosi', this.tts.titulosi);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['tarefa'];
     }
@@ -251,6 +280,53 @@ export class TarefaService {
   }
 
   imprimirTabela(n: number) {
+    const campos: string[] = this.tabela.selectedColumns.map(t => {return t.field;});
+    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+      this.tps.campos = this.tabela.selectedColumns;
+      this.tps.valores = this.selecionados;
+      this.tps.tit = this.getTitulos();
+      this.tps.PrintTarefas();
+    }
+
+    if (n === 2 && this.tarefas.length > 0) {
+      this.tps.campos = this.tabela.selectedColumns;
+      this.tps.valores = this.tarefas;
+      this.tps.tit = this.getTitulos();
+      this.tps.PrintTarefas();
+    }
+
+    if (n === 3) {
+      let busca: TarefaBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let tarefaRelatorio: TarefaPaginacaoI;
+      this.sub.push(this.postTarefaRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            tarefaRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            this.tps.campos = this.tabela.selectedColumns;
+            this.tps.valores = tarefaRelatorio.tarefas;
+            this.tps.tit = this.getTitulos();
+            this.tps.PrintTarefas();
+
+            // PrintJSService.imprimirTabela2(this.tabela.selectedColumns, tarefaRelatorio.tarefas, 'TAREFAS');
+          }
+        })
+      );
+    }
+
+
+  }
+
+  imprimirTabela2(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
       PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'TAREFAS');
     }
@@ -318,6 +394,56 @@ export class TarefaService {
   tabelaPdf(n: number): void {
     // 1 - selecionados
     // 2 - pagina
+    const campos: string[] = this.tabela.selectedColumns.map(t => {return t.field;});
+
+
+      if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+        this.tps.campos = this.tabela.selectedColumns;
+        this.tps.valores = this.selecionados;
+        this.tps.tit = this.getTitulos();
+        this.tps.getPdf2();
+      }
+
+    if (n === 2 && this.tarefas.length > 0) {
+      this.tps.campos = this.tabela.selectedColumns;
+      this.tps.valores = this.tarefas;
+      this.tps.tit = this.getTitulos();
+      this.tps.getPdf2();
+    }
+
+    if (n === 3) {
+      let busca: TarefaBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let tarefaRelatorio: TarefaPaginacaoI;
+      this.sub.push(this.postTarefaRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            tarefaRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            this.tps.campos = this.tabela.selectedColumns;
+            this.tps.valores = tarefaRelatorio.tarefas;
+            this.tps.tit = this.getTitulos();
+            this.tps.getPdf2();
+          }
+        })
+      );
+    }
+
+
+
+  }
+
+  tabelaPdf2(n: number): void {
+    // 1 - selecionados
+    // 2 - pagina
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (n === 1) {
         TabelaPdfService.tabelaPdf(
@@ -329,13 +455,18 @@ export class TarefaService {
         );
       }
       if (n === 2) {
-        TabelaPdfService.tabelaPdf(
+        /*TabelaPdfService.tabelaPdf(
           'tarefas',
           'TAREFAS',
           this.tabela.selectedColumns,
           this.tarefas,
           tarefacampostexto
-        );
+        );*/
+
+        this.tps.campos = this.tabela.selectedColumns;
+        this.tps.valores = this.tarefas;
+        this.tps.tit = this.getTitulos();
+        this.tps.getPdf2();
       }
       if (n === 3) {
         let busca: TarefaBuscaI = this.busca;
@@ -641,5 +772,15 @@ export class TarefaService {
     this.tTit.tarefa_usuario_situacao = t6.titulo;
     const t7 =  this.titulos.find(t => t.field === 'tarefa_usuario_situacao_andamento');
     this.tTit.tarefa_usuario_situacao_andamento = t7.titulo;
+  }
+
+  getTitulos(): ITitulos[] {
+    if (this.iTitulos === null) {
+      this.iTitulos = [];
+      this.iTitulos['tarefa'] = this.tts.getITitulos('tarefa', this.colsTarefa);
+      return this.iTitulos;
+    } else {
+      return this.iTitulos;
+    }
   }
 }
