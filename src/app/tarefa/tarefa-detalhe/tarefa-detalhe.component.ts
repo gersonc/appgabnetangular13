@@ -15,11 +15,27 @@ import {
   Styles,
   UserOptions
 } from 'jspdf-autotable';
+import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
 
 applyPlugin(jsPDF);
 
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
+}
+
+interface TarefaHistoricoI2 {
+  th_id?: number;
+  th_tarefa_id?: number;
+  th_data?: string;
+  th_data2?: string;
+  th_data3?: Date;
+  th_usuario_id?: number;
+  th_usuario_nome?: string;
+  th_historico?: string;
+  th_historico_delta?: string;
+  th_historico_texto?: string;
+  usuarioSn?: boolean;
+  situacao_id?: number;
 }
 
 @Component({
@@ -260,6 +276,7 @@ export class TarefaDetalheComponent implements OnInit {
       columns: colunas,
       body: valores,
       startY: 20,
+      theme: "grid",
       rowPageBreak: 'avoid',
       headStyles: {
         textColor: 255,
@@ -324,12 +341,14 @@ export class TarefaDetalheComponent implements OnInit {
             HookData.cell.styles.fillColor = this.rowColor(+HookData.row.raw['tarefa_situacao_id']);
           }
           if (HookData.column.dataKey === 'tarefa_usuario_situacao_andamento') {
-            if (Array.isArray(HookData.cell.raw)) {
+            if (Array.isArray(HookData.cell.raw['tarefa_historico'])) {
 
               console.log('andamento', HookData);
 
-              if(Array.isArray(HookData.cell.raw['tarefa_historico'])) {
+              if(Array.isArray(HookData.cell.raw)) {
                 HookData.row.height = (HookData.cell.raw.length * (HookData.cell.raw['tarefa_historico'].length + 1)) * 10.3;
+              } else {
+                HookData.row.height = (HookData.cell.raw['tarefa_historico'].length + 1) * 10.3;
               }
               HookData.cell.styles.cellPadding = {
                 top: 0,
@@ -345,6 +364,7 @@ export class TarefaDetalheComponent implements OnInit {
       didDrawCell: data => {
         data.doc.setFontSize(9);
         this.contador = data.row.index;
+        console.log('contador', this.contador);
         if (data.cell.section === "body") {
           if (data.column.dataKey === 'tarefa_usuario_situacao') {
             this.contador = data.row.index;
@@ -406,17 +426,37 @@ export class TarefaDetalheComponent implements OnInit {
             }
           }
           if (data.column.dataKey === 'tarefa_usuario_situacao_andamento') {
-            this.contador = data.row.index;
+            // this.contador = data.row.index;
             if (Array.isArray(data.row.raw['tarefa_usuario_situacao_andamento'])) {
-              data.row.raw['tarefa_usuario_situacao_andamento'].forEach((dados: TarefaUsuarioSituacaoAndamentoI) => {
-              let dc = data.doc;
-              dc.autoTable(
+              let dados: any[] = [];
+
+              data.row.raw['tarefa_usuario_situacao_andamento'].forEach((d: TarefaUsuarioSituacaoAndamentoI) => {
+                const u: TarefaHistoricoI2 = {
+                  th_data: d.tu_usuario_nome,
+                  th_historico: d.tus_situacao_nome,
+                  th_usuario_id: d.tarefa_situacao_id,
+                  situacao_id: d.tus_situacao_id,
+                  usuarioSn: true
+                }
+                const h2: TarefaHistoricoI2[] = d.tarefa_historico.map(h => {
+                  let hh: TarefaHistoricoI2 = h;
+                  hh.situacao_id = 0;
+                  hh.usuarioSn = false;
+                  return hh;
+                })
+                let h: TarefaHistoricoI2[] = h2.reverse();
+                h.push(u);
+                h.reverse();
+                dados.push(...h);
+              });
+              console.log('dados', dados);
+              let da = data.doc;
+              da.autoTable(
                 {
                   columns: [
                     {
                       dataKey: 'th_data',
                       header: {
-
                         styles: {
                           cellWidth: data.cell.width / 3
                         }
@@ -427,8 +467,7 @@ export class TarefaDetalheComponent implements OnInit {
                       header: {
                         styles: {
                           cellWidth: data.cell.width * (2/3)
-                        },
-
+                        }
                       }
                     }
                   ],
@@ -451,25 +490,17 @@ export class TarefaDetalheComponent implements OnInit {
                     height: 10,
                     minCellHeight: 10,
                     cellPadding: {
-                      top: 1,
-                      right: 1,
-                      bottom: 0.5,
-                      left: 2
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: 0
                     }
-                  },
-                  didParseCell: (HookData2) => {
-                    HookData2.cell.styles.fillColor = this.rowColor(+HookData2.row.raw['tus_situacao_id']);
                   }
-
-                }
-              )
-
-
-            });
-
+                });
+            }
+            console.log('contador', this.contador);
           }
         }
-        console.log('contador', this.contador);
       }
     });
 
