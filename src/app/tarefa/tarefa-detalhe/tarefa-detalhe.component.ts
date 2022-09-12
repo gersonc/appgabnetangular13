@@ -115,21 +115,15 @@ export class TarefaDetalheComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.tit);
-    // this.cps0 = Object.keys(this.tit['tarefa']);
     this.cps0 = this.campos.map(c => {
       return c.field;
     });
     this.total = this.valores.length;
     this.idx0 = this.cps0.indexOf('tarefa_usuario_situacao');
     this.idx1 = this.cps0.indexOf('tarefa_usuario_situacao_andamento');
-    console.log('this.total', this.total);
-    console.log(this.cps0, this.idx0, this.idx1);
     this.columns0 = this.getColumsns(this.campos, null);
     this.columns1 = this.getColumsns(this.situacaoCol, 'tarefa_usuario_situacao');
     this.columns2 = this.getColumsns(this.andamentoCol, 'tarefa_usuario_situacao_andamento');
-    console.log('this.columns0',this.columns0);
-    console.log('this.columns1',this.columns1);
 
   }
 
@@ -263,20 +257,19 @@ export class TarefaDetalheComponent implements OnInit {
         ) as jsPDFCustom;
       }
 
-      this.doc.setFontSize(15);
-      this.doc.text('TAREFAS', 45, 15);
-      this.doc.setFontSize(9);
-      this.startY = 16;
     }
 
+    let totalPagesExp = '{total_pages_count_string}';
+    this.doc.setFontSize(15);
+    this.doc.text('TAREFAS', 45, 15);
+    this.doc.setFontSize(9);
+    this.startY = 16;
 
-
-    // noinspection TypeScriptValidateTypes
     this.doc.autoTable({
       columns: colunas,
       body: valores,
       startY: 20,
-      theme: "grid",
+      theme: "striped",
       rowPageBreak: 'avoid',
       headStyles: {
         textColor: 255,
@@ -305,24 +298,7 @@ export class TarefaDetalheComponent implements OnInit {
           left: 2
         }
       },
-      didDrawPage: function (hookData) {
-        // Footer
-        console.log('didDrawPage', hookData);
-        let str = 'Página ' + hookData.pageNumber;
-        // Total page number plugin only available in jspdf v1.0+
-        if (typeof hookData.doc.putTotalPages === 'function') {
-          str = str + ' de ' + hookData.pageCount;
-        }
-        hookData.doc.setFontSize(8);
-        let pageSize = hookData.doc.internal.pageSize;
-        let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-        let pageWidth = pageSize.width ? pageSize.width : hookData.doc.internal.pageSize.getWidth;
-        hookData.doc.text(str, pageWidth - 100, pageHeight - 10);
-        hookData.doc.setFontSize(9);
-        hookData.doc.putTotalPages('{total_pages_count_string}');
-      },
       didParseCell: (HookData) => {
-        console.log('HookData', HookData);
         HookData.doc.setFontSize(9);
         if (HookData.cell.section === "body") {
           if (HookData.column.dataKey === 'tarefa_usuario_situacao') {
@@ -341,30 +317,28 @@ export class TarefaDetalheComponent implements OnInit {
             HookData.cell.styles.fillColor = this.rowColor(+HookData.row.raw['tarefa_situacao_id']);
           }
           if (HookData.column.dataKey === 'tarefa_usuario_situacao_andamento') {
-            if (Array.isArray(HookData.cell.raw['tarefa_historico'])) {
-
-              console.log('andamento', HookData);
-
-              if(Array.isArray(HookData.cell.raw)) {
-                HookData.row.height = (HookData.cell.raw.length * (HookData.cell.raw['tarefa_historico'].length + 1)) * 10.3;
-              } else {
-                HookData.row.height = (HookData.cell.raw['tarefa_historico'].length + 1) * 10.3;
-              }
+            if(Array.isArray(HookData.cell.raw)) {
+              const n1: any[] = HookData.cell.raw;
+              const n2: TarefaUsuarioSituacaoAndamentoI[] = n1;
+              let n0 = 0;
+              n2.forEach( h => {
+                n0 += h.tarefa_historico.length + 1
+              });
+              HookData.row.height = n0 * 10.3;
               HookData.cell.styles.cellPadding = {
                 top: 0,
                 right: 0,
                 bottom: 0,
                 left: 0
               };
+              HookData.cell.text = [];
             }
-            HookData.cell.text = [];
           }
         }
       },
       didDrawCell: data => {
         data.doc.setFontSize(9);
         this.contador = data.row.index;
-        console.log('contador', this.contador);
         if (data.cell.section === "body") {
           if (data.column.dataKey === 'tarefa_usuario_situacao') {
             this.contador = data.row.index;
@@ -391,7 +365,7 @@ export class TarefaDetalheComponent implements OnInit {
                     }
                   ],
                   body: data.row.raw['tarefa_usuario_situacao'],// tarefa_situacao_id
-                  theme: "grid",
+                  theme: "striped",
                   startY: data.cell.y,
                   margin: {
                     left: data.cell.x
@@ -418,18 +392,13 @@ export class TarefaDetalheComponent implements OnInit {
                   didParseCell: (HookData2) => {
                     HookData2.cell.styles.fillColor = this.rowColor(+HookData2.row.raw['tus_situacao_id']);
                   }
-
                 }
               )
-
-
             }
           }
           if (data.column.dataKey === 'tarefa_usuario_situacao_andamento') {
-            // this.contador = data.row.index;
             if (Array.isArray(data.row.raw['tarefa_usuario_situacao_andamento'])) {
               let dados: any[] = [];
-
               data.row.raw['tarefa_usuario_situacao_andamento'].forEach((d: TarefaUsuarioSituacaoAndamentoI) => {
                 const u: TarefaHistoricoI2 = {
                   th_data: d.tu_usuario_nome,
@@ -449,7 +418,6 @@ export class TarefaDetalheComponent implements OnInit {
                 h.reverse();
                 dados.push(...h);
               });
-              console.log('dados', dados);
               let da = data.doc;
               da.autoTable(
                 {
@@ -472,7 +440,7 @@ export class TarefaDetalheComponent implements OnInit {
                     }
                   ],
                   body: dados,// tarefa_situacao_id
-                  theme: "grid",
+                  theme: "striped",
                   startY: data.cell.y,
                   margin: {
                     left: data.cell.x
@@ -495,211 +463,40 @@ export class TarefaDetalheComponent implements OnInit {
                       bottom: 0,
                       left: 0
                     }
+                  },
+                  didParseCell: (HookData4) => {
+                    if (HookData4.section === 'body') {
+                      if (HookData4.column.dataKey === 'th_data' || HookData4.column.dataKey === 'th_historico') {
+                        if (HookData4.row.raw['usuarioSn']) {
+                          HookData4.cell.styles.fillColor = this.rowColor(+HookData4.row.raw['situacao_id']);
+                        }
+                      }
+                    }
                   }
                 });
             }
-            console.log('contador', this.contador);
           }
-        }
-      }
-    });
-
-    // if (typeof this.putTotalPages === 'function') {
-    // this.doc.putTotalPages(this.totalPagesExp)
-    // }
-
-    if (this.contador === this.total -1) {
-      this.doc.save('table.pdf');
-      this.doc = undefined;
-    }
-
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  getTabelaPdf2(valores: any[], colunas: ColumnInput[], y: number, width: number, estilo = {},  vertical: boolean = false) {
-    if (this.doc === undefined) {
-      if (vertical) {
-        this.doc = new jsPDF(
-          {
-            orientation: 'p',
-            unit: 'pt',
-            format: 'a4',
-            putOnlyUsedFonts: true
-          }
-        ) as jsPDFCustom;
-      } else {
-        this.doc = new jsPDF(
-          {
-            orientation: 'l',
-            unit: 'pt',
-            format: 'a4',
-            putOnlyUsedFonts: true
-          }
-        ) as jsPDFCustom;
-      }
-
-      this.doc.setFontSize(15);
-      this.doc.text('TAREFAS', 15, 15);
-      this.doc.setFontSize(9);
-      this.startY = 16;
-    }
-
-
-
-    this.doc.autoTable({
-      columns: colunas,
-      body: valores,
-      startY: y,
-      styles: estilo,
-      /*headStyles: {
-        textColor: 255,
-        fillColor: '#007bff',
-        fontStyle: 'bold',
-        fontSize: 9,
-        lineWidth: 0.1,
-        cellPadding: {
-          top: 1,
-          right: 1,
-          bottom: 0.5,
-          left: 2
-        }
-      },*/
-      bodyStyles: {
-        fillColor: 255,
-        textColor: 80,
-        fontStyle: 'normal',
-        fontSize: 9,
-        lineWidth: 0.1,
-        cellPadding: {
-          top: 1,
-          right: 1,
-          bottom: 0.5,
-          left: 2
         }
       },
       didDrawPage: function (hookData) {
-        // Footer
-        console.log('didDrawPage', hookData);
         let str = 'Página ' + hookData.pageNumber;
-        // Total page number plugin only available in jspdf v1.0+
         if (typeof hookData.doc.putTotalPages === 'function') {
           str = str + ' de ' + hookData.pageCount;
         }
         hookData.doc.setFontSize(8);
-
-        // jsPDF 1.4+ uses getWidth, <1.4 uses .width
         let pageSize = hookData.doc.internal.pageSize;
         let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
         let pageWidth = pageSize.width ? pageSize.width : hookData.doc.internal.pageSize.getWidth;
         hookData.doc.text(str, pageWidth - 100, pageHeight - 10);
         hookData.doc.setFontSize(9);
-        hookData.doc.putTotalPages('{total_pages_count_string}');
-      },
-      didParseCell: (HookData) => {
-        if (HookData.cell.section === "body") {
-          if (HookData.column.dataKey === 'tarefa_usuario_situacao') {
-          // if (this.idx0 !== -1 && HookData.column.index === this.idx0) {
-            const c1 = HookData;
-            console.log('didParseCell', c1);
-
-            if (Array.isArray(HookData.cell.raw)) {
-              console.log('HookData.cell.raw.length', HookData.cell.raw.length);
-              HookData.cell.height = HookData.cell.raw.length * 11;
-            }
-            HookData.cell.text = [];
-            console.log('nestedTable', HookData.cell);
-          }
-        }
-      },
-      didDrawCell: data => {
-        this.contador = data.row.index;
-        if (data.cell.section === "body") {
-          if (data.column.dataKey === 'tarefa_usuario_situacao') {
-          // if (this.idx0 !== -1 && data.column.index === this.idx0) {
-            const c2 = data
-            console.log('didDrawCell', data);
-            this.contador = data.row.index;
-            // this.contador++;
-            this.startY = data.cell.y + 4;
-            this.tableWidth = data.cell.width - 4;
-            const subTableStyle = {
-              startY: data.cell.y + 4,
-              margin: { left: data.cell.x + 4},
-              tableWidth: data.cell.width - 4
-            };
-            console.log('subTableStyle',subTableStyle);
-            const c3 = data.row.raw['tarefa_usuario_situacao'];
-            console.log('data.row.raw',c3);
-            if (Array.isArray(data.row.raw['tarefa_usuario_situacao'])) {
-
-              this.getTabelaPdf(data.row.raw['tarefa_usuario_situacao'], this.getCols(1),data.cell.y + 4,221,  subTableStyle,  false);
-            }
-
-            // const rawNode = data.cell.raw as HTMLTableCellElement;
-            // const nestedTable = rawNode.querySelector('table');
-
-            // if there is a nested table draw that table
-            /*if (nestedTable) {
-              const subTableStyle = {
-                html: nestedTable,
-                startY: data.cell.y + 4,
-                margin: { left: data.cell.x + 4 },
-                tableWidth: data.cell.width - 4
-              };
-              console.log('subTableStyle', subTableStyle);
-              this.createAutoTable(nestedTable, subTableStyle)
-            }*/
-          }
-        }
-        console.log('contador', this.contador);
+        // hookData.doc.putTotalPages('{total_pages_count_string}');
       }
+
     });
 
-    // if (typeof this.putTotalPages === 'function') {
-      // this.doc.putTotalPages(this.totalPagesExp)
-    // }
+    if (typeof this.doc.putTotalPages === 'function') {
+      this.doc.putTotalPages(totalPagesExp)
+    }
 
     if (this.contador === this.total -1) {
       this.doc.save('table.pdf');
@@ -707,20 +504,6 @@ export class TarefaDetalheComponent implements OnInit {
     }
 
   }
-
-
-
-    prepareCellTableInterna(cell, nestedTable: any[]) {
-      cell.styles.minCellHeight = this.getTotalRowsInterna(nestedTable) * 11; // calc how many rows are needed?
-      cell.text = [];
-      console.log('prepareCellForNestedTable', cell);
-    }
-
-
-    getTotalRowsInterna(valores: any[]): number {
-      console.log('getTotalRows');
-      return valores.length;
-    }
 
 
 
