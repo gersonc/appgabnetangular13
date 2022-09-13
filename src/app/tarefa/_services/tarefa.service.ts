@@ -23,6 +23,7 @@ import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {take} from "rxjs/operators";
 import {ColunasI} from "../../_models/colunas-i";
 import {TarefaPrintService} from "./tarefa-print.service";
+import {TarefaPdfService} from "./tarefa-pdf.service";
 
 @Injectable({
   providedIn: 'root'
@@ -101,7 +102,8 @@ export class TarefaService {
     private tts: TitulosService,
     private celulaService: CelulaService,
     private tfs: TarefaFormService,
-    private tps: TarefaPrintService
+    private tps: TarefaPrintService,
+    private tpdfs: TarefaPdfService
   ) {
     this.tarefaUrl = this.url.tarefa;
     this.celulaService.modulo = 'Tarefa';
@@ -295,14 +297,14 @@ export class TarefaService {
       this.tps.campos = this.tabela.selectedColumns;
       this.tps.valores = this.selecionados;
       this.tps.tit = this.getTitulos();
-      this.tps.PrintTarefas();
+      // this.tps.PrintTarefas();
     }
 
     if (n === 2 && this.tarefas.length > 0) {
       this.tps.campos = this.tabela.selectedColumns;
       this.tps.valores = this.tarefas;
       this.tps.tit = this.getTitulos();
-      this.tps.PrintTarefas();
+      // this.tps.imprimir();
     }
 
     if (n === 3) {
@@ -325,7 +327,7 @@ export class TarefaService {
             this.tps.campos = this.tabela.selectedColumns;
             this.tps.valores = tarefaRelatorio.tarefas;
             this.tps.tit = this.getTitulos();
-            this.tps.PrintTarefas();
+            // this.tps.PrintTarefas();
 
             // PrintJSService.imprimirTabela2(this.tabela.selectedColumns, tarefaRelatorio.tarefas, 'TAREFAS');
           }
@@ -408,17 +410,11 @@ export class TarefaService {
 
 
       if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
-        this.tps.campos = this.tabela.selectedColumns;
-        this.tps.valores = this.selecionados;
-        this.tps.tit = this.getTitulos();
-        this.tps.getPdf2();
+        this.tpdfs.geraTabelaPdf(this.selecionados, this.tabela.selectedColumns, this.getTitulos());
       }
 
     if (n === 2 && this.tarefas.length > 0) {
-      this.tps.campos = this.tabela.selectedColumns;
-      this.tps.valores = this.tarefas;
-      this.tps.tit = this.getTitulos();
-      this.tps.getPdf2();
+      this.tpdfs.geraTabelaPdf(this.tarefas, this.tabela.selectedColumns, this.getTitulos());
     }
 
     if (n === 3) {
@@ -438,74 +434,13 @@ export class TarefaService {
             console.error('ERRO-->', err);
           },
           complete: () => {
-            this.tps.campos = this.tabela.selectedColumns;
-            this.tps.valores = tarefaRelatorio.tarefas;
-            this.tps.tit = this.getTitulos();
-            this.tps.getPdf2();
+            this.tpdfs.geraTabelaPdf(this.tarefas, this.tabela.selectedColumns, this.getTitulos());
           }
         })
       );
     }
-
-
-
   }
 
-  tabelaPdf2(n: number): void {
-    // 1 - selecionados
-    // 2 - pagina
-    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
-      if (n === 1) {
-        TabelaPdfService.tabelaPdf(
-          'tarefas',
-          'TAREFAS',
-          this.tabela.selectedColumns,
-          this.selecionados,
-          tarefacampostexto
-        );
-      }
-      if (n === 2) {
-        /*TabelaPdfService.tabelaPdf(
-          'tarefas',
-          'TAREFAS',
-          this.tabela.selectedColumns,
-          this.tarefas,
-          tarefacampostexto
-        );*/
-
-        this.tps.campos = this.tabela.selectedColumns;
-        this.tps.valores = this.tarefas;
-        this.tps.tit = this.getTitulos();
-        this.tps.getPdf2();
-      }
-      if (n === 3) {
-        let busca: TarefaBuscaI = this.busca;
-        busca.rows = undefined;
-        busca.campos = this.tabela.selectedColumns, busca.todos = true;
-        busca.first = undefined;
-        let tarefaRelatorio: TarefaPaginacaoI;
-        this.sub.push(this.postTarefaRelatorio(busca)
-          .subscribe({
-            next: (dados) => {
-              tarefaRelatorio = dados
-            },
-            error: err => {
-              console.error('ERRO-->', err);
-            },
-            complete: () => {
-              TabelaPdfService.tabelaPdf(
-                'tarefas',
-                'TAREFAS',
-                this.tabela.selectedColumns,
-                tarefaRelatorio.tarefas,
-                tarefacampostexto
-              );
-            }
-          })
-        );
-      }
-    }
-  }
 
   exportToXLSX(td: number = 1) {
     if (td === 3) {

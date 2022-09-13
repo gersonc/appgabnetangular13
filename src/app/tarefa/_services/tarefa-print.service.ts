@@ -4,6 +4,10 @@ import {striptags} from "striptags";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import jsPDF from 'jspdf'
 import {autoTable, applyPlugin, UserOptions } from 'jspdf-autotable';
+import {ColunasI} from "../../_models/colunas-i";
+import {ITitulos} from "../../_models/titulo-i";
+import * as printJS from 'print-js';
+import {emit} from "cluster";
 applyPlugin(jsPDF);
 
 interface jsPDFCustom extends jsPDF {
@@ -16,6 +20,10 @@ interface jsPDFCustom extends jsPDF {
 export class TarefaPrintService {
 
   valores: TarefaI[] = [];
+  campos: ColunasI[] = [];
+  tit: ITitulos[] = [];
+
+
 
   constructor() { }
 
@@ -159,6 +167,8 @@ export class TarefaPrintService {
 
   reset() {
     this.valores = [];
+    this.campos = [];
+    this.tit = [];
   }
 
   rowColor(tus_situacao_id?: number): string | null {
@@ -372,5 +382,12 @@ export class TarefaPrintService {
     this.valores = [];
     return true;
   }
+
+
+  imprimir() {
+    printJS({printable: this.valores, type: 'json', properties: ['tarefa_titulo', ['tu_usuario_nome, tus_situacao_nome'], 'tarefa_usuario_autor_nome']})
+  }
+
+
 
 }
