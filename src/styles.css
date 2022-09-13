@@ -18359,6 +18359,169 @@ div.tarefa-historico {
   font-weight: var(--formulario-field-input-font-weight);
 }
 
+.tab-tarefa {
+  border-collapse: collapse;
+  border: 1px solid var(--surface-400);
+  width: 100%;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+
+.tab-tarefa thead th {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  background-color: var(--surface-a);
+}
+
+.tab-tarefa caption {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  background-color: var(--surface-a);
+}
+
+.tab-tarefa th {
+  text-align: left;
+  background-color: var(--fundotabela);
+}
+
+.tab-tarefa td {
+  text-align: left;
+  font-weight: 600;
+}
+
+
+.tab-tarefa td, .tab-tarefa th {
+  padding-left: .5rem;
+  padding-right: .5rem;
+  width: 50%;
+  border: 1px solid var(--surface-400);
+}
+
+p-scrollPanel.tf-detalhe {
+  width: 100%;
+  height: 70vh;
+}
+
+.tf-td {
+  display: block;
+}
+
+.tf-td2 {
+  padding-right: .5rem;
+  width: 12em;
+  text-wrap: none;
+  float: left;
+}
+
+.tf-td8 {
+  padding-left: .5rem;
+  padding-right: .5rem;
+  border-left: 1px solid var(--surface-400);
+  width: calc(100% - 12em);
+  float: right;
+}
+
+td.tf-kill .ql-editor {
+  padding: 0 !important;
+}
+.tf-td8 .ql-editor {
+  padding: 0 !important;
+}
+
+
+@media print {
+  .tab-tarefa{
+    background: #fff !important;
+    border-collapse: collapse;
+    border: 1pt solid grey;
+    width: 100%;
+    line-height: 1.3;
+    font-size: 10pt;
+  }
+
+  .tab-tarefa table{
+    font: 10pt Georgia, "Times New Roman", Times, serif;
+    border-collapse: collapse;
+    border: 1pt solid grey;
+    width: 100%;
+    color: #000000;
+    line-height: 1.3;
+  }
+
+
+  .tab-tarefa thead th {
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-align: center;
+    background-color: #ffffff;
+  }
+
+  .tab-tarefa caption {
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-align: center;
+    background-color: #ffffff;
+  }
+
+  .tab-tarefa th {
+    text-align: left;
+    background-color: #efefef;
+  }
+
+  .tab-tarefa td {
+    text-align: left;
+    font-weight: 300;
+  }
+
+
+  .tab-tarefa td, .tab-tarefa th {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    width: 50%;
+    border: 1pt solid grey;
+  }
+
+  .tf-td {
+    display: block;
+  }
+
+  .tf-td2 {
+    padding-right: .5rem;
+    width: 10em;
+    text-wrap: none;
+    float: left;
+  }
+
+  .tf-td8 {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    border-left: 1pt solid grey;
+    width: calc(100% - 10em);
+    float: right;
+  }
+
+  td.tf-kill .ql-editor {
+    font-size: 10pt !important;
+  }
+  .tf-td8 .ql-editor {
+    font-size: 10pt !important;
+  }
+
+  td.tf-kill .ql-editor {
+    padding: 0 !important;
+  }
+  .tf-td8 .ql-editor {
+    padding: 0 !important;
+  }
+
+
+
+
+}
+
 
 
 

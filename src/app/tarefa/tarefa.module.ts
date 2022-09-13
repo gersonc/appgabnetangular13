@@ -33,6 +33,8 @@ import {QuillModule} from "ngx-quill";
 import { TarefaUsuarioSituacaoAndamentoComponent } from './tarefa-usuario-situacao-andamento/tarefa-usuario-situacao-andamento.component';
 import { TarefaAtualizarFormComponent } from './tarefa-atualizar-form/tarefa-atualizar-form.component';
 import {ArquivoModule} from "../arquivo/arquivo.module";
+import {ExplorerModule} from "../explorer/explorer.module";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
 
 
 @NgModule({
@@ -71,7 +73,9 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
     KillViewModule,
     QuillModule,
     FormsModule,
-    ArquivoModule
+    ArquivoModule,
+    ExplorerModule,
+    ImpressaoModule
   ],
   exports: [
     TarefaComponent,

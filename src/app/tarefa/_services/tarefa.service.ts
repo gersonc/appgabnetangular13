@@ -279,6 +279,16 @@ export class TarefaService {
     this.tarefaBusca();
   }
 
+  onImprimirTarefa(tarefa: TarefaI) {
+    this.tps.valores = [tarefa];
+    this.tps.PrintElem();
+  }
+
+  onGerarPdfTarefa(tarefa: TarefaI) {
+    this.tps.valores = [tarefa];
+    this.tps.getPdf();
+  }
+
   imprimirTabela(n: number) {
     const campos: string[] = this.tabela.selectedColumns.map(t => {return t.field;});
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {

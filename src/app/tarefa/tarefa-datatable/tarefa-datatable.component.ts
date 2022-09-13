@@ -312,11 +312,11 @@ export class TarefaDatatableComponent implements OnInit {
     // this.tp.getPdf();
     // this.tp.getPdf();
     this.showDetalhe = true;
-    // this.tarefaDetalhe = tar;
+    this.tarefaDetalhe = tar;
   }
 
   escondeDetalhe() {
-    // this.showDetalhe = false;
+    this.showDetalhe = false;
     this.tarefaDetalhe = null;
   }
 
@@ -446,25 +446,15 @@ export class TarefaDatatableComponent implements OnInit {
     return true;
   }
 
-  imprimirTabela() {
-    console.log('tabela.selectedColumns', this.ts.tabela.selectedColumns);
-    /*const t: ITitulos[] = this.ts.getTitulos();
-    console.log('iTitulos', t);
-    console.log("iTitulost['tarefa']", t['tarefa']);
-    const tt: string[] = Object.keys(t['tarefa']);
-    console.log('tt', tt);
-    if(this.teste()) {
-      const cf: Configuration = {
-        printable: 'pagimprimir',
-        type: 'html',
-        css: '/assets/css/tarefa.css',
-        ignoreElements: ['button']
-      }
-      printJS(cf);
-      this.imprimirSN = false;
-    }*/
-    this.showDetalhe = true
+  imprimirTarefa(tarefa: TarefaI) {
+    this.ts.onImprimirTarefa(tarefa);
   }
+
+  onGerarPdfTarefa(tarefa: TarefaI) {
+    this.ts.onGerarPdfTarefa(tarefa);
+  }
+
+
 
 
   onPrintDialogClose2() {

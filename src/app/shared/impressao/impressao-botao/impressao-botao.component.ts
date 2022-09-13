@@ -18,13 +18,15 @@ export class ImpressaoBotaoComponent implements OnInit {
   }
 
 
-  /*ngOnChanges(changes: SimpleChanges) {
-    if (changes.dados.currentValue !== undefined && changes.dados.currentValue !== null) {
-      // this.imprimir();
-    }
-  }*/
-
   imprimir() {
+    window.addEventListener('afterprint', (event) => {
+      let y = document.getElementById("printSection");
+      if (y) {
+        let c = document.getElementById('body');
+        c.removeChild(y);
+      }
+      window.removeEventListener('afterprint', event => {});
+    });
     const ref: HTMLTableElement = this.dados[1];
     let t = document.getElementById("printSection");
     if (t) {
@@ -38,6 +40,11 @@ export class ImpressaoBotaoComponent implements OnInit {
     printSection.innerHTML = "";
     printSection.appendChild(ref.cloneNode(true));
     window.print();
+    let y = document.getElementById("printSection");
+    if (y) {
+      let c = document.getElementById('body');
+      c.removeChild(y);
+    }
   }
 
 }

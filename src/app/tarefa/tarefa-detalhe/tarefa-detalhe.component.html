@@ -1,72 +1,147 @@
-<!--
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Documento sem t&iacute;tulo</title>
-  <base href="/">
-  <link href="assets/impressao.css" rel="stylesheet" type="text/css" media="screen">
-</head>
-
-<body>
--->
-
-<div class="tarefa-print">
-  <table #tabela1 id="tabela1" class="tarefa-print">
-    <caption>TAREFAS</caption>
-    <thead>
+<p-scrollPanel class="tf-detalhe">
+  <!--<table class="detalhefull">
     <tr>
-      <ng-container *ngFor="let t of cps0">
-        <th>{{tit['tarefa'][t].titulo}}</th>
-      </ng-container>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let v of valores; index as i;">
-      <ng-container *ngFor="let c of cps0">
-        <td
-          *ngIf="c !== 'tarefa_situacao_nome' && c !== 'tarefa_usuario_situacao' && c !== 'tarefa_usuario_situacao_andamento'">
-          {{v[c]}}
-        </td>
-        <td *ngIf="c==='tarefa_situacao_nome'" [ngClass]="rowStyle(+v['tarefa_situacao_id'])">
-          {{v[c]}}
-        </td>
-        <td *ngIf="c === 'tarefa_usuario_situacao'" class="composta">
-          <!--<div id="idx-{{i}}" class="tarefa-interna-print">-->
-            <table id="idx-{{i}}" class="tarefa-interna-print">
-              <tr *ngFor="let s of v['tarefa_usuario_situacao']" [ngClass]="rowStyle(+s['tus_situacao_id'])">
-                <td *ngFor="let d of cps1">{{s[d]}}</td>
-              </tr>
-            </table>
-          <!--</div>-->
-        </td>
-        <td *ngIf="c === 'tarefa_usuario_situacao_andamento'" class="composta">
-          <div class="tarefa-interna-print">
-            <!--<table width="100%">
-              <ng-container *ngFor="let h of v['tarefa_usuario_situacao_andamento']">
-                <tr [ngClass]="rowStyle(+h['tus_situacao_id'])">
-                  <td style="width: 40px;">{{h['tu_usuario_nome']}}</td>
-                  <td></td>
-                  <td style="width: 50%">{{h['tus_situacao_nome']}}</td>
-                </tr>
-                <tr *ngFor="let hi of h['tarefa_historico']">
-                  <td>{{hi['th_data']}}</td>
-                  <td colspan="2">{{stripslashes(hi['th_historico'])}}</td>
-                </tr>
-              </ng-container>
-            </table>-->
-          </div>
-        </td>
-      </ng-container>
-    </tr>
+      <td>-->
 
-    </tbody>
-  </table>
+        <table class="tab-tarefa" #tabtarefa id="tabtarefa">
+          <!--<caption>TAREFA</caption>-->
+          <thead>
+          <tr>
+            <th colspan="2">
+              TAREFA
+            </th>
+          </tr>
+          </thead>
+          <tbody class="tab-tarefa">
+          <tr>
+            <th colspan="2">
+              Titulo:
+            </th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              {{tarefa.tarefa_titulo}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Data do pedido:
+            </th>
+            <th>
+              Prazo:
+            </th>
+          </tr>
+          <tr>
+            <td>
+              {{tarefa.tarefa_datahora}}
+            </td>
+            <td>
+              {{tarefa.tarefa_data}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Situação:
+            </th>
+            <th>
+              Autor:
+            </th>
+          </tr>
+          <tr>
+            <td [ngClass]="fcor(tarefa.tarefa_situacao_id)">
+              {{tarefa.tarefa_situacao_nome}}
+            </td>
+            <td>
+              {{tarefa.tarefa_usuario_autor_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="tarefa.tarefa_tarefa">
+            <th colspan="2">
+              Tarefa:
+            </th>
+          </tr>
+          <tr *ngIf="tarefa.tarefa_tarefa" class="novaPagina">
+            <td colspan="2" class="tf-kill">
+                <app-kill-view
+                  [kill]="{html: tarefa.tarefa_tarefa, delta: tarefa.tarefa_tarefa_delta}"></app-kill-view>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Demandados:
+            </th>
+            <th>
+              Situação:
+            </th>
+          </tr>
+          <tr *ngFor="let tus of tarefa.tarefa_usuario_situacao">
+            <td [ngClass]="fcor(tus.tus_situacao_id)">
+              {{tus.tu_usuario_nome}}
+            </td>
+            <td [ngClass]="fcor(tus.tus_situacao_id)">
+              {{tus.tus_situacao_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2">Andamentos - Demandados - Situação</th>
+          </tr>
+
+          <ng-container *ngFor="let us of tarefa.tarefa_usuario_situacao_andamento">
+            <tr>
+              <td [ngClass]="fcor(us.tus_situacao_id)">
+                {{us.tu_usuario_nome}}
+              </td>
+              <td [ngClass]="fcor(us.tus_situacao_id)">
+                {{us.tus_situacao_nome}}
+              </td>
+            </tr>
+            <ng-container *ngIf="us.tarefa_historico.length > 0">
+            <tr *ngFor="let hi of us.tarefa_historico">
+              <td colspan="2">
+                <div class="tf-td">
+                    <div class="tf-td2">
+                      {{hi.th_data}}
+                    </div>
+                    <div class="tf-td8">
+                        <app-kill-view
+                          [kill]="{html: hi.th_historico, delta: hi.th_historico_delta}"></app-kill-view>
+                    </div>
+                </div>
+              </td>
+            </tr>
+            </ng-container>
+          </ng-container>
+
+          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0 && aut.arquivos_baixar" id="pdfarquivos">
+            <th colspan="2">Arquivos</th>
+          </tr>
+          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0 && aut.arquivos_baixar" id="pdfarquivos2">
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="tarefa.tarefa_arquivos"></app-detalhe-explorer>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <br>
+
+      <!--</td>
+    </tr>
+  </table>-->
+  <br>
+</p-scrollPanel>
+
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
+  &nbsp;&nbsp;
+  <app-exporter-detalhe [arquivoNome]="'tarefa_detalhes'" [classe]="'tab-tarefa'"
+                        [(pdfOnOff)]="pdfOnOff"></app-exporter-detalhe>
+  &nbsp;&nbsp;
+  <app-impressao-botao [dados]="['TAREFA',tabtarefa]"></app-impressao-botao>
+  &nbsp;
+  <button pButton type="button" label="IMPRIMIR" icon="pi pi-times" class="p-button-rounded" (click)="imprimir(tarefa)"></button>
+  &nbsp;
+  <button pButton type="button" label="PDF" icon="pi pi-times" class="p-button-rounded" (click)="getPdf(tarefa)"></button>
+
 </div>
-<button (click)="geraTabelaPdf();"></button>
-<!--
 
-</body>
-</html>
 
--->

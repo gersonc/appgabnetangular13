@@ -434,7 +434,7 @@
     header="DETALHE"
     (onHide)="escondeDetalhe()"
   >
-    <app-tarefa-detalhe *ngIf="showDetalhe" [tit]="ts.getTitulos()" [campos]="ts.tabela.selectedColumns" [valores]="ts.tarefas" (fechar)="fechaDetalhes($event)"></app-tarefa-detalhe>
+    <app-tarefa-detalhe *ngIf="showDetalhe" [tarefa]="tarefaDetalhe" (hideDetalhe)="fechaDetalhes($event)" (onImprimir)="imprimirTarefa($event)" (gerarPdf)="onGerarPdfTarefa($event)"></app-tarefa-detalhe>
   </p-dialog>
 </ng-container>
 <ng-container *ngIf="ts.showTusForm">
