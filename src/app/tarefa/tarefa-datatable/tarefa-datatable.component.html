@@ -96,14 +96,14 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <!--<col *ngIf="getImprimit()">-->
+      <col style="width: 3.5em" pResizableColumnDisabled>
       <col *ngFor="let col of columns">
     </colgroup>
   </ng-template>
 
   <ng-template pTemplate="header" let-columns>
     <tr class="tarefa-print">
-      <th style="width: 2rem;"></th>
+      <th style="width: 3.5em;" pResizableColumnDisabled></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [pSortableColumnDisabled]="col.field ==='tarefa_usuario_situacao' || col.field ==='tarefa_usuario_situacao_andamento'"
@@ -129,8 +129,7 @@
       class="p-selectable-row tarefa-print"
     >
 
-      <td *ngIf="getImprimit()" style="width: 2rem;">
-        <div class="p-d-print-none">
+      <td style="width: 3.5em" pResizableColumnDisabled>
         <button
           type="button"
           pButton pRipple
@@ -140,27 +139,23 @@
           class="p-button-rounded  p-button-text p-button-sm"
           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
         ></button>
-        </div>
       </td>
 
       <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
+        <ng-container *ngIf="col.field==='tarefa_situacao_nome'">
+          <app-tarefa-situacao
+            [tarefa]="tarf"
+            [index]="rowIndex"
+            [tarefa_usuario_autor_id]="tarf['tarefa_usuario_autor_id']"
+            [tarefa_situacao_nome]="tarf[col.field]"
+            (mostraFormAutor)="mostraTusFormEvent($event)"
+          ></app-tarefa-situacao>
+        </ng-container>
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
-          <ng-container *ngIf="!getImprimit()">
-            <table>
-              <tr *ngFor="let tus of tarf[col.field]">
-                <td>{{tus.tu_usuario_nome}}</td>
-                <td>{{tus.tus_situacao_nome}}</td>
-              </tr>
-            </table>
-
-          </ng-container>
           <app-tarefa-usuario-situacao
-            *ngIf="getImprimit()"
-            [(exibir)]="showUsuarioSituacao"
             [tus]="tarf[col.field]"
             [tarefa]="tarf"
             [index]="rowIndex"
-            [usuario_id]="usuario_id"
             (mostraForm)="mostraTusFormEvent($event)"
           ></app-tarefa-usuario-situacao>
         </ng-container>
@@ -169,12 +164,11 @@
             [(exibirtus)]="showHistorico"
             [tus]="tarf[col.field]"
             [index]="rowIndex"
-            [usuarioSN]="usuarioSN"
-            [situacaoSN]="situacaoSN"
-            [andamentoSN]="andamentoSN"
+            [tarefa]="tarf"
+            (mostraForm)="mostraTusFormEvent($event)"
           ></app-tarefa-usuario-situacao-andamento>
         </ng-container>
-        <ng-container *ngIf="col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_usuario_situacao_andamento'">
+        <ng-container *ngIf="col.field!=='tarefa_situacao_nome' && col.field!=='tarefa_usuario_situacao' && col.field!=='tarefa_usuario_situacao_andamento'">
           <app-exporter-celula [celula]="{
             valor: stripslashes(tarf[col.field]),
             field: col.field,
@@ -350,9 +344,7 @@
                     *ngIf="ts.expandidoSN"
                     [(exibirtus)]="ts.expandidoSN"
                     [tus]="tarf['tarefa_usuario_situacao_andamento']"
-                    [index]="indice" [usuarioSN]="usuarioSN"
-                    [situacaoSN]="situacaoSN"
-                    [andamentoSN]="andamentoSN"
+                    [index]="indice"
                   ></app-tarefa-usuario-situacao-andamento>
                 </div>
               </div>
@@ -446,9 +438,24 @@
     [dismissableMask]="false"
     [closable]="false"
     styleClass="tablistagem"
-    header="TAREFA - USUÁRIO SITUAÇÃO"
+    header="TAREFA - SITUAÇÃO"
   >
     <app-tarefa-atualizar-form *ngIf="ts.showTusForm" (fechar)="fechaTusForm($event)"></app-tarefa-atualizar-form>
+  </p-dialog>
+</ng-container>
+
+<ng-container *ngIf="ts.showSitForm">
+  <p-dialog
+    [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
+    [style]="{maxWidth: '1350px', width: '80vw'}"
+    [(visible)]="ts.showSitForm"
+    [modal]="true"
+    [dismissableMask]="false"
+    [closable]="false"
+    styleClass="tablistagem"
+    header="TAREFA - SITUAÇÃO"
+  >
+    <app-tarefa-atualizar-form *ngIf="ts.showSitForm" (fechar)="fechaTusForm($event)"></app-tarefa-atualizar-form>
   </p-dialog>
 </ng-container>
 

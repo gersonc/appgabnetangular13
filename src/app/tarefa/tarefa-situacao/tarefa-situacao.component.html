@@ -1,0 +1,2 @@
+<div *ngIf="+aut.usuario_id !== tarefa_usuario_autor_id" [ngClass]="rowColor()" class="tf-sit">{{tarefa_situacao_nome}}</div>
+<div *ngIf="+aut.usuario_id === tarefa_usuario_autor_id" [ngClass]="rowColor()" class="tf-sit tmouse" (click)="alterarClick()">{{tarefa_situacao_nome}}</div>

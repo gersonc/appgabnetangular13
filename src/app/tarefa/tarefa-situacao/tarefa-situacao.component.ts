@@ -1,23 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TarefaI, TarefaUsuarioSituacaoAndamentoI} from "../_models/tarefa-i";
-import {ColunasI} from "../../_models/colunas-i";
+import {TarefaI} from "../_models/tarefa-i";
 import {TarefaSituacaoService} from "../_services/tarefa-situacao.service";
 import {AuthenticationService} from "../../_services";
 
 @Component({
-  selector: 'app-tarefa-usuario-situacao-andamento',
-  templateUrl: './tarefa-usuario-situacao-andamento.component.html',
-  styleUrls: ['./tarefa-usuario-situacao-andamento.component.css']
+  selector: 'app-tarefa-situacao',
+  templateUrl: './tarefa-situacao.component.html',
+  styleUrls: ['./tarefa-situacao.component.css']
 })
-export class TarefaUsuarioSituacaoAndamentoComponent implements OnInit {
-  @Input() tus: TarefaUsuarioSituacaoAndamentoI[] = [];
-  @Input() exibirtus: boolean;
-  @Input() index: number;
+export class TarefaSituacaoComponent implements OnInit {
   @Input() tarefa?: TarefaI;
-  @Output() exibirtusChange = new EventEmitter<boolean>();
-  @Output() mostraForm = new EventEmitter<boolean>();
-
-  selectedColumns: ColunasI[] = [];
+  @Input() index?: number;
+  @Input() tarefa_usuario_autor_id?: number;
+  @Input() tarefa_situacao_nome?: string;
+  @Output() mostraFormAutor = new EventEmitter<boolean>();
 
   constructor(
     public tss: TarefaSituacaoService,
@@ -27,22 +23,19 @@ export class TarefaUsuarioSituacaoAndamentoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-  alterarClick(tus) {
+  alterarClick() {
     if (this.tss.ddTarefa_situacao_id.length === 0) {
       this.tss.ddTarefa_situacao_id = JSON.parse(sessionStorage.getItem('dropdown-tarefa_situacao'));
     }
     this.tss.tarefa = this.tarefa;
-    this.tss.tus = tus;
-    this.tss.usuario_id = +this.aut.usuario_id;
+    this.tss.tarefa_usuario_autor_id = +this.aut.usuario_id;
     this.tss.index = this.index;
     this.tss.exibir = true;
-    this.mostraForm.emit(true);
+    this.mostraFormAutor.emit(true);
   }
 
-
-  rowColor(tus_situacao_id?: number): string | null {
-    switch (tus_situacao_id) {
+  rowColor(): string | null {
+    switch (this.tarefa.tarefa_situacao_id) {
       case 1:
         return 'tstatus-1';
       case 2:

@@ -56,6 +56,7 @@ export class TarefaService {
   colsTrocar = ['tarefa_data', 'tarefa_datahora'];
   tTit = new TarefaTitulo();
   showTusForm = false;
+  showSitForm = false;
   // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
   iTitulos: ITitulos[] | null = null;

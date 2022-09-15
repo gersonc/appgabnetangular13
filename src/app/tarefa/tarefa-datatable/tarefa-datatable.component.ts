@@ -46,13 +46,13 @@ export class TarefaDatatableComponent implements OnInit {
   permInclHist: boolean = true;
   permitirAcao: boolean = true;
 
-  showUsuarioSituacao = true;
-  tarefa_historico = true;
-  usuarioSN = true;
-  situacaoSN = true;
-  andamentoSN = true;
-  usuario_id = 111;
-  imprimirSN = false;
+  // showUsuarioSituacao = true;
+  // tarefa_historico = true;
+  // usuarioSN = true;
+  // situacaoSN = true;
+  // andamentoSN = true;
+  // usuario_id = 111;
+  // imprimirSN = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -65,7 +65,7 @@ export class TarefaDatatableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.usuario_id = +this.aut.usuario_id;
+    // this.usuario_id = +this.aut.usuario_id;
     if (this.ts.selecionados === undefined || this.ts.selecionados === null || !Array.isArray(this.ts.selecionados)) {
       this.ts.selecionados = [];
     }
@@ -178,12 +178,12 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_id', header: 'ID', sortable: 'true', width: '80px'},
       {field: 'tarefa_titulo', header: 'TITULO', sortable: 'true', width: '150px'},
       {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '400px'},
-      {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '160px'},
       {field: 'tarefa_usuario_situacao', header: 'DEMANDADOS SITUAÇÃO', sortable: 'false', width: '250px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_usuario_situacao_andamento', header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS', sortable: 'false', width: '400px'},
+      {field: 'tarefa_usuario_situacao_andamento', header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS', sortable: 'false', width: '430px'},
     ];
     if (!this.ts.stateSN) {
       this.resetSelectedColumns();
@@ -195,7 +195,7 @@ export class TarefaDatatableComponent implements OnInit {
     this.ts.tabela.selectedColumns = [
       {field: 'tarefa_titulo', header: 'TITULO', sortable: 'true', width: '150px'},
       {field: 'tarefa_tarefa', header: 'TAREFA', sortable: 'true', width: '400px'},
-      {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '150px'},
+      {field: 'tarefa_situacao_nome', header: 'SITUAÇÃO', sortable: 'true', width: '160px'},
       {field: 'tarefa_usuario_situacao', header: 'DEMANDADOS SITUAÇÃO', sortable: 'false', width: '250px'},
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
@@ -428,7 +428,7 @@ export class TarefaDatatableComponent implements OnInit {
 
   fechaTusForm(ev) {
     this.ts.showTusForm = false;
-    this.showUsuarioSituacao = false;
+    // this.showUsuarioSituacao = false;
   }
 
   fechaDetalhes(ev) {
@@ -457,12 +457,12 @@ export class TarefaDatatableComponent implements OnInit {
 
 
 
-  onPrintDialogClose2() {
+  /*onPrintDialogClose2() {
     this.imprimirSN = false;
   }
   getImprimit(): boolean {
     return !this.imprimirSN;
-  }
+  }*/
 
 
 }

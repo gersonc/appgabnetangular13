@@ -13,6 +13,7 @@ export class TarefaSituacaoService {
   exibir: boolean = false;
   index: number = -1;
   usuario_id = 0;
+  tarefa_usuario_autor_id = 0;
 
   constructor() { }
 
@@ -21,6 +22,7 @@ export class TarefaSituacaoService {
     this.tus = null;
     this.index = -1;
     this.usuario_id = 0;
+    this.tarefa_usuario_autor_id = 0;
   }
 
   resetAll() {

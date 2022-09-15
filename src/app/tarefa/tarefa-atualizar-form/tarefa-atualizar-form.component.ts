@@ -31,7 +31,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
   botaoEnviarVF = false;
   disabled = true;
   kdisabled = false;
-  usuario_id = 61;
+  // usuario_id = 61;
   kill: any = null;
 
   // tus: TarefaUsuarioSituacaoI | null = null;
@@ -90,6 +90,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
     this.botaoEnviarVF = true;
     this.disabled = true;
     // this.kdisabled = true;
+    //console.log('onSubmit', this.criaEnvio());
     this.atualizar();
   }
 
@@ -122,14 +123,13 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
     let tf: TarefaI = {};
     envio.tarefa_id = this.tss.tus.tarefa_id;
     envio.tarefa_usuario_situacao = {
-      tus_id: this.tss.tarefa.tarefa_usuario_situacao.find(tu => tu.tus_usuario_id === this.usuario_id).tus_id,
+      tus_id: this.tss.tarefa.tarefa_usuario_situacao.find(tu => tu.tus_usuario_id === this.tss.usuario_id).tus_id,
       tus_usuario_id: this.tss.usuario_id,
       tus_tarefa_id: this.tss.tus.tarefa_id,
       tus_situacao_id: this.tus_situacao_id
     }
 
     if (this.tss.tarefa.tarefa_situacao_id !== this.tus_situacao_id) {
-      console.log('this.tus_situacao_id',this.tus_situacao_id);
       if (this.tss.tarefa.tarefa_usuario_situacao.length === 1) {
         mudaTarefaSN = true;
         envio.tarefa_situacao_id = this.tus_situacao_id;
@@ -181,20 +181,17 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
       th_usuario_nome: this.tss.tus.tu_usuario_nome
     }
     if (this.th_historico === null || this.th_historico.length < 3) {
-    //   h.th_historico = this.th_historico;
-    // } else {
-      this.th_historico += '<p>Situação do demandado passou de ' + this.tss.tus.tus_situacao_nome + ' para ' + this.getSituacaoNome(this.tus_situacao_id) + '</p>';
+      const tx = 'Situação do demandado passou de ' + this.tss.tus.tus_situacao_nome + ' para ' + this.getSituacaoNome(this.tus_situacao_id) + '.';
+      this.kill0.insertText(0, tx, 'api');
     }
 
     if (mudaTarefaSN) {
-      this.th_historico += '<p>A situação da tarefa passou de ' + this.tss.tarefa.tarefa_situacao_nome + ' para ' + this.getSituacaoNome(envio.tarefa_situacao_id) + '</p>';
+      const qn = this.kill0.getLength();
+      const tt = 'A situação da tarefa passou de ' + this.tss.tarefa.tarefa_situacao_nome + ' para ' + this.getSituacaoNome(envio.tarefa_situacao_id) + '.';
+      this.kill0.insertText(qn, tt, 'api');
     }
-    // this.kdisabled = false;
-    // const l: number = this.kill0.getLength();
-    // this.kill0.deleteText(0, l);
-    // this.kill0.update('user');
     h.th_historico = this.th_historico;
-    this.kill0.update('user');
+    this.kill0.update('api');
     h.th_historico_delta = JSON.stringify(this.kill.delta);
     h.th_historico_texto = this.kill.text;
     h.th_historico = this.kill.html;
@@ -208,6 +205,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
+          console.log('resp', dados);
           this.resp = dados;
         },
         error: (err) => {
@@ -246,10 +244,10 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
             this.ms.add({
               key: 'toastprincipal',
               severity: 'success',
-              summary: 'INCLUIR PROPOSIÇÃO',
+              summary: 'ALTERAR SITUAÇÃO DEMANDADO',
               detail: this.resp[2]
             });
-            this.voltarListar();
+            // this.voltarListar();
             if (this.ts.expandidoSN) {
               const ev: any = {
                 originalEvent: null,
@@ -267,17 +265,16 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
 
   onEditorChanged(ev) {
     this.kill = ev;
-    console.log(ev);
   }
 
   ngOnDestroy() {
+    this.reset();
     this.fechar.emit(true);
     this.tss.reset();
     this.th_historico = null;
     this.disabled = true;
     this.kdisabled = true;
     this.botaoEnviarVF = false;
-    this.reset();
     this.tus_situacao_id = 0;
     console.log('ngOnDestroy');
   }

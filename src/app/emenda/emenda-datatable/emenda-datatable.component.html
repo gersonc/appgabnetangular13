@@ -96,15 +96,16 @@
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
-  <ng-template pTemplate="colgroup" let-columns>
+<!--  <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
+      <col>
       <col *ngFor="let col of columns">
     </colgroup>
-  </ng-template>
+  </ng-template>-->
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th></th>
+      <th style="width: 3.5em" pResizableColumnDisabled ></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.width"
@@ -121,7 +122,7 @@
   <ng-template pTemplate="body" let-eme let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="eme" [pContextMenuRow]="eme" [pContextMenuRowIndex]="rowIndex"
         [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
-      <td>
+      <td style="width: 3.5em" pResizableColumnDisabled >
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
@@ -148,7 +149,7 @@
 
   <ng-template pTemplate="frozenrows" let-eme let-columns="columns">
     <tr>
-      <td></td>
+      <td  style="width: 3.5em" pResizableColumnDisabled ></td>
 
       <ng-container *ngFor="let col of columns">
         <td *ngIf="valCols.indexOf(col.field) !== -1"
