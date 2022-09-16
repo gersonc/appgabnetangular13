@@ -35,24 +35,12 @@ export class TarefaDatatableComponent implements OnInit {
   cols: any[] = [];
   idx = -1;
   acaoHistorico = '';
-
-  // andProp: AndPropI;
   showHistorico = true;
-  // tituloHistoricoDialog = 'ANDAMENTOS';
-  // histAcao: string = '';
   histFormI?: TarefaHistoricoI;
   cssMostra: string | null = null;
   permListHist: boolean = true;
   permInclHist: boolean = true;
   permitirAcao: boolean = true;
-
-  // showUsuarioSituacao = true;
-  // tarefa_historico = true;
-  // usuarioSN = true;
-  // situacaoSN = true;
-  // andamentoSN = true;
-  // usuario_id = 111;
-  // imprimirSN = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -156,14 +144,6 @@ export class TarefaDatatableComponent implements OnInit {
   mostraMenu(): void {
     this.mi.mudaMenuInterno();
   }
-
-  /*mapeiaColunas() {
-    if (this.ts.titulos === undefined || this.ts.titulos === null || (Array.isArray(this.ts.titulos) && this.ts.titulos.length === 0)) {
-      this.ts.montaTitulos(this.cols.map(cl => {
-        return cl.field
-      }).slice(1));
-    }
-  }*/
 
   mapeiaColunas() {
     if (this.ts.titulos === undefined || this.ts.titulos === null || (Array.isArray(this.ts.titulos) && this.ts.titulos.length === 0)) {
@@ -307,10 +287,6 @@ export class TarefaDatatableComponent implements OnInit {
 
   tarefaDetalheCompleto(tar: TarefaI) {
     this.tp.valores = this.ts.tarefas;
-    // this.tp.valores = [tar];
-    // this.tp.PrintElem();
-    // this.tp.getPdf();
-    // this.tp.getPdf();
     this.showDetalhe = true;
     this.tarefaDetalhe = tar;
   }
@@ -339,20 +315,6 @@ export class TarefaDatatableComponent implements OnInit {
       console.error('SEM PERMISSAO');
     }
   }
-
-  /*tarefaAtualizar(eme: TarefaI) {
-    if (this.aut.tarefa_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-      console.log('tarefaAtualizar', eme);
-      this.ts.salvaState();
-      this.dtb.saveState();
-      this.tfs.tarefaListar = eme;
-      this.tfs.resetAtualizar();
-      this.tfs.parceEmendaAtualizar(eme);
-      this.router.navigate(['/tarefa/atualizar']);
-    } else {
-      console.log('SEM PERMISSAO');
-    }
-  }*/
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
@@ -428,7 +390,6 @@ export class TarefaDatatableComponent implements OnInit {
 
   fechaTusForm(ev) {
     this.ts.showTusForm = false;
-    // this.showUsuarioSituacao = false;
   }
 
   fechaDetalhes(ev) {
@@ -439,7 +400,6 @@ export class TarefaDatatableComponent implements OnInit {
     this.ts.showTusForm = true;
   }
 
-
   fechaTsForm(ev: boolean) {
     this.ts.showSitForm = false;
   }
@@ -447,7 +407,6 @@ export class TarefaDatatableComponent implements OnInit {
   mostraTsFormEvent(ev: boolean) {
     this.ts.showSitForm = true;
   }
-
 
   teste(): boolean {
     let el = document.querySelector("div.p-datatable-scrollable-view");// p-datatable-scrollable-view
@@ -462,16 +421,5 @@ export class TarefaDatatableComponent implements OnInit {
   onGerarPdfTarefa(tarefa: TarefaI) {
     this.ts.onGerarPdfTarefa(tarefa);
   }
-
-
-
-
-  /*onPrintDialogClose2() {
-    this.imprimirSN = false;
-  }
-  getImprimit(): boolean {
-    return !this.imprimirSN;
-  }*/
-
 
 }

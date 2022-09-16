@@ -4,7 +4,6 @@ import {SolicListarI,SolicPaginacaoInterface, solicSolicitacaoCamposTexto } from
 import {SolicBuscaI} from "../_models/solic-busca-i";
 import {take} from "rxjs/operators";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
-// import {SolicDetalheI} from "../_models/solic-detalhe-i";
 import {SolicFormI} from "../_models/solic-form-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
 import {TitulosService} from "../../_services/titulos.service";
@@ -245,8 +244,6 @@ export class SolicService {
     this.busca.processo_numero = (b.processo_numero !== undefined) ? b.processo_numero : undefined;
     this.solicitacaoBusca();
   }
-
-
 
   imprimirTabela(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {

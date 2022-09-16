@@ -1,1 +1,284 @@
-<p>tarefa-form works!</p>
+<div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
+  <form [formGroup]="formTarefa">
+    <div class="p-fluid">
+
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+              <div class="p-fluid p-formgrid p-grid formulario">
+
+
+                <!-- tarefa_situacao_nome -->
+                <div class="p-field p-col-12" *ngIf="acao=='alterar'">
+                  <h5>Situação</h5>
+                  <div [style.backgroundColor]="fcor(config.data.tarefa.tarefa_situacao_id)"
+                       style="padding-left: 5px; padding-right: 5px;">{{config.data.tarefa.tarefa_situacao_nome}}</div>
+                </div>
+
+                <!-- tarefa_usuario_autor_id -->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('tarefa_usuario_autor_id')">
+                  <label for="tarefa_usuario_autor_id"><span style="color: var(--ativo);">*</span>Autor</label>
+                  <p-dropdown
+                    id="tarefa_usuario_autor_id"
+                    [options]="ddUsuario_id"
+                    formControlName="tarefa_usuario_autor_id"
+                    [style]="{'width':'100%'}"
+                    [readonly]="tarefa_usuario_autor_id_readonly"
+                  ></p-dropdown>
+                  <app-campo-control-erro msgErro="Autor é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!-- tarefa_titulo -->
+                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('tarefa_titulo')">
+                  <label for="tarefa_titulo"><span style="color: var(--ativo);">*</span>Titulo</label>
+                  <input
+                    id="tarefa_titulo"
+                    formControlName="tarefa_titulo"
+                    type="text"
+                    [size]="80"
+                    [maxlength]="250"
+                    pInputText
+                  />
+                  <app-campo-control-erro msgErro="Titulo é obrigatório."></app-campo-control-erro>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
+              <div class="p-fluid p-formgrid p-grid">
+
+                <!-- tarefa_usuario_id -->
+                <div class="p-field p-col-12" *ngIf="acao=='alterar'">
+                  <h5>Demandado(s)</h5>
+                  <table>
+                    <tr *ngFor="let us of usuario_situacao">
+                      <td [style.backgroundColor]="fcor(us.tus_situacao_id)"
+                          style="padding-left: 5px; padding-right: 5px;">{{us.tu_usuario_nome}}</td>
+                      <td [style.backgroundColor]="fcor(us.tus_situacao_id)"
+                          style="padding-left: 5px; padding-right: 5px;">{{us.tus_situacao_nome}}</td>
+                    </tr>
+
+                  </table>
+                </div>
+
+
+                <!-- tarefa_usuario_id -->
+                <div *ngIf="acao=='incluir'" class="p-field p-col-12" [ngClass]="aplicaCssErro('tarefa_usuario_id')">
+                  <label for="tarefa_usuario_id"><span style="color: var(--ativo);">*</span>Demandado(s)</label>
+                  <p-multiSelect
+                    id="tarefa_usuario_id"
+                    [options]="ddUsuario_id"
+                    formControlName="tarefa_usuario_id"
+                    defaultLabel="Demandado(s)"
+                    [displaySelectedLabel]="true"
+                    [maxSelectedLabels]="6"
+                    [style]="{'width':'100%'}"
+                    [filter]="false"
+                  >
+                  </p-multiSelect>
+                  <app-campo-control-erro msgErro="Demandado(s) é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!-- tarefa_data -->
+                <div class="p-field p-col-6" [ngClass]="aplicaCssErro('tarefa_data')">
+                  <label for="tarefa_data"><span style="color: var(--ativo);">*</span>Prazo</label>
+                  <p-calendar
+                    id="tarefa_data"
+                    formControlName="tarefa_data"
+                    dateFormat="dd/mm/yy"
+                    [yearNavigator]="true"
+                    yearRange="2000:2035"
+                    placeholder="dd/mm/aaaa"
+
+                    dataType="string"
+                    [styleClass]="'estreito'"
+                  ></p-calendar>
+                  <app-campo-control-erro msgErro="Data é obrigatório."></app-campo-control-erro>
+                </div>
+
+                <!-- tarefa_hora -->
+                <div class="p-field p-col-6">
+                  <label for="tarefa_hora">Hora</label>
+                  <p-calendar
+                    id="tarefa_hora"
+                    formControlName="tarefa_hora"
+                    placeholder="hh:mm"
+                    dataType="string"
+                    hourFormat="24"
+                    [timeOnly]="true"
+                    [styleClass]="'estreito'"
+                    [inputStyle]="{'max-width':'133px'}"
+                  ></p-calendar>
+                </div>
+
+
+                <!-- agenda -->
+                <div *ngIf="acao !== 'alterar'" class="p-field p-col-6">
+                  <h5>Lembrete na agenda</h5>
+                  <p-inputSwitch formControlName="agenda" id="agenda"></p-inputSwitch>
+                </div>
+                <!-- agenda -->
+                <div class="p-field p-col-6">
+                  <h5> E-mail</h5>
+                  <p-inputSwitch formControlName="tarefa_email" id="tarefa_email"></p-inputSwitch>
+                </div>
+                <!-- tarefa_sms -->
+                <!--<div *ngIf="acao!=='alterar' && authenticationService.sms_incluir && authenticationService.sms"
+                     class="p-field p-col-6">
+                  <label for="tarefa_sms"> SMS</label>
+                  <p-inputSwitch formControlName="tarefa_sms" id="tarefa_sms" (onChange)="smsVF($event)"></p-inputSwitch>
+                </div>-->
+
+                <!-- mensagem_sms -->
+                <!--<div *ngIf="vfSms" class="p-field p-col-12u" [ngClass]="aplicaCssErro('mensagem_sms')">
+                  <label for="mensagem_sms"> Mensagem SMS</label>
+                  <input
+                    id="mensagem_sms"
+                    formControlName="mensagem_sms"
+                    type="text"
+                    [size]="80"
+                    [maxlength]="160"
+                    pInputText
+                  />
+                  <app-campo-control-erro msgErro="Menssagem é obrigatória."></app-campo-control-erro>
+                </div>-->
+
+              </div>
+            </div>
+
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-fluid p-formgrid p-grid">
+                <!-- tarefa_tarefa -->
+                <div class="p-field p-col-12">
+                  <label for="tarefa_tarefa">Tarefa</label>
+                  <textarea
+                    id="tarefa_tarefa"
+                    formControlName="tarefa_tarefa"
+                    [rows]="5"
+                    [cols]="80"
+                    pInputTextarea
+                    [autoResize]="true"
+                  >
+                  </textarea>
+                </div>
+
+                <!-- tarefa_tarefa -->
+                <ng-container *ngIf="acao=='incluir' && authenticationService.arquivos">
+                  <app-arquivo
+                    [modulo]="'tarefa'"
+                    [modelo]="'incluir'"
+                    [registro_id]="arquivo_registro_id"
+                    [uploadDisabled]="arquivoDesativado || !formTarefa.valid"
+                    [stiloClass]="'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'"
+                    [enviarArquivos]="enviarArquivos"
+                    (onBlockSubmit)="onBlockSubmit($event)"
+                    (onUpload)="onUpload($event)"
+                    (onPossuiArquivos)="onPossuiArquivos($event)"
+                    [clearArquivos]="clearArquivos"
+                  ></app-arquivo>
+                </ng-container>
+
+                <ng-container *ngIf="acao=='alterar' && authenticationService.arquivos">
+                  <app-arquivo
+                    [modulo]="'tarefa'"
+                    [uploadDisabled]="!mostraForm"
+                    [registro_id]="tarefa_id"
+                    (onPossuiArquivos)="onPossuiArquivos($event)"
+                    [modelo]="'alterar'"
+                    [stiloClass]="'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'"
+                  ></app-arquivo>
+                </ng-container>
+
+
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+    </div>
+
+    <div class="p-fluid">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+            <div class="p-col-12 formulario">
+              <!--*** Botões ***-->
+              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                <div class="p-d-inline-flex">
+                  <div class="p-mr-2">
+                    <button
+                      *ngIf="acao=='incluir'"
+                      pButton
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="!formTarefa.valid || !mostraForm"
+                      (click)="enviarTarefa()"
+                      label="Enviar"
+                    ></button>
+                    <button
+                      pButton
+                      *ngIf="acao=='alterar'"
+                      type="button"
+                      class="p-button-rounded"
+                      [disabled]="!formTarefa.valid || !mostraForm"
+                      (click)="enviarTarefaAlterar()"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Limpar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Fechar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1">&nbsp;</div>
+    </div>
+
+
+  </form>
+</div>
+
+<p-toast key="tarefaToast" [style]="{marginTop: '80px'}"></p-toast>

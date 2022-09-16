@@ -47,7 +47,7 @@ export class TarefaService {
   tarefaApagar: TarefaI | null = null;
   sortField = 'tarefa_data';
   sortOrder = 1;
-  lazy = false;
+  lazy = true;
   acao: string | null = null;
   colunas: string[] = [];
   titulos: TituloI[] | null = null;
@@ -168,6 +168,7 @@ export class TarefaService {
   }
 
   resetTarefaBusca() {
+    this.lazy = false;
     this.busca = undefined;
     this.criaBusca();
   }
@@ -505,22 +506,30 @@ export class TarefaService {
   }
 
   customSort(ev) {
+    console.log('customSort',ev );
   }
 
   tarefaBusca(): void {
-    if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
+    if (this.lazy &&
+      this.tabela.totalRecords <= +this.tabela.rows &&
+      this.busca.ids === this.tabela.ids &&
+      this.busca.first === this.tabela.first &&
+      +this.tabela.rows === +this.mudaRows) {
       this.tabela.sortField = (this.tabela.sortField === 'tarefa_data') ? 'tarefa_data3' : (this.tabela.sortField === 'tarefa_datahora') ? 'tarefa_datahora3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.tarefas;
-        if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
+        if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
+        // if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
           this.busca.sortOrder = +this.tabela.sortOrder;
           if (+this.tabela.sortOrder === 1) {
             tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
             this.tarefas = tmp;
+            this.lazy = true;
           } else {
             tmp.sort((first, second) => (second[this.tabela.sortField] > first[this.tabela.sortField]) ? 1 : ((first[this.tabela.sortField] > second[this.tabela.sortField]) ? -1 : 0));
             this.tarefas = tmp;
+            this.lazy = true;
           }
         } else {
           if (this.busca.sortField !== this.tabela.sortField) {
@@ -529,7 +538,7 @@ export class TarefaService {
               tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
               this.tarefas = tmp;
               this.tabela.sortOrder = 1;
-
+              this.lazy = true;
           }
         }
       }
@@ -580,7 +589,7 @@ export class TarefaService {
               this.tabela.pageCount = m
             }
             this.stateSN = false;
-
+            this.lazy = this.tabela.totalRecords > this.tabela.rows;
           }
         })
       );

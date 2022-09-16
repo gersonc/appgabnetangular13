@@ -17,6 +17,7 @@ export class TarefaFormService {
   menu = false;
 
   ddTarefa_situacao_id: SelectItem[] = [];
+  dd_usuario_id: SelectItem[] = [];
 
   constructor() { }
 
@@ -33,6 +34,8 @@ export class TarefaFormService {
   }
 
   resetTudo() {
+    this.ddTarefa_situacao_id = [];
+    this.dd_usuario_id = [];
     this.resetConta();
     this.tarefaListar = null;
     this.acao = null;
@@ -42,6 +45,7 @@ export class TarefaFormService {
   }
 
   parceTarefaForm(t: TarefaI): TarefaFormI {
+    this.montaDD();
     this.tarefaListar = t;
     this.tarefa = {};
     let r: TarefaFormI = {};
@@ -64,6 +68,7 @@ export class TarefaFormService {
   }
 
   criaFormIncluir() {
+    this.montaDD();
     this.tarefa = {};
     this.tarefa.tarefa_id = null;
     this.tarefa.tarefa_usuario_autor_id = null;
@@ -78,5 +83,14 @@ export class TarefaFormService {
     this.tarefa.tarefa_email = 0;
     this.tarefa.agenda = 0;
     this.tarefa.tipo_listagem = 0;
+  }
+
+  montaDD() {
+    if (this.ddTarefa_situacao_id.length === 0) {
+      this.ddTarefa_situacao_id = JSON.parse(sessionStorage.getItem('dropdown-tarefa_situacao'));
+    }
+    if (this.dd_usuario_id.length === 0) {
+      this.dd_usuario_id = JSON.parse(sessionStorage.getItem('dropdown-usuario'));
+    }
   }
 }

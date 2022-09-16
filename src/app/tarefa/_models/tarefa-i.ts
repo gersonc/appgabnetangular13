@@ -91,9 +91,15 @@ export interface TarefaFormI {
   tarefa_tarefa?: string;
   tarefa_tarefa_delta?: string;
   tarefa_tarefa_texto?: string;
+  tarefa_usuario?: TarefaUsuarioFormI[];
+  tarefa_historico?: TarefaHistoricoI;
   tarefa_email?: number;
   agenda?: number;
   tipo_listagem?: number;
+}
+
+export interface TarefaUsuarioFormI extends TarefaUsuarioI {
+  tu_acao?: string;
 }
 
 export interface TarefaAtualizarI {

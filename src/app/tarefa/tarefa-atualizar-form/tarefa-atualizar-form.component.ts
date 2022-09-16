@@ -198,6 +198,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
   }
 
   atualizar() {
+    const lazy = this.ts.lazy;
     this.sub.push(this.ts.putTarefaAtualizarUsuarioSituacao(this.criaEnvio())
       .pipe(take(1))
       .subscribe({
@@ -225,7 +226,9 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
             });
             this.reset();
           } else {
-            this.ts.lazy = false;
+            if (lazy) {
+              this.ts.lazy = false;
+            }
             let p: TarefaI = this.resp[3];
             p.tarefa_data3 = new Date(p.tarefa_data2);
             p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
@@ -251,7 +254,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
               };
               this.ts.onRowExpand(ev);
             }
-            this.ts.lazy = true;
+            this.ts.lazy = lazy;
             this.voltarListar();
           }
         }
