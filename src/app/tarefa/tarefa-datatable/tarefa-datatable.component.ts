@@ -440,6 +440,15 @@ export class TarefaDatatableComponent implements OnInit {
   }
 
 
+  fechaTsForm(ev: boolean) {
+    this.ts.showSitForm = false;
+  }
+
+  mostraTsFormEvent(ev: boolean) {
+    this.ts.showSitForm = true;
+  }
+
+
   teste(): boolean {
     let el = document.querySelector("div.p-datatable-scrollable-view");// p-datatable-scrollable-view
     el.setAttribute('id', 'pagimprimir');

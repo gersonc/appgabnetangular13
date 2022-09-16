@@ -36,6 +36,7 @@ import {ArquivoModule} from "../arquivo/arquivo.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import { TarefaSituacaoComponent } from './tarefa-situacao/tarefa-situacao.component';
+import { TarefaAtualizarAutorFormComponent } from './tarefa-atualizar-autor-form/tarefa-atualizar-autor-form.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { TarefaSituacaoComponent } from './tarefa-situacao/tarefa-situacao.compo
     TarefaHistoricoComponent,
     TarefaUsuarioSituacaoAndamentoComponent,
     TarefaAtualizarFormComponent,
-    TarefaSituacaoComponent
+    TarefaSituacaoComponent,
+    TarefaAtualizarAutorFormComponent
   ],
   imports: [
     CommonModule,

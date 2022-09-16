@@ -10,6 +10,7 @@ import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {TarefaFormService} from "./tarefa-form.service";
 import {
+  TarefaAutorSituacaoFormI,
   TarefaBuscaI,
   tarefacampostexto,
   TarefaI,
@@ -188,13 +189,11 @@ export class TarefaService {
   }
 
   onRowExpand(evento) {
-    console.log('this.tts.titulosi', this.tts.titulosi);
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
       this.titulos = this.tts.mTitulo['tarefa'];
     }
       if (this.tTit.tarefa_tarefa === '') {
         this.getTitulo();
-        console.log('tTit', this.tTit);
       }
 
     this.tabela.dadosExpandidosRaw = evento;
@@ -637,6 +636,12 @@ export class TarefaService {
 
   putTarefaAtualizarUsuarioSituacao(tusa: TarefaUsuarioSituacaoAtualisarFormI): Observable<any[]> {
     const url = this.url.tarefa + '/atualizar/usuario/situacao';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, tusa, httpOptions);
+  }
+
+  putTarefaAtualizarAutorSituacao(tusa: TarefaAutorSituacaoFormI): Observable<any[]> {
+    const url = this.url.tarefa + '/atualizar/autor/situacao';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, tusa, httpOptions);
   }

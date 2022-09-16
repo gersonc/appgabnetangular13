@@ -148,7 +148,7 @@
             [index]="rowIndex"
             [tarefa_usuario_autor_id]="tarf['tarefa_usuario_autor_id']"
             [tarefa_situacao_nome]="tarf[col.field]"
-            (mostraFormAutor)="mostraTusFormEvent($event)"
+            (mostraFormAutor)="mostraTsFormEvent($event)"
           ></app-tarefa-situacao>
         </ng-container>
         <ng-container *ngIf="col.field==='tarefa_usuario_situacao'">
@@ -455,7 +455,7 @@
     styleClass="tablistagem"
     header="TAREFA - SITUAÇÃO"
   >
-    <app-tarefa-atualizar-form *ngIf="ts.showSitForm" (fechar)="fechaTusForm($event)"></app-tarefa-atualizar-form>
+    <app-tarefa-atualizar-autor-form *ngIf="ts.showSitForm" (fechar)="fechaTsForm($event)"></app-tarefa-atualizar-autor-form>
   </p-dialog>
 </ng-container>
 
