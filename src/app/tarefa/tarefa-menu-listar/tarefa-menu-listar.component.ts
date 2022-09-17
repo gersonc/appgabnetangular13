@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TarefaDropdownService} from "../_services/tarefa-dropdown.service";
 import {TarefaFormService} from "../_services/tarefa-form.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {SelectItem} from "primeng/api";
 import {TarefaBuscaI} from "../_models/tarefa-i";
 import {TarefaService} from "../_services/tarefa.service";
 import {Subscription} from "rxjs";
@@ -34,7 +33,8 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     public mi: MenuInternoService,
     public ts: TarefaService,
     private tfs: TarefaFormService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.criaFormMenu();
@@ -69,7 +69,7 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
 
   getCarregaDropDown() {
     this.sub.push(this.cdd.resp$.subscribe(
-      (dados: boolean ) => {
+      (dados: boolean) => {
       },
       error => {
         console.error(error.toString());
@@ -147,10 +147,13 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   }
 
   goIncluir() {
-      this.tfs.acao = 'incluir';
-      this.tfs.criaFormIncluir()
-      this.mi.mudaMenuInterno(false);
-      this.ts.showForm = true;
+    console.log('goIncluir');
+    this.ts.acaoForm = 'INCLUIR';
+    this.tfs.acao = 'incluir';
+    this.tfs.origem = 'menu';
+    this.tfs.criaFormIncluir()
+    this.mi.mudaMenuInterno(false);
+    this.ts.showForm = true;
   }
 
   onKey(event) {

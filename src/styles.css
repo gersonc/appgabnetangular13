@@ -14354,13 +14354,32 @@ form.menuinterno-form {
 /*
 *** p-multiselect ***********************************************************************
 */
-.formulario > .p-multiselect.p-multiselect-chip .p-multiselect-token {
+/*.formulario > .p-multiselect.p-multiselect-chip .p-multiselect-token {
   padding: 0.25rem 0.75rem;
   margin-right: 0.5rem;
   background: var(--secondary-bg);
   color: var(--secondary-color-text);
   border-radius: 4px;
   font-size: .5rem !important;
+}*/
+
+.formulario .p-multiselect .p-multiselect-label {
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.formulario .p-multiselect:not(.p-disabled).p-focus {
+  border-color: var(--bt-secundario-border-active);
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+
+.formulario .p-multiselect .p-button.p-button-icon-only {
+  padding: 0.2rem 0;
+}
+
+.formulario .p-multiselect-label {
+  font-size: var(--formulario-input-font-size);
+  font-weight: var(--formulario-field-input-font-weight);
 }
 
 /*

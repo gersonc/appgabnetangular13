@@ -1,4 +1,4 @@
-export interface TarefaFormI {
+export interface TarefaFormI2 {
   tarefa_id?: number;
   tarefa_usuario_autor_id?: number;
   tarefa_usuario_id?: number | number[];

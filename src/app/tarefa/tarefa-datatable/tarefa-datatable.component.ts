@@ -10,11 +10,7 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 import {Subscription} from "rxjs";
 import {TarefaI} from "../_models/tarefa-i";
 import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
-import {breakTextIntoLines} from "pdf-lib";
 import {TarefaPrintService} from "../_services/tarefa-print.service";
-import * as printJS from 'print-js';
-import {Configuration} from "print-js";
-import {ITitulos} from "../../_models/titulo-i";
 
 
 @Component({
@@ -50,7 +46,8 @@ export class TarefaDatatableComponent implements OnInit {
     public ts: TarefaService,
     public tfs: TarefaFormService,
     public tp: TarefaPrintService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     // this.usuario_id = +this.aut.usuario_id;
@@ -59,8 +56,6 @@ export class TarefaDatatableComponent implements OnInit {
     }
 
     this.montaColunas();
-
-
 
     this.itemsAcao = [
       {
@@ -163,7 +158,12 @@ export class TarefaDatatableComponent implements OnInit {
       {field: 'tarefa_data', header: 'PRAZO', sortable: 'true', width: '150px'},
       {field: 'tarefa_usuario_autor_nome', header: 'AUTOR', sortable: 'true', width: '150px'},
       {field: 'tarefa_datahora', header: 'DATA PEDIDO', sortable: 'true', width: '150px'},
-      {field: 'tarefa_usuario_situacao_andamento', header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS', sortable: 'false', width: '430px'},
+      {
+        field: 'tarefa_usuario_situacao_andamento',
+        header: 'DEMANDADOS SITUAÇÃO ANDAMENTOS',
+        sortable: 'false',
+        width: '430px'
+      },
     ];
     if (!this.ts.stateSN) {
       this.resetSelectedColumns();
@@ -226,23 +226,22 @@ export class TarefaDatatableComponent implements OnInit {
       }];
 
 
-      this.contextoMenu.push(
-        {
-          label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
-          command: () => {
-            this.tarefaAlterar(this.ts.Contexto);
-          }
-        });
+    this.contextoMenu.push(
+      {
+        label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
+        command: () => {
+          this.tarefaAlterar(this.ts.Contexto);
+        }
+      });
 
 
-
-      this.contextoMenu.push(
-        {
-          label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
-          command: () => {
-            this.tarefaApagar(this.ts.Contexto);
-          }
-        });
+    this.contextoMenu.push(
+      {
+        label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
+        command: () => {
+          this.tarefaApagar(this.ts.Contexto);
+        }
+      });
 
   }
 
@@ -279,10 +278,13 @@ export class TarefaDatatableComponent implements OnInit {
   // FUNCOES DE CRUD ===========================================================
 
   tarefaIncluir(): void {
-      this.tfs.acao = 'incluir';
-      this.ts.salvaState();
-      this.dtb.saveState();
-      this.router.navigate(['/tarefa/incluir']);
+    this.ts.salvaState();
+    this.dtb.saveState();
+    this.ts.acaoForm = 'INCLUIR';
+    this.tfs.acao = 'incluir';
+    this.tfs.origem = 'menu';
+    this.tfs.criaFormIncluir()
+    this.ts.showForm = true;
   }
 
   tarefaDetalheCompleto(tar: TarefaI) {
@@ -297,12 +299,12 @@ export class TarefaDatatableComponent implements OnInit {
   }
 
   tarefaAlterar(tar: TarefaI) {
-      this.ts.salvaState();
-      this.dtb.saveState();
-      this.tfs.acao = 'alterar';
-      this.tfs.tarefaListar = tar;
-      this.tfs.parceTarefaForm(tar);
-      this.router.navigate(['/tarefa/alterar']);
+    this.ts.salvaState();
+    this.dtb.saveState();
+    this.tfs.acao = 'alterar';
+    this.tfs.tarefaListar = tar;
+    this.tfs.parceTarefaForm(tar);
+    this.router.navigate(['/tarefa/alterar']);
   }
 
   tarefaApagar(tar: TarefaI) {
@@ -383,8 +385,8 @@ export class TarefaDatatableComponent implements OnInit {
       case 'tarefa_usuario_situacao':
       case 'tarefa_historico':
         return 'tarefa';
-    default:
-      return null;
+      default:
+        return null;
     }
   }
 

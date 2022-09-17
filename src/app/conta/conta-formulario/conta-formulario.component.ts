@@ -78,8 +78,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
       [{'header': [1, 2, 3, 4, 5, 6, false]}],
       [{'color': []}, {'background': []}],          // dropdown with defaults from theme
       [{'font': []}],
-      [{'align': []}],
-      ['clean']                        // link and image, video
+      [{'align': []}]                     // link and image, video
     ]
   };
   texto = '';

@@ -42,6 +42,10 @@ export class TarefaComponent implements OnInit, OnDestroy {
     this.mi.mudaMenuInterno(false);
   }
 
+  fecharForm(ev) {
+    this.ts.showForm = false;
+  }
+
   ngOnDestroy(): void {
     this.ts.onDestroy();
     this.sub.forEach(s => s.unsubscribe());

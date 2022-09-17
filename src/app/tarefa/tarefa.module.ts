@@ -37,6 +37,8 @@ import {ExplorerModule} from "../explorer/explorer.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import { TarefaSituacaoComponent } from './tarefa-situacao/tarefa-situacao.component';
 import { TarefaAtualizarAutorFormComponent } from './tarefa-atualizar-autor-form/tarefa-atualizar-autor-form.component';
+import {InputSwitchModule} from "primeng/inputswitch";
+import {MultiSelectModule} from "primeng/multiselect";
 
 
 @NgModule({
@@ -79,7 +81,9 @@ import { TarefaAtualizarAutorFormComponent } from './tarefa-atualizar-autor-form
     FormsModule,
     ArquivoModule,
     ExplorerModule,
-    ImpressaoModule
+    ImpressaoModule,
+    InputSwitchModule,
+    MultiSelectModule
   ],
   exports: [
     TarefaComponent,

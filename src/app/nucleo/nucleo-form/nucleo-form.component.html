@@ -17,7 +17,7 @@
 
 
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(local_nome)">
-                  <label for="local_nome"><span style="color: var(--ativo);">*</span> Nome</label>
+                  <label for="local_nome"><span class="atencao">*</span> Nome</label>
                   <input pInputText id="local_nome" name="local_nome" #local_nome="ngModel" type="text" maxlength="50"
                          [(ngModel)]="ns.nuForm.local_nome" required>
                   <app-campo-control-erro

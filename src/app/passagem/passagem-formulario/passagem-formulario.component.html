@@ -16,7 +16,7 @@
 
                 <!-- passagem_beneficiario -->
                 <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_beneficiario')">
-                  <label for="passagem_beneficiario"><span style="color: var(--ativo);">*</span>Beneficiário</label>
+                  <label for="passagem_beneficiario"><span class="atencao">*</span>Beneficiário</label>
                   <p-autoComplete
                     id="passagem_beneficiario"
                     formControlName="passagem_beneficiario"
@@ -34,7 +34,7 @@
                 <!-- passagem_data -->
                 <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_data')">
                   <div style="float: left; margin-right: 7px">
-                    <label for="passagem_data"><span style="color: var(--ativo);">*</span>Data</label>
+                    <label for="passagem_data"><span class="atencao">*</span>Data</label>
                     <p-calendar
                       id="passagem_data"
                       formControlName="passagem_data"
@@ -66,7 +66,7 @@
 
                 <!-- passagem_trecho -->
                 <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_trecho')">
-                  <label for="passagem_trecho"><span style="color: var(--ativo);">*</span>Trecho</label>
+                  <label for="passagem_trecho"><span class="atencao">*</span>Trecho</label>
                   <p-autoComplete
                     id="passagem_trecho"
                     formControlName="passagem_trecho"
@@ -98,7 +98,7 @@
 
                 <!-- passagem_voado_id -->
                 <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_voado_id')">
-                  <label for="passagem_voado_id"><span *ngIf="acao !== 'alterar'" style="color: var(--ativo);">*</span>Voado
+                  <label for="passagem_voado_id"><span *ngIf="acao !== 'alterar'" class="atencao">*</span>Voado
                     S/N</label>
                   <p-selectButton
                     id="passagem_voado_id"

@@ -12,14 +12,13 @@ import {TarefaFormService} from "./tarefa-form.service";
 import {
   TarefaAutorSituacaoFormI,
   TarefaBuscaI,
-  tarefacampostexto,
+  tarefacampostexto, TarefaFormI,
   TarefaI,
   TarefaPaginacaoI,
   TarefaTitulo,
   TarefaUsuarioSituacaoAtualisarFormI
 } from "../_models/tarefa-i";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
-import {TarefaFormI} from "../_models/tarefa-form-i";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {take} from "rxjs/operators";
 import {ColunasI} from "../../_models/colunas-i";
@@ -52,6 +51,7 @@ export class TarefaService {
   colunas: string[] = [];
   titulos: TituloI[] | null = null;
   showForm = false;
+  acaoForm = 'INCLUIR';
   mudaRows = 50;
   rowsPerPageOptions = [50];
   colsTrocar = ['tarefa_data', 'tarefa_datahora'];

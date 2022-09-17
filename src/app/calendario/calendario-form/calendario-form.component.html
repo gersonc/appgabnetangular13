@@ -6,7 +6,7 @@
       <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
         <div class="p-fluid p-formgrid p-grid formulario">
           <div class="p-field p-col-6">
-            <label for="start"><span style="color: var(--atencao-color)">*</span> Data</label>
+            <label for="start"><span class="atencao">*</span> Data</label>
             <p-calendar
               #stt
               id="start"
@@ -90,7 +90,7 @@
             ></p-calendar>
           </div>
           <div class="p-field p-col-12" [ngClass]="aplicaCssErro('title')">
-            <label for="title"><span style="color: var(--atencao-color)">*</span> Título</label>
+            <label for="title"><span class="atencao">*</span> Título</label>
             <input
               id="title"
               [(ngModel)]="title"
@@ -193,7 +193,7 @@
           <!-- weekdaySelect -->
           <ng-container *ngIf="recorrente && frequencia === 2">
           <div *ngIf="semanaDiasLiteral.length > 0" class="p-field p-col-12 p-flex-wrap" [ngClass]="aplicaCssErro('semanaDiasLiteral')">
-            <label><span style="color: var(--atencao-color)">*</span> Dias da semana para ocorrência(s)</label>
+            <label><span class="atencao">*</span> Dias da semana para ocorrência(s)</label>
             <p-selectButton
               id="semanaDiasLiteral"
               [options]="ddday"

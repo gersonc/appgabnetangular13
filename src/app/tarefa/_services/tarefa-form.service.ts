@@ -12,16 +12,16 @@ export class TarefaFormService {
   url = '';
   acao?: string | null = null;
   btnEnviar = true;
-  showForm = false;
+  origem: 'menu' | 'listagem' = 'menu';
   idx = 0;
   menu = false;
 
   ddTarefa_situacao_id: SelectItem[] = [];
-  dd_usuario_id: SelectItem[] = [];
+  ddUsuario_id: SelectItem[] = [];
 
   constructor() { }
 
-  criaConta() {
+  criaTarefa() {
     this.tarefa = {};
     this.tarefaOld = {};
   }
@@ -35,12 +35,12 @@ export class TarefaFormService {
 
   resetTudo() {
     this.ddTarefa_situacao_id = [];
-    this.dd_usuario_id = [];
+    this.ddUsuario_id = [];
     this.resetConta();
     this.tarefaListar = null;
     this.acao = null;
     this.btnEnviar = true;
-    this.showForm = false;
+    // this.showForm = false;
     this.idx = 0;
   }
 
@@ -89,8 +89,8 @@ export class TarefaFormService {
     if (this.ddTarefa_situacao_id.length === 0) {
       this.ddTarefa_situacao_id = JSON.parse(sessionStorage.getItem('dropdown-tarefa_situacao'));
     }
-    if (this.dd_usuario_id.length === 0) {
-      this.dd_usuario_id = JSON.parse(sessionStorage.getItem('dropdown-usuario'));
+    if (this.ddUsuario_id.length === 0) {
+      this.ddUsuario_id = JSON.parse(sessionStorage.getItem('dropdown-usuario'));
     }
   }
 }

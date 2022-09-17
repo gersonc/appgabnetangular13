@@ -13,3 +13,19 @@
 </p-sidebar>
 
 <router-outlet></router-outlet>
+
+
+<ng-container *ngIf="ts.showForm">
+  <p-dialog
+    [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
+    [style]="{maxWidth: '1350px', width: '80vw'}"
+    [(visible)]="ts.showForm"
+    [modal]="true"
+    [dismissableMask]="false"
+    [closable]="false"
+    styleClass="tablistagem"
+    [header]="'TAREFA - ' + ts.acaoForm"
+  >
+    <app-tarefa-form *ngIf="ts.showForm" (fechar)="fecharForm($event)"></app-tarefa-form>
+  </p-dialog>
+</ng-container>

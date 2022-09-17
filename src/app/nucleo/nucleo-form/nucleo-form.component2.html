@@ -2,7 +2,7 @@
 <form (ngSubmit)="onSubmit()" #nForm="ngForm">
   <div class="p-grid p-align-stretch  vertical-container">
     <div class="p-col-12 p-sm-12 p-md-6 p-xl-6 campoLabel" [ngClass]="aplicaCssErro(local_nome)">
-      <h6><span style="color: var(--ativo);">*</span> Nome</h6>
+      <h6><span class="atencao">*</span> Nome</h6>
       <input pInputText id="local_nome" name="local_nome" #local_nome="ngModel" type="text" maxlength="50" [(ngModel)]="ns.nuForm.local_nome" required>
       <app-campo-control-erro
         [mostrarErro]="verificaValidTouched(local_nome)"

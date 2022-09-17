@@ -5,7 +5,7 @@
       <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
         <div class="p-fluid p-formgrid p-grid formulario">
           <div class="p-field p-col-6 p-md-5 formulario">
-            <label for="start"><span style="color: var(--primary-color-text);">*</span>Data</label>
+            <label for="start"><span class="atencao">*</span>Data</label>
             <p-calendar
               id="start"
               [(ngModel)]="start"
@@ -100,7 +100,7 @@
             ></p-calendar>
           </div>
           <div class="p-field p-col-12" [ngClass]="aplicaCssErro('title')">
-            <label for="title"><span style="color: var(--ativo);">*</span> Título</label>
+            <label for="title"><span class="atencao">*</span> Título</label>
             <input
               id="title"
               [(ngModel)]="title"
