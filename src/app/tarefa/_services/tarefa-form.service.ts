@@ -60,7 +60,7 @@ export class TarefaFormService {
     r.tarefa_tarefa = t.tarefa_tarefa;
     r.tarefa_tarefa_delta = t.tarefa_tarefa_delta;
     r.tarefa_tarefa_texto = t.tarefa_tarefa_texto;
-    r.tarefa_email = 0;
+    r.email = 0;
     r.agenda = 0;
     r.tipo_listagem = 0;
     this.tarefa = r;
@@ -80,7 +80,7 @@ export class TarefaFormService {
     this.tarefa.tarefa_tarefa = null;
     this.tarefa.tarefa_tarefa_delta = null;
     this.tarefa.tarefa_tarefa_texto = null;
-    this.tarefa.tarefa_email = 0;
+    this.tarefa.email = 0;
     this.tarefa.agenda = 0;
     this.tarefa.tipo_listagem = 0;
   }

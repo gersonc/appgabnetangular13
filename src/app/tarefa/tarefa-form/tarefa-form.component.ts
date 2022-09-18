@@ -10,6 +10,21 @@ import Quill from "quill";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {TarefaService} from "../_services/tarefa.service";
 import {DateTime} from "luxon";
+import {TarefaFormI, TarefaI} from "../_models/tarefa-i";
+import {take} from "rxjs/operators";
+import {ErroService} from "../../_services/erro.service";
+
+interface frmI {
+  tarefa_id?: number;
+  tarefa_usuario_autor_id: number;
+  tarefa_usuario_id: number[];
+  tarefa_data3: Date;
+  tarefa_titulo: string;
+  tarefa_tarefa: string | null;
+  th_historico: string | null;
+  email: boolean;
+  agenda: boolean;
+}
 
 @Component({
   selector: 'app-tarefa-form',
@@ -77,6 +92,7 @@ export class TarefaFormComponent implements OnInit {
     public aut: AuthenticationService,
     private mi: MenuInternoService,
     private ms: MsgService,
+    // private er: ErroService
   ) { }
 
   ngOnInit(): void {
@@ -101,8 +117,8 @@ export class TarefaFormComponent implements OnInit {
         tarefa_titulo: [this.tfs.tarefa.tarefa_titulo, Validators.required],
         tarefa_tarefa: [this.tfs.tarefa.tarefa_tarefa],
         th_historico: [null],
-        tarefa_email: [this.tfs.tarefa.tarefa_email],
-        agenda: [0],
+        email: [false],
+        agenda: [false],
       });
       // this.campoAtivo(false);
     } else {
@@ -113,7 +129,7 @@ export class TarefaFormComponent implements OnInit {
         tarefa_data3: [this.tfs.tarefa.tarefa_data3, Validators.required],
         tarefa_titulo: [this.tfs.tarefa.tarefa_titulo, Validators.required],
         tarefa_tarefa: [this.tfs.tarefa.tarefa_tarefa],
-        tarefa_email: [this.tfs.tarefa.tarefa_email]
+        tarefa_email: [this.tfs.tarefa.email]
         // tarefa_sms: [this.tfs.tarefa.tarefa_sms, false],
         // mensagem_sms: [this.tfs.tarefa.mensagem_sms, false],
         // agenda: [0]
@@ -121,7 +137,6 @@ export class TarefaFormComponent implements OnInit {
     }
 
   }
-
 
   campoAtivo(vf: boolean) {
     if (!vf) {
@@ -162,10 +177,108 @@ export class TarefaFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.botaoEnviarVF = true;
+    // this.botaoEnviarVF = true;
     this.disabled = true;
     console.log('onSubmit', this.formTarefa.getRawValue());
+    this.incluir();
   }
+
+  criaEnvio(): TarefaFormI {
+    let tf: TarefaFormI = {};
+    const fm: frmI = this.formTarefa.getRawValue();
+    if (this.tfs.acao === 'incluir') {
+      const dt1: DateTime = DateTime.fromJSDate(fm.tarefa_data3);
+      tf.tarefa_usuario_autor_id = +fm.tarefa_usuario_autor_id;
+      tf.tarefa_titulo = fm.tarefa_titulo;
+      tf.agenda = fm.agenda ? 1 : 0;
+      tf.email = fm.email ? 1 : 0;
+      tf.tarefa_data = dt1.toFormat('yyyy-LL-dd HH:mm:ss');
+      tf.tarefa_usuario_id = fm.tarefa_usuario_id;
+      if (fm.tarefa_tarefa !== null && fm.tarefa_tarefa.length > 1) {
+        tf.tarefa_tarefa = fm.tarefa_tarefa;
+        tf.tarefa_tarefa_delta = JSON.stringify(this.cpoEditor['tarefa_tarefa'].delta);
+        tf.tarefa_tarefa_texto = this.cpoEditor['tarefa_tarefa'].text;
+      }
+      if (fm.th_historico !== null && fm.th_historico.length > 1) {
+        tf.th_historico = fm.th_historico;
+        tf.th_historico_delta = JSON.stringify(this.cpoEditor['th_historico'].delta);
+        tf.th_historico_texto = this.cpoEditor['th_historico'].text;
+        tf.th_data = dt1.toFormat('yyyy-LL-dd HH:mm:ss');
+        tf.th_usuario_id = +fm.tarefa_usuario_autor_id;
+      }
+      console.log(tf);
+    }
+    return tf;
+  }
+
+  incluir() {
+    const lazy = this.ts.lazy;
+    this.sub.push(this.ts.incluirTarefa(this.criaEnvio())
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          console.log('DADOS', dados);
+          this.resp = dados;
+        },
+        error: (err) => {
+          this.botaoEnviarVF = false;
+          this.disabled = false;
+          this.kdisabled = false;
+          this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+          // this.er.mostraErro(err);
+          console.error(err);
+        },
+        complete: () => {
+          /*if (!this.resp[0]) {
+            this.botaoEnviarVF = false;
+            this.disabled = false;
+            this.kdisabled = false;
+            console.error('ERRO - INCLUIR ', this.resp[2]);
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'warn',
+              summary: 'ATENÇÃO - ERRO',
+              detail: this.resp[2]
+            });
+            this.reset();
+          } else {
+            if (lazy) {
+              this.ts.lazy = false;
+            }
+            let p: TarefaI = this.resp[3];
+            p.tarefa_data3 = new Date(p.tarefa_data2);
+            p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
+            if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {
+              const tt = p.tarefa_historico;
+              p.tarefa_historico = tt.map((h ) => {
+                h.th_data3 = new Date(h.th_data2);
+                return h;
+              });
+            }
+            this.ts.tarefas[this.tss.index] = p;
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'success',
+              summary: 'INCLUIR TAREFA',
+              detail: this.resp[2]
+            });
+            // this.voltarListar();
+            if (this.ts.expandidoSN) {
+              const ev: any = {
+                originalEvent: null,
+                data: p
+              };
+              this.ts.onRowExpand(ev);
+            }
+
+            this.ts.lazy = lazy;
+            this.voltarListar();
+          }*/
+        }
+      })
+    );
+  }
+
 
   enviarTarefaAlterar() {}
 
@@ -244,7 +357,6 @@ export class TarefaFormComponent implements OnInit {
         return 'tstatus-0';
     }
   }
-
 
   onBlockSubmit(ev: boolean) {
     this.mostraForm = ev;

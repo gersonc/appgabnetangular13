@@ -174,7 +174,7 @@ export class TarefaAtualizarAutorFormComponent implements OnInit, OnDestroy {
             this.botaoEnviarVF = false;
             this.disabled = false;
             this.kdisabled = false;
-            console.error('ERRO - INCLUIR ', this.resp[2]);
+            console.error('ERRO - ATUALIZAR ', this.resp[2]);
             this.ms.add({
               key: 'toastprincipal',
               severity: 'warn',

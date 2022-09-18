@@ -92,8 +92,14 @@ export interface TarefaFormI {
   tarefa_tarefa_delta?: string;
   tarefa_tarefa_texto?: string;
   tarefa_usuario?: TarefaUsuarioFormI[];
-  tarefa_historico?: TarefaHistoricoI;
-  tarefa_email?: number;
+  th_tarefa_id?: number;
+  th_data?: string;
+  th_usuario_id?: number;
+  th_usuario_nome?: string;
+  th_historico?: string;
+  th_historico_delta?: string;
+  th_historico_texto?: string;
+  email?: number;
   agenda?: number;
   tipo_listagem?: number;
 }

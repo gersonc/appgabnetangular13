@@ -442,7 +442,6 @@ export class TarefaService {
     }
   }
 
-
   exportToXLSX(td: number = 1) {
     if (td === 3) {
       if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
@@ -609,7 +608,7 @@ export class TarefaService {
   }
 
   incluirTarefa(dados: TarefaFormI): Observable<any[]> {
-    const url = this.url.tarefa;
+    const url = this.url.tarefa + '/incluir';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
