@@ -37,6 +37,7 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('MENU');
     this.criaFormMenu();
     this.carregaDropDown();
   }
@@ -81,12 +82,14 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     this.cdd.gravaDropDown();
   }
 
-  onMudaForm() {
-    this.ts.resetTarefaBusca();
-    delete this.ts.busca.ids;
-    this.ts.novaBusca(this.criaBusca());
-    this.ts.buscaMenu();
-    this.mi.hideMenu();
+  onMudaForm(ev: boolean) {
+    if (ev) {
+      this.ts.resetTarefaBusca();
+      delete this.ts.busca.ids;
+      this.ts.novaBusca(this.criaBusca());
+      this.ts.buscaMenu();
+      this.mi.hideMenu();
+    }
   }
 
   criaBusca(): TarefaBuscaI {
@@ -158,7 +161,7 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
 
   onKey(event) {
     let a = 0;
-    event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
+    event.key.toString() === 'Enter' ? this.onMudaForm(true) : a++;
   }
 
   ngOnDestroy(): void {

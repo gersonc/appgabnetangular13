@@ -7,7 +7,7 @@
   appendTo="body"
 >
   <p-scrollPanel [styleClass]="'menu-lateral'" >
-    <app-tarefa-menu-listar></app-tarefa-menu-listar>
+    <app-tarefa-menu-listar *ngIf="mostraMenu"></app-tarefa-menu-listar>
   </p-scrollPanel>
 
 </p-sidebar>

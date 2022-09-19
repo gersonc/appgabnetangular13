@@ -13,6 +13,7 @@ export class TarefaComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
   sub: Subscription[] = [];
+  mostraMenu = true;
 
   constructor(
     public mi: MenuInternoService,
@@ -42,8 +43,15 @@ export class TarefaComponent implements OnInit, OnDestroy {
     this.mi.mudaMenuInterno(false);
   }
 
-  fecharForm(ev) {
+  fecharForm(ev: boolean) {
+    this.mostraMenu = false;
     this.ts.showForm = false;
+    this.mostraMenu = true;
+    if (ev) {
+      this.mi.showMenuInterno();
+    } else {
+      this.mi.hideMenu();
+    }
   }
 
   ngOnDestroy(): void {

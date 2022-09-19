@@ -44,8 +44,8 @@ export class TarefaService {
   expandido?: TarefaI;
   expandidoSN = false;
   tarefaApagar: TarefaI | null = null;
-  sortField = 'tarefa_data';
-  sortOrder = 1;
+  sortField = 'tarefa_data2';
+  sortOrder = -1;
   lazy = true;
   acao: string | null = null;
   colunas: string[] = [];
@@ -121,7 +121,8 @@ export class TarefaService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        this.tabela.sortField = 'tarefa_data';
+        this.tabela.sortField = 'tarefa_data2';
+        this.tabela.sortOrder = -1;
         this.tabela.camposTexto = tarefacampostexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -145,9 +146,11 @@ export class TarefaService {
         sortOrder: this.tabela.sortOrder
       };
     }
+    console.log('criaBusca',this.busca);
   }
 
   novaBusca(busca: TarefaBuscaI) {
+    console.log('novaBusca',busca);
     if (busca === undefined) {
       this.busca = {
         todos: this.tabela.todos,
@@ -162,9 +165,24 @@ export class TarefaService {
       this.busca.todos = this.tabela.todos;
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
-      this.busca.sortOrder = 1;
-      this.busca.sortField = 'tarefa_data';
+      if (this.busca.sortField === 'tarefa_data' || this.busca.sortField === 'tarefa_datahora') {
+        if (this.busca.sortField === 'tarefa_data') {
+          this.busca.sortField = 'tarefa_data2';
+        }
+        if (this.busca.sortField === 'tarefa_datahora') {
+          this.busca.sortField = 'tarefa_datahora2';
+        }
+        if (this.busca.sortOrder !== undefined) {
+          this.busca.sortOrder *= -1;
+        }
+      }
+      if (this.busca.sortField === undefined) {
+        this.busca.sortOrder = -1;
+        this.busca.sortField = 'tarefa_data2';
+      }
+
     }
+    console.log('novaBusca2',this.busca);
   }
 
   resetTarefaBusca() {

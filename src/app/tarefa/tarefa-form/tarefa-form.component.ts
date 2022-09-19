@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {TarefaFormService} from "../_services/tarefa-form.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SelectItem} from "primeng/api";
@@ -13,6 +13,7 @@ import {DateTime} from "luxon";
 import {TarefaFormI, TarefaI} from "../_models/tarefa-i";
 import {take} from "rxjs/operators";
 import {ErroService} from "../../_services/erro.service";
+import {TarefaDropdownService} from "../_services/tarefa-dropdown.service";
 
 interface frmI {
   tarefa_id?: number;
@@ -31,7 +32,7 @@ interface frmI {
   templateUrl: './tarefa-form.component.html',
   styleUrls: ['./tarefa-form.component.css']
 })
-export class TarefaFormComponent implements OnInit {
+export class TarefaFormComponent implements OnInit, OnDestroy {
   @Output() fechar = new EventEmitter<boolean>();
   public formTarefa: FormGroup;
   public items: Array<any> = [];
@@ -51,12 +52,12 @@ export class TarefaFormComponent implements OnInit {
   possuiArquivos = false;
 
   autAdmin = false;
-
+  lazy = false;
   resp: any[] = [];
   tarefa_situacao_id = 0;
   th_historico: string | null = null;
-  disabled = true;
-  kdisabled = false;
+  // disabled = true;
+  // kdisabled = false;
   kill: any = null;
 
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -91,8 +92,7 @@ export class TarefaFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     public aut: AuthenticationService,
     private mi: MenuInternoService,
-    private ms: MsgService,
-    // private er: ErroService
+    private ms: MsgService
   ) { }
 
   ngOnInit(): void {
@@ -158,7 +158,7 @@ export class TarefaFormComponent implements OnInit {
       this.kill1 = ev;
       this.kill1.update('user');
     }
-    this.kdisabled = true;
+    // this.kdisabled = true;
   }
 
   reset() {
@@ -171,14 +171,14 @@ export class TarefaFormComponent implements OnInit {
     }
 
     this.th_historico = null;
-    this.disabled = true;
-    this.kdisabled = true;
+    // this.disabled = true;
+    // this.kdisabled = true;
     this.botaoEnviarVF = false;
   }
 
   onSubmit() {
-    // this.botaoEnviarVF = true;
-    this.disabled = true;
+    this.botaoEnviarVF = true;
+    // this.disabled = true;
     console.log('onSubmit', this.formTarefa.getRawValue());
     this.incluir();
   }
@@ -212,7 +212,7 @@ export class TarefaFormComponent implements OnInit {
   }
 
   incluir() {
-    const lazy = this.ts.lazy;
+    this.lazy = this.ts.lazy;
     this.sub.push(this.ts.incluirTarefa(this.criaEnvio())
       .pipe(take(1))
       .subscribe({
@@ -222,17 +222,17 @@ export class TarefaFormComponent implements OnInit {
         },
         error: (err) => {
           this.botaoEnviarVF = false;
-          this.disabled = false;
-          this.kdisabled = false;
+          // this.disabled = false;
+          // this.kdisabled = false;
           this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
           // this.er.mostraErro(err);
           console.error(err);
         },
         complete: () => {
-          /*if (!this.resp[0]) {
+          if (!this.resp[0]) {
             this.botaoEnviarVF = false;
-            this.disabled = false;
-            this.kdisabled = false;
+            // this.disabled = false;
+            // this.kdisabled = false;
             console.error('ERRO - INCLUIR ', this.resp[2]);
             this.ms.add({
               key: 'toastprincipal',
@@ -242,38 +242,37 @@ export class TarefaFormComponent implements OnInit {
             });
             this.reset();
           } else {
-            if (lazy) {
-              this.ts.lazy = false;
-            }
-            let p: TarefaI = this.resp[3];
-            p.tarefa_data3 = new Date(p.tarefa_data2);
-            p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
-            if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {
-              const tt = p.tarefa_historico;
-              p.tarefa_historico = tt.map((h ) => {
-                h.th_data3 = new Date(h.th_data2);
-                return h;
-              });
-            }
-            this.ts.tarefas[this.tss.index] = p;
-            this.ms.add({
-              key: 'toastprincipal',
-              severity: 'success',
-              summary: 'INCLUIR TAREFA',
-              detail: this.resp[2]
-            });
-            // this.voltarListar();
-            if (this.ts.expandidoSN) {
-              const ev: any = {
-                originalEvent: null,
-                data: p
-              };
-              this.ts.onRowExpand(ev);
-            }
+            if (this.possuiArquivos) {
+              this.arquivo_registro_id = +this.resp[1];
+              this.enviarArquivos = true;
+            } else {
+              if (this.ts.tarefas.length > 0) {
+                if (this.lazy) {
+                  this.ts.lazy = false;
+                }
+                let p: TarefaI = this.resp[3];
+                p.tarefa_data3 = new Date(p.tarefa_data2);
+                p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
+                if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {
+                  const tt = p.tarefa_historico;
+                  p.tarefa_historico = tt.map((h) => {
+                    h.th_data3 = new Date(h.th_data2);
+                    return h;
+                  });
+                }
 
-            this.ts.lazy = lazy;
-            this.voltarListar();
-          }*/
+                this.ts.tarefas.push(p);
+              }
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'success',
+                summary: 'INCLUIR TAREFA',
+                detail: this.resp[2]
+              });
+              this.voltarListar();
+              this.ts.lazy = this.lazy;
+            }
+          }
         }
       })
     );
@@ -283,17 +282,18 @@ export class TarefaFormComponent implements OnInit {
   enviarTarefaAlterar() {}
 
   voltarListar() {
-    this.fechar.emit(true);
+    this.fechar.emit((this.ts.tarefas.length > 0));
+    // this.ngOnDestroy();
   }
 
   mudaSituacao(ev: number) {
     if (ev !== this.tfs.tarefaListar.tarefa_situacao_id)  {
-      this.disabled = false;
-      this.kdisabled = false;
+      // this.disabled = false;
+      // this.kdisabled = false;
     } else {
       this.th_historico = null;
-      this.disabled = true;
-      this.kdisabled = true;
+      // this.disabled = true;
+      // this.kdisabled = true;
     }
   }
 
@@ -367,17 +367,36 @@ export class TarefaFormComponent implements OnInit {
   }
 
   onUpload(ev) {
-    if (ev) {
-      this.ms.add({
-        key: 'toastprincipal',
-        severity: 'success',
-        summary: 'VENCIMENTO',
-        detail: this.resp[2]
-      });
-      this.reset();
-      this.botaoEnviarVF = false;
-      this.mostraForm = false;
-      this.voltarListar();
+    if (this.tfs.acao === 'incluir') {
+      if (this.ts.tarefas.length > 0) {
+        if (this.lazy) {
+          this.ts.lazy = false;
+        }
+        let p: TarefaI = this.resp[3];
+        p.tarefa_data3 = new Date(p.tarefa_data2);
+        p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
+        if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {
+          const tt = p.tarefa_historico;
+          p.tarefa_historico = tt.map((h) => {
+            h.th_data3 = new Date(h.th_data2);
+            return h;
+          });
+        }
+
+        this.ts.tarefas.push(p);
+
+        this.ms.add({
+          key: 'toastprincipal',
+          severity: 'success',
+          summary: 'INCLUIR TAREFA',
+          detail: this.resp[2]
+        });
+        // this.voltarListar();
+        this.ts.lazy = this.lazy;
+        this.botaoEnviarVF = false;
+        this.mostraForm = false;
+        this.voltarListar();
+      }
     }
   }
 
@@ -396,15 +415,20 @@ export class TarefaFormComponent implements OnInit {
   }
 
 
+
   ngOnDestroy() {
+    console.log('DESTROI');
+    this.sub.forEach(s => {
+      s.unsubscribe()
+    });
     this.reset();
-    this.fechar.emit(true);
     this.tfs.resetTudo();
     this.th_historico = null;
-    this.disabled = true;
-    this.kdisabled = true;
+    // this.disabled = true;
+    // this.kdisabled = true;
     this.botaoEnviarVF = false;
     this.tarefa_situacao_id = 0;
+    // this.fechar.emit(true);
   }
 
 }
