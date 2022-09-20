@@ -64,21 +64,22 @@
                     type="text"
                     [size]="80"
                     [maxlength]="250"
+                    [ngClass]="aplicaCssErro('tarefa_titulo')"
                     pInputText
                   />
-                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('tarefa_usuario_autor_id')"
+                  <app-campo-control-erro [mostrarErro]="verificaValidTouched('tarefa_titulo')"
                                           msgErro="Titulo é obrigatório."></app-campo-control-erro>
                 </div>
 
 
                 <!-- tarefa_usuario_id -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" *ngIf="tfs.acao=='alterar'">
+                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" *ngIf="tfs.acao=='alterar' && !autAdmin">
                   <h5>Demandado(s)</h5>
                   <table>
                     <tr *ngFor="let us of tfs.tarefaListar.tarefa_usuario_situacao">
-                      <td [style.backgroundColor]="fcor(us.tus_situacao_id)"
+                      <td [ngClass]="rowColor(us.tus_situacao_id)"
                           style="padding-left: 5px; padding-right: 5px;">{{us.tu_usuario_nome}}</td>
-                      <td [style.backgroundColor]="fcor(us.tus_situacao_id)"
+                      <td [ngClass]="rowColor(us.tus_situacao_id)"
                           style="padding-left: 5px; padding-right: 5px;">{{us.tus_situacao_nome}}</td>
                     </tr>
 
@@ -134,11 +135,34 @@
                   <p-inputSwitch formControlName="agenda" id="agenda"></p-inputSwitch>
                 </div>
                 <!-- agenda -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                <div *ngIf="tfs.acao !== 'alterar'" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
                   <h5> E-mail</h5>
                   <p-inputSwitch formControlName="email" id="email"></p-inputSwitch>
                 </div>
 
+                <div *ngIf="tfs.acao=='alterar' && autAdmin" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" [ngClass]="aplicaCssErro('tarefa_usuario_id')">
+                  <div class="p-d-flex p-jc-center">
+                    <div class="form-picklist2">
+                      <h5><span class="atencao">*</span>Demandado(s)</h5>
+                      <div class="form-picklist">
+                        <p-pickList [source]="ddUsuarioAlterar" [target]="tfs.tarefa.tarefa_usuario2" [dragdrop]="true"
+                                    id="tarefa_usuario_id2" styleClass="formulariopick">
+                          <ng-template let-col pTemplate="item">
+                            <div class="pickformitem-row" [ngClass]="rowColor(col.tus_situacao_id)">
+                              <div class="pickformitem2">
+                                <div class="pickformitem">{{col.tu_usuario_nome}}</div>
+                                <div class="pickformitem">{{col.tus_situacao_nome}}</div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </p-pickList>
+                      </div>
+                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('tarefa_usuario_id')"
+                                              msgErro="Demandado(s) é obrigatório."></app-campo-control-erro>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
 

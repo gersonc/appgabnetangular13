@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {TarefaFormI, TarefaI} from "../_models/tarefa-i";
+import {TarefaFormI, TarefaI, TarefaUsuarioAlterar, TarefaUsuarioSituacaoI} from "../_models/tarefa-i";
 import {SelectItem} from "primeng/api";
 
 @Injectable({
@@ -18,6 +18,7 @@ export class TarefaFormService {
 
   ddTarefa_situacao_id: SelectItem[] = [];
   ddUsuario_id: SelectItem[] = [];
+  ddUsuarioAlterar: TarefaUsuarioAlterar[] = [];
 
   constructor() { }
 
@@ -46,13 +47,25 @@ export class TarefaFormService {
 
   parceTarefaForm(t: TarefaI): TarefaFormI {
     this.montaDD();
-    this.tarefaListar = t;
+    // this.tarefaListar = t;
     this.tarefa = {};
     let r: TarefaFormI = {};
     this.tarefa = {};
     r.tarefa_id = +t.tarefa_id;
     r.tarefa_usuario_autor_id = t.tarefa_usuario_autor_id;
-    r.tarefa_usuario_id = t.tarefa_usuario.map((u) => { return u.tu_usuario_id; });
+    r.tarefa_usuario2 = t.tarefa_usuario_situacao.map(u => {
+      const a: TarefaUsuarioAlterar = {
+        tus_id: u.tus_id,
+        tus_tu_id: u.tus_tu_id,
+        tus_usuario_id: u.tus_usuario_id,
+        tu_usuario_nome: u.tu_usuario_nome,
+        tus_situacao_id: u.tus_situacao_id,
+        tus_situacao_nome: u.tus_situacao_nome
+      }
+      return a;
+    });
+    r.tarefa_usuario_incluir = [];
+    r.tarefa_usuario_excluir = [];
     r.tarefa_data = t.tarefa_data;
     r.tarefa_data2 = t.tarefa_data2;
     r.tarefa_data3 = t.tarefa_data3;
@@ -64,6 +77,7 @@ export class TarefaFormService {
     r.agenda = 0;
     r.tipo_listagem = 0;
     this.tarefa = r;
+
     return r
   }
 
@@ -83,6 +97,31 @@ export class TarefaFormService {
     this.tarefa.email = 0;
     this.tarefa.agenda = 0;
     this.tarefa.tipo_listagem = 0;
+  }
+
+  montaDDAlterar(): TarefaUsuarioAlterar[] {
+    console.log('this.ddUsuario_id',this.ddUsuario_id);
+    const usertemp: SelectItem[] = this.ddUsuario_id.filter((obj) => {
+      return this.tarefaListar.tarefa_usuario_situacao.findIndex(u => u.tus_usuario_id === obj.value) === -1;
+    });
+    console.log('montaDDAlterar',usertemp);
+    this.ddUsuarioAlterar = usertemp.map(u => {
+      const a: TarefaUsuarioAlterar = {
+        tus_id: 0,
+        tus_tu_id: 0,
+        tus_usuario_id: u.value,
+        tu_usuario_nome: u.label,
+        tus_situacao_id: this.ddTarefa_situacao_id[0].value,
+        tus_situacao_nome: this.ddTarefa_situacao_id[0].label
+      }
+      return a;
+    });
+    console.log('montaDDAlterar',this.ddUsuarioAlterar);
+    return this.ddUsuarioAlterar;
+  }
+
+  filtro(element: SelectItem, index, array): boolean {
+    return this.tarefaListar.tarefa_usuario_situacao.findIndex(u => u.tus_usuario_id === element.value) === -1;
   }
 
   montaDD() {

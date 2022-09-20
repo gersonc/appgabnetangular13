@@ -282,7 +282,7 @@ export class TarefaDatatableComponent implements OnInit {
     this.dtb.saveState();
     this.ts.acaoForm = 'INCLUIR';
     this.tfs.acao = 'incluir';
-    this.tfs.origem = 'menu';
+    this.tfs.origem = 'listagem';
     this.tfs.criaFormIncluir()
     this.ts.showForm = true;
   }
@@ -301,10 +301,11 @@ export class TarefaDatatableComponent implements OnInit {
   tarefaAlterar(tar: TarefaI) {
     this.ts.salvaState();
     this.dtb.saveState();
+    this.ts.acaoForm = 'ALTERAR';
     this.tfs.acao = 'alterar';
     this.tfs.tarefaListar = tar;
     this.tfs.parceTarefaForm(tar);
-    this.router.navigate(['/tarefa/alterar']);
+    this.ts.showForm = true;
   }
 
   tarefaApagar(tar: TarefaI) {

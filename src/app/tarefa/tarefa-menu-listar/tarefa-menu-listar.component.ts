@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {TarefaDropdownService} from "../_services/tarefa-dropdown.service";
 import {TarefaFormService} from "../_services/tarefa-form.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
@@ -8,13 +8,15 @@ import {Subscription} from "rxjs";
 import {MenuInternoService} from "../../_services";
 import {DateTime} from "luxon";
 import {ddTipo_listagem_id, TarefaMenuDropdownI} from "../_models/tarefa-menu-dropdown-i";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-tarefa-menu-listar',
   templateUrl: './tarefa-menu-listar.component.html',
   styleUrls: ['./tarefa-menu-listar.component.css']
 })
-export class TarefaMenuListarComponent implements OnInit, OnDestroy {
+export class TarefaMenuListarComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() recarrega?: boolean;
   public formMenuTarefa: FormGroup;
   dd: TarefaMenuDropdownI;
   ptBr: any;
@@ -37,9 +39,17 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('MENU');
     this.criaFormMenu();
     this.carregaDropDown();
+  }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.recarrega && !changes.recarrega.isFirstChange()) {
+      if (this.recarrega) {
+        this.atualizaDropDown();
+      }
+    }
   }
 
   criaFormMenu() {
@@ -68,8 +78,25 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
     }
   }
 
+  atualizaDropDown() {
+    console.log('atualizaDropDown');
+    if (!sessionStorage.getItem('tarefa_menu-dropdown')) {
+      this.sub.push(this.cdd.resp$.pipe(take(1))
+        .subscribe(
+        (dados: boolean) => {
+        },
+        error => {
+          console.error(error.toString());
+        },
+        () => {
+          this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
+        }
+      ));
+    }
+  }
+
   getCarregaDropDown() {
-    this.sub.push(this.cdd.resp$.subscribe(
+    this.sub.push(this.cdd.resp$.pipe(take(1)).subscribe(
       (dados: boolean) => {
       },
       error => {
@@ -150,7 +177,6 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy {
   }
 
   goIncluir() {
-    console.log('goIncluir');
     this.ts.acaoForm = 'INCLUIR';
     this.tfs.acao = 'incluir';
     this.tfs.origem = 'menu';

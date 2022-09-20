@@ -39,6 +39,7 @@ import { TarefaSituacaoComponent } from './tarefa-situacao/tarefa-situacao.compo
 import { TarefaAtualizarAutorFormComponent } from './tarefa-atualizar-autor-form/tarefa-atualizar-autor-form.component';
 import {InputSwitchModule} from "primeng/inputswitch";
 import {MultiSelectModule} from "primeng/multiselect";
+import {PickListModule} from "primeng/picklist";
 
 
 @NgModule({
@@ -57,34 +58,35 @@ import {MultiSelectModule} from "primeng/multiselect";
     TarefaSituacaoComponent,
     TarefaAtualizarAutorFormComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TarefaRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    TableModule,
-    MenuModule,
-    TooltipModule,
-    RippleModule,
-    ButtonModule,
-    ExporterAcessoModule,
-    DialogModule,
-    UtilModule,
-    ContextMenuModule,
-    SelectButtonModule,
-    DropdownModule,
-    InputTextModule,
-    CalendarModule,
-    KillViewModule,
-    QuillModule,
-    FormsModule,
-    ArquivoModule,
-    ExplorerModule,
-    ImpressaoModule,
-    InputSwitchModule,
-    MultiSelectModule
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        TarefaRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        TableModule,
+        MenuModule,
+        TooltipModule,
+        RippleModule,
+        ButtonModule,
+        ExporterAcessoModule,
+        DialogModule,
+        UtilModule,
+        ContextMenuModule,
+        SelectButtonModule,
+        DropdownModule,
+        InputTextModule,
+        CalendarModule,
+        KillViewModule,
+        QuillModule,
+        FormsModule,
+        ArquivoModule,
+        ExplorerModule,
+        ImpressaoModule,
+        InputSwitchModule,
+        MultiSelectModule,
+        PickListModule
+    ],
   exports: [
     TarefaComponent,
   ],

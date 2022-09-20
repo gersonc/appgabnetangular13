@@ -10,7 +10,7 @@ import Quill from "quill";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {TarefaService} from "../_services/tarefa.service";
 import {DateTime} from "luxon";
-import {TarefaFormI, TarefaI} from "../_models/tarefa-i";
+import {TarefaFormI, TarefaI, TarefaUsuarioAlterar, TarefaUsuarioSituacaoAndamentoI} from "../_models/tarefa-i";
 import {take} from "rxjs/operators";
 import {ErroService} from "../../_services/erro.service";
 import {TarefaDropdownService} from "../_services/tarefa-dropdown.service";
@@ -59,7 +59,6 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
   // disabled = true;
   // kdisabled = false;
   kill: any = null;
-
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
   format1: 'html' | 'object' | 'text' | 'json' = 'html';
   kill0: Quill;
@@ -82,7 +81,8 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
     ]
   };
 
-
+  tarefa_usuario_id: TarefaUsuarioAlterar[] = [];
+  ddUsuarioAlterar: TarefaUsuarioAlterar[] = [];
 
 
 
@@ -99,11 +99,19 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
     if (this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
       this.autAdmin = true;
       this.tarefa_usuario_autor_id_readonly = false;
+
     }
     if (this.tfs.acao == 'incluir') {
       const dt: DateTime = DateTime.now().setZone('America/Sao_Paulo');
       this.tfs.tarefa.tarefa_data3 = dt.toJSDate();
       this.tfs.tarefa.tarefa_usuario_autor_id = this.aut.usuario_id;
+    }
+    if (this.tfs.acao == 'alterar') {
+      console.log('this.alterar', this.tfs.tarefaListar);
+      if (this.autAdmin) {
+        this.ddUsuarioAlterar = this.tfs.montaDDAlterar();
+        console.log('this.tarefa_usuario_id', this.ddUsuarioAlterar);
+      }
     }
     this.criaForm();
   }
@@ -129,7 +137,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
         tarefa_data3: [this.tfs.tarefa.tarefa_data3, Validators.required],
         tarefa_titulo: [this.tfs.tarefa.tarefa_titulo, Validators.required],
         tarefa_tarefa: [this.tfs.tarefa.tarefa_tarefa],
-        tarefa_email: [this.tfs.tarefa.email]
+        th_historico: [null],
         // tarefa_sms: [this.tfs.tarefa.tarefa_sms, false],
         // mensagem_sms: [this.tfs.tarefa.mensagem_sms, false],
         // agenda: [0]
@@ -177,10 +185,14 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.botaoEnviarVF = true;
-    // this.disabled = true;
     console.log('onSubmit', this.formTarefa.getRawValue());
-    this.incluir();
+    if (this.verificaValidacoesForm(this.formTarefa)) {
+      this.botaoEnviarVF = true;
+      // this.disabled = true;
+      if (this.tfs.acao === 'incluir') {
+        this.incluir();
+      }
+    }
   }
 
   criaEnvio(): TarefaFormI {
@@ -242,6 +254,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
             });
             this.reset();
           } else {
+            sessionStorage.removeItem('tarefa_menu-dropdown');
             if (this.possuiArquivos) {
               this.arquivo_registro_id = +this.resp[1];
               this.enviarArquivos = true;
@@ -282,7 +295,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
   enviarTarefaAlterar() {}
 
   voltarListar() {
-    this.fechar.emit((this.ts.tarefas.length > 0));
+    this.fechar.emit((this.tfs.origem === 'menu'));
     // this.ngOnDestroy();
   }
 
@@ -359,7 +372,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
   }
 
   onBlockSubmit(ev: boolean) {
-    this.mostraForm = ev;
+    this.botaoEnviarVF = false;
   }
 
   onPossuiArquivos(ev) {
@@ -397,6 +410,8 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
         this.mostraForm = false;
         this.voltarListar();
       }
+    } else {
+      this.botaoEnviarVF = false;
     }
   }
 
@@ -411,6 +426,21 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
       html: ev.html,
       delta: ev.content,
       text: ev.text
+    }
+  }
+
+  rowColor(tus_situacao_id?: number): string | null {
+    switch (tus_situacao_id) {
+      case 1:
+        return 'tstatus-1';
+      case 2:
+        return 'tstatus-2';
+      case 3:
+        return 'tstatus-3';
+      case 4:
+        return 'tstatus-4';
+      default:
+        return 'tstatus-0';
     }
   }
 

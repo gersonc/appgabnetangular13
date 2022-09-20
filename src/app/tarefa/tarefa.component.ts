@@ -44,13 +44,15 @@ export class TarefaComponent implements OnInit, OnDestroy {
   }
 
   fecharForm(ev: boolean) {
-    this.mostraMenu = false;
-    this.ts.showForm = false;
-    this.mostraMenu = true;
+    // this.mostraMenu = false;
+    // this.ts.showForm = false;
+    // this.mostraMenu = true;
     if (ev) {
       this.mi.showMenuInterno();
+      this.ts.showForm = false;
     } else {
       this.mi.hideMenu();
+      this.ts.showForm = false;
     }
   }
 

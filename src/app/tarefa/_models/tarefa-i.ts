@@ -92,6 +92,9 @@ export interface TarefaFormI {
   tarefa_tarefa_delta?: string;
   tarefa_tarefa_texto?: string;
   tarefa_usuario?: TarefaUsuarioFormI[];
+  tarefa_usuario2?: TarefaUsuarioAlterar[];
+  tarefa_usuario_incluir?: TarefaUsuarioAlterar[];
+  tarefa_usuario_excluir?: TarefaUsuarioAlterar[];
   th_tarefa_id?: number;
   th_data?: string;
   th_usuario_id?: number;
@@ -102,6 +105,15 @@ export interface TarefaFormI {
   email?: number;
   agenda?: number;
   tipo_listagem?: number;
+}
+
+export interface TarefaUsuarioAlterar {
+  tu_usuario_nome?: string;
+  tus_id?: number;
+  tus_usuario_id?: number;
+  tus_situacao_id?: number;
+  tus_situacao_nome?: string;
+  tus_tu_id?: number;
 }
 
 export interface TarefaUsuarioFormI extends TarefaUsuarioI {
