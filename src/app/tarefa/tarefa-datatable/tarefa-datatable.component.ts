@@ -32,12 +32,12 @@ export class TarefaDatatableComponent implements OnInit {
   cols: any[] = [];
   idx = -1;
   acaoHistorico = '';
-  showHistorico = true;
+  showHistorico = false;
   histFormI?: TarefaHistoricoI;
   cssMostra: string | null = null;
-  permListHist: boolean = true;
+/*  permListHist: boolean = true;
   permInclHist: boolean = true;
-  permitirAcao: boolean = true;
+  permitirAcao: boolean = true;*/
 
   constructor(
     public mi: MenuInternoService,
@@ -245,6 +245,14 @@ export class TarefaDatatableComponent implements OnInit {
         }
       });
 
+    this.contextoMenu.push(
+      {
+        label: 'LISTAR ANDAMENTO', icon: 'pi pi-list', style: {'font-size': '1em'},
+        command: () => {
+          this.andamentoList(this.ts.Contexto, this.ts.idx);
+        }
+      });
+
   }
 
   onColReorder(event): void {
@@ -325,8 +333,8 @@ export class TarefaDatatableComponent implements OnInit {
     if (+tar.tarefa_usuario_autor_id === +this.aut.usuario_id || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       if (this.permissaoApagarArquivo(tar)) {
         this.ts.tarefaApagar = tar;
-        this.ts.salvaState();
-        this.dtb.saveState();
+        // this.ts.salvaState();
+        // this.dtb.saveState();
         this.ts.acaoForm = 'APAGAR';
         this.ts.idx = indice;
         this.ts.showExcluir = true;
@@ -361,6 +369,18 @@ export class TarefaDatatableComponent implements OnInit {
     this.idx = idx;
     this.showHistorico = true;
     this.mostraDialog(true);
+  }
+
+  andamentoList(tar: TarefaI, indice: number) {
+    this.tarefaDetalhe = tar;
+    this.idx = indice;
+    this.showHistorico = true;
+  }
+
+  fecharListAnd(ev) {
+    this.tarefaDetalhe = undefined;
+    this.idx = 0;
+    this.showHistorico = false;
   }
 
   permissaoApagarArquivo(tar: TarefaI): boolean {
@@ -438,6 +458,10 @@ export class TarefaDatatableComponent implements OnInit {
 
   fechaTsForm(ev: boolean) {
     this.ts.showSitForm = false;
+  }
+
+  onTogleRow(ev) {
+    this.dtb.toggleRow(this.ts.tabela.dadosExpandidosRaw.data, this.ts.tabela.dadosExpandidosRaw.originalEvent);
   }
 
   mostraTsFormEvent(ev: boolean) {

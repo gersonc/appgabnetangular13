@@ -1,0 +1,43 @@
+<table class="table-hover tabela" id="tabhistorico">
+  <caption>TAREFA - ANDAMENTOS</caption>
+  <tr>
+    <td>Data</td>
+    <td>Demandado</td>
+    <td>Andamento</td>
+    <td style="width: 3em"></td>
+  </tr>
+  <tr *ngFor="let his of tarefa.tarefa_historico; let i=index;">
+    <td style="font-weight: normal; width: 8rem;">{{his.th_data}}</td>
+    <td style="font-weight: normal; width: 8rem;">{{his.th_usuario_nome}}</td>
+    <td style="font-weight: normal">
+      <quill-view [content]="stripslashes(his.th_historico)" [format]="'html'" theme="snow"></quill-view>
+    </td>
+
+    <td style="width: 3em; vertical-align:top;">
+
+
+      <div class="p-m-1">
+        <p-confirmPopup></p-confirmPopup>
+        <button *ngIf="permissaoSN(his.th_usuario_id)" pButton pRipple type="button" icon="pi pi-trash" pTooltip="APAGAR"
+                class="historico p-button-sm p-button-rounded p-button-danger"
+                (click)="confirm($event, his.th_id, i)"></button>
+      </div>
+
+    </td>
+  </tr>
+</table>
+
+<div class="p-d-flex p-jc-start p-pb-2 p-pt-4">
+  <div class="p-mr-2">
+    <button
+      pButton
+      pRipple
+      pTooltip="FECHAR"
+      tooltipPosition="top"
+      type="button"
+      class="botaoinferior p-button-rounded p-button-secondary"
+      (click)="onFechar()"
+      label="FECHAR"
+    ></button>
+  </div>
+</div>

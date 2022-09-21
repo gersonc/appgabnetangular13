@@ -24,6 +24,7 @@ import {take} from "rxjs/operators";
 import {ColunasI} from "../../_models/colunas-i";
 import {TarefaPrintService} from "./tarefa-print.service";
 import {TarefaPdfService} from "./tarefa-pdf.service";
+import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
 
 @Injectable({
   providedIn: 'root'
@@ -659,6 +660,18 @@ export class TarefaService {
     const url = this.url.tarefa + '/' + tarefa_id;
     return this.http.delete<any[]>(url);
   }
+
+  excluirHistorico(th_id: number) {
+    const url = this.url.tarefa + '/andamento/' + th_id;
+    return this.http.delete<any[]>(url);
+  }
+
+  incluirAndamento(dados: TarefaHistoricoI): Observable<any[]> {
+    const url = this.url.tarefa + '/andamento/incluir';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, dados, httpOptions);
+  }
+
 
   putTarefaAtualizarUsuarioSituacao(tusa: TarefaUsuarioSituacaoAtualisarFormI): Observable<any[]> {
     const url = this.url.tarefa + '/atualizar/usuario/situacao';

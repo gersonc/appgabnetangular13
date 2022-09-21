@@ -14,6 +14,7 @@ import {take} from "rxjs/operators";
 })
 export class TarefaExcluirComponent implements OnInit {
   @Output() hideExcluir = new EventEmitter<boolean>();
+  @Output() toggleRow = new EventEmitter<boolean>();
 
   botaoEnviarVF = false;
   public arquivoBlockSubmit = true;
@@ -43,7 +44,7 @@ export class TarefaExcluirComponent implements OnInit {
         summary: 'ATENÇÃO - ERRO',
         detail: 'PERMISSÃO NEGADA'
       });
-      this.voltar();
+      this.voltarListar();
     } else {
       this.tarefa_id = +this.ts.tarefaApagar.tarefa_id;
       if (this.ts.tarefaApagar.tarefa_arquivos.length === 0) {
@@ -96,12 +97,11 @@ export class TarefaExcluirComponent implements OnInit {
   }
 
   voltarListar() {
-    this.ts.stateSN = false;
+    // this.ts.stateSN = false;
     this.hideExcluir.emit(true);
   }
-
-  voltar() {
-    this.ts.stateSN = false;
+  onToggleRow() {
+    this.toggleRow.emit(true);
   }
 
   fecharDialog() {
@@ -138,6 +138,9 @@ export class TarefaExcluirComponent implements OnInit {
             if (this.lazy) {
               this.ts.lazy = false;
             }
+            if (this.ts.expandidoSN) {
+              this.onToggleRow();
+            }
             sessionStorage.removeItem('tarefa-menu-dropdown');
             const idx = this.ts.tarefas.findIndex(o => o.tarefa_id === this.tarefa_id);
             this.ts.tarefas.splice(idx, 1);
@@ -154,7 +157,10 @@ export class TarefaExcluirComponent implements OnInit {
                 this.ts.selecionados.splice(dx,1);
               }
             }
-            this.ts.tabela.selectedColumns = undefined;
+            this.ts.tabela.celulas = [];
+            this.ts.expandidoSN = false;
+            this.ts.expandido = undefined;
+            // this.ts.tabela.selectedColumns = undefined;
             this.ts.tabela.totalRecords--;
             this.ms.add({
               key: 'toastprincipal',

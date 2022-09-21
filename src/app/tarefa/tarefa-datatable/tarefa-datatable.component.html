@@ -230,7 +230,7 @@
                 </button>
               </div>
 
-              <div *ngIf="ts.expandidoSN && permListHist && tarf.tarefa_usuario_situacao_andamento.length > 0"
+              <div *ngIf="tarf.tarefa_historico.length > 0"
                    class="p-mr-2">
                 <button
                   pButton
@@ -238,20 +238,20 @@
                   type="button"
                   icon="pi pi-list"
                   class="p-button-rounded p-button-cyan"
-                  pTooltip="Listar Andamentos da Proposição"
+                  pTooltip="Listar Andamentos da Tarefa"
                   tooltipPosition="top"
-                  (click)="andamentoAcao(indice, 'listar')"
+                  (click)="andamentoList(tarf, indice)"
                 >
                 </button>
               </div>
-              <div *ngIf="ts.expandidoSN && permInclHist" class="p-mr-2">
+              <div *ngIf="ts.expandidoSN" class="p-mr-2">
                 <button
                   pButton
                   pRipple
                   type="button"
                   icon="pi pi-file-o"
                   class="p-button-rounded p-button-cyan"
-                  pTooltip="Incluir Andamentos da Proposição"
+                  pTooltip="Incluir Andamentos da Tarefa"
                   tooltipPosition="top"
                   (click)="andamentoAcao(indice, 'incluir')"
                 >
@@ -344,14 +344,6 @@
               </div>
             </div>
           </div>
-            <!--<div class="p-grid">
-              <div *ngFor="let ce of ts.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registrostarefa p-shadow-1">
-                  <h5>{{ce.header}}</h5>
-                  <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
-                </div>
-              </div>
-            </div>-->
 
 
           </div>
@@ -463,6 +455,22 @@
     styleClass="tablistagem"
     header="TAREFA - APAGAR"
   >
-    <app-tarefa-excluir *ngIf="ts.showExcluir" (hideExcluir)="fechaApagar($event)"></app-tarefa-excluir>
+    <app-tarefa-excluir *ngIf="ts.showExcluir" (toggleRow)="onTogleRow($event)" (hideExcluir)="fechaApagar($event)"></app-tarefa-excluir>
+  </p-dialog>
+</ng-container>
+
+<!--*** LISTAR ANDAMENTO *******************************************************************************************-->
+<ng-container *ngIf="showHistorico">
+  <p-dialog
+    [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
+    [style]="{maxWidth: '1350px', width: '80vw'}"
+    [(visible)]="showHistorico"
+    [modal]="true"
+    [dismissableMask]="false"
+    [closable]="false"
+    styleClass="tablistagem"
+    header="TAREFA - ANDAMENTOS"
+  >
+    <app-tarefa-historico-listar *ngIf="showHistorico" [idx]="idx" [tarefa]="tarefaDetalhe" (fechar)="fecharListAnd($event)"></app-tarefa-historico-listar>
   </p-dialog>
 </ng-container>

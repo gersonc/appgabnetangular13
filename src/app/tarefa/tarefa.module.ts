@@ -41,6 +41,10 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {MultiSelectModule} from "primeng/multiselect";
 import {PickListModule} from "primeng/picklist";
 import { TarefaExcluirComponent } from './tarefa-excluir/tarefa-excluir.component';
+import { TarefaHistoricoListarComponent } from './tarefa-historico-listar/tarefa-historico-listar.component';
+import { TarefaHistoricoFormComponent } from './tarefa-historico-form/tarefa-historico-form.component';
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 
 @NgModule({
@@ -58,7 +62,9 @@ import { TarefaExcluirComponent } from './tarefa-excluir/tarefa-excluir.componen
     TarefaAtualizarFormComponent,
     TarefaSituacaoComponent,
     TarefaAtualizarAutorFormComponent,
-    TarefaExcluirComponent
+    TarefaExcluirComponent,
+    TarefaHistoricoListarComponent,
+    TarefaHistoricoFormComponent
   ],
     imports: [
         CommonModule,
@@ -87,7 +93,9 @@ import { TarefaExcluirComponent } from './tarefa-excluir/tarefa-excluir.componen
         ImpressaoModule,
         InputSwitchModule,
         MultiSelectModule,
-        PickListModule
+        PickListModule,
+        ConfirmPopupModule,
+        ConfirmDialogModule,
     ],
   exports: [
     TarefaComponent,

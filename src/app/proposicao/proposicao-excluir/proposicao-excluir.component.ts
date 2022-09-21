@@ -121,7 +121,7 @@ export class ProposicaoExcluirComponent implements OnInit, OnDestroy {
                 this.ps.selecionados.splice(dx,1);
               }
             }
-            this.ps.tabela.selectedColumns = undefined;
+            // this.ps.tabela.selectedColumns = undefined;
             this.ps.tabela.totalRecords--;
             this.ms.add({
               key: 'toastprincipal',
