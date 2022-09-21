@@ -47,10 +47,8 @@ export class TarefaFormService {
 
   parceTarefaForm(t: TarefaI): TarefaFormI {
     this.montaDD();
-    // this.tarefaListar = t;
     this.tarefa = {};
     let r: TarefaFormI = {};
-    this.tarefa = {};
     r.tarefa_id = +t.tarefa_id;
     r.tarefa_usuario_autor_id = t.tarefa_usuario_autor_id;
     r.tarefa_usuario2 = t.tarefa_usuario_situacao.map(u => {
@@ -76,6 +74,7 @@ export class TarefaFormService {
     r.email = 0;
     r.agenda = 0;
     r.tipo_listagem = 0;
+    r.alterar = false;
     this.tarefa = r;
 
     return r
@@ -100,28 +99,22 @@ export class TarefaFormService {
   }
 
   montaDDAlterar(): TarefaUsuarioAlterar[] {
-    console.log('this.ddUsuario_id',this.ddUsuario_id);
+    const sit: number = this.ddTarefa_situacao_id.findIndex(s => s.value === 1);
     const usertemp: SelectItem[] = this.ddUsuario_id.filter((obj) => {
       return this.tarefaListar.tarefa_usuario_situacao.findIndex(u => u.tus_usuario_id === obj.value) === -1;
     });
-    console.log('montaDDAlterar',usertemp);
     this.ddUsuarioAlterar = usertemp.map(u => {
       const a: TarefaUsuarioAlterar = {
         tus_id: 0,
         tus_tu_id: 0,
         tus_usuario_id: u.value,
         tu_usuario_nome: u.label,
-        tus_situacao_id: this.ddTarefa_situacao_id[0].value,
-        tus_situacao_nome: this.ddTarefa_situacao_id[0].label
+        tus_situacao_id: 1,
+        tus_situacao_nome: this.ddTarefa_situacao_id[sit].label
       }
       return a;
     });
-    console.log('montaDDAlterar',this.ddUsuarioAlterar);
     return this.ddUsuarioAlterar;
-  }
-
-  filtro(element: SelectItem, index, array): boolean {
-    return this.tarefaListar.tarefa_usuario_situacao.findIndex(u => u.tus_usuario_id === element.value) === -1;
   }
 
   montaDD() {

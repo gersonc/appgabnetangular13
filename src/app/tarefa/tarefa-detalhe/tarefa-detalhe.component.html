@@ -112,10 +112,10 @@
             </ng-container>
           </ng-container>
 
-          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0 && aut.arquivos_baixar" id="pdfarquivos">
+          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0" id="pdfarquivos">
             <th colspan="2">Arquivos</th>
           </tr>
-          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0 && aut.arquivos_baixar" id="pdfarquivos2">
+          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0r" id="pdfarquivos2">
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="tarefa.tarefa_arquivos"></app-detalhe-explorer>
             </td>

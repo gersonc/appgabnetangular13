@@ -91,7 +91,7 @@ export interface TarefaFormI {
   tarefa_tarefa?: string;
   tarefa_tarefa_delta?: string;
   tarefa_tarefa_texto?: string;
-  tarefa_usuario?: TarefaUsuarioFormI[];
+  // tarefa_usuario?: number[];
   tarefa_usuario2?: TarefaUsuarioAlterar[];
   tarefa_usuario_incluir?: TarefaUsuarioAlterar[];
   tarefa_usuario_excluir?: TarefaUsuarioAlterar[];
@@ -105,6 +105,7 @@ export interface TarefaFormI {
   email?: number;
   agenda?: number;
   tipo_listagem?: number;
+  alterar?: boolean;
 }
 
 export interface TarefaUsuarioAlterar {

@@ -40,6 +40,7 @@ import { TarefaAtualizarAutorFormComponent } from './tarefa-atualizar-autor-form
 import {InputSwitchModule} from "primeng/inputswitch";
 import {MultiSelectModule} from "primeng/multiselect";
 import {PickListModule} from "primeng/picklist";
+import { TarefaExcluirComponent } from './tarefa-excluir/tarefa-excluir.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import {PickListModule} from "primeng/picklist";
     TarefaUsuarioSituacaoAndamentoComponent,
     TarefaAtualizarFormComponent,
     TarefaSituacaoComponent,
-    TarefaAtualizarAutorFormComponent
+    TarefaAtualizarAutorFormComponent,
+    TarefaExcluirComponent
   ],
     imports: [
         CommonModule,

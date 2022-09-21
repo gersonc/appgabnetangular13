@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../_services";
 import {MsgService} from "../../_services/msg.service";
 import {Router} from "@angular/router";
@@ -12,7 +12,7 @@ import {take} from "rxjs/operators";
   templateUrl: './proposicao-excluir.component.html',
   styleUrls: ['./proposicao-excluir.component.css']
 })
-export class ProposicaoExcluirComponent implements OnInit {
+export class ProposicaoExcluirComponent implements OnInit, OnDestroy {
   botaoEnviarVF = false;
   public arquivoBlockSubmit = true;
   proposicao_id: number;
@@ -149,5 +149,7 @@ export class ProposicaoExcluirComponent implements OnInit {
   onBlockSubmit(ev) {
     this.botaoEnviarInativo = ev;
   }
+
+
 
 }

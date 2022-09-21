@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 import {TarefaI} from "../_models/tarefa-i";
 import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
 import {TarefaPrintService} from "../_services/tarefa-print.service";
+import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
@@ -45,7 +46,8 @@ export class TarefaDatatableComponent implements OnInit {
     private router: Router,
     public ts: TarefaService,
     public tfs: TarefaFormService,
-    public tp: TarefaPrintService
+    public tp: TarefaPrintService,
+    private ms: MsgService
   ) {
   }
 
@@ -230,7 +232,7 @@ export class TarefaDatatableComponent implements OnInit {
       {
         label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
         command: () => {
-          this.tarefaAlterar(this.ts.Contexto);
+          this.tarefaAlterar(this.ts.Contexto, this.ts.idx);
         }
       });
 
@@ -239,7 +241,7 @@ export class TarefaDatatableComponent implements OnInit {
       {
         label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
         command: () => {
-          this.tarefaApagar(this.ts.Contexto);
+          this.tarefaApagar(this.ts.Contexto, this.ts.idx);
         }
       });
 
@@ -298,25 +300,56 @@ export class TarefaDatatableComponent implements OnInit {
     this.tarefaDetalhe = null;
   }
 
-  tarefaAlterar(tar: TarefaI) {
-    this.ts.salvaState();
-    this.dtb.saveState();
-    this.ts.acaoForm = 'ALTERAR';
-    this.tfs.acao = 'alterar';
-    this.tfs.tarefaListar = tar;
-    this.tfs.parceTarefaForm(tar);
-    this.ts.showForm = true;
-  }
-
-  tarefaApagar(tar: TarefaI) {
-    if (this.permissaoApagarArquivo(tar)) {
-      this.ts.tarefaApagar = tar;
+  tarefaAlterar(tar: TarefaI, indice: number) {
+    if (+tar.tarefa_usuario_autor_id === +this.aut.usuario_id || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       this.ts.salvaState();
       this.dtb.saveState();
-      this.router.navigate(['/tarefa/apagar']);
+      this.ts.acaoForm = 'ALTERAR';
+      this.tfs.acao = 'alterar';
+      this.tfs.idx = indice;
+      this.tfs.tarefaListar = tar;
+      this.tfs.origem = 'listagem';
+      this.tfs.parceTarefaForm(tar);
+      this.ts.showForm = true;
     } else {
-      console.error('SEM PERMISSAO');
+      this.ms.add({
+        key: 'toastprincipal',
+        severity: 'warn',
+        summary: 'ATENÇÃO - SEM PERMISSÃO',
+        detail: 'Você não tem permissão para alterar esta tarefa.'
+      });
     }
+  }
+
+  tarefaApagar(tar: TarefaI, indice: number) {
+    if (+tar.tarefa_usuario_autor_id === +this.aut.usuario_id || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      if (this.permissaoApagarArquivo(tar)) {
+        this.ts.tarefaApagar = tar;
+        this.ts.salvaState();
+        this.dtb.saveState();
+        this.ts.acaoForm = 'APAGAR';
+        this.ts.idx = indice;
+        this.ts.showExcluir = true;
+      } else {
+        this.ms.add({
+          key: 'toastprincipal',
+          severity: 'warn',
+          summary: 'ATENÇÃO - SEM PERMISSÃO',
+          detail: 'Esta tarefa possui arquivo(s) anexado(s_ e você não tem permissão para apaga-lo(s).'
+        });
+      }
+    } else {
+      this.ms.add({
+        key: 'toastprincipal',
+        severity: 'warn',
+        summary: 'ATENÇÃO - SEM PERMISSÃO',
+        detail: 'Você não tem permissão para apagar esta tarefa.'
+      });
+    }
+  }
+
+  fechaApagar(ev: boolean) {
+    this.ts.showExcluir = false;
   }
 
   stripslashes(str?: string): string | null {

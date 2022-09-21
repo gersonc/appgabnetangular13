@@ -202,21 +202,6 @@
                 </button>
               </div>
 
-              <!--<div
-                *ngIf="(aut.tarefa_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn)" class="p-mr-2">
-                <button
-                  pButton
-                  pRipple
-                  type="button"
-                  icon="pi pi-percentage"
-                  class="p-button-rounded p-button-success"
-                  pTooltip="Atualizar"
-                  tooltipPosition="top"
-                  (click)="tarefaAtualizar(tarf)"
-                >
-                </button>
-              </div>-->
-
               <div class="p-mr-2">
                 <button
                   pButton
@@ -226,7 +211,7 @@
                   class="p-button-rounded p-button-warning"
                   pTooltip="Alterar"
                   tooltipPosition="top"
-                  (click)="tarefaAlterar(tarf)"
+                  (click)="tarefaAlterar(tarf, indice)"
                 >
                 </button>
               </div>
@@ -240,7 +225,7 @@
                   class="p-button-rounded p-button-danger"
                   pTooltip="Apagar"
                   tooltipPosition="top"
-                  (click)="tarefaApagar(tarf)"
+                  (click)="tarefaApagar(tarf, indice)"
                 >
                 </button>
               </div>
@@ -391,6 +376,9 @@
   <!--*** MENU *****************************************************************************************************-->
 </p-table>
 <!--*** FIM ********************************************************************************************************-->
+
+<!--*** MENU CONTGEXTO *********************************************************************************************-->
+<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 <p-dialog *ngIf="ts.tabela.mostraSeletor"
           id="seletor"
@@ -415,7 +403,8 @@
     </div>
   </p-footer>
 </p-dialog>
-<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+
+<!--*** DETALHES ***************************************************************************************************-->
 <ng-container *ngIf="showDetalhe">
   <p-dialog
     [(visible)]="showDetalhe"
@@ -429,6 +418,8 @@
     <app-tarefa-detalhe *ngIf="showDetalhe" [tarefa]="tarefaDetalhe" (hideDetalhe)="fechaDetalhes($event)" (onImprimir)="imprimirTarefa($event)" (gerarPdf)="onGerarPdfTarefa($event)"></app-tarefa-detalhe>
   </p-dialog>
 </ng-container>
+
+<!--*** SITUAÇÃO ***************************************************************************************************-->
 <ng-container *ngIf="ts.showTusForm">
   <p-dialog
     [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
@@ -443,6 +434,8 @@
     <app-tarefa-atualizar-form *ngIf="ts.showTusForm" (fechar)="fechaTusForm($event)"></app-tarefa-atualizar-form>
   </p-dialog>
 </ng-container>
+
+<!--*** SIT. AUTOR *************************************************************************************************-->
 <ng-container *ngIf="ts.showSitForm">
   <p-dialog
     [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
@@ -458,3 +451,18 @@
   </p-dialog>
 </ng-container>
 
+<!--*** EXCLUIR ****************************************************************************************************-->
+<ng-container *ngIf="ts.showExcluir">
+  <p-dialog
+    [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
+    [style]="{maxWidth: '1350px', width: '80vw'}"
+    [(visible)]="ts.showExcluir"
+    [modal]="true"
+    [dismissableMask]="false"
+    [closable]="false"
+    styleClass="tablistagem"
+    header="TAREFA - APAGAR"
+  >
+    <app-tarefa-excluir *ngIf="ts.showExcluir" (hideExcluir)="fechaApagar($event)"></app-tarefa-excluir>
+  </p-dialog>
+</ng-container>

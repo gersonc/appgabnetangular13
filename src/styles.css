@@ -16899,7 +16899,23 @@ small.ng-invalid {
   font-weight: bold;
 }
 
-.formulario .p-field > label.ng-invalid {
+
+.ng-invalid .ng-dirty > label {
+  color: var(--danger);
+}
+
+.ng-invalid .ng-dirty > h5 {
+  color: var(--danger);
+}
+
+
+/*
+.ng-invalid.ng-dirty > label {
+  color: green !important;
+}
+*/
+
+.formulario .p-field .ng-invalid.ng-dirty > h5 {
   color: var(--invalid) !important;
 }
 
@@ -18372,6 +18388,10 @@ p-scrollPanel.tf-detalhe {
   height: 70vh;
 }
 
+p-scrollPanel.tf-detalhe-excluir {
+  width: 100%;
+}
+
 .tf-td {
   display: block;
 }
@@ -18503,6 +18523,10 @@ div.form-picklist2 {
   width: 100%;
 }
 
+.form-picklist .pick-error {
+  border: 1px solid var(--invalid);
+}
+
 .formulariopick .p-picklist-list {
   border: 1px solid var(--surface-c-border);
   background: var(--surface-a);
@@ -18541,6 +18565,14 @@ div.form-picklist2 {
   border-color: var(--bt-secundario-bg);
 }
 
+.formulariopick.pick-error .p-picklist-buttons {
+  background: var(--invalid);
+}
+
+.formulariopick.pick-error .p-picklist-list {
+  border: 1px solid var(--invalid);
+}
+
 .pickformitem-row{
   /*display: block;*/
   /*box-sizing: border-box;*/
@@ -18560,4 +18592,68 @@ div.form-picklist2 {
   padding-left: .5rem;
   padding-right: .5rem;
   float: left;
+}
+
+.p-col-1 .ng-invalid.ng-dirty,
+.p-col-2 .ng-invalid.ng-dirty,
+.p-col-3 .ng-invalid.ng-dirty,
+.p-col-4 .ng-invalid.ng-dirty,
+.p-col-5 .ng-invalid.ng-dirty,
+.p-col-6 .ng-invalid.ng-dirty,
+.p-col-7 .ng-invalid.ng-dirty,
+.p-col-8 .ng-invalid.ng-dirty,
+.p-col-9 .ng-invalid.ng-dirty,
+.p-col-10 .ng-invalid.ng-dirty,
+.p-col-11 .ng-invalid.ng-dirty,
+.p-col-12 .ng-invalid.ng-dirty,
+.p-sm-1 .ng-invalid.ng-dirty,
+.p-sm-2 .ng-invalid.ng-dirty,
+.p-sm-3 .ng-invalid.ng-dirty,
+.p-sm-4 .ng-invalid.ng-dirty,
+.p-sm-5 .ng-invalid.ng-dirty,
+.p-sm-6 .ng-invalid.ng-dirty,
+.p-sm-7 .ng-invalid.ng-dirty,
+.p-sm-8 .ng-invalid.ng-dirty,
+.p-sm-9 .ng-invalid.ng-dirty,
+.p-sm-10 .ng-invalid.ng-dirty,
+.p-sm-11 .ng-invalid.ng-dirty,
+.p-sm-12 .ng-invalid.ng-dirty,
+.p-md-1 .ng-invalid.ng-dirty,
+.p-md-2 .ng-invalid.ng-dirty,
+.p-md-3 .ng-invalid.ng-dirty,
+.p-md-4 .ng-invalid.ng-dirty,
+.p-md-5 .ng-invalid.ng-dirty,
+.p-md-6 .ng-invalid.ng-dirty,
+.p-md-7 .ng-invalid.ng-dirty,
+.p-md-8 .ng-invalid.ng-dirty,
+.p-md-9 .ng-invalid.ng-dirty,
+.p-md-10 .ng-invalid.ng-dirty,
+.p-md-11 .ng-invalid.ng-dirty,
+.p-md-12 .ng-invalid.ng-dirty,
+.p-lg-1 .ng-invalid.ng-dirty,
+.p-lg-2 .ng-invalid.ng-dirty,
+.p-lg-3 .ng-invalid.ng-dirty,
+.p-lg-4 .ng-invalid.ng-dirty,
+.p-lg-5 .ng-invalid.ng-dirty,
+.p-lg-6 .ng-invalid.ng-dirty,
+.p-lg-7 .ng-invalid.ng-dirty,
+.p-lg-8 .ng-invalid.ng-dirty,
+.p-lg-9 .ng-invalid.ng-dirty,
+.p-lg-10 .ng-invalid.ng-dirty,
+.p-lg-11 .ng-invalid.ng-dirty,
+.p-lg-12 .ng-invalid.ng-dirty,
+.p-xl-1 .ng-invalid.ng-dirty,
+.p-xl-2 .ng-invalid.ng-dirty,
+.p-xl-3 .ng-invalid.ng-dirty,
+.p-xl-4 .ng-invalid.ng-dirty,
+.p-xl-5 .ng-invalid.ng-dirty,
+.p-xl-6 .ng-invalid.ng-dirty,
+.p-xl-7 .ng-invalid.ng-dirty,
+.p-xl-8 .ng-invalid.ng-dirty,
+.p-xl-9 .ng-invalid.ng-dirty,
+.p-xl-10 .ng-invalid.ng-dirty,
+.p-xl-11 .ng-invalid.ng-dirty,
+.p-xl-12 .ng-invalid.ng-dirty{
+  border: 1px solid var(--invalid);
+  border-radius: 5px;
 }

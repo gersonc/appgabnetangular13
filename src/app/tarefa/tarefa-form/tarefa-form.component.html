@@ -1,6 +1,12 @@
 <div class="formulario" style="background-color: var(--formulario-bg-externo-color);">
   <form [formGroup]="formTarefa" (ngSubmit)="onSubmit()">
     <input
+      *ngIf="tfs.acao=='alterar'"
+      type="hidden"
+      id="tarefa_id"
+      formControlName="tarefa_id"
+    >
+    <input
       *ngIf="!autAdmin"
       type="hidden"
       id="processoid2"
@@ -25,7 +31,7 @@
                 <!-- tarefa_situacao_nome -->
                 <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" *ngIf="tfs.acao=='alterar'">
                   <h5>Situação</h5>
-                  <div [style.backgroundColor]="fcor(tfs.tarefaListar.tarefa_situacao_id)"
+                  <div [ngClass]="rowColor(tfs.tarefaListar.tarefa_situacao_id)"
                        style="padding-left: 5px; padding-right: 5px;">{{tfs.tarefaListar.tarefa_situacao_nome}}</div>
                 </div>
 
@@ -140,13 +146,20 @@
                   <p-inputSwitch formControlName="email" id="email"></p-inputSwitch>
                 </div>
 
-                <div *ngIf="tfs.acao=='alterar' && autAdmin" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" [ngClass]="aplicaCssErro('tarefa_usuario_id')">
+                <div *ngIf="tfs.acao=='alterar' && autAdmin" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" [ngClass]="aplicaCssErroPick2()">
                   <div class="p-d-flex p-jc-center">
                     <div class="form-picklist2">
                       <h5><span class="atencao">*</span>Demandado(s)</h5>
-                      <div class="form-picklist">
-                        <p-pickList [source]="ddUsuarioAlterar" [target]="tfs.tarefa.tarefa_usuario2" [dragdrop]="true"
-                                    id="tarefa_usuario_id2" styleClass="formulariopick">
+                      <div class="form-picklist" [ngClass]="aplicaCssErroPick2()">
+                        <p-pickList
+                          [source]="ddUsuarioAlterar"
+                          [target]="tarefa_usuario2"
+                          [dragdrop]="true"
+                          (onMoveToSource)="onMoveToSource($event)"
+                          (onMoveToTarget)="onMoveToTarget($event)"
+                          id="tarefa_usuario_id2"
+                          [ngClass]="aplicaCssErroPick()"
+                        >
                           <ng-template let-col pTemplate="item">
                             <div class="pickformitem-row" [ngClass]="rowColor(col.tus_situacao_id)">
                               <div class="pickformitem2">
@@ -157,7 +170,7 @@
                           </ng-template>
                         </p-pickList>
                       </div>
-                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('tarefa_usuario_id')"
+                      <app-campo-control-erro [mostrarErro]="pickErro"
                                               msgErro="Demandado(s) é obrigatório."></app-campo-control-erro>
                     </div>
                   </div>
@@ -276,7 +289,7 @@
                       pButton
                       type="submit"
                       class="p-button-rounded"
-                      [disabled]="!formTarefa.valid || botaoEnviarVF"
+                      [disabled]="!formTarefa.valid || botaoEnviarVF || pickErro"
                       label="Enviar"
                     ></button>
                   </div>

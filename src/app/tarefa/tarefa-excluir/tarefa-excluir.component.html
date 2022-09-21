@@ -1,0 +1,202 @@
+<p-scrollPanel class="tf-detalhe">
+  <div class="formulario externo">
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+          <span class="formulario-titulo">TAREFA - APAGAR</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+
+          <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="p-field p-col-12">
+
+
+              <table class="tab-tarefa" #tabtarefa id="tabtarefa">
+                <!--<caption>TAREFA</caption>-->
+                <thead>
+                <tr>
+                  <th colspan="2">
+                    TAREFA
+                  </th>
+                </tr>
+                </thead>
+                <tbody class="tab-tarefa">
+                <tr>
+                  <th colspan="2">
+                    Titulo:
+                  </th>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    {{ts.tarefaApagar.tarefa_titulo}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Data do pedido:
+                  </th>
+                  <th>
+                    Prazo:
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    {{ts.tarefaApagar.tarefa_datahora}}
+                  </td>
+                  <td>
+                    {{ts.tarefaApagar.tarefa_data}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Situação:
+                  </th>
+                  <th>
+                    Autor:
+                  </th>
+                </tr>
+                <tr>
+                  <td [ngClass]="fcor(ts.tarefaApagar.tarefa_situacao_id)">
+                    {{ts.tarefaApagar.tarefa_situacao_nome}}
+                  </td>
+                  <td>
+                    {{ts.tarefaApagar.tarefa_usuario_autor_nome}}
+                  </td>
+                </tr>
+                <tr *ngIf="ts.tarefaApagar.tarefa_tarefa">
+                  <th colspan="2">
+                    Tarefa:
+                  </th>
+                </tr>
+                <tr *ngIf="ts.tarefaApagar.tarefa_tarefa" class="novaPagina">
+                  <td colspan="2" class="tf-kill">
+                    <quill-view [content]="stripslashes(ts.tarefaApagar.tarefa_tarefa)" [format]="'html'" theme="snow"></quill-view>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Demandados:
+                  </th>
+                  <th>
+                    Situação:
+                  </th>
+                </tr>
+                <tr *ngFor="let tus of ts.tarefaApagar.tarefa_usuario_situacao">
+                  <td [ngClass]="fcor(tus.tus_situacao_id)">
+                    {{tus.tu_usuario_nome}}
+                  </td>
+                  <td [ngClass]="fcor(tus.tus_situacao_id)">
+                    {{tus.tus_situacao_nome}}
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2">Andamentos - Demandados - Situação</th>
+                </tr>
+
+                <ng-container *ngFor="let us of ts.tarefaApagar.tarefa_usuario_situacao_andamento">
+                  <tr>
+                    <td [ngClass]="fcor(us.tus_situacao_id)">
+                      {{us.tu_usuario_nome}}
+                    </td>
+                    <td [ngClass]="fcor(us.tus_situacao_id)">
+                      {{us.tus_situacao_nome}}
+                    </td>
+                  </tr>
+                  <ng-container *ngIf="us.tarefa_historico.length > 0">
+                    <tr *ngFor="let hi of us.tarefa_historico">
+                      <td colspan="2">
+                        <div class="tf-td">
+                          <div class="tf-td2">
+                            {{hi.th_data}}
+                          </div>
+                          <div class="tf-td8">
+                            <quill-view [content]="stripslashes(hi.th_historico)" [format]="'html'" theme="snow"></quill-view>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+
+                <tr *ngIf="ts.tarefaApagar.tarefa_arquivos.length > 0" id="pdfarquivos">
+                  <th colspan="2">Arquivos</th>
+                </tr>
+                <tr *ngIf="ts.tarefaApagar.tarefa_arquivos.length > 0" id="pdfarquivos2">
+                  <td colspan="2">
+                    <app-detalhe-explorer [arquivos]="ts.tarefaApagar.tarefa_arquivos"></app-detalhe-explorer>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+
+
+            </div>
+          </div>
+
+        </div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+    </div>
+
+    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+
+            <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+              <div class="p-col-12 formulario">
+                <!--*** Botões ***-->
+                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      [disabled]="botaoEnviarInativo"
+                      type="button"
+                      class="p-button-rounded p-button-danger"
+                      (click)="showDialog()"
+                      label="APAGAR"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      [disabled]="botoesInativos"
+                      label="Voltar"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="p-fluid formulario-bg-externo">
+      <div class="p-grid formulario-bg-externo">
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+      </div>
+    </div>
+  </div>
+</p-scrollPanel>
+<p-dialog header="ATENÇÃO" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000" styleClass="tablistagem">
+  <p>{{msg}}</p>
+  <p-footer>
+    <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-check" (click)="excluirTarefa()" label="Sim"></button>
+    <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-close" (click)="fecharDialog()" label="Não"></button>
+  </p-footer>
+</p-dialog>

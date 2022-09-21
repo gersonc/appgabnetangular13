@@ -58,6 +58,7 @@ export class TarefaService {
   tTit = new TarefaTitulo();
   showTusForm = false;
   showSitForm = false;
+  showExcluir = false;
   // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
   iTitulos: ITitulos[] | null = null;
@@ -632,7 +633,7 @@ export class TarefaService {
   }
 
   alterarTarefa(dados: TarefaFormI): Observable<any[]> {
-    const url = this.url.tarefa;
+    const url = this.url.tarefa + '/alterar';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
@@ -654,9 +655,8 @@ export class TarefaService {
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
-  excluirTarefa(tarefa_id: number, todos: boolean): Observable<any[]> {
-    const td: string = todos ? '/t' : '/';
-    const url = this.url.tarefa + td + tarefa_id;
+  excluirTarefa(tarefa_id: number): Observable<any[]> {
+    const url = this.url.tarefa + '/' + tarefa_id;
     return this.http.delete<any[]>(url);
   }
 
