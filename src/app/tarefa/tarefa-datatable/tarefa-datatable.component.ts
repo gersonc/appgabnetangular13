@@ -33,6 +33,7 @@ export class TarefaDatatableComponent implements OnInit {
   idx = -1;
   acaoHistorico = '';
   showHistorico = false;
+  showIncluirHistorico = false;
   histFormI?: TarefaHistoricoI;
   cssMostra: string | null = null;
 /*  permListHist: boolean = true;
@@ -364,11 +365,10 @@ export class TarefaDatatableComponent implements OnInit {
     return Stripslashes(str)
   }
 
-  andamentoAcao(idx: number, acao: string) {
-    this.acaoHistorico = acao;
-    this.idx = idx;
-    this.showHistorico = true;
-    this.mostraDialog(true);
+  andamentoIncluir(tar: TarefaI, indice: number) {
+    this.tarefaDetalhe = tar;
+    this.idx = indice;
+    this.showIncluirHistorico = true;
   }
 
   andamentoList(tar: TarefaI, indice: number) {
@@ -381,6 +381,12 @@ export class TarefaDatatableComponent implements OnInit {
     this.tarefaDetalhe = undefined;
     this.idx = 0;
     this.showHistorico = false;
+  }
+
+  fecharIncluirAnd(ev) {
+    this.tarefaDetalhe = undefined;
+    this.idx = 0;
+    this.showIncluirHistorico = false;
   }
 
   permissaoApagarArquivo(tar: TarefaI): boolean {

@@ -667,7 +667,7 @@ export class TarefaService {
   }
 
   incluirAndamento(dados: TarefaHistoricoI): Observable<any[]> {
-    const url = this.url.tarefa + '/andamento/incluir';
+    const url = this.url.tarefa + '/andamento';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }

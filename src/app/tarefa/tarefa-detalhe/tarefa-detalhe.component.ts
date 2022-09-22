@@ -44,6 +44,7 @@ export class TarefaDetalheComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('detalhe', this.tarefa);
   }
 
 

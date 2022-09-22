@@ -66,7 +66,7 @@
                   [kill]="{html: tarefa.tarefa_tarefa, delta: tarefa.tarefa_tarefa_delta}"></app-kill-view>
             </td>
           </tr>
-          <tr>
+          <!--<tr>
             <th>
               Demandados:
             </th>
@@ -81,8 +81,8 @@
             <td [ngClass]="fcor(tus.tus_situacao_id)">
               {{tus.tus_situacao_nome}}
             </td>
-          </tr>
-          <tr>
+          </tr>-->
+          <tr *ngIf="tarefa.tarefa_usuario_situacao_andamento.length > 0">
             <th colspan="2">Andamentos - Demandados - Situação</th>
           </tr>
 
@@ -112,10 +112,40 @@
             </ng-container>
           </ng-container>
 
+          <!--<ng-container *ngIf="tarefa.tarefa_historico.length > 0">
+            <tr>
+              <td colspan="2" class="tfth">
+                <div class="tf-td">
+                  <div class="tf-th3">
+                    <span style="padding-right: 6.65em;">Data</span> Demandado
+                  </div>
+                  <div class="tf-th7">
+                    Andamento
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let hi of tarefa.tarefa_historico">
+              <td colspan="2" class="tfth">
+                <div class="tf-td">
+                  <div class="tf-td3">
+                    {{hi.th_data}}  {{hi.th_usuario_nome}}
+                  </div>
+                  <div class="tf-td7">
+                    <app-kill-view
+                      [kill]="{html: hi.th_historico, delta: hi.th_historico_delta}"></app-kill-view>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>-->
+
+
+
           <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0" id="pdfarquivos">
             <th colspan="2">Arquivos</th>
           </tr>
-          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0r" id="pdfarquivos2">
+          <tr *ngIf="pdfOnOff && tarefa.tarefa_arquivos.length > 0" id="pdfarquivos2">
             <td colspan="2">
               <app-detalhe-explorer [arquivos]="tarefa.tarefa_arquivos"></app-detalhe-explorer>
             </td>

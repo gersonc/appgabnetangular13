@@ -47,6 +47,12 @@ export class TarefaHistoricoFormComponent implements OnInit, OnDestroy {
     ]
   };
 
+  arquivoDesativado = false;
+  enviarArquivos = false;
+  clearArquivos = false;
+  arquivo_registro_id = 0;
+  possuiArquivos = false;
+
 
   constructor(
     public ts: TarefaService,
@@ -72,9 +78,12 @@ export class TarefaHistoricoFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.botaoEnviarVF = true;
     const h = this.criaEnvio();
     if (h !== null) {
       this.incluir(h);
+    } else {
+      this.botaoEnviarVF = false
     }
   }
 
@@ -96,7 +105,7 @@ export class TarefaHistoricoFormComponent implements OnInit, OnDestroy {
 
   incluir(h: TarefaHistoricoI) {
     this.lazy = this.ts.lazy;
-    this.sub.push(this.ts.incluirAndamento(this.criaEnvio())
+    this.sub.push(this.ts.incluirAndamento(h)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
@@ -132,7 +141,16 @@ export class TarefaHistoricoFormComponent implements OnInit, OnDestroy {
               });
             }
 
-            this.ts.tarefas.push(p);
+            this.ts.tarefas[this.idx] = p;
+
+            if (this.ts.expandidoSN) {
+              const ev: any = {
+                originalEvent: null,
+                data: p
+              };
+              this.ts.onRowExpand(ev);
+            }
+
 
             this.ms.add({
               key: 'toastprincipal',
@@ -151,6 +169,14 @@ export class TarefaHistoricoFormComponent implements OnInit, OnDestroy {
 
   onFechar() {
     this.fechar.emit(true);
+  }
+
+  onBlockSubmit(ev: boolean) {
+    this.botaoEnviarVF = false;
+  }
+
+  onPossuiArquivos(ev) {
+    this.possuiArquivos = ev;
   }
 
   ngOnDestroy(): void {

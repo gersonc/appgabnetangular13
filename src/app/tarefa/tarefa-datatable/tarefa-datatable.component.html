@@ -14,10 +14,10 @@
          [(selection)]="ts.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
-         [autoLayout]="false"
+         [autoLayout]="true"
          columnResizeMode="expand"
          [rowHover]="true"
-         [responsive]="false"
+         [responsive]="true"
          rowExpandMode="single"
          [(first)]="ts.tabela.first"
          [(contextMenuSelection)]="ts.Contexto"
@@ -96,18 +96,17 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col style="width: 3.5em" pResizableColumnDisabled>
-      <col *ngFor="let col of columns">
+      <col style="width: 2rem;" pResizableColumnDisabled>
+      <col *ngFor="let col of columns" [style.width]="col.width">
     </colgroup>
   </ng-template>
 
   <ng-template pTemplate="header" let-columns>
     <tr class="tarefa-print">
-      <th style="width: 3.5em;" pResizableColumnDisabled></th>
+      <th style="width: 2rem;" pResizableColumnDisabled></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [pSortableColumnDisabled]="col.field ==='tarefa_usuario_situacao' || col.field ==='tarefa_usuario_situacao_andamento'"
-          [style.width]="col.width"
           pReorderableColumn
           pResizableColumn
       >
@@ -127,8 +126,14 @@
       class="p-selectable-row tarefa-print"
     >
 
-      <td style="width: 3.5em" pResizableColumnDisabled>
-        <button
+      <td style="width: 2rem;" pResizableColumnDisabled>
+        <i
+          [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          [pTooltip]="expanded ? 'Recolher' : 'Expandir'"
+          tooltipPosition="top"
+          [pRowToggler]="tarf"
+        ></i>
+        <!--<button
           type="button"
           pButton pRipple
           [pTooltip]="expanded ? 'Recolher' : 'Expandir'"
@@ -136,10 +141,10 @@
           [pRowToggler]="tarf"
           class="p-button-rounded  p-button-text p-button-sm"
           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-        ></button>
+        ></button>-->
       </td>
 
-      <td *ngFor="let col of columns" [style.width]="col.width" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
+      <td *ngFor="let col of columns" [ngClass]="rowStyle(col.field, tarf.tarefa_situacao_id)">
         <ng-container *ngIf="col.field==='tarefa_situacao_nome'">
           <app-tarefa-situacao
             [tarefa]="tarf"
@@ -244,7 +249,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="ts.expandidoSN" class="p-mr-2">
+              <div class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -253,7 +258,7 @@
                   class="p-button-rounded p-button-cyan"
                   pTooltip="Incluir Andamentos da Tarefa"
                   tooltipPosition="top"
-                  (click)="andamentoAcao(indice, 'incluir')"
+                  (click)="andamentoIncluir(tarf, indice)"
                 >
                 </button>
               </div>
@@ -472,5 +477,21 @@
     header="TAREFA - ANDAMENTOS"
   >
     <app-tarefa-historico-listar *ngIf="showHistorico" [idx]="idx" [tarefa]="tarefaDetalhe" (fechar)="fecharListAnd($event)"></app-tarefa-historico-listar>
+  </p-dialog>
+</ng-container>
+
+<!--*** INCLUIR ANDAMENTO *******************************************************************************************-->
+<ng-container *ngIf="showIncluirHistorico">
+  <p-dialog
+    [breakpoints]="{'1400px': '1350px', '1300px': '100vw', '1200px': '100vw', '1000px': '100vw', '640px': '100vw'}"
+    [style]="{maxWidth: '1350px', width: '80vw'}"
+    [(visible)]="showIncluirHistorico"
+    [modal]="true"
+    [dismissableMask]="false"
+    [closable]="false"
+    styleClass="tablistagem"
+    header="TAREFA - ANDAMENTOS"
+  >
+    <app-tarefa-historico-form *ngIf="showIncluirHistorico" [idx]="idx" [tarefa]="tarefaDetalhe" (fechar)="fecharIncluirAnd($event)"></app-tarefa-historico-form>
   </p-dialog>
 </ng-container>

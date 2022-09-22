@@ -17909,7 +17909,6 @@ p-toast.toastprincipal {
   cursor: pointer;
 }
 
-
 .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.tstatus-1 {
   padding: 0 !important;
 }
@@ -18000,7 +17999,14 @@ td.tstatus-0 {
 
 .tarefa .p-datatable-tbody {
   vertical-align: top !important;
+}
 
+.tarefa .p-datatable-tbody {
+  padding: 0 0.5rem !important;
+}
+
+.tarefa .p-datatable-tbody > tr > td {
+  padding: 0 0.5rem !important;
 }
 
 .tabtarefa.p-datatable-sm table, .tabtarefa.p-datatable-sm tr, .tabtarefa.p-datatable-sm td {
@@ -18146,7 +18152,7 @@ div.tarefainterno {
 }
 
 div.tarefainternospc {
-  height: .2rem;
+  height: 1px;
   width: 100%;
   background-color: transparent;
 }
@@ -18241,7 +18247,7 @@ div.tarefa-historico {
 
 .tusa .row,
 .tusa .cell {
-  padding: .3rem .5rem;
+  padding: 1px .5rem;
 }
 
 .tua {
@@ -18307,6 +18313,10 @@ div.tarefa-historico {
   overflow: visible;
 }
 
+.tf-sit {
+  width: 100%;
+  padding: 0 .5rem;
+}
 
 
 .tus .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
@@ -18408,8 +18418,55 @@ p-scrollPanel.tf-detalhe-excluir {
   padding-right: .5rem;
   border-left: 1px solid var(--surface-400);
   width: calc(100% - 12em);
+
+}
+
+.tf-td3 {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  width: 23em;
+  max-width: 33%;
+  text-wrap: normal;
+  float: left;
+  height: 100%;
+}
+
+.tf-th3 {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  width: 23em;
+  max-width: 33%;
+  text-wrap: none;
+  font-weight: bold;
+  background-color: var(--fundotabela);
+  float: left;
+}
+
+.tf-td7 {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-left: 1px solid var(--surface-400);
+  width: calc(100% - 23em);
+  min-width: 67%;
   float: right;
 }
+
+.tf-th7 {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  width: calc(100% - 23em);
+  min-width: 67%;
+  border-left: 1px solid var(--surface-400);
+  text-wrap: none;
+  font-weight: bold;
+  background-color: var(--fundotabela);
+  float: left;
+}
+
+.tab-tarefa td.tfth, .tab-tarefa th.tfth {
+  padding: unset
+}
+
 
 td.tf-kill .ql-editor {
   padding: 0 !important;
@@ -18417,7 +18474,10 @@ td.tf-kill .ql-editor {
 .tf-td8 .ql-editor {
   padding: 0 !important;
 }
-
+.tf-td7 .ql-editor {
+  padding: 0 !important;
+  font-weight: 600;
+}
 
 @media print {
   .tab-tarefa{
