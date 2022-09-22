@@ -5,11 +5,13 @@ import { Rule, Scope } from '../_models';
 import { CadastroAlterarComponent } from './cadastro-alterar';
 import { CadastroDetalheComponent } from './cadastro-detalhe';
 import { CadastroIncluirComponent } from './cadastro-incluir';
-import { CadastroListarResolver, CadastroFormResolver, CadastroExcluirResolver } from './_resolvers';
 import { CadastroExcluirComponent } from './cadastro-excluir';
 import { CadastroComponent } from './cadastro.component';
 import { CadastroDatatableComponent } from './cadastro-datatable';
 import { CadastroSmsDatatableComponent } from './cadastro-sms-datatable';
+import {CadastroFormResolver} from "./_resolvers/cadastro-form.resolver";
+import {CadastroExcluirResolver} from "./_resolvers/cadastro-excluir.resolver";
+import {CadastroListarResolver} from "./_resolvers/cadastro-listar.resolver";
 
 const cadastroRoutes: Routes = [
   {
