@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UrlService} from "./url.service";
 import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
+import {SelectItem} from "primeng/api";
 
 
 @Injectable({
@@ -10,6 +11,69 @@ import {take} from "rxjs/operators";
 })
 export class DdService {
   private sub: Subscription[] = [];
+
+  meses: SelectItem[] = [
+    { label: 'JANEIRO', value: '01' },
+    { label: 'FEVEREIRO', value: '02' },
+    { label: 'MARÇO', value: '03' },
+    { label: 'ABRIL', value: '04' },
+    { label: 'MAIO', value: '05' },
+    { label: 'JUNHO', value: '06' },
+    { label: 'JULHO', value: '07' },
+    { label: 'AGOSTO', value: '08' },
+    { label: 'SETEMBRO', value: '09' },
+    { label: 'OUTUBRO', value: '10' },
+    { label: 'NOVEMBRO', value: '11' },
+    { label: 'DEZEMBRO', value: '12' }
+  ];
+  dias: SelectItem[] = [
+    { label: '01', value: '01' },
+    { label: '02', value: '02' },
+    { label: '03', value: '03' },
+    { label: '04', value: '04' },
+    { label: '05', value: '05' },
+    { label: '06', value: '06' },
+    { label: '07', value: '07' },
+    { label: '08', value: '08' },
+    { label: '09', value: '09' },
+    { label: '10', value: '10' },
+    { label: '11', value: '11' },
+    { label: '12', value: '12' },
+    { label: '13', value: '13' },
+    { label: '14', value: '14' },
+    { label: '15', value: '15' },
+    { label: '16', value: '16' },
+    { label: '17', value: '17' },
+    { label: '18', value: '18' },
+    { label: '19', value: '19' },
+    { label: '20', value: '20' },
+    { label: '21', value: '21' },
+    { label: '22', value: '22' },
+    { label: '23', value: '23' },
+    { label: '24', value: '24' },
+    { label: '25', value: '25' },
+    { label: '26', value: '26' },
+    { label: '27', value: '27' },
+    { label: '28', value: '28' },
+    { label: '29', value: '29' },
+    { label: '30', value: '30' },
+    { label: '31', value: '31' }
+  ];
+  quinzena: SelectItem[] = [
+    { label: '1' + decodeURI('\xAA'), value: '15' },
+    { label: '2' + decodeURI('\xAA'), value: '31' }
+  ];
+  sexo: SelectItem[] = [
+    { label: 'MASCULINO', value: 'M' },
+    { label: 'FEMININO', value: 'F' },
+    { label: 'OUTROS', value: 'O' },
+    { label: 'PJ', value: 'P' }
+  ];
+  snTodos: SelectItem[] = [
+    { label: 'TODOS', value: '0' },
+    { label: 'SIM', value: '1' },
+    { label: 'NÃO', value: '2' }
+  ];
 
   constructor(
     private http: HttpClient,

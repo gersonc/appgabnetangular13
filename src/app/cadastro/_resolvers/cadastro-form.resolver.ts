@@ -2,248 +2,142 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import {CarregadorService, DropdownService} from '../../_services';
-import { DropdownnomeidClass, DropdownsonomearrayClass } from '../../_models';
 import { CadastroFormulario, CadastroFormularioInterface } from '../_models';
 import { CadastroService } from '../_services';
 import { SelectItem, SelectItemGroup} from 'primeng/api';
+import {DdService} from "../../_services/dd.service";
+import {CadastroFormService} from "../_services/cadastro-form.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CadastroFormResolver implements Resolve<CadastroFormularioInterface> {
-  private ddNomeIdArray = new DropdownnomeidClass();
-  private ddSoNomeArray = new DropdownsonomearrayClass();
+export class CadastroFormResolver implements Resolve<boolean | never> {
   private sub: Subscription[] = [];
-  private resp = new Subject<CadastroFormularioInterface>();
-  private resp$ = this.resp.asObservable();
+  resp: Subject<boolean>;
+  resp$: Observable<boolean>
   private cf = new CadastroFormulario();
   private cadastro_id = 0;
 
+  ddCadastroSexo: SelectItem[] = [
+    {label: 'MASCULINO', value: 'M'},
+    {label: 'FEMININO', value: 'F'},
+    {label: 'OUTROS', value: 'O'},
+    {label: 'PJ', value: 'P'}
+  ];
+
+  dds: string[] = [];
+  ct = 0;
+  private contador = 0;
+
   constructor(
     private router: Router,
-    private dd: DropdownService,
+    private dd: DdService,
+    private cfs: CadastroFormService,
     private cadastroService: CadastroService,
   ) { }
 
 
-  populaDados() {
+  espera(v: boolean) {
+    this.resp.next(v);
+    this.resp.complete();
+  }
+
+
+  carregaDropDown(): boolean {
+
+    this.dds = [];
+    this.resp = new Subject<boolean>();
+    this.resp$ = this.resp.asObservable();
+
+    // ****** sexo *****
     if (!sessionStorage.getItem('dropdown-sexo')) {
-      const ddSexo = [
-        { label: 'Masculino', value: 'M' },
-        { label: 'Feminino', value: 'F' },
-        { label: 'Não Aplicavel', value: 'S' }
-      ];
-      sessionStorage.setItem('dropdown-sexo', JSON.stringify(ddSexo));
+      sessionStorage.setItem('dropdown-sexo', JSON.stringify(this.ddCadastroSexo));
+    }
+    // ****** tipo_cadastro *****
+    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
+      this.dds.push('dropdown-tipo_cadastro');
+    }
+    // ****** tratamento_nome *****
+    if (!sessionStorage.getItem('dropdown-tratamento')) {
+      this.dds.push('dropdown-tratamento');
+    }
+    // ****** grupo_nome *****
+    if (!sessionStorage.getItem('dropdown-grupo')) {
+      this.dds.push('dropdown-grupo');
+    }
+    // ****** municipio_nome *****
+    if (!sessionStorage.getItem('dropdown-municipio')) {
+      this.dds.push('dropdown-municipio');
+    }
+    // ****** regiao_nome *****
+    if (!sessionStorage.getItem('dropdown-regiao')) {
+      this.dds.push('dropdown-regiao');
+    }
+    // ****** estado_nome *****
+    if (!sessionStorage.getItem('dropdown-estado')) {
+      this.dds.push('dropdown-estado');
+    }
+    // ****** estado_civil_nome *****
+    if (!sessionStorage.getItem('dropdown-estado_civil')) {
+      this.dds.push('dropdown-estado_civil');
+    }
+    // ****** escolaridade_nome *****
+    if (!sessionStorage.getItem('dropdown-escolaridade')) {
+      this.dds.push('dropdown-escolaridade');
+    }
+    // ****** campo4_nome *****
+    if (!sessionStorage.getItem('dropdown-campo4')) {
+      this.dds.push('dropdown-campo4');
     }
 
-    let contador = 4;
-
-    if (!sessionStorage.getItem('cadastro-dropdown')) {
-      this.sub.push(this.dd.getDropdownCadastroMenuTodos()
+    if (this.dds.length > 0) {
+      this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            sessionStorage.setItem('cadastro-dropdown', JSON.stringify(dados));
+            this.dds.forEach(nome => {
+              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
+            });
           },
           error: (err) => {
             console.error(err);
           },
           complete: () => {
-            contador--;
-            if (contador === 0) {
-              this.resp.next(this.cf);
-            }
-          }
-        }));
-    } else {
-      contador--;
-      if (contador === 0) {
-        this.resp.next(this.cf);
-      }
-    }
-
-    // ***     Cadastro     *******************************
-    if ( this.cadastro_id > 0) {
-      this.sub.push(this.cadastroService.alterarCadastroBusca(this.cadastro_id)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            this.cf = dados;
-          },
-          error: (erro) => {
-            console.error(erro.toString());
-          },
-          complete: () => {
-            contador--;
-            if (contador === 0) {
-              this.resp.next(this.cf);
-            }
+            this.espera(true);
           }
         })
       );
+      return true;
     } else {
-      contador--;
-      if (contador === 0) {
-        this.resp.next(this.cf);
-      }
-    }
-
-    // ***     Tipo Cadastro      *************************
-
-    if (!sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      const tpcad: SelectItemGroup[] = [];
-      const a = [1, 2];
-      let tipo: SelectItemGroup;
-      let c = 0;
-      for (const b of a) {
-
-        this.sub.push(this.dd.getDropdown3campos(
-          'cadastro',
-          'cadastro_tipo_id',
-          'cadastro_tipo_nome',
-          'cadastro_tipo_tipo',
-          String(b)
-        ).pipe(take(1))
-          .subscribe({
-            next: (dados) => {
-              tipo = {
-                label: dados['label'].toString(),
-                value: null,
-                items: dados['items']
-              };
-              tpcad.push(tipo);
-            },
-            error: (err) => {
-              console.error(err);
-            },
-            complete: () => {
-              c++;
-              if (c === 2) {
-                sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(tpcad));
-                contador--;
-                if (contador === 0) {
-                  this.resp.next(this.cf);
-                }
-              }
-            }
-          })
-        );
-      }
-    } else {
-      contador--;
-      if (contador === 0) {
-        this.resp.next(this.cf);
-      }
-    }
-
-    // ****** tratamento_nome *****
-    if (!sessionStorage.getItem('dropdown-tratamento')) {
-      this.ddNomeIdArray.add('tratamento_nome', 'tratamento', 'tratamento_id', 'tratamento_nome');
-    }
-    // ****** grupo_nome *****
-    if (!sessionStorage.getItem('dropdown-grupo')) {
-      this.ddNomeIdArray.add('grupo_nome', 'grupo', 'grupo_id', 'grupo_nome');
-    }
-    // ****** municipio_nome *****
-    if (!sessionStorage.getItem('dropdown-municipio')) {
-      this.ddNomeIdArray.add('municipio_nome', 'municipio', 'municipio_id', 'municipio_nome');
-    }
-    // ****** regiao_nome *****
-    if (!sessionStorage.getItem('dropdown-regiao')) {
-      this.ddNomeIdArray.add('regiao_nome', 'regiao', 'regiao_id', 'regiao_nome');
-    }
-    // ****** estado_nome *****
-    if (!sessionStorage.getItem('dropdown-estado')) {
-      this.ddNomeIdArray.add('estado_nome', 'estado', 'estado_id', 'estado_nome');
-    }
-    // ****** estado_civil_nome *****
-    if (!sessionStorage.getItem('dropdown-estado_civil')) {
-      this.ddNomeIdArray.add('estado_civil_nome', 'estado_civil', 'estado_civil_id', 'estado_civil_nome');
-    }
-    // ****** escolaridade_nome *****
-    if (!sessionStorage.getItem('dropdown-escolaridade')) {
-      this.ddNomeIdArray.add('escolaridade_nome', 'escolaridade', 'escolaridade_id', 'escolaridade_nome');
-    }
-    // ****** campo4_nome *****
-    if (!sessionStorage.getItem('dropdown-campo4')) {
-      this.ddNomeIdArray.add('campo4_nome', 'campo4', 'campo4_id', 'campo4_nome');
-    }
-
-    if (this.ddNomeIdArray.count() > 0) {
-    this.sub.push(this.dd.postDropdownNomeIdArray(this.ddNomeIdArray.get())
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          if (dados['tratamento_nome']) {
-            sessionStorage.setItem('dropdown-tratamento', JSON.stringify(dados['tratamento_nome']));
-          }
-          if (dados['grupo_nome']) {
-            sessionStorage.setItem('dropdown-grupo', JSON.stringify(dados['grupo_nome']));
-          }
-          if (dados['municipio_nome']) {
-            sessionStorage.setItem('dropdown-municipio', JSON.stringify(dados['municipio_nome']));
-          }
-          if (dados['regiao_nome']) {
-            sessionStorage.setItem('dropdown-regiao', JSON.stringify(dados['regiao_nome']));
-          }
-          if (dados['estado_nome']) {
-            sessionStorage.setItem('dropdown-estado', JSON.stringify(dados['estado_nome']));
-          }
-          if (dados['estado_civil_nome']) {
-            sessionStorage.setItem('dropdown-estado_civil', JSON.stringify(dados['estado_civil_nome']));
-          }
-          if (dados['escolaridade_nome']) {
-            sessionStorage.setItem('dropdown-escolaridade', JSON.stringify(dados['escolaridade_nome']));
-          }
-          if (dados['campo4_nome']) {
-            sessionStorage.setItem('dropdown-campo4', JSON.stringify(dados['campo4_nome']));
-          }
-        },
-        error: (erro) => {
-          console.error(erro);
-        },
-        complete: () => {
-          contador--;
-          if (contador === 0) {
-            this.resp.next(this.cf);
-          }
-        }
-      }));
-    } else {
-      contador--;
-      if (contador === 0) {
-        this.resp.next(this.cf);
-      }
+      return false
     }
   }
 
+
   onDestroy(): void {
+    this.dds = [];
     this.sub.forEach(s => s.unsubscribe());
   }
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<CadastroFormularioInterface>
-    | Observable<never> {
-      if (route.paramMap.has('id')) {
-        this.cadastro_id = +route.paramMap.get('id');
-      } else {
-        this.cadastroService.resetCadastro();
-        this.cadastro_id = 0;
-      }
-      this.populaDados();
+    state: RouterStateSnapshot): Observable<boolean | never> {
+
+    if (this.cfs.acao === 'incluir') {
+      // this.efs.resetEmenda();
+    }
+    if (this.carregaDropDown()) {
       return this.resp$.pipe(
         take(1),
         mergeMap(dados => {
-          if (dados) {
-            this.onDestroy();
-            return of(dados);
-          } else {
-            this.onDestroy();
-            return EMPTY;
-          }
+          this.onDestroy();
+          return of(dados);
         })
       );
+    } else {
+      this.onDestroy();
+      return of(false);
     }
+
+  }
 }

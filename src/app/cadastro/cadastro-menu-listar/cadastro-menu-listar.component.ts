@@ -11,6 +11,7 @@ import { CadastroBuscaService, CadastroService } from '../_services';
 import { CadastroBuscaInterface } from '../_models';
 import { DropdownnomeidClass } from '../../_models';
 import { MenuInternoService } from "../../_services";
+import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.service";
 
 
 @Component({
@@ -20,7 +21,7 @@ import { MenuInternoService } from "../../_services";
 })
 export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-  public ddCadastroTipoId: SelectItemGroup[] = [];
+/*  public ddCadastroTipoId: SelectItemGroup[] = [];
   public ddCadastroMunicipioId: SelectItem[] = [];
   public ddCadastroEstadoId: SelectItem[] = [];
   public ddCadastroRegiaoId: SelectItem[] = [];
@@ -34,7 +35,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   public ddCadastroZona: SelectItem[] = [];
   public ddCadastroEscolaridadeId: SelectItem[] = [];
   public ddCadastroCampo4Id: SelectItem[] = [];
-  public ddCadastroSn: SelectItem[] = [];
+  public ddCadastroSn: SelectItem[] = [];*/
   public formlistarcadastro: FormGroup;
   public items: Array<any> = [];
   public sgt: string[];
@@ -44,7 +45,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ddService: DropdownService,
+    public dd: CadastroDropdownMenuService,
     private autocompleteservice: AutocompleteService,
     public cadastroService: CadastroService,
     private cbs: CadastroBuscaService,
@@ -94,7 +95,22 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       sms: [this.cbs.smsSN]
     });
 
-    this.carregaDropDown();
+    this.sub.push(this.dd.resp$.pipe(take(1))
+      .subscribe(
+        (dados: boolean) => {
+        },
+        error => {
+          console.error(error.toString());
+        },
+        () => {
+          console.log('carregado dd');
+          // this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
+        }
+      ));
+
+    this.dd.gravaDropDown();
+
+    // this.carregaDropDown();
 
     if (!this.cbs.buscaStateSN) {
       if (sessionStorage.getItem('cadastro-listagem')) {
@@ -105,6 +121,23 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
 
   }
 
+  /*atualizaDropDown() {
+    console.log('atualizaDropDown');
+    if (!sessionStorage.getItem('tarefa_menu-dropdown')) {
+      this.sub.push(this.cdd.resp$.pipe(take(1))
+        .subscribe(
+          (dados: boolean) => {
+          },
+          error => {
+            console.error(error.toString());
+          },
+          () => {
+            this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
+          }
+        ));
+    }
+  }*/
+
   public transformaLabel(entrada: SelectItem[], num: number): SelectItem[] {
     const b: SelectItem[] = [];
     for (const { label, value} of entrada) {
@@ -113,7 +146,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     return b;
   }
 
-  carregaDropDown() {
+  /*carregaDropDown() {
     let dr = JSON.parse(sessionStorage.getItem('cadastro-dropdown'));
     this.ddCadastroTipoId = dr.ddCadastroTipoId;
     this.ddCadastroMunicipioId = dr.ddCadastroMunicipioId;
@@ -132,7 +165,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     this.ddCadastroSn = dr.ddCadastroSn;
     dr = null;
     this.cs.escondeCarregador();
-  }
+  }*/
 
 
   onSMSChange(event) {

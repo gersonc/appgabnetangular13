@@ -53,41 +53,4 @@ export class TarefaDropdownService {
     }
   }
 
-
-  /*onDestroy(): void {
-    this.sub.forEach(s => s.unsubscribe());
-  }*/
-
-
-  /*gravaDropDown() {
-    if (!sessionStorage.getItem('dropdown-tarefa_demandados') || !sessionStorage.getItem('dropdown-tarefa_autor')) {
-      if (!this.inicio) {
-        this.getDropdownMenu();
-      }
-    } else {
-      // this.dds = undefined;
-      this.sub.forEach(s => {
-        s.unsubscribe()
-      });
-      this.inicio = false;
-      this.resp.next(true);
-      this.resp.complete();
-    }
-  }*/
-
-  /*dropDown() {
-    if (this.tarefaMenuDD === null) {
-      this.gravaDropDown();
-    }
-  }
-
-  resetDropDown() {
-    // this.tarefaMenuDD = null;
-    sessionStorage.removeItem(sessionStorage.getItem('dropdown-tarefa_demandados'));
-    this.inicio = false;
-    this.gravaDropDown();
-  }*/
-
-
-
 }
