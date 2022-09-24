@@ -1,32 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { WindowsService } from '../../_layout/_service';
-import { AuthenticationService, CarregadorService } from '../../_services';
-import { EtiquetaSeletorComponent } from '../../etiqueta/etiqueta-seletor/';
-import {
-  CsvService,
-  ExcelService,
-  PrintJSService,
-  TabelaPdfService
-} from '../../_services';
-import {
-  CadastroArray,
-  CadastroInterface,
-  CadastroTotalInterface,
-  CadastroBuscaCampoInterface,
-  CadastroEtiquetaInterface,
-  CadastroDetalheCompletoInterface,
-  CadastroPaginacaoInterface
-} from '../_models';
-import { CadastroService, CadastroBuscaService } from '../_services';
-import { CadastroDetalheComponent } from '../cadastro-detalhe';
-import { ContextMenu } from 'primeng/contextmenu';
-import {MenuInternoService} from '../../_services';
+import {AuthenticationService, MenuInternoService} from '../../_services';
+import {Stripslashes} from "../../shared/functions/stripslashes";
+import {CadastroFormService} from "../_services/cadastro-form.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
+import {CadastroService} from "../_services/cadastro.service";
+import {CadastroI} from "../_models/cadastro-i";
+
 
 
 @Component({
@@ -36,69 +20,133 @@ import {MenuDatatableService} from "../../_services/menu-datatable.service";
   providers: [ DialogService ]
 })
 export class CadastroDatatableComponent implements OnInit, OnDestroy {
-  @ViewChild('dt', { static: true }) public dt: any;
-  @ViewChild('cm', { static: true }) public cm: ContextMenu;
-  loading = false;
-  cols: any[];
-  currentPage = 1;
-  cadastros: CadastroInterface[];
-  cadContexto: CadastroInterface;
-  total: CadastroTotalInterface = null;
-  totalRecords = 0;
-  numerodePaginas: number;
-  first: number;
-  rows = 50;
-  selecionados: CadastroInterface[];
-  sortCampo = 'cadastro_nome';
-  selectedColumns: any[] = [];
-  selectedColumnsOld: any[] = [];
-  mostraSeletor = false;
-  camposSelecionados: CadastroBuscaCampoInterface[];
-  // altura = `${WindowsService.altura - 180}` + 'rem';
-  //altura = `${WindowsService.altura - 171.41}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
-  altura = `${WindowsService.altura - 150}` + 'px'; // 171.41 = 10.71rem = 10.71 * 16px
+  @ViewChild('dtb', {static: true}) public dtb: any;
+  altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
-  larguraExpandido = `${WindowsService.largura - 50}` + 'px';
-  numColunas = 3;
-  expColunas = 0;
-  dadosExpandidos: Subscription;
-  expandidoDados: any = false;
-  dadosExp: any[];
-  buscaStateSN: boolean;
+  sub: Subscription[] = [];
+  showDetalhe = false;
+  mostraDetalhe= false;
+  cadastroDetalhe?: CadastroI;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
-  tmp = false;
-  sub: Subscription[] = [];
-
-  // *** DETALHE ***
-  mostraDetalhe = false;
-  mostraImprimir = false;
-  dadosImprimir: any;
-  cadDetalhe: CadastroDetalheCompletoInterface = null;
-  // *** ALTERAR ***
-
-  camposTextos: string[];
+  mostraSeletor = false;
+  cols: any[] = [];
+  idx = -1;
+  cssMostra: string | null = null;
 
   constructor(
     //private mm: MostraMenuService,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
-    public dialogService: DialogService,
+    public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private messageService: MessageService,
-    private cadastroService: CadastroService,
-    private cbs: CadastroBuscaService,
-    private cs: CarregadorService,
+    public cfs: CadastroFormService,
+    public cs: CadastroService,
     public md: MenuDatatableService,
     ) { }
 
   ngOnInit() {
+    if (this.cs.selecionados === undefined || this.cs.selecionados === null || !Array.isArray(this.cs.selecionados)) {
+      this.cs.selecionados = [];
+    }
 
-    /*if (this.authenticationService.dispositivo === 'mobile') {
-      this.altura = `${WindowsService.altura - 250}` + 'px';
-    }*/
+    this.itemsAcao = [
+      {
+        label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.dtb.exportCSV({selectionOnly: true});
+        }
+      },
+      {
+        label: 'CSV - PÁGINA', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.dtb.exportCSV();
+        }
+      },
+      {
+        label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.cs.exportToCsvTodos(true);
+        }
+      },
+      {
+        label: 'PDF - SELECIONADOS', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => {
+          this.cs.tabelaPdf(1);
+        }
+      },
+      {
+        label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          this.cs.tabelaPdf(2);
+        }
+      },
+      {
+        label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
+          this.cs.tabelaPdf(3);
+        }
+      },
+      {
+        label: 'IMPRIMIR - SELECIONADOS', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.cs.imprimirTabela(1);
+        }
+      },
+      {
+        label: 'IMPRIMIR - PÁGINA', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => {
+          this.cs.imprimirTabela(2);
+        }
+      },
+      {
+        label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => {
+          this.cs.imprimirTabela(3);
+        }
+      },
+      {
+        label: 'EXCEL - SELECIONADOS', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => {
+          this.cs.exportToXLSX(1);
+        }
+      },
+      {
+        label: 'EXCEL - PÁGINA', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
+          this.cs.exportToXLSX(2);
+        }
+      },
+      {
+        label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
+          this.cs.exportToXLSX(3);
+        }
+      }
+    ];
 
+    this.montaColunas();
+
+    if (!this.cs.stateSN) {
+      this.resetSelectedColumns();
+    }
+
+    this.montaMenuContexto();
+
+    this.sub.push(this.cs.busca$.subscribe(
+      () => {
+        if (this.cs.tabela.titulos === undefined) {
+          this.mapeiaColunas();
+        }
+        this.cs.busca.todos = false;
+      }
+    ));
+
+    this.getColunas();
+
+  }
+
+  mostraMenu(): void {
+    this.mi.mudaMenuInterno();
+  }
+
+  mapeiaColunas() {
+    if (this.cs.titulos === undefined || this.cs.titulos === null || (Array.isArray(this.cs.titulos) && this.cs.titulos.length === 0)) {
+      this.cs.montaTitulos(this.cols.map(cl => {
+        return cl.field
+      }).slice(1));
+    }
+  }
+
+  montaColunas() {
     this.cols = [
       {field: 'cadastro_id', header: 'ID', sortable: 'true', largura: '80px'},
       {field: 'cadastro_tipo_nome', header: 'TIPO', sortable: 'true', largura: '200px'},
@@ -147,151 +195,18 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       {field: 'cadastro_campo4_nome', header: 'CAMPO 4', sortable: 'true', largura: '200px'},
       {field: 'arquivo_num', header: 'N ARQUIVOS', sortable: 'true', largura: '150px'}
     ];
-
-    if (sessionStorage.getItem('cadastro-selectedColumns')) {
-      this.selectedColumns = JSON.parse(sessionStorage.getItem('cadastro-selectedColumns'));
-      this.mapeiaColunasSelecionadas();
-      sessionStorage.removeItem('cadastro-selectedColumns');
-    } else {
-      this.resetSelectedColumns();
-    }
-
-    this.contextoMenu = [
-      {
-        label: 'DETALHES', icon: 'pi pi-eye',
-        command: () => {this.cadastroDetalheCompleto(this.cadContexto); }
-      }
-    ];
-    if (this.authenticationService.cadastro_alterar) {
-      this.contextoMenu.push(
-        {label: 'ALTERAR', icon: 'pi pi-pencil', styleClass: 'context-menu-alterar',
-          command: () => { this.cadastroAlterar(this.cadContexto); }});
-    }
-    if (this.authenticationService.cadastro_apagar) {
-      this.contextoMenu.push(
-        {label: 'APAGAR', icon: 'pi pi-trash', styleClass: 'context-menu-apagar',
-          command: () => { this.cadastroApagar(this.cadContexto); }});
-    }
-    if (this.authenticationService.cadastro_incluir) {
-      this.contextoMenu.push(
-        {label: 'INCLUIR', icon: 'pi pi-plus',
-          command: () => { this.cadastroIncluir(); }});
-    }
-
-    this.itemsAcao = [
-      {label: 'CSV', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(); }},
-      {label: 'CSV - TODOS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => { this.exportToCsv(true); }},
-      {label: 'PDF', icon: 'pi pi-file-pdf', style: {'font-size': '1em'}, command: () => { this.mostraTabelaPdf(); }},
-      {label: 'PDF - TODOS', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => { this.mostraTabelaPdf(true); }},
-      {label: 'IMPRIMIR', icon: 'pi pi-print', style: {'font-size': '1em'}, command: () => { this.imprimirTabela(); }},
-      {label: 'IMPRIMIR - TODOS', icon: 'pi pi-print', style: {'font-size': '.9em'}, command: () => { this.imprimirTabela(true); }},
-      {label: 'EXCEL', icon: 'pi pi-file-excel', style: {'font-size': '1em'}, command: () => { this.exportToXLSX(); }},
-      {label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => { this.exportToXLSX(true); }},
-      {label: 'ETIQUETAS', icon: 'pi pi-ticket', style: {'font-size': '1em'}, command: () => { this.exportToEtiquetas(); }},
-      {label: 'ETIQ. - TODAS', icon: 'pi pi-ticket', style: {'font-size': '.9em'}, command: () => { this.exportToEtiquetas(true); }},
-
-    ];
-    if (this.authenticationService.sms && this.authenticationService.sms_incluir) {
-      this.itemsAcao.push(
-        {label: 'SMS', icon: 'pi pi-send', style: {'font-size': '.9em'}, command: () => { this.gerenciadorSMS(); }}
-      );
-    }
-
-    this.constroiExtendida();
-
-    this.getState();
-
-    this.sub.push(this.cbs.busca$.subscribe(
-      () => {
-        this.cbs.cadastroBusca.todos = false;
-        this.dt.reset();
-        this.dt.selectionKeys = [];
-        this.selecionados = [];
-      }
-    ));
-
   }
 
   // EVENTOS ===================================================================
 
-  onColReorder(event): void {
-    this.mapeiaColunasSelecionadas();
-  }
 
-  onLazyLoad(event: LazyLoadEvent): void {
-    let bsc = false;
-    if (event.sortField) {
-      if (this.cbs.cadastroBusca.sortcampo !== event.sortField.toString ()) {
-        this.cbs.cadastroBusca.sortcampo = event.sortField.toString ();
-        bsc = true;
-      }
-    }
-    if (this.cbs.cadastroBusca.inicio !== event.first.toString()) {
-      this.cbs.cadastroBusca.inicio = event.first.toString();
-      bsc = true;
-    }
-    if (this.cbs.cadastroBusca.numlinhas !== event.rows.toString()) {
-      this.cbs.cadastroBusca.numlinhas = event.rows.toString();
-      this.rows = event.rows;
-      bsc = true;
-    }
-    if (this.cbs.cadastroBusca.sortorder !== event.sortOrder.toString()) {
-      this.cbs.cadastroBusca.sortorder = event.sortOrder.toString();
-      bsc = true;
-    }
-    if (bsc) {
-      this.postCadastroBusca();
-    }
-  }
-
-  onRowExpand(event): void {
-    this.cadastroService.expandidoDados = event.data;
-    this.dadosExpandidos = this.cadastroService.getColunaExtendida()
-      .pipe(take(1))
-      .subscribe(
-        dados => {
-          this.expColunas = dados.pop();
-          this.dadosExp = dados;
-        }
-      );
-    this.cadastroService.montaColunaExpandida(this.cadastroService.expandidoDados);
-  }
-
-  onChangeSeletorColunas(changes): void {
-    this.dt.saveState();
-    this.camposSelecionados = null;
-    this.camposSelecionados = changes.value.map(
-      function (val) { return { field: val.field, header: val.header }; });
-  }
-
-  mostraSelectColunas(): void {
-    this.selectedColumnsOld = this.selectedColumns;
-    this.mostraSeletor = true;
-  }
-
-  hideSeletor(ev): void {
-    if (this.selectedColumnsOld !== this.selectedColumns) {
-      this.postCadastroBusca();
-    }
-    this.selectedColumnsOld = [];
-  }
-
-  onContextMenuSelect(event) {
-    this.cadContexto = event.data;
-  }
 
   // FUNCOES DO COMPONENTE =====================================================
 
-  mostraMenu(): void {
-    this.mi.showMenuInterno();
-  }
-
-  reset() {
-    this.dt.reset();
-  }
 
   resetSelectedColumns(): void {
-    this.selectedColumns = [
+    this.cs.criaTabela();
+    this.cs.tabela.selectedColumns = [
       {field: 'cadastro_tipo_nome', header: 'TIPO', sortable: 'true', largura: '200px'},
       {field: 'cadastro_tratamento_nome', header: 'TRATAMENTO', sortable: 'true', largura: '160px'},
       {field: 'cadastro_nome', header: 'NOME / RAZÃO SOCIAL', sortable: 'true', largura: '300px'},
@@ -301,399 +216,206 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', largura: '250px'},
       {field: 'cadastro_profissao', header: 'PROFISSÃO', sortable: 'true', largura: '200px'}
     ];
-    this.mapeiaColunasSelecionadas();
   }
 
-  mapeiaColunasSelecionadas(): void {
-    this.camposSelecionados = [];
-    this.camposSelecionados.push({field: 'cadastro_id', header: 'ID'});
-    this.selectedColumns.forEach( (c) => {
-      this.camposSelecionados.push({field: c.field, header: c.header});
-    });
+
+
+  resetColunas() {
+    this.cs.tabela.mostraSeletor = false;
+    this.resetSelectedColumns();
   }
 
-  recuperaIdsSelecionados() {
-    this.cbs.cadastroBusca.ids = [];
-    this.selecionados.forEach((n) => {
-      this.cbs.cadastroBusca.ids.push(n.cadastro_id);
-    });
+  mostraSelectColunas(): void {// this
+    this.cs.tabela.mostraSeletor = true;
+  }
+
+  hideSeletor(): void {
+    this.cs.tabela.mostraSeletor = false;
+  }
+
+  rowColor(field: string, vl1: number): string | null {
+    if (field !== 'cadastro_situacao_nome') {
+      return null;
+    }
+
+    if (field === 'cadastro_situacao_nome') {
+      switch (vl1) {
+        case 0:
+          return 'status-1';
+        case 1:
+          return 'status-3';
+        case 2:
+          return 'status-2';
+        default:
+          return 'status-1';
+      }
+    }
+  }
+
+  montaMenuContexto() {
+    this.contextoMenu = [
+      {
+        label: 'DETALHES', icon: 'pi pi-eye', style: {'font-size': '1em'},
+        command: () => {
+          this.cadastroDetalheCompleto(this.cs.Contexto);
+        }
+      }];
+
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.cadastro_alterar) {
+      this.contextoMenu.push(
+        {
+          label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
+          command: () => {
+            this.cadastroAlterar(this.cs.Contexto);
+          }
+        });
+    }
+
+    if (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.cadastro_apagar) {
+      this.contextoMenu.push(
+        {
+          label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
+          command: () => {
+            this.cadastroApagar(this.cs.Contexto);
+          }
+        });
+    }
+  }
+
+  onColReorder(event): void {
+    this.mapeiaColunas();
+  }
+
+  onLazyLoad(event: LazyLoadEvent): void {
+    let ct = 0;
+    if (this.cs.tabela.sortField !== event.sortField) {
+      this.cs.tabela.sortField = event.sortField;
+      ct++;
+    }
+    if (this.cs.tabela.first !== +event.first) {
+      this.cs.tabela.first = +event.first;
+      ct++;
+    }
+    if (event.rows !== undefined && this.cs.tabela.rows !== +event.rows) {
+      this.cs.tabela.rows = +event.rows;
+      ct++;
+    }
+    if (this.cs.tabela.sortOrder !== +event.sortOrder) {
+      this.cs.tabela.sortOrder = +event.sortOrder;
+      ct++;
+    }
+    if (ct > 0) {
+      this.cs.lazy = true;
+      this.cs.cadastroBusca();
+    }
   }
 
   // FUNCOES DE BUSCA ==========================================================
 
-  postCadastroBusca(): void {
-    this.cbs.cadastroBusca['campos'] = this.camposSelecionados;
-    this.cs.mostraCarregador();
-    this.sub.push(this.cadastroService.postCadastroBusca(this.cbs.cadastroBusca)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.cadastros = dados.cadastros;
-          this.total = dados.total;
-          this.totalRecords = this.total.num;
-        },
-        error: err => console.error('ERRO-->', err),
-        complete: () => {
-          this.cbs.cadastroBusca.todos = this.tmp;
-          this.currentPage = (
-            parseInt(this.cbs.cadastroBusca.inicio, 10) +
-            parseInt(this.cbs.cadastroBusca.numlinhas, 10)) /
-            parseInt(this.cbs.cadastroBusca.numlinhas, 10);
-          this.numerodePaginas = Math.ceil(this.totalRecords / this.rows);
-          this.cbs.buscaStateSN = true;
-          this.cs.escondeCarregador();
-        }
-      })
-    );
-  }
-
-  getState(): void {
-
-    if (this.cbs.buscaStateSN && sessionStorage.getItem('cadastro-busca')) {
-      this.cbs.criarCadastroBusca();
-      this.cbs.cadastroBusca = JSON.parse(sessionStorage.getItem('cadastro-busca'));
-      this.sub.push(this.activatedRoute.data.subscribe(
-        (data: { dados: CadastroPaginacaoInterface }) => {
-          this.cadastros = data.dados.cadastros ? data.dados.cadastros : [];
-          this.total = data.dados.total ? data.dados.total : null;
-          this.totalRecords = data.dados.total.num ? data.dados.total.num : 0;
-          this.cbs.cadastroBusca.todos = this.tmp !== null ? this.tmp : false;
-          this.currentPage = (
-            parseInt(this.cbs.cadastroBusca.inicio, 10) +
-            parseInt(this.cbs.cadastroBusca.numlinhas, 10)) /
-            parseInt(this.cbs.cadastroBusca.numlinhas, 10);
-          this.numerodePaginas = Math.ceil(this.totalRecords / this.rows);
-          this.cbs.buscaStateSN = true;
-          sessionStorage.removeItem('cadastro-busca');
-          this.cs.escondeCarregador();
-        }));
-    }
-  }
-
-  escondeCarregador() {
-    this.cs.mostraEscondeCarregador(false);
-  }
-
   // FUNCOES DE CRUD ===========================================================
 
   cadastroIncluir(): void {
-    if (this.authenticationService.cadastro_incluir) {
-      this.cs.mostraCarregador();
-      if (this.cbs.buscaStateSN) {
-        this.dt.saveState();
-        if (this.cadastroService.expandidoDados) {
-          this.cadastroService.gravaColunaExpandida(this.cadastroService.expandidoDados);
-        }
-        sessionStorage.setItem('cadastro-busca', JSON.stringify(this.cbs.cadastroBusca));
-        sessionStorage.setItem('cadastro-selectedColumns', JSON.stringify(this.selectedColumns));
-      } else {
-        this.cbs.buscaStateSN = false;
-      }
+    if (this.aut.cadastro_incluir || this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn) {
+      this.cfs.acao = 'incluir';
+      this.cs.salvaState();
+      this.dtb.saveState();
       this.router.navigate(['/cadastro/incluir']);
     } else {
       console.log('SEM PERMISSAO');
     }
   }
 
-  cadastroAlterar(cad: CadastroInterface): void {
-    if (this.authenticationService.cadastro_alterar) {
-      this.cs.mostraCarregador();
-      this.sub.push(this.cadastroService.alterarCadastroBusca(cad.cadastro_id)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            this.cadastroService.cadastro = dados;
-          },
-          error: (erro) => {
-            this.cs.escondeCarregador();
-            console.error(erro.toString());
-          },
-          complete: () => {
-            this.dt.saveState();
-            if (this.cadastroService.expandidoDados) {
-              this.cadastroService.gravaColunaExpandida(this.cadastroService.expandidoDados);
-            }
-            sessionStorage.setItem('cadastro-busca', JSON.stringify(this.cbs.cadastroBusca));
-            sessionStorage.setItem('cadastro-selectedColumns', JSON.stringify(this.selectedColumns));
-            this.cbs.buscaStateSN = true;
-            this.router.navigate(['/cadastro/alterar', 0]);
-          }
-        })
-      );
+  cadastroDetalheCompleto(cad: CadastroI) {
+    this.showDetalhe = true;
+    this.cadastroDetalhe = cad;
+  }
+
+  escondeDetalhe() {
+    this.showDetalhe = false;
+    this.cadastroDetalhe = null;
+  }
+
+  cadastroAlterar(cad: CadastroI) {
+    if (this.aut.cadastro_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      this.cs.salvaState();
+      this.dtb.saveState();
+      this.cfs.acao = 'alterar';
+      this.cfs.cadastroListar = cad;
+      this.cfs.parceForm(cad);
+      this.router.navigate(['/cadastro/alterar']);
+    } else {
+      console.log('SEM PERMISSAO');
+    }
+
+  }
+
+  cadastroApagar(cad: CadastroI) {
+    if ((this.aut.cadastro_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn ) && this.permissaoApagarArquivo(cad)) {
+      this.cs.cadastroApagar = cad;
+      this.cs.salvaState();
+      this.dtb.saveState();
+      this.router.navigate(['/cadastro/apagar']);
     } else {
       console.log('SEM PERMISSAO');
     }
   }
 
-  cadastroApagar(cad: CadastroInterface): void {
-    if (this.authenticationService.cadastro_apagar) {
-      this.cs.mostraCarregador();
-      this.dt.saveState();
-      if (this.cadastroService.expandidoDados) {
-        this.cadastroService.gravaColunaExpandida(this.cadastroService.expandidoDados);
-      }
-      sessionStorage.setItem('cadastro-busca', JSON.stringify(this.cbs.cadastroBusca));
-      sessionStorage.setItem('cadastro-selectedColumns', JSON.stringify(this.selectedColumns));
-      this.cbs.buscaStateSN = true;
-      this.router.navigate(['/cadastro/excluir', cad.cadastro_id]);
+  /*cadastroAtualizar(eme: CadastroI) {
+    if (this.aut.cadastro_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      console.log('cadastroAtualizar', eme);
+      this.cs.salvaState();
+      this.dtb.saveState();
+      this.cfs.cadastroListar = eme;
+      this.cfs.resetAtualizar();
+      this.cfs.parceEmendaAtualizar(eme);
+      this.router.navigate(['/cadastro/atualizar']);
     } else {
       console.log('SEM PERMISSAO');
     }
+  }*/
+
+  stripslashes(str?: string): string | null {
+    return Stripslashes(str)
   }
 
 
-  cadastroDetalheCompleto(cad: CadastroInterface): void {
-    this.cs.mostraCarregador();
-    let cadDetalhe: CadastroDetalheCompletoInterface;
-    this.sub.push(this.cadastroService.getDetalheCompleto(cad.cadastro_id)
-      .pipe(take(1))
-      .subscribe({
-      next: (dados) => {
-        cadDetalhe = dados;
-        this.cadDetalhe = dados;
-      },
-      error: (err) => {
-        console.error('erro', err.toString ());
-      },
-      complete: () => {
-        this.cs.escondeCarregador();
-        this.mostraDetalhe = true;
-      }
-    }));
+
+  permissaoApagarArquivo(cad: CadastroI): boolean {
+    if (this.aut.arquivos_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+      return true
+    }
+    return !(cad.cadastro_arquivos !== undefined && cad.cadastro_arquivos !== null && Array.isArray(cad.cadastro_arquivos) && cad.cadastro_arquivos.length > 0);
   }
 
-  // FUNCOES RELATORIOS=========================================================
-  mostraTabelaPdf(td: boolean = false) {
-    this.tmp = this.cbs.cadastroBusca.todos;
-    this.cbs.cadastroBusca.todos = td;
-    if (this.cbs.cadastroBusca.todos === true) {
-      let cadPdf: CadastroInterface[];
-      let totalPdf: CadastroTotalInterface[];
-      let numTotalRegs: number;
-      this.cbs['campos'] = this.camposSelecionados;
-      // this.loading = true;
-      this.sub.push(this.cadastroService.postCadastroBusca(this.cbs.cadastroBusca)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            cadPdf = dados.cadastros;
-            totalPdf = dados.total;
-            numTotalRegs = totalPdf[0].num;
-          },
-          error: err => console.error('ERRO-->', err),
-          complete: () => {
-            TabelaPdfService.autoTabela('cadastro', this.camposSelecionados, cadPdf);
-            this.cbs.cadastroBusca.todos = this.tmp;
-          }
-        })
-      );
-      return true;
-    }
-    if (this.selecionados && this.selecionados.length > 0) {
-      TabelaPdfService.autoTabela('cadastro', this.camposSelecionados, this.selecionados);
-      this.cbs.cadastroBusca.todos = this.tmp;
-      return true;
-    }
-    TabelaPdfService.autoTabela('cadastro', this.camposSelecionados, this.cadastros);
-    this.cbs.cadastroBusca.todos = this.tmp;
-    return true;
+  mostraDialog(ev: boolean) {
+    this.cssMostra = (ev) ? null : 'p-d-none';
   }
 
-  imprimirTabela(td: boolean = false) {
-    this.tmp = this.cbs.cadastroBusca.todos;
-    this.cbs.cadastroBusca.todos = td;
-    if (this.cbs.cadastroBusca.todos === true) {
-      let cadprint: CadastroInterface[];
-      let totalprint: CadastroTotalInterface[];
-      let numTotalRegs: number;
-      this.cbs['campos'] = this.camposSelecionados;
-      this.loading = true;
-      this.sub.push(this.cadastroService.postCadastroBusca(this.cbs.cadastroBusca)
-        .subscribe({
-          next: (dados) => {
-            cadprint = dados.cadastros;
-            totalprint = dados.total;
-            numTotalRegs = totalprint[0].num;
-          },
-          error: err => console.error('ERRO-->', err),
-          complete: () => {
-            PrintJSService.imprimirTabela(this.camposSelecionados, cadprint);
-            this.cbs.cadastroBusca.todos = this.tmp;
-            this.loading = false;
-          }
-        })
-      );
-      return true;
+  recebeRegistro(p: CadastroI) {
+    this.cs.cadastros[this.idx] = p;
+    const a: any = {
+      data: p
     }
-
-    if (this.selecionados && this.selecionados.length > 0) {
-      PrintJSService.imprimirTabela(this.camposSelecionados, this.selecionados);
-      this.cbs.cadastroBusca.todos = this.tmp;
-      return true;
-    }
-
-    PrintJSService.imprimirTabela(this.camposSelecionados, this.cadastros);
-    this.cbs.cadastroBusca.todos = this.tmp;
-    return true;
-  }
-
-  exportToCsv(td: boolean = false) {
-    this.tmp = this.cbs.cadastroBusca.todos;
-    this.cbs.cadastroBusca.todos = td;
-    if (this.cbs.cadastroBusca.todos === true) {
-      let cadcsv: CadastroInterface[];
-      let totalprint: CadastroTotalInterface[];
-      let numTotalRegs: number;
-      this.cbs['campos'] = this.camposSelecionados;
-      this.loading = true;
-      this.sub.push(this.cadastroService.postCadastroBusca (this.cbs.cadastroBusca)
-        .subscribe ({
-          next: (dados) => {
-            cadcsv = dados.cadastros;
-            totalprint = dados.total;
-            numTotalRegs = totalprint[0].num;
-          },
-          error: err => console.error ('ERRO-->', err),
-          complete: () => {
-            CsvService.jsonToCsv ('cadastro', this.camposSelecionados, cadcsv);
-            this.cbs.cadastroBusca.todos = this.tmp;
-            this.loading = false;
-          }
-        })
-      );
-      return true;
-    }
-
-    if (this.selecionados && this.selecionados.length > 0) {
-      CsvService.jsonToCsv ('cadastro', this.camposSelecionados, this.selecionados);
-      this.cbs.cadastroBusca.todos = this.tmp;
-      return true;
-    }
-
-    CsvService.jsonToCsv ('cadastro', this.camposSelecionados, this.cadastros);
-    this.cbs.cadastroBusca.todos = this.tmp;
-    return true;
-  }
-
-  exportToXLSX(td: boolean = false) {
-    this.tmp = this.cbs.cadastroBusca.todos;
-    this.cbs.cadastroBusca.todos = td;
-    if (this.cbs.cadastroBusca.todos === true) {
-      let cadcsv: CadastroInterface[];
-      let numTotalRegs: number;
-      this.cbs['campos'] = this.selectedColumns;
-      this.loading = true;
-      this.sub.push(this.cadastroService.postCadastroBuscaJson (this.cbs.cadastroBusca)
-        .subscribe ({
-          next: (dados) => {
-            cadcsv = dados.cadastros;
-            numTotalRegs = dados.total.num;
-          },
-          error: err => console.error ('ERRO-->', err),
-          complete: () => {
-            ExcelService.exportAsExcelFile ('cadastro', cadcsv, CadastroArray.getArrayTitulo());
-            this.cbs.cadastroBusca.todos = this.tmp;
-            this.loading = false;
-          }
-        })
-      );
-      return true;
-    }
-
-    if (this.selecionados && this.selecionados.length > 0) {
-      ExcelService.exportAsExcelFile ('cadastro', this.selecionados, CadastroArray.getArrayTitulo());
-      this.cbs.cadastroBusca.todos = this.tmp;
-      return true;
-    }
-    ExcelService.exportAsExcelFile ('cadastro', this.cadastros, CadastroArray.getArrayTitulo());
-    this.cbs.cadastroBusca.todos = this.tmp;
-    return true;
-  }
-
-  exportToEtiquetas(td: boolean = false) {
-    this.tmp = this.cbs.cadastroBusca.todos;
-    this.cbs.cadastroBusca.todos = td;
-    let etq: CadastroEtiquetaInterface[];
-    this.loading = true;
-    if (this.cbs.cadastroBusca.todos !== true && (this.selecionados && this.selecionados.length > 0)) {
-      this.recuperaIdsSelecionados();
-    } else {
-      this.cbs.cadastroBusca.ids = [];
-    }
-    this.sub.push(this.cadastroService.postCadastroBuscaEtiqueta(this.cbs.cadastroBusca)
-      .subscribe({
-        next: (dados) => {
-          etq = dados;
-        },
-        error: err => console.error('ERRO-->', err),
-        complete: () => {
-          this.loading = false;
-          const ref = this.dialogService.open( EtiquetaSeletorComponent, {
-            data: {
-              cadastro: etq
-            },
-            header: 'Etiquetas',
-            width: '300px',
-            height: '500px',
-            dismissableMask: true,
-            showHeader: true
-          });
-          this.cbs.cadastroBusca.todos = this.tmp;
-        }
-      })
-    );
-  }
-
-  gerenciadorSMS() {
-    if (this.authenticationService.sms && this.authenticationService.sms_incluir) {
-      this.cbs.smsSN = true;
-      this.cbs.cadastroBusca.sms = true;
-      this.cbs.cadastroBusca.inicio = '0';
-      this.cbs.cadastroBusca.numlinhas = '50';
-      // this.dt.saveState();
-      sessionStorage.setItem('cadastro-busca', JSON.stringify(this.cbs.cadastroBusca));
-      sessionStorage.setItem('cadastro-selectedColumns', JSON.stringify(this.selectedColumns));
-      this.cbs.buscaStateSN = true;
-      this.mi.mudaSmsVF(true);
-      this.cadastros = null;
-      this.router.navigate(['/cadastro/listar/sms/busca']);
-    }
-  }
-
-  constroiExtendida() {
-    const v = this.cadastroService.recuperaColunaExpandida();
-    if (v) {
-      this.sub.push(this.dadosExpandidos = this.cadastroService.getColunaExtendida()
-        .pipe(take(1))
-        .subscribe(
-          dados => {
-            this.expColunas = dados.pop();
-            this.dadosExp = dados;
-          }
-        )
-      );
-      this.cadastroService.montaColunaExpandida(v);
-    }
+    this.cs.onRowExpand(a);
+    /*const idx = this.cs.cadastros.findIndex(i => i.cadastro_id === p.andamento_cadastro_cadastro_id);
+    const pp: CadastroI = this.cs.cadastros[idx];
+    const ap:AndamentoCadastroI[] = pp.andamento_cadastro;
+    const apidx = ap.findIndex(a => a.andamento_cadastro_id === p.andamento_cadastro_id);
+    if (apidx === -1) {
+      ap.push(p)
+    }*/
+    // this.cs.recebeRegistro(h);
   }
 
   ngOnDestroy(): void {
+    this.cs.selecionados = [];
     this.sub.forEach(s => s.unsubscribe());
   }
 
-
-  onFechar(ev: any = null): void {
-    if (ev.acao) {
-      if (ev.acao === 'detalhe') {
-        this.mostraDetalhe = false;
-      }
-    }
+  getColunas() {
+    this.cs.colunas = this.cols.map(t => {
+      return t.field;
+    });
   }
-
-  imprimirFechar() {
-    this.dadosImprimir = null;
-    this.mostraImprimir = false;
-  }
-
 
 }
-

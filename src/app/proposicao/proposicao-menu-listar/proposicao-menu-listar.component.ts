@@ -37,7 +37,6 @@ export class ProposicaoMenuListarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.formMenuProposicao = this.formBuilder.group({
       proposicao_tipo_id: [null],
       proposicao_id: [null],

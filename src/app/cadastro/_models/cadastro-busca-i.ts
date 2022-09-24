@@ -1,8 +1,10 @@
-import { CadastroBuscaCampoInterface } from './cadastro-busca-campo.interface';
+import {ColunasI} from "../../_models/colunas-i";
 
-export interface CadastroBuscaInterface {
+export interface CadastroBuscaI {
+  cadastro_id?: number;
   cadastro_tipo_id?: number;
   cadastro_nome?: string;
+  cadastro_nome2?: string;
   cadastro_sigla?: string;
   cadastro_apelido?: string;
   cadastro_responsavel?: string;
@@ -14,11 +16,11 @@ export interface CadastroBuscaInterface {
   cadastro_regiao_id?: number;
   cadastro_regiao_nome?: string;
   cadastro_grupo_id?: number;
-  aniversario?: string;
-  anidia?: string;
-  quinzena?: string;
-  data1?: string;
-  data2?: string;
+  cadastro_anidia?: number;
+  cadastro_animes?: number;
+  quinzena?: number;
+  cadastro_data_nascimento1?: string;
+  cadastro_data_nascimento2?: string;
   cadastro_usuario?: string;
   cadastro_estado_civil_id?: number;
   cadastro_escolaridade_id?: number;
@@ -36,12 +38,12 @@ export interface CadastroBuscaInterface {
   cadastro_campo2?: string;
   cadastro_campo3?: string;
   cadastro_campo4_id?: number;
-  numlinhas?: string;
-  inicio?: string;
-  sortorder?: string;
-  sortcampo?: string;
+  rows?: number;
+  first?: number;
+  sortOrder?: number;
+  sortField?: string;
   todos?: boolean;
-  campos?: CadastroBuscaCampoInterface[];
-  ids?: any[];
-  sms?: boolean;
+  campos?: ColunasI[];
+  ids?: number[];
+  excel?: boolean;
 }

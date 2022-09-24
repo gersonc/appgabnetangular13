@@ -1,4 +1,4 @@
-export interface CadastroEtiquetaInterface {
+export interface CadastroEtiquetaI {
   cadastro_tipo_tipo: number;
   cadastro_nome: string;
   cadastro_endereco: string;

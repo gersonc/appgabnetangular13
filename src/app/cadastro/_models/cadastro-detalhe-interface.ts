@@ -1,5 +1,5 @@
-import { CadastroInterface } from './cadastro.interface';
 import { ArquivoInterface, ArquivoNumInterface } from '../../arquivo/_models';
+import {CadastroI} from "./cadastro-i";
 
 export interface CadastroSolicitacaoNumInterface {
   num: number;
@@ -77,7 +77,7 @@ export interface CadastroVinculosInterface {
 }
 
 export interface CadastroDetalheCompletoInterface {
-  cadastro: CadastroInterface;
+  cadastro: CadastroI;
   cadastro_titulo?: any[];
   solicitacao: CadastroSolicitacaoInterface[];
   solicitacao_titulo?: any[];

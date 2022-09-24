@@ -1,42 +1,46 @@
 <!--*** INICIO *****************************************************************************************************-->
-<p-table #dt
-         id="tabelacadastro"
-         [value]="cadastros"
-         [columns]="selectedColumns"
-         [rows]="rows"
-         [lazy]="true"
+<p-table #dtb
+         id="tabelatarefa"
+         [value]="cs.cadastros"
+         [columns]="cs.tabela.selectedColumns"
+         [rows]="cs.tabela.rows"
+         [lazy]="cs.lazy"
          [lazyLoadOnInit]="false"
-         [loading]="loading"
-         [totalRecords]="totalRecords"
-         [sortField]="sortCampo"
+         [totalRecords]="cs.tabela.totalRecords"
+         [sortField]="cs.tabela.sortField"
          dataKey="cadastro_id"
          [scrollable]="true"
          [scrollHeight]="altura"
-         [(selection)]="selecionados"
+         [(selection)]="cs.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
-         [autoLayout]="false"
+         [autoLayout]="true"
          columnResizeMode="expand"
          [rowHover]="true"
-         [paginator]="true"
-         [alwaysShowPaginator]="false"
-         [pageLinks]="5"
-         [responsive]="false"
+         [responsive]="true"
          rowExpandMode="single"
-         [rowsPerPageOptions]="[50,100,200,500,1000]"
-         (onLazyLoad)="onLazyLoad($event)"
-         (onColReorder)="onColReorder($event)"
-         (onRowExpand)="onRowExpand($event)"
-         (onContextMenuSelect)="onContextMenuSelect($event)"
-         [(contextMenuSelection)]="cadContexto"
+         [(first)]="cs.tabela.first"
+         [(contextMenuSelection)]="cs.Contexto"
          contextMenuSelectionMode="joint"
          [contextMenu]="cm"
+         [pageLinks]="5"
+         [paginator]="true"
+         [alwaysShowPaginator]="true"
+         [rowsPerPageOptions]="cs.rowsPerPageOptions"
+         (rowsChange)="cs.rowsChange($event)"
+         (onLazyLoad)="onLazyLoad($event)"
+         (onColReorder)="onColReorder($event)"
+         (onRowExpand)="cs.onRowExpand($event)"
+         (onRowCollapse)="cs.onRowCollapse($event)"
+         (onStateSave)="cs.setState($event)"
+         (onStateRestore)="cs.onStateRestore($event)"
+         (onContextMenuSelect)="cs.onContextMenuSelect($event)"
+         (sortFunction)="cs.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'0.865rem'}"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
          stateStorage="session"
-         stateKey="cadastro-listagem"
+         stateKey="tarefa-table"
          selectionMode="multiple"
-         [loadingIcon]="'pi pi-spinner'"
          styleClass="tablistagem p-datatable-sm p-datatable-striped"
 >
 
@@ -55,7 +59,7 @@
             <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
                     (click)="mostraSelectColunas()"></button>
           </div>
-          <div *ngIf="authenticationService.dispositivo!=='mobile'" class="p-mr-1">
+          <div *ngIf="aut.dispositivo!=='mobile'" class="p-mr-1">
             <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
           </div>
@@ -70,7 +74,7 @@
         </div>
 
         <div class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-1">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+          <div class="p-mr-1">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num. Registros: {{cs.tabela.totalRecords}}</div>
         </div>
       </div>
     </div>
@@ -133,7 +137,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="authenticationService.cadastro_alterar" class="p-mr-2">
+              <div *ngIf="aut.cadastro_alterar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -146,7 +150,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="authenticationService.cadastro_apagar" class="p-mr-2">
+              <div *ngIf="aut.cadastro_apagar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -161,8 +165,17 @@
               </div>
             </div>
 
+            <div class="p-grid">
+              <div *ngFor="let ce of cs.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+                <div class="registros p-shadow-1">
+                  <h5>{{ce.header}}</h5>
+                  <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
+                </div>
+              </div>
+            </div>
 
-            <div class="expandido p-grid">
+
+            <!--<div class="expandido p-grid">
               <div *ngFor="let linhas of dadosExp;" class="expandido p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
                 <div class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
@@ -171,7 +184,7 @@
 
                 </div>
               </div>
-            </div>
+            </div>-->
           </div>
         </div>
       </td>
@@ -194,26 +207,31 @@
 <!--*** FIM ********************************************************************************************************-->
 
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
-<p-dialog
-  header="Selecione as colunas."
-  [(visible)]="mostraSeletor"
-  [modal]="true"
-  [style]="{width: '300px'}"
-  [dismissableMask]="true"
-  (onHide)="hideSeletor($event)"
+<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
+<p-dialog *ngIf="cs.tabela.mostraSeletor"
+          id="seletor"
+          header="Selecione as colunas."
+          [(visible)]="cs.tabela.mostraSeletor"
+          [modal]="true"
+          styleClass="tablistagem"
+          [style]="{width: '40rem'}"
+          [dismissableMask]="true"
 >
-  <p-listbox
-    [options]="cols"
-    [(ngModel)]="selectedColumns"
-    [multiple]="true"
-    [checkbox]="true"
-    [filter]="true"
-    optionLabel="header"
-    [style]="{width: '270px'}"
-    [listStyle]="{'max-height':'300px', 'width':'250px'}"
-    (onChange)="onChangeSeletorColunas($event)"
-  ></p-listbox>
+  <app-seletor-colunas [todas]="cols" [(ativas)]="cs.tabela.selectedColumns"></app-seletor-colunas>
+  <p-footer>
+    <div class="p-d-flex p-jc-start p-pb-2">
+      <div class="p-mr-2">
+        <button pButton type="button" label="Fehar " icon="pi pi-times"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
+      </div>
+      <div class="p-mr-2">
+        <button pButton type="button" label="Reset " icon="pi pi-backward"
+                class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
+      </div>
+    </div>
+  </p-footer>
 </p-dialog>
+<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
 <!--*** DETALHE ****************************************************************************************************-->
 <ng-container *ngIf="mostraDetalhe">
@@ -226,12 +244,12 @@
     [dismissableMask]="true"
     [closable]="true"
     styleClass="tablistagem"
-    (onHide)="imprimirFechar()"
+    (onHide)="escondeDetalhe()"
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-cadastro-detalhe [dataDetalhe]="cadDetalhe" (onFechar)="onFechar($event)"></app-cadastro-detalhe>
+    <!--<app-cadastro-detalhe [dataDetalhe]="cadDetalhe" (onFechar)="onFechar($event)"></app-cadastro-detalhe>-->
   </p-dialog>
 </ng-container>
 
-<p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
+

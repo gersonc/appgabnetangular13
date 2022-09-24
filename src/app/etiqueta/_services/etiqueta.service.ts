@@ -3,7 +3,8 @@ import { Injectable} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { UrlService } from '../../_services';
 import { EtiquetaInterface, EtiquetaCelula } from '../_models';
-import { CadastroEtiquetaInterface } from '../../cadastro/_models';
+import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class EtiquetaService {
   etq_largura: number;
   etq_linhas: number;
   etq_colunas: number;
-  cadastro: CadastroEtiquetaInterface[];
+  cadastro: CadastroEtiquetaI[];
   pag: string;
   cel: string;
   esph: string;
@@ -45,7 +46,7 @@ export class EtiquetaService {
     return this.etiqueta$;
   }
 
-  public imprimirEtiqueta(etq_id: number, cadastro: CadastroEtiquetaInterface[]) {
+  public imprimirEtiqueta(etq_id: number, cadastro: CadastroEtiquetaI[]) {
     this.cadastro = cadastro;
     this.getConfigEtiqueta(etq_id).subscribe({
       next: (dados) => {
@@ -161,7 +162,7 @@ table {
 <body>
 `;
     let a = 0;
-    let cad: CadastroEtiquetaInterface;
+    let cad: CadastroEtiquetaI;
     const b = this.cadastro.length - 1;
     while (this.cadastro.length > 0) {
       if (a === 0) {

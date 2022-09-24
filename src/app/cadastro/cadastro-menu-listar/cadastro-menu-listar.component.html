@@ -1,5 +1,5 @@
 <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-  <form [formGroup]="formlistarcadastro" (keyup)="onKey($event)" class="menuinterno-form">
+  <form [formGroup]="formMenu" (keyup)="onKey($event)" class="menuinterno-form">
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
         <div class="p-mr-2">
@@ -15,7 +15,18 @@
         </div>
         <div class="p-mr-2">
           <button
-            *ngIf="authenticationService.cadastro_incluir"
+            pButton
+            type="submit"
+            icon="pi pi-pi-ban"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenu.reset()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            *ngIf="auth.usuario_responsavel_sn || auth.usuario_principal_sn || auth.cadastro_incluir"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -24,20 +35,6 @@
             class="p-button-rounded p-button-secondary"
             (click)="goIncluir()"
           ></button>
-        </div>
-      </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mr-2 formulario">
-          <h5>SMS</h5>
-        </div>
-        <div class="p-mr-2">
-          <p-inputSwitch
-            *ngIf="authenticationService.sms_incluir"
-            formControlName="sms"
-            (onChange)="onSMSChange($event)"
-            class="menu"
-          >
-          </p-inputSwitch>
         </div>
       </div>
     </div>
@@ -71,7 +68,21 @@
                 [minLength]="3"
                 [delay]="500"
                 [suggestions]="sgt"
-                (completeMethod)="autoComp($event,'cadastro_nome')"
+                (completeMethod)="autoComp2($event)"
+                [inputStyle]="{'padding-right':'0'}"
+              ></p-autoComplete>
+            </div>
+            <div class="p-field p-col-12">
+              <label for="cadastro_nome">Nome/Razão Social</label>
+              <p-autoComplete
+                id="cadastro_nome2"
+                formControlName="cadastro_nome2"
+                placeholder="Nome/Razão Social"
+                [maxlength]="50"
+                [minLength]="3"
+                [delay]="500"
+                [suggestions]="sgt"
+                (completeMethod)="autoComp2($event)"
                 [inputStyle]="{'padding-right':'0'}"
               ></p-autoComplete>
             </div>
@@ -245,8 +256,8 @@
               ></p-calendar>
             </div>
             <!-- cadastro_campo1 -->
-            <div *ngIf="cadastroService.cadastro_campo1_sn" class="p-field p-col-12">
-              <label for="cadastro_campo1">{{cadastroService.cadastro_campo1_nome}}</label>
+            <div *ngIf="cs.cadastro_campo1_sn" class="p-field p-col-12">
+              <label for="cadastro_campo1">{{cs.cadastro_campo1_nome}}</label>
               <p-autoComplete
                 id="cadastro_campo1"
                 formControlName="cadastro_campo1"
@@ -259,8 +270,8 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_campo2 -->
-            <div *ngIf="cadastroService.cadastro_campo2_sn" class="p-field p-col-12">
-              <label for="cadastro_campo2">{{cadastroService.cadastro_campo2_nome}}</label>
+            <div *ngIf="cs.cadastro_campo2_sn" class="p-field p-col-12">
+              <label for="cadastro_campo2">{{cs.cadastro_campo2_nome}}</label>
               <p-autoComplete
                 id="cadastro_campo2"
                 formControlName="cadastro_campo2"
@@ -404,7 +415,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_sigilo -->
-            <div *ngIf="authenticationService.cadastrosigilo_listar" class="p-field p-col-12">
+            <div *ngIf="auth.cadastrosigilo_listar" class="p-field p-col-12">
               <label for="cadastro_sigilo">Sigilo</label>
               <p-dropdown
                 id="cadastro_sigilo"
@@ -455,8 +466,8 @@
               ></p-calendar>
             </div>
             <!-- cadastro_campo3 -->
-            <div *ngIf="cadastroService.cadastro_campo3_sn" class="p-field p-col-12">
-              <label for="cadastro_campo3">{{cadastroService.cadastro_campo3_nome}}</label>
+            <div *ngIf="cs.cadastro_campo3_sn" class="p-field p-col-12">
+              <label for="cadastro_campo3">{{cs.cadastro_campo3_nome}}</label>
               <input
                 id="cadastro_campo3"
                 formControlName="cadastro_campo3"
@@ -468,8 +479,8 @@
               />
             </div>
             <!-- cadastro_campo4_id -->
-            <div *ngIf="cadastroService.cadastro_campo4_sn" class="p-field p-col-12">
-              <label for="cadastro_campo4_id">{{cadastroService.cadastro_campo4_nome}}</label>
+            <div *ngIf="cs.cadastro_campo4_sn" class="p-field p-col-12">
+              <label for="cadastro_campo4_id">{{cs.cadastro_campo4_nome}}</label>
               <p-dropdown
                 id="cadastro_campo4_id"
                 [options]="dd.ddn.ddCadastroCampo4Id"
@@ -501,7 +512,18 @@
         </div>
         <div class="p-mr-2">
           <button
-            *ngIf="authenticationService.cadastro_incluir"
+            pButton
+            type="submit"
+            icon="pi pi-pi-ban"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenu.reset()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            *ngIf="auth.usuario_responsavel_sn || auth.usuario_principal_sn || auth.cadastro_incluir"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -510,20 +532,6 @@
             class="p-button-rounded p-button-secondary"
             (click)="goIncluir()"
           ></button>
-        </div>
-      </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mr-2 formulario">
-          <h5>SMS</h5>
-        </div>
-        <div class="p-mr-2">
-          <p-inputSwitch
-            *ngIf="authenticationService.sms_incluir"
-            formControlName="sms"
-            (onChange)="onSMSChange($event)"
-            class="menu"
-          >
-          </p-inputSwitch>
         </div>
       </div>
     </div>

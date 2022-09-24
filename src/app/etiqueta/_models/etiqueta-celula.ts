@@ -1,8 +1,8 @@
-import { CadastroEtiquetaInterface } from '../../cadastro/_models';
+import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
 
 export class EtiquetaCelula {
 
-  public static montaCelula (cadastro: CadastroEtiquetaInterface) {
+  public static montaCelula (cadastro: CadastroEtiquetaI) {
     let str = '';
     // ************ Pessoa Fisica
     if (cadastro.cadastro_tipo_tipo === 1) {

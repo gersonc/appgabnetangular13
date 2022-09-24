@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
 
-import {CadastroDuplicadoBuscaInterface} from '../_models';
+
 
 
 @Component({

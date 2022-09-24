@@ -1,6 +1,4 @@
-import { ArquivoInterface } from '../../arquivo/_models';
-
-export interface CadastroFormularioInterface {
+export interface CadastroFormI {
   cadastro_id: number;
   cadastro_tipo_id: number;
   cadastro_tipo_tipo: number;

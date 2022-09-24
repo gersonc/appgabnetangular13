@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CadastroBuscaService } from './_services';
-import { ArquivoService } from '../arquivo/_services';
-import { Subscription } from 'rxjs';
-import { MenuInternoService } from "../_services";
-import {MenuDatatableService} from "../_services/menu-datatable.service";
+import {Subscription} from "rxjs";
+import {MenuInternoService} from "../_services";
+import {ArquivoService} from "../arquivo/_services";
+import {CadastroService} from "./_services/cadastro.service";
 
 @Component({
   selector: 'app-cadastro',
@@ -13,32 +12,26 @@ import {MenuDatatableService} from "../_services/menu-datatable.service";
 export class CadastroComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
   public mostraMenuInterno = false;
-  public smsSN = false;
   sub: Subscription[] = [];
 
   constructor(
     public mi: MenuInternoService,
-    public cbs: CadastroBuscaService,
+    public cs: CadastroService,
     private as: ArquivoService,
-    public md: MenuDatatableService
   ) { }
 
   ngOnInit() {
-    this.md.mdt = false;
+    this.cs.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
         this.mostraMenuInterno = vf;
       })
     );
-    this.sub.push(this.cbs.getSmsSN().subscribe( vf => this.smsSN = vf));
     this.as.getPermissoes();
-    this.cbs.criarCadastroBusca();
-    this.mi.showMenuInterno();
-    if (!sessionStorage.getItem('cadastro-busca')) {
-      this.cbs.buscaStateSN = false;
+    if (!sessionStorage.getItem('solic-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
-      if (this.cbs.buscaStateSN) {
+      if (this.cs.stateSN) {
         this.mi.mudaMenuInterno(false);
       } else {
         this.mi.mudaMenuInterno(true);
@@ -46,8 +39,12 @@ export class CadastroComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.sub.forEach(s => s.unsubscribe());
+  onHide() {
+    this.mi.mudaMenuInterno(false);
   }
 
+  ngOnDestroy(): void {
+    this.cs.onDestroy();
+    this.sub.forEach(s => s.unsubscribe());
+  }
 }

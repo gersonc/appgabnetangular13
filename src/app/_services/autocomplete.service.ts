@@ -48,6 +48,17 @@ export class AutocompleteService {
     return this.acsimple$;
   }
 
+  getAcNomeNomeLimpo(str: string) {
+    str = encodeURI(str.toUpperCase());
+    const ac = this.autocompleteUrl + '/acnomelimpo';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'GabNet': str
+      })
+    };
+    return this.http.get<any[]>(ac, httpOptions);
+  }
+
   getAcIdNomeNomeLimpo(
     tabela: string,
     campo_id: string,

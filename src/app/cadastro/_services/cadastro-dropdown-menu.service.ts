@@ -3,7 +3,8 @@ import {SelectItem, SelectItemGroup} from "primeng/api";
 import {DdService} from "../../_services/dd.service";
 import {Subject, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
-import {CadastroFormularioInterface, CadastroMenuDropdownInterface} from "../_models";
+import {CadastroMenuDropdownInterface} from "../_models/cadastro-menu-dropdown.interface";
+import {CadastroFormI} from "../_models/cadastro-form-i";
 
 @Injectable({
   providedIn: 'root'
@@ -182,7 +183,7 @@ export class CadastroDropdownMenuService {
     );
   }
 
-  gravaDropDown(cadastro?: CadastroFormularioInterface) {
+  gravaDropDown(cadastro?: CadastroFormI) {
     if (cadastro !== undefined) {
       this.verificaAtualizacao(cadastro);
     } else {
@@ -316,7 +317,7 @@ export class CadastroDropdownMenuService {
   }
 
 
-  verificaAtualizacao(cadastro: CadastroFormularioInterface) {
+  verificaAtualizacao(cadastro: CadastroFormI) {
     if (this.ddn.ddCadastroMunicipioId.findIndex(d => d.value === cadastro.cadastro_municipio_id) === -1) {
       this.dds.push('ddCadastroMunicipioId');
     }

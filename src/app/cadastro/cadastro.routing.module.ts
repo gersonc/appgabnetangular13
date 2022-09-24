@@ -2,15 +2,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthChildGuard} from '../_guards';
 import { Rule, Scope } from '../_models';
-import { CadastroAlterarComponent } from './cadastro-alterar';
-import { CadastroDetalheComponent } from './cadastro-detalhe';
-import { CadastroIncluirComponent } from './cadastro-incluir';
-import { CadastroExcluirComponent } from './cadastro-excluir';
 import { CadastroComponent } from './cadastro.component';
 import { CadastroDatatableComponent } from './cadastro-datatable';
-import { CadastroSmsDatatableComponent } from './cadastro-sms-datatable';
-import {CadastroFormResolver} from "./_resolvers/cadastro-form.resolver";
-import {CadastroExcluirResolver} from "./_resolvers/cadastro-excluir.resolver";
 import {CadastroListarResolver} from "./_resolvers/cadastro-listar.resolver";
 
 const cadastroRoutes: Routes = [
@@ -43,27 +36,6 @@ const cadastroRoutes: Routes = [
         }
       },
       {
-        path: 'listar/sms/busca',
-        component: CadastroSmsDatatableComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.sms,
-          scopes: Scope.sms_incluir
-        },
-        resolve: {
-          dados: CadastroListarResolver
-        }
-      },
-      {
-        path: 'listar/sms',
-        component: CadastroSmsDatatableComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.sms,
-          scopes: Scope.sms_incluir
-        }
-      },
-      {
         path: 'listar',
         component: CadastroDatatableComponent,
         canActivate: [AuthChildGuard],
@@ -73,7 +45,7 @@ const cadastroRoutes: Routes = [
         }
       },
 
-      {
+      /*{
         path: 'incluir',
         component: CadastroIncluirComponent,
         canActivate: [AuthChildGuard],
@@ -128,7 +100,7 @@ const cadastroRoutes: Routes = [
         data: {
           scopes: [Scope.cadastro_listar]
         }
-      }
+      }*/
     ]
   }
 ];

@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {SelectItem, SelectItemGroup} from 'primeng/api';
 import {UrlService} from './url.service';
 // import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
-import {CadastroMenuDropdown} from "../cadastro/_models";
+// import {CadastroMenuDropdown} from "../cadastro/_models";
 import {take} from "rxjs/operators";
 
 
@@ -341,11 +341,11 @@ export class DropdownService {
     return this.http.get<SelectItem[]>(url);
   }
 
-  public getDropdownCadastroMenuTodos(): Observable<CadastroMenuDropdown> {
+  /*public getDropdownCadastroMenuTodos(): Observable<CadastroMenuDropdown> {
     const url = this.url.dropdown + '/cadastromenutodos';
     return this.http.get<CadastroMenuDropdown>(url);
   }
-
+*/
 /*  public getDdSolicitacaoMenuTodos() {
     if (sessionStorage.getItem('solic-menu-dropdown')) {
       sessionStorage.removeItem('solic-menu-dropdown');

@@ -6,12 +6,14 @@ import { Subscription } from 'rxjs';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
 import { take } from 'rxjs/operators';
 
-import { AuthenticationService, CarregadorService, AutocompleteService, MostraMenuService, DropdownService } from '../../_services';
-import { CadastroBuscaService, CadastroService } from '../_services';
-import { CadastroBuscaInterface } from '../_models';
-import { DropdownnomeidClass } from '../../_models';
+import { AuthenticationService,  AutocompleteService } from '../../_services';
 import { MenuInternoService } from "../../_services";
 import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.service";
+import {CadastroService} from "../_services/cadastro.service";
+import {CadastroBuscaI} from "../_models/cadastro-busca-i";
+import {CadastroFormService} from "../_services/cadastro-form.service";
+import {ProposicaoBuscaI} from "../../proposicao/_models/proposicao-busca-i";
+
 
 
 @Component({
@@ -21,46 +23,30 @@ import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.s
 })
 export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   public altura = (window.innerHeight) + 'px';
-/*  public ddCadastroTipoId: SelectItemGroup[] = [];
-  public ddCadastroMunicipioId: SelectItem[] = [];
-  public ddCadastroEstadoId: SelectItem[] = [];
-  public ddCadastroRegiaoId: SelectItem[] = [];
-  public ddCadastroGrupoId: SelectItem[] = [];
-  public ddCadastroAniversario: SelectItem[] = [];
-  public ddCadastroAnidia: SelectItem[] = [];
-  public ddCadastroQuinzena: SelectItem[] = [];
-  public ddCadastroUsuario: SelectItem[] = [];
-  public ddCadastroEstadoCivilId: SelectItem[] = [];
-  public ddCadastroSexo: SelectItem[] = [];
-  public ddCadastroZona: SelectItem[] = [];
-  public ddCadastroEscolaridadeId: SelectItem[] = [];
-  public ddCadastroCampo4Id: SelectItem[] = [];
-  public ddCadastroSn: SelectItem[] = [];*/
-  public formlistarcadastro: FormGroup;
+  public formMenu: FormGroup;
   public items: Array<any> = [];
   public sgt: string[];
-  public ddNomeIdArray = new DropdownnomeidClass();
   public ptBr: any;
   private sub: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     public dd: CadastroDropdownMenuService,
-    private autocompleteservice: AutocompleteService,
-    public cadastroService: CadastroService,
-    private cbs: CadastroBuscaService,
+    private aut: AutocompleteService,
+    public cs: CadastroService,
     public mi: MenuInternoService,
-    public authenticationService: AuthenticationService,
+    public auth: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router,
-    private cs: CarregadorService
+    private cfs: CadastroFormService
   ) { }
 
   ngOnInit() {
-    this.cadastroService.getCampoCadastro();
-    this.formlistarcadastro = this.formBuilder.group({
+    this.cs.getCampoCadastro();
+    this.formMenu = this.formBuilder.group({
       cadastro_tipo_id: [null],
       cadastro_nome: [null],
+      cadastro_nome2: [null],
       cadastro_sigla: [null],
       cadastro_apelido: [null],
       cadastro_responsavel: [null],
@@ -92,7 +78,6 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       cadastro_campo2: [null],
       cadastro_campo3: [null],
       cadastro_campo4_id: [null],
-      sms: [this.cbs.smsSN]
     });
 
     this.sub.push(this.dd.resp$.pipe(take(1))
@@ -110,33 +95,10 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
 
     this.dd.gravaDropDown();
 
-    // this.carregaDropDown();
-
-    if (!this.cbs.buscaStateSN) {
-      if (sessionStorage.getItem('cadastro-listagem')) {
-        sessionStorage.removeItem('cadastro-listagem');
-      }
-      this.mi.showMenuInterno();
-    }
+    this.mi.showMenuInterno();
 
   }
 
-  /*atualizaDropDown() {
-    console.log('atualizaDropDown');
-    if (!sessionStorage.getItem('tarefa_menu-dropdown')) {
-      this.sub.push(this.cdd.resp$.pipe(take(1))
-        .subscribe(
-          (dados: boolean) => {
-          },
-          error => {
-            console.error(error.toString());
-          },
-          () => {
-            this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
-          }
-        ));
-    }
-  }*/
 
   public transformaLabel(entrada: SelectItem[], num: number): SelectItem[] {
     const b: SelectItem[] = [];
@@ -146,45 +108,26 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     return b;
   }
 
-  /*carregaDropDown() {
-    let dr = JSON.parse(sessionStorage.getItem('cadastro-dropdown'));
-    this.ddCadastroTipoId = dr.ddCadastroTipoId;
-    this.ddCadastroMunicipioId = dr.ddCadastroMunicipioId;
-    this.ddCadastroEstadoId = dr.ddCadastroEstadoId;
-    this.ddCadastroRegiaoId = dr.ddCadastroRegiaoId;
-    this.ddCadastroGrupoId = dr.ddCadastroGrupoId;
-    this.ddCadastroAniversario = dr.ddCadastroAniversario;
-    this.ddCadastroAnidia = dr.ddCadastroAnidia;
-    this.ddCadastroQuinzena = dr.ddCadastroQuinzena;
-    this.ddCadastroUsuario = dr.ddCadastroUsuario;
-    this.ddCadastroEstadoCivilId = dr.ddCadastroEstadoCivilId;
-    this.ddCadastroSexo = dr.ddCadastroSexo;
-    this.ddCadastroZona = dr.ddCadastroZona;
-    this.ddCadastroEscolaridadeId = dr.ddCadastroEscolaridadeId;
-    this.ddCadastroCampo4Id = dr.ddCadastroCampo4Id;
-    this.ddCadastroSn = dr.ddCadastroSn;
-    dr = null;
-    this.cs.escondeCarregador();
-  }*/
-
-
-  onSMSChange(event) {
-    if (this.authenticationService.sms && this.authenticationService.sms_incluir) {
-      if (event.checked) {
-        this.cbs.buscaStateSN = false;
-        this.cbs.smsSN = true;
-        this.router.navigate(['/cadastro/listar/sms']);
-      } else {
-        this.cbs.smsSN = false;
-        this.router.navigate(['/cadastro/listar']);
-      }
-    }
-  }
 
   autoComp (event, campo) {
     let sg: any[];
     const tabela = campo.substring(0, campo.indexOf('_'));
-    this.sub.push(this.autocompleteservice.getACSimples3(tabela, campo, event.query)
+    this.sub.push(this.aut.getACSimples3(tabela, campo, event.query)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          sg = dados;
+        },
+        error: err => console.error(err),
+        complete: () => {
+          this.sgt = sg;
+        }
+      }));
+  }
+
+  autoComp2 (event) {
+    let sg: any[];
+    this.sub.push(this.aut.getAcNomeNomeLimpo(event.query)
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
@@ -198,21 +141,12 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   }
 
   onMudaForm() {
-    this.cbs.resetCadastroBusca();
-    let cadBusca: CadastroBuscaInterface;
-    cadBusca = this.formlistarcadastro.getRawValue();
-    for (const propName in cadBusca ) {
-      if (cadBusca[propName] == null) {
-        cadBusca[propName] = '';
-      }
-      if ( typeof cadBusca[propName] === 'object' ) {
-        cadBusca[propName] = cadBusca[propName].value;
-      }
-      this.cbs.cadastroBusca[propName] = cadBusca[propName].toString();
-    }
+    this.cs.resetCadastroBusca();
+    let cadastroBusca: CadastroBuscaI;
+    cadastroBusca = this.formMenu.getRawValue();
+    this.cs.novaBusca(cadastroBusca);
+    this.cs.buscaMenu();
     this.mi.hideMenu();
-    this.cbs.buscaMenu();
-    this.cs.mostraCarregador();
   }
 
   onKey(event) {
@@ -220,11 +154,12 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     event.key.toString() === 'Enter' ? this.onMudaForm() : a++;
   }
 
+
   goIncluir() {
-    if (this.authenticationService.cadastro_incluir) {
-      this.cbs.buscaStateSN = false;
-      this.cs.mostraCarregador();
-      this.router.navigate(['/cadastro/incluir']);
+    if (this.auth.usuario_responsavel_sn || this.auth.usuario_principal_sn || this.auth.cadastro_incluir) {
+      this.cfs.acao = 'incluir';
+      this.mi.mudaMenuInterno(false);
+      this.router.navigate(['cadastro/incluir']);
     } else {
       console.error('SEM PERMISSAO');
     }
@@ -232,10 +167,6 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
-  }
-
-  fechar() {
-    this.cs.mostraEscondeCarregador(false);
   }
 
 }

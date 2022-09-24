@@ -1,440 +1,66 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpEvent, HttpErrorResponse, HttpEventType } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
-import { UrlService } from '../../_services';
-import {
-  CadastroDuplicadoBuscaInterface,
-  CadastroFormulario,
-  CadastroFormularioInterface,
-  CadastroInterface,
-  CadastroDetalheCompletoInterface,
-  CadastroPaginacaoInterface,
-  SmsTodosInterface,
-  CadastroBuscaInterface,
-  CadastroSmsPaginacaoInterface,
-  CadastroEtiquetaInterface
-} from '../_models';
-import { ArquivoService } from '../../arquivo/_services';
-import { catchError, map } from 'rxjs/operators';
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
+import {TituloI} from "../../_models/titulo-i";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {cadastrocampostexto, CadastroI, CadastroPaginacaoI} from "../_models/cadastro-i";
+import {TitulosService} from "../../_services/titulos.service";
+import {CelulaI} from "../../_models/celula-i";
+import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
+import {CelulaService} from "../../_services/celula.service";
+import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
+import {limpaTexto} from "../../shared/functions/limpa-texto";
+import {Datatable, DatatableI} from "../../_models/datatable-i";
+import {PropFormI} from "../../proposicao/_models/prop-form-i";
+import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
+import {CadastroBuscaI} from "../_models/cadastro-busca-i";
+import {take} from "rxjs/operators";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CadastroService {
-
-  public cadastro_campo1_sn: boolean;
-  public cadastro_campo1_nome: string;
-  public cadastro_campo2_sn: boolean;
-  public cadastro_campo2_nome: string;
-  public cadastro_campo3_sn: boolean;
-  public cadastro_campo3_nome: string;
-  public cadastro_campo4_sn: boolean;
-  public cadastro_campo4_nome: string;
-  private cadastroUrl = this.url.cadastro;
-  private cadastroPaginacao$: Observable<CadastroPaginacaoInterface>;
-  private cadastroSMSPaginacao$: Observable<CadastroSmsPaginacaoInterface>;
-  private selecionaTodos$: Observable<any>;
-  private selecionaIds$: Observable<any>;
-  private buscaBsSource = new Subject();
-  private todosCelulares$: Observable<SmsTodosInterface>;
-  public cadastroBusca: CadastroBuscaInterface;
-
-
-
-  private incluirResposta$: Observable<any[]>;
-  private celular$: Observable<any[]>;
-  private cadastrosDuplicados$: Observable<CadastroDuplicadoBuscaInterface[]>;
-  public duplicados: CadastroDuplicadoBuscaInterface[];
-  private cadNum$: Observable<any>;
-  private cadExc$: Observable<any>;
-  public mun_nome: string = null;
-  public reg_nome: string = null;
-  public busca_Nome: string = null;
-  private cadAlterar$: Observable<CadastroFormularioInterface>;
-  public expandidoDados: any = false;
-  public expandido = new Subject();
-  public cadastro = new CadastroFormulario();
-
-  private cadastros$: Observable<CadastroInterface>;
-  private cadCompleto$: Observable<CadastroDetalheCompletoInterface>;
-  private detalheUrl = this.url.cadastro + '/detalhe/';
-  public ativo = false;
+  buscaSubject = new BehaviorSubject<boolean>(true);
+  busca$ = this.buscaSubject.asObservable();
+  idx?: number;
+  cadastroUrl = this.url.cadastro;
+  sub: Subscription[] = [];
+  cadastros: CadastroI[] = [];
+  selecionados: CadastroI[] = [];
+  Contexto: CadastroI;
+  busca?: CadastroBuscaI;
+  tabela?: DatatableI;
+  stateSN = false;
+  expandido?: CadastroI;
+  expandidoSN = false;
+  cadastroApagar: CadastroI | null = null;
+  sortField = 'cadastro_nome';
+  sortOrder = 1;
+  lazy = false;
+  acao: string | null = null;
+  colunas: string[] = [];
+  cadastro_campo1_sn = false;
+  cadastro_campo1_nome: string | null = null;
+  cadastro_campo2_sn = false;
+  cadastro_campo2_nome: string | null = null;
+  cadastro_campo3_sn = false;
+  cadastro_campo3_nome: string | null = null;
+  cadastro_campo4_sn = false;
+  cadastro_campo4_nome: string | null = null;
+  // totais: CadastroI[] = [];
+  titulos: TituloI[] | null = null;
+  mudaRows = 50;
+  rowsPerPageOptions = [50];
 
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private as: ArquivoService,
-    ) { }
-
-  buscaMenu() {
-    this.buscaBsSource.next();
-  }
-
-  procurarCadastroDuplicado (nome: string = null): Observable<CadastroDuplicadoBuscaInterface[]> {
-    let url: string;
-    let nm: string;
-    url = this.url.cadastro + '/verificanome/';
-    if (nome) {
-      nm = url + nome;
-    }
-    if (this.busca_Nome) {
-      nm = url + this.busca_Nome;
-    }
-    if (nm) {
-      this.cadastrosDuplicados$ = this.http.get<CadastroDuplicadoBuscaInterface[]> (nm);
-    } else {
-      this.cadastrosDuplicados$ = null;
-    }
-    return this.cadastrosDuplicados$;
-  }
-
-  contaNomeDuplicado (nome: string): Observable<any> {
-    this.cadNum$ = null;
-    if (nome !== null && nome.length > 2) {
-      const url = this.url.cadastro + '/contanomeduplicado/' + this.busca_Nome;
-      this.cadNum$ = this.http.get<any[]> (url);
-    }
-    return this.cadNum$;
-  }
-
-  // @ts-ignore
-  incluirCadastro (cadastro: CadastroFormularioInterface) {
-    let url: string;
-    url = this.url.cadastro + '/incluir';
-    if (cadastro) {
-      const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-      this.incluirResposta$ = this.http.post<any[]> (url, cadastro, httpOptions);
-      return this.incluirResposta$;
-    }
-  }
-
-  // @ts-ignore
-  alterarCadastro (cadastro: CadastroFormularioInterface) {
-    let url: string;
-    url = this.url.cadastro + '/alterar';
-    if (cadastro) {
-      const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-      return this.http.post<any[]> (url, cadastro, httpOptions);
-      // return this.incluirResposta$;
-    }
-  }
-
-  criaCadastro(): void {
-    this.cadastro = new CadastroFormulario();
-  }
-
-  resetCadastro() {
-    delete this.cadastro;
-    this.cadastro = new CadastroFormulario();
-  }
-
-  excluirCadastro(id: number) {
-    if (!id) {
-      return null;
-    }
-    let url: string;
-    url = this.url.cadastro + '/' + id;
-    this.cadExc$ = this.http.delete(url);
-    return this.cadExc$;
-  }
-
-  alterarCadastroBusca (id: number) {
-    if (!id) {
-      return null;
-    }
-    let url: string;
-    url = this.url.cadastro + '/alterar/' + id;
-    this.cadAlterar$ = this.http.get<CadastroFormularioInterface> (url);
-    return this.cadAlterar$;
-  }
-
-  // @ts-ignore
-  postCelular(campo: string, valor: string, id: number) {
-    let teste = true;
-    if ((campo.length >= 16) &&
-      (!valor || valor.length < 9) && (!id || id > 0)) {
-      teste = false;
-    }
-    if (teste) {
-      let url: string;
-      url = this.url.cadastro + '/celular';
-      const dados = {'campo': campo, 'valor': valor, 'id': id};
-      const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-      this.celular$ = this.http.post<any[]> (url, dados, httpOptions);
-      return this.celular$;
-    }
-  }
-
-  // *****************************
-
-  postCadastroBusca(busca: CadastroBuscaInterface) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    let url = this.cadastroUrl;
-    url += '/listar';
-    this.selecionaTodos$ = this.http.post<CadastroPaginacaoInterface>(url, busca, httpOptions);
-    return this.selecionaTodos$;
-  }
-
-  postCadastroBuscaJson(busca: CadastroBuscaInterface) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    let url = this.cadastroUrl;
-    url += '/listarjson';
-    this.selecionaTodos$ = this.http.post<CadastroPaginacaoInterface>(url, busca, httpOptions);
-    return this.selecionaTodos$;
-  }
-
-  postCadastroSmsBusca(busca: CadastroBuscaInterface): Observable<CadastroSmsPaginacaoInterface> {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.url.cadastro + '/listarsms';
-    this.cadastroSMSPaginacao$ = this.http.post<CadastroSmsPaginacaoInterface>(url, busca, httpOptions);
-    return this.cadastroSMSPaginacao$;
-  }
-
-  recuperaColunaExpandida() {
-    let resp: any;
-    if (!sessionStorage.getItem('cadastro-expandido')) {
-      resp = false;
-    } else {
-      resp = JSON.parse(sessionStorage.getItem('cadastro-expandido'));
-      sessionStorage.removeItem('cadastro-expandido');
-    }
-    return resp;
-  }
-
-  gravaColunaExpandida(dados) {
-    sessionStorage.setItem('cadastro-expandido', JSON.stringify(dados));
-  }
-
-  montaColunaExpandida(ev: any[]) {
-    const campo = [
-      'cadastro_id',
-      'cadastro_tipo_nome',
-      'cadastro_tratamento_nome',
-      'cadastro_nome',
-      'cadastro_apelido',
-      'cadastro_sigla',
-      'cadastro_responsavel',
-      'cadastro_cargo',
-      'cadastro_endereco',
-      'cadastro_endereco_numero',
-      'cadastro_endereco_complemento',
-      'cadastro_bairro',
-      'cadastro_municipio_nome',
-      'cadastro_estado_nome',
-      'cadastro_cep',
-      'cadastro_regiao_nome',
-      'cadastro_telefone',
-      'cadastro_telcom',
-      'cadastro_telefone2',
-      'cadastro_celular',
-      'cadastro_celular2',
-      'cadastro_fax',
-      'cadastro_email',
-      'cadastro_email2',
-      'cadastro_rede_social',
-      'cadastro_outras_midias',
-      'cadastro_grupo_nome',
-      'cadastro_data_nascimento',
-      'cadastro_estado_civil_nome',
-      'cadastro_conjuge',
-      'cadastro_profissao',
-      'cadastro_cpfcnpj',
-      'cadastro_rg',
-      'cadastro_sexo',
-      'cadastro_escolaridade_nome',
-      'cadastro_zona',
-      'cadastro_jornal',
-      'cadastro_mala',
-      'cadastro_agenda',
-      'cadastro_data_cadastramento',
-      'cadastro_usuario',
-      'cadastro_campo1',
-      'cadastro_campo2',
-      'cadastro_campo3',
-      'cadastro_campo4_nome',
-      'cadastro_observacoes'
-    ];
-    const titulo = [
-      '#',
-      'Tipo de Cadastro',
-      'Tratamento',
-      'Nome/Razão Social',
-      'Apelido',
-      'Sigla',
-      'Empresa / Responsável',
-      'Cargo',
-      'Endereço',
-      'Número',
-      'Complemento',
-      'Bairro',
-      'Município',
-      'Estado',
-      'Cep',
-      'Região',
-      'Telefone1',
-      'Telefone2',
-      'Telefone3',
-      'Celular1',
-      'Celular2',
-      'Fax',
-      'E-mail1',
-      'E-mail2',
-      'Facebook',
-      'Outras mídias',
-      'Grupo',
-      'Data de Nascimento / Fundação',
-      'Estado Civil',
-      'Conjuge',
-      'Profissão',
-      'Cpf/Cnpj',
-      'Rg',
-      'Genero',
-      'Escolaridade',
-      'Partido',
-      'Boletim',
-      'Mala direta',
-      'Contato',
-      'Data de cadastrmento',
-      'Cadastrante',
-      'Campo1',
-      'Campo2',
-      'Campo3',
-      'Campo4',
-      'Observações'
-    ];
-    let a = 0;
-    const b: any[] = [];
-
-    for (const v in ev) {
-      if (ev[v] !== null) {
-        if (ev[v].toString().length > 0) {
-          const n = campo.indexOf(v);
-          if (n >= 0) {
-            const cc: string[] = [];
-            cc.push(titulo[n].toString());
-            switch (v) {
-              case 'cadastro_jornal' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'ATIVO';
-                    break;
-                  }
-                  case 2 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                }
-                break;
-              }
-              case 'cadastro_mala' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'ATIVO';
-                    break;
-                  }
-                  case 2 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                }
-                break;
-              }
-              case 'cadastro_agenda' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'ATIVO';
-                    break;
-                  }
-                  case 2 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                }
-                break;
-              }
-              case 'cadastro_sigilo' : {
-                switch (ev[v]) {
-                  case 0 : {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                  case 1 : {
-                    ev[v] = 'ATIVO';
-                    break;
-                  }
-                  default: {
-                    ev[v] = 'INATIVO';
-                    break;
-                  }
-                }
-                break;
-              }
-            }
-            cc.push(ev[v]);
-            b.push([titulo[n].toString(), ev[v]]);
-            a++;
-          }
-        }
-      } else {
-        a++;
-      }
-    }
-
-    // this.expandido.next(idxC);
-    setTimeout( () => {
-      this.expandido.next(b);
-    }, 1000);
-  }
-
-  getColunaExtendida(): Observable<any> {
-    return this.expandido;
-  }
-
-  postCadastroSmsTodos(busca: CadastroBuscaInterface, cpo: number) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    let url = this.cadastroUrl;
-    url += '/smstodos/' + cpo;
-    this.todosCelulares$ = this.http.post<SmsTodosInterface>(url, busca, httpOptions);
-    return this.todosCelulares$;
-  }
-
-  postCadastroBuscaEtiqueta(busca: CadastroBuscaInterface) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    let url = this.cadastroUrl;
-    url += '/listaretiqueta';
-    this.selecionaTodos$ = this.http.post<CadastroEtiquetaInterface>(url, busca, httpOptions);
-    return this.selecionaTodos$;
-  }
-
-  getDetalheCompleto(id: number): Observable<CadastroDetalheCompletoInterface> {
-    const url = this.detalheUrl + 'completo/' + id ;
-    this.cadCompleto$ = this.http.get<CadastroDetalheCompletoInterface>(url);
-    return this.cadCompleto$;
+    private ts: TitulosService,
+    private celulaService: CelulaService
+  ) {
+    this.cadastroUrl = this.url.cadastro;
+    this.celulaService.modulo = 'Cadastro'
   }
 
   getCampoCadastro() {
@@ -448,5 +74,516 @@ export class CadastroService {
     this.cadastro_campo4_sn = tmp.cadastro_campo4_sn === 1;
     this.cadastro_campo4_nome = tmp.cadastro_campo4_sn === 1 ? tmp.cadastro_campo4_nome : null;
   }
+
+  buscaMenu() {
+    this.cadastroBusca();
+  }
+
+  criaTabela() {
+    if (this.tabela === undefined) {
+      this.tabela = new Datatable();
+      if (this.stateSN) {
+        this.criaBusca();
+      } else {
+        this.tabela.sortField = 'cadastro_data_apresentacao';
+        this.tabela.camposTexto = cadastrocampostexto;
+        if (this.busca === undefined) {
+          this.criaBusca();
+        }
+
+      }
+    }
+  }
+
+  resetTabela() {
+    this.tabela = undefined;
+    this.criaTabela();
+  }
+
+  criaBusca() {
+    if (this.busca === undefined) {
+      this.busca = {
+        todos: this.tabela.todos,
+        rows: this.tabela.rows,
+        sortField: this.tabela.sortField,
+        first: this.tabela.first,
+        sortOrder: this.tabela.sortOrder
+      };
+    }
+  }
+
+  novaBusca(busca: CadastroBuscaI) {
+    if (busca === undefined) {
+      this.busca = {
+        todos: this.tabela.todos,
+        rows: this.tabela.rows,
+        sortField: this.tabela.sortField,
+        first: this.tabela.first,
+        sortOrder: this.tabela.sortOrder
+      };
+    } else {
+      this.busca = undefined;
+      this.busca = busca;
+      this.busca.todos = this.tabela.todos;
+      this.busca.rows = this.tabela.rows;
+      this.busca.first = 0;
+      this.busca.sortOrder = 1;
+      this.busca.sortField = 'cadastro_data_apresentacao';
+    }
+  }
+
+  resetCadastroBusca() {
+    this.busca = undefined;
+    this.criaBusca();
+  }
+
+  resetSelecionados() {
+    this.selecionados = [];
+  }
+
+  onContextMenuSelect(event) {
+    this.Contexto = event.data;
+  }
+
+  montaTitulos(cps: string[]) {
+    this.tabela.campos = [];
+    this.tabela.campos = cps;
+    this.tabela.titulos = [];
+    this.titulos = this.ts.buscaTitulos('cadastro', cps);
+  }
+
+  onRowExpand(evento) {
+    if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
+      this.titulos = this.ts.mTitulo['emenda'];
+    }
+    this.tabela.dadosExpandidosRaw = evento;
+    this.expandido = evento.data;
+    const cl: CelulaI[] = [];
+    let ev = evento.data;
+    this.titulos.forEach(t => {
+      if (ev[t.field] !== undefined && ev[t.field] !== null) {
+        if (ev[t.field].length > 0) {
+          let celula: CelulaI = {
+            header: t.titulo,
+            field: t.field,
+            valor: ev[t.field],
+            txtVF: false,
+            cphtml: ev[t.field]
+          }
+          const m = this.tabela.camposTexto.findIndex(c => t.field === c);
+          if (m > -1 && ev[t.field].length > 40) {
+            const d = t.field + '_delta';
+            const tx = t.field + '_texto';
+            celula.txtVF = true;
+            if (ev[d] !== undefined && ev[d] !== null) {
+              celula.cpdelta = ev[d];
+            }
+            if (ev[tx] !== undefined && ev[tx] !== null) {
+              celula.cptexto = ev[tx];
+              celula.valor = ev[tx];
+            }
+          }
+          if (m > -1 && ev[t.field].length <= 40) {
+            celula.valor = limpaTexto(ev[t.field]);
+          }
+          cl.push(celula);
+        }
+      }
+    });
+    this.tabela.celulas = cl;
+    this.expandidoSN = true;
+  }
+
+  onRowCollapse(ev) {
+    this.tabela.celulas = [];
+    this.expandidoSN = false;
+  }
+
+  testaCampoTexto(field: string): boolean {
+    return (this.tabela.camposTexto.indexOf(field) > -1);
+  }
+
+  onStateRestore(tableSession: any) {
+    if (tableSession !== undefined) {
+      if (sessionStorage.getItem('cadastro-busca')) {
+        this.parseBusca(JSON.parse(sessionStorage.getItem('cadastro-busca')));
+      }
+    }
+    this.stateSN = false;
+  }
+
+  salvaState() {
+    this.stateSN = true;
+    sessionStorage.setItem('cadastro-busca', JSON.stringify(this.busca));
+  }
+
+  setState(ev) {
+    this.tabela.expandedRowKeys = ev.expandedRowKeys;
+  }
+
+  parseBusca(b: CadastroBuscaI) {
+    sessionStorage.removeItem('cadastro-busca');
+    this.busca.todos = (b.todos !== undefined) ? b.todos : undefined;
+    this.busca.rows = (b.rows !== undefined) ? +b.rows : undefined;
+    this.busca.sortField = (b.sortField !== undefined) ? b.sortField : undefined;
+    this.busca.first = (b.first !== undefined) ? +b.first : undefined;
+    this.busca.sortOrder = (b.sortOrder !== undefined) ? +b.sortOrder : undefined;
+    this.busca.cadastro_tipo_id = (b.cadastro_tipo_id !== undefined) ? b.cadastro_tipo_id : undefined;
+    this.busca.cadastro_id = (b.cadastro_id !== undefined) ? +b.cadastro_id : undefined;
+    this.busca.cadastro_nome = (b.cadastro_nome !== undefined) ? b.cadastro_nome : undefined;
+    this.busca.cadastro_sigla = (b.cadastro_sigla !== undefined) ? b.cadastro_sigla : undefined;
+    this.busca.cadastro_apelido = (b.cadastro_apelido !== undefined) ? b.cadastro_apelido : undefined;
+    this.busca.cadastro_responsavel = (b.cadastro_responsavel !== undefined) ? b.cadastro_responsavel : undefined;
+    this.busca.cadastro_cargo = (b.cadastro_cargo !== undefined) ? b.cadastro_cargo : undefined;
+    this.busca.cadastro_estado_id = (b.cadastro_estado_id !== undefined) ? +b.cadastro_estado_id : undefined;
+    this.busca.cadastro_municipio_id = (b.cadastro_municipio_id !== undefined) ? +b.cadastro_municipio_id : undefined;
+    this.busca.cadastro_regiao_id = (b.cadastro_regiao_id !== undefined) ? +b.cadastro_regiao_id : undefined;
+    this.busca.cadastro_grupo_id = (b.cadastro_grupo_id !== undefined) ? +b.cadastro_grupo_id : undefined;
+    this.busca.cadastro_data_nascimento1 = (b.cadastro_data_nascimento1 !== undefined) ? b.cadastro_data_nascimento1 : undefined;
+    this.busca.cadastro_data_nascimento2 = (b.cadastro_data_nascimento2 !== undefined) ? b.cadastro_data_nascimento2 : undefined;
+    this.busca.cadastro_anidia = (b.cadastro_anidia !== undefined) ? +b.cadastro_anidia : undefined;
+    this.busca.cadastro_animes = (b.cadastro_animes !== undefined) ? +b.cadastro_animes : undefined;
+    this.busca.quinzena = (b.quinzena !== undefined) ? +b.quinzena : undefined;
+    this.busca.cadastro_estado_civil_id = (b.cadastro_estado_civil_id !== undefined) ? +b.cadastro_estado_civil_id : undefined;
+    this.busca.cadastro_escolaridade_id = (b.cadastro_escolaridade_id !== undefined) ? +b.cadastro_escolaridade_id : undefined;
+    this.busca.cadastro_profissao = (b.cadastro_profissao !== undefined) ? b.cadastro_profissao : undefined;
+    this.busca.cadastro_sexo = (b.cadastro_sexo !== undefined) ? b.cadastro_sexo : undefined;
+    this.busca.cadastro_zona = (b.cadastro_zona !== undefined) ? b.cadastro_zona : undefined;
+    this.busca.cadastro_data_cadastramento = (b.cadastro_data_cadastramento !== undefined) ? b.cadastro_data_cadastramento : undefined;
+    this.busca.cadastro_jornal = (b.cadastro_jornal !== undefined) ? +b.cadastro_jornal : undefined;
+    this.busca.cadastro_mala = (b.cadastro_mala !== undefined) ? +b.cadastro_mala : undefined;
+    this.busca.cadastro_agenda = (b.cadastro_agenda !== undefined) ? +b.cadastro_agenda : undefined;
+    this.busca.cadastro_sigilo = (b.cadastro_sigilo !== undefined) ? +b.cadastro_sigilo : undefined;
+    this.busca.cadastro_cpfcnpj = (b.cadastro_cpfcnpj !== undefined) ? b.cadastro_cpfcnpj : undefined;
+    this.busca.telefone = (b.telefone !== undefined) ? b.telefone : undefined;
+    this.busca.cadastro_campo1 = (b.cadastro_campo1 !== undefined) ? b.cadastro_campo1 : undefined;
+    this.busca.cadastro_campo2 = (b.cadastro_campo2 !== undefined) ? b.cadastro_campo2 : undefined;
+    this.busca.cadastro_campo3 = (b.cadastro_campo3 !== undefined) ? b.cadastro_campo3 : undefined;
+    this.busca.cadastro_campo4_id = (b.cadastro_campo4_id !== undefined) ? +b.cadastro_campo4_id : undefined;
+    this.cadastroBusca();
+  }
+
+  imprimirTabela(n: number) {
+    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'PROPOSIÇÃO');
+    }
+
+    if (n === 2 && this.cadastros.length > 0) {
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.cadastros, 'PROPOSIÇÃO');
+    }
+
+    if (n === 3) {
+      let busca: CadastroBuscaI = this.busca;
+      busca.rows = undefined;
+      busca.campos = this.tabela.selectedColumns;
+      busca.todos = true;
+      busca.first = undefined;
+      busca.excel = true;
+      let cadastroRelatorio: CadastroPaginacaoI;
+      this.sub.push(this.postCadastroRelatorio(busca)
+        .subscribe({
+          next: (dados) => {
+            cadastroRelatorio = dados
+          },
+          error: err => {
+            console.error('ERRO-->', err);
+          },
+          complete: () => {
+            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, cadastroRelatorio.cadastros, 'PROPOSIÇÃO');
+          }
+        })
+      );
+    }
+
+
+  }
+
+  tabelaPdf(n: number): void {
+    // 1 - selecionados
+    // 2 - pagina
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (n === 1) {
+        TabelaPdfService.tabelaPdf(
+          'cadastros',
+          'PROPOSIÇÃO',
+          this.tabela.selectedColumns,
+          this.selecionados,
+          cadastrocampostexto
+        );
+      }
+      if (n === 2) {
+        TabelaPdfService.tabelaPdf(
+          'cadastros',
+          'PROPOSIÇÃO',
+          this.tabela.selectedColumns,
+          this.cadastros,
+          cadastrocampostexto
+        );
+      }
+      if (n === 3) {
+        let busca: CadastroBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns, busca.todos = true;
+        busca.first = undefined;
+        let cadastroRelatorio: CadastroPaginacaoI;
+        this.sub.push(this.postCadastroRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              cadastroRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              TabelaPdfService.tabelaPdf(
+                'cadastros',
+                'PROPOSIÇÃO',
+                this.tabela.selectedColumns,
+                cadastroRelatorio.cadastros,
+                cadastrocampostexto
+              );
+            }
+          })
+        );
+      }
+    }
+  }
+
+  exportToXLSX(td: number = 1) {
+
+    if (td === 3) {
+      if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+        let busca: CadastroBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.excel = true;
+        let cadastroRelatorio: CadastroPaginacaoI;
+        this.sub.push(this.postCadastroRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              cadastroRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              ExcelService.criaExcelFile('cadastro', limpaCampoTexto(cadastrocampostexto, cadastroRelatorio.cadastros), this.tabela.selectedColumns);
+            }
+          })
+        );
+      }
+    }
+    if (this.cadastros.length > 0 && td === 2) {
+      ExcelService.criaExcelFile('cadastro', limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.cadastros), this.tabela.selectedColumns);
+      return true;
+    }
+    if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
+      ExcelService.criaExcelFile('cadastro', limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.selecionados), this.tabela.selectedColumns);
+      return true;
+    }
+  }
+
+  exportToCsvTodos(td: boolean = true) {
+    if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
+      if (td === true) {
+        let busca: CadastroBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = td;
+        busca.first = undefined;
+        let slolicRelatorio: CadastroPaginacaoI;
+        this.sub.push(this.postCadastroRelatorio(busca)
+          .subscribe({
+            next: (dados) => {
+              slolicRelatorio = dados
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              CsvService.jsonToCsv('cadastro', this.tabela.selectedColumns, slolicRelatorio.cadastros);
+
+            }
+          })
+        );
+      }
+    }
+  }
+
+  customSort(ev) {
+  }
+
+  cadastroBusca(): void {
+    if (this.lazy &&
+      this.tabela.totalRecords <= +this.tabela.rows &&
+      this.busca.ids === this.tabela.ids &&
+      this.busca.first === this.tabela.first &&
+      +this.tabela.rows === +this.mudaRows) {
+      this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_nascimento') ? 'cadastro_data_nascimento3' : (this.tabela.sortField === 'cadastro_data_cadastramento') ? 'cadastro_data_cadastramento3' : this.tabela.sortField;
+      if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
+        this.lazy = false;
+        let tmp = this.cadastros;
+        if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
+          // if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
+          this.busca.sortOrder = +this.tabela.sortOrder;
+          if (+this.tabela.sortOrder === 1) {
+            tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
+            this.cadastros = tmp;
+            this.lazy = true;
+          } else {
+            tmp.sort((first, second) => (second[this.tabela.sortField] > first[this.tabela.sortField]) ? 1 : ((first[this.tabela.sortField] > second[this.tabela.sortField]) ? -1 : 0));
+            this.cadastros = tmp;
+            this.lazy = true;
+          }
+        } else {
+          if (this.busca.sortField !== this.tabela.sortField) {
+            this.busca.sortField = this.tabela.sortField;
+            this.busca.sortOrder = 1;
+            tmp.sort((first, second) => (first[this.tabela.sortField] > second[this.tabela.sortField]) ? 1 : ((second[this.tabela.sortField] > first[this.tabela.sortField]) ? -1 : 0));
+            this.cadastros = tmp;
+            this.tabela.sortOrder = 1;
+            this.lazy = true;
+          }
+        }
+      }
+    } else {
+      this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_nascimento') ? 'cadastro_data_nascimento2' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_cadastramento') ? 'cadastro_data_cadastramento2' : this.tabela.sortField;
+      this.busca.rows = this.tabela.rows;
+      this.busca.first = this.tabela.first;
+      this.busca.sortOrder = this.tabela.sortOrder;
+      this.busca.sortField = this.tabela.sortField;
+      if (this.busca.todos === undefined && this.tabela.todos === undefined) {
+        this.busca.todos = false;
+        this.tabela.todos = false;
+      }
+      this.busca.ids = this.tabela.ids;
+      this.sub.push(this.postCadastroBusca(this.busca)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.cadastros = dados.cadastros.map((t) => {
+              let p: CadastroI = t;
+              p.cadastro_data_nascimento3 = new Date(t.cadastro_data_nascimento2);
+              p.cadastro_data_cadastramento3 = new Date(t.cadastro_data_cadastramento2);
+              return p;
+            });
+            this.tabela.total = dados.total;
+          },
+          error: err => console.error('ERRO-->', err),
+          complete: () => {
+            this.lazy = false;
+            if (+this.tabela.totalRecords !== +this.tabela.total.num) {
+              this.tabela.totalRecords = +this.tabela.total.num;
+              this.mudaRowsPerPageOptions(this.tabela.totalRecords);
+            }
+            const n = (this.tabela.first + this.tabela.rows) / this.tabela.rows;
+            if (+this.tabela.currentPage !== n) {
+              this.tabela.currentPage = n;
+            }
+            const m = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
+            if (+this.tabela.pageCount !== m) {
+              this.tabela.pageCount = m
+            }
+            this.stateSN = false;
+            this.lazy = this.tabela.totalRecords > this.tabela.rows;
+          }
+        })
+      );
+    }
+  }
+
+  postCadastroBusca(busca: CadastroBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.cadastro + '/listar';
+    return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
+  }
+
+  postCadastroRelatorio(busca: CadastroBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.cadastro + '/relatorio';
+    return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
+  }
+
+  incluirCadastro(dados: PropFormI): Observable<any> {
+    let url: string;
+    url = this.url.cadastro + '/incluir';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, dados, httpOptions);
+  }
+
+  alterarCadastro(dados: PropFormI): Observable<any> {
+    let url: string;
+    url = this.url.cadastro + '/alterar';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, dados, httpOptions);
+  }
+
+  atualizarCadastro(dados: CadastroI): Observable<any> {
+    let url: string;
+    url = this.url.cadastro + '/atualizar';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, dados, httpOptions);
+  }
+
+  excluirCadastro(id: number): Observable<any> {
+    const url = this.url.cadastro + '/' + id;
+    return this.http.delete<any>(url);
+  }
+
+  /*montaHistorico(idx: number) {
+    this.aps.idx = idx;
+    this.aps.andPropForm.idx = idx;
+  }*/
+
+  /*recebeRegistro(h: AndPropI) {
+    if (h.acao === 'incluir') {
+      if (Array.isArray(this.cadastros[h.idx].andamento_cadastro)) {
+        this.cadastros[h.idx].andamento_cadastro.push(h.andamentoCadastroListar[0]);
+      } else {
+        this.cadastros[h.idx].andamento_cadastro = [h.andamentoCadastroListar[0]];
+      }
+    }
+    if (h.acao === 'alterar') {
+      const m: AndamentoCadastroI[] = this.cadastros[h.idx].andamento_cadastro;
+      const n: number = m.findIndex(s => s.andamento_cadastro_id === h.andamentoCadastroListar[0].andamento_cadastro_id);
+      this.cadastros[h.idx].andamento_cadastro.splice(n, 1, h.andamentoCadastroListar[0]);
+    }
+    if (h.acao === 'apagar') {
+      const m: AndamentoCadastroI[] = this.cadastros[h.idx].andamento_cadastro;
+      const n: number = m.findIndex(s => s.andamento_cadastro_id === h.andamentoCadastroListar[0].andamento_cadastro_id);
+      this.cadastros[h.idx].andamento_cadastro.splice(n, 1);
+    }
+  }*/
+
+  rowsChange(ev) {
+    this.mudaRows = this.tabela.rows;
+  }
+
+  mudaRowsPerPageOptions(t: number) {
+    let anterior = 50;
+    let teste = [50];
+    while (anterior < t) {
+      anterior = anterior * 2;
+      teste.push(anterior);
+    }
+    this.rowsPerPageOptions = teste;
+  }
+
+  onDestroy(): void {
+    sessionStorage.removeItem('cadastro-busca');
+    sessionStorage.removeItem('cadastro-tabela');
+    sessionStorage.removeItem('cadastro-table');
+    this.tabela = undefined;
+    this.busca = undefined;
+    this.selecionados = undefined;
+    this.Contexto = undefined;
+    this.stateSN = false;
+    this.expandidoSN = false;
+    this.sub.forEach(s => s.unsubscribe());
+  }
+
 
 }
