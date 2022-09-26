@@ -5,6 +5,8 @@
   [dismissible]="true"
   styleClass="menuinterno"
   appendTo="body"
+  (onShow)="verificaDD()"
+  (onHide)="verificaDD()"
 >
   <p-scrollPanel [styleClass]="'menu-lateral'" >
   <app-cadastro-menu-listar></app-cadastro-menu-listar>

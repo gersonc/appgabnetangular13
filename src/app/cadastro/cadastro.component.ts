@@ -3,6 +3,7 @@ import {Subscription} from "rxjs";
 import {MenuInternoService} from "../_services";
 import {ArquivoService} from "../arquivo/_services";
 import {CadastroService} from "./_services/cadastro.service";
+import {CadastroDropdownMenuService} from "./_services/cadastro-dropdown-menu.service";
 
 @Component({
   selector: 'app-cadastro',
@@ -18,9 +19,11 @@ export class CadastroComponent implements OnInit, OnDestroy {
     public mi: MenuInternoService,
     public cs: CadastroService,
     private as: ArquivoService,
+    private cdd: CadastroDropdownMenuService
   ) { }
 
   ngOnInit() {
+    console.log('cadastro ngOnInit');
     this.cs.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
@@ -39,11 +42,16 @@ export class CadastroComponent implements OnInit, OnDestroy {
     }
   }
 
+  verificaDD() {
+    this.cdd.gravaDropDown();
+  }
+
   onHide() {
     this.mi.mudaMenuInterno(false);
   }
 
   ngOnDestroy(): void {
+    console.log('cadastro ngOnDestroy');
     this.cs.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }

@@ -19,7 +19,6 @@ export class CadastroListarResolver implements Resolve<boolean> {
   }
 
   populaDropdown() {
-    this.dd.gravaDropDown();
     this.sub.push(this.dd.resp$
       .pipe(take(1))
       .subscribe((dados) => {
@@ -27,6 +26,7 @@ export class CadastroListarResolver implements Resolve<boolean> {
         }
       )
     );
+    this.dd.gravaDropDown();
   }
 
 
@@ -41,18 +41,22 @@ export class CadastroListarResolver implements Resolve<boolean> {
 
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    this.populaDropdown();
-    return this.resp$.pipe(
-      take(1),
-      mergeMap(vf => {
-        if (vf) {
-          this.onDestroy();
-          return of(vf);
-        } else {
-          this.onDestroy();
-          return EMPTY;
-        }
-      })
-    );
+    if (!sessionStorage.getItem('cadastro_menu-dropdown')) {
+      this.populaDropdown();
+      return this.resp$.pipe(
+        take(1),
+        mergeMap(vf => {
+          if (vf) {
+            this.onDestroy();
+            return of(vf);
+          } else {
+            this.onDestroy();
+            return of(false);
+          }
+        })
+      );
+    } else {
+      return of(true);
+    }
   }
 }

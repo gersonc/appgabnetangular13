@@ -59,36 +59,38 @@
             </div>
             <!-- cadastro_nome -->
             <div class="p-field p-col-12">
-              <label for="cadastro_nome">Nome/Razão Social</label>
+              <label for="cadastro_nome">Nome/Razão Social <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_nome"
                 formControlName="cadastro_nome"
                 placeholder="Nome/Razão Social"
+                field="label"
                 [maxlength]="50"
-                [minLength]="3"
-                [delay]="500"
+                [minLength]="4"
+                [delay]="1000"
                 [suggestions]="sgt"
                 (completeMethod)="autoComp2($event)"
                 [inputStyle]="{'padding-right':'0'}"
               ></p-autoComplete>
             </div>
-            <div class="p-field p-col-12">
-              <label for="cadastro_nome">Nome/Razão Social</label>
+            <!--<div class="p-field p-col-12">
+              <label for="cadastro_nome2">Nome/Razão Social <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_nome2"
                 formControlName="cadastro_nome2"
                 placeholder="Nome/Razão Social"
+                field="label"
                 [maxlength]="50"
-                [minLength]="3"
-                [delay]="500"
+                [minLength]="4"
+                [delay]="1000"
                 [suggestions]="sgt"
                 (completeMethod)="autoComp2($event)"
                 [inputStyle]="{'padding-right':'0'}"
               ></p-autoComplete>
-            </div>
+            </div>-->
             <!-- cadastro_responsavel -->
             <div class="p-field p-col-12">
-              <label for="cadastro_responsavel">Empresa/Responsável</label>
+              <label for="cadastro_responsavel">Empresa/Responsável <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_responsavel"
                 formControlName="cadastro_responsavel"
@@ -103,7 +105,7 @@
             </div>
             <!-- cadastro_sigla -->
             <div class="p-field p-col-12">
-              <label for="cadastro_sigla">Sigla</label>
+              <label for="cadastro_sigla">Sigla <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_sigla"
                 formControlName="cadastro_sigla"
@@ -118,7 +120,7 @@
             </div>
             <!-- cadastro_apelido -->
             <div class="p-field p-col-12">
-              <label for="cadastro_apelido">Apelido</label>
+              <label for="cadastro_apelido">Apelido <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_apelido"
                 formControlName="cadastro_apelido"
@@ -134,16 +136,15 @@
             <!-- cadastro_bairro -->
             <div class="p-field p-col-12">
               <label for="cadastro_bairro">Bairro</label>
-              <p-autoComplete
+              <p-dropdown
                 id="cadastro_bairro"
+                [options]="dd.ddn.ddCadastroBairro"
+                optionLabel="label"
+                placeholder="TODOS"
                 formControlName="cadastro_bairro"
-                placeholder="Bairro"
-                [maxlength]="50"
-                [minLength]="3"
-                [delay]="300"
-                [suggestions]="sgt"
-                [inputStyle]="{'padding-right':'0'}"
-              ></p-autoComplete>
+                [filter]="dd.ddn.ddCadastroBairro.length > 100"
+                [showClear]="true"
+              ></p-dropdown>
             </div>
             <!-- cadastro_municipio_id -->
             <div class="p-field p-col-12">
@@ -154,6 +155,7 @@
                 optionLabel="label"
                 placeholder="TODOS"
                 formControlName="cadastro_municipio_id"
+                [filter]="dd.ddn.ddCadastroMunicipioId.length > 100"
                 [showClear]="true"
               ></p-dropdown>
             </div>
@@ -177,6 +179,7 @@
                 optionLabel="label"
                 formControlName="cadastro_regiao_id"
                 placeholder="TODAS"
+                [filter]="dd.ddn.ddCadastroRegiaoId.length > 100"
                 [showClear]="true"
               ></p-dropdown>
             </div>
@@ -192,26 +195,26 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
-            <!-- aniversario -->
+            <!-- cadastro_animes -->
             <div class="p-field p-col-12">
-              <label for="aniversario">Mês de Aniversário</label>
+              <label for="cadastro_animes">Mês de Aniversário</label>
               <p-dropdown
-                id="aniversario"
+                id="cadastro_animes"
                 [options]="dd.ddn.ddCadastroAniversario"
                 optionLabel="label"
-                formControlName="aniversario"
+                formControlName="cadastro_animes"
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>
             </div>
-            <!-- anidia -->
+            <!-- cadastro_anidia -->
             <div class="p-field p-col-12">
-              <label for="anidia">Dia do Aniversário</label>
+              <label for="cadastro_anidia">Dia do Aniversário</label>
               <p-dropdown
-                id="anidia"
+                id="cadastro_anidia"
                 [options]="dd.ddn.ddCadastroAnidia"
                 optionLabel="label"
-                formControlName="anidia"
+                formControlName="cadastro_anidia"
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>
@@ -231,33 +234,35 @@
             <!-- dt aniversario intervalo1 -->
             <div class="p-field p-col-6 p-sm-12 p-md-12 p-lg-6 p-xl-6">
               <!-- aniversario intervalo1 -->
-              <label for="data1">Dt. Nasc. / Fundação</label>
+              <label for="cadastro_data_nascimento1">Dt. Nasc. / Fundação</label>
               <p-calendar
-                id="data1"
-                formControlName="data1"
+                id="cadastro_data_nascimento1"
+                formControlName="cadastro_data_nascimento1"
                 placeholder="De"
                 dateFormat="dd/mm/yy"
                 [monthNavigator]="true"
                 [yearNavigator]="true"
                 yearRange="1900:2030"
+                dataType="date"
               ></p-calendar>
             </div>
             <div class="p-field p-col-6 p-sm-12 p-md-12 p-lg-6 p-xl-6">
               <!-- aniversario intervalo1 -->
-              <label for="data2">Até</label>
+              <label for="cadastro_data_nascimento2">Até</label>
               <p-calendar
-                id="data2"
-                formControlName="data2"
+                id="cadastro_data_nascimento2"
+                formControlName="cadastro_data_nascimento2"
                 placeholder="Até"
                 dateFormat="dd/mm/yy"
                 [monthNavigator]="true"
                 [yearNavigator]="true"
                 yearRange="1900:2030"
+                dataType="date"
               ></p-calendar>
             </div>
             <!-- cadastro_campo1 -->
             <div *ngIf="cs.cadastro_campo1_sn" class="p-field p-col-12">
-              <label for="cadastro_campo1">{{cs.cadastro_campo1_nome}}</label>
+              <label for="cadastro_campo1">{{cs.cadastro_campo1_nome}} <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_campo1"
                 formControlName="cadastro_campo1"
@@ -271,7 +276,7 @@
             </div>
             <!-- cadastro_campo2 -->
             <div *ngIf="cs.cadastro_campo2_sn" class="p-field p-col-12">
-              <label for="cadastro_campo2">{{cs.cadastro_campo2_nome}}</label>
+              <label for="cadastro_campo2">{{cs.cadastro_campo2_nome}} <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_campo2"
                 formControlName="cadastro_campo2"
@@ -302,7 +307,7 @@
             </div>
             <!-- cadastro_profissao -->
             <div class="p-field p-col-12">
-              <label for="cadastro_profissao">Profissão</label>
+              <label for="cadastro_profissao">Profissão <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_profissao"
                 formControlName="cadastro_profissao"
@@ -329,12 +334,12 @@
             </div>
             <!-- cadastro_sexo -->
             <div class="p-field p-col-12">
-              <label for="cadastro_sexo">Gênero</label>
+              <label for="cadastro_sexo2">Gênero</label>
               <p-dropdown
-                id="cadastro_sexo"
+                id="cadastro_sexo2"
                 [options]="dd.ddn.ddCadastroSexo"
                 optionLabel="label"
-                formControlName="cadastro_sexo"
+                formControlName="cadastro_sexo2"
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>

@@ -14,6 +14,7 @@ import {PropFormI} from "../../proposicao/_models/prop-form-i";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {CadastroBuscaI} from "../_models/cadastro-busca-i";
 import {take} from "rxjs/operators";
+import {ColunasI} from "../../_models/colunas-i";
 
 
 @Injectable({
@@ -85,7 +86,7 @@ export class CadastroService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        this.tabela.sortField = 'cadastro_data_apresentacao';
+        this.tabela.sortField = 'cadastro_nome';
         this.tabela.camposTexto = cadastrocampostexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -128,7 +129,7 @@ export class CadastroService {
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
       this.busca.sortOrder = 1;
-      this.busca.sortField = 'cadastro_data_apresentacao';
+      this.busca.sortField = 'cadastro_nome';
     }
   }
 
@@ -154,7 +155,7 @@ export class CadastroService {
 
   onRowExpand(evento) {
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
-      this.titulos = this.ts.mTitulo['emenda'];
+      this.titulos = this.ts.mTitulo['cadastro'];
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
@@ -198,6 +199,12 @@ export class CadastroService {
     this.tabela.celulas = [];
     this.expandidoSN = false;
   }
+
+  onColResize(ev) {
+    console.log('onColResize', ev);
+  }
+
+
 
   testaCampoTexto(field: string): boolean {
     return (this.tabela.camposTexto.indexOf(field) > -1);
@@ -247,7 +254,7 @@ export class CadastroService {
     this.busca.cadastro_estado_civil_id = (b.cadastro_estado_civil_id !== undefined) ? +b.cadastro_estado_civil_id : undefined;
     this.busca.cadastro_escolaridade_id = (b.cadastro_escolaridade_id !== undefined) ? +b.cadastro_escolaridade_id : undefined;
     this.busca.cadastro_profissao = (b.cadastro_profissao !== undefined) ? b.cadastro_profissao : undefined;
-    this.busca.cadastro_sexo = (b.cadastro_sexo !== undefined) ? b.cadastro_sexo : undefined;
+    this.busca.cadastro_sexo2 = (b.cadastro_sexo2 !== undefined) ? b.cadastro_sexo2 : undefined;
     this.busca.cadastro_zona = (b.cadastro_zona !== undefined) ? b.cadastro_zona : undefined;
     this.busca.cadastro_data_cadastramento = (b.cadastro_data_cadastramento !== undefined) ? b.cadastro_data_cadastramento : undefined;
     this.busca.cadastro_jornal = (b.cadastro_jornal !== undefined) ? +b.cadastro_jornal : undefined;

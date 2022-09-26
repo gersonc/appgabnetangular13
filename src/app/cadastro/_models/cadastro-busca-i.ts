@@ -4,7 +4,6 @@ export interface CadastroBuscaI {
   cadastro_id?: number;
   cadastro_tipo_id?: number;
   cadastro_nome?: string;
-  cadastro_nome2?: string;
   cadastro_sigla?: string;
   cadastro_apelido?: string;
   cadastro_responsavel?: string;
@@ -25,7 +24,7 @@ export interface CadastroBuscaI {
   cadastro_estado_civil_id?: number;
   cadastro_escolaridade_id?: number;
   cadastro_profissao?: string;
-  cadastro_sexo?: string;
+  cadastro_sexo2?: string;
   cadastro_zona?: string;
   cadastro_data_cadastramento?: string;
   cadastro_jornal?: number;

@@ -164,6 +164,8 @@ export class CadastroDropdownMenuService {
   ) { }
 
 
+
+
   getDropdownMenu() {
     this.sub.push(this.dd.getDd('cadastro_menu-dropdown')
       .pipe(take(1))
@@ -204,6 +206,9 @@ export class CadastroDropdownMenuService {
           this.getDropdownMenu();
         }
       } else {
+        if (this.ddn.ddCadastroTipoId === undefined || this.ddn.ddCadastroTipoId.length === 0) {
+          this.lerDropDownSession();
+        }
         this.resp.next(false);
         this.resp.complete();
       }
@@ -312,6 +317,7 @@ export class CadastroDropdownMenuService {
       );
       return true;
     } else {
+      this.gravaDropDown();
       return false
     }
   }

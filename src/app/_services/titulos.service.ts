@@ -21,7 +21,6 @@ export class TitulosService {
   iTitulos: ITitulos[] = [];
 
   mTitulo: Mtitulos[] = [];
-  // titulos2: TitulosI[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -37,14 +36,14 @@ export class TitulosService {
         const c = Object.keys(dados)
         this.titulos = c.map(s => { return dados[s]});
         this.mTitulo[modulo] = cps.map(c => {
-          return this.titulosi[c];
+          return (this.titulosi[c] !== undefined) ? this.titulosi[c] : {field: c, mtitulo: 'N/F', titulo: 'N/F'};
         });
       });
       return this.mTitulo[modulo];
     } else {
       if (this.mTitulo[modulo] === undefined) {
         this.mTitulo[modulo] = cps.map(c => {
-          return this.titulosi[c];
+          return (this.titulosi[c] !== undefined) ? this.titulosi[c] : {field: c, mtitulo: 'N/F', titulo: 'N/F'};
         });
         return this.mTitulo[modulo];
       } else {
@@ -71,7 +70,6 @@ export class TitulosService {
 
   getITitulos(modulo: string, cps: string[]): TitulosI {
     if (this.iTitulos[modulo] !== undefined) {
-      // console.log('this.iTitulos[modulo][0]', this.iTitulos[0]);
       return this.iTitulos[modulo];
     }
     this.iTitulos[modulo] = {};
@@ -86,7 +84,6 @@ export class TitulosService {
         };
       }
     });
-    // console.log('this.iTitulos[modulo][0]', this.iTitulos[0]);
     return this.iTitulos[modulo];
   }
 

@@ -14,8 +14,8 @@
          [(selection)]="cs.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
-         [autoLayout]="true"
-         columnResizeMode="expand"
+         [autoLayout]="false"
+         columnResizeMode="fit"
          [rowHover]="true"
          [responsive]="true"
          rowExpandMode="single"
@@ -31,6 +31,7 @@
          (onLazyLoad)="onLazyLoad($event)"
          (onColReorder)="onColReorder($event)"
          (onRowExpand)="cs.onRowExpand($event)"
+         (onColResize)="cs.onColResize($event)"
          (onRowCollapse)="cs.onRowCollapse($event)"
          (onStateSave)="cs.setState($event)"
          (onStateRestore)="cs.onStateRestore($event)"
@@ -39,9 +40,9 @@
          [customSort]="true"
          [tableStyle]="{'font-size':'var(--font-padrao)'}"
          stateStorage="session"
-         stateKey="tarefa-table"
+         stateKey="cadastro-table"
          selectionMode="multiple"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
 
   <!--*** TOPO *****************************************************************************************************-->
@@ -59,38 +60,63 @@
             <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
                     (click)="mostraSelectColunas()"></button>
           </div>
+
           <div *ngIf="aut.dispositivo!=='mobile'" class="p-mr-1">
             <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
           </div>
-          <div class="p-mr-0">
-            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
-                    (click)="cadastroIncluir()"></button>
+        </div>
+
+          <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+            <div class="p-mx-2">CADASTRO</div>
           </div>
-        </div>
+          <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
+            <div class="p-mr-2"
+                 *ngIf="cs.selecionados !== undefined &&  cs.selecionados !== null &&  cs.selecionados.length > 0">
+              <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
+                      (click)="cs.resetSelecionados()"></button>
+            </div>
+            <div class="p-mr-2">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num.
+              Registros: {{cs.tabela.totalRecords}}</div>
+          </div>
 
-        <div class="p-d-inline-flex p-ai-center">
-          <div class="p-mx-1">CADASTRO</div>
-        </div>
+          <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
+            <div class="p-mx-2">CADASTRO</div>
+            <div class="p-mr-2">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num.
+              Registros: {{cs.tabela.totalRecords}}</div>
+          </div>
 
-        <div class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-1">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num. Registros: {{cs.tabela.totalRecords}}</div>
+
+          <!--<div class="p-mr-0">
+                 <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                         (click)="cadastroIncluir()"></button>
+               </div>
+             </div>
+
+             <div class="p-d-inline-flex p-ai-center">
+               <div class="p-mx-1">CADASTRO</div>
+             </div>
+
+             <div class="p-d-inline-flex p-ai-center">
+               <div class="p-mr-1">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num. Registros: {{cs.tabela.totalRecords}}</div>
+             </div>-->
         </div>
       </div>
-    </div>
+
     <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col *ngFor="let col of columns">
+      <col style="width: 2rem;" pResizableColumnDisabled>
+      <col *ngFor="let col of columns" [style]="{width:col.width}">
     </colgroup>
   </ng-template>
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th></th>
+      <th style="width: 3.5em;" pResizableColumnDisabled></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.largura"
@@ -107,9 +133,9 @@
   <ng-template pTemplate="body" let-cad let-cad2=cad let-columns="columns" let-expanded="expanded"
                let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cad" [pContextMenuRow]="cad" [pSelectableRowIndex]="rowIndex">
-      <td>
+      <td style="width: 3.5em" pResizableColumnDisabled>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Expandir' : 'Recolher'" tooltipPosition="top"
-                [pRowToggler]="cad" class="p-button-rounded  p-button-text p-button-sm"
+                [pRowToggler]="cad" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
       <td *ngFor="let col of columns" [style.width]="col.largura">
@@ -205,8 +231,6 @@
   <!--*** MENU *****************************************************************************************************-->
 </p-table>
 <!--*** FIM ********************************************************************************************************-->
-
-<!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 <!--*** SELETOR DE COLUNAS *****************************************************************************************-->
 <p-dialog *ngIf="cs.tabela.mostraSeletor"
           id="seletor"

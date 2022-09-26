@@ -83,10 +83,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
     this.montaColunas();
 
-    if (!this.ct.stateSN) {
-      this.resetSelectedColumns();
-    }
-
     this.itemsAcao = [
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
@@ -149,6 +145,11 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
         }
       }
     ];
+
+    if (!this.ct.stateSN) {
+      this.resetSelectedColumns();
+    }
+
 
     this.montaMenuContexto();
 
@@ -214,6 +215,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   mapeiaColunas() {
+    console.log('mapeiaColunas');
     if (this.ct.titulos === undefined || this.ct.titulos === null || (Array.isArray(this.ct.titulos) && this.ct.titulos.length === 0)) {
       this.ct.montaTitulos(this.cols.map(cl => {
         return cl.field

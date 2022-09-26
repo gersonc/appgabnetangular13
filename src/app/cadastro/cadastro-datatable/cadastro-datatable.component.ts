@@ -10,6 +10,7 @@ import {CadastroFormService} from "../_services/cadastro-form.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroI} from "../_models/cadastro-i";
+import {ColunasI} from "../../_models/colunas-i";
 
 
 
@@ -49,6 +50,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     if (this.cs.selecionados === undefined || this.cs.selecionados === null || !Array.isArray(this.cs.selecionados)) {
       this.cs.selecionados = [];
     }
+
+    this.montaColunas();
 
     this.itemsAcao = [
       {
@@ -113,8 +116,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       }
     ];
 
-    this.montaColunas();
-
     if (!this.cs.stateSN) {
       this.resetSelectedColumns();
     }
@@ -124,6 +125,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.sub.push(this.cs.busca$.subscribe(
       () => {
         if (this.cs.tabela.titulos === undefined) {
+          console.log('mapeiaColunas');
           this.mapeiaColunas();
         }
         this.cs.busca.todos = false;
@@ -148,52 +150,52 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   montaColunas() {
     this.cols = [
-      {field: 'cadastro_id', header: 'ID', sortable: 'true', largura: '80px'},
-      {field: 'cadastro_tipo_nome', header: 'TIPO', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_tratamento_nome', header: 'TRATAMENTO', sortable: 'true', largura: '160px'},
-      {field: 'cadastro_nome', header: 'NOME / RAZÃO SOCIAL', sortable: 'true', largura: '300px'},
-      {field: 'cadastro_responsavel', header: 'EMPRESA / RESPONSÁVEL', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_cargo', header: 'CARGO', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_sigla', header: 'SIGLA', sortable: 'true', largura: '100px'},
-      {field: 'cadastro_apelido', header: 'APELIDO', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', largura: '250px'},
-      {field: 'cadastro_endereco_numero', header: 'END. NÚMERO', sortable: 'false', largura: '160px'},
-      {field: 'cadastro_endereco_complemento', header: 'END. COMPLEMENTO', sortable: 'false', largura: '210px'},
-      {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_cep', header: 'CEP', sortable: 'false', largura: '150px'},
-      {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', largura: '120px'},
-      {field: 'cadastro_telefone', header: 'TELEFONE 1', sortable: 'false', largura: '150px'},
-      {field: 'cadastro_telefone2', header: 'TELEFONE 2', sortable: 'false', largura: '150px'},
-      {field: 'cadastro_telcom', header: 'TEL. COM.', sortable: 'false', largura: '150px'},
-      {field: 'cadastro_celular', header: 'CELULAR 1', sortable: 'false', largura: '150px'},
-      {field: 'cadastro_celular2', header: 'CELULAR 2', sortable: 'false', largura: '150px'},
-      {field: 'cadastro_fax', header: 'WHATSAPP', sortable: 'false', largura: '120px'},
-      {field: 'cadastro_email', header: 'E-MAIL', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_email2', header: 'E-MAIL 2', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_rede_social', header: 'FACEBOOK', sortable: 'false', largura: '250px'},
-      {field: 'cadastro_outras_midias', header: 'OUTRAS MÍDIAS', sortable: 'false', largura: '250px'},
-      {field: 'cadastro_data_nascimento', header: 'DT. NASC. / FUNDAÇÃO', sortable: 'true', largura: '230px'},
-      {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_profissao', header: 'PROFISSÃO', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_cpfcnpj', header: 'CPF/CNPJ', sortable: 'false', largura: '180px'},
-      {field: 'cadastro_rg', header: 'RG', sortable: 'false', largura: '180px'},
-      {field: 'cadastro_sexo', header: 'GENERO', sortable: 'true', largura: '120px'},
-      {field: 'cadastro_estado_civil_nome', header: 'ESTADO CIVIL', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_conjuge', header: 'CONJUGE', sortable: 'false', largura: '200px'},
-      {field: 'cadastro_escolaridade_nome', header: 'ESCOLARIDADE', sortable: '200px', largura: '200px'},
-      {field: 'cadastro_zona', header: 'PARTIDO', sortable: 'true', largura: '120px'},
-      {field: 'cadastro_jornal', header: 'BOLETIM', sortable: 'true', largura: '120px'},
-      {field: 'cadastro_mala', header: 'MALA DIRETA', sortable: 'true', largura: '190px'},
-      {field: 'cadastro_agenda', header: 'CONTATO', sortable: 'true', largura: '120px'},
-      {field: 'cadastro_data_cadastramento', header: 'DT. CADASTRAMENTO', sortable: 'true', largura: '230px'},
-      {field: 'cadastro_usuario', header: 'CADASTRANTE', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_campo1', header: 'CAMPO 1', sortable: 'true', largura: '150px'},
-      {field: 'cadastro_campo2', header: 'CAMPO 2', sortable: 'false', largura: '200px'},
-      {field: 'cadastro_campo3', header: 'CAMPO 3', sortable: 'false', largura: '200px'},
-      {field: 'cadastro_campo4_nome', header: 'CAMPO 4', sortable: 'true', largura: '200px'},
-      {field: 'arquivo_num', header: 'N ARQUIVOS', sortable: 'true', largura: '150px'}
+      {field: 'cadastro_id', header: 'ID', sortable: 'true', width: '80px'},
+      {field: 'cadastro_tipo_nome', header: 'TIPO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_tratamento_nome', header: 'TRATAMENTO', sortable: 'true', width: '160px'},
+      {field: 'cadastro_nome', header: 'NOME / RAZÃO SOCIAL', sortable: 'true', width: '300px'},
+      {field: 'cadastro_responsavel', header: 'EMPRESA / RESPONSÁVEL', sortable: 'true', width: '250px'},
+      {field: 'cadastro_cargo', header: 'CARGO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_sigla', header: 'SIGLA', sortable: 'true', width: '100px'},
+      {field: 'cadastro_apelido', header: 'APELIDO', sortable: 'true', width: '150px'},
+      {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '250px'},
+      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', width: '250px'},
+      {field: 'cadastro_endereco_numero', header: 'END. NÚMERO', sortable: 'false', width: '160px'},
+      {field: 'cadastro_endereco_complemento', header: 'END. COMPLEMENTO', sortable: 'false', width: '210px'},
+      {field: 'cadastro_bairro', header: 'BAIRRO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_cep', header: 'CEP', sortable: 'false', width: '150px'},
+      {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', width: '120px'},
+      {field: 'cadastro_telefone', header: 'TELEFONE 1', sortable: 'false', width: '150px'},
+      {field: 'cadastro_telefone2', header: 'TELEFONE 2', sortable: 'false', width: '150px'},
+      {field: 'cadastro_telcom', header: 'TEL. COM.', sortable: 'false', width: '150px'},
+      {field: 'cadastro_celular', header: 'CELULAR 1', sortable: 'false', width: '150px'},
+      {field: 'cadastro_celular2', header: 'CELULAR 2', sortable: 'false', width: '150px'},
+      {field: 'cadastro_fax', header: 'WHATSAPP', sortable: 'false', width: '120px'},
+      {field: 'cadastro_email', header: 'E-MAIL', sortable: 'true', width: '250px'},
+      {field: 'cadastro_email2', header: 'E-MAIL 2', sortable: 'true', width: '250px'},
+      {field: 'cadastro_rede_social', header: 'FACEBOOK', sortable: 'false', width: '250px'},
+      {field: 'cadastro_outras_midias', header: 'OUTRAS MÍDIAS', sortable: 'false', width: '250px'},
+      {field: 'cadastro_data_nascimento', header: 'DT. NASC. / FUNDAÇÃO', sortable: 'true', width: '230px'},
+      {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', width: '250px'},
+      {field: 'cadastro_profissao', header: 'PROFISSÃO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_cpfcnpj', header: 'CPF/CNPJ', sortable: 'false', width: '180px'},
+      {field: 'cadastro_rg', header: 'RG', sortable: 'false', width: '180px'},
+      {field: 'cadastro_sexo', header: 'GENERO', sortable: 'true', width: '120px'},
+      {field: 'cadastro_estado_civil_nome', header: 'ESTADO CIVIL', sortable: 'true', width: '200px'},
+      {field: 'cadastro_conjuge', header: 'CONJUGE', sortable: 'false', width: '200px'},
+      {field: 'cadastro_escolaridade_nome', header: 'ESCOLARIDADE', sortable: '200px', width: '200px'},
+      {field: 'cadastro_zona', header: 'PARTIDO', sortable: 'true', width: '120px'},
+      {field: 'cadastro_jornal', header: 'BOLETIM', sortable: 'true', width: '120px'},
+      {field: 'cadastro_mala', header: 'MALA DIRETA', sortable: 'true', width: '190px'},
+      {field: 'cadastro_agenda', header: 'CONTATO', sortable: 'true', width: '120px'},
+      {field: 'cadastro_data_cadastramento', header: 'DT. CADASTRAMENTO', sortable: 'true', width: '230px'},
+      {field: 'cadastro_usuario', header: 'CADASTRANTE', sortable: 'true', width: '200px'},
+      {field: 'cadastro_campo1', header: 'CAMPO 1', sortable: 'true', width: '150px'},
+      {field: 'cadastro_campo2', header: 'CAMPO 2', sortable: 'false', width: '200px'},
+      {field: 'cadastro_campo3', header: 'CAMPO 3', sortable: 'false', width: '200px'},
+      {field: 'cadastro_campo4_nome', header: 'CAMPO 4', sortable: 'true', width: '200px'},
+      {field: 'arquivo_num', header: 'N ARQUIVOS', sortable: 'true', width: '150px'}
     ];
   }
 
@@ -207,18 +209,16 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   resetSelectedColumns(): void {
     this.cs.criaTabela();
     this.cs.tabela.selectedColumns = [
-      {field: 'cadastro_tipo_nome', header: 'TIPO', sortable: 'true', largura: '200px'},
-      {field: 'cadastro_tratamento_nome', header: 'TRATAMENTO', sortable: 'true', largura: '160px'},
-      {field: 'cadastro_nome', header: 'NOME / RAZÃO SOCIAL', sortable: 'true', largura: '300px'},
-      {field: 'cadastro_responsavel', header: 'EMPRESA / RESPONSÁVEL', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', largura: '120px'},
-      {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', largura: '250px'},
-      {field: 'cadastro_profissao', header: 'PROFISSÃO', sortable: 'true', largura: '200px'}
+      {field: 'cadastro_tipo_nome', header: 'TIPO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_tratamento_nome', header: 'TRATAMENTO', sortable: 'true', width: '160px'},
+      {field: 'cadastro_nome', header: 'NOME / RAZÃO SOCIAL', sortable: 'true', width: '300px'},
+      {field: 'cadastro_responsavel', header: 'EMPRESA / RESPONSÁVEL', sortable: 'true', width: '250px'},
+      {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '250px'},
+      {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', width: '120px'},
+      {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', width: '250px'},
+      {field: 'cadastro_profissao', header: 'PROFISSÃO', sortable: 'true', width: '200px'}
     ];
   }
-
-
 
   resetColunas() {
     this.cs.tabela.mostraSeletor = false;
@@ -227,6 +227,13 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   mostraSelectColunas(): void {// this
     this.cs.tabela.mostraSeletor = true;
+  }
+
+  mudaSeletor(ev: ColunasI[]) {
+    console.log('mudaSeletor', ev);
+    // this.cs.tabela.selectedColumns = ev;
+    this.dtb.columns = ev;
+    // this.dtb.restoreState();
   }
 
   hideSeletor(): void {
@@ -283,6 +290,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   onColReorder(event): void {
+    console.log('onColReorder', event);
     this.mapeiaColunas();
   }
 

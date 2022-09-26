@@ -7656,8 +7656,8 @@ p-autocomplete.ng-dirty.ng-invalid > .p-autocomplete > .p-inputtext {
 
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item {
   margin: 0;
-  padding: 0.5rem 1rem;
-  border: 0 none;
+  padding: 0.2rem 0.5rem;
+  border-bottom: 1px solid var(--surface-c-border);
   color: var(--text-color);
   background: transparent;
   transition: box-shadow 0.2s;
@@ -18641,6 +18641,11 @@ div.form-picklist2 {
   margin-bottom: 3px;
 }
 
+.labeltips{
+  font-size: 0.6em;
+  font-weight: bold;
+}
+
 .pickformitem2{
   width: 100%;
   display: inline-block;
@@ -18716,4 +18721,26 @@ div.form-picklist2 {
 .p-xl-12 .ng-invalid.ng-dirty{
   border: 1px solid var(--invalid);
   border-radius: 5px;
+}
+
+.p-datatable .p-datatable-tbody > tr > td > button .p-button-rounded .p-button-text .p-button-sm .p-ripple .p-button .p-component .p-button-icon-only {
+  height: 1.2rem !important;
+  font-size: 0.875rem !important;
+  padding: 0 !important;
+  width: 1.2rem !important;
+}
+
+button.expandir {
+  height: 1.2rem !important;
+  font-size: 0.875rem !important;
+  padding: 0 !important;
+  width: 1.2rem !important;
+}
+
+.tablistagem .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  padding: 0.2rem 0.5rem !important;
+}
+
+.tablistagem .p-datatable-tbody > tr > td {
+  padding: 0.2rem 0.5rem !important;
 }

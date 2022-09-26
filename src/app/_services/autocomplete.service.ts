@@ -48,7 +48,7 @@ export class AutocompleteService {
     return this.acsimple$;
   }
 
-  getAcNomeNomeLimpo(str: string) {
+  getAcNomeLimpo(str: string) {
     str = encodeURI(str.toUpperCase());
     const ac = this.autocompleteUrl + '/acnomelimpo';
     const httpOptions = {
@@ -57,6 +57,38 @@ export class AutocompleteService {
       })
     };
     return this.http.get<any[]>(ac, httpOptions);
+  }
+
+  acCadastroId(str: string) {
+    str = encodeURI(str.toUpperCase());
+    const ac = this.autocompleteUrl + '/accadastroid';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'GabNet': str
+      })
+    };
+    return this.http.get<SelectItem[]>(ac, httpOptions);
+  }
+
+  acCadastroIdTipo(str: string, id: number) {
+    str = encodeURI(str.toUpperCase());
+    const ac = this.autocompleteUrl + '/accadastroidtipo';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'GabNet': str + ',' + id
+      })
+    };
+    return this.http.get<SelectItem[]>(ac, httpOptions);
+  }
+
+  acCadastroIdContem(str: string, id?: number | null) {
+    const busca: any = {
+      texto: str,
+      id: (id === undefined || id === null) ? null : id
+    };
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.autocompleteUrl + '/accadastroidcontem';
+    return this.http.post<SelectItem[]>(url, busca, httpOptions);
   }
 
   getAcIdNomeNomeLimpo(
