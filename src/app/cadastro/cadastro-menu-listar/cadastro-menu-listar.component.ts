@@ -331,6 +331,8 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   goIncluir() {
     if (this.auth.usuario_responsavel_sn || this.auth.usuario_principal_sn || this.auth.cadastro_incluir) {
       this.cfs.acao = 'incluir';
+      this.cfs.resetCadastro();
+      this.cfs.criaFormIncluir();
       this.mi.mudaMenuInterno(false);
       this.router.navigate(['cadastro/incluir']);
     } else {

@@ -220,21 +220,24 @@ export class CadastroDropdownMenuService {
   }
 
   lerDropDownSession() {
-    const d: CadastroMenuDropdownInterface = JSON.parse(sessionStorage.getItem('cadastro_menu-dropdown'));
-    this.ddn.ddCadastroTipoId = d.ddCadastroTipoId;
-    this.ddn.ddCadastroMunicipioId = d.ddCadastroMunicipioId;
-    this.ddn.ddCadastroEstadoId = d.ddCadastroEstadoId;
-    this.ddn.ddCadastroRegiaoId = d.ddCadastroRegiaoId;
-    this.ddn.ddCadastroGrupoId = d.ddCadastroGrupoId;
-    // this.ddn.ddCadastroAniversario = d.ddCadastroAniversario;
-    // this.ddn.ddCadastroAnidia = d.ddCadastroAnidia;
-    this.ddn.ddCadastroUsuario = d.ddCadastroUsuario;
-    this.ddn.ddCadastroEstadoCivilId = d.ddCadastroEstadoCivilId;
-    this.ddn.ddCadastroZona = d.ddCadastroZona;
-    this.ddn.ddCadastroEscolaridadeId = d.ddCadastroEscolaridadeId;
-    this.ddn.ddCadastroCampo4Id = d.ddCadastroCampo4Id;
-    this.ddn.ddCadastroBairro = d.ddCadastroBairro;
+    if (sessionStorage.getItem('cadastro_menu-dropdown')) {
+      const d: CadastroMenuDropdownInterface = JSON.parse(sessionStorage.getItem('cadastro_menu-dropdown'));
+      this.ddn.ddCadastroTipoId = d.ddCadastroTipoId;
+      this.ddn.ddCadastroMunicipioId = d.ddCadastroMunicipioId;
+      this.ddn.ddCadastroEstadoId = d.ddCadastroEstadoId;
+      this.ddn.ddCadastroRegiaoId = d.ddCadastroRegiaoId;
+      this.ddn.ddCadastroGrupoId = d.ddCadastroGrupoId;
+      // this.ddn.ddCadastroAniversario = d.ddCadastroAniversario;
+      // this.ddn.ddCadastroAnidia = d.ddCadastroAnidia;
+      this.ddn.ddCadastroUsuario = d.ddCadastroUsuario;
+      this.ddn.ddCadastroEstadoCivilId = d.ddCadastroEstadoCivilId;
+      this.ddn.ddCadastroZona = d.ddCadastroZona;
+      this.ddn.ddCadastroEscolaridadeId = d.ddCadastroEscolaridadeId;
+      this.ddn.ddCadastroCampo4Id = d.ddCadastroCampo4Id;
+      this.ddn.ddCadastroBairro = d.ddCadastroBairro;
+    }
   }
+
 
 
   resetTodos() {

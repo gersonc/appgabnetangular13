@@ -44,5 +44,7 @@ export interface CadastroFormI {
   cadastro_campo3: string;
   cadastro_campo4_id: number;
   cadastro_observacao: string;
+  cadastro_observacao_delta: string;
+  cadastro_observacao_texto: string;
   cadastro_regiao_id: number;
 }

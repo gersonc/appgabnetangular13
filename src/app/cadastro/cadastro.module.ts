@@ -38,61 +38,65 @@ import { CadastroRoutingModule } from './cadastro.routing.module';
 
 import { UtilModule } from '../util/util.module';
 import { CadastroDatatableComponent } from './cadastro-datatable';
-import { CadastroMenuListarComponent } from './cadastro-menu-listar';
 import { ArquivoModule } from '../arquivo/arquivo.module';
 import { RippleModule } from 'primeng/ripple';
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
 import {ChipsModule} from "primeng/chips";
+import {CadastroFormComponent} from "./cadastro-form/cadastro-form.component";
+import {QuillModule} from "ngx-quill";
+import {CadastroMenuListarComponent} from "./cadastro-menu-listar/cadastro-menu-listar.component";
 
 
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        CadastroRoutingModule,
-        UtilModule,
-        TableModule,
-        OverlayPanelModule,
-        DialogModule,
-        DynamicDialogModule,
-        PanelModule,
-        ButtonModule,
-        SidebarModule,
+        ArquivoModule,
         AutoCompleteModule,
-        PaginatorModule,
-        DropdownModule,
-        InputTextModule,
-        InputMaskModule,
+        ButtonModule,
+        CadastroRoutingModule,
         CalendarModule,
+        CheckboxModule,
+        ChipsModule,
+        CommonModule,
+        ContextMenuModule,
+        DialogModule,
+        DropdownModule,
+        DynamicDialogModule,
+        EtiquetaModule,
+        ExporterAcessoModule,
+        FormsModule,
+        HttpClientModule,
+        InputMaskModule,
         InputSwitchModule,
         InputTextareaModule,
+        InputTextModule,
+        ListboxModule,
+        MenuModule,
+        MessageModule,
+        MessagesModule,
+        NgxViacepModule,
+        OverlayPanelModule,
+        PaginatorModule,
+        PanelModule,
+        ProgressBarModule,
+        ProgressSpinnerModule,
+        ReactiveFormsModule,
+        RippleModule,
+        ScrollPanelModule,
+        SidebarModule,
+        TableModule,
         ToastModule,
         TooltipModule,
-        ListboxModule,
-        CheckboxModule,
         TriStateCheckboxModule,
-        ScrollPanelModule,
-        ProgressSpinnerModule,
-        MenuModule,
-        ContextMenuModule,
-        MessagesModule,
-        MessageModule,
-        NgxViacepModule,
-        EtiquetaModule,
-        ArquivoModule,
-        ProgressBarModule,
-        RippleModule,
-        ExporterAcessoModule,
-        ChipsModule,
+        UtilModule,
+        QuillModule,
     ],
   declarations: [
     CadastroComponent,
     CadastroDatatableComponent,
     CadastroMenuListarComponent,
+    CadastroFormComponent
   ],
   exports: [
     CadastroComponent

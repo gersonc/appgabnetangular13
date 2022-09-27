@@ -15,6 +15,8 @@ import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {CadastroBuscaI} from "../_models/cadastro-busca-i";
 import {take} from "rxjs/operators";
 import {ColunasI} from "../../_models/colunas-i";
+import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
+import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 
 
 @Injectable({
@@ -538,6 +540,29 @@ export class CadastroService {
   excluirCadastro(id: number): Observable<any> {
     const url = this.url.cadastro + '/' + id;
     return this.http.delete<any>(url);
+  }
+
+  procurarCadastroDuplicado (nome: string){
+    const url = this.url.cadastro + '/verificanome/';
+    const n: any = {
+      nome: nome
+    }
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<CadastroDuplicadoI[]>(url, n, httpOptions);
+  }
+
+
+  /*contaNomeDuplicado (nome: string): Observable<any> {
+    this.cadNum$ = null;
+    if (nome !== null && nome.length > 2) {
+      const url = this.url.cadastro + '/contanomeduplicado/' + this.busca_Nome;
+      this.cadNum$ = this.http.get<any[]> (url);
+    }
+    return this.cadNum$;
+  }*/
+
+  verificaDuplicados(ev) {
+
   }
 
   /*montaHistorico(idx: number) {

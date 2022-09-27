@@ -5,6 +5,8 @@ import { Rule, Scope } from '../_models';
 import { CadastroComponent } from './cadastro.component';
 import { CadastroDatatableComponent } from './cadastro-datatable';
 import {CadastroListarResolver} from "./_resolvers/cadastro-listar.resolver";
+import {CadastroFormResolver} from "./_resolvers/cadastro-form.resolver";
+import {CadastroFormComponent} from "./cadastro-form/cadastro-form.component";
 
 const cadastroRoutes: Routes = [
   {
@@ -42,6 +44,30 @@ const cadastroRoutes: Routes = [
         data: {
           rules: Rule.cadastro,
           scopes: Scope.cadastro_listar
+        }
+      },
+      {
+        path: 'incluir',
+        component: CadastroFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.cadastro,
+          scopes: Scope.cadastro_incluir
+        },
+        resolve: {
+          dados: CadastroFormResolver
+        }
+      },
+      {
+        path: 'incluir/:modulo/:componente',
+        component: CadastroFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.cadastro,
+          scopes: Scope.cadastro_incluir
+        },
+        resolve: {
+          dados: CadastroFormResolver
         }
       },
 

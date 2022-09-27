@@ -327,6 +327,9 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       this.cfs.acao = 'incluir';
       this.cs.salvaState();
       this.dtb.saveState();
+      this.cfs.resetCadastro();
+      this.cfs.criaFormIncluir();
+      this.mi.mudaMenuInterno(false);
       this.router.navigate(['/cadastro/incluir']);
     } else {
       console.log('SEM PERMISSAO');

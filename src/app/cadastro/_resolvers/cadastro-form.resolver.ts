@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { CadastroFormulario, CadastroFormularioInterface } from '../_models';
-import { CadastroService } from '../_services';
 import { SelectItem, SelectItemGroup} from 'primeng/api';
 import {DdService} from "../../_services/dd.service";
 import {CadastroFormService} from "../_services/cadastro-form.service";
+import {CadastroService} from "../_services/cadastro.service";
+import {CadastroFormI} from "../_models/cadastro-form-i";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CadastroFormResolver implements Resolve<boolean | never> {
   private sub: Subscription[] = [];
   resp: Subject<boolean>;
   resp$: Observable<boolean>
-  private cf = new CadastroFormulario();
+  private cf?: CadastroFormI;
   private cadastro_id = 0;
 
   ddCadastroSexo: SelectItem[] = [

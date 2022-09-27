@@ -18744,3 +18744,7 @@ button.expandir {
 .tablistagem .p-datatable-tbody > tr > td {
   padding: 0.2rem 0.5rem !important;
 }
+
+input.p-dropdown-filter {
+  width: 100% !important;
+}
