@@ -207,16 +207,27 @@
                         [options]="ddMunicipioId"
                         [filter]="ddMunicipioId.length > 100"
                         [required]="true"
-                        styleClass="formulario"
                       ></p-dropdown>
-                      <button
+                      <app-configaux-incluir
+                        [desabilitado]="false"
+                        [titulo]="'Incluir Município'"
+                        [tituloCampo]="'Município'"
+                        [campoNome]="'cadastro_municipio_id'"
+                        [tamanho]="50"
+                        [tamanhomax]="100"
+                        [dropdown]="'ddMunicipioId'"
+                        [arrai]="ddMunicipioId"
+                        (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                        (onBlockSubmit)="onBlockSubmit($event)"
+                      ></app-configaux-incluir>
+                      <!--<button
                         class="p-button-secondary"
                         pButton
                         type="button"
                         icon="pi pi-plus"
                         (click)="mostraFormAux('cadastro_municipio_id')"
                         [disabled]="block"
-                      ></button>
+                      ></button>-->
                     </div>
                     <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_municipio_id', validaMunicipio)"
                                             msgErro="Município é obrigatório.">
@@ -294,14 +305,26 @@
                         [filter]="ddRegiaoId.length > 100"
                         [showClear]="true"
                       ></p-dropdown>
-                      <button
+                      <app-configaux-incluir
+                        [desabilitado]="false"
+                        [titulo]="'Incluir Região'"
+                        [tituloCampo]="'Região'"
+                        [campoNome]="'cadastro_regiao_id'"
+                        [tamanho]="50"
+                        [tamanhomax]="100"
+                        [dropdown]="'ddMunicipioId'"
+                        [arrai]="ddRegiaoId"
+                        (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                        (onBlockSubmit)="onBlockSubmit($event)"
+                      ></app-configaux-incluir>
+                      <!--<button
                         pButton
                         class="p-button-secondary"
                         type="button"
                         icon="pi pi-plus"
                         (click)="mostraFormAux('cadastro_regiao_id')"
                         [disabled]="block"
-                      ></button>
+                      ></button>-->
                     </div>
                   </div>
                   <!--*** Incluir Região ***-->

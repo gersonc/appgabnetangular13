@@ -49,6 +49,7 @@ import {KeyFilterModule} from "primeng/keyfilter";
 import {
   CadastroIncluirListaexistenteComponent
 } from "./cadastro-incluir-listaexistente/cadastro-incluir-listaexistente.component";
+import {ConfigauxModule} from "../configaux/configaux.module";
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import {
     TriStateCheckboxModule,
     UtilModule,
     QuillModule,
+    ConfigauxModule,
   ],
   declarations: [
     CadastroComponent,

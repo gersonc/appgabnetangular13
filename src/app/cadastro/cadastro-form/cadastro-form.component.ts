@@ -412,9 +412,39 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     this.arquivoDesativado = false;
   }
 
-  mostraFormAux(campo: string) {
+  onNovoRegistroAux(ev) {
+    if (ev.campo === 'cadastro_tipo_id') {
+      this.ddTipoCadastroId = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_tratamento_id') {
+      this.ddTratamento = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_grupo_id') {
+      this.ddGrupo = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_municipio_id') {
+      this.ddMunicipioId = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_estado_id') {
+      this.ddEstadoId = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_regiao_id') {
+      this.ddRegiaoId = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_escolaridade_id') {
+      this.ddEscolaridadeId = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_estado_civil_id') {
+      this.ddEstadoCivilId = ev.dropdown;
+    }
+    if (ev.campo === 'cadastro_campo4_id') {
+      this.ddCampo4Id = ev.dropdown;
+    }
 
+    this.formCadastro.get(ev.campo).patchValue(ev.valorId);
   }
+
+
 
   voltarListar() {
     this.cfs.cadastroListar = null;

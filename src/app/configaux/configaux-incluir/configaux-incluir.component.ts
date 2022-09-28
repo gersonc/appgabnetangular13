@@ -199,6 +199,23 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
         campo_nome: 'assunto_nome',
         parametros: null
       },
+      {
+        nome: 'ddMunicipioId',
+        tabela: 'municipio',
+        campo_id: 'municipio_id',
+        campo_nome: 'municipio_nome',
+        parametros: null
+      },
+      {
+        nome: 'ddRegiaoId',
+        tabela: 'regiao',
+        campo_id: 'regiao_id',
+        campo_nome: 'regiao_nome',
+        parametros: null
+      },
+
+
+
     ];
 
       return dd.find(function (x) {
