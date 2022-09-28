@@ -16904,6 +16904,10 @@ small.ng-invalid {
   color: var(--danger);
 }
 
+.ng-invalid .ng-dirty > label {
+  border: 0;
+}
+
 .ng-invalid .ng-dirty > h5 {
   color: var(--danger);
 }

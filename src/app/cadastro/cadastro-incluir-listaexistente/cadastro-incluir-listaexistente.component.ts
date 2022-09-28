@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
+import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 
 
 
@@ -11,7 +11,7 @@ import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-bus
 })
 export class CadastroIncluirListaexistenteComponent implements OnInit {
 
-  @Input() cad: CadastroDuplicadoBuscaInterface[];
+  @Input() cad: CadastroDuplicadoI[];
 
   loading = false;
 

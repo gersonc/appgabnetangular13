@@ -543,7 +543,7 @@ export class CadastroService {
   }
 
   procurarCadastroDuplicado (nome: string){
-    const url = this.url.cadastro + '/verificanome/';
+    const url = this.url.cadastro + '/verificanome';
     const n: any = {
       nome: nome
     }

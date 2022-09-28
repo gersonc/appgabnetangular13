@@ -53,6 +53,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   altura = (WindowsService.altura - 150) + 'px';
   block = true;
 
+  nomeDuplicado = false;
   validaTratamento = false;
   validaNome = false;
   validaMunicipio = false;
@@ -113,7 +114,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     this.formCadastro = this.formBuilder.group({
       cadastro_tipo_id: [this.cfs.cadastro.cadastro_tipo_id, Validators.required],
       cadastro_tratamento_id: [this.cfs.cadastro.cadastro_tratamento_id, Validators.required],
-      cadastro_nome: [this.cfs.cadastro.cadastro_nome, Validators.required],
+      cadastro_nome: [this.cfs.cadastro.cadastro_nome, [Validators.required, Validators.minLength(2)]],
       cadastro_apelido: [this.cfs.cadastro.cadastro_apelido],
       cadastro_sigla: [this.cfs.cadastro.cadastro_sigla],
       cadastro_responsavel: [this.cfs.cadastro.cadastro_responsavel],
@@ -273,14 +274,18 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
+    console.log('onsubmit', this.formCadastro.getRawValue());
   }
 
-  verificaDuplicados(event) {
+  verificaDuplicados2(event) {
+    console.log('verificaDuplicados2',event);
+  }
+
+  verificaDuplicados(nome?: string) {
     this.validaNome = false;
     // this.numeroDuplicado = 0;
-    const nome = this.formCadastro.get('cadastro_nome').value;
-    if (nome !== null && nome.length > 3) {
+    // const nome = this.formCadastro.get('cadastro_nome').value;
+    if (nome !== undefined && nome !== null && nome.length > 3) {
       this.formCadastro.disable();
       // this.nomeBusca = nome;
       this.sub.push(this.cs.procurarCadastroDuplicado(nome)
@@ -288,30 +293,40 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (dados) => {
             this.cad = dados;
+            console.log('verificaDuplicados',this.cad);
           },
           error: (erro) => {
             console.error(erro.toString());
+            this.validaNome = true;
+            this.nomeDuplicado = false;
             this.formCadastro.enable();
-            this.op.hide();
           },
           complete: () => {
             if (this.cad.length > 0) {
-              this.carregaDuplicados();
+              this.nomeDuplicado = true;
             } else {
+              this.nomeDuplicado = false;
               this.formCadastro.enable();
               this.validaNome = true;
             }
-            return this.numeroDuplicado;
+            // return this.numeroDuplicado;
           }
         }));
     } else {
+      this.nomeDuplicado = false;
       this.validaNome = true;
     }
   }
 
+  fechaNomeDuplicado() {
+    this.formCadastro.enable();
+    this.nomeDuplicado = false;
+    this.cad = [];
+  }
+
   validaAsync(campo: string, situacao: boolean) {
     return (
-      !this.formCadastro.get(campo).valid &&
+      (!this.formCadastro.get(campo).valid || this.formCadastro.get(campo).hasError('required')) &&
       (this.formCadastro.get(campo).touched || this.formCadastro.get(campo).dirty) &&
       situacao
     );
@@ -333,8 +348,15 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   verificaValidTouched(campo: string) {
     return (
-      (!this.formCadastro?.get(campo)?.valid || this.formCadastro.get(campo).hasError('required')) &&
-      (this.formCadastro?.get(campo)?.touched || this.formCadastro?.get(campo)?.dirty)
+      (!this.formCadastro.get(campo).valid || this.formCadastro.get(campo).hasError('required')) &&
+      (this.formCadastro.get(campo).touched || this.formCadastro.get(campo).dirty) && this.formCadastro.enabled
+    );
+  }
+
+  verificaValidTouched2(campo: string) {
+    return (
+      this.formCadastro.enabled && !this.formCadastro.get(campo).valid &&
+      (this.formCadastro.get(campo).touched && this.formCadastro.get(campo).dirty)
     );
   }
 
@@ -363,6 +385,13 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     };
   }
 
+  aplicaCssErro2(campo: string) {
+    return {
+      'ng-invalid': this.verificaValidTouched2(campo),
+      'ng-dirty': this.verificaValidTouched2(campo)
+    };
+  }
+
   achaTipo(arr: SelectItemGroup[], valor): SelectItem {
     const a: SelectItem[] = arr[0].items.concat(arr[1].items);
     const rsp: any = a.find(function (x) {
@@ -378,7 +407,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     const a: SelectItem = this.achaTipo(this.ddTipoCadastroId, event.value);
     console.log('mudaTipo', event);
     this.tipotipo = Number(a.title);
-    // this.block = false;
+    this.block = false;
     this.formCadastro.enable();
     this.arquivoDesativado = false;
   }
