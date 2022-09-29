@@ -12,7 +12,7 @@ import {SelectItem, SelectItemGroup} from "primeng/api";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 import {WindowsService} from "../../_layout/_service";
 import {catchError, take} from "rxjs/operators";
-import {CEPError, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
+import {CEPError, CEPErrorCode, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
 import {CadastroService} from "../_services/cadastro.service";
 
 @Component({
@@ -198,7 +198,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   consultaCEP(event) {
-    if (this.formCadastro.get('cadastro_cep').value != null) {
+    if (this.formCadastro.get('cadastro_cep').value !== null  && this.formCadastro.get('cadastro_cep').value.toString().length > 8) {
       let cep = this.formCadastro.get('cadastro_cep').value;
       cep = cep.replace(/\D/g, '');
       // Verifica se campo cep possui valor informado.
@@ -228,7 +228,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
                   // Ocorreu algum erro :/
                   console.log(error.message);
                   if (error.message === 'CEP_NAO_ENCONTRADO') {
-                    this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADOR'});
+                    this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
                   }
                   // this.op.hide();
                   return EMPTY;
@@ -239,6 +239,58 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
                 // this.op.hide();
               }));
         }
+      }
+    }
+  }
+
+  consultaCEP2(event) {
+    console.log('consultaCEP2', event);
+    console.log('consultaCEP3', this.formCadastro.getRawValue());
+    const cep: string = this.testaCep();
+    const end: string[] = this.testaEndereco();
+    if (cep !== '0') {
+      this.sub.push(
+        this.viacep
+          .buscarPorCep(cep)
+          .pipe(
+            catchError((error: CEPError) => {
+              // Ocorreu algum erro :/
+              console.log(error.message);
+              if (error.message === 'CEP_NAO_ENCONTRADO') {
+                this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
+              }
+              // this.op.hide();
+              return EMPTY;
+            })
+          )
+          .subscribe((enderecos: Endereco) => {
+            console.log('endereco1', enderecos);
+            this.populaEnderecoForm(enderecos);
+            // this.op.hide();
+          }));
+    } else {
+      if (end.length === 3) {
+        this.sub.push(
+          this.viacep
+            .buscarPorEndereco(end[0], end[1], end[2])
+            .pipe(
+              catchError((error: CEPError) => {
+                // Ocorreu algum erro :/
+                console.log(error.message);
+                if (error.message === 'CEP_NAO_ENCONTRADO') {
+                  this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
+                }
+                // this.op.hide();
+                return EMPTY;
+              })
+            )
+            .subscribe((enderecos: Endereco[]) => {
+              console.log('endereco2', enderecos);
+              this.populaEnderecoForm(enderecos[0]);
+              // this.op.hide();
+            }));
+      } else {
+        console.log('ENDEREÇO INVÁLIDO');
       }
     }
   }
@@ -267,10 +319,69 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  testaCep(): string {
+    if (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length >= 8) {
+      let cep = this.formCadastro.get('cadastro_cep').value;
+      cep = cep.replace(/\D/g, '');
+      // Verifica se campo cep possui valor informado.
+      if (cep.toString().length === 8) {
+        // Expressão regular para validar o CEP.
+        const validacep = /^[0-9]{8}$/;
+        // Valida o formato do CEP.
+        if (validacep.test(cep)) {
+          return cep;
+        } else {
+          return '0';
+        }
+      } else {
+        return '0';
+      }
+    } else {
+      return '0';
+    }
+  }
+
+  testaEndereco(): string[] {
+    let uf = '';
+    let cidade = '';
+    let logradouro = '';
+    if (this.formCadastro.get('cadastro_estado_id').value !== null && +this.formCadastro.get('cadastro_estado_id').value > 0) {
+      uf = this.achaLabel(this.ddEstadoId, +this.formCadastro.get('cadastro_estado_id').value);
+    }
+    if (this.formCadastro.get('cadastro_municipio_id').value !== null && +this.formCadastro.get('cadastro_municipio_id').value > 0) {
+      cidade = this.achaLabel(this.ddMunicipioId, +this.formCadastro.get('cadastro_municipio_id').value);
+    }
+    if (this.formCadastro.get('cadastro_endereco').value !== null && +this.formCadastro.get('cadastro_endereco').value.toString().length >= 3) {
+      logradouro  = this.formCadastro.get('cadastro_endereco').value.toUpperCase();
+    }
+    if (uf !== '' && cidade !== '' && logradouro !== '') {
+      return [uf, cidade, logradouro];
+    } else {
+      return [];
+    }
+  }
+
+  ativaCep(): boolean {
+      return !(((this.formCadastro.get('cadastro_estado_id').value !== null) &&
+      (this.formCadastro.get('cadastro_endereco').value !== null && this.formCadastro.get('cadastro_endereco').value.toString().length > 5) &&
+      (this.formCadastro.get('cadastro_bairro').value !== null && this.formCadastro.get('cadastro_bairro').value.toString().length > 5) &&
+      (this.formCadastro.get('cadastro_municipio_id').value !== null)) ||
+      (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length > 8));
+  }
+
   achaValor(arr: SelectItem[], valor): SelectItem {
+    console.log('achaValor',arr);
     return arr.find(function(x) {
       return x.label === valor;
     });
+  }
+
+  achaLabel(arr: SelectItem[], valor): string {
+    console.log('achaLabel',arr);
+    const r: SelectItem = arr.find(function(x) {
+      return x.value === valor;
+    });
+    return  r.label;
   }
 
   onSubmit() {

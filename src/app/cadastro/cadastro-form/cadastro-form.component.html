@@ -136,23 +136,6 @@
                       pInputText
                     />
                   </div>
-                  <!--*** CEP ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="cadastro_cep">CEP</label>
-                    <p-inputMask
-                      [tabindex]="8"
-                      id="cadastro_cep"
-                      formControlName="cadastro_cep"
-                      mask="99999-999"
-                      [autoClear]="true"
-                      [unmask]="true"
-                      type="text"
-                      [size]="9"
-                      [maxlength]="9"
-                      (onBlur)="consultaCEP($event)"
-                    >
-                    </p-inputMask>
-                  </div>
                   <!--*** Endereço ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="cadastro_endereco">Endereço</label>
@@ -223,7 +206,7 @@
                         [required]="true"
                       ></p-dropdown>
                       <app-configaux-incluir
-                        [desabilitado]="false"
+                        [desabilitado]="block"
                         [titulo]="'Incluir Município'"
                         [tituloCampo]="'Município'"
                         [campoNome]="'cadastro_municipio_id'"
@@ -320,6 +303,36 @@
                                             msgErro="Estado é obrigatório.">
                     </app-campo-control-erro>
                   </div>
+
+                  <!--*** CEP ***-->
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <label for="cadastro_cep">CEP</label>
+                    <div class="p-inputgroup">
+                    <p-inputMask
+                      [tabindex]="8"
+                      id="cadastro_cep"
+                      formControlName="cadastro_cep"
+                      mask="99999-999"
+                      [autoClear]="true"
+                      [unmask]="true"
+                      type="text"
+                      [size]="9"
+                      [maxlength]="9"
+                      [style]="{minWidth: '100%'}"
+                    >
+                    </p-inputMask>
+                      <button
+                        class="p-button-secondary p-button-icon-only"
+                        pButton
+                        [pTooltip]="'Busca Cep/Endereço'"
+                        type="button"
+                        icon="pi pi-envelope"
+                        (click)="consultaCEP2($event)"
+                        [disabled]="block || ativaCep()"
+                      ></button>
+                    </div>
+                  </div>
+
                   <!--*** Região ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="cadastro_regiao_id">Região</label>
@@ -334,7 +347,7 @@
                         [showClear]="true"
                       ></p-dropdown>
                       <app-configaux-incluir
-                        [desabilitado]="false"
+                        [desabilitado]="block"
                         [titulo]="'Incluir Região'"
                         [tituloCampo]="'Região'"
                         [campoNome]="'cadastro_regiao_id'"
