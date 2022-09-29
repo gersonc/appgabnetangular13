@@ -39,14 +39,28 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErro('cadastro_tratamento_id')">
                     <label for="cadastro_tratamento_id"><span class="atencao">*</span> Tratamento</label>
+                    <div #vmunicipio class="p-inputgroup">
                     <p-dropdown
                       [tabindex]="2"
                       id="cadastro_tratamento_id"
                       formControlName="cadastro_tratamento_id"
                       placeholder="Selecione"
-                      [options]="ddTratamento"
+                      [options]="ddTratamentoId"
                       [ngClass]="aplicaCssErro('cadastro_tratamento_id')"
                     ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="block"
+                      [titulo]="'Incluir Tratamento'"
+                      [tituloCampo]="'Tratamento'"
+                      [campoNome]="'cadastro_tratamento_id'"
+                      [tamanho]="50"
+                      [tamanhomax]="30"
+                      [dropdown]="'ddTratamentoId'"
+                      [(arrai)]="ddTratamentoId"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                    </div>
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('cadastro_tratamento_id')"
                                             msgErro="Tratamento é obrigatório."></app-campo-control-erro>
                   </div>
@@ -214,7 +228,7 @@
                         [tituloCampo]="'Município'"
                         [campoNome]="'cadastro_municipio_id'"
                         [tamanho]="50"
-                        [tamanhomax]="100"
+                        [tamanhomax]="50"
                         [dropdown]="'ddMunicipioId'"
                         [arrai]="ddMunicipioId"
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
@@ -280,6 +294,7 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)">
                     <label for="cadastro_estado_id"><span class="atencao">*</span> Estado</label>
+                    <div class="p-inputgroup">
                     <p-dropdown
                       [tabindex]="14"
                       id="cadastro_estado_id"
@@ -288,6 +303,19 @@
                       [options]="ddEstadoId"
                       [required]="true"
                     ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="block"
+                      [titulo]="'Incluir Estado'"
+                      [tituloCampo]="'Estado'"
+                      [campoNome]="'cadastro_estado_id'"
+                      [tamanho]="5"
+                      [tamanhomax]="2"
+                      [dropdown]="'ddEstadoId'"
+                      [(arrai)]="ddEstadoId"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                    </div>
                     <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_estado_id', validaEstado)"
                                             msgErro="Estado é obrigatório.">
                     </app-campo-control-erro>
@@ -313,7 +341,7 @@
                         [tamanho]="50"
                         [tamanhomax]="100"
                         [dropdown]="'ddMunicipioId'"
-                        [arrai]="ddRegiaoId"
+                        [(arrai)]="ddRegiaoId"
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
                         (onBlockSubmit)="onBlockSubmit($event)"
                       ></app-configaux-incluir>
@@ -378,14 +406,28 @@
                   <!--*** Grupo ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="cadastro_grupo_id">Grupo</label>
+                    <div class="p-inputgroup">
                     <p-dropdown
                       [tabindex]="17"
                       id="cadastro_grupo_id"
                       formControlName="cadastro_grupo_id"
                       placeholder="NENHUM"
-                      [options]="ddGrupo"
+                      [options]="ddGrupoId"
                       [showClear]="true"
                     ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="block"
+                      [titulo]="'Incluir Grupo'"
+                      [tituloCampo]="'Grupo'"
+                      [campoNome]="'cadastro_grupo_id'"
+                      [tamanho]="50"
+                      [tamanhomax]="50"
+                      [dropdown]="'ddGrupoId'"
+                      [(arrai)]="ddGrupoId"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                    </div>
                   </div>
                   <!--*** Telefone ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
@@ -602,6 +644,7 @@
                   <!--*** Escolaridade ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
                     <label for="cadastro_escolaridade_id">Escolaridade</label>
+                    <div class="p-inputgroup">
                     <p-dropdown
                       [tabindex]="33"
                       id="cadastro_escolaridade_id"
@@ -610,10 +653,24 @@
                       [options]="ddEscolaridadeId"
                       [showClear]="true"
                     ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="block"
+                      [titulo]="'Incluir Escolaridade'"
+                      [tituloCampo]="'Escolaridade'"
+                      [campoNome]="'cadastro_escolaridade_id'"
+                      [tamanho]="50"
+                      [tamanhomax]="30"
+                      [dropdown]="'ddEscolaridadeId'"
+                      [(arrai)]="ddEscolaridadeId"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                    </div>
                   </div>
                   <!--*** Estado Civil ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
                     <label for="cadastro_estado_civil_id">Estado Civil</label>
+                    <div class="p-inputgroup">
                     <p-dropdown
                       [tabindex]="34"
                       id="cadastro_estado_civil_id"
@@ -622,6 +679,19 @@
                       [options]="ddEstadoCivilId"
                       [showClear]="true"
                     ></p-dropdown>
+                    <app-configaux-incluir
+                      [desabilitado]="block"
+                      [titulo]="'Incluir Estado Civil'"
+                      [tituloCampo]="'Estado Civil'"
+                      [campoNome]="'cadastro_estado_civil_id'"
+                      [tamanho]="50"
+                      [tamanhomax]="15"
+                      [dropdown]="'ddEstadoCivilId'"
+                      [(arrai)]="ddEstadoCivilId"
+                      (onNovoRegistroAux)="onNovoRegistroAux($event)"
+                      (onBlockSubmit)="onBlockSubmit($event)"
+                    ></app-configaux-incluir>
+                    </div>
                   </div>
                   <!--*** Conjuge ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">

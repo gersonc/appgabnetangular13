@@ -4,13 +4,14 @@ import { UrlService } from '../../_services';
 import { AuthenticationService, IncluirAuxService } from '../../_services';
 import { take } from 'rxjs/operators';
 import {MsgService} from "../../_services/msg.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-configaux-incluir',
   templateUrl: './configaux-incluir.component.html',
   styleUrls: ['./configaux-incluir.component.css']
 })
-export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
+export class ConfigauxIncluirComponent implements OnInit, OnDestroy {
   @Input() desabilitado: boolean;
   @Input() titulo: string;
   @Input() tituloCampo: string;
@@ -19,24 +20,26 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
   @Input() tamanhomax: number;
   @Input() dropdown: string;
   @Input() arrai: SelectItem[];
+  @Output() arraiChange = new EventEmitter<SelectItem[]>();
   @Output() onNovoRegistroAux = new EventEmitter<any>();
   @Output() onBlockSubmit = new EventEmitter<boolean>();
 
-  public _desabilitado = true;
-  public _titulo = '';
+  // public _desabilitado = true;
+  /*public _titulo = '';
   public _tituloCampo = '';
   public _tamanho = 50;
   private _tamanhomax = 50;
   private _dropdown: string;
   private _arrai: SelectItem[];
-  private _campoNome = '';
+  private _campoNome = '';*/
   public visivel = false;
   public valor: string = null;
   public ativaBtn = false;
-  public mostraSpinner = false;
+  // public mostraSpinner = false;
   public novoId: number;
   private novoRegistro: SelectItem;
   private resp: any[];
+  sub: Subscription[] = [];
 
   constructor(
     private ms: MsgService,
@@ -48,10 +51,10 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.desabilitado) {
+  /*ngOnChanges(changes: SimpleChanges): void {
+    /!*if (changes.desabilitado) {
       this._desabilitado = changes.desabilitado.currentValue;
-    }
+    }*!/
     if (changes.titulo) {
       this._titulo = changes.titulo.currentValue;
     }
@@ -73,7 +76,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
     if (changes.arrai) {
       this._arrai = changes.arrai.currentValue;
     }
-  }
+  }*/
 
   mostraForm() {
     this.visivel = !this.visivel;
@@ -94,19 +97,18 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
     this.ativaBtn = false;
     if (this.valor && this.valor.length > 2) {
       if (this.achaValor()) {
-        this.mostraSpinner = true;
-        this.auxService.incluir(this.campo().tabela, this.campo().campo_nome, this.valor, this._tamanho)
+        this.sub.push(this.auxService.incluir(this.campo().tabela, this.campo().campo_nome, this.valor, this.tamanho)
           .pipe(take(1))
           .subscribe({
               next: (dados) => {
                 this.resp = dados;
               },
               error: err => {
-                console.error('FE-incluirMunicipio-ERRO-->', err);
-                this.mostraSpinner = false;
+                this.cancelar();
               },
               complete: () => {
                 if (this.resp[0]) {
+                  let arraitmp: SelectItem[] = this.arrai;
                   this.novoRegistro = {
                     label: this.valor,
                     value: +this.resp[1]
@@ -118,7 +120,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
                       summary: 'INCLUIR',
                       detail: this.resp[2]
                     });
-                  this._arrai.push(this.novoRegistro);
+                  // this._arrai.push(this.novoRegistro);
                   this.gravaSession();
                   this.valor = null;
                 } else {
@@ -130,25 +132,29 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
                       detail: this.resp[2]
                     });
                 }
-                this.mostraSpinner = false;
               }
             }
-          );
+          )
+        );
+      } else {
+        this.cancelar();
       }
+    } else {
+      this.cancelar();
     }
   }
 
   achaValor(): boolean {
     this.valor = this.valor.toUpperCase();
     let resp: boolean;
-    resp = this._arrai.some( x => {
+    resp = this.arrai.some( x => {
       return x.label === this.valor;
     });
     return !resp;
   }
 
   campo(): any {
-    const drop = this._dropdown;
+    const drop = this.dropdown;
     const dd = [
       {
         nome: 'ddProposicao_tipo_id',
@@ -207,12 +213,49 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
         parametros: null
       },
       {
+        nome: 'ddTratamentoId',
+        tabela: 'tratamento',
+        campo_id: 'tratamento_id',
+        campo_nome: 'tratamento_nome',
+        parametros: null
+      },
+      {
         nome: 'ddRegiaoId',
         tabela: 'regiao',
         campo_id: 'regiao_id',
         campo_nome: 'regiao_nome',
         parametros: null
       },
+      {
+        nome: 'ddGrupoId',
+        tabela: 'grupo',
+        campo_id: 'grupo_id',
+        campo_nome: 'grupo_nome',
+        parametros: null
+      },
+      {
+        nome: 'ddEstadoId',
+        tabela: 'estado',
+        campo_id: 'estado_id',
+        campo_nome: 'estado_nome',
+        parametros: null
+      },
+      {
+        nome: 'ddEscolaridadeId',
+        tabela: 'escolaridade',
+        campo_id: 'escolaridade_id',
+        campo_nome: 'escolaridade_nome',
+        parametros: null
+      },
+      {
+        nome: 'ddEstadoCivilId',
+        tabela: 'estado_civil',
+        campo_id: 'estado_civil_id',
+        campo_nome: 'estado_civil_nome',
+        parametros: null
+      }
+
+
 
 
 
@@ -229,31 +272,59 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
     if (sessionStorage.getItem(nome)) {
       sessionStorage.removeItem(nome);
     }
-    sessionStorage.setItem(nome, JSON.stringify(this._arrai));
+    let arr: SelectItem[] =  this.arrai;
+    arr.push(this.novoRegistro);
+    arr.sort(this.compare);
+    sessionStorage.setItem(nome, JSON.stringify(arr));
     const res = {
       valorId: this.novoRegistro.value,
       valorNome: this.novoRegistro.label,
-      dropdown: this._arrai,
-      campo: this._campoNome
+      dropdown: arr,
+      campo: this.campoNome
     };
+    this.arraiChange.emit(arr);
     this.onNovoRegistroAux.emit(res);
+    /*this.valor = null;
+    this.visivel = false;
+    this.blockSubmit(false);*/
+    this.cancelar();
+  }
+
+  compare(a, b) {
+    // Use toUpperCase() to ignore character casing
+    const regA = a.label.toUpperCase();
+    const regB = b.label.toUpperCase();
+
+    let comparison = 0;
+    if (regA > regB) {
+      comparison = 1;
+    } else if (regA < regB) {
+      comparison = -1;
+    }
+    return comparison;
   }
 
   cancelar() {
-    this._titulo = '';
+    /*this._titulo = '';
     this._tituloCampo = '';
     this._tamanho = 50;
     this._tamanhomax = 50;
     this._dropdown = null;
-    this._arrai = null;
+    this._arrai = null;*/
     // this._formControl = null;
-    this.visivel = false;
     this.valor = null;
     this.ativaBtn = false;
-    this.mostraSpinner = false;
     this.novoId = null;
     this.novoRegistro = null;
     this.resp = null;
+    this.visivel = false;
+    this.blockSubmit(false);
+  }
+
+  cancela() {
+    this.valor = null;
+    this.visivel = false;
+    this.blockSubmit(false);
   }
 
   blockSubmit(ev: boolean) {
@@ -261,6 +332,9 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.sub.forEach(s => {
+      s.unsubscribe()
+    });
   }
 
 }

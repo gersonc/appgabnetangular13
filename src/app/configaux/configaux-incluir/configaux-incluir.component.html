@@ -12,6 +12,7 @@
     ></button>
   </div>
 </ng-container>
+<ng-container *ngIf="visivel">
 <p-dialog
   appendTo="body"
   [header]="titulo"
@@ -24,6 +25,7 @@
   styleClass="tablistagem"
   (onHide)="onHide()"
 >
+
   <table class="historicoformdialog tabela">
     <tr>
       <td>
@@ -87,7 +89,8 @@
     </tr>
   </table>
 </p-dialog>
-<ng-container *ngIf="mostraSpinner">
-  <p-progressSpinner [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
 </ng-container>
+<!--<ng-container *ngIf="mostraSpinner">
+  <p-progressSpinner [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+</ng-container>-->
 

@@ -39,8 +39,8 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   titulo = 'CADASTRO';
 
   ddTipoCadastroId: SelectItemGroup[] = [];
-  ddTratamento: SelectItem[] = [];
-  ddGrupo: SelectItem[] = [];
+  ddTratamentoId: SelectItem[] = [];
+  ddGrupoId: SelectItem[] = [];
   ddMunicipioId: SelectItem[] = [];
   ddEstadoId: SelectItem[] = [];
   ddRegiaoId: SelectItem[] = [];
@@ -185,8 +185,8 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   carregaDropdownSessionStorage() {
     this.ddTipoCadastroId = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro'));
-    this.ddTratamento = JSON.parse(sessionStorage.getItem('dropdown-tratamento'));
-    this.ddGrupo = JSON.parse(sessionStorage.getItem('dropdown-grupo'));
+    this.ddTratamentoId = JSON.parse(sessionStorage.getItem('dropdown-tratamento'));
+    this.ddGrupoId = JSON.parse(sessionStorage.getItem('dropdown-grupo'));
     this.ddMunicipioId = JSON.parse(sessionStorage.getItem('dropdown-municipio'));
     this.ddEstadoId = JSON.parse(sessionStorage.getItem('dropdown-estado'));
     this.ddRegiaoId = JSON.parse(sessionStorage.getItem('dropdown-regiao'));
@@ -413,7 +413,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   onNovoRegistroAux(ev) {
-    if (ev.campo === 'cadastro_tipo_id') {
+/*    if (ev.campo === 'cadastro_tipo_id') {
       this.ddTipoCadastroId = ev.dropdown;
     }
     if (ev.campo === 'cadastro_tratamento_id') {
@@ -439,7 +439,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
     if (ev.campo === 'cadastro_campo4_id') {
       this.ddCampo4Id = ev.dropdown;
-    }
+    }*/
 
     this.formCadastro.get(ev.campo).patchValue(ev.valorId);
   }

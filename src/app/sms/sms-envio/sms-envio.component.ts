@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
 import { SmsService } from '../_services/sms.service';
-import { SmsDbInterface } from '../../cadastro/_models';
 import { Subscription } from 'rxjs';
 import { SmsEnvioInterface } from '../_models/sms.interface';
 import { take } from 'rxjs/operators';
+import {SmsDbInterface} from "../_models/sms-db.interface";
 
 @Component({
   selector: 'app-sms-envio',
