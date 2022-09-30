@@ -258,14 +258,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       this.kill0.update('user');
   }
 
-  /*onContentChanged(ev, campo: string) {
-    this.cpoEditor[campo] = {
-      html: ev.html,
-      delta: ev.content,
-      text: ev.text
-    }
-  }*/
-
   carregaDropdownSessionStorage() {
     this.ddTipoCadastroId = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro'));
     this.ddTratamentoId = JSON.parse(sessionStorage.getItem('dropdown-tratamento'));
