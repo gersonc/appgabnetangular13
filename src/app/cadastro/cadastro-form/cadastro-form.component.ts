@@ -14,6 +14,8 @@ import {WindowsService} from "../../_layout/_service";
 import {catchError, take} from "rxjs/operators";
 import {CEPError, CEPErrorCode, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
 import {CadastroService} from "../_services/cadastro.service";
+import {CadastroFormI} from "../_models/cadastro-form-i";
+import {DateTime} from "luxon";
 
 @Component({
   selector: 'app-cadastro-form',
@@ -53,12 +55,106 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   altura = (WindowsService.altura - 150) + 'px';
   block = true;
 
+  mostraEnderecos = false;
+  ddEnderecos: Endereco[] = [];
+  endereco: Endereco | null = null;
+  novoValor?: string | null = null;
+
   nomeDuplicado = false;
   validaTratamento = false;
   validaNome = false;
   validaMunicipio = false;
   validaRegiao = false;
   validaEstado = false;
+
+  abrevO: string[] = [
+    "AL ",
+    "AL. ",
+    "AV ",
+    "AV. ",
+    "BC ",
+    "BC. ",
+    "BLV ",
+    "BLV. ",
+    "CD ",
+    "CD. ",
+    "COND. ",
+    "ED ",
+    "ED. ",
+    "EDIF. ",
+    "EST ",
+    "EST. ",
+    "GJ ",
+    "GJ. ",
+    "JD ",
+    "JD. ",
+    "LG ",
+    "LG. ",
+    "LOT ",
+    "LOT. ",
+    "PC ",
+    "PC. ",
+    "PQ ",
+    "PQ. ",
+    "QD ",
+    "QD. ",
+    "R ",
+    "R. ",
+    "ROD ",
+    "ROD. ",
+    "SERV ",
+    "SERV. ",
+    "ST ",
+    "ST. ",
+    "TV ",
+    "TV. ",
+    "VL ",
+    "VL. "
+  ];
+  abrevD: string[] = [
+    "ALAMEDA ",
+    "ALAMEDA ",
+    "AVENIDA ",
+    "AVENIDA ",
+    "BECO ",
+    "BECO ",
+    'BOULEVARD ',
+    'BOULEVARD ',
+    "CONDOMÍNIO ",
+    "CONDOMÍNIO ",
+    "CONDOMÍNIO ",
+    "EDIFÍCIO ",
+    "EDIFÍCIO ",
+    "EDIFÍCIO ",
+    "ESTRADA ",
+    "ESTRADA ",
+    "GRANJA ",
+    "GRANJA ",
+    "JARDIM ",
+    "JARDIM ",
+    "LARGO ",
+    "LARGO ",
+    "LOTEAMENTO ",
+    "LOTEAMENTO ",
+    "PRAÇA ",
+    "PRAÇA ",
+    "PARQUE ",
+    "PARQUE ",
+    "QUADRA ",
+    "QUADRA ",
+    "RUA ",
+    "RUA ",
+    "RODOVIA ",
+    "RODOVIA ",
+    "SERVIDÃO ",
+    "SERVIDÃO ",
+    "SETOR ",
+    "SETOR ",
+    "TRAVESSA ",
+    "TRAVESSA ",
+    "VILA ",
+    "VILA "
+  ];
 
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
   format1: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -82,8 +178,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     ]
   };
 
-
-
   constructor(
     public formBuilder: FormBuilder,
     private dd: DdService,
@@ -96,7 +190,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private ms: MsgService,
     private viacep: NgxViacepService,
-    private cepService: CepService,
   ) { }
 
   ngOnInit(): void {
@@ -109,7 +202,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     this.criaForm();
   }
 
-  // ***     FORMULARIO      *************************
   criaForm() {
     this.formCadastro = this.formBuilder.group({
       cadastro_tipo_id: [this.cfs.cadastro.cadastro_tipo_id, Validators.required],
@@ -155,33 +247,24 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       cadastro_campo3: [this.cfs.cadastro.cadastro_campo3],
       cadastro_campo4_id: [this.cfs.cadastro.cadastro_campo4_id],
       cadastro_observacao: [this.cfs.cadastro.cadastro_observacao],
-      // mun_nome: [this.cfs.mun_nome, [Validators.min(2), Validators.max(50)]],
       cadastro_regiao_id: [this.cfs.cadastro.cadastro_regiao_id],
-      // reg_nome: [this.cfs.reg_nome, [Validators.min(2), Validators.max(50)]]
     });
     this.formCadastro.disable();
     this.formCadastro.get('cadastro_tipo_id').enable();
   }
 
-  onEditorCreated(ev, campo) {
-    if (campo === 'tarefa_tarefa'){
+  onEditorCreated(ev) {
       this.kill0 = ev;
       this.kill0.update('user');
-    }
-    if (campo === 'th_historico'){
-      this.kill1 = ev;
-      this.kill1.update('user');
-    }
-    // this.kdisabled = true;
   }
 
-  onContentChanged(ev, campo: string) {
+  /*onContentChanged(ev, campo: string) {
     this.cpoEditor[campo] = {
       html: ev.html,
       delta: ev.content,
       text: ev.text
     }
-  }
+  }*/
 
   carregaDropdownSessionStorage() {
     this.ddTipoCadastroId = JSON.parse(sessionStorage.getItem('dropdown-tipo_cadastro'));
@@ -201,25 +284,9 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     if (this.formCadastro.get('cadastro_cep').value !== null  && this.formCadastro.get('cadastro_cep').value.toString().length > 8) {
       let cep = this.formCadastro.get('cadastro_cep').value;
       cep = cep.replace(/\D/g, '');
-      // Verifica se campo cep possui valor informado.
       if (cep !== '') {
-        // Expressão regular para validar o CEP.
         const validacep = /^[0-9]{8}$/;
-        // Valida o formato do CEP.
         if (validacep.test(cep)) {
-          // this.resetaDadosForm();
-          // this.op.show(event);
-          /*this.viacep.buscarPorCep(cep).then((endereco: Endereco) => {
-            // Endereço retornado :)
-            this.populaEnderecoForm(endereco);
-            this.op.hide();
-          }).catch((error: ErroCep) => {
-            // Alguma coisa deu errado :/
-            if (error.message === 'CEP_NAO_ENCONTRADO') {
-              this.messageService.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADOR'});
-            }
-            this.op.hide();
-          });*/
           this.sub.push(
             this.viacep
               .buscarPorCep(cep)
@@ -230,13 +297,11 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
                   if (error.message === 'CEP_NAO_ENCONTRADO') {
                     this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
                   }
-                  // this.op.hide();
                   return EMPTY;
                 })
               )
               .subscribe((enderecos: Endereco) => {
                 this.populaEnderecoForm(enderecos);
-                // this.op.hide();
               }));
         }
       }
@@ -244,8 +309,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   consultaCEP2(event) {
-    console.log('consultaCEP2', event);
-    console.log('consultaCEP3', this.formCadastro.getRawValue());
     const cep: string = this.testaCep();
     const end: string[] = this.testaEndereco();
     if (cep !== '0') {
@@ -255,18 +318,14 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
           .pipe(
             catchError((error: CEPError) => {
               // Ocorreu algum erro :/
-              console.log(error.message);
               if (error.message === 'CEP_NAO_ENCONTRADO') {
                 this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
               }
-              // this.op.hide();
               return EMPTY;
             })
           )
           .subscribe((enderecos: Endereco) => {
-            console.log('endereco1', enderecos);
             this.populaEnderecoForm(enderecos);
-            // this.op.hide();
           }));
     } else {
       if (end.length === 3) {
@@ -275,19 +334,19 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
             .buscarPorEndereco(end[0], end[1], end[2])
             .pipe(
               catchError((error: CEPError) => {
-                // Ocorreu algum erro :/
                 console.log(error.message);
                 if (error.message === 'CEP_NAO_ENCONTRADO') {
                   this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
                 }
-                // this.op.hide();
                 return EMPTY;
               })
             )
             .subscribe((enderecos: Endereco[]) => {
-              console.log('endereco2', enderecos);
-              this.populaEnderecoForm(enderecos[0]);
-              // this.op.hide();
+              if (enderecos.length > 1) {
+                this.escolheEnderecos(enderecos);
+              } else {
+                this.populaEnderecoForm(enderecos[0]);
+              }
             }));
       } else {
         console.log('ENDEREÇO INVÁLIDO');
@@ -299,35 +358,48 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     if (endereco) {
       const st = this.achaValor(this.ddEstadoId, endereco.uf);
       if (st) {
-        this.cfs.cadastro.cadastro_estado_id = st.value;
         this.formCadastro.get('cadastro_estado_id').patchValue(st.value);
       }
-      this.cfs.cadastro.cadastro_endereco = endereco.logradouro;
-      this.formCadastro.get('cadastro_endereco').patchValue(endereco.logradouro);
-      this.cfs.cadastro.cadastro_bairro = endereco.bairro;
-      this.formCadastro.get('cadastro_bairro').patchValue(endereco.bairro);
+      this.formCadastro.get('cadastro_endereco').patchValue(endereco.logradouro.toUpperCase());
+      this.formCadastro.get('cadastro_bairro').patchValue(endereco.bairro.toUpperCase());
+      this.formCadastro.get('cadastro_cep').patchValue(endereco.cep);
+      const validacomplemento = /^[0-9]/;
+      if (validacomplemento.test(endereco.complemento)) {
+        this.formCadastro.get('cadastro_endereco_numero').patchValue(endereco.complemento);
+      }
       const mun = this.achaValor(this.ddMunicipioId, endereco.localidade.toUpperCase());
       if (mun) {
-        this.cfs.cadastro.cadastro_municipio_id = mun.value;
         this.formCadastro.get('cadastro_municipio_id').patchValue(mun.value);
       } else {
-        this.formCadastro.get('cadastro_estado_id').disable();
-        this.formCadastro.get('cadastro_endereco').disable();
-        this.formCadastro.get('cadastro_bairro').disable();
-        // this.mostraMunicipioForm(endereco.localidade.toUpperCase());
+        this.novoValor = endereco.localidade.toUpperCase();
       }
+      this.ddEnderecos = null;
+      this.mostraEnderecos = false;
+      this.endereco = null;
     }
   }
 
+  escolheEnderecos(enderecos: Endereco[]) {
+    this.ddEnderecos = enderecos;
+    this.mostraEnderecos = true;
+  }
+
+  fechaEnderecos() {
+    this.ddEnderecos = null;
+    this.mostraEnderecos = false;
+    this.endereco = null;
+  }
+
+  selecionaEndereco() {
+    this.populaEnderecoForm(this.endereco);
+  }
+
   testaCep(): string {
-    if (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length >= 8) {
+    if (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length === 8) {
       let cep = this.formCadastro.get('cadastro_cep').value;
       cep = cep.replace(/\D/g, '');
-      // Verifica se campo cep possui valor informado.
       if (cep.toString().length === 8) {
-        // Expressão regular para validar o CEP.
         const validacep = /^[0-9]{8}$/;
-        // Valida o formato do CEP.
         if (validacep.test(cep)) {
           return cep;
         } else {
@@ -352,7 +424,9 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       cidade = this.achaLabel(this.ddMunicipioId, +this.formCadastro.get('cadastro_municipio_id').value);
     }
     if (this.formCadastro.get('cadastro_endereco').value !== null && +this.formCadastro.get('cadastro_endereco').value.toString().length >= 3) {
-      logradouro  = this.formCadastro.get('cadastro_endereco').value.toUpperCase();
+      // let e: string  = this.formCadastro.get('cadastro_endereco').value.toUpperCase();
+      let e: string  = this.getEndereco();
+      logradouro = e.replace(/[^a-zA-Z0–9ÀÁÃÂÉÊÍÓÕÔÚÜÇ _]/g, '');
     }
     if (uf !== '' && cidade !== '' && logradouro !== '') {
       return [uf, cidade, logradouro];
@@ -361,23 +435,24 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  getEndereco(): string {
+    return this.abrevO.reduce((acumulador, valorAtual, index) => acumulador.replace(valorAtual, this.abrevD[index]), this.formCadastro.get('cadastro_endereco').value.toUpperCase());
+  }
+
   ativaCep(): boolean {
       return !(((this.formCadastro.get('cadastro_estado_id').value !== null) &&
       (this.formCadastro.get('cadastro_endereco').value !== null && this.formCadastro.get('cadastro_endereco').value.toString().length > 5) &&
-      (this.formCadastro.get('cadastro_bairro').value !== null && this.formCadastro.get('cadastro_bairro').value.toString().length > 5) &&
       (this.formCadastro.get('cadastro_municipio_id').value !== null)) ||
-      (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length > 8));
+      (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length === 8));
   }
 
   achaValor(arr: SelectItem[], valor): SelectItem {
-    console.log('achaValor',arr);
     return arr.find(function(x) {
       return x.label === valor;
     });
   }
 
   achaLabel(arr: SelectItem[], valor): string {
-    console.log('achaLabel',arr);
     const r: SelectItem = arr.find(function(x) {
       return x.value === valor;
     });
@@ -386,25 +461,112 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('onsubmit', this.formCadastro.getRawValue());
+    this.criarEnvio();
   }
 
-  verificaDuplicados2(event) {
-    console.log('verificaDuplicados2',event);
+  criarEnvio(): CadastroFormI {
+    const i: string[] = [
+      'cadastro_tipo_id',
+      'cadastro_tratamento_id',
+      'cadastro_grupo_id',
+      'cadastro_municipio_id',
+      'cadastro_estado_id',
+      'cadastro_estado_civil_id',
+      'cadastro_escolaridade_id',
+      'cadastro_campo4_id',
+      'cadastro_regiao_id'
+    ];
+    const s: string[] = [
+      'cadastro_nome',
+      'cadastro_apelido',
+      'cadastro_sigla',
+      'cadastro_responsavel',
+      'cadastro_cargo',
+      'cadastro_endereco',
+      'cadastro_endereco_numero',
+      'cadastro_endereco_complemento',
+      'cadastro_bairro',
+      'cadastro_cep',
+      'cadastro_telefone',
+      'cadastro_telcom',
+      'cadastro_telefone2',
+      'cadastro_celular',
+      'cadastro_celular2',
+      'cadastro_fax',
+      'cadastro_email',
+      'cadastro_email2',
+      'cadastro_rede_social',
+      'cadastro_outras_midias',
+      'cadastro_cpfcnpj',
+      'cadastro_rg',
+      'cadastro_conjuge',
+      'cadastro_profissao',
+      'cadastro_sexo',
+      'cadastro_zona',
+      'cadastro_campo1',
+      'cadastro_campo2',
+      'cadastro_campo3',
+    ];
+    const b: string[] = [
+      'cadastro_jornal',
+      'cadastro_mala',
+      'cadastro_agenda',
+      'cadastro_sigilo',
+    ];
+    let c: CadastroFormI = {};
+    if (this.cfs.acao === 'incluir') {
+      i.forEach((cp)=>{
+        console.log('cp', cp);
+        if (this.formCadastro.get(cp).value !== null) {
+          c[cp] = +this.formCadastro.get(cp).value;
+        }
+      });
+      if (c.cadastro_tipo_id !== undefined) {
+        c['cadastro_tipo_tipo'] = this.tipotipo;
+      }
+      s.forEach((cp)=>{
+        console.log('cp', cp);
+        const tmp: string = this.formCadastro.get(cp).value;
+        if (tmp !== null && tmp.length > 0) {
+          c[cp] = tmp.toUpperCase();
+        }
+      });
+      b.forEach((cp)=>{
+        console.log('cp', cp);
+        if (this.formCadastro.get(cp).value !== null) {
+          const tmp: boolean = this.formCadastro.get(cp).value;
+          c[cp] = (tmp) ? 1 : 0;
+        } else {
+          c[cp] = 0;
+        }
+      });
+      if (this.formCadastro.get('cadastro_observacao').value !== null) {
+        const tmp: string = this.formCadastro.get('cadastro_observacao').value;
+        if (tmp.length > 0) {
+          c['cadastro_observacao'] = this.formCadastro.get('cadastro_observacao').value;
+          c['cadastro_observacao_delta'] = JSON.stringify(this.kill0.getContents());
+          c['cadastro_observacao_texto'] = this.kill0.getText();
+
+        }
+      }
+      if (this.formCadastro.get('cadastro_data_nascimento').value !== null) {
+        const dt: DateTime = DateTime.fromJSDate(this.formCadastro.get('cadastro_data_nascimento').value);
+        c['cadastro_data_nascimento'] = dt.toSQLDate();
+      }
+    }
+    console.log('criarEnvio', c);
+    return c;
   }
 
   verificaDuplicados(nome?: string) {
     this.validaNome = false;
-    // this.numeroDuplicado = 0;
-    // const nome = this.formCadastro.get('cadastro_nome').value;
     if (nome !== undefined && nome !== null && nome.length > 3) {
       this.formCadastro.disable();
-      // this.nomeBusca = nome;
       this.sub.push(this.cs.procurarCadastroDuplicado(nome)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
             this.cad = dados;
-            console.log('verificaDuplicados',this.cad);
           },
           error: (erro) => {
             console.error(erro.toString());
@@ -420,7 +582,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
               this.formCadastro.enable();
               this.validaNome = true;
             }
-            // return this.numeroDuplicado;
           }
         }));
     } else {
@@ -516,7 +677,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   mudaTipo (event) {
     const a: SelectItem = this.achaTipo(this.ddTipoCadastroId, event.value);
-    console.log('mudaTipo', event);
     this.tipotipo = Number(a.title);
     this.block = false;
     this.formCadastro.enable();
@@ -524,60 +684,18 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   onNovoRegistroAux(ev) {
-/*    if (ev.campo === 'cadastro_tipo_id') {
-      this.ddTipoCadastroId = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_tratamento_id') {
-      this.ddTratamento = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_grupo_id') {
-      this.ddGrupo = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_municipio_id') {
-      this.ddMunicipioId = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_estado_id') {
-      this.ddEstadoId = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_regiao_id') {
-      this.ddRegiaoId = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_escolaridade_id') {
-      this.ddEscolaridadeId = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_estado_civil_id') {
-      this.ddEstadoCivilId = ev.dropdown;
-    }
-    if (ev.campo === 'cadastro_campo4_id') {
-      this.ddCampo4Id = ev.dropdown;
-    }*/
-
     this.formCadastro.get(ev.campo).patchValue(ev.valorId);
   }
-
-
 
   voltarListar() {
     this.cfs.cadastroListar = null;
     this.cfs.cadastro = null;
     this.cfs.acao = null;
-    /*if (sessionStorage.getItem('solic-busca')) {
-      this.router.navigate(['/solic/listar/busca']);
-    } else {
-      this.router.navigate(['/solic/listar']);
-    }*/
+    this.ddEnderecos = null;
+    this.mostraEnderecos = false;
+    this.endereco = null;
     this.router.navigate(['/cadastro/listar']);
   }
-
-
-
-
-
-
-
-
-
-
 
   resetForm() {
     this.mostraForm = true;
@@ -589,14 +707,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     this.arquivoDesativado = true;
     window.scrollTo(0, 0);
   }
-
-
-
-
-
-
-
-
 
   onUpload(ev) {
     if (ev) {
@@ -629,17 +739,209 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('DESTROI');
     this.sub.forEach(s => {
       s.unsubscribe()
     });
-    /*this.reset();
-    this.tfs.resetTudo();
-    this.th_historico = null;
-    this.botaoEnviarVF = false;
-    this.tarefa_situacao_id = 0;*/
   }
 
-
+  teste() {
+    const ddEnd: string = JSON.stringify([
+      {
+        "cep": "11060-900",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "549",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-959",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "470",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-906",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "380",
+        "bairro": "Campo Grande",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-002",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "de 342 ao fim - lado par",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-911",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "493",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-905",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "168",
+        "bairro": "Vila Belmiro",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-904",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "221",
+        "bairro": "Encruzilhada",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-003",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "de 343 ao fim - lado ímpar",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-909",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "530",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-000",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "até 340 - lado par",
+        "bairro": "Vila Mathias",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-907",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "259",
+        "bairro": "Encruzilhada",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-970",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "470",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-917",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "291",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-908",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "417",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-903",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "78",
+        "bairro": "Vila Mathias",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      },
+      {
+        "cep": "11060-001",
+        "logradouro": "Avenida Ana Costa",
+        "complemento": "até 341 - lado ímpar",
+        "bairro": "Gonzaga",
+        "localidade": "Santos",
+        "uf": "SP",
+        "ibge": "3548500",
+        "gia": "6336",
+        "ddd": "13",
+        "siafi": "7071"
+      }
+    ]);
+    this.ddEnderecos = JSON.parse(ddEnd);
+    this.endereco = null;
+    this.mostraEnderecos = true;
+  }
 
 }

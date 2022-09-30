@@ -6,10 +6,16 @@
     "changeOrigin": true
   },
   "/viacep": {
-    "target": "https://viacep.com.br/ws",
+    "target": "https://viacep.com.br",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": true
+    "changeOrigin": false
+  },
+  "https://viacep.com.br": {
+    "target": "https://viacep.com.br",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
   }
 
 }

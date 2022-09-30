@@ -1,6 +1,40 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
     <form [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
+      <ng-container *ngIf="!cs.cadastro_campo1_sn">
+        <input type="hidden" formControlName="cadastro_campo1" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="!cs.cadastro_campo2_sn">
+        <input type="hidden" formControlName="cadastro_campo2" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="!cs.cadastro_campo3_sn">
+        <input type="hidden" formControlName="cadastro_campo3" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="!cs.cadastro_campo4_sn">
+        <input type="hidden" formControlName="cadastro_campo4_id" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 2">
+        <input type="hidden" formControlName="cadastro_apelido" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 1">
+        <input type="hidden" formControlName="cadastro_sigla" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 2">
+        <input type="hidden" formControlName="cadastro_rg" [value]="null">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 2">
+        <input type="hidden" formControlName="cadastro_sexo" [value]="'P'">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 2">
+        <input type="hidden" formControlName="cadastro_escolaridade_id" [value]="0">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 2">
+        <input type="hidden" formControlName="cadastro_estado_civil_id" [value]="0">
+      </ng-container>
+      <ng-container *ngIf="tipotipo === 2">
+        <input type="hidden" formControlName="cadastro_conjuge" [value]="null">
+      </ng-container>
+
       <div class="p-fluid formulario-bg-externo">
 
         <div class="p-d-flex p-jc-center">
@@ -140,7 +174,7 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="cadastro_endereco">Endereço</label>
                     <input
-                      [tabindex]="9"
+                      [tabindex]="8"
                       id="cadastro_endereco"
                       formControlName="cadastro_endereco"
                       type="text"
@@ -154,7 +188,7 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1">
                     <label for="cadastro_endereco_numero">Número</label>
                     <input
-                      [tabindex]="10"
+                      [tabindex]="9"
                       id="cadastro_endereco_numero"
                       formControlName="cadastro_endereco_numero"
                       type="text"
@@ -168,7 +202,7 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-3">
                     <label for="cadastro_endereco_complemento">Comp.</label>
                     <input
-                      [tabindex]="11"
+                      [tabindex]="10"
                       id="cadastro_endereco_complemento"
                       formControlName="cadastro_endereco_complemento"
                       type="text"
@@ -181,7 +215,7 @@
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="cadastro_bairro">Bairro</label>
                     <input
-                      [tabindex]="12"
+                      [tabindex]="11"
                       id="cadastro_bairro"
                       formControlName="cadastro_bairro"
                       type="text"
@@ -196,7 +230,7 @@
                     <label for="cadastro_municipio_id"><span class="atencao">*</span> Município</label>
                     <div #vmunicipio class="p-inputgroup">
                       <p-dropdown
-                        [tabindex]="13"
+                        [tabindex]="12"
                         [style]="{width:'100%'}"
                         id="cadastro_municipio_id"
                         formControlName="cadastro_municipio_id"
@@ -214,72 +248,22 @@
                         [tamanhomax]="50"
                         [dropdown]="'ddMunicipioId'"
                         [arrai]="ddMunicipioId"
+                        [novoValor]="novoValor"
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
                         (onBlockSubmit)="onBlockSubmit($event)"
                       ></app-configaux-incluir>
-                      <!--<button
-                        class="p-button-secondary"
-                        pButton
-                        type="button"
-                        icon="pi pi-plus"
-                        (click)="mostraFormAux('cadastro_municipio_id')"
-                        [disabled]="block"
-                      ></button>-->
                     </div>
                     <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_municipio_id', validaMunicipio)"
                                             msgErro="Município é obrigatório.">
                     </app-campo-control-erro>
                   </div>
-                  <!--*** Incluir Município ***-->
-                  <!--<p-dialog
-                    header="Incluir Município"
-                    [(visible)]="municipioForm"
-                    [modal]="true"
-                    [closable]="true"
-                    [blockScroll]="true"
-                    styleClass="formulario"
-                    [breakpoints]="{'900px': '50vw', '650px': '80vw', '450px': '100vw'}"
-                    [style]="{width: '30vw'}"
-                    (onHide)="fechaMunicipioForm()"
-                    (onShow)="onShowMunicipioForm()"
-                  >
-                    <p-messages [value]="msgs" [closable]="true"></p-messages>
-                    <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                      <label for="mun_nome">Novo município</label>
-                      <input
-                        id="mun_nome"
-                        type="text"
-                        formControlName="mun_nome"
-                        [minlength]="2"
-                        [maxlength]="50"
-                        (keyup)="mostraBtnIncluirMunicipio()"
-                        pInputText
-                      />
-                    </div>
-                    <div class="p-col-12 p-d-flex p-jc-start p-pb-2">
-                      <div class="p-mr-2">
-                        <p-button
-                          [disabled]="!btnIncluirMunicipio"
-                          (onClick)="incluirMunicipio()"
-                          label="Incluir"
-                        ></p-button>
-                      </div>
-                      <div class="p-mr-2">
-                        <p-button
-                          styleClass="p-button-secondary"
-                          label="Cancelar"
-                          (onClick)="fechaMunicipioForm()"
-                        ></p-button>
-                      </div>
-                    </div>
-                  </p-dialog>-->
                   <!--*** Estado ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
                        [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)">
                     <label for="cadastro_estado_id"><span class="atencao">*</span> Estado</label>
                     <div class="p-inputgroup">
                     <p-dropdown
-                      [tabindex]="14"
+                      [tabindex]="13"
                       id="cadastro_estado_id"
                       formControlName="cadastro_estado_id"
                       placeholder="Selecione"
@@ -309,7 +293,7 @@
                     <label for="cadastro_cep">CEP</label>
                     <div class="p-inputgroup">
                     <p-inputMask
-                      [tabindex]="8"
+                      [tabindex]="14"
                       id="cadastro_cep"
                       formControlName="cadastro_cep"
                       mask="99999-999"
@@ -358,50 +342,10 @@
                         (onNovoRegistroAux)="onNovoRegistroAux($event)"
                         (onBlockSubmit)="onBlockSubmit($event)"
                       ></app-configaux-incluir>
-                      <!--<button
-                        pButton
-                        class="p-button-secondary"
-                        type="button"
-                        icon="pi pi-plus"
-                        (click)="mostraFormAux('cadastro_regiao_id')"
-                        [disabled]="block"
-                      ></button>-->
+
                     </div>
                   </div>
-                  <!--*** Incluir Região ***-->
-                  <!--<p-dialog
-                    header="Incluir Região"
-                    [(visible)]="regiaoForm"
-                    [modal]="true"
-                    [closable]="true"
-                    [blockScroll]="true"
-                    styleClass="formulario"
-                    [breakpoints]="{'900px': '50vw', '650px': '80vw', '450px': '100vw'}"
-                    [style]="{width: '30vw'}"
-                    (onHide)="fechaRegiaoForm()"
-                  >
-                    <p-messages [value]="msgs" [closable]="true"></p-messages>
-                    <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                      <label for="reg_nome">Nova região</label>
-                      <input id="reg_nome" type="text" formControlName="reg_nome" [size]="40" [minlength]="2"
-                             [maxlength]="50" (keyup)="mostraBtnIncluirRegiao()" pInputText/>
-                    </div>
-                    <div class="p-col-12 p-d-flex p-jc-start p-pb-2">
-                      <div class="p-mr-2">
-                        <p-button
-                          [disabled]="!btnIncluirRegiao"
-                          label="Incluir"
-                          (onClick)="incluirRegiao()">
-                        </p-button>
-                      </div>
-                      <div class="p-mr-2">
-                        <p-button
-                          label="Cancelar"
-                          (onClick)="fechaRegiaoForm()"
-                        ></p-button>
-                      </div>
-                    </div>
-                  </p-dialog>-->
+
                   <!--*** Campo 1 ***-->
                   <div *ngIf="cs.cadastro_campo1_sn" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
                     <label for="cadastro_campo1">{{cs.cadastro_campo1_nome}}</label>
@@ -761,10 +705,10 @@
                   </div>
                   <!--*** Campo 3 ***-->
                   <div *ngIf="cs.cadastro_campo3_sn" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-                    <label for="_cadastro_campo3">{{cs.cadastro_campo3_nome}}</label>
+                    <label for="cadastro_campo3">{{cs.cadastro_campo3_nome}}</label>
                     <textarea
                       [tabindex]="39"
-                      id="_cadastro_campo3"
+                      id="cadastro_campo3"
                       pInputTextarea
                       [rows]="1" [cols]="40"
                       [maxlength]="254"
@@ -776,22 +720,22 @@
                   <!--*** Boletim ***-->
                   <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
                     <h5>Boletim</h5>
-                    <p-inputSwitch [tabindex]="39" id="cadastro_jornal" formControlName="cadastro_jornal"></p-inputSwitch>
+                    <p-inputSwitch [tabindex]="40" id="cadastro_jornal" formControlName="cadastro_jornal"></p-inputSwitch>
                   </div>
                   <!--*** Mala direta ***-->
                   <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
                     <h5>Mala direta</h5>
-                    <p-inputSwitch [tabindex]="40" id="cadastro_mala" formControlName="cadastro_mala"></p-inputSwitch>
+                    <p-inputSwitch [tabindex]="41" id="cadastro_mala" formControlName="cadastro_mala"></p-inputSwitch>
                   </div>
                   <!--*** Contato ***-->
                   <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
                     <h5>Contato</h5>
-                    <p-inputSwitch [tabindex]="41" id="cadastro_agenda" formControlName="cadastro_agenda"></p-inputSwitch>
+                    <p-inputSwitch [tabindex]="42" id="cadastro_agenda" formControlName="cadastro_agenda"></p-inputSwitch>
                   </div>
                   <!--*** Sigilo ***-->
                   <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
                     <h5>Sigilo</h5>
-                    <p-inputSwitch [tabindex]="42" id="cadastro_sigilo" formControlName="cadastro_sigilo"></p-inputSwitch>
+                    <p-inputSwitch [tabindex]="43" id="cadastro_sigilo" formControlName="cadastro_sigilo"></p-inputSwitch>
                   </div>
 
                 </div>
@@ -812,7 +756,7 @@
                         <h5>Tarefa</h5>
                         <div class="qeditor">
                           <quill-editor
-                            [tabindex]="43"
+                            [tabindex]="44"
                             name="tarefa_tarefa"
                             class="formulario"
                             id="tarefa_tarefa"
@@ -822,8 +766,7 @@
                             [theme]="'snow'"
                             [modules]="modulos"
                             [placeholder]="''"
-                            (onContentChanged)="onContentChanged($event, 'cadastro_observacao')"
-                            (onEditorCreated)="onEditorCreated($event, 'cadastro_observacao')"
+                            (onEditorCreated)="onEditorCreated($event)"
                           ></quill-editor>
                         </div>
                       </div>
@@ -834,7 +777,7 @@
                   <ng-container *ngIf="aut.arquivos">
                     <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
                           <app-arquivo *ngIf="cfs.acao === 'incluir'"
-                                       [tabindex]="44"
+                                       [tabindex]="45"
                                        [modulo]="'cadastro'"
                                        [modelo]="'incluir'"
                                        [registro_id]="arquivo_registro_id"
@@ -846,7 +789,7 @@
                                        [clearArquivos]="clearArquivos"
                           ></app-arquivo>
                           <app-arquivo *ngIf="cfs.acao === 'alterar'"
-                                       [tabindex]="44"
+                                       [tabindex]="45"
                                        [modulo]="'cadastro'"
                                        [uploadDisabled]="arquivoDesativado"
                                        [arqs]="cfs.cadastroListar.cadastro_arquivos"
@@ -885,7 +828,7 @@
                 <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
                   <div class="p-mr-2">
                     <button
-                      [tabindex]="45"
+                      [tabindex]="46"
                       pButton
                       type="submit"
                       class="p-button-rounded"
@@ -895,7 +838,7 @@
                   </div>
                   <div class="p-mr-2">
                     <button
-                      [tabindex]="46"
+                      [tabindex]="47"
                       pButton
                       type="button"
                       class="p-button-rounded p-button-secondary"
@@ -904,9 +847,20 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
+                  <div class="p-mr-2">
+                    <button
+                      [tabindex]="48"
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="teste()"
+                      label="TESTE"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
                   <div>
                     <button
-                      [tabindex]="47"
+                      [tabindex]="49"
                       pButton
                       type="button"
                       class="p-button-rounded p-button-secondary"
@@ -944,7 +898,8 @@
     [modal]="true"
     [closable]="true"
     [blockScroll]="true"
-    [style]="{ width: '800px' }"
+    [breakpoints]="{'1400px': '40vw', '1300px': '50vw', '1200px': '65vw', '1000px': '80vw', '640px': '100vw'}"
+    [style]="{width: '40vw'}"
     (onHide)="fechaNomeDuplicado()"
   >
     <div class="p-col-12">
@@ -955,6 +910,90 @@
         label="Fechar"
         (onClick)="fechaNomeDuplicado()"
       ></p-button>
+    </div>
+  </p-dialog>
+</ng-container>
+
+<ng-container *ngIf="mostraEnderecos">
+  <p-dialog
+    header="Foram encontrados meis de um resoltado. Escolha um abaixo."
+    [(visible)]="mostraEnderecos"
+    [modal]="true"
+    [closable]="true"
+    [blockScroll]="true"
+    [breakpoints]="{'1400px': '40vw', '1300px': '50vw', '1200px': '65vw', '1000px': '80vw', '640px': '100vw'}"
+    [style]="{width: '40vw'}"
+    (onHide)="fechaEnderecos()"
+  >
+    <div class="p-fluid p-formgrid p-grid formulario">
+      <div class="p-col-12">
+
+        <p-listbox [options]="ddEnderecos" [(ngModel)]="endereco">
+          <ng-template pTemplate="header">
+            Header Content
+          </ng-template>
+          <ng-template let-end pTemplate="item">
+            <div>
+              <table>
+                <tr>
+                  <th>Endereço</th>
+                  <td>{{end.logradouro}}</td>
+                </tr>
+                <tr>
+                  <th>Complemento</th>
+                  <td>{{end.complemento}}</td>
+                </tr>
+                <tr>
+                  <th>Bairro</th>
+                  <td>{{end.bairro}}</td>
+                </tr>
+                <tr>
+                  <th>Município</th>
+                  <td>{{end.localidade}}</td>
+                </tr>
+                <tr>
+                  <th>Estado</th>
+                  <td>{{end.uf}}</td>
+                </tr>
+                <tr>
+                  <th>Cep</th>
+                  <td>{{end.cep}}</td>
+                </tr>
+              </table>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            Footer Content
+          </ng-template>
+        </p-listbox>
+      </div>
+
+      <div class="p-col-12 formulario">
+        <!--*** Botões ***-->
+        <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+          <div class="p-mr-2">
+            <button
+              pButton
+              type="submit"
+              class="p-button-rounded"
+              [disabled]="endereco === null"
+              label="Selecionar"
+              (click)="selecionaEndereco()"
+            ></button>
+          </div>
+          <div class="p-mr-2">
+            <button
+              pButton
+              type="button"
+              class="p-button-rounded p-button-secondary"
+              (click)="fechaEnderecos()"
+              label="Cancelar"
+              [disabled]="botaoEnviarVF"
+            ></button>
+          </div>
+        </div>
+        <!--*** FIM BOTOES ***-->
+      </div>
     </div>
   </p-dialog>
 </ng-container>

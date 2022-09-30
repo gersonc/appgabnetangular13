@@ -4,6 +4,7 @@ import {ProceOficioI} from "../../proce/_model/proc-i";
 import {OficioListarI} from "../../oficio/_models/oficio-listar-i";
 import {EmendaListarI} from "../../emenda/_models/emenda-listar-i";
 import {TotalI} from "../../shared-datatables/models/total-i";
+import {Endereco} from "@brunoc/ngx-viacep";
 
 export interface CadastroI {
   cadastro_id?: number;
@@ -98,3 +99,8 @@ export interface CadastroPaginacaoI {
 export const cadastrocampostexto = [
   'cadastro_observacao',
 ];
+
+export interface EnderecoI extends Endereco {
+  siafi: string;
+  ddd: string;
+}

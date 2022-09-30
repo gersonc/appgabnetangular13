@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MessageService, SelectItem } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 import { UrlService } from '../../_services';
 import { AuthenticationService, IncluirAuxService } from '../../_services';
 import { take } from 'rxjs/operators';
@@ -11,8 +11,9 @@ import {Subscription} from "rxjs";
   templateUrl: './configaux-incluir.component.html',
   styleUrls: ['./configaux-incluir.component.css']
 })
-export class ConfigauxIncluirComponent implements OnInit, OnDestroy {
+export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
   @Input() desabilitado: boolean;
+  @Input() novoValor?: string | null;
   @Input() titulo: string;
   @Input() tituloCampo: string;
   @Input() campoNome: string;
@@ -21,21 +22,13 @@ export class ConfigauxIncluirComponent implements OnInit, OnDestroy {
   @Input() dropdown: string;
   @Input() arrai: SelectItem[];
   @Output() arraiChange = new EventEmitter<SelectItem[]>();
+  @Output() novoValorChange = new EventEmitter<any>();
   @Output() onNovoRegistroAux = new EventEmitter<any>();
   @Output() onBlockSubmit = new EventEmitter<boolean>();
 
-  // public _desabilitado = true;
-  /*public _titulo = '';
-  public _tituloCampo = '';
-  public _tamanho = 50;
-  private _tamanhomax = 50;
-  private _dropdown: string;
-  private _arrai: SelectItem[];
-  private _campoNome = '';*/
   public visivel = false;
   public valor: string = null;
   public ativaBtn = false;
-  // public mostraSpinner = false;
   public novoId: number;
   private novoRegistro: SelectItem;
   private resp: any[];
@@ -51,32 +44,14 @@ export class ConfigauxIncluirComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  /*ngOnChanges(changes: SimpleChanges): void {
-    /!*if (changes.desabilitado) {
-      this._desabilitado = changes.desabilitado.currentValue;
-    }*!/
-    if (changes.titulo) {
-      this._titulo = changes.titulo.currentValue;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.novoValor) {
+      if (this.novoValor !== undefined && this.novoValor !== null && this.novoValor.length > 0) {
+        this.valor = this.novoValor.toUpperCase();
+        this.mostraForm()
+      }
     }
-    if (changes.tituloCampo) {
-      this._tituloCampo = changes.tituloCampo.currentValue;
-    }
-    if (changes.campoNome) {
-      this._campoNome = changes.campoNome.currentValue;
-    }
-    if (changes.tamanho) {
-      this._tamanho = changes.tamanho.currentValue;
-    }
-    if (changes.tamanhomax) {
-      this._tamanhomax = changes.tamanhomax.currentValue;
-    }
-    if (changes.dropdown) {
-      this._dropdown = changes.dropdown.currentValue;
-    }
-    if (changes.arrai) {
-      this._arrai = changes.arrai.currentValue;
-    }
-  }*/
+  }
 
   mostraForm() {
     this.visivel = !this.visivel;
@@ -284,9 +259,6 @@ export class ConfigauxIncluirComponent implements OnInit, OnDestroy {
     };
     this.arraiChange.emit(arr);
     this.onNovoRegistroAux.emit(res);
-    /*this.valor = null;
-    this.visivel = false;
-    this.blockSubmit(false);*/
     this.cancelar();
   }
 
@@ -305,19 +277,16 @@ export class ConfigauxIncluirComponent implements OnInit, OnDestroy {
   }
 
   cancelar() {
-    /*this._titulo = '';
-    this._tituloCampo = '';
-    this._tamanho = 50;
-    this._tamanhomax = 50;
-    this._dropdown = null;
-    this._arrai = null;*/
-    // this._formControl = null;
     this.valor = null;
     this.ativaBtn = false;
     this.novoId = null;
     this.novoRegistro = null;
     this.resp = null;
     this.visivel = false;
+    if (this.novoValor !== undefined && this.novoValor !== null && this.novoValor.length > 0) {
+      this.novoValor = null;
+      this.novoValorChange.emit(null);
+    }
     this.blockSubmit(false);
   }
 
