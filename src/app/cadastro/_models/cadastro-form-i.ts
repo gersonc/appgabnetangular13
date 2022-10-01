@@ -29,7 +29,7 @@ export interface CadastroFormI {
   cadastro_cpfcnpj?: string;
   cadastro_rg?: string;
   cadastro_estado_civil_id?: number;
-  cadastro_data_nascimento?: string;
+  cadastro_data_nascimento?: string | Date;
   cadastro_conjuge?: string;
   cadastro_escolaridade_id?: number;
   cadastro_profissao?: string;

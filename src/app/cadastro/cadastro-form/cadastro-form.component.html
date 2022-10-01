@@ -13,26 +13,26 @@
       <ng-container *ngIf="!cs.cadastro_campo4_sn">
         <input type="hidden" formControlName="cadastro_campo4_id" [value]="null">
       </ng-container>
-      <ng-container *ngIf="tipotipo === 2">
-        <input type="hidden" formControlName="cadastro_apelido" [value]="null">
+      <ng-container *ngIf="tipotipo !== 1">
+        <input type="hidden" formControlName="cadastro_apelido">
       </ng-container>
       <ng-container *ngIf="tipotipo === 1">
-        <input type="hidden" formControlName="cadastro_sigla" [value]="null">
+        <input type="hidden" formControlName="cadastro_sigla">
       </ng-container>
-      <ng-container *ngIf="tipotipo === 2">
-        <input type="hidden" formControlName="cadastro_rg" [value]="null">
+      <ng-container *ngIf="tipotipo !== 1">
+        <input type="hidden" formControlName="cadastro_rg">
       </ng-container>
-      <ng-container *ngIf="tipotipo === 2">
-        <input type="hidden" formControlName="cadastro_sexo" [value]="'P'">
+      <ng-container *ngIf="tipotipo !== 1">
+        <input type="hidden" formControlName="cadastro_sexo">
       </ng-container>
-      <ng-container *ngIf="tipotipo === 2">
-        <input type="hidden" formControlName="cadastro_escolaridade_id" [value]="0">
+      <ng-container *ngIf="tipotipo !== 1">
+        <input type="hidden" formControlName="cadastro_escolaridade_id">
       </ng-container>
-      <ng-container *ngIf="tipotipo === 2">
-        <input type="hidden" formControlName="cadastro_estado_civil_id" [value]="0">
+      <ng-container *ngIf="tipotipo !== 1">
+        <input type="hidden" formControlName="cadastro_estado_civil_id">
       </ng-container>
-      <ng-container *ngIf="tipotipo === 2">
-        <input type="hidden" formControlName="cadastro_conjuge" [value]="null">
+      <ng-container *ngIf="tipotipo !== 1">
+        <input type="hidden" formControlName="cadastro_conjuge">
       </ng-container>
 
       <div class="p-fluid formulario-bg-externo">
@@ -119,7 +119,7 @@
                     </app-campo-control-erro>
                   </div>
                   <!--*** Apelido ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_apelido">Apelido</label>
                     <input
                       [tabindex]="4"
@@ -132,7 +132,7 @@
                     />
                   </div>
                   <!--*** Sigla ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 2">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo !== 1">
                     <label for="cadastro_sigla">Sigla</label>
                     <input
                       [tabindex]="5"
@@ -574,7 +574,7 @@
                   </div>
 
                   <!--*** RG ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_rg">RG</label>
                     <input
                       [tabindex]="31"
@@ -587,7 +587,7 @@
                     />
                   </div>
                   <!--*** Genero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_sexo">Genero</label>
                     <p-dropdown
                       [tabindex]="32"
@@ -599,7 +599,7 @@
                     ></p-dropdown>
                   </div>
                   <!--*** Escolaridade ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_escolaridade_id">Escolaridade</label>
                     <div class="p-inputgroup">
                     <p-dropdown
@@ -625,7 +625,7 @@
                     </div>
                   </div>
                   <!--*** Estado Civil ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_estado_civil_id">Estado Civil</label>
                     <div class="p-inputgroup">
                     <p-dropdown
@@ -651,7 +651,7 @@
                     </div>
                   </div>
                   <!--*** Conjuge ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo == 1">
+                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_conjuge">Conjuge</label>
                     <input
                       [tabindex]="35"

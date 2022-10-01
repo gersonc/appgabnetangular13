@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DdService} from "../../_services/dd.service";
-import {AuthenticationService, AutocompleteService, CepService, MenuInternoService} from "../../_services";
+import {AuthenticationService, AutocompleteService, MenuInternoService} from "../../_services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MsgService} from "../../_services/msg.service";
 import {CadastroFormService} from "../_services/cadastro-form.service";
@@ -12,7 +12,7 @@ import {SelectItem, SelectItemGroup} from "primeng/api";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 import {WindowsService} from "../../_layout/_service";
 import {catchError, take} from "rxjs/operators";
-import {CEPError, CEPErrorCode, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
+import {CEPError, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroFormI} from "../_models/cadastro-form-i";
 import {DateTime} from "luxon";
@@ -190,13 +190,17 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private ms: MsgService,
     private viacep: NgxViacepService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.cfs.acao === 'incluir') {
       this.titulo = 'CADASTRO - INCLUIR';
     } else {
       this.titulo = 'CADASTRO - ALTERAR';
+    }
+    if (this.cfs.acao === 'alterar') {
+      this.tipotipo = +this.cfs.cadastroListar.cadastro_tipo_tipo;
     }
     this.carregaDropdownSessionStorage();
     this.criaForm();
@@ -249,13 +253,15 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       cadastro_observacao: [this.cfs.cadastro.cadastro_observacao],
       cadastro_regiao_id: [this.cfs.cadastro.cadastro_regiao_id],
     });
-    this.formCadastro.disable();
-    this.formCadastro.get('cadastro_tipo_id').enable();
+    if (this.cfs.acao === 'incluir') {
+      this.formCadastro.disable();
+      this.formCadastro.get('cadastro_tipo_id').enable();
+    }
   }
 
   onEditorCreated(ev) {
-      this.kill0 = ev;
-      this.kill0.update('user');
+    this.kill0 = ev;
+    this.kill0.update('user');
   }
 
   carregaDropdownSessionStorage() {
@@ -273,7 +279,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   consultaCEP(event) {
-    if (this.formCadastro.get('cadastro_cep').value !== null  && this.formCadastro.get('cadastro_cep').value.toString().length > 8) {
+    if (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length > 8) {
       let cep = this.formCadastro.get('cadastro_cep').value;
       cep = cep.replace(/\D/g, '');
       if (cep !== '') {
@@ -417,7 +423,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
     if (this.formCadastro.get('cadastro_endereco').value !== null && +this.formCadastro.get('cadastro_endereco').value.toString().length >= 3) {
       // let e: string  = this.formCadastro.get('cadastro_endereco').value.toUpperCase();
-      let e: string  = this.getEndereco();
+      let e: string = this.getEndereco();
       logradouro = e.replace(/[^a-zA-Z0–9ÀÁÃÂÉÊÍÓÕÔÚÜÇ _]/g, '');
     }
     if (uf !== '' && cidade !== '' && logradouro !== '') {
@@ -432,23 +438,23 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   ativaCep(): boolean {
-      return !(((this.formCadastro.get('cadastro_estado_id').value !== null) &&
-      (this.formCadastro.get('cadastro_endereco').value !== null && this.formCadastro.get('cadastro_endereco').value.toString().length > 5) &&
-      (this.formCadastro.get('cadastro_municipio_id').value !== null)) ||
+    return !(((this.formCadastro.get('cadastro_estado_id').value !== null) &&
+        (this.formCadastro.get('cadastro_endereco').value !== null && this.formCadastro.get('cadastro_endereco').value.toString().length > 5) &&
+        (this.formCadastro.get('cadastro_municipio_id').value !== null)) ||
       (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length === 8));
   }
 
   achaValor(arr: SelectItem[], valor): SelectItem {
-    return arr.find(function(x) {
+    return arr.find(function (x) {
       return x.label === valor;
     });
   }
 
   achaLabel(arr: SelectItem[], valor): string {
-    const r: SelectItem = arr.find(function(x) {
+    const r: SelectItem = arr.find(function (x) {
       return x.value === valor;
     });
-    return  r.label;
+    return r.label;
   }
 
   onSubmit() {
@@ -457,58 +463,9 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   criarEnvio(): CadastroFormI {
-    const i: string[] = [
-      'cadastro_tipo_id',
-      'cadastro_tratamento_id',
-      'cadastro_grupo_id',
-      'cadastro_municipio_id',
-      'cadastro_estado_id',
-      'cadastro_estado_civil_id',
-      'cadastro_escolaridade_id',
-      'cadastro_campo4_id',
-      'cadastro_regiao_id'
-    ];
-    const s: string[] = [
-      'cadastro_nome',
-      'cadastro_apelido',
-      'cadastro_sigla',
-      'cadastro_responsavel',
-      'cadastro_cargo',
-      'cadastro_endereco',
-      'cadastro_endereco_numero',
-      'cadastro_endereco_complemento',
-      'cadastro_bairro',
-      'cadastro_cep',
-      'cadastro_telefone',
-      'cadastro_telcom',
-      'cadastro_telefone2',
-      'cadastro_celular',
-      'cadastro_celular2',
-      'cadastro_fax',
-      'cadastro_email',
-      'cadastro_email2',
-      'cadastro_rede_social',
-      'cadastro_outras_midias',
-      'cadastro_cpfcnpj',
-      'cadastro_rg',
-      'cadastro_conjuge',
-      'cadastro_profissao',
-      'cadastro_sexo',
-      'cadastro_zona',
-      'cadastro_campo1',
-      'cadastro_campo2',
-      'cadastro_campo3',
-    ];
-    const b: string[] = [
-      'cadastro_jornal',
-      'cadastro_mala',
-      'cadastro_agenda',
-      'cadastro_sigilo',
-    ];
     let c: CadastroFormI = {};
     if (this.cfs.acao === 'incluir') {
-      i.forEach((cp)=>{
-        console.log('cp', cp);
+      this.cfs.i.forEach((cp) => {
         if (this.formCadastro.get(cp).value !== null) {
           c[cp] = +this.formCadastro.get(cp).value;
         }
@@ -516,15 +473,13 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       if (c.cadastro_tipo_id !== undefined) {
         c['cadastro_tipo_tipo'] = this.tipotipo;
       }
-      s.forEach((cp)=>{
-        console.log('cp', cp);
+      this.cfs.s.forEach((cp) => {
         const tmp: string = this.formCadastro.get(cp).value;
         if (tmp !== null && tmp.length > 0) {
           c[cp] = tmp.toUpperCase();
         }
       });
-      b.forEach((cp)=>{
-        console.log('cp', cp);
+      this.cfs.b.forEach((cp) => {
         if (this.formCadastro.get(cp).value !== null) {
           const tmp: boolean = this.formCadastro.get(cp).value;
           c[cp] = (tmp) ? 1 : 0;
@@ -538,7 +493,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
           c['cadastro_observacao'] = this.formCadastro.get('cadastro_observacao').value;
           c['cadastro_observacao_delta'] = JSON.stringify(this.kill0.getContents());
           c['cadastro_observacao_texto'] = this.kill0.getText();
-
         }
       }
       if (this.formCadastro.get('cadastro_data_nascimento').value !== null) {
@@ -546,7 +500,53 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
         c['cadastro_data_nascimento'] = dt.toSQLDate();
       }
     }
-    console.log('criarEnvio', c);
+
+    if (this.cfs.acao === 'alterar') {
+      let ct = 0;
+      this.cfs.i.forEach((cp) => {
+        if (+this.formCadastro.get(cp).value !== +this.cfs.cadastro[cp]) {
+          c[cp] = +this.formCadastro.get(cp).value;
+          ct++;
+        }
+      });
+      if (this.tipotipo !== +this.cfs.cadastro.cadastro_tipo_tipo) {
+        c['cadastro_tipo_tipo'] = this.tipotipo;
+        ct++;
+      }
+      this.cfs.s.forEach((cp) => {
+        let tmp: string | null = this.formCadastro.get(cp).value;
+        let tmp2: string | null = this.cfs.cadastro[cp];
+        tmp = (tmp !== null) ? tmp.toUpperCase() : null;
+        tmp2 = (tmp2 !== null) ? tmp2.toUpperCase() : null;
+        if (tmp !== tmp2) {
+          ct++;
+          c[cp] = tmp;
+        }
+      });
+      this.cfs.b.forEach((cp) => {
+        if (this.formCadastro.get(cp).value !== +this.cfs.cadastro[cp]) {
+          c[cp] = (this.formCadastro.get(cp).value) ? 1 : 2;
+          ct++;
+        }
+      });
+      if (this.formCadastro.get('cadastro_observacao').value !== this.cfs.cadastro.cadastro_observacao) {
+        ct++;
+        c['cadastro_observacao'] = this.formCadastro.get('cadastro_observacao').value;
+        c['cadastro_observacao_delta'] = JSON.stringify(this.kill0.getContents());
+        c['cadastro_observacao_texto'] = this.kill0.getText();
+      }
+      if (this.formCadastro.get('cadastro_data_nascimento').value !== this.cfs.cadastro.cadastro_data_nascimento) {
+        const dt: DateTime = DateTime.fromJSDate(this.formCadastro.get('cadastro_data_nascimento').value);
+        ct++;
+        c['cadastro_data_nascimento'] = dt.toSQLDate();
+      }
+      if (ct > 0) {
+        c.cadastro_id = this.cfs.cadastro.cadastro_id;
+      } else {
+        c.cadastro_id = 0;
+      }
+    }
+    console.log('criarEnvio c', c);
     return c;
   }
 
@@ -667,11 +667,35 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     return rsp ? rsp : false;
   }
 
-  mudaTipo (event) {
-    const a: SelectItem = this.achaTipo(this.ddTipoCadastroId, event.value);
-    this.tipotipo = Number(a.title);
-    this.block = false;
+  mudaTipo(event) {
     this.formCadastro.enable();
+    const tp: number = +this.tipotipo;
+    const a: SelectItem = this.achaTipo(this.ddTipoCadastroId, event.value);
+    this.tipotipo = +Number(a.title);
+    if (this.cfs.acao === 'alterar') {
+      if (+tp !== +this.tipotipo) {
+        if (+this.tipotipo === 1) {
+          this.formCadastro.get('cadastro_apelido').setValue(this.cfs.cadastro['cadastro_apelido']);
+          this.formCadastro.get('cadastro_rg').setValue(this.cfs.cadastro['cadastro_rg']);
+          this.formCadastro.get('cadastro_escolaridade_id').setValue(this.cfs.cadastro['cadastro_escolaridade_id']);
+          this.formCadastro.get('cadastro_estado_civil_id').setValue(this.cfs.cadastro['cadastro_estado_civil_id']);
+          this.formCadastro.get('cadastro_conjuge').setValue(this.cfs.cadastro['cadastro_conjuge']);
+          this.formCadastro.get('cadastro_sexo').setValue(this.cfs.cadastro['cadastro_sexo']);
+          this.formCadastro.get('cadastro_sigla').setValue(null);
+        }
+        if (+this.tipotipo !== 1) {
+          this.formCadastro.get('cadastro_apelido').setValue(null);
+          this.formCadastro.get('cadastro_rg').setValue(null);
+          this.formCadastro.get('cadastro_escolaridade_id').setValue(0);
+          this.formCadastro.get('cadastro_estado_civil_id').setValue(0);
+          this.formCadastro.get('cadastro_conjuge').setValue(null);
+          this.formCadastro.get('cadastro_sexo').setValue('P');
+          this.formCadastro.get('cadastro_sigla').setValue(this.cfs.cadastro.cadastro_sigla);
+        }
+      }
+    }
+
+    this.block = false;
     this.arquivoDesativado = false;
   }
 
@@ -708,18 +732,18 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
         summary: 'INCLUIR SOLICITAÇÃO',
         detail: this.resp[2]
       });
-     /* this.sfs.resetSolicitacao();
-      this.resetForm();
-      if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
-        this.sfs.solicListar = undefined;
-        this.sfs.solA = undefined;
-        this.sfs.acao = null;
-        this.sfs.tipo_analize = 0;
-        this.router.navigate(['../oficio/solicitacao']);
-      } else {
-        this.resp = [];
-        this.voltarListar();*/
-      }
+      /* this.sfs.resetSolicitacao();
+       this.resetForm();
+       if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
+         this.sfs.solicListar = undefined;
+         this.sfs.solA = undefined;
+         this.sfs.acao = null;
+         this.sfs.tipo_analize = 0;
+         this.router.navigate(['../oficio/solicitacao']);
+       } else {
+         this.resp = [];
+         this.voltarListar();*/
+    }
   }
 
   onBlockSubmit(ev: boolean) {

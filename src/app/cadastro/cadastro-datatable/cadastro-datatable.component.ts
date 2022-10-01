@@ -351,7 +351,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       this.cs.salvaState();
       this.dtb.saveState();
       this.cfs.acao = 'alterar';
-      this.cfs.cadastroListar = cad;
+      // this.cfs.cadastroListar = cad;
       this.cfs.parceForm(cad);
       this.router.navigate(['/cadastro/alterar']);
     } else {

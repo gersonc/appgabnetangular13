@@ -70,6 +70,19 @@ const cadastroRoutes: Routes = [
           dados: CadastroFormResolver
         }
       },
+      {
+        path: 'alterar',
+        component: CadastroFormComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.cadastro,
+          scopes: Scope.cadastro_alterar
+        },
+        resolve: {
+          dados: CadastroFormResolver
+        }
+      },
+
 
       /*{
         path: 'incluir',
