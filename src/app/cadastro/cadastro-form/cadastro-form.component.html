@@ -931,9 +931,6 @@
       <div class="p-col-12">
 
         <p-listbox [options]="ddEnderecos" [(ngModel)]="endereco">
-          <ng-template pTemplate="header">
-            Header Content
-          </ng-template>
           <ng-template let-end pTemplate="item">
             <div>
               <table>
@@ -963,9 +960,6 @@
                 </tr>
               </table>
             </div>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            Footer Content
           </ng-template>
         </p-listbox>
       </div>
