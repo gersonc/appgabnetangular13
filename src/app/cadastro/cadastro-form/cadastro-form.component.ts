@@ -603,12 +603,12 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  verificaRequired(campo: string) {
+  /*verificaRequired(campo: string) {
     return (
       this.formCadastro.get(campo).hasError('required') &&
       (this.formCadastro.get(campo).touched || this.formCadastro.get(campo).dirty)
     );
-  }
+  }*/
 
   verificaValidTouched(campo: string) {
     return (

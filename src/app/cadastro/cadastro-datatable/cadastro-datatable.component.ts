@@ -125,7 +125,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.sub.push(this.cs.busca$.subscribe(
       () => {
         if (this.cs.tabela.titulos === undefined) {
-          console.log('mapeiaColunas');
           this.mapeiaColunas();
         }
         this.cs.busca.todos = false;
@@ -230,17 +229,14 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   mudaSeletor(ev: ColunasI[]) {
-    console.log('mudaSeletor', ev);
-    // this.cs.tabela.selectedColumns = ev;
     this.dtb.columns = ev;
-    // this.dtb.restoreState();
   }
 
   hideSeletor(): void {
     this.cs.tabela.mostraSeletor = false;
   }
 
-  rowColor(field: string, vl1: number): string | null {
+  /*rowColor(field: string, vl1: number): string | null {
     if (field !== 'cadastro_situacao_nome') {
       return null;
     }
@@ -257,7 +253,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
           return 'status-1';
       }
     }
-  }
+  }*/
 
   montaMenuContexto() {
     this.contextoMenu = [
@@ -351,7 +347,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       this.cs.salvaState();
       this.dtb.saveState();
       this.cfs.acao = 'alterar';
-      // this.cfs.cadastroListar = cad;
       this.cfs.parceForm(cad);
       this.router.navigate(['/cadastro/alterar']);
     } else {
@@ -371,25 +366,9 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*cadastroAtualizar(eme: CadastroI) {
-    if (this.aut.cadastro_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
-      console.log('cadastroAtualizar', eme);
-      this.cs.salvaState();
-      this.dtb.saveState();
-      this.cfs.cadastroListar = eme;
-      this.cfs.resetAtualizar();
-      this.cfs.parceEmendaAtualizar(eme);
-      this.router.navigate(['/cadastro/atualizar']);
-    } else {
-      console.log('SEM PERMISSAO');
-    }
-  }*/
-
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
   }
-
-
 
   permissaoApagarArquivo(cad: CadastroI): boolean {
     if (this.aut.arquivos_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
@@ -408,14 +387,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       data: p
     }
     this.cs.onRowExpand(a);
-    /*const idx = this.cs.cadastros.findIndex(i => i.cadastro_id === p.andamento_cadastro_cadastro_id);
-    const pp: CadastroI = this.cs.cadastros[idx];
-    const ap:AndamentoCadastroI[] = pp.andamento_cadastro;
-    const apidx = ap.findIndex(a => a.andamento_cadastro_id === p.andamento_cadastro_id);
-    if (apidx === -1) {
-      ap.push(p)
-    }*/
-    // this.cs.recebeRegistro(h);
   }
 
   ngOnDestroy(): void {

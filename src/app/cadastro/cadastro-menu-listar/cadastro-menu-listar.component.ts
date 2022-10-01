@@ -89,25 +89,21 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
         },
         () => {
           console.log('carregado dd');
-          // this.dd = JSON.parse(sessionStorage.getItem('tarefa_menu-dropdown'));
         }
       ));
 
     this.dd.gravaDropDown();
 
     this.mi.showMenuInterno();
-
   }
 
-
-  public transformaLabel(entrada: SelectItem[], num: number): SelectItem[] {
+  transformaLabel(entrada: SelectItem[], num: number): SelectItem[] {
     const b: SelectItem[] = [];
     for (const { label, value} of entrada) {
       b.push({label: label.substring(0, num), value: value});
     }
     return b;
   }
-
 
   autoComp (event, campo) {
     let sg: any[];
@@ -141,61 +137,8 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       }));
   }
 
-/*
-  autoComp3 (event) {
-    let sg: any[];
-    const tp = this.formMenu.get('cadastro_tipo_id').value;
-    if (tp !== null) {
-      this.sub.push(this.aut.acCadastroIdTipo(event.query, tp)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            sg = dados;
-          },
-          error: err => console.error(err),
-          complete: () => {
-            this.sgt = sg;
-          }
-        }));
-    } else {
-      this.sub.push(this.aut.acCadastroId(event.query)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            sg = dados;
-          },
-          error: err => console.error(err),
-          complete: () => {
-            this.sgt = sg;
-          }
-        }));
-    }
-
-  }
-
-
-
-*/
-
   onMudaForm() {
-    console.log(this.formMenu.getRawValue());
     this.cs.resetCadastroBusca();
-    /*let cadastroBusca: CadastroBuscaI;
-    cadastroBusca = this.formMenu.getRawValue();
-    let bs: any[] = [];
-    Object.keys(this.formMenu.controls).forEach(campo => {
-      bs.push(this.formMenu.get(campo).value);
-    });
-    console.log('cadastroBusca1', bs);
-    console.log('cadastroBusca2', cadastroBusca);
-    const b: any = {
-      todos: false,
-      rows: 50,
-      first: 0,
-      sortOrder: 1,
-      sortField: "cadastro_nome"
-    }*/
-    // this.cs.novaBusca(cadastroBusca);
     this.cs.novaBusca(this.criaBusca());
     this.cs.buscaMenu();
     this.mi.hideMenu();
@@ -313,21 +256,9 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       const dt3: DateTime = DateTime.fromJSDate(this.formMenu.get('cadastro_data_cadastramento').value);
       b.cadastro_data_cadastramento = dt3.toSQLDate();
     }
-
-    console.log('criaBusca', b);
-
     return b;
-
-
-
-
-
-
-
-
   }
 
-//const dt1: DateTime = DateTime.fromJSDate(fm.tarefa_data3);
   goIncluir() {
     if (this.auth.usuario_responsavel_sn || this.auth.usuario_principal_sn || this.auth.cadastro_incluir) {
       this.cfs.acao = 'incluir';

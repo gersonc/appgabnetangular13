@@ -23,7 +23,6 @@ export class CadastroComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('cadastro ngOnInit');
     this.cs.criaTabela();
     this.sub.push(this.mi.mostraInternoMenu().subscribe(
       vf => {
@@ -31,7 +30,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
       })
     );
     this.as.getPermissoes();
-    if (!sessionStorage.getItem('solic-busca')) {
+    if (!sessionStorage.getItem('cadastro-busca')) {
       this.mi.mudaMenuInterno(true);
     } else {
       if (this.cs.stateSN) {
@@ -51,7 +50,6 @@ export class CadastroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('cadastro ngOnDestroy');
     this.cs.onDestroy();
     this.sub.forEach(s => s.unsubscribe());
   }

@@ -226,7 +226,7 @@
                   </div>
                   <!--*** Município ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
-                       [ngClass]="aplicaCssErroAsync('cadastro_municipio_id', validaMunicipio)">
+                       [ngClass]="aplicaCssErro('cadastro_municipio_id')">
                     <label for="cadastro_municipio_id"><span class="atencao">*</span> Município</label>
                     <div #vmunicipio class="p-inputgroup">
                       <p-dropdown
@@ -237,7 +237,7 @@
                         placeholder="Selecione"
                         [options]="ddMunicipioId"
                         [filter]="ddMunicipioId.length > 100"
-                        [required]="true"
+                        [ngClass]="aplicaCssErro('cadastro_municipio_id')"
                       ></p-dropdown>
                       <app-configaux-incluir
                         [desabilitado]="block"
@@ -253,13 +253,13 @@
                         (onBlockSubmit)="onBlockSubmit($event)"
                       ></app-configaux-incluir>
                     </div>
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_municipio_id', validaMunicipio)"
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('cadastro_municipio_id')"
                                             msgErro="Município é obrigatório.">
                     </app-campo-control-erro>
                   </div>
                   <!--*** Estado ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
-                       [ngClass]="aplicaCssErroAsync('cadastro_estado_id', validaMunicipio)">
+                       [ngClass]="aplicaCssErro('cadastro_estado_id')">
                     <label for="cadastro_estado_id"><span class="atencao">*</span> Estado</label>
                     <div class="p-inputgroup">
                     <p-dropdown
@@ -268,7 +268,7 @@
                       formControlName="cadastro_estado_id"
                       placeholder="Selecione"
                       [options]="ddEstadoId"
-                      [required]="true"
+                      [ngClass]="aplicaCssErro('cadastro_estado_id')"
                     ></p-dropdown>
                     <app-configaux-incluir
                       [desabilitado]="block"
@@ -283,7 +283,7 @@
                       (onBlockSubmit)="onBlockSubmit($event)"
                     ></app-configaux-incluir>
                     </div>
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_estado_id', validaEstado)"
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('cadastro_estado_id')"
                                             msgErro="Estado é obrigatório.">
                     </app-campo-control-erro>
                   </div>
@@ -487,6 +487,7 @@
                       pKeyFilter="email"
                       [maxlength]="50"
                       [size]="40"
+                      [ngClass]="aplicaCssErro2('cadastro_email')"
                       pInputText
                     />
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched2('cadastro_email')"
@@ -502,6 +503,7 @@
                       formControlName="cadastro_email2"
                       [maxlength]="50"
                       [size]="40"
+                      [ngClass]="aplicaCssErro2('cadastro_email2')"
                       pInputText
                       pKeyFilter="email"
                     />

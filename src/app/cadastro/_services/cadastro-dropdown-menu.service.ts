@@ -64,8 +64,6 @@ export class CadastroDropdownMenuService {
     { label: '30', value: '30' },
     { label: '31', value: '31' }
   ];
-
-
   ddCadastroQuinzena: SelectItem[] = [
     {label: '1' + decodeURI('\xAA'), value: '15'},
     {label: '2' + decodeURI('\xAA'), value: '31'}
@@ -81,7 +79,6 @@ export class CadastroDropdownMenuService {
     {label: 'SIM', value: '1'},
     {label: 'NÃO', value: '2'}
   ];
-
   ddn: CadastroMenuDropdownInterface = {
     ddCadastroTipoId: [],
     ddCadastroMunicipioId: [],
