@@ -10,13 +10,13 @@ import {CelulaService} from "../../_services/celula.service";
 import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
 import {limpaTexto} from "../../shared/functions/limpa-texto";
 import {Datatable, DatatableI} from "../../_models/datatable-i";
-import {PropFormI} from "../../proposicao/_models/prop-form-i";
 import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
 import {CadastroBuscaI} from "../_models/cadastro-busca-i";
 import {take} from "rxjs/operators";
 import {ColunasI} from "../../_models/colunas-i";
 import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
+import {CadastroFormI} from "../_models/cadastro-form-i";
 
 
 @Injectable({
@@ -516,14 +516,13 @@ export class CadastroService {
     return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
   }
 
-  incluirCadastro(dados: PropFormI): Observable<any> {
-    let url: string;
-    url = this.url.cadastro + '/incluir';
+  incluirCadastro(dados: CadastroFormI) {
+    const url: string = this.url.cadastro + '/incluir';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
-  alterarCadastro(dados: PropFormI): Observable<any> {
+  alterarCadastro(dados: CadastroFormI): Observable<any> {
     let url: string;
     url = this.url.cadastro + '/alterar';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};

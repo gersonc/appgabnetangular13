@@ -459,6 +459,15 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('onsubmit', this.formCadastro.getRawValue());
+    if (this.verificaValidacoesForm(this.formCadastro)) {
+      /*this.disableSubmit = true;
+      this.botaoEnviarVF = true;
+      this.arquivoDesativado = true;*/
+      if (this.cfs.acao === 'incluir') {
+        // const c: CadastroFormI = this.criarEnvio();
+        this.incluir(this.criarEnvio());
+      }
+    }
     this.criarEnvio();
   }
 
@@ -672,7 +681,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     const tp: number = +this.tipotipo;
     const a: SelectItem = this.achaTipo(this.ddTipoCadastroId, event.value);
     this.tipotipo = +Number(a.title);
-    if (this.cfs.acao === 'alterar') {
       if (+tp !== +this.tipotipo) {
         if (+this.tipotipo === 1) {
           this.formCadastro.get('cadastro_apelido').setValue(this.cfs.cadastro['cadastro_apelido']);
@@ -693,7 +701,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
           this.formCadastro.get('cadastro_sigla').setValue(this.cfs.cadastro.cadastro_sigla);
         }
       }
-    }
+
 
     this.block = false;
     this.arquivoDesativado = false;
@@ -701,6 +709,64 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   onNovoRegistroAux(ev) {
     this.formCadastro.get(ev.campo).patchValue(ev.valorId);
+  }
+
+  incluir(c: CadastroFormI) {
+    this.sub.push(this.cs.incluirCadastro(c)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          // this.resp = dados;
+          console.log('RESP->', dados);
+        },
+        error: (err) => {
+          console.error(err);
+         /* this.mostraForm = true;
+          this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
+          console.error(err);*/
+        },
+        complete: () => {
+          this.ngOnDestroy();
+          /*if (this.resp[0]) {
+            sessionStorage.removeItem('solic-menu-dropdown');
+            if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
+              this.ofs.solicitacao_id = +this.resp[1];
+              this.ofs.processo_id = +this.resp[4];
+              this.ofs.parceDdOficioProcessoId(this.resp[3]);
+              this.ofs.url = '../solic/listar';
+            }
+
+            if (this.possuiArquivos) {
+              this.arquivo_registro_id = +this.resp[1];
+              this.enviarArquivos = true;
+            } else {
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'success',
+                summary: 'INCLUIR SOLICITAÇÃO',
+                detail: this.resp[2]
+              });
+              this.sfs.resetSolicitacao();
+              this.resetForm();
+              if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
+                this.router.navigate(['../oficio/solicitacao']);
+              } else {
+                this.voltarListar();
+              }
+            }
+          } else {
+            this.mostraForm = true;
+            console.error('ERRO - INCLUIR ', this.resp[2]);
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'warn',
+              summary: 'ATENÇÃO - ERRO',
+              detail: this.resp[2]
+            });
+          }*/
+        }
+      })
+    );
   }
 
   voltarListar() {
