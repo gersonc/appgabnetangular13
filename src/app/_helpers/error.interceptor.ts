@@ -6,11 +6,14 @@ import { Message } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
 import { AuthenticationService } from '../_services';
+import {MsgService} from "../_services/msg.service";
+import {ErroI} from "./erro-i";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private authenticationService: AuthenticationService,
+    private ms: MsgService,
     private messageService: MessageService
   ) { }
 
@@ -22,18 +25,27 @@ export class ErrorInterceptor implements HttpInterceptor {
         location.reload(true);
       }
 
-      const error = err.error || err.statusText;
+      // const error = err.error || err.statusText;
+      const error2 = err;
+      console.log('Erro->', err);
+      // console.log('Err->', err);
+      if (err.status !== 417) {
+        const error = err.error || err.statusText;
+        let data: any = {};
+        data = {
+          reason: error && error.error.reason ? error.error.reason : '',
+          status: error.status
+        };
 
-      console.log('Erro->', error);
+        this.ms.add({severity: 'Error', summary: data.reason, detail: data.status});
+      } else {
+        const error: ErroI = err.error;
+        this.ms.add({severity: 'Error', summary: error.type.toUpperCase(), detail: error.detail});
+      }
 
-      let data: any = {};
-      data = {
-        reason: error && error.error.reason ? error.error.reason : '',
-        status: error.status
-      };
-      this.messageService.add({severity: 'success', summary: data.reason, detail: data.status});
 
-      return throwError(error);
+
+      return throwError(error2);
     }));
   }
 }

@@ -16,6 +16,8 @@ import {CEPError, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroFormI} from "../_models/cadastro-form-i";
 import {DateTime} from "luxon";
+import {ArquivoInterface} from "../../arquivo/_models";
+import {CadastroI} from "../_models/cadastro-i";
 
 @Component({
   selector: 'app-cadastro-form',
@@ -177,6 +179,8 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       ['clean']                        // link and image, video
     ]
   };
+
+  arquivos: ArquivoInterface[] = [];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -701,8 +705,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
           this.formCadastro.get('cadastro_sigla').setValue(this.cfs.cadastro.cadastro_sigla);
         }
       }
-
-
     this.block = false;
     this.arquivoDesativado = false;
   }
@@ -716,7 +718,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          // this.resp = dados;
+          this.resp = dados;
           console.log('RESP->', dados);
         },
         error: (err) => {
@@ -726,8 +728,8 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
           console.error(err);*/
         },
         complete: () => {
-          this.ngOnDestroy();
-          /*if (this.resp[0]) {
+          // this.ngOnDestroy();
+          if (this.resp[0]) {
             sessionStorage.removeItem('solic-menu-dropdown');
             if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
               this.ofs.solicitacao_id = +this.resp[1];
@@ -763,7 +765,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
               summary: 'ATENÇÃO - ERRO',
               detail: this.resp[2]
             });
-          }*/
+          }
         }
       })
     );
@@ -795,7 +797,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       this.ms.add({
         key: 'toastprincipal',
         severity: 'success',
-        summary: 'INCLUIR SOLICITAÇÃO',
+        summary: 'INCLUIR ARQUIVOS',
         detail: this.resp[2]
       });
       /* this.sfs.resetSolicitacao();
@@ -818,6 +820,24 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   onPossuiArquivos(ev) {
     this.possuiArquivos = ev;
+  }
+
+  onArquivosGravados(a: ArquivoInterface[]) {
+    this.arquivos = a;
+  }
+
+  incluirCadastro() {
+    if (this.cfs.acao === 'incluir') {
+      let cad: CadastroI = this.resp[3];
+      if (this.arquivos.length > 0) {
+        cad.cadastro_arquivos.push(...this.arquivos);
+      }
+      this.cs.lazy = false;
+      this.cs.cadastros.push(cad);
+      this.cs.tabela.totalRecords++;
+      this.cs.tabela.rows++;
+      this.arquivos = [];
+    }
   }
 
   ngOnDestroy() {

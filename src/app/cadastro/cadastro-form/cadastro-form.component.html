@@ -789,6 +789,7 @@
                                        (onUpload)="onUpload($event)"
                                        (onPossuiArquivos)="onPossuiArquivos($event)"
                                        [clearArquivos]="clearArquivos"
+                                       (onArquivosGravados)="onArquivosGravados($event)"
                           ></app-arquivo>
                           <app-arquivo *ngIf="cfs.acao === 'alterar'"
                                        [tabindex]="45"
