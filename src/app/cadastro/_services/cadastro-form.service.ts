@@ -6,10 +6,12 @@ import {CadastroI} from "../_models/cadastro-i";
   providedIn: 'root'
 })
 export class CadastroFormService {
+  origem: 'menu'|'listagem'|'contexto'|'expandido'| null = null;
   url = '';
   cadastroListar: CadastroI | null = null;
   cadastro: CadastroFormI | null = null;
   acao?: string | null = null;
+  idx: number = -1;
   btnEnviar = true;
   i: string[] = [
     'cadastro_tipo_id',
@@ -123,8 +125,6 @@ export class CadastroFormService {
     });
     this.cadastro.cadastro_sexo = (this.cadastroListar.cadastro_sexo2 !== undefined && this.cadastroListar.cadastro_sexo2 !== null) ? this.cadastroListar.cadastro_sexo2 : null;
     this.cadastro.cadastro_data_nascimento = (this.cadastroListar.cadastro_data_nascimento3 !== undefined && this.cadastroListar.cadastro_data_nascimento3 !== null) ? this.cadastroListar.cadastro_data_nascimento3 : null;
-    console.log('parceForm - this.cadastroListar', this.cadastroListar);
-    console.log('parceForm - this.cadastro', this.cadastro);
     return this.cadastro;
   }
 

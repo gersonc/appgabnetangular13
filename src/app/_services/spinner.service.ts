@@ -44,7 +44,6 @@ export class SpinnerService {
       this.fsn = vf;
     }
     this._fundo = (this.fsn) ? '#777777' : 'transparente';
-    console.log('fundo', this.fsn, this._fundo);
   }
 
 

@@ -149,7 +149,7 @@
     </tr>
   </ng-template>
   <!--*** EXPANDIDO ************************************************************************************************-->
-  <ng-template pTemplate="rowexpansion" let-cad let-columns="columns">
+  <ng-template pTemplate="rowexpansion" let-cad let-columns="columns" let-indice="rowIndex">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -168,7 +168,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="aut.cadastro_alterar" class="p-mr-2">
+              <div *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_alterar" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -177,11 +177,11 @@
                   class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Alterar"
                   tooltipPosition="top"
-                  (click)="cadastroAlterar(cad)"
+                  (click)="cadastroAlterar(indice,'expandido', cad)"
                 >
                 </button>
               </div>
-              <div *ngIf="aut.cadastro_apagar" class="p-mr-2">
+              <div *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar" class="p-mr-2">
                 <button
                   pButton
                   pRipple

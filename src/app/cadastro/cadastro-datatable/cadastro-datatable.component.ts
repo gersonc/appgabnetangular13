@@ -1,4 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  AfterViewChecked,
+  ContentChild,
+  AfterContentInit,
+  AfterViewInit
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
@@ -11,6 +20,7 @@ import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroI} from "../_models/cadastro-i";
 import {ColunasI} from "../../_models/colunas-i";
+import {Table} from "primeng/table/table";
 
 
 
@@ -21,7 +31,8 @@ import {ColunasI} from "../../_models/colunas-i";
   providers: [ DialogService ]
 })
 export class CadastroDatatableComponent implements OnInit, OnDestroy {
-  @ViewChild('dtb', {static: true}) public dtb: any;
+  @ViewChild('dtb', {static: true}) public dtb: Table;
+  // @ContentChild('dtb', {static: false}) public dtb: Table;
   altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
@@ -130,9 +141,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
         this.cs.busca.todos = false;
       }
     ));
-
     this.getColunas();
-
   }
 
   mostraMenu(): void {
@@ -269,7 +278,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
         {
           label: 'ALTERAR', icon: 'pi pi-pencil', style: {'font-size': '1em'},
           command: () => {
-            this.cadastroAlterar(this.cs.Contexto);
+            this.cadastroAlterar(this.cs.idx, 'contexto', this.cs.Contexto);
           }
         });
     }
@@ -286,7 +295,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   onColReorder(event): void {
-    console.log('onColReorder', event);
     this.mapeiaColunas();
   }
 
@@ -342,11 +350,13 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.cadastroDetalhe = null;
   }
 
-  cadastroAlterar(cad: CadastroI) {
+  cadastroAlterar(index: number, origem: 'menu'|'listagem'|'contexto'|'expandido'| null, cad: CadastroI) {
     if (this.aut.cadastro_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
       this.cs.salvaState();
       this.dtb.saveState();
+      this.cfs.idx = +index;
       this.cfs.acao = 'alterar';
+      this.cfs.origem = origem;
       this.cfs.parceForm(cad);
       this.router.navigate(['/cadastro/alterar']);
     } else {
@@ -390,6 +400,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.cs.expandido = undefined;
+    this.cs.expandidoSN = false;
     this.cs.selecionados = [];
     this.sub.forEach(s => s.unsubscribe());
   }
@@ -398,6 +410,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.cs.colunas = this.cols.map(t => {
       return t.field;
     });
+
   }
 
 }

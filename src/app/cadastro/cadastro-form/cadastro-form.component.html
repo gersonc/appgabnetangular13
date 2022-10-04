@@ -100,8 +100,9 @@
                   </div>
                   <!--*** Nome / Razão Social ***-->
                   <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
-                       [ngClass]="aplicaCssErroAsync('cadastro_nome', validaNome)">
+                       [ngClass]="aplicaCssErro('cadastro_nome')">
                     <label for="cadastro_nome"><span class="atencao">*</span> Nome / Razão Social</label>
+                    <div class="p-inputgroup">
                     <input
                       [tabindex]="3"
                       #cadastro_nome
@@ -110,11 +111,23 @@
                       type="text"
                       [maxlength]="50"
                       [size]="40"
+                      [style]="{minWidth: 'calc(100% - 2.56rem)'}"
                       pInputText
-                      [ngClass]="aplicaCssErroAsync('cadastro_nome', validaNome)"
-                      (blur)="verificaDuplicados(cadastro_nome.value)"
+                      [ngClass]="aplicaCssErro('cadastro_nome')"
                     />
-                    <app-campo-control-erro [mostrarErro]="validaAsync('cadastro_nome', validaNome)"
+                      <div class="p-fluid p-inputgroup" style="font-size: 1rem;height: 2rem;">
+                        <button
+                          class="confaux p-button-secondary p-button-icon-only"
+                          pButton
+                          [pTooltip]="'Verificar se o nome já existe.'"
+                          type="button"
+                          icon="pi pi-eye"
+                          (click)="verificaDuplicados(cadastro_nome.value)"
+                          [disabled]="ativarVerificarNome()"
+                        ></button>
+                      </div>
+                    </div>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('cadastro_nome')"
                                             msgErro="Nome é obrigatório.">
                     </app-campo-control-erro>
                   </div>
@@ -795,7 +808,7 @@
                                        [tabindex]="45"
                                        [modulo]="'cadastro'"
                                        [uploadDisabled]="arquivoDesativado"
-                                       [arqs]="cfs.cadastroListar.cadastro_arquivos"
+                                       [(arqs)]="cs.cadastros[cfs.idx].cadastro_arquivos"
                                        [registro_id]="cfs.cadastro.cadastro_id"
                                        (onPossuiArquivos)="onPossuiArquivos($event)"
                                        [modelo]="'alterar'"
@@ -833,6 +846,8 @@
                     <button
                       [tabindex]="46"
                       pButton
+                      icon="pi pi-send"
+                      iconPos="left"
                       type="submit"
                       class="p-button-rounded"
                       [disabled]="!formCadastro.valid || disableSubmit"
@@ -844,10 +859,12 @@
                       [tabindex]="47"
                       pButton
                       type="button"
+                      icon="pi pi-circle-fill"
+                      iconPos="left"
                       class="p-button-rounded p-button-secondary"
                       (click)="resetForm()"
                       label="Cancelar"
-                      [disabled]="botaoEnviarVF"
+                      [disabled]="disableSubmit"
                     ></button>
                   </div>
                   <div class="p-mr-2">
@@ -865,6 +882,8 @@
                     <button
                       [tabindex]="49"
                       pButton
+                      icon="pi pi-step-backward"
+                      iconPos="left"
                       type="button"
                       class="p-button-rounded p-button-secondary"
                       (click)="voltarListar()"
@@ -923,6 +942,7 @@
     [(visible)]="mostraEnderecos"
     [modal]="true"
     [closable]="true"
+    [dismissableMask]="true"
     [blockScroll]="true"
     [breakpoints]="{'1400px': '40vw', '1300px': '50vw', '1200px': '65vw', '1000px': '80vw', '640px': '100vw'}"
     [style]="{width: '40vw'}"
@@ -931,7 +951,7 @@
     <div class="p-fluid p-formgrid p-grid formulario">
       <div class="p-col-12">
 
-        <p-listbox [options]="ddEnderecos" [(ngModel)]="endereco">
+        <p-listbox [options]="ddEnderecos" [(ngModel)]="endereco" (onChange)="populaEnderecoForm($event.value)">
           <ng-template let-end pTemplate="item">
             <div>
               <table>
@@ -971,20 +991,10 @@
           <div class="p-mr-2">
             <button
               pButton
-              type="submit"
-              class="p-button-rounded"
-              [disabled]="endereco === null"
-              label="Selecionar"
-              (click)="selecionaEndereco()"
-            ></button>
-          </div>
-          <div class="p-mr-2">
-            <button
-              pButton
               type="button"
               class="p-button-rounded p-button-secondary"
               (click)="fechaEnderecos()"
-              label="Cancelar"
+              label="Fechar"
               [disabled]="botaoEnviarVF"
             ></button>
           </div>

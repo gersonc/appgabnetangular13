@@ -324,16 +324,25 @@ export class CadastroDropdownMenuService {
 
 
   verificaAtualizacao(cadastro: CadastroFormI) {
-    if (this.ddn.ddCadastroMunicipioId.findIndex(d => d.value === cadastro.cadastro_municipio_id) === -1) {
+    if (cadastro.cadastro_municipio_id !== undefined &&
+      cadastro.cadastro_municipio_id !== null &&
+      cadastro.cadastro_municipio_id > 0 &&
+      this.ddn.ddCadastroMunicipioId.findIndex(d => d.value === cadastro.cadastro_municipio_id) === -1) {
       this.dds.push('ddCadastroMunicipioId');
     }
-    if (this.ddn.ddCadastroEstadoId.findIndex(d => d.value === cadastro.cadastro_estado_id) === -1) {
+    if (cadastro.cadastro_estado_id !== undefined &&
+      cadastro.cadastro_estado_id !== null &&
+      cadastro.cadastro_estado_id > 0 && this.ddn.ddCadastroEstadoId.findIndex(d => d.value === cadastro.cadastro_estado_id) === -1) {
       this.dds.push('ddCadastroEstadoId');
     }
-    if (this.ddn.ddCadastroRegiaoId.findIndex(d => d.value === cadastro.cadastro_regiao_id) === -1) {
+    if (cadastro.cadastro_regiao_id !== undefined &&
+      cadastro.cadastro_regiao_id !== null &&
+      cadastro.cadastro_regiao_id > 0 && this.ddn.ddCadastroRegiaoId.findIndex(d => d.value === cadastro.cadastro_regiao_id) === -1) {
       this.dds.push('ddCadastroRegiaoId');
     }
-    if (this.ddn.ddCadastroGrupoId.findIndex(d => d.value === cadastro.cadastro_grupo_id) === -1) {
+    if (cadastro.cadastro_grupo_id !== undefined &&
+      cadastro.cadastro_grupo_id !== null &&
+      cadastro.cadastro_grupo_id > 0 && this.ddn.ddCadastroGrupoId.findIndex(d => d.value === cadastro.cadastro_grupo_id) === -1) {
       this.dds.push('ddCadastroGrupoId');
     }
     /*if (this.ddn.ddCadastroAniversario.findIndex(d => d.value === cadastro.cadastro_data_nascimento) === -1) {
@@ -342,16 +351,24 @@ export class CadastroDropdownMenuService {
     /*if (this.ddn.ddCadastroAnidia.findIndex(d => d.value === cadastro.cadastro_data_nascimento) === -1) {
       this.dds.push('ddCadastroAnidia');
     }*/
-    if (this.ddn.ddCadastroZona.findIndex(d => d.value === cadastro.cadastro_zona) === -1) {
+    if (cadastro.cadastro_zona !== undefined &&
+      cadastro.cadastro_zona !== null &&
+      cadastro.cadastro_zona.length > 3 && this.ddn.ddCadastroZona.findIndex(d => d.value === cadastro.cadastro_zona) === -1) {
       this.dds.push('ddCadastroZona');
     }
-    if (this.ddn.ddCadastroBairro.findIndex(d => d.value === cadastro.cadastro_bairro) === -1) {
+    if (cadastro.cadastro_bairro !== undefined &&
+      cadastro.cadastro_bairro !== null &&
+      cadastro.cadastro_bairro.length > 2 && this.ddn.ddCadastroBairro.findIndex(d => d.value === cadastro.cadastro_bairro) === -1) {
       this.dds.push('ddCadastroBairro');
     }
-    if (this.ddn.ddCadastroEscolaridadeId.findIndex(d => d.value === cadastro.cadastro_escolaridade_id) === -1) {
+    if (cadastro.cadastro_escolaridade_id !== undefined &&
+      cadastro.cadastro_escolaridade_id !== null &&
+      cadastro.cadastro_escolaridade_id > 0 && this.ddn.ddCadastroEscolaridadeId.findIndex(d => d.value === cadastro.cadastro_escolaridade_id) === -1) {
       this.dds.push('ddCadastroEscolaridadeId');
     }
-    if (this.ddn.ddCadastroCampo4Id.findIndex(d => d.value === cadastro.cadastro_campo4_id) === -1) {
+    if (cadastro.cadastro_campo4_id !== undefined &&
+      cadastro.cadastro_campo4_id !== null &&
+      cadastro.cadastro_campo4_id > 0 && this.ddn.ddCadastroCampo4Id.findIndex(d => d.value === cadastro.cadastro_campo4_id) === -1) {
       this.dds.push('ddCadastroCampo4Id');
     }
 

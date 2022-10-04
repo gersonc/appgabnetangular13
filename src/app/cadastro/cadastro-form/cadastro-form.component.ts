@@ -18,6 +18,7 @@ import {CadastroFormI} from "../_models/cadastro-form-i";
 import {DateTime} from "luxon";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {CadastroI} from "../_models/cadastro-i";
+import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.service";
 
 @Component({
   selector: 'app-cadastro-form',
@@ -184,14 +185,14 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   constructor(
     public formBuilder: FormBuilder,
-    private dd: DdService,
+    // private dd: DdService,
+    private ddc: CadastroDropdownMenuService,
     public mi: MenuInternoService,
     private autocompleteservice: AutocompleteService,
     public aut: AuthenticationService,
     public cfs: CadastroFormService,
     public cs: CadastroService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private ms: MsgService,
     private viacep: NgxViacepService,
   ) {
@@ -208,6 +209,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
     this.carregaDropdownSessionStorage();
     this.criaForm();
+    this.ms.fundoSN(true);
   }
 
   criaForm() {
@@ -356,7 +358,14 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onEnderecoChange(ev) {
+    console.log('onEnderecoChange', ev);
+  }
+
   populaEnderecoForm(endereco: Endereco = null) {
+    this.ddEnderecos = null;
+    this.mostraEnderecos = false;
+    this.endereco = null;
     if (endereco) {
       const st = this.achaValor(this.ddEstadoId, endereco.uf);
       if (st) {
@@ -375,9 +384,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       } else {
         this.novoValor = endereco.localidade.toUpperCase();
       }
-      this.ddEnderecos = null;
-      this.mostraEnderecos = false;
-      this.endereco = null;
+
     }
   }
 
@@ -462,17 +469,28 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('onsubmit', this.formCadastro.getRawValue());
+    this.disableSubmit = true;
+    this.botaoEnviarVF = true;
+    this.arquivoDesativado = true;
     if (this.verificaValidacoesForm(this.formCadastro)) {
-      /*this.disableSubmit = true;
-      this.botaoEnviarVF = true;
-      this.arquivoDesativado = true;*/
       if (this.cfs.acao === 'incluir') {
-        // const c: CadastroFormI = this.criarEnvio();
         this.incluir(this.criarEnvio());
       }
+      if (this.cfs.acao === 'alterar') {
+        const c: CadastroFormI = this.criarEnvio();
+        if (c.cadastro_id > 0) {
+          this.alterar(c);
+        } else {
+          this.disableSubmit = false;
+          this.botaoEnviarVF = false;
+          this.arquivoDesativado = false;
+        }
+      }
+    } else {
+      this.disableSubmit = false;
+      this.botaoEnviarVF = false;
+      this.arquivoDesativado = false;
     }
-    this.criarEnvio();
   }
 
   criarEnvio(): CadastroFormI {
@@ -559,7 +577,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
         c.cadastro_id = 0;
       }
     }
-    console.log('criarEnvio c', c);
     return c;
   }
 
@@ -595,6 +612,10 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  ativarVerificarNome(): boolean {
+    return !(this.formCadastro.get('cadastro_nome').value !== undefined && this.formCadastro.get('cadastro_nome').value !== null && this.formCadastro.get('cadastro_nome').value.toString().length > 3);
+  }
+
   fechaNomeDuplicado() {
     this.formCadastro.enable();
     this.nomeDuplicado = false;
@@ -615,13 +636,6 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       'ng-dirty': this.validaAsync(campo, situacao)
     };
   }
-
-  /*verificaRequired(campo: string) {
-    return (
-      this.formCadastro.get(campo).hasError('required') &&
-      (this.formCadastro.get(campo).touched || this.formCadastro.get(campo).dirty)
-    );
-  }*/
 
   verificaValidTouched(campo: string) {
     return (
@@ -719,45 +733,54 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (dados) => {
           this.resp = dados;
-          console.log('RESP->', dados);
         },
         error: (err) => {
-          console.error(err);
-         /* this.mostraForm = true;
-          this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: this.resp[2]});
-          console.error(err);*/
+         console.error(err.error);
         },
         complete: () => {
-          // this.ngOnDestroy();
           if (this.resp[0]) {
-            sessionStorage.removeItem('solic-menu-dropdown');
-            if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
-              this.ofs.solicitacao_id = +this.resp[1];
-              this.ofs.processo_id = +this.resp[4];
-              this.ofs.parceDdOficioProcessoId(this.resp[3]);
-              this.ofs.url = '../solic/listar';
-            }
-
+            this.ddc.gravaDropDown(c);
             if (this.possuiArquivos) {
               this.arquivo_registro_id = +this.resp[1];
               this.enviarArquivos = true;
             } else {
-              this.ms.add({
-                key: 'toastprincipal',
-                severity: 'success',
-                summary: 'INCLUIR SOLICITAÇÃO',
-                detail: this.resp[2]
-              });
-              this.sfs.resetSolicitacao();
-              this.resetForm();
-              if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
-                this.router.navigate(['../oficio/solicitacao']);
-              } else {
-                this.voltarListar();
-              }
+              this.atualizarCadastro();
             }
           } else {
-            this.mostraForm = true;
+            this.disableSubmit = false;
+            this.botaoEnviarVF = false;
+            this.arquivoDesativado = false;
+            console.error('ERRO - INCLUIR ', this.resp[2]);
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'warn',
+              summary: 'ATENÇÃO - ERRO',
+              detail: this.resp[2]
+            });
+          }
+        }
+      })
+    );
+  }
+
+  alterar(c: CadastroFormI) {
+    this.sub.push(this.cs.alterarCadastro(c)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          this.resp = dados;
+        },
+        error: (err) => {
+          console.error(err.error);
+        },
+        complete: () => {
+          if (this.resp[0]) {
+            this.ddc.gravaDropDown(c);
+            this.atualizarCadastro();
+          } else {
+            this.disableSubmit = false;
+            this.botaoEnviarVF = false;
+            this.arquivoDesativado = false;
             console.error('ERRO - INCLUIR ', this.resp[2]);
             this.ms.add({
               key: 'toastprincipal',
@@ -772,16 +795,29 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   voltarListar() {
-    this.cfs.cadastroListar = null;
-    this.cfs.cadastro = null;
-    this.cfs.acao = null;
-    this.ddEnderecos = null;
-    this.mostraEnderecos = false;
-    this.endereco = null;
+    if (this.cfs.origem === 'menu') {
+      this.mi.showMenuInterno();
+    }
+    if (this.cfs.origem !== 'menu') {
+      this.mi.hideMenu();
+    }
     this.router.navigate(['/cadastro/listar']);
   }
 
   resetForm() {
+    this.mostraEnderecos = false;
+    this.ddEnderecos = [];
+    this.endereco = null;
+    this.novoValor = null;
+    this.nomeDuplicado = false;
+    this.validaTratamento = false;
+    this.validaNome = false;
+    this.disableSubmit = false;
+    this.arquivoDesativado = false;
+    this.enviarArquivos = false;
+    this.clearArquivos = false;
+    this.arquivo_registro_id = 0;
+    this.botaoEnviarVF  = false;
     this.mostraForm = true;
     this.formCadastro.reset();
     if (this.possuiArquivos) {
@@ -789,6 +825,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
     this.possuiArquivos = false;
     this.arquivoDesativado = true;
+    this.criaForm();
     window.scrollTo(0, 0);
   }
 
@@ -798,19 +835,8 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
         key: 'toastprincipal',
         severity: 'success',
         summary: 'INCLUIR ARQUIVOS',
-        detail: this.resp[2]
+        detail: 'Arquivo(s) incluidos com sucesso.'
       });
-      /* this.sfs.resetSolicitacao();
-       this.resetForm();
-       if (this.solicitacao_tipo_analize === 6 && this.resp[4] > 0) {
-         this.sfs.solicListar = undefined;
-         this.sfs.solA = undefined;
-         this.sfs.acao = null;
-         this.sfs.tipo_analize = 0;
-         this.router.navigate(['../oficio/solicitacao']);
-       } else {
-         this.resp = [];
-         this.voltarListar();*/
     }
   }
 
@@ -824,23 +850,73 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
 
   onArquivosGravados(a: ArquivoInterface[]) {
     this.arquivos = a;
+    if (this.cfs.acao === 'incluir') {
+      this.atualizarCadastro();
+    }
   }
 
-  incluirCadastro() {
+  atualizarCadastro() {
+    let cad: CadastroI = this.resp[3];
+    if (this.arquivos.length > 0) {
+      cad.cadastro_arquivos.push(...this.arquivos);
+    }
+    this.lazy = this.cs.lazy;
     if (this.cfs.acao === 'incluir') {
-      let cad: CadastroI = this.resp[3];
-      if (this.arquivos.length > 0) {
-        cad.cadastro_arquivos.push(...this.arquivos);
-      }
       this.cs.lazy = false;
       this.cs.cadastros.push(cad);
       this.cs.tabela.totalRecords++;
       this.cs.tabela.rows++;
       this.arquivos = [];
+      this.ms.add({
+        key: 'toastprincipal',
+        severity: 'success',
+        summary: 'INCLUIR CADASTRO',
+        detail: this.resp[2]
+      });
+      this.resp = [];
+      this.resetForm();
+    }
+    if (this.cfs.acao === 'alterar') {
+      this.cs.lazy = false;
+      this.arquivos = [];
+      this.cs.cadastros[this.cfs.idx] = cad;
+      if (this.cfs.origem === 'expandido') {
+        const c = {
+          data: cad,
+          originalEvent: {}
+        }
+        this.cs.expandido = cad;
+        this.cs.expandidoSN = true;
+        this.cs.tabela.celulas = [];
+        this.cs.onRowExpand(c);
+      }
+      this.ms.add({
+        key: 'toastprincipal',
+        severity: 'success',
+        summary: 'ALTERAÇÃO DE CADASTRO',
+        detail: this.resp[2]
+      });
+
+    }
+    if (this.possuiArquivos) {
+      this.clearArquivos = true;
+    }
+    this.cs.lazy = this.lazy;
+    if (this.cfs.acao === 'alterar') {
+      this.voltarListar();
     }
   }
 
   ngOnDestroy() {
+    this.ddEnderecos = null;
+    this.mostraEnderecos = false;
+    this.endereco = null;
+    this.arquivos = [];
+    this.cfs.cadastroListar = null;
+    this.cfs.cadastro = null;
+    this.cfs.acao = null;
+    this.cfs.idx = -1;
+    this.cfs.origem = null;
     this.sub.forEach(s => {
       s.unsubscribe()
     });

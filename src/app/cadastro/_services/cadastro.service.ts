@@ -145,6 +145,8 @@ export class CadastroService {
   }
 
   onContextMenuSelect(event) {
+    console.log('onContextMenuSelect', event);
+    this.idx = this.cadastros.findIndex(c => +event.data.cadastro_id === +c.cadastro_id);
     this.Contexto = event.data;
   }
 
@@ -162,7 +164,7 @@ export class CadastroService {
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
-    let ev = evento.data;
+    let ev = this.expandido;
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
@@ -205,8 +207,6 @@ export class CadastroService {
   onColResize(ev) {
     console.log('onColResize', ev);
   }
-
-
 
   testaCampoTexto(field: string): boolean {
     return (this.tabela.camposTexto.indexOf(field) > -1);
@@ -522,7 +522,7 @@ export class CadastroService {
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
-  alterarCadastro(dados: CadastroFormI): Observable<any> {
+  alterarCadastro(dados: CadastroFormI) {
     let url: string;
     url = this.url.cadastro + '/alterar';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};

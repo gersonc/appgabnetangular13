@@ -88,7 +88,6 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
           console.error(error.toString());
         },
         () => {
-          console.log('carregado dd');
         }
       ));
 
@@ -261,6 +260,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
 
   goIncluir() {
     if (this.auth.usuario_responsavel_sn || this.auth.usuario_principal_sn || this.auth.cadastro_incluir) {
+      this.cfs.origem = 'menu';
       this.cfs.acao = 'incluir';
       this.cfs.resetCadastro();
       this.cfs.criaFormIncluir();
