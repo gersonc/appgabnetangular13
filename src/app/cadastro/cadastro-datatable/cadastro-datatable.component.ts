@@ -203,7 +203,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       {field: 'cadastro_campo2', header: 'CAMPO 2', sortable: 'false', width: '200px'},
       {field: 'cadastro_campo3', header: 'CAMPO 3', sortable: 'false', width: '200px'},
       {field: 'cadastro_campo4_nome', header: 'CAMPO 4', sortable: 'true', width: '200px'},
-      {field: 'arquivo_num', header: 'N ARQUIVOS', sortable: 'true', width: '150px'}
     ];
   }
 
@@ -224,7 +223,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '250px'},
       {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', width: '120px'},
       {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', width: '250px'},
-      {field: 'cadastro_profissao', header: 'PROFISSÃO', sortable: 'true', width: '200px'}
+      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '200px'},
     ];
   }
 

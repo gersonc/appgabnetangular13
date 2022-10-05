@@ -274,11 +274,11 @@ export class CadastroService {
 
   imprimirTabela(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'PROPOSIÇÃO');
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'CADASTRO');
     }
 
     if (n === 2 && this.cadastros.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.cadastros, 'PROPOSIÇÃO');
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.cadastros, 'CADASTRO');
     }
 
     if (n === 3) {
@@ -298,7 +298,7 @@ export class CadastroService {
             console.error('ERRO-->', err);
           },
           complete: () => {
-            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, cadastroRelatorio.cadastros, 'PROPOSIÇÃO');
+            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, cadastroRelatorio.cadastros, 'CADASTROS');
           }
         })
       );
@@ -359,7 +359,7 @@ export class CadastroService {
   }
 
   exportToXLSX(td: number = 1) {
-
+    console.log('this.tabela.selectedColumns', this.tabela.selectedColumns);
     if (td === 3) {
       if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
         let busca: CadastroBuscaI = this.busca;
@@ -369,6 +369,23 @@ export class CadastroService {
         busca.first = undefined;
         busca.excel = true;
         let cadastroRelatorio: CadastroPaginacaoI;
+
+        if (this.tabela.totalRecords > 5000) {
+          this.sub.push(this.postCadastroRelatorioGrande(busca)
+            .subscribe({
+              next: (dados) => {
+                cadastroRelatorio = dados
+              },
+              error: err => {
+                console.error('ERRO-->', err);
+              },
+              complete: () => {
+                ExcelService.criaExcelFile('cadastro', limpaCampoTexto(cadastrocampostexto, cadastroRelatorio.cadastros), this.tabela.selectedColumns);
+              }
+            })
+          );
+        }
+
         this.sub.push(this.postCadastroRelatorio(busca)
           .subscribe({
             next: (dados) => {
@@ -382,6 +399,8 @@ export class CadastroService {
             }
           })
         );
+
+
       }
     }
     if (this.cadastros.length > 0 && td === 2) {
@@ -516,6 +535,12 @@ export class CadastroService {
     return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
   }
 
+  postCadastroRelatorioGrande(busca: CadastroBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.cadastro + '/relatoriogrande';
+    return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
+  }
+
   incluirCadastro(dados: CadastroFormI) {
     const url: string = this.url.cadastro + '/incluir';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
@@ -549,16 +574,6 @@ export class CadastroService {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<CadastroDuplicadoI[]>(url, n, httpOptions);
   }
-
-
-  /*contaNomeDuplicado (nome: string): Observable<any> {
-    this.cadNum$ = null;
-    if (nome !== null && nome.length > 2) {
-      const url = this.url.cadastro + '/contanomeduplicado/' + this.busca_Nome;
-      this.cadNum$ = this.http.get<any[]> (url);
-    }
-    return this.cadNum$;
-  }*/
 
   verificaDuplicados(ev) {
 
