@@ -164,6 +164,19 @@
                   class="p-button-rounded"
                   pTooltip="Detalhes"
                   tooltipPosition="top"
+                  (click)="cadastroDetalheSimples(cad)"
+                >
+                </button>
+              </div>
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-rounded"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
                   (click)="cadastroDetalheCompleto(cad)"
                 >
                 </button>
@@ -263,9 +276,9 @@
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
 <!--*** DETALHE ****************************************************************************************************-->
-<ng-container *ngIf="showDetalhe">
+<ng-container *ngIf="showDetalhe || mostraDetalhe">
   <p-dialog
-    [(visible)]="showDetalhe"
+    [(visible)]="showDetalhe || mostraDetalhe"
     [transitionOptions]="'0ms'"
     header="CADASTRO DETALHE"
     [baseZIndex]="0"
@@ -277,7 +290,7 @@
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-cadastro-detalhe [cadastro]="cadastroDetalhe" (hideDetalhe)="escondeDetalhe()"></app-cadastro-detalhe>
+    <app-cadastro-detalhe *ngIf="showDetalhe" [cadastro]="cadastroDetalhe" (hideDetalhe)="escondeDetalhe()"></app-cadastro-detalhe>
   </p-dialog>
 </ng-container>
 

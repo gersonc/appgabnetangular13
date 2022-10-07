@@ -339,6 +339,12 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
+  cadastroDetalheSimples(cad) {
+    console.log('cadastroDetalheCompleto', cad)
+    this.mostraDetalhe = true;
+    this.cadastroDetalhe = cad;
+  }
+
   cadastroDetalheCompleto(cad: CadastroI) {
     console.log('cadastroDetalheCompleto', cad)
     this.showDetalhe = true;
@@ -346,6 +352,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   escondeDetalhe() {
+    this.mostraDetalhe = false;
     this.showDetalhe = false;
     this.cadastroDetalhe = null;
   }

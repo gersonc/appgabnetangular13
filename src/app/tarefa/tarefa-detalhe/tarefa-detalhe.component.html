@@ -163,8 +163,7 @@
 <div class="botoesdetalhe">
   <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
   &nbsp;&nbsp;
-  <app-exporter-detalhe [arquivoNome]="'tarefa_detalhes'" [classe]="'tab-tarefa'"
-                        [(pdfOnOff)]="pdfOnOff"></app-exporter-detalhe>
+  <app-exporter-detalhe [arquivoNome]="'tarefa_detalhes'" [classe]="'tab-tarefa'" [(pdfOnOff)]="pdfOnOff"></app-exporter-detalhe>
   &nbsp;&nbsp;
   <app-impressao-botao [dados]="['TAREFA',tabtarefa]"></app-impressao-botao>
   &nbsp;

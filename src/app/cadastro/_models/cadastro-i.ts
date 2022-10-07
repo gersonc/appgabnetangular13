@@ -82,6 +82,12 @@ export interface CadastroI {
   cadastro_campo4_id?: number;
   cadastro_campo4_nome?: string;
   cadastro_arquivos?: ArquivoInterface[];
+  vinculos?: number;
+  snum?: number;
+  pnum?: number;
+  onum?: number;
+  enum?: number;
+  anum?: number;
 }
 
 export interface CadastroCompletoI extends CadastroI {
