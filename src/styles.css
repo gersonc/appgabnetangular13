@@ -10096,11 +10096,39 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-datatable .p-datatable-tbody > tr > td .p-row-editor-save {
   margin-right: 0.5rem;
 }
+.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover {
+  /*background: var(--background-highlight2);*/
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
 
 .p-datatable .p-datatable-tbody > tr.p-highlight {
-  background: var(--background-highlight);
+  /*background: var(--background-highlight);*/
+  background: var(--blue-200);
   color: var(--text-color);
 }
+.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr.p-highlight:hover {
+  /*background: var(--surface-c);*/
+  background: var(--blue-600);
+  color: var(--primary-color-text);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background: var(--surface-200);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight {
+  /*background: var(--background-highlight2);*/
+  background: var(--blue-300);
+  color: var(--text-color);
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight:hover {
+  /*background: var(--background-highlight2);*/
+  background: var(--blue-700);
+  color: var(--primary-color-text);
+}
+
 
 .p-datatable .p-datatable-tbody > tr.p-datatable-dragpoint-top > td {
   box-shadow: inset 0 2px 0 0 var(--background-highlight);
@@ -10110,15 +10138,30 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   box-shadow: inset 0 -2px 0 0 var(--background-highlight);
 }
 
+
+
+
+
+
+/*
+
 .p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover {
-  background: var(--background-highlight2);
+  !*background: var(--background-highlight2);*!
+  background: var(--blue-500);
   color: var(--text-color);
 }
 
-.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr.p-highlight:hover {
-  background: var(--surface-c);
+*/
+
+/*
+
+.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:nth-child(even):not(.p-highlight):hover {
+  !*background: var(--background-highlight2);*!
+  background: red;
   color: var(--text-color);
 }
+
+*/
 
 .p-datatable .p-column-resizer-helper {
   background: var(--primary-color);
@@ -10161,14 +10204,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-width: 1px;
 }
 
-.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
-  background: var(--surface-200);
-}
 
-.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight {
-  background: var(--background-highlight2);
-  color: var(--text-color);
-}
 
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even).p-highlight .p-row-toggler {
   color: var(--text-color);

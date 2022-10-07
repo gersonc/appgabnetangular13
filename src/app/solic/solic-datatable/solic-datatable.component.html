@@ -41,7 +41,7 @@
          stateStorage="session"
          stateKey="solic-table"
          selectionMode="multiple"
-         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines"
+         styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
@@ -94,7 +94,8 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col *ngFor="let col of columns">
+      <col style="width: 2rem;" pResizableColumnDisabled>
+      <col *ngFor="let col of columns" [style]="{width:col.width}">
     </colgroup>
   </ng-template>
 
@@ -116,9 +117,9 @@
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-sol let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="sol" [pContextMenuRow]="sol" [pSelectableRowIndex]="rowIndex">
-      <td>
+      <td style="width: 3.5em" pResizableColumnDisabled>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
-                [pRowToggler]="sol" class="p-button-rounded  p-button-text p-button-sm"
+                [pRowToggler]="sol" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
@@ -335,7 +336,6 @@
 </p-dialog>
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
-<!--*** EDITOR *****************************************************************************************************-->
 
 
 <!--*** DETALHE ****************************************************************************************************-->

@@ -359,7 +359,6 @@ export class CadastroService {
   }
 
   exportToXLSX(td: number = 1) {
-    console.log('this.tabela.selectedColumns', this.tabela.selectedColumns);
     if (td === 3) {
       if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
         let busca: CadastroBuscaI = this.busca;
@@ -375,6 +374,22 @@ export class CadastroService {
             .subscribe({
               next: (dados) => {
                 cadastroRelatorio = dados
+
+              },
+              error: err => {
+                console.error('ERRO-->', err);
+              },
+              complete: () => {
+                ExcelService.exportAsExcelFileBig('cadastro', cadastroRelatorio.cadastros, this.tabela.selectedColumns);
+              }
+            })
+          );
+        } else {
+
+          this.sub.push(this.postCadastroRelatorio(busca)
+            .subscribe({
+              next: (dados) => {
+                cadastroRelatorio = dados
               },
               error: err => {
                 console.error('ERRO-->', err);
@@ -384,21 +399,8 @@ export class CadastroService {
               }
             })
           );
-        }
 
-        this.sub.push(this.postCadastroRelatorio(busca)
-          .subscribe({
-            next: (dados) => {
-              cadastroRelatorio = dados
-            },
-            error: err => {
-              console.error('ERRO-->', err);
-            },
-            complete: () => {
-              ExcelService.criaExcelFile('cadastro', limpaCampoTexto(cadastrocampostexto, cadastroRelatorio.cadastros), this.tabela.selectedColumns);
-            }
-          })
-        );
+        }
 
 
       }

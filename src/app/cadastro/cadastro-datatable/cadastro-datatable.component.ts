@@ -340,6 +340,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   cadastroDetalheCompleto(cad: CadastroI) {
+    console.log('cadastroDetalheCompleto', cad)
     this.showDetalhe = true;
     this.cadastroDetalhe = cad;
   }

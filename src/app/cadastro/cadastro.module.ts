@@ -50,6 +50,9 @@ import {
   CadastroIncluirListaexistenteComponent
 } from "./cadastro-incluir-listaexistente/cadastro-incluir-listaexistente.component";
 import {ConfigauxModule} from "../configaux/configaux.module";
+import {CadastroDetalheComponent} from "./cadastro-detalhe/cadastro-detalhe.component";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
+import {ExplorerModule} from "../explorer/explorer.module";
 
 
 @NgModule({
@@ -96,13 +99,16 @@ import {ConfigauxModule} from "../configaux/configaux.module";
     UtilModule,
     QuillModule,
     ConfigauxModule,
+    ImpressaoModule,
+    ExplorerModule,
   ],
   declarations: [
     CadastroComponent,
     CadastroDatatableComponent,
     CadastroMenuListarComponent,
     CadastroFormComponent,
-    CadastroIncluirListaexistenteComponent
+    CadastroIncluirListaexistenteComponent,
+    CadastroDetalheComponent
   ],
   exports: [
     CadastroComponent

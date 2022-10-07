@@ -124,7 +124,7 @@
       <th style="width: 3.5em;" pResizableColumnDisabled></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
-          [style.width]="col.largura"
+          [style.width]="col.width"
           pReorderableColumn
           pResizableColumn
       >
@@ -135,7 +135,7 @@
   </ng-template>
 
   <!--*** DADOS ****************************************************************************************************-->
-  <ng-template pTemplate="body" let-cad let-cad2=cad let-columns="columns" let-expanded="expanded"
+  <ng-template pTemplate="body" let-cad let-columns="columns" let-expanded="expanded"
                let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cad" [pContextMenuRow]="cad" [pSelectableRowIndex]="rowIndex">
       <td style="width: 3.5em" pResizableColumnDisabled>
@@ -143,7 +143,7 @@
                 [pRowToggler]="cad" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
-      <td *ngFor="let col of columns" [style.width]="col.largura">
+      <td *ngFor="let col of columns" [style.width]="col.width">
         {{cad[col.field]}}
       </td>
     </tr>
@@ -263,21 +263,21 @@
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
 <!--*** DETALHE ****************************************************************************************************-->
-<ng-container *ngIf="mostraDetalhe">
+<ng-container *ngIf="showDetalhe">
   <p-dialog
-    [(visible)]="mostraDetalhe"
+    [(visible)]="showDetalhe"
     [transitionOptions]="'0ms'"
     header="CADASTRO DETALHE"
     [baseZIndex]="0"
     [modal]="true"
-    [dismissableMask]="true"
+    [dismissableMask]="false"
     [closable]="true"
     styleClass="tablistagem"
     (onHide)="escondeDetalhe()"
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <!--<app-cadastro-detalhe [dataDetalhe]="cadDetalhe" (onFechar)="onFechar($event)"></app-cadastro-detalhe>-->
+    <app-cadastro-detalhe [cadastro]="cadastroDetalhe" (hideDetalhe)="escondeDetalhe()"></app-cadastro-detalhe>
   </p-dialog>
 </ng-container>
 
