@@ -4,6 +4,7 @@ export interface CadastroBuscaI {
   cadastro_id?: number;
   cadastro_tipo_id?: number;
   cadastro_nome?: string;
+  cadastro_nome2?: string;
   cadastro_sigla?: string;
   cadastro_apelido?: string;
   cadastro_responsavel?: string;

@@ -38,6 +38,7 @@ export class ImpressaoComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('op', {static: true}) public op: ElementRef;
   @ViewChild('a4p', { static: false }) a4p: ElementRef;
   @Output() fecharImpressao = new EventEmitter<boolean>();
+  @Output() imprimindo = new EventEmitter<boolean>();
   @Input() colunas: ColunasI[];
   @Input() valores: any[];
   @Input() titulo: string;
@@ -85,6 +86,11 @@ export class ImpressaoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   imprimir() {
+    this.imprimindo.emit(true);
+    this.imprimir2();
+  }
+
+  imprimir2() {
     let t = document.getElementById("printSection");
     if (t) {
       let b = document.getElementById('body');

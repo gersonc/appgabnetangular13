@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {TituloI} from "../../_models/titulo-i";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {cadastrocampostexto, CadastroI, CadastroPaginacaoI} from "../_models/cadastro-i";
+import {cadastrocampostexto, CadastroI, CadastroPaginacaoI, CadastroVinculosI} from "../_models/cadastro-i";
 import {TitulosService} from "../../_services/titulos.service";
 import {CelulaI} from "../../_models/celula-i";
 import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
@@ -137,6 +137,10 @@ export class CadastroService {
 
   resetCadastroBusca() {
     this.busca = undefined;
+    this.tabela.first = 0;
+    this.tabela.sortOrder = 1;
+    this.tabela.todos = false;
+    this.tabela.rows = 50;
     this.criaBusca();
   }
 
@@ -554,6 +558,12 @@ export class CadastroService {
     url = this.url.cadastro + '/alterar';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
+  }
+
+  getCadastroVinculos(id: number) {
+    let url: string;
+    url = this.url.cadastro + '/vinculos/' + id;
+    return this.http.get<CadastroVinculosI>(url);
   }
 
   atualizarCadastro(dados: CadastroI): Observable<any> {

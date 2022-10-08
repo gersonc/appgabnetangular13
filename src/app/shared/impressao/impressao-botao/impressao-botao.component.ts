@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 
 
 type ImpressaoBotaoT = [string, HTMLTableElement];
@@ -10,7 +10,7 @@ type ImpressaoBotaoT = [string, HTMLTableElement];
 })
 export class ImpressaoBotaoComponent implements OnInit {
   @Input() dados: ImpressaoBotaoT;
-
+  @Output() imprimindo = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -19,6 +19,7 @@ export class ImpressaoBotaoComponent implements OnInit {
 
 
   imprimir() {
+    this.imprimindo.emit(true);
     window.addEventListener('afterprint', (event) => {
       let y = document.getElementById("printSection");
       if (y) {
@@ -44,6 +45,7 @@ export class ImpressaoBotaoComponent implements OnInit {
     if (y) {
       let c = document.getElementById('body');
       c.removeChild(y);
+      this.imprimindo.emit(false);
     }
   }
 

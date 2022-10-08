@@ -18,9 +18,11 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 import {CadastroFormService} from "../_services/cadastro-form.service";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {CadastroService} from "../_services/cadastro.service";
-import {CadastroI} from "../_models/cadastro-i";
+import {CadastroI, CadastroVinculosI} from "../_models/cadastro-i";
 import {ColunasI} from "../../_models/colunas-i";
 import {Table} from "primeng/table/table";
+import {CadastroPermissaoService} from "../_services/cadastro-permissao.service";
+import {take} from "rxjs/operators";
 
 
 
@@ -36,15 +38,22 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
+  sub2: Subscription[] = [];
   showDetalhe = false;
-  mostraDetalhe= false;
-  cadastroDetalhe?: CadastroI;
+  showCompleto = false;
+  cadastroDetalhe?: CadastroI | null = null;
+  cadastroVinculos: CadastroVinculosI | null = null;
   itemsAcao: MenuItem[];
   contextoMenu: MenuItem[];
   mostraSeletor = false;
   cols: any[] = [];
   idx = -1;
   cssMostra: string | null = null;
+  autSol = false;
+  autOfi = false;
+  autPro = false;
+  autEme = false;
+  solVer = 0;
 
   constructor(
     //private mm: MostraMenuService,
@@ -55,9 +64,36 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     public cfs: CadastroFormService,
     public cs: CadastroService,
     public md: MenuDatatableService,
+    public cp: CadastroPermissaoService
     ) { }
 
   ngOnInit() {
+    this.cp.criaPermissao();
+    this.solVer = this.aut.solicitacaoVersao;
+    if (this.aut.solicitacao_listar) {
+      this.autSol = true;
+    }
+    if (this.aut.emenda_listar) {
+      this.autEme = true;
+    }
+    if(this.solVer === 1) {
+      if (this.aut.oficio_listar) {
+        this.autOfi = true;
+      }
+      if (this.aut.processo_listar) {
+        this.autPro = true;
+      }
+      if(this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+        this.autSol = true;
+        this.autOfi = true;
+        this.autPro = true;
+        this.autEme = true;
+      }
+    } else {
+      if(this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn) {
+        this.autEme = true;
+      }
+    }
     if (this.cs.selecionados === undefined || this.cs.selecionados === null || !Array.isArray(this.cs.selecionados)) {
       this.cs.selecionados = [];
     }
@@ -341,20 +377,42 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   cadastroDetalheSimples(cad) {
     console.log('cadastroDetalheCompleto', cad)
-    this.mostraDetalhe = true;
-    this.cadastroDetalhe = cad;
-  }
-
-  cadastroDetalheCompleto(cad: CadastroI) {
-    console.log('cadastroDetalheCompleto', cad)
+    this.cadastroVinculos = null;
+    this.showCompleto = false;
     this.showDetalhe = true;
     this.cadastroDetalhe = cad;
   }
 
+  cadastroDetalheCompleto(cad: CadastroI) {
+    console.log('cadastroDetalheCompleto', cad);
+
+    if(this.cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum)) {
+      this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.cadastroVinculos = dados;
+            console.log('cadastroVinculos', this.cadastroVinculos);
+          },
+          error: err => console.error('ERRO-->', err),
+          complete: () => {
+            this.cadastroDetalhe = cad;
+            this.showCompleto = true;
+            this.showDetalhe = true;
+          }
+        })
+      );
+    }
+
+
+  }
+
   escondeDetalhe() {
-    this.mostraDetalhe = false;
+    this.cadastroVinculos = null;
+    this.showCompleto = false;
     this.showDetalhe = false;
     this.cadastroDetalhe = null;
+    this.sub2.forEach(s => s.unsubscribe());
   }
 
   cadastroAlterar(index: number, origem: 'menu'|'listagem'|'contexto'|'expandido'| null, cad: CadastroI) {

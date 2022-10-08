@@ -91,20 +91,6 @@
               Registros: {{cs.tabela.totalRecords}}</div>
           </div>
 
-
-          <!--<div class="p-mr-0">
-                 <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
-                         (click)="cadastroIncluir()"></button>
-               </div>
-             </div>
-
-             <div class="p-d-inline-flex p-ai-center">
-               <div class="p-mx-1">CADASTRO</div>
-             </div>
-
-             <div class="p-d-inline-flex p-ai-center">
-               <div class="p-mr-1">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num. Registros: {{cs.tabela.totalRecords}}</div>
-             </div>-->
         </div>
       </div>
 
@@ -168,19 +154,23 @@
                 >
                 </button>
               </div>
-              <div class="p-mr-2">
-                <button
-                  pButton
-                  pRipple
-                  type="button"
-                  icon="pi pi-eye"
-                  class="p-button-rounded"
-                  pTooltip="Detalhes"
-                  tooltipPosition="top"
-                  (click)="cadastroDetalheCompleto(cad)"
-                >
-                </button>
-              </div>
+
+              <ng-container *ngIf="cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum)">
+                <div class="p-mr-2">
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-eye"
+                    class="p-button-rounded  p-button-secondary"
+                    pTooltip="Detalhes completo"
+                    tooltipPosition="top"
+                    (click)="cadastroDetalheCompleto(cad)"
+                  >
+                  </button>
+                </div>
+              </ng-container>
+
               <div *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_alterar" class="p-mr-2">
                 <button
                   pButton
@@ -218,17 +208,6 @@
               </div>
             </div>
 
-
-            <!--<div class="expandido p-grid">
-              <div *ngFor="let linhas of dadosExp;" class="expandido p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
-                <div class="registros p-shadow-1">
-                  <h5>{{linhas[0]}}</h5>
-
-                  {{linhas[1]}}
-
-                </div>
-              </div>
-            </div>-->
           </div>
         </div>
       </td>
@@ -276,9 +255,9 @@
 <p-contextMenu #cm [model]="contextoMenu" styleClass="tablistagem"></p-contextMenu>
 
 <!--*** DETALHE ****************************************************************************************************-->
-<ng-container *ngIf="showDetalhe || mostraDetalhe">
+<ng-container *ngIf="showDetalhe">
   <p-dialog
-    [(visible)]="showDetalhe || mostraDetalhe"
+    [(visible)]="showDetalhe"
     [transitionOptions]="'0ms'"
     header="CADASTRO DETALHE"
     [baseZIndex]="0"
@@ -290,7 +269,7 @@
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-cadastro-detalhe *ngIf="showDetalhe" [cadastro]="cadastroDetalhe" (hideDetalhe)="escondeDetalhe()"></app-cadastro-detalhe>
+    <app-cadastro-detalhe *ngIf="showDetalhe" [cadastro]="cadastroDetalhe" [completo]="showCompleto" [cadVin]="cadastroVinculos" (hideDetalhe)="escondeDetalhe()"></app-cadastro-detalhe>
   </p-dialog>
 </ng-container>
 

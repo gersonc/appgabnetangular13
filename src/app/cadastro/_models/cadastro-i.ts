@@ -1,8 +1,4 @@
 import {ArquivoInterface} from "../../arquivo/_models";
-import {SolicI} from "../../solic/_models/solic-i";
-import {ProceOficioI} from "../../proce/_model/proc-i";
-import {OficioListarI} from "../../oficio/_models/oficio-listar-i";
-import {EmendaListarI} from "../../emenda/_models/emenda-listar-i";
 import {TotalI} from "../../shared-datatables/models/total-i";
 import {Endereco} from "@brunoc/ngx-viacep";
 
@@ -90,11 +86,48 @@ export interface CadastroI {
   anum?: number;
 }
 
-export interface CadastroCompletoI extends CadastroI {
-  cadastro_solicitacao?: SolicI[];
-  cadastro_processo?: ProceOficioI[];
-  cadastro_oficio?: OficioListarI[];
-  cadastro_emenda?: EmendaListarI[];
+export interface CadastroSolicVinculoI {
+  solicitacao_id?: number;
+  solicitacao_status_id?: number;
+  solicitacao_status_nome?: string;
+  solicitacao_data?: string;
+  solicitacao_assunto_nome?: string;
+  solicitacao_orgao?: string;
+}
+
+export interface CadastroProessoVinculoI {
+  processo_id?: number;
+  processo_numero?: string;
+  processo_status_id?: number;
+  processo_status_nome?: string;
+  solicitacao_assunto_nome?: string;
+}
+
+export interface CadastroOficioVinculoI {
+  oficio_id?: number;
+  oficio_codigo?: string;
+  oficio_numero?: string;
+  oficio_status_id?: number;
+  oficio_status_nome?: string;
+  oficio_data_emissao?: string;
+  oficio_orgao_solicitado_nome?: string;
+}
+
+export interface CadastroEmendaVinculoI {
+  emenda_id?: number;
+  emenda_situacao_nome?: string;
+  emenda_numero?: string;
+  emenda_orgao_solicitado_nome?: string;
+  emenda_numero_protocolo?: string;
+  emenda_assunto_nome?: string;
+  emenda_data_solicitacao?: string;
+}
+
+export interface CadastroVinculosI extends CadastroI {
+  cadastro_solicitacao?: CadastroSolicVinculoI[];
+  cadastro_processo?: CadastroProessoVinculoI[];
+  cadastro_oficio?: CadastroOficioVinculoI[];
+  cadastro_emenda?: CadastroEmendaVinculoI[];
 }
 
 export interface CadastroPaginacaoI {

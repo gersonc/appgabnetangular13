@@ -17114,8 +17114,15 @@ tr.detsol {
   border-top-color: transparent !important;
   border-top-width: 0 !important;
   border-bottom-width: 0 !important;
-  border-left-width: 1px !important;
-  border-right-width: 1px !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+}
+
+thead.detalheTitulo-vert th {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  border: 0;
 }
 
 .detalheTitulo-horiz th {
@@ -18787,4 +18794,7 @@ button.expandir {
 
 input.p-dropdown-filter {
   width: 100% !important;
+}
+tr:not(.p-highlight):hover button.expandir {
+  color: #ffffff !important;
 }
