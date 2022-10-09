@@ -38,7 +38,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ConfirmDialogModule
   ],
   exports: [
-    EtiquetaConfigComponent
+    EtiquetaConfigComponent,
+    EtiquetaSeletorComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

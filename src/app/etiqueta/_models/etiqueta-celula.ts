@@ -12,11 +12,11 @@ export class EtiquetaCelula {
       if (cadastro.cadastro_nome.length > 0) {
         str += cadastro.cadastro_nome + '<br>';
       }
-      if (cadastro.cadastro_cargo.length > 0) {
-        // str += cadastro.cadastro_cargo + '<br>';
-      }
+      /*if (cadastro.cadastro_cargo.length > 0) {
+         str += cadastro.cadastro_cargo + '<br>';
+      }*/
       if (
-        cadastro.cadastro_endereco.length > 0 &&
+        cadastro.cadastro_endereco !== null && cadastro.cadastro_endereco.length > 0 &&
         cadastro.cadastro_endereco_numero.length > 0 &&
         cadastro.cadastro_endereco_complemento.length > 0) {
         str += cadastro.cadastro_endereco + ',';

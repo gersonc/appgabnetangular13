@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig} from 'primeng/dynamicdialog';
-import { DropdownService } from '../../_services';
 import { EtiquetaService } from '../_services';
 import { Subscription } from 'rxjs';
+import {DdService} from "../../_services/dd.service";
+import {take} from "rxjs/operators";
 
 
 @Component({
@@ -12,37 +13,53 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./etiqueta-seletor.component.css']
 })
 export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
+  @Output() hideEtiqueta = new EventEmitter<boolean>();
   ddEtiqueta: SelectItem[] = [];
   etq_id: number;
   sub: Subscription[] = [];
 
   constructor(
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
-    private dropdownService: DropdownService,
-    private etiquetaService: EtiquetaService
+    private dd: DdService,
+    public etiquetaService: EtiquetaService
   ) { }
 
   ngOnInit() {
     this.sub.push(this.etiquetaService.impEtiqueta.subscribe(() => {
         this.fechar();
       },
-      () => {},
-      () => {}
+      () => {
+      },
+      () => {
+      }
     ));
-    this.sub.push(this.dropdownService.getDropdownNomeIdConcat('etiquetas', 'etq_id', 'etq_marca', 'etq_modelo')
-      .subscribe((dados) => {
-        this.ddEtiqueta = dados;
-      }));
+    if (!sessionStorage.getItem('dropdown-etiqueta')) {
+      this.sub.push(this.dd.getDd('dropdown-etiqueta')
+        .pipe(take(1))
+        .subscribe((dados) => {
+            sessionStorage.setItem('dropdown-etiqueta', JSON.stringify(dados));
+          },
+          (err) => console.error(err),
+          () => {
+            this.carregaDD();
+          }
+        )
+      );
+    } else {
+      this.carregaDD();
+    }
+  }
+
+  carregaDD() {
+    this.ddEtiqueta = JSON.parse(sessionStorage.getItem('dropdown-etiqueta'));
   }
 
   imprimeEtiqueta(event) {
     const etqid = event.value;
-    this.etiquetaService.imprimirEtiqueta(etqid, this.config.data.cadastro);
+    this.etiquetaService.imprimirEtiqueta(etqid);
   }
 
   fechar() {
-    this.ref.close();
+    this.hideEtiqueta.emit(true);
   }
 
   ngOnDestroy(): void {

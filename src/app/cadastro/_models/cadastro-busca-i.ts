@@ -46,4 +46,5 @@ export interface CadastroBuscaI {
   campos?: ColunasI[];
   ids?: number[];
   excel?: boolean;
+  etiqueta?: number;
 }

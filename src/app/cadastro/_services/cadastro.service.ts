@@ -17,6 +17,8 @@ import {ColunasI} from "../../_models/colunas-i";
 import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 import {CadastroFormI} from "../_models/cadastro-form-i";
+import {CadastroEtiquetaI, CadastroEtiquetaListI} from "../_models/cadastro-etiqueta-i";
+import {EtiquetaCadastroService} from "../../etiqueta/_services/etiqueta-cadastro.service";
 
 
 @Injectable({
@@ -54,13 +56,16 @@ export class CadastroService {
   titulos: TituloI[] | null = null;
   mudaRows = 50;
   rowsPerPageOptions = [50];
-
+  showEtiquetas = false;
+  etiquetas?: CadastroEtiquetaI[] = [];
+  numEtiquetas = 0;
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
     private ts: TitulosService,
-    private celulaService: CelulaService
+    private celulaService: CelulaService,
+    private ecs: EtiquetaCadastroService
   ) {
     this.cadastroUrl = this.url.cadastro;
     this.celulaService.modulo = 'Cadastro'
@@ -110,7 +115,8 @@ export class CadastroService {
         rows: this.tabela.rows,
         sortField: this.tabela.sortField,
         first: this.tabela.first,
-        sortOrder: this.tabela.sortOrder
+        sortOrder: this.tabela.sortOrder,
+        etiqueta: 0
       };
     }
   }
@@ -132,6 +138,7 @@ export class CadastroService {
       this.busca.first = 0;
       this.busca.sortOrder = 1;
       this.busca.sortField = 'cadastro_nome';
+      this.busca.etiqueta = 0;
     }
   }
 
@@ -446,6 +453,94 @@ export class CadastroService {
     }
   }
 
+  exportToEtiquetas(n: number) {
+    if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
+      this.ecs.parceEtiquetas(this.selecionados);
+      this.showEtiquetas = true;
+    }
+
+    if (n === 2 && this.cadastros.length > 0) {
+      this.ecs.parceEtiquetas(this.cadastros);
+      this.showEtiquetas = true;
+    }
+
+
+      if (n === 3) {
+        let busca: CadastroBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.etiqueta = 1;
+        let listEtiquetas: CadastroEtiquetaListI;
+        this.sub.push(this.postCadastroBuscaEtiqueta(busca)
+          .subscribe({
+            next: (dados) => {
+              this.ecs.cadastro = dados.cadastros;
+              this.numEtiquetas = +dados.total.num;
+            },
+            error: err => {
+              console.error('ERRO-->', err);
+            },
+            complete: () => {
+              this.showEtiquetas = true;
+              // CsvService.jsonToCsv('cadastro', this.tabela.selectedColumns, slolicRelatorio.cadastros);
+
+            }
+          })
+        );
+      }
+
+  }
+
+  hideEtiqueta(ev) {
+    this.showEtiquetas = false;
+  }
+
+  parceEtiquetas(c: CadastroI[]): CadastroEtiquetaI[] {
+    return c.filter( cd => (
+      cd.cadastro_endereco !== null &&
+      cd.cadastro_endereco.length > 3 &&
+      cd.cadastro_cep !== null &&
+      cd.cadastro_cep.length >= 8 &&
+      cd.cadastro_cep.length <= 9
+    )).map(d => {
+      return {
+        cadastro_id: d.cadastro_id,
+        cadastro_tipo_tipo: d.cadastro_tipo_tipo,
+        cadastro_nome: d.cadastro_nome,
+        cadastro_endereco: d.cadastro_endereco,
+        cadastro_endereco_numero: d.cadastro_endereco_numero,
+        cadastro_endereco_complemento: d.cadastro_endereco_complemento,
+        cadastro_bairro: d.cadastro_bairro,
+        cadastro_municipio_nome: d.cadastro_municipio_nome,
+        cadastro_cep: (d.cadastro_cep.length === 8) ? d.cadastro_cep.substring(0,5) + '-' + d.cadastro_cep.substring(5,3): d.cadastro_cep,
+        cadastro_estado_nome: d.cadastro_estado_nome,
+        cadastro_responsavel: d.cadastro_responsavel,
+        cadastro_tratamento_nome: d.cadastro_tratamento_nome,
+        cadastro_cargo: d.cadastro_cargo
+      }
+    });
+    /*const e: CadastroEtiquetaI[] = c.map(d => {
+      return {
+        cadastro_id: d.cadastro_id,
+        cadastro_tipo_tipo: d.cadastro_tipo_tipo,
+        cadastro_nome: d.cadastro_nome,
+        cadastro_endereco: d.cadastro_endereco,
+        cadastro_endereco_numero: d.cadastro_endereco_numero,
+        cadastro_endereco_complemento: d.cadastro_endereco_complemento,
+        cadastro_bairro: d.cadastro_bairro,
+        cadastro_municipio_nome: d.cadastro_municipio_nome,
+        cadastro_cep: d.cadastro_cep,
+        cadastro_estado_nome: d.cadastro_estado_nome,
+        cadastro_responsavel: d.cadastro_responsavel,
+        cadastro_tratamento_nome: d.cadastro_tratamento_nome,
+        cadastro_cargo: d.cadastro_cargo
+      }
+    });
+    return e;*/
+  }
+
   customSort(ev) {
   }
 
@@ -564,6 +659,12 @@ export class CadastroService {
     let url: string;
     url = this.url.cadastro + '/vinculos/' + id;
     return this.http.get<CadastroVinculosI>(url);
+  }
+
+  postCadastroBuscaEtiqueta(busca: CadastroBuscaI) {
+    const url = this.cadastroUrl + '/listaretiqueta';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<CadastroEtiquetaListI>(url, busca, httpOptions);
   }
 
   atualizarCadastro(dados: CadastroI): Observable<any> {

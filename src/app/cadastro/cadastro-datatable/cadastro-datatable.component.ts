@@ -160,7 +160,10 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
         label: 'EXCEL - TODOS', icon: 'pi pi-file-excel', style: {'font-size': '.9em'}, command: () => {
           this.cs.exportToXLSX(3);
         }
-      }
+      },
+      {label: 'ETIQUETAS - SELECIONADOS', icon: 'pi pi-ticket', style: {'font-size': '1em'}, command: () => { this.cs.exportToEtiquetas(1); }},
+      {label: 'ETIQUETAS - PÁGINA', icon: 'pi pi-ticket', style: {'font-size': '1em'}, command: () => { this.cs.exportToEtiquetas(2); }},
+      {label: 'ETIQUETAS. - TODOS', icon: 'pi pi-ticket', style: {'font-size': '.9em'}, command: () => { this.cs.exportToEtiquetas(3); }},
     ];
 
     if (!this.cs.stateSN) {
@@ -278,6 +281,10 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   hideSeletor(): void {
     this.cs.tabela.mostraSeletor = false;
+  }
+
+  hideEtiqueta(ev) {
+    this.cs.showEtiquetas = false;
   }
 
   /*rowColor(field: string, vl1: number): string | null {

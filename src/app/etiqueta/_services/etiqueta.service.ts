@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { UrlService } from '../../_services';
 import { EtiquetaInterface, EtiquetaCelula } from '../_models';
 import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
+import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
 
 
 @Injectable({
@@ -22,7 +23,7 @@ export class EtiquetaService {
   etq_largura: number;
   etq_linhas: number;
   etq_colunas: number;
-  cadastro: CadastroEtiquetaI[];
+  // cadastro: CadastroEtiquetaI[];
   pag: string;
   cel: string;
   esph: string;
@@ -36,7 +37,8 @@ export class EtiquetaService {
 
   constructor(
     private urlService: UrlService,
-    private http: HttpClient
+    private http: HttpClient,
+    public ecs: EtiquetaCadastroService
   ) { }
 
   public getConfigEtiqueta(etq_id: number): Observable<EtiquetaInterface> {
@@ -46,8 +48,7 @@ export class EtiquetaService {
     return this.etiqueta$;
   }
 
-  public imprimirEtiqueta(etq_id: number, cadastro: CadastroEtiquetaI[]) {
-    this.cadastro = cadastro;
+  public imprimirEtiqueta(etq_id: number) {
     this.getConfigEtiqueta(etq_id).subscribe({
       next: (dados) => {
         this.etq_folha_horz = dados.etq_folha_horz;
@@ -106,7 +107,7 @@ export class EtiquetaService {
   }
 
   criaCorpo () {
-    for (const cad of this.cadastro) {
+    for (const cad of this.ecs.cadastro) {
       this.cpo += '<div class=\'cel\'>';
       this.cpo += '<div class=\'texto\'>' + cad.cadastro_tratamento_nome + '</div>';
       this.cpo += '<div class=\'texto\'>' + cad.cadastro_nome + '</div>';
@@ -163,19 +164,19 @@ table {
 `;
     let a = 0;
     let cad: CadastroEtiquetaI;
-    const b = this.cadastro.length - 1;
-    while (this.cadastro.length > 0) {
+    const b = this.ecs.cadastro.length - 1;
+    while (this.ecs.cadastro.length > 0) {
       if (a === 0) {
         this.ht += `
 	<div class=Section1>
 		<table border="0" cellspacing="0" cellpadding="0" style='border-collapse:collapse'>
 `;
       }
-      if (this.cadastro.length === 0) {
+      if (this.ecs.cadastro.length === 0) {
         this.ht += `<td></td>`;
       } else {
         a++;
-        cad = this.cadastro.shift ();
+        cad = this.ecs.cadastro.shift ();
         this.ht += `
 			<tr style='height:${this.etq_altura}mm;'>
 				<td id='${a}_${this.etq_num}'
@@ -201,11 +202,11 @@ table {
 `;
       }
       if (this.etq_colunas === 3) {
-        if (this.cadastro.length === 0) {
+        if (this.ecs.cadastro.length === 0) {
           this.ht += `<td></td>`;
         } else {
           a++;
-          cad = this.cadastro.shift ();
+          cad = this.ecs.cadastro.shift ();
           this.ht += `
             <td id='${a}_${this.etq_num}'
             style='font-size: 8.0pt;width:${this.etq_largura}mm;
@@ -223,11 +224,11 @@ table {
             `;
         }
       }
-      if (this.cadastro.length === 0) {
+      if (this.ecs.cadastro.length === 0) {
         this.ht += `<td></td>`;
       } else {
         a++;
-        cad = this.cadastro.shift ();
+        cad = this.ecs.cadastro.shift ();
         this.ht += `
         <td
           id='${a}_${this.etq_num}'
@@ -240,7 +241,7 @@ table {
 		</tr>
         `;
       }
-      if (a >= this.etq_num || this.cadastro.length === 0) {
+      if (a >= this.etq_num || this.ecs.cadastro.length === 0) {
         a = 0;
         this.ht += `
 		</table>
