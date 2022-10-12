@@ -468,7 +468,7 @@ export class CadastroService {
       if (n === 3) {
         let busca: CadastroBuscaI = this.busca;
         busca.rows = undefined;
-        busca.campos = this.tabela.selectedColumns;
+        busca.campos = undefined;
         busca.todos = true;
         busca.first = undefined;
         busca.etiqueta = 1;

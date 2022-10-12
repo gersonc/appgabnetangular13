@@ -23,16 +23,30 @@ export class EtiquetaCadastroService {
         cadastro_tipo_tipo: d.cadastro_tipo_tipo,
         cadastro_nome: d.cadastro_nome,
         cadastro_endereco: d.cadastro_endereco,
-        cadastro_endereco_numero: d.cadastro_endereco_numero,
-        cadastro_endereco_complemento: d.cadastro_endereco_complemento,
-        cadastro_bairro: d.cadastro_bairro,
+        cadastro_endereco_numero: this.limpaTxt(d.cadastro_endereco_numero),
+        cadastro_endereco_complemento: this.limpaTxt(d.cadastro_endereco_complemento),
+        cadastro_bairro: this.limpaTxt(d.cadastro_bairro),
         cadastro_municipio_nome: d.cadastro_municipio_nome,
-        cadastro_cep: (d.cadastro_cep.length === 8) ? d.cadastro_cep.substring(0,5) + '-' + d.cadastro_cep.substring(5,3): d.cadastro_cep,
+        cadastro_cep: (d.cadastro_cep.length === 8) ? d.cadastro_cep.substr(0,5) + '-' + d.cadastro_cep.substr(5,3): d.cadastro_cep,
         cadastro_estado_nome: d.cadastro_estado_nome,
-        cadastro_responsavel: d.cadastro_responsavel,
+        cadastro_responsavel: this.limpaTxt(d.cadastro_responsavel),
         cadastro_tratamento_nome: d.cadastro_tratamento_nome,
-        cadastro_cargo: d.cadastro_cargo
+        cadastro_cargo: this.limpaTxt(d.cadastro_cargo)
       }
     });
+  }
+
+  limpaTxt(s: string | null): string | null {
+    if (s === null) {
+      return null;
+    }
+    if (s.length === 0) {
+      return null;
+    }
+    if (s === '.' || s === ',' || s === ';') {
+      return null;
+    }
+    return s.toUpperCase();
+
   }
 }
