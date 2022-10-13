@@ -8,12 +8,6 @@ export class EtiquetaCelula {
     if (cadastro.cadastro_tipo_tipo === 1) {
       str += cadastro.cadastro_tratamento_nome + '<br>';
       str += cadastro.cadastro_nome + '<br>';
-      /*if (cadastro.cadastro_tratamento_nome.length > 0) {
-        str += cadastro.cadastro_tratamento_nome + '<br>';
-      }
-      if (cadastro.cadastro_nome.length > 0) {
-        str += cadastro.cadastro_nome + '<br>';
-      }*/
       str += cadastro.cadastro_endereco;
       if (cadastro.cadastro_endereco_numero !== null) {
         str += ',' + cadastro.cadastro_endereco_numero;
@@ -23,43 +17,6 @@ export class EtiquetaCelula {
       }
       str += '<br>';
 
-      /*if (
-        cadastro.cadastro_endereco !== null && cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length > 0 &&
-        cadastro.cadastro_endereco_complemento.length > 0) {
-        str += cadastro.cadastro_endereco + ',';
-        str += cadastro.cadastro_endereco_numero + ' ';
-        str += cadastro.cadastro_endereco_complemento + '<br>';
-      }
-
-      if (
-        cadastro.cadastro_endereco !== null && cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length > 0 &&
-        cadastro.cadastro_endereco_complemento.length > 0) {
-        str += cadastro.cadastro_endereco + ',';
-        str += cadastro.cadastro_endereco_numero + ' ';
-        str += cadastro.cadastro_endereco_complemento + '<br>';
-      }
-      if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length > 0 &&
-        cadastro.cadastro_endereco_complemento.length === 0) {
-        str += cadastro.cadastro_endereco + ',';
-        str += cadastro.cadastro_endereco_numero + '<br>';
-      }
-      if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length === 0 &&
-        cadastro.cadastro_endereco_complemento.length > 0) {
-        str += cadastro.cadastro_endereco + ' ';
-        str += cadastro.cadastro_endereco_complemento + '<br>';
-      }
-      if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length === 0 &&
-        cadastro.cadastro_endereco_complemento.length === 0) {
-        str += cadastro.cadastro_endereco + '<br>';
-      }*/
       let nc = 0;
       if (cadastro.cadastro_bairro !== null) {
         nc += cadastro.cadastro_bairro.length;
@@ -99,52 +56,6 @@ export class EtiquetaCelula {
           str += cadastro.cadastro_cargo + '<br>';
         }
       }
-      /*if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length > 0 &&
-        cadastro.cadastro_endereco_complemento.length > 0) {
-        str += cadastro.cadastro_endereco + ',';
-        str += cadastro.cadastro_endereco_numero + ' ';
-        str += cadastro.cadastro_endereco_complemento + '<br>';
-      }
-      if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length > 0 &&
-        cadastro.cadastro_endereco_complemento.length === 0) {
-        str += cadastro.cadastro_endereco + ',';
-        str += cadastro.cadastro_endereco_numero + '<br>';
-      }
-      if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length === 0 &&
-        cadastro.cadastro_endereco_complemento.length > 0) {
-        str += cadastro.cadastro_endereco + ' ';
-        str += cadastro.cadastro_endereco_complemento + '<br>';
-      }
-      if (
-        cadastro.cadastro_endereco.length > 0 &&
-        cadastro.cadastro_endereco_numero.length === 0 &&
-        cadastro.cadastro_endereco_complemento.length === 0) {
-        str += cadastro.cadastro_endereco + '<br>';
-      }
-      if (cadastro.cadastro_bairro.length > 0) {
-        const nc = cadastro.cadastro_bairro.length + cadastro.cadastro_municipio_nome.length + 2;
-        if (nc <= 32) {
-          str += cadastro.cadastro_bairro + '  ';
-          str += cadastro.cadastro_municipio_nome + ' ';
-          str += cadastro.cadastro_estado_nome + '<br>';
-          str += cadastro.cadastro_cep;
-        } else {
-          str += cadastro.cadastro_bairro + '<br>';
-          str += cadastro.cadastro_cep + ' ';
-          str += cadastro.cadastro_municipio_nome + ' ';
-          str += cadastro.cadastro_estado_nome;
-        }
-      } else {
-        str += cadastro.cadastro_municipio_nome + '  ';
-        str += cadastro.cadastro_estado_nome + '<br>';
-        str += cadastro.cadastro_cep;
-      }*/
       str += cadastro.cadastro_endereco;
       if (cadastro.cadastro_endereco_numero !== null) {
         str += ',' + cadastro.cadastro_endereco_numero;
@@ -177,5 +88,6 @@ export class EtiquetaCelula {
     }
     return str;
   }
+
 }
 
