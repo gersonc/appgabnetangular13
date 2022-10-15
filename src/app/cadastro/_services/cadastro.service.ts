@@ -17,7 +17,7 @@ import {ColunasI} from "../../_models/colunas-i";
 import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 import {CadastroFormI} from "../_models/cadastro-form-i";
-import {CadastroEtiquetaI, CadastroEtiquetaListI} from "../_models/cadastro-etiqueta-i";
+import {CadastroEtiquetaI, CadastroEtiquetaListI} from "../../etiqueta/_models/cadastro-etiqueta-i";
 import {EtiquetaCadastroService} from "../../etiqueta/_services/etiqueta-cadastro.service";
 
 
@@ -143,6 +143,7 @@ export class CadastroService {
   }
 
   resetCadastroBusca() {
+    this.mudaRows = 50;
     this.busca = undefined;
     this.tabela.first = 0;
     this.tabela.sortOrder = 1;
@@ -454,6 +455,7 @@ export class CadastroService {
   }
 
   exportToEtiquetas(n: number) {
+    this.ecs.tplistagem = n;
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
       this.ecs.parceEtiquetas(this.selecionados);
       this.showEtiquetas = true;
@@ -466,14 +468,22 @@ export class CadastroService {
 
 
       if (n === 3) {
-        let busca: CadastroBuscaI = this.busca;
-        busca.rows = undefined;
-        busca.campos = undefined;
-        busca.todos = true;
-        busca.first = undefined;
-        busca.etiqueta = 1;
-        let listEtiquetas: CadastroEtiquetaListI;
-        this.sub.push(this.postCadastroBuscaEtiqueta(busca)
+        if(+this.tabela.totalRecords > +this.cadastros.length) {
+          let busca: CadastroBuscaI = this.busca;
+          busca.rows = undefined;
+          busca.campos = undefined;
+          busca.todos = true;
+          busca.first = undefined;
+          busca.etiqueta = 1;
+          this.ecs.busca = busca;
+          this.showEtiquetas = true;
+        } else {
+          this.ecs.tplistagem = 2;
+          this.ecs.parceEtiquetas(this.cadastros);
+          this.showEtiquetas = true;
+        }
+        // let listEtiquetas: CadastroEtiquetaListI;
+        /*this.sub.push(this.postCadastroBuscaEtiqueta(busca)
           .subscribe({
             next: (dados) => {
               this.ecs.cadastro = dados.cadastros;
@@ -488,7 +498,7 @@ export class CadastroService {
 
             }
           })
-        );
+        );*/
       }
 
   }
@@ -497,7 +507,7 @@ export class CadastroService {
     this.showEtiquetas = false;
   }
 
-  parceEtiquetas(c: CadastroI[]): CadastroEtiquetaI[] {
+  /*parceEtiquetas(c: CadastroI[]): CadastroEtiquetaI[] {
     return c.filter( cd => (
       cd.cadastro_endereco !== null &&
       cd.cadastro_endereco.length > 3 &&
@@ -521,7 +531,7 @@ export class CadastroService {
         cadastro_cargo: d.cadastro_cargo
       }
     });
-    /*const e: CadastroEtiquetaI[] = c.map(d => {
+    /!*const e: CadastroEtiquetaI[] = c.map(d => {
       return {
         cadastro_id: d.cadastro_id,
         cadastro_tipo_tipo: d.cadastro_tipo_tipo,
@@ -538,8 +548,8 @@ export class CadastroService {
         cadastro_cargo: d.cadastro_cargo
       }
     });
-    return e;*/
-  }
+    return e;*!/
+  }*/
 
   customSort(ev) {
   }
@@ -719,6 +729,27 @@ export class CadastroService {
 
   rowsChange(ev) {
     this.mudaRows = this.tabela.rows;
+    console.log('rowsChange',ev);
+    if (+ev <= this.tabela.rows) {
+      this.tabela.rows = +ev;
+      this.tabela.pageCount = this.tabela.totalRecords / +ev;
+    } else {
+      const n = this.cadastros.length;
+      if (+ev > n) {
+        this.tabela.rows = +ev;
+        this.cadastroBusca();
+      } else {
+        const pgt = this.tabela.currentPage * +ev;
+        if (pgt > n) {
+          this.cadastroBusca();
+        } else {
+          this.tabela.rows = +ev;
+          this.tabela.pageCount = this.tabela.totalRecords / +ev;
+        }
+
+      }
+    }
+    // this.mudaRows = this.tabela.rows;
   }
 
   mudaRowsPerPageOptions(t: number) {

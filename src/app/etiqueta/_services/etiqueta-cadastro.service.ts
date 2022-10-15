@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
+import {CadastroEtiquetaI} from "../_models/cadastro-etiqueta-i";
 import {CadastroI} from "../../cadastro/_models/cadastro-i";
+import {CadastroBuscaI} from "../../cadastro/_models/cadastro-busca-i";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EtiquetaCadastroService {
   cadastro: CadastroEtiquetaI[] = [];
+  busca: CadastroBuscaI | null = null;
+  tplistagem = 0;
   constructor() { }
 
 

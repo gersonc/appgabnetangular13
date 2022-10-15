@@ -1,4 +1,4 @@
-import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
+import {CadastroEtiquetaI} from "./cadastro-etiqueta-i";
 
 export class EtiquetaCelula {
 

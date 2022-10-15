@@ -3,7 +3,7 @@ import { Injectable} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { UrlService } from '../../_services';
 import { EtiquetaInterface, EtiquetaCelula } from '../_models';
-import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
+import {CadastroEtiquetaI} from "../_models/cadastro-etiqueta-i";
 import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
 
 

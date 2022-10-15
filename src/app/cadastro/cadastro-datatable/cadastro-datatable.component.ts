@@ -261,8 +261,10 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       {field: 'cadastro_responsavel', header: 'EMPRESA / RESPONSÁVEL', sortable: 'true', width: '250px'},
       {field: 'cadastro_municipio_nome', header: 'MUNICÍPIO', sortable: 'true', width: '250px'},
       {field: 'cadastro_estado_nome', header: 'ESTADO', sortable: 'true', width: '120px'},
-      {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', width: '250px'},
-      {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '200px'},
+      // {field: 'cadastro_grupo_nome', header: 'GRUPO', sortable: 'true', width: '250px'},
+      // {field: 'cadastro_regiao_nome', header: 'REGIÃO', sortable: 'true', width: '200px'},
+      {field: 'cadastro_endereco', header: 'ENDEREÇO', sortable: 'false', width: '250px'},
+      {field: 'cadastro_cep', header: 'CEP', sortable: 'false', width: '150px'},
     ];
   }
 
@@ -351,8 +353,9 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       ct++;
     }
     if (event.rows !== undefined && this.cs.tabela.rows !== +event.rows) {
-      this.cs.tabela.rows = +event.rows;
-      ct++;
+      console.log('onLazyLoad event.rows',event.rows);
+      // this.cs.tabela.rows = +event.rows;
+      // ct++;
     }
     if (this.cs.tabela.sortOrder !== +event.sortOrder) {
       this.cs.tabela.sortOrder = +event.sortOrder;

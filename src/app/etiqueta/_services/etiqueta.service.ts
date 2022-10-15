@@ -1,21 +1,25 @@
 // noinspection CssInvalidPropertyValue
 
-import { HttpClient } from '@angular/common/http';
-import { Injectable} from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable, ChangeDetectionStrategy, ChangeDetectorRef,} from '@angular/core';
+import {Observable, Subject, Subscription} from 'rxjs';
 import { UrlService } from '../../_services';
 import { EtiquetaInterface, EtiquetaCelula } from '../_models';
-import {CadastroEtiquetaI} from "../../cadastro/_models/cadastro-etiqueta-i";
+import {CadastroEtiquetaI, CadastroEtiquetaListI} from "../_models/cadastro-etiqueta-i";
 import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
+import {CadastroBuscaI} from "../../cadastro/_models/cadastro-busca-i";
+import {take} from "rxjs/operators";
+
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EtiquetaService {
   private etiqueta$: Observable<EtiquetaInterface>;
   private url: string;
   pw: any = null; // global variable
+  sub: Subscription[] = [];
   previousURL = null;
   etq_folha_horz: number;
   etq_folha_vert: number;
@@ -36,13 +40,16 @@ export class EtiquetaService {
   ht: any;
   cpo = '';
   etq_num: number;
+  total = 0;
   public impEtiqueta = new Subject();
   impEtq$ = this.impEtiqueta.asObservable();
 
   constructor(
     private urlService: UrlService,
     private http: HttpClient,
-    public ecs: EtiquetaCadastroService
+    public ecs: EtiquetaCadastroService,
+    // private readonly cd: ChangeDetectorRef,
+    // private changeDetection: ChangeDetectionStrategy.OnPush
   ) { }
 
   public getConfigEtiqueta(etq_id: number): Observable<EtiquetaInterface> {
@@ -73,8 +80,14 @@ export class EtiquetaService {
       },
       error: err => console.log ('erro', err.toString ()),
       complete: () => {
-        this.impEtiqueta.next();
+        // this.impEtiqueta.next();
         this.imprimeEtq();
+        /*if (this.ecs.tplistagem !== 3) {
+          this.imprimeEtq();
+        } else {
+          this.getEtiquetas(this.ecs.busca);
+        }*/
+
       }
     });
   }
@@ -126,7 +139,7 @@ export class EtiquetaService {
     }
   }
 
-  printSelectedArea () {
+  printSelectedArea() {
     if (this.pw !== null) {
       this.pw.close();
       this.pw = null;
@@ -140,27 +153,43 @@ export class EtiquetaService {
       this.pw.document.write(this.ht);
       this.pw.document.addEventListener("DOMContentLoaded", (event) => {
         console.log("DOM fully loaded and parsed");
-        this.criaLinha();
+
       });
-
-
+      if (this.ecs.tplistagem !== 3) {
+        this.criaLinha();
+      } else {
+        this.sub.push(this.postEtiquetas()
+          .pipe(take(1))
+          .subscribe({
+            next: (dados) => {
+              //this.total = +dados.total.num;
+              this.criaLinha2(dados)
+            },
+            error: (err) => {
+              console.error(err);
+            },
+            complete: () => {
+              this.sub.forEach(s => s.unsubscribe());
+              this.pw.print();
+              this.pw.close();
+            }
+          })
+        );
+      }
 
 
       this.pw.onDOMContentLoaded = (event) => {
+        console.log("DOM fully loaded 111111111", event);
         if (this.pw.document.readyState === 'loading') {  // Loading hasn't finished yet
-          console.log("DOM fully loaded and parsed.....");
-        } else {  // `DOMContentLoaded` has already fired
-          this.criaLinha();
+          console.log("DOM fully loaded 22222222");
         }
       };
 
-      this.pw.document.close();
+      // this.pw.document.close();
     }
 
-
-
-    // popupWinindow.print();
-    // popupWinindow.close();
+    // this.pw.print();
+    // this.pw.close();
   }
 
   printSelectedArea2() {
@@ -207,13 +236,13 @@ td {
 </style>
 </head>
 <body>
-	<div class=Section1>
+	<div class='Section1'>
 		<table id="table0" border="0" cellspacing="0" cellpadding="0" style='border-collapse:collapse;'>
 		<tbody id="tbd">
-			<tr id="row000" style='height:${this.etq_altura}mm;'>
-				<td id='col0' style='font-size: 8.0pt; width:${this.etq_largura}mm; padding:0 .75pt 0 .75pt;height:${this.etq_altura}mm'>
+			<tr id="linha" style='height:${this.etq_altura}mm;'>
+				<td id='cola' style='font-size: 8.0pt; width:${this.etq_largura}mm; padding:0 .75pt 0 .75pt;height:${this.etq_altura}mm'>
 				</td>
-				<td id='col1' style='width:${this.etq_distancia_horizontal}mm; padding:0 .75pt 0 .75pt;height:${this.etq_altura}mm'>
+				<td id='colb' style='width:${this.etq_distancia_horizontal}mm; padding:0 .75pt 0 .75pt;height:${this.etq_altura}mm'>
 					<p style='margin-top:0mm; margin-right:4.75pt; margin-bottom:0cm; margin-left:4.75pt; margin-bottom:.0001pt'>
 						<span style='font-size:8.0pt'>&nbsp;</span>
 					</p>
@@ -222,9 +251,9 @@ td {
 
       if (this.etq_colunas === 3) {
           this.ht += `
-        <td id='col3' style='font-size: 8.0pt;width:${this.etq_largura}mm; padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>
+        <td id='cold' style='font-size: 8.0pt;width:${this.etq_largura}mm; padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>
         </td>
-        <td id='col4' style='width:${this.etq_distancia_horizontal}mm;padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>
+        <td id='cole' style='width:${this.etq_distancia_horizontal}mm;padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>
             <p style='margin-top:0mm;margin-right:4.75pt;margin-bottom:0cm;margin-left:4.75pt;margin-bottom:.0001pt'>
                 <span style='font-size:8.0pt'>
                     &nbsp;
@@ -234,7 +263,7 @@ td {
         `;
         }
         this.ht += `
-        <td id='col2' style='font-size: 8.0pt;width:${this.etq_largura}mm; padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>
+        <td id='colc' style='font-size: 8.0pt;width:${this.etq_largura}mm; padding:0cm .75pt 0mm .75pt;height:${this.etq_altura}mm'>
         </td>
 		</tr>
 		</tbody>
@@ -376,7 +405,13 @@ table {
     this.texto = this.cssTexto ();
     // this.criaCorpo ();
     this.paginaHtml();
-    this.printSelectedArea ();
+    this.printSelectedArea();
+    /*if (this.ecs.tplistagem !== 3) {
+      this.total = this.ecs.cadastro.length;
+      this.printSelectedArea();
+    } else {
+      this.getEtiquetas();
+    }*/
     return true;
   }
 
@@ -394,110 +429,153 @@ table {
   }
 
   criaLinha() {
-    console.log('aaaaaaaaaa');
-    const tabela = this.pw.document.getElementById('table0');
-    const tbdy = this.pw.document.getElementById('tbd');
-    const r0 = this.pw.document.getElementById('row000');
-    let col3: any;
-    let col4: any;
-    let row0 = r0.cloneNode();
-    row0.removeAttribute('id');
-    for (const ch of r0.children) {
-      console.log(ch.tagName);
-    }
 
-    const c0 = this.pw.document.getElementById('col0');
-    let col0 = c0.cloneNode();
-    col0.removeAttribute('id');
-    const c1 = this.pw.document.getElementById('col1');
-    let col1 = c1.cloneNode();
-    col1.removeAttribute('id');
-    const c2 = this.pw.document.getElementById('col2');
-    let col2 = c2.cloneNode();
-    col2.removeAttribute('id');
-    if (this.etq_colunas === 3) {
-      const c3 = this.pw.document.getElementById('col3');
-      let col3 = c3.cloneNode();
-      col3.removeAttribute('id');
-      const c4 = this.pw.document.getElementById('col4');
-      let col4 = c4.cloneNode();
-      col4.removeAttribute('id');
-    }
-
-
-    let newText1 = this.pw.document.createTextNode('jhgjhgjhghj');
-
+    // const tabela = this.pw.document.getElementById('table0');
 
     let a = 0;
+    let tbdy: any = null;
+    let linha: any = null;
+    let cloneLinha: any = null;
+    let cola: any = null;
+    let colb: any = null;
+    let colc: any = null;
+    let cold: any = null;
+    let cole: any = null;
+    let cloneCola: any = null;
+    let cloneColb: any = null;
+    let cloneColc: any = null;
+    let cloneCold: any = null;
+    let cloneCole: any = null;
+
     let cad: CadastroEtiquetaI;
-    const b = this.ecs.cadastro.length - 1;
+
     while (this.ecs.cadastro.length > 0) {
 
-      let rr0 = row0;
-      let cc0 = col0;
-      let cc1 = col1;
-      let cc2 = col2;
-      let cc3 = null;
-      let cc4 = null;
-      if (col3 !== undefined && col4 !== undefined && this.etq_colunas === 3) {
-        cc3 = col3;
-        cc4 = col4;
+      tbdy = this.pw.document.getElementById('tbd');
+      linha = this.pw.document.getElementById('linha');
+      cloneLinha = linha.cloneNode();
+      cloneLinha.setAttribute("id", 'linha' + a);
+      cola = this.pw.document.getElementById('cola');
+      cloneCola = cola.cloneNode();
+      cloneCola.setAttribute("id", 'cola' + a);
+      colb = this.pw.document.getElementById('colb');
+      cloneColb = colb.cloneNode();
+      cloneColb.setAttribute("id", 'colb' + a);
+      colc = this.pw.document.getElementById('colc');
+      cloneColc = colc.cloneNode();
+      cloneColc.setAttribute("id", 'colc' + a);
+      if (this.etq_colunas === 3) {
+        cold = this.pw.document.getElementById('cold');
+        cloneCold = cold.cloneNode();
+        cloneCold.setAttribute("id", 'cold' + a);
+        cole = this.pw.document.getElementById('cole');
+        cloneCole = cole.cloneNode();
+        cloneCole.setAttribute("id", 'cole' + a);
       }
-
 
       a++;
       cad = this.ecs.cadastro.shift();
-      let et0 = this.pw.document.createTextNode(EtiquetaCelula.montaCelula(cad));
 
-      cc0.append(et0);
-      rr0.append(cc0);
-      rr0.append(cc1);
+      cloneCola.innerHTML = this.montaCelula2(cad);
+      cloneLinha.append(cloneCola);
+      cloneLinha.append(cloneColb);
       if (this.etq_colunas === 3) {
-        if (col3 !== undefined && col4 !== undefined && this.ecs.cadastro.length > 0) {
-          a++;
+        if (this.ecs.cadastro.length > 0) {
           cad = this.ecs.cadastro.shift();
-          let et2 = this.pw.document.createTextNode(EtiquetaCelula.montaCelula(cad));
-          cc3.append(et2);
+          cloneCold.innerHTML = this.montaCelula2(cad);
         }
-        rr0.append(cc3);
-        rr0.append(cc4);
+        cloneLinha.append(cloneCold);
+        cloneLinha.append(cloneCole);
       }
-
       if (this.ecs.cadastro.length > 0) {
-        a++;
         cad = this.ecs.cadastro.shift();
-        let et3 = this.pw.document.createTextNode(EtiquetaCelula.montaCelula(cad));
-        cc2.append(et3);
+        cloneColc.innerHTML = this.montaCelula2(cad);
       }
-      rr0.append(cc2);
-      tbdy.append(rr0);
-
+      cloneLinha.append(cloneColc);
+      tbdy.appendChild(cloneLinha);
+      if (this.ecs.cadastro.length === 0) {
+        linha = this.pw.document.getElementById('linha');
+        linha.remove();
+        this.pw.document.close();
+      }
     }
-
-    /*col0.append(newText2);
-    row0.append(col0);
-    row0.append(col1);
-    row0.append(col2);
-    tbdy.append(row0);*/
-
-
-
-      for (const ch1 of row0.children) {
-        console.log('gggggg',ch1.tagName);
-      }
-
-
-
-      /*for (const node of child) {
-        // Do something with each child as children[i]
-        // NOTE: List is live! Adding or removing children will change the list's `length`
-        console.log(node);
-      }*/
 
   }
 
-  public montaCelula2(cadastro: CadastroEtiquetaI, h: HTMLElement) {
-    let newText1 = this.pw.document.createTextNode('jhgjhgjhghj');
+  criaLinha2(res: CadastroEtiquetaI[]) {
+    // const tabela = this.pw.document.getElementById('table0');
+    this.total = +res.length;
+    let a = 0;
+    let tbdy: any = null;
+    let linha: any = null;
+    let cloneLinha: any = null;
+    let cola: any = null;
+    let colb: any = null;
+    let colc: any = null;
+    let cold: any = null;
+    let cole: any = null;
+    let cloneCola: any = null;
+    let cloneColb: any = null;
+    let cloneColc: any = null;
+    let cloneCold: any = null;
+    let cloneCole: any = null;
+
+    let cad: CadastroEtiquetaI;
+
+    while (res.length > 0) {
+
+      tbdy = this.pw.document.getElementById('tbd');
+      linha = this.pw.document.getElementById('linha');
+      cloneLinha = linha.cloneNode();
+      cloneLinha.setAttribute("id", 'linha' + a);
+      cola = this.pw.document.getElementById('cola');
+      cloneCola = cola.cloneNode();
+      cloneCola.setAttribute("id", 'cola' + a);
+      colb = this.pw.document.getElementById('colb');
+      cloneColb = colb.cloneNode();
+      cloneColb.setAttribute("id", 'colb' + a);
+      colc = this.pw.document.getElementById('colc');
+      cloneColc = colc.cloneNode();
+      cloneColc.setAttribute("id", 'colc' + a);
+      if (this.etq_colunas === 3) {
+        cold = this.pw.document.getElementById('cold');
+        cloneCold = cold.cloneNode();
+        cloneCold.setAttribute("id", 'cold' + a);
+        cole = this.pw.document.getElementById('cole');
+        cloneCole = cole.cloneNode();
+        cloneCole.setAttribute("id", 'cole' + a);
+      }
+
+      a++;
+      cad = res.shift();
+
+      cloneCola.innerHTML = this.montaCelula2(cad);
+      cloneLinha.append(cloneCola);
+      cloneLinha.append(cloneColb);
+      if (this.etq_colunas === 3) {
+        if (res.length > 0) {
+          cad = res.shift();
+          cloneCold.innerHTML = this.montaCelula2(cad);
+        }
+        cloneLinha.append(cloneCold);
+        cloneLinha.append(cloneCole);
+      }
+      if (res.length > 0) {
+        cad = res.shift();
+        cloneColc.innerHTML = this.montaCelula2(cad);
+      }
+      cloneLinha.append(cloneColc);
+      tbdy.appendChild(cloneLinha);
+      if (res.length === 0) {
+        linha = this.pw.document.getElementById('linha');
+        linha.remove();
+        this.pw.document.close();
+      }
+    }
+
+  }
+
+  public montaCelula2(cadastro: CadastroEtiquetaI) {
     let str = '';
     // ************ Pessoa Fisica
     if (cadastro.cadastro_tipo_tipo === 1) {
@@ -582,5 +660,87 @@ table {
       }
     }
     return str;
+  }
+
+  getEtiquetas() {
+    this.sub.push(this.postEtiquetas()
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          // this.total = +dados.total.num;
+          this.criaLinha2(dados)
+        },
+        error: (err) => {
+          console.error(err);
+        },
+        complete: () => {
+          this.printSelectedArea()
+        }
+      })
+    );
+  }
+
+  postEtiquetas() {
+    const url = this.urlService.cadastro + '/listaretiqueta3';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<CadastroEtiquetaI[]>(url, this.ecs.busca, httpOptions);
+  }
+
+  public async getEtiquetas2(busca: CadastroBuscaI): Promise<void> {
+    const url = this.urlService.cadastro + '/listaretiqueta3';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(busca),
+      allowHTTP1ForStreamingUpload: true,
+    } as any);
+
+    if (response.body == null) {
+      throw new Error('Not possible in current scenario');
+    }
+
+    const reader = response.body.getReader();
+
+    // const cd = this.cd;
+    async function printStream() {
+      const { done, value } = await reader.read();
+      //const textDecoder = new TextDecoder();
+      if (done) {
+        return;
+      }
+
+        this.pw = window.open('',
+          '_blank',
+          'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'
+        );
+        this.pw.document.open();
+        this.pw.document.write(this.ht);
+        this.pw.document.addEventListener("DOMContentLoaded", (event) => {
+          console.log("DOM fully loaded and parsed");
+          this.criaLinha(value);
+        });
+
+        this.pw.onDOMContentLoaded = (event) => {
+          if (this.pw.document.readyState === 'loading') {  // Loading hasn't finished yet
+            console.log("DOM fully loaded and parsed.....");
+          } else {  // `DOMContentLoaded` has already fired
+            this.criaLinha(value);
+          }
+        };
+
+        this.pw.document.close();
+
+
+      this.pw.print();
+      this.pw.close();
+
+
+      // cd.markForCheck();
+      await printStream();
+    }
+    await printStream();
   }
 }

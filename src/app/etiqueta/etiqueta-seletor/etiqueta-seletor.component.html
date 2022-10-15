@@ -1,3 +1,8 @@
+  <ng-container *ngIf="etiquetaService.total > 0">
+    <div>
+      NÚMERO DE ETIQUETAS: {{etiquetaService.total}}
+    </div>
+  </ng-container>
   <div style="min-height: 430px">
     <p-dropdown [options]="ddEtiqueta" placeholder="Selecione o modelo de etiqueta." (onChange)="imprimeEtiqueta($event)"></p-dropdown>
   </div>
