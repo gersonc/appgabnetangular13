@@ -1,0 +1,105 @@
+@page {
+  background: white;
+  display: block;
+}
+@page[size="A4"] {
+  width: 21cm;
+  height: 29.7cm;
+}
+
+@page[size="A4"][layout="landscape"] {
+       width: 29.7cm;
+       height: 21cm;
+     }
+@page[size="A3"] {
+       width: 29.7cm;
+       height: 42cm;
+     }
+@page[size="A3"][layout="landscape"] {
+       width: 42cm;
+       height: 29.7cm;
+     }
+@page[size="A5"] {
+       width: 14.8cm;
+       height: 21cm;
+     }
+@page[size="A5"][layout="landscape"] {
+       width: 21cm;
+       height: 14.8cm;
+     }
+@media print {
+
+  * {
+    background: transparent !important;
+    color:#000 !important;
+    text-shadow: none !important;;
+  }
+
+
+  article.artigo {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+
+  section.etq-secao {
+    font-size: 8.0pt;
+    font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
+  }
+
+  section.etq-secao {
+    display: block;
+    box-sizing: border-box;
+    justify-items: center;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  etq-tbody {
+    display: block;
+  }
+
+  table.etq-tabela {
+    width: 100%;
+    border-collapse:collapse;
+    background-color: transparent;
+    font-size: 8.0pt;
+    font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
+  }
+
+
+  .etq-tabela td {
+    box-sizing: border-box !important;
+    border: 1pt solid black;
+    overflow: hidden!important;
+    text-overflow: clip!important;
+  }
+}
+
+@media screen {
+
+  article.artigo {
+    width: 100%;
+  }
+
+  section.etq-secao {
+    display: block;
+    box-sizing: border-box;
+    font-size: 11px;
+    font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
+    justify-items: center;
+  }
+
+  table.etq-tabela {
+    border-collapse:collapse;
+    background-color: transparent;
+  }
+
+  .etq-tabela td {
+    box-sizing: border-box !important;
+    border: 1px solid black;
+    overflow: hidden!important;
+    text-overflow: clip!important;
+  }
+}

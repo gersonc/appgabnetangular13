@@ -41,6 +41,8 @@ export class EtiquetaService {
   total = 0;
   public impEtiqueta = new Subject();
   impEtq$ = this.impEtiqueta.asObservable();
+  imprimindoVF = false;
+
 
   constructor(
     private urlService: UrlService,
@@ -95,6 +97,141 @@ export class EtiquetaService {
     const cssPagina = `display:block;`;
     return cssPagina;
   }
+
+  mediaList() {
+    let myRules = document.styleSheets[0].cssRules;
+    console.log(myRules[0]);
+  }
+
+  secao() {
+    return (this.imprimindoVF) ?
+      {
+        width: (this.etq_folha_horz - (2 * this.etq_margem_lateral)) + 'mm',
+        minHeight: (this.etq_folha_vert - (2 * this.etq_margem_superior)) + 'mm',
+        padding: 0,
+        marginTop: this.etq_margem_superior + 'mm',
+        marginRight: this.etq_margem_lateral + 'mm',
+        marginLeft: this.etq_margem_lateral + 'mm'
+      } : {
+        width: ((this.etq_folha_horz - (2 * this.etq_margem_lateral)) * 3.78) + 'px',
+        minHeight: ((this.etq_folha_vert - (2 * this.etq_margem_superior)) * 3.78) + 'px',
+        padding: 0,
+        marginTop: (this.etq_margem_superior * 3.78) + 'px',
+        marginRight: (this.etq_margem_lateral * 3.78) + 'px',
+        marginLeft: (this.etq_margem_lateral * 3.78) + 'px'
+      };
+  }
+
+  linha(): any {
+    return (this.imprimindoVF) ?
+      {
+        minHeight: this.etq_altura + 'mm'
+      } : {
+        minHeight: (this.etq_altura * 3.78) + 'mm'
+      };
+  }
+
+  cola(): any {
+    return (this.imprimindoVF) ?
+      {
+        width: this.etq_largura + 'mm',
+        height: this.etq_altura + 'mm',
+        paddingTop: '1mm',
+        paddingRight: '2mm',
+        paddingBottom: '1mm',
+        paddingLeft: '2mm'
+      } : {
+        width: (this.etq_largura * 37.8) + 'px',
+        height: (this.etq_altura * 37.8) + 'px',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      };
+  }
+
+  colb(): any {
+    return (this.imprimindoVF) ?
+      {
+        width: this.etq_distancia_horizontal + 'mm',
+        height: this.etq_altura + 'mm',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      } : {
+        width: (this.etq_distancia_horizontal * 37.8) + 'px',
+        height: (this.etq_altura * 37.8) + 'px',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      }  ;
+  }
+
+  colc(): any {
+    return (this.imprimindoVF) ?
+      {
+        width: this.etq_largura + 'mm',
+        height: this.etq_altura + 'mm',
+        paddingTop: '1mm',
+        paddingRight: '2mm',
+        paddingBottom: '1mm',
+        paddingLeft: '2mm'
+      } : {
+        width: (this.etq_largura * 37.8) + 'px',
+        height: (this.etq_altura * 37.8) + 'px',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      };
+  }
+
+  cold(): any {
+    return (this.imprimindoVF) ?
+      {
+        width: this.etq_largura + 'mm',
+        height: this.etq_altura + 'mm',
+        paddingTop: '1mm',
+        paddingRight: '2mm',
+        paddingBottom: '1mm',
+        paddingLeft: '2mm'
+      } : {
+        width: (this.etq_largura * 37.8) + 'px',
+        height: (this.etq_altura * 37.8) + 'px',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      };
+  }
+
+  cole(): any {
+    return (this.imprimindoVF) ?
+      {
+        width: this.etq_distancia_horizontal + 'mm',
+        height: this.etq_altura + 'mm',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      } : {
+        width: (this.etq_distancia_horizontal * 37.8) + 'px',
+        height: (this.etq_altura * 37.8) + 'px',
+        paddingTop: '3.78px',
+        paddingRight: '7.5px',
+        paddingBottom: '3.78px',
+        paddingLeft: '7.5px'
+      }  ;
+  }
+
+
+
+
+
+
+
 
   celula() {
     let cssCelula = `width:${this.etq_largura}mm;`;

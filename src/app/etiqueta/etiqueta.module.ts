@@ -18,10 +18,11 @@ import { EtiquetaConfigComponent } from './etiqueta-config/etiqueta-config.compo
 import { InputNumberModule } from 'primeng/inputnumber';
 import { EtiquetaFormComponent } from './etiqueta-form/etiqueta-form.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { EtiquetaPrintComponent } from './etiqueta-print/etiqueta-print.component';
 // import {ProgressSpinnerModule } from "primeng";
 
 @NgModule({
-  declarations: [EtiquetaSeletorComponent, EtiquetaConfigComponent, EtiquetaFormComponent],
+  declarations: [EtiquetaSeletorComponent, EtiquetaConfigComponent, EtiquetaFormComponent, EtiquetaPrintComponent],
   imports: [
     CommonModule,
     FormsModule,
