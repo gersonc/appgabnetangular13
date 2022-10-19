@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {CadastroEtiquetaI} from "../_models/cadastro-etiqueta-i";
 import {CadastroI} from "../../cadastro/_models/cadastro-i";
 import {CadastroBuscaI} from "../../cadastro/_models/cadastro-busca-i";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {UrlService} from "../../_services";
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +12,16 @@ export class EtiquetaCadastroService {
   cadastro: CadastroEtiquetaI[] = [];
   busca: CadastroBuscaI | null = null;
   tplistagem = 0;
-  constructor() { }
+  numEtqInicial = 0;
+
+  constructor(
+    private urlService: UrlService,
+    private http: HttpClient,
+  ) { }
 
 
   parceEtiquetas(c: CadastroI[]) {
+    this.numEtqInicial = c.length;
     this.cadastro = c.filter( cd => (
       cd.cadastro_endereco !== null &&
       cd.cadastro_endereco.length > 3 &&
@@ -51,5 +59,11 @@ export class EtiquetaCadastroService {
     }
     return s.toUpperCase();
 
+  }
+
+  postEtiquetas() {
+    const url = this.urlService.cadastro + '/listaretiqueta3';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<CadastroEtiquetaI[]>(url, this.busca, httpOptions);
   }
 }

@@ -19,29 +19,34 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { EtiquetaFormComponent } from './etiqueta-form/etiqueta-form.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EtiquetaPrintComponent } from './etiqueta-print/etiqueta-print.component';
+import { EtiquetaCelulaComponent } from './etiqueta-celula/etiqueta-celula.component';
+import {CardModule} from "primeng/card";
 // import {ProgressSpinnerModule } from "primeng";
 
 @NgModule({
-  declarations: [EtiquetaSeletorComponent, EtiquetaConfigComponent, EtiquetaFormComponent, EtiquetaPrintComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    UtilModule,
-    DropdownModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    InputNumberModule,
-    ToastModule,
-    DialogModule,
-    ProgressSpinnerModule,
-    ConfirmDialogModule
-  ],
-  exports: [
-    EtiquetaConfigComponent,
-    EtiquetaSeletorComponent
-  ],
+  declarations: [EtiquetaSeletorComponent, EtiquetaConfigComponent, EtiquetaFormComponent, EtiquetaPrintComponent, EtiquetaCelulaComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        HttpClientModule,
+        UtilModule,
+        DropdownModule,
+        TableModule,
+        ButtonModule,
+        InputTextModule,
+        InputNumberModule,
+        ToastModule,
+        DialogModule,
+        ProgressSpinnerModule,
+        ConfirmDialogModule,
+        CardModule
+    ],
+    exports: [
+        EtiquetaConfigComponent,
+        EtiquetaSeletorComponent,
+        EtiquetaPrintComponent,
+      EtiquetaCelulaComponent
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

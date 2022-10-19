@@ -1,28 +1,55 @@
-<article id="artigo" class="artigo">
-  <section class="etq-secao">
+<ng-container *ngIf="!mostraListagem">
+<!--  <div>
+    NÚMERO DE ETIQUETAS: {{es.total}}
+  </div>-->
+
+<div style="min-height: 430px">
+  <p-dropdown [options]="ddEtiqueta" placeholder="Selecione o modelo de etiqueta." (onChange)="getEtiquetaConfig($event.value)"></p-dropdown>
+</div>
+</ng-container>
+<ng-container *ngIf="mostraListagem">
+  <p-card>
+    <p>Cadastros enviados: {{numEtqInicial}}</p>
+    <p>Etiquetas: {{numEtqs}}</p>
+    <p>Folhas: {{numPaginas}}</p>
+
+    <ng-template pTemplate="footer">
+      <p-button label="Imprimir" icon="pi pi-check" (onClick)="imprimir()"></p-button>
+      <p-button label="Cancelar" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}" (onClick)="fechar()"></p-button>
+    </ng-template>
+  </p-card>
+
+<article #artigo id="artigo" class="artigo">
+  <section *ngFor="let tb of tabelas" class="etq-secao"[ngStyle]="secao()">
     <table class="etq-tabela">
       <tbody class="etq-tbody">
-      <tr class="linha">
-        <td class="cola">
+      <tr *ngFor="let ln of tb.linhas" class="linha"[ngStyle]="linha()">
+        <td class="cola" [ngStyle]="cola()">
+          <app-etiqueta-celula [cadastro]="ln.celulas[0]"></app-etiqueta-celula>
         </td>
-        <td class="colb">
+        <td class="colb" [ngStyle]="colb()">
           <p>
             <span style='font-size:1pt'>&nbsp;</span>
           </p>
         </td>
 
-        <ng-container *ngIf="etq_colunas === 3">
-          <td class="cold">
+        <ng-container *ngIf="etq.etq_colunas === 3">
+          <td class="cold" [ngStyle]="cold()">
+            <app-etiqueta-celula [cadastro]="ln.celulas[2]"></app-etiqueta-celula>
           </td>
-          <td class="cole">
+          <td class="cole" [ngStyle]="cole()">
             <p><span style='font-size:1pt'>&nbsp;</span></p>
           </td>
         </ng-container>
 
-        <td class="colc">
+        <td class="colc" [ngStyle]="colc()">
+          <app-etiqueta-celula [cadastro]="ln.celulas[1]"></app-etiqueta-celula>
         </td>
       </tr>
       </tbody>
     </table>
   </section>
 </article>
+
+</ng-container>
+

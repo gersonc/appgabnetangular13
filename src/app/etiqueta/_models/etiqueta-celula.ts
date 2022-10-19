@@ -1,4 +1,5 @@
 import {CadastroEtiquetaI} from "./cadastro-etiqueta-i";
+/*
 
 export class EtiquetaCelula {
 
@@ -182,3 +183,4 @@ export class EtiquetaCelula {
 
 }
 
+*/

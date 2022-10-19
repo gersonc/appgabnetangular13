@@ -4,10 +4,12 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable,} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {UrlService} from '../../_services';
-import {EtiquetaCelula, EtiquetaInterface} from '../_models';
+// import {EtiquetaCelula, EtiquetaInterface} from '../_models';
 import {CadastroEtiquetaI} from "../_models/cadastro-etiqueta-i";
 import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
 import {take} from "rxjs/operators";
+import {EtiquetaInterface} from "../_models";
+import {EtiquetaCelula} from "../_models/etiqueta-print-i";
 
 
 @Injectable({
@@ -55,8 +57,16 @@ export class EtiquetaService {
   public getConfigEtiqueta(etq_id: number): Observable<EtiquetaInterface> {
     this.url = this.urlService.etiqueta;
     const url = this.url + '/getid/' + etq_id;
-    this.etiqueta$ = this.http.get<EtiquetaInterface>(url);
-    return this.etiqueta$;
+    return this.http.get<EtiquetaInterface>(url);
+    // return this.etiqueta$;
+  }
+
+
+
+  postEtiquetas() {
+    const url = this.urlService.cadastro + '/listaretiqueta3';
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<CadastroEtiquetaI[]>(url, this.ecs.busca, httpOptions);
   }
 
   public imprimirEtiqueta(etq_id: number) {
@@ -225,13 +235,6 @@ export class EtiquetaService {
         paddingLeft: '7.5px'
       }  ;
   }
-
-
-
-
-
-
-
 
   celula() {
     let cssCelula = `width:${this.etq_largura}mm;`;
@@ -1246,11 +1249,7 @@ table {
     );
   }
 
-  postEtiquetas() {
-    const url = this.urlService.cadastro + '/listaretiqueta3';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<CadastroEtiquetaI[]>(url, this.ecs.busca, httpOptions);
-  }
+
 
   /*public async getEtiquetas2(busca: CadastroBuscaI): Promise<void> {
     const url = this.urlService.cadastro + '/listaretiqueta3';

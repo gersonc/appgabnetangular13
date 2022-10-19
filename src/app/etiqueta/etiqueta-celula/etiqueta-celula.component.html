@@ -1,0 +1,42 @@
+<ng-container *ngIf="cadastro === null">{{''}}</ng-container>
+<ng-container *ngIf="cadastro !== null">
+  <ng-container *ngIf="cadastro.cadastro_tipo_tipo === 1">
+    {{cadastro.cadastro_tratamento_nome | uppercase }}<br>
+    {{cadastro.cadastro_nome}}<br>
+  </ng-container>
+  <ng-container *ngIf="cadastro.cadastro_tipo_tipo === 2">
+    <ng-container *ngIf="cadastro.cadastro_responsavel !== null">
+      <ng-container *ngIf="cadastro.cadastro_tratamento_nome !== null">
+        {{cadastro.cadastro_tratamento_nome | uppercase }} {{cadastro.cadastro_responsavel}}
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="cadastro.cadastro_nome !== null">
+      {{cadastro.cadastro_nome}} <br>
+    </ng-container>
+    <ng-container *ngIf="cadastro.cadastro_cargo !== null">
+      <ng-container *ngIf="cadastro.cadastro_cargo !== 'PESSOA JURÍDICA'">
+        {{cadastro.cadastro_cargo}} <br>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  {{cadastro.cadastro_endereco}}
+  <ng-container *ngIf="cadastro.cadastro_endereco_numero !== null">
+     {{', ' + cadastro.cadastro_endereco_numero}}
+  </ng-container>
+  <ng-container *ngIf="cadastro.cadastro_endereco_complemento !== null">
+    &nbsp;{{cadastro.cadastro_endereco_complemento}}
+  </ng-container>
+  <br>
+  <ng-container *ngIf="nc === 0">
+    {{cadastro.cadastro_municipio_nome}} {{cadastro.cadastro_estado_nome}} <br>
+    {{cadastro.cadastro_cep}}
+  </ng-container>
+  <ng-container *ngIf="nc > 0 && nc <= 31">
+    {{cadastro.cadastro_bairro}} {{cadastro.cadastro_municipio_nome}} {{cadastro.cadastro_estado_nome}} <br>
+    {{cadastro.cadastro_cep}}
+  </ng-container>
+  <ng-container *ngIf="nc > 31">
+    {{cadastro.cadastro_bairro}} <br>
+    {{cadastro.cadastro_municipio_nome}} {{cadastro.cadastro_estado_nome}} {{cadastro.cadastro_cep}}
+  </ng-container>
+</ng-container>
