@@ -31,6 +31,7 @@ export class EtiquetaPrintComponent implements OnInit {
   numEtqs = 0;
   numPaginas = 0;
 
+
   constructor(
     public es: EtiquetaService,
     private ecs: EtiquetaCadastroService,
@@ -64,7 +65,6 @@ export class EtiquetaPrintComponent implements OnInit {
     this.sub.push(this.es.getConfigEtiqueta(etq_id).subscribe({
         next: (dados) => {
           this.etq = dados;
-          console.log('getConfigEtiqueta', dados);
         },
         error: err => console.log('erro', err.toString()),
         complete: () => {
@@ -84,7 +84,6 @@ export class EtiquetaPrintComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          //this.total = +dados.total.num;
           this.ecs.cadastro = dados;
         },
         error: (err) => {
@@ -96,7 +95,6 @@ export class EtiquetaPrintComponent implements OnInit {
       })
     );
   }
-
 
   montaTabela() {
     this.numEtqInicial = this.ecs.numEtqInicial
@@ -110,21 +108,294 @@ export class EtiquetaPrintComponent implements OnInit {
         let ln: LinhaI = {
           celulas: []
         };
-        while (ln.celulas.length !== this.etq.etq_colunas) {
+        while (ln.celulas.length < this.etq.etq_colunas) {
           ln.celulas.push(this.ecs.cadastro.shift());
         }
         tb.linhas.push(ln);
       }
       this.tabelas.push(tb);
-      // t++;
       if (this.ecs.cadastro.length === 0) {
+        this.numPaginas = this.tabelas.length;
         this.mostraListagem = true;
-        console.log('this.tabelas', this.tabelas);
       }
     }
   }
 
-  secao() {
+  secao(): any {
+    return (this.imprimindoVF) ? null : {
+        'border-width.px': 1,
+        'border-color': 'red',
+        'border-style': 'solid',
+        'width.px': ((this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral)) * 3.78),
+        'min-height.px': ((this.etq.etq_folha_vert - (2 * this.etq.etq_margem_superior)) * 3.78),
+        'padding.px': 0,
+        'margin-top.px': (this.etq.etq_margem_superior * 3.78),
+        'margin-right.px': (this.etq.etq_margem_lateral * 3.78),
+        'margin-left.px': (this.etq.etq_margem_lateral * 3.78)
+      };
+  }
+
+  linha(): any {
+    return (this.imprimindoVF) ? null : {
+        'min-height.px': (this.etq.etq_altura * 3.78)
+      };
+  }
+
+  cola(): any {
+    return (this.imprimindoVF) ? null : {
+        'min-width.px': (this.etq.etq_largura * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
+  }
+
+  colb(): any {
+    return (this.imprimindoVF) ? null : {
+        'width.px': (this.etq.etq_distancia_horizontal * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
+  }
+
+  colc(): any {
+    return (this.imprimindoVF) ? null : {
+      'min-width.px': (this.etq.etq_largura * 3.78),
+      'height.px': (this.etq.etq_altura * 3.78),
+      'padding-top.px': 3.78,
+      'padding-right.px': 7.5,
+      'padding-bottom.px': 3.78,
+      'padding-left.px': 7.5
+      };
+  }
+
+  cold(): any {
+    return (this.imprimindoVF) ? null : {
+        'min-width.px': (this.etq.etq_largura * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
+  }
+
+  cole(): any {
+    return (this.imprimindoVF) ? null : {
+        'min-width.px': (this.etq.etq_distancia_horizontal * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
+  }
+
+  getCss(): string {
+    let css: string =
+      `
+@page {
+  background: white;
+  display: block;
+}
+
+@page[size="latter"] {
+  width: 215.9mm;
+  height: 279.4mm;
+}
+@page[size="latter"][layout="landscape"] {
+       width: 279.4mm;
+       height: 215.9mm;
+     }
+
+@page[size="A4"] {
+       width: 21cm;
+       height: 29.7cm;
+     }
+
+@page[size="A4"][layout="landscape"] {
+       width: 29.7cm;
+       height: 21cm;
+     }
+@page[size="A3"] {
+       width: 29.7cm;
+       height: 42cm;
+     }
+@page[size="A3"][layout="landscape"] {
+       width: 42cm;
+       height: 29.7cm;
+     }
+@page[size="A5"] {
+       width: 14.8cm;
+       height: 21cm;
+     }
+@page[size="A5"][layout="landscape"] {
+       width: 21cm;
+       height: 14.8cm;
+     }
+@media print {
+
+  * {
+    background: transparent !important;
+    color:#000 !important;
+    text-shadow: none !important;;
+  }
+
+
+  article.artigo {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+
+  section.etq-secao {
+    font-size: 8.0pt!important;
+    font-family: 'Verdana', sans-serif;
+  }
+
+  section.etq-secao {
+    display: block;
+    box-sizing: border-box;
+    justify-items: center;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  etq-tbody {
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse:collapse;
+    background-color: transparent;
+    font-size: 8.0pt!important;
+    font-family: 'Verdana', sans-serif;
+  }
+
+
+  td {
+    box-sizing: border-box !important;
+    border: 1pt solid black;
+    overflow: hidden!important;
+    text-overflow: clip!important;
+  }
+
+  article.artigo {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  section.etq-secao {
+    font-size: 8.0pt!important;
+    font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
+  }
+  section.etq-secao {
+    display: block;
+    box-sizing: border-box;
+    justify-items: center;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .etq-secao {
+    width: ${(this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral))}mm;
+    min-height: ${(this.etq.etq_folha_vert - (2 * this.etq.etq_margem_superior))}mm;
+    padding: 0;
+    margin-top: ${this.etq.etq_margem_superior}mm;
+    margin-right: ${this.etq.etq_margem_lateral}mm;
+    margin-left: ${this.etq.etq_margem_lateral}mm;
+  }
+
+  .linha {
+    min-height: ${this.etq.etq_altura}mm;
+  }
+
+  .etq-tbody {
+    display: block;
+  }
+  table.etq-tabela {
+    width: 100%;
+    border-collapse:collapse;
+    background-color: transparent;
+    font-size: 8.0pt!important;
+    font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
+  }
+
+  .cola{
+        width: ${this.etq.etq_largura}mm;
+        height: ${this.etq.etq_altura}mm;
+        padding-top: 1mm;
+        padding-right: 2mm;
+        padding-bottom: 1mm;
+        padding-left: 2mm;
+  }
+
+  .colb{
+        width: ${this.etq.etq_distancia_horizontal}mm;
+        height: ${this.etq.etq_altura}mm;
+        padding-top: 1mm;
+        padding-right: 2mm;
+        padding-bottom: 1mm;
+        padding-left: 2mm;
+  }
+
+  .colc{
+        width: ${this.etq.etq_largura}mm;
+        height: ${this.etq.etq_altura}mm;
+        padding-top: 1mm;
+        padding-right: 2mm;
+        padding-bottom: 1mm;
+        padding-left: 2mm;
+  }
+
+  .cold{
+        width: ${this.etq.etq_largura}mm;
+        height: ${this.etq.etq_altura}mm;
+        padding-top: 1mm;
+        padding-right: 2mm;
+        padding-bottom: 1mm;
+        padding-left: 2mm;
+  }
+
+  .cole{
+        width: ${this.etq.etq_distancia_horizontal}mm;
+        height: ${this.etq.etq_altura}mm;
+        padding-top: 1mm;
+        padding-right: 2mm;
+        padding-bottom: 1mm;
+        padding-left: 2mm;
+  }
+  }
+  `;
+
+    return css;
+  }
+
+  imprimir() {
+    console.log('css', this.getCss());
+    this.imprimindoVF = true;
+    printJS({printable: 'artigo', type: 'html', style: this.getCss(), scanStyles: false});
+  }
+
+  fechar() {
+    this.hideEtiqueta.emit(true);
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
+    this.ecs.cadastro = [];
+    this.ecs.busca = null;
+    this.ecs.tplistagem = 0;
+  }
+
+  secao2() {
     return (this.imprimindoVF) ?
       {
         'width.mm': (this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral)),
@@ -146,44 +417,10 @@ export class EtiquetaPrintComponent implements OnInit {
         'margin-right.px': (this.etq.etq_margem_lateral * 3.78),
         'margin-left.px': (this.etq.etq_margem_lateral * 3.78)
       };
-    /*return (this.imprimindoVF) ?
-      {
-        width: (this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral)) + 'mm',
-        minHeight: (this.etq.etq_folha_vert - (2 * this.etq.etq_margem_superior)) + 'mm',
-        padding: 0,
-        marginTop: this.etq.etq_margem_superior + 'mm',
-        marginRight: this.etq.etq_margem_lateral + 'mm',
-        marginLeft: this.etq.etq_margem_lateral + 'mm'
-      } : {
-        'width': ((this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral)) * 3.78) + 'px',
-        'min-height': ((this.etq.etq_folha_vert - (2 * this.etq.etq_margem_superior)) * 3.78) + 'px',
-        'padding': 0,
-        'margin-top': (this.etq.etq_margem_superior * 3.78) + 'px',
-        'margin-right': (this.etq.etq_margem_lateral * 3.78) + 'px',
-        'margin-left': (this.etq.etq_margem_lateral * 3.78) + 'px'
-      };*/
+
   }
 
-  /*secao() {
-    return (this.imprimindoVF) ?
-      {
-        width: (this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral)) + 'mm',
-        minHeight: (this.etq.etq_folha_vert - (2 * this.etq.etq_margem_superior)) + 'mm',
-        padding: 0,
-        marginTop: this.etq.etq_margem_superior + 'mm',
-        marginRight: this.etq.etq_margem_lateral + 'mm',
-        marginLeft: this.etq.etq_margem_lateral + 'mm'
-      } : {
-        width: ((this.etq.etq_folha_horz - (2 * this.etq.etq_margem_lateral)) * 3.78) + 'px',
-        minHeight: ((this.etq.etq_folha_vert - (2 * this.etq.etq_margem_superior)) * 3.78) + 'px',
-        padding: 0,
-        marginTop: (this.etq.etq_margem_superior * 3.78) + 'px',
-        marginRight: (this.etq.etq_margem_lateral * 3.78) + 'px',
-        marginLeft: (this.etq.etq_margem_lateral * 3.78) + 'px'
-      };
-  }*/
-
-  linha(): any {
+  linha2(): any {
     return (this.imprimindoVF) ?
       {
         'min-height.mm': this.etq.etq_altura
@@ -192,7 +429,7 @@ export class EtiquetaPrintComponent implements OnInit {
       };
   }
 
-  cola(): any {
+  cola2(): any {
     return (this.imprimindoVF) ?
       {
         'width.mm': this.etq.etq_largura,
@@ -211,64 +448,7 @@ export class EtiquetaPrintComponent implements OnInit {
       };
   }
 
-  colb(): any {
-    return (this.imprimindoVF) ?
-      {
-        'width.mm': this.etq.etq_distancia_horizontal,
-        'height.mm': this.etq.etq_altura,
-        'padding-top.mm': 1,
-        'padding-right.mm': 2,
-        'padding-bottom.mm': 1,
-        'padding-left.mm': 2
-      } : {
-        'width.px': (this.etq.etq_distancia_horizontal * 3.78),
-        'height.px': (this.etq.etq_altura * 3.78),
-        'padding-top.px': 3.78,
-        'padding-right.px': 7.5,
-        'padding-bottom.px': 3.78,
-        'padding-left.px': 7.5
-      }  ;
-  }
-
-  colc(): any {
-    return (this.imprimindoVF) ?
-      {
-        'width.mm': this.etq.etq_largura,
-        'height.mm': this.etq.etq_altura,
-        'padding-top.mm': 1,
-        'padding-right.mm': 2,
-        'padding-bottom.mm': 1,
-        'padding-left.mm': 2
-      } : {
-        'width.px': (this.etq.etq_largura * 3.78),
-        'height.px': (this.etq.etq_altura * 3.78),
-        'padding-top.px': 3.78,
-        'padding-right.px': 7.5,
-        'padding-bottom.px': 3.78,
-        'padding-left.px': 7.5
-      };
-  }
-
-  cold(): any {
-    return (this.imprimindoVF) ?
-      {
-        'width.mm': this.etq.etq_largura,
-        'height.mm': this.etq.etq_altura,
-        'padding-top.mm': 1,
-        'padding-right.mm': 2,
-        'padding-bottom.mm': 1,
-        'padding-left.mm': 2
-      } : {
-        'width.px': (this.etq.etq_largura * 3.78),
-        'height.px': (this.etq.etq_altura * 3.78),
-        'padding-top.px': 3.78,
-        'padding-right.px': 7.5,
-        'padding-bottom.px': 3.78,
-        'padding-left.px': 7.5
-      };
-  }
-
-  cole(): any {
+  colb2(): any {
     return (this.imprimindoVF) ?
       {
         'width.mm': this.etq.etq_distancia_horizontal,
@@ -287,23 +467,61 @@ export class EtiquetaPrintComponent implements OnInit {
       };
   }
 
-
-  imprimir() {
-    this.imprimindoVF = true;
-    printJS({ printable: 'artigo', type: 'html' });
+  colc2(): any {
+    return (this.imprimindoVF) ?
+      {
+        'width.mm': this.etq.etq_largura,
+        'height.mm': this.etq.etq_altura,
+        'padding-top.mm': 1,
+        'padding-right.mm': 2,
+        'padding-bottom.mm': 1,
+        'padding-left.mm': 2
+      } : {
+        'width.px': (this.etq.etq_largura * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
   }
 
-
-  fechar() {
-    this.hideEtiqueta.emit(true);
+  cold2(): any {
+    return (this.imprimindoVF) ?
+      {
+        'width.mm': this.etq.etq_largura,
+        'height.mm': this.etq.etq_altura,
+        'padding-top.mm': 1,
+        'padding-right.mm': 2,
+        'padding-bottom.mm': 1,
+        'padding-left.mm': 2
+      } : {
+        'width.px': (this.etq.etq_largura * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
   }
 
-  ngOnDestroy(): void {
-    this.sub.forEach(s => s.unsubscribe());
-    this.ecs.cadastro = [];
-    this.ecs.busca = null;
-    this.ecs.tplistagem = 0;
+  cole2(): any {
+    return (this.imprimindoVF) ?
+      {
+        'width.mm': this.etq.etq_distancia_horizontal,
+        'height.mm': this.etq.etq_altura,
+        'padding-top.mm': 1,
+        'padding-right.mm': 2,
+        'padding-bottom.mm': 1,
+        'padding-left.mm': 2
+      } : {
+        'width.px': (this.etq.etq_distancia_horizontal * 3.78),
+        'height.px': (this.etq.etq_altura * 3.78),
+        'padding-top.px': 3.78,
+        'padding-right.px': 7.5,
+        'padding-bottom.px': 3.78,
+        'padding-left.px': 7.5
+      };
   }
-
 
 }
