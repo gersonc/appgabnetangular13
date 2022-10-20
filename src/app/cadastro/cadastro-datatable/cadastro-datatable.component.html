@@ -288,8 +288,8 @@
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-etiqueta-print (hideEtiqueta)="cs.hideEtiqueta($event)"></app-etiqueta-print>
-    <!--<app-etiqueta-seletor (hideEtiqueta)="cs.hideEtiqueta($event)"></app-etiqueta-seletor>-->
+    <!--<app-etiqueta-print (hideEtiqueta)="cs.hideEtiqueta($event)"></app-etiqueta-print>-->
+    <app-etiqueta-seletor (hideEtiqueta)="cs.hideEtiqueta($event)"></app-etiqueta-seletor>
   </p-dialog>
 </ng-container>
 

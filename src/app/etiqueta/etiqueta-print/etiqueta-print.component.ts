@@ -62,7 +62,9 @@ export class EtiquetaPrintComponent implements OnInit {
   }
 
   getEtiquetaConfig(etq_id: number) {
-    this.sub.push(this.es.getConfigEtiqueta(etq_id).subscribe({
+    this.sub.push(this.es.getConfigEtiqueta(etq_id)
+      .pipe(take(1))
+      .subscribe({
         next: (dados) => {
           this.etq = dados;
         },
@@ -100,6 +102,8 @@ export class EtiquetaPrintComponent implements OnInit {
     this.numEtqInicial = this.ecs.numEtqInicial
     this.numEtqs = this.ecs.cadastro.length;
     this.etqPPag = this.etq.etq_linhas * this.etq.etq_colunas;
+
+
     while (this.ecs.cadastro.length !== 0) {
       let tb: TabelaI = {
         linhas: []
