@@ -44,7 +44,6 @@ export class EtiquetaService {
 
 
   postEtiquetas() {
-    console.log('this.ecs.busca', this.ecs.busca);
     const url = this.urlService.cadastro + '/listaretiqueta3';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<CadastroEtiquetaI[]>(url, this.ecs.busca, httpOptions);
@@ -53,7 +52,6 @@ export class EtiquetaService {
 
   imprimirEtiqueta(etq_id: number) {
     const etqsession = 'etiqueta-' + etq_id;
-
     if (!sessionStorage.getItem(etqsession)) {
       this.getConfigEtiqueta(etq_id)
         .pipe(take(1))
@@ -82,7 +80,11 @@ export class EtiquetaService {
         this.pw.close();
         this.pw = null;
       }
-      this.printSelectedArea();
+      if (this.ecs.tplistagem !== 3) {
+        this.printSelectedArea();
+      } else {
+        this.getEtiquetas();
+      }
     }
   }
 
@@ -139,6 +141,10 @@ export class EtiquetaService {
     background: transparent !important;
     color:#000 !important;
     text-shadow: none !important;;
+  }
+
+  #contador {
+     display: none;
   }
 
 
@@ -286,7 +292,7 @@ export class EtiquetaService {
       }
 
       section {
-        font-size: 8.0pt;
+        font-size: 10px;
         font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
         justify-items: center;
       }
@@ -295,6 +301,14 @@ export class EtiquetaService {
         width: 100%;
         border-collapse:collapse;
         background-color: transparent;
+      }
+
+      table.etq-tabela {
+        width: 100%;
+        border-collapse:collapse;
+        background-color: transparent;
+        font-size: 10px!important;
+        font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
       }
 
 
@@ -337,6 +351,7 @@ export class EtiquetaService {
         overflow: hidden!important;
         text-overflow: clip!important;
       }
+
     }
 </style>
 </head>
@@ -379,17 +394,19 @@ export class EtiquetaService {
 </html>
 `;
       // ORIGINAL
-      /*this.pw = window.open('',
+    const feat = 'width='+ (this.etq.etq_folha_horz * 3.78) +',height='+ (this.etq.etq_folha_vert * 3.78) +',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'
+      this.pw = window.open('',
         '_blank',
-        'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'
+        feat
       );
-      */
-      this.pw = window.open('', '_blank');
-      this.pw.document.open();
+      /*this.pw = window.open('', '_blank');
+      this.pw.document.open();*/
       this.pw.document.write(ht);
       this.pw.document.addEventListener("DOMContentLoaded", (event) => {
         console.log("DOM fully loaded and parsed");
       });
+
+    this.pw.document.close();
     if (res === undefined) {
       res = this.ecs.cadastro;
       this.ecs.cadastro = [];
@@ -408,7 +425,7 @@ export class EtiquetaService {
 
     let ctPagina = 0;
     let ctLinha = 0;
-
+    let ct = 0;
 
     while (res.length !== 0) {
       cloneSecao = null;
@@ -476,9 +493,7 @@ export class EtiquetaService {
 
 
       this.pw.onDOMContentLoaded = (event) => {
-        console.log("DOM fully loaded 111111111", event);
         if (this.pw.document.readyState === 'loading') {  // Loading hasn't finished yet
-          console.log("DOM fully loaded 22222222");
         }
       };
 
@@ -577,14 +592,13 @@ export class EtiquetaService {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          console.log('buscando...');
           this.printSelectedArea(dados);
         },
         error: (err) => {
           console.error(err);
         },
         complete: () => {
-          console.log('fim busca...');
+
         }
       })
     );
