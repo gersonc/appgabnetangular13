@@ -126,21 +126,4 @@ export class ImpressaoComponent implements OnInit, OnChanges, OnDestroy {
       document.body.removeAttribute('overp');
     }
   }
-
-
-
-
-/*
-  1inch = 96px
-  1inch = 72pt
-
-  96px = 72pt
-  1px = 72pt / 96
-
-  pt = px * ( 72pt / 96 )
-  21 cm = 595.2755907 Points
-*/
-
-
-
 }

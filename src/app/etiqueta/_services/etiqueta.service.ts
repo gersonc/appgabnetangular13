@@ -9,7 +9,6 @@ import {CadastroEtiquetaI} from "../_models/cadastro-etiqueta-i";
 import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
 import {take} from "rxjs/operators";
 import {EtiquetaInterface} from "../_models";
-import {EtiquetaCelula} from "../_models/etiqueta-print-i";
 
 
 @Injectable({
@@ -33,14 +32,14 @@ export class EtiquetaService {
     private urlService: UrlService,
     private http: HttpClient,
     public ecs: EtiquetaCadastroService,
-  ) { }
+  ) {
+  }
 
   public getConfigEtiqueta(etq_id: number): Observable<EtiquetaInterface> {
     this.url = this.urlService.etiqueta;
     const url = this.url + '/getid/' + etq_id;
     return this.http.get<EtiquetaInterface>(url);
   }
-
 
 
   postEtiquetas() {
@@ -56,24 +55,24 @@ export class EtiquetaService {
       this.getConfigEtiqueta(etq_id)
         .pipe(take(1))
         .subscribe({
-        next: (dados) => {
-          this.etq = dados;
-        },
-        error: err => console.log('erro', err.toString()),
-        complete: () => {
-          sessionStorage.setItem(etqsession, JSON.stringify(this.etq));
-          if (this.pw !== null) {
-            this.pw.close();
-            this.pw = null;
-          }
-          if (this.ecs.tplistagem !== 3) {
-            this.printSelectedArea();
-          } else {
-            this.getEtiquetas();
-          }
+          next: (dados) => {
+            this.etq = dados;
+          },
+          error: err => console.log('erro', err.toString()),
+          complete: () => {
+            sessionStorage.setItem(etqsession, JSON.stringify(this.etq));
+            if (this.pw !== null) {
+              this.pw.close();
+              this.pw = null;
+            }
+            if (this.ecs.tplistagem !== 3) {
+              this.printSelectedArea();
+            } else {
+              this.getEtiquetas();
+            }
 
-        }
-      });
+          }
+        });
     } else {
       this.etq = JSON.parse(sessionStorage.getItem(etqsession));
       if (this.pw !== null) {
@@ -89,53 +88,58 @@ export class EtiquetaService {
   }
 
   printSelectedArea(res?: CadastroEtiquetaI[]) {
+    if (res === undefined) {
+      res = this.ecs.cadastro;
+      this.ecs.cadastro = [];
+    }
+    this.total = +res.length;
     let ht: any = `
-<html>
-<head>
-<meta http-equiv=Content-Type content="text/html; charset=utf-8">
-<title>ETIQUETAS</title>
-<style>
+    <html>
+    <head>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8">
+    <title>ETIQUETAS</title>
+    <style>
 
-@page {
-  background: white;
-  display: block;
-}
+    @page {
+      background: white;
+      display: block;
+    }
 
-@page[size="latter"] {
-  width: 215.9mm;
-  height: 279.4mm;
-}
-@page[size="latter"][layout="landscape"] {
-       width: 279.4mm;
-       height: 215.9mm;
-     }
+    @page[size="latter"] {
+      width: 215.9mm;
+      height: 279.4mm;
+    }
+    @page[size="latter"][layout="landscape"] {
+           width: 279.4mm;
+           height: 215.9mm;
+         }
 
-@page[size="A4"] {
-       width: 21cm;
-       height: 29.7cm;
-     }
+    @page[size="A4"] {
+           width: 21cm;
+           height: 29.7cm;
+         }
 
-@page[size="A4"][layout="landscape"] {
-       width: 29.7cm;
-       height: 21cm;
-     }
-@page[size="A3"] {
-       width: 29.7cm;
-       height: 42cm;
-     }
-@page[size="A3"][layout="landscape"] {
-       width: 42cm;
-       height: 29.7cm;
-     }
-@page[size="A5"] {
-       width: 14.8cm;
-       height: 21cm;
-     }
-@page[size="A5"][layout="landscape"] {
-       width: 21cm;
-       height: 14.8cm;
-     }
-@media print {
+    @page[size="A4"][layout="landscape"] {
+           width: 29.7cm;
+           height: 21cm;
+         }
+    @page[size="A3"] {
+           width: 29.7cm;
+           height: 42cm;
+         }
+    @page[size="A3"][layout="landscape"] {
+           width: 42cm;
+           height: 29.7cm;
+         }
+    @page[size="A5"] {
+           width: 14.8cm;
+           height: 21cm;
+         }
+    @page[size="A5"][layout="landscape"] {
+           width: 21cm;
+           height: 14.8cm;
+         }
+    @media print {
 
   * {
     background: transparent !important;
@@ -275,11 +279,6 @@ export class EtiquetaService {
   }
   }
     @media screen {
-      * {
-        background: transparent !important;
-        color:#000 !important;
-        text-shadow: none !important;;
-      }
 
       body {
         margin: 0;
@@ -295,10 +294,12 @@ export class EtiquetaService {
         font-size: 10px;
         font-family: "Verdana, Arial, Helvetica, sans-serif", 'sans-serif';
         justify-items: center;
+        box-shadow: 5px 10px 8px 5px #888888;
+        margin: 15px;
       }
 
       table {
-        width: 100%;
+        width: ${this.etq.etq_folha_horz * 3.78}px;
         border-collapse:collapse;
         background-color: transparent;
       }
@@ -313,49 +314,139 @@ export class EtiquetaService {
 
 
       .linha {
-        height: ${this.etq.etq_altura}mm;
+        height: ${this.etq.etq_altura * 3.78}px;
       }
 
       .cola {
-        width: ${this.etq.etq_largura}mm;
-        padding: 0 .75pt 0 .75pt;
-        height: ${this.etq.etq_altura}mm;
+        width: ${this.etq.etq_largura * 3.78}px;
+        padding: 0 1em 0 1em;
+        height: ${this.etq.etq_altura * 3.78}px;
       }
 
       .colb {
-        width: ${this.etq.etq_distancia_horizontal}mm;
-        padding: 0 .75pt 0 .75pt;
-        height: ${this.etq.etq_altura}mm;
+        width: ${this.etq.etq_distancia_horizontal * 3.78}px;
+        padding: 0 1em 0 1em;
+        height: ${this.etq.etq_altura * 3.78}px;
       }
 
       .colc {
-        width: ${this.etq.etq_largura}mm;
-        padding:0 .75pt 0 .75pt;
-        height: ${this.etq.etq_altura}mm;
+        width:${this.etq.etq_largura * 3.78}px;
+        padding: 0 1em 0 1em;
+        height: ${this.etq.etq_altura * 3.78}px;
       }
 
       .cold {
-        width: ${this.etq.etq_largura}mm;
-        padding:0 .75pt 0 .75pt;
-        height: ${this.etq.etq_altura}mm;
+        width: ${this.etq.etq_largura * 3.78}px;
+        padding: 0 1em 0 1em;
+        height: ${this.etq.etq_altura * 3.78}px;
       }
 
       .cole {
-        width:${this.etq.etq_distancia_horizontal}mm;
-        padding:.75pt 0 .75pt;
-        height: ${this.etq.etq_altura}mm;
+        width:${this.etq.etq_distancia_horizontal * 3.78}px;
+        padding: 0 1em 0 1em;
+        height: ${this.etq.etq_altura * 3.78}px;
       }
 
       td {
-        border: 1pt solid black;
+        border: 0.5px solid black;
         overflow: hidden!important;
         text-overflow: clip!important;
       }
 
     }
+
+    #pcard {
+      width: fit-content;
+    }
+
+    .p-card {
+      background: #ffffff;
+      color: #000000;
+      padding: 5px;
+      box-shadow: 5px 10px 8px 5px #888888;
+      border-radius: 3px;
+      margin: 15px;
+    }
+
+    .p-card .p-card-body {
+      padding: 5px;
+    }
+
+    .p-card .p-card-footer {
+      padding: 5px 0 0 0;
+    }
+
+    .btn {
+      color: #ffffff;
+      background: #007bff;
+      border: 1px solid #007bff;
+      padding: 0.3rem 1rem;
+      font-size: .8rem;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+      border-radius: 3px;
+    }
+
+    .btn:hover{
+      background: #0d89ec;
+      color: #ffffff;
+      border-color: #0d89ec;
+    }
+
+    .btn2 {
+      color: #ffffff;
+      background: #6c757d;
+      border: 1px solid #6c757d;
+      padding: 0.3rem 1rem;
+      font-size: .8rem;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+      border-radius: 3px;
+    }
+
+    .btn2:hover {
+      color: #ffffff;
+      background: #5a6268;
+      border: 1px solid #5a6268;
+    }
+
+    table.info {
+      width: fit-content;
+    }
+
+    .info {
+      font-size: 16px;
+      font-family: "Arial, Helvetica", 'sans-serif';
+    }
+
+    .info td {
+      width: fit-content;
+      border: 0!important;
+      text-align: left;
+    }
+    .info th {
+      width: 4rem;
+      border: 0!important;
+      padding-right: 5px;
+      text-align: right;
+    }
 </style>
 </head>
 <body>
+<div id="pcard">
+  <div></div>
+  <div class="p-card">
+    <div class="p-card-body">
+      <table class="info">
+        <tr><th>Marca:</th><td>${this.etq.etq_marca}</td><th>Modelo:</th><td>${this.etq.etq_modelo}</td></tr>
+        <tr><th>Folhas:</th><td id="numfolha"></td><th>Etiquetas:</th><td>${this.total}</td></tr>
+      </table>
+    </div>
+    <div class="p-card-footer">
+      <button id="imprime" class="btn">IMPRIMIR</button>
+      <button id="fecha" class="btn2">FECHAR</button>
+    </div>
+  </div>
+  <div></div>
+</div>
 <article id="artigo" class="artigo">
 	<section id="secao" class="etq-secao">
 		<table id="tabela" class="etq-tabela">
@@ -393,25 +484,37 @@ export class EtiquetaService {
 </body>
 </html>
 `;
-      // ORIGINAL
-    const feat = 'width='+ (this.etq.etq_folha_horz * 3.78) +',height='+ (this.etq.etq_folha_vert * 3.78) +',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'
-      this.pw = window.open('',
-        '_blank',
-        feat
-      );
-      /*this.pw = window.open('', '_blank');
-      this.pw.document.open();*/
-      this.pw.document.write(ht);
-      this.pw.document.addEventListener("DOMContentLoaded", (event) => {
-        console.log("DOM fully loaded and parsed");
-      });
+    // ORIGINAL
+    const feat = 'width=' + (this.etq.etq_folha_horz * 4) + ',height=' + (this.etq.etq_folha_vert * 4) + ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'
+    this.pw = window.open('', '_blank', feat);
+
+    this.pw.document.write(ht);
+    this.pw.document.addEventListener("DOMContentLoaded", (event) => {
+      console.log("DOM fully loaded and parsed");
+    });
+
+    this.pw.document.addEventListener('afterprint', (event) => {
+      console.log("imprimindo...");
+      this.pw.close();
+    });
+
+    const imprime = this.pw.document.getElementById('imprime');
+    imprime.addEventListener('click', (event) => {
+      event.preventDefault();
+      let pcard = this.pw.document.getElementById("pcard");
+      pcard.remove();
+      this.pw.print();
+    });
+
+    const fecha = this.pw.document.getElementById('fecha');
+    fecha.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.pw.close();
+    });
+
 
     this.pw.document.close();
-    if (res === undefined) {
-      res = this.ecs.cadastro;
-      this.ecs.cadastro = [];
-    }
-    this.total = +res.length;
+
     let artigo: any = null;
     let cloneSecao: any = null;
     let cloneTabela: any = null;
@@ -485,6 +588,7 @@ export class EtiquetaService {
           if (res.length === 0) {
             let secao = this.pw.document.getElementById('secao');
             secao.remove();
+            this.pw.document.getElementById('numfolha').textContent = ctPagina;
           }
 
         }
@@ -492,12 +596,16 @@ export class EtiquetaService {
     }
 
 
-      this.pw.onDOMContentLoaded = (event) => {
-        if (this.pw.document.readyState === 'loading') {  // Loading hasn't finished yet
-        }
-      };
+    this.pw.onDOMContentLoaded = (event) => {
+      if (this.pw.document.readyState === 'loading') {  // Loading hasn't finished yet
+      }
+    };
 
-      // this.pw.document.close();
+    // this.pw.document.close();
+  }
+
+  imprimir() {
+
   }
 
   montaCelula(cadastro: CadastroEtiquetaI) {
