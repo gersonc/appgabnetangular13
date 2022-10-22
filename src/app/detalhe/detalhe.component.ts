@@ -10,6 +10,7 @@ import {EmendaListarI} from "../emenda/_models/emenda-listar-i";
 import {ProposicaoListarI} from "../proposicao/_models/proposicao-listar-i";
 import {TarefaI} from "../tarefa/_models/tarefa-i";
 import {ContaI} from "../conta/_models/conta-i";
+import {CadastroI} from "../cadastro/_models/cadastro-i";
 
 @Component({
   selector: 'app-detalhe',
@@ -19,6 +20,7 @@ import {ContaI} from "../conta/_models/conta-i";
 export class DetalheComponent implements OnInit, OnChanges {
   @Input() id: number;
   @Input() modulo: string | null = null;
+  @Input() registro?: any = null;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
   sol?: SolicListarI | null = null;
@@ -28,6 +30,7 @@ export class DetalheComponent implements OnInit, OnChanges {
   proposicao?: ProposicaoListarI | null = null;
   tarefa?: TarefaI | null = null;
   conta?: ContaI | null = null;
+  cadastro?: CadastroI | null = null;
 
   vSolicitacao = false;
   vOficio = false;

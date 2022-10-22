@@ -83,7 +83,12 @@ export interface CadastroI {
   pnum?: number;
   onum?: number;
   enum?: number;
-  anum?: number;
+  aarq?: number;
+  tarq?: number;
+  sarq?: number;
+  parq?: number;
+  oarq?: number;
+  earq?: number;
 }
 
 export interface CadastroSolicVinculoI {

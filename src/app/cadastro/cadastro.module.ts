@@ -54,6 +54,7 @@ import {CadastroDetalheComponent} from "./cadastro-detalhe/cadastro-detalhe.comp
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
+import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
 
 
 @NgModule({
@@ -110,7 +111,8 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
     CadastroMenuListarComponent,
     CadastroFormComponent,
     CadastroIncluirListaexistenteComponent,
-    CadastroDetalheComponent
+    CadastroDetalheComponent,
+    CadastroExcluirComponent
   ],
   exports: [
     CadastroComponent

@@ -39,10 +39,10 @@ export class CadastroService {
   expandido?: CadastroI;
   expandidoSN = false;
   cadastroApagar: CadastroI | null = null;
-  // sortField = 'cadastro_nome';
-  sortField = 'cadastro_cep';
-  // sortOrder = 1;
-  sortOrder = -1;
+  sortField = 'cadastro_nome';
+  //sortField = 'cadastro_cep';
+  sortOrder = 1;
+  // sortOrder = -1;
   lazy = false;
   acao: string | null = null;
   colunas: string[] = [];
@@ -95,8 +95,8 @@ export class CadastroService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        // this.tabela.sortField = 'cadastro_nome';
-        this.tabela.sortField = 'cadastro_cep';
+        this.tabela.sortField = 'cadastro_nome';
+        // this.tabela.sortField = 'cadastro_cep';
         this.tabela.camposTexto = cadastrocampostexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -139,10 +139,10 @@ export class CadastroService {
       this.busca.todos = this.tabela.todos;
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
-      // this.busca.sortOrder = 1;
-      this.busca.sortOrder = -1;
-      // this.busca.sortField = 'cadastro_nome';
-      this.busca.sortField = 'cadastro_cep';
+      this.busca.sortOrder = 1;
+      //this.busca.sortOrder = -1;
+      this.busca.sortField = 'cadastro_nome';
+      // this.busca.sortField = 'cadastro_cep';
       this.busca.etiqueta = 0;
     }
   }

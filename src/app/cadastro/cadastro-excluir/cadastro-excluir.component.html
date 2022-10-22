@@ -1,0 +1,543 @@
+<p-scrollPanel class="detalhe">
+  <table #detalhecadastro class="detalhefull">
+    <tr>
+      <td>
+
+        <table #detcadastro class="table-hover tabela">
+          <thead class="detalheTitulo-vert">
+          <tr>
+            <th colspan="2">
+              CADASTRO
+            </th>
+          </tr>
+          </thead>
+          <tbody class="detalhe-vert">
+          <tr>
+            <th>
+              Tipo de Cadastro:
+            </th>
+            <td>
+              {{cadastro.cadastro_tipo_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Tratamento:
+            </th>
+            <td>
+              {{cadastro.cadastro_tratamento_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Nome/Rasão Social:
+            </th>
+            <td>
+              {{cadastro.cadastro_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_apelido">
+            <th>
+              Apelido:
+            </th>
+            <td>
+              {{cadastro.cadastro_apelido}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_sigla">
+            <th>
+              Sigla:
+            </th>
+            <td>
+              {{cadastro.cadastro_sigla}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_responsavel">
+            <th>
+              Empresa/Responsável:
+            </th>
+            <td>
+              {{cadastro.cadastro_responsavel}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_cargo">
+            <th>
+              Cargo:
+            </th>
+            <td>
+              {{cadastro.cadastro_cargo}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_endereco">
+            <th>
+              Endereço:
+            </th>
+            <td>
+              {{cadastro.cadastro_endereco}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_endereco_numero">
+            <th>
+              Número:
+            </th>
+            <td>
+              {{cadastro.cadastro_endereco_numero}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_endereco_complemento">
+            <th>
+              Complemento:
+            </th>
+            <td>
+              {{cadastro.cadastro_endereco_complemento}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_bairro">
+            <th>
+              Bairro:
+            </th>
+            <td>
+              {{cadastro.cadastro_bairro}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Município:
+            </th>
+            <td>
+              {{cadastro.cadastro_municipio_nome}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Estado:
+            </th>
+            <td>
+              {{cadastro.cadastro_estado_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_cep">
+            <th>
+              CEP:
+            </th>
+            <td>
+              {{cadastro.cadastro_cep}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_regiao_nome">
+            <th>
+              Região:
+            </th>
+            <td>
+              {{cadastro.cadastro_regiao_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_grupo_nome">
+            <th>
+              Grupo:
+            </th>
+            <td>
+              {{cadastro.cadastro_grupo_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_telefone">
+            <th>
+              Telefone 1:
+            </th>
+            <td>
+              {{cadastro.cadastro_telefone}}
+            </td>
+          </tr>
+
+          <tr *ngIf="cadastro.cadastro_telefone2">
+            <th>
+              Telefone 2:
+            </th>
+            <td>
+              {{cadastro.cadastro_telefone2}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_telcom">
+            <th>
+              Telefone Comercial:
+            </th>
+            <td>
+              {{cadastro.cadastro_telcom}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_celular">
+            <th>
+              Celular 1:
+            </th>
+            <td>
+              {{cadastro.cadastro_celular}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_celular2">
+            <th>
+              Celular 2:
+            </th>
+            <td>
+              {{cadastro.cadastro_celular2}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_fax">
+            <th>
+              WhatsApp:
+            </th>
+            <td>
+              {{cadastro.cadastro_fax}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_email">
+            <th>
+              E-mail 1:
+            </th>
+            <td>
+              {{cadastro.cadastro_email}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_email2">
+            <th>
+              E-mail 2:
+            </th>
+            <td>
+              {{cadastro.cadastro_email2}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_rede_social">
+            <th>
+              Facebook:
+            </th>
+            <td>
+              {{cadastro.cadastro_rede_social}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_outras_midias">
+            <th>
+              Outras mídias:
+            </th>
+            <td>
+              {{cadastro.cadastro_outras_midias}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_cpfcnpj">
+            <th>
+              CPF/CNPJ:
+            </th>
+            <td>
+              {{cadastro.cadastro_cpfcnpj}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_rg">
+            <th>
+              RG:
+            </th>
+            <td>
+              {{cadastro.cadastro_rg}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_secao">
+            <th>
+              Partido:
+            </th>
+            <td>
+              {{cadastro.cadastro_secao}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_estado_civil_nome">
+            <th>
+              Estado Civil:
+            </th>
+            <td>
+              {{cadastro.cadastro_estado_civil_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_conjuge">
+            <th>
+              Conjuge:
+            </th>
+            <td>
+              {{cadastro.cadastro_conjuge}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_data_nascimento">
+            <th>
+              Data Nascimento/Fundação:
+            </th>
+            <td>
+              {{cadastro.cadastro_data_nascimento}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Escolaridade:
+            </th>
+            <td>
+              {{cadastro.cadastro_escolaridade_nome}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_profissao">
+            <th>
+              Profissão:
+            </th>
+            <td>
+              {{cadastro.cadastro_profissao}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_sexo">
+            <th>
+              Genero:
+            </th>
+            <td>
+              {{cadastro.cadastro_sexo}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Boletim:
+            </th>
+            <td>
+              {{cadastro.cadastro_jornal}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Mala Direta:
+            </th>
+            <td>
+              {{cadastro.cadastro_mala}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Contato:
+            </th>
+            <td>
+              {{cadastro.cadastro_agenda}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Sigilo:
+            </th>
+            <td>
+              {{cadastro.cadastro_sigilo}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_campo1">
+            <th>
+              Campo50:
+            </th>
+            <td>
+              {{cadastro.cadastro_campo1}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_campo2">
+            <th>
+              Campo100:
+            </th>
+            <td>
+              {{cadastro.cadastro_campo2}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_campo3">
+            <th>
+              Campo100:
+            </th>
+            <td>
+              {{cadastro.cadastro_campo3}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_campo4_nome">
+            <th>
+              Campo255:
+            </th>
+            <td>
+              {{cadastro.cadastro_campo4_nome}}
+            </td>
+          </tr>
+
+          <tr *ngIf="cadastro.cadastro_data_cadastramento">
+            <th>
+              Data de Cadastramento:
+            </th>
+            <td>
+              {{cadastro.cadastro_data_cadastramento}}
+            </td>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_observacao">
+            <th colspan="2">
+              Observações:
+            </th>
+          </tr>
+          <tr *ngIf="cadastro.cadastro_observacao" class="novaPagina">
+            <td colspan="2" class="tf-kill">
+              <app-kill-view
+                [kill]="{html: cadastro.cadastro_observacao, delta: cadastro.cadastro_observacao_delta}"></app-kill-view>
+            </td>
+          </tr>
+          <tr *ngIf="pdfOnOff && cadastro.cadastro_arquivos.length > 0" id="pdfarquivos">
+            <th colspan="2">Arquivos</th>
+          </tr>
+          <tr *ngIf="pdfOnOff && cadastro.cadastro_arquivos.length > 0" id="pdfarquivos2">
+            <td colspan="2">
+              <app-detalhe-explorer [arquivos]="cadastro.cadastro_arquivos"></app-detalhe-explorer>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+
+    <ng-container *ngIf="completo">
+      <ng-container *ngIf="completo">
+        <tr *ngIf="impressao && completo">
+          <td>
+            <br>
+            <p-panel header="VÍNCULOS DESTE CADASTRO" *ngIf="completo">
+              <p *ngIf="cadastro.snum > 0">SOLICITAÇÕES - Este cadastro possui {{cadastro.snum}} solicitação(ões).</p>
+              <p *ngIf="cadastro.pnum > 0">PROCESSOS - Este cadastro está incluido em {{cadastro.pnum}} processo(s).</p>
+              <p *ngIf="cadastro.onum > 0">OFÍCIO(S) - Este cadastro está vinculado a {{cadastro.onum}} ofício(s).</p>
+              <p *ngIf="cadastro.enum > 0">EMENDA(S) - Este cadastro está vinculado a {{cadastro.enum}} emenda(s).</p>
+            </p-panel>
+          </td>
+        </tr>
+      </ng-container>
+
+      <ng-container *ngIf="cadastro.snum > 0">
+        <tr>
+          <td>
+            <br>
+            <table *ngIf="cadVin.cadastro_solicitacao.length > 0" class="table-hover tabela">
+              <thead class="detalheTitulo-vert">
+              <tr>
+                <th colspan="3">
+                  SOLICITAÇÕES - Este cadastro possui a(s) sequinte(s) solicitação(ões).
+                </th>
+              </tr>
+              </thead>
+              <tbody class="detalhe-vert">
+              <tr>
+                <th>STATUS</th>
+                <th>DATA</th>
+                <th>ASSUNTO</th>
+              </tr>
+
+              <tr *ngFor="let sol of cadVin.cadastro_solicitacao">
+                <td [ngClass]="rowColor(sol.solicitacao_status_id)">{{sol.solicitacao_status_nome}}</td>
+                <td>{{sol.solicitacao_data}}</td>
+                <td>{{sol.solicitacao_assunto_nome}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+
+      <ng-container *ngIf="cadastro.pnum > 0">
+        <tr>
+          <td>
+
+            <br>
+            <table *ngIf="cadVin.cadastro_processo.length > 0" class="table-hover tabela">
+              <thead class="detalheTitulo-vert">
+              <tr>
+                <th colspan="3">
+                  PROCESSOS - Este cadastro está vinculado ao(s) seguinte(s) processo(s).
+                </th>
+              </tr>
+              </thead>
+              <tbody class="detalhe-horiz">
+              <tr>
+                <th>NÚMERO</th>
+                <th>STATUS</th>
+                <th>ASSUNTO</th>
+              </tr>
+              <tr *ngFor="let pro of cadVin.cadastro_processo">
+                <td>{{pro.processo_numero}}</td>
+                <td [ngClass]="rowColor(pro.processo_status_id)">{{pro.processo_status_nome}}</td>
+                <td>{{pro.solicitacao_assunto_nome}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+
+      <ng-container *ngIf="cadastro.onum > 0">
+        <tr>
+          <td>
+            <br>
+            <table *ngIf="cadVin.cadastro_oficio.length > 0" class="table-hover tabela">
+              <thead class="detalheTitulo-vert">
+              <tr>
+                <th colspan="5">
+                  OFÍCIO(S) - Este cadastro está vinculado ao(s) seguinte(s) ofício(s).
+                </th>
+              </tr>
+              </thead>
+              <tbody class="detalhe-horiz">
+              <tr>
+                <th>SITUAÇÃO</th>
+                <th>CÓDIGO</th>
+                <th>NÚMERO</th>
+                <th>DATA</th>
+                <th>ORGÃO SOLICITADO</th>
+              </tr>
+              <tr *ngFor="let oos of cadVin.cadastro_oficio">
+                <td [ngClass]="rowColor2(oos.oficio_status_id)">{{oos.oficio_status_nome}}</td>
+                <td>{{oos.oficio_codigo}}</td>
+                <td>{{oos.oficio_numero}}</td>
+                <td>{{oos.oficio_data_emissao}}</td>
+                <td>{{oos.oficio_orgao_solicitado_nome}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+
+      <ng-container *ngIf="cadastro.onum > 0">
+        <tr>
+          <td>
+            <br>
+            <table *ngIf="cadVin.cadastro_emenda.length > 0" class="table-hover tabela">
+              <thead class="detalheTitulo-vert">
+              <tr>
+                <th colspan="5">
+                  EMENDAS - Este cadastro está vinculado a(s) seguinte(s) emenda(s).
+                </th>
+              </tr>
+              </thead>
+              <tbody class="detalhe-horiz">
+              <tr>
+                <th>SITUAÇÃO</th>
+                <th>NÚMERO</th>
+                <th>NUM. PROTOCOLO</th>
+                <th>ORGÃO SOLICITADO</th>
+                <th>ASSUNTO</th>
+                <th>DT. SOLICITAÇÃO</th>
+              </tr>
+              <tr *ngFor="let eme of cadVin.cadastro_emenda">
+                <td>{{eme.emenda_situacao_nome}}</td>
+                <td>{{eme.emenda_numero}}</td>
+                <td>{{eme.emenda_numero_protocolo}}</td>
+                <td>{{eme.emenda_orgao_solicitado_nome}}</td>
+                <td>{{eme.emenda_assunto_nome}}</td>
+                <td>{{eme.emenda_data_solicitacao}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </table>
+  <br>
+</p-scrollPanel>
+
+<div class="botoesdetalhe">
+  <button pButton type="button" label="FECHAR" icon="pi pi-times" class="p-button-rounded" (click)="fechar()"></button>
+</div>
