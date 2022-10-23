@@ -616,7 +616,7 @@ export class CadastroService {
             });
             this.tabela.total = dados.total;
           },
-          error: err => console.error('ERRO-->', err),
+          error: err => console.log('ERRO-->'),
           complete: () => {
             this.lazy = false;
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {

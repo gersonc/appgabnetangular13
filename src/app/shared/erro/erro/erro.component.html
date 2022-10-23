@@ -1,0 +1,25 @@
+<ng-container *ngIf="es.display">
+  <p-dialog [(visible)]="es.display" (onHide)="fechar()" (onShow)="abrir()">
+    <ng-template pTemplate="header">
+      ERRO -
+    </ng-template>
+    <ng-container *ngIf="es.err !== null && es.err.length > 0">
+      <table>
+        <tr>
+          <th>CHAVE</th>
+          <th>VALOR</th>
+        </tr>
+        <tr *ngFor="let e of es.err">
+          <td>{{e.chave}}</td>
+          <td>{{e.valor}}</td>
+        </tr>
+      </table>
+
+
+    </ng-container>
+    <p-footer>
+      //buttons
+    </p-footer>
+  </p-dialog>
+</ng-container>
+

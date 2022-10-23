@@ -13,7 +13,7 @@ import { LayoutModule } from './_layout/layout.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
-import {JwtInterceptor, ErrorInterceptor, ResponseInterceptor} from './_helpers';
+import {JwtInterceptor, ErrorInterceptor, ResponseInterceptor, ErroInterceptado, ErroInterceptador} from './_helpers';
 import { UtilModule } from './util/util.module';
 import { HomeComponent } from './home';
 /*import { ToastModule } from 'primeng/toast';
@@ -30,6 +30,7 @@ import { InputSwitchModule } from "primeng/inputswitch";
 import {QuillModule} from "ngx-quill";
 import {MsgModule} from "./shared/msg/msg.module";
 import {ExporterModule} from "./shared/exporter/exporter.module";
+import {ErroModule} from "./shared/erro/erro.module";
 // import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";
 /*import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";*/
 
@@ -43,43 +44,45 @@ export function tokenGetter() {
     LoginComponent,
     HomeComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ["gn5.dv", "192.168.0.10", "localhost:4300", "localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
-        disallowedRoutes: ["http://example.com/examplebadroute/"],
-      },
-    }),
-    NgHttpLoaderModule.forRoot(),
-    AngularResizeEventModule,
-    /*    ToastModule,
-        MessagesModule,
-        MessageModule,*/
-    AppRoutingModule,
-    UtilModule,
-    LayoutModule,
-    InputTextModule,
-    ButtonModule,
-    ProgressSpinnerModule,
-    DialogModule,
-    PanelMenuModule,
-    RippleModule,
-    InputSwitchModule,
-    FormsModule,
-    QuillModule.forRoot(),
-    MsgModule,
-    ExporterModule
-    /*ExporterTextoModule,*/
-    /*ExporterTextoModule*/
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ["gn5.dv", "192.168.0.10", "localhost:4300", "localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
+                disallowedRoutes: ["http://example.com/examplebadroute/"],
+            },
+        }),
+        NgHttpLoaderModule.forRoot(),
+        AngularResizeEventModule,
+        /*    ToastModule,
+            MessagesModule,
+            MessageModule,*/
+        AppRoutingModule,
+        UtilModule,
+        LayoutModule,
+        InputTextModule,
+        ButtonModule,
+        ProgressSpinnerModule,
+        DialogModule,
+        PanelMenuModule,
+        RippleModule,
+        InputSwitchModule,
+        FormsModule,
+        QuillModule.forRoot(),
+        MsgModule,
+        ExporterModule,
+        ErroModule,
+        /*ExporterTextoModule,*/
+        /*ExporterTextoModule*/
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: ErroInterceptado, useClass: ErroInterceptador },
     /*{ provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },*/
     MessageService,
     WindowsService

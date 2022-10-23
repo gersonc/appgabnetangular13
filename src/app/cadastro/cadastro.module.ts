@@ -116,11 +116,11 @@ import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.comp
   ],
   exports: [
     CadastroComponent
-  ],
+  ]/*,
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-  ]
+  ]*/
 })
 export class CadastroModule {
 }

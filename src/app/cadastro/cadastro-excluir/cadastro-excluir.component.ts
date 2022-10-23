@@ -11,18 +11,18 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 export class CadastroExcluirComponent implements OnInit {
   @Input() cadastro: CadastroI;
   @Input() cadVin?: CadastroVinculosI | null = null;
-  @Input() completo?: boolean = false;
   @Output() hideDetalhe = new EventEmitter<boolean>();
 
   impressao = false;
   pdfOnOff = true;
-
+  completo = false;
 
   constructor(
     public aut: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
+    console.log('cadastro', this.cadastro);
   }
 
   fechar() {

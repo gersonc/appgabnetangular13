@@ -12,7 +12,7 @@ import {TarefaService} from "../_services/tarefa.service";
 import {DateTime} from "luxon";
 import {TarefaFormI, TarefaI, TarefaUsuarioAlterar, TarefaUsuarioSituacaoAndamentoI} from "../_models/tarefa-i";
 import {take} from "rxjs/operators";
-import {ErroService} from "../../_services/erro.service";
+// import {ErroService} from "../../_services/erro.service";
 import {TarefaDropdownService} from "../_services/tarefa-dropdown.service";
 
 interface frmI {
