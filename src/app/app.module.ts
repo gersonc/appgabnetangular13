@@ -82,8 +82,8 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
     { provide: ErroInterceptado, useClass: ErroInterceptador },
-    /*{ provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },*/
     MessageService,
     WindowsService
   ],

@@ -10,6 +10,7 @@ export class ResponseInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
+        console.log('ResponseInterceptor event->', event.status);
         event = event.clone({body: ResponseInterceptor.modifyBody(event.body)});
       }
       return event;

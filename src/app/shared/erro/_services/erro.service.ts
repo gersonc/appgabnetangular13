@@ -18,12 +18,17 @@ export class ErroService {
   set erro(erro: any) {
 
     if (typeof erro === 'object') {
+      this.err = [];
       const k = Object.keys(erro);
       const n = k.length - 1;
       k.forEach((campo, i) => {
         if (erro[campo] !== undefined && erro[campo] !== null) {
           console.log('ErroService2', campo, erro[campo]);
-          this.err.push({chave: campo, valor: erro[campo].toString()});
+          const e = {
+            chave: campo,
+            valor: (erro[campo] !== undefined && erro[campo] !== null) ? erro[campo] : 'NULO'
+          }
+          this.err.push(e);
         }
         if (i === n) {
           this.display = true;

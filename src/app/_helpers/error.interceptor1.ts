@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse} from '@angular/common/http';
-import {EMPTY, Observable, throwError} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Message } from 'primeng/api';
 import { MessageService } from 'primeng/api';
@@ -12,7 +12,7 @@ import {ErroService} from "../shared/erro/_services/erro.service";
 
 @Injectable()
 export abstract class ErroInterceptado {
-  abstract erro(erros: ErroI): void;
+  abstract erro(erros: any): any;
 }
 
 @Injectable()
@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
-
+      console.error('ERRO-1->:', err);
       // console.error('ERRO-1->:', err);
       let er: ErroI = err;
       if (err.status === 0) {
@@ -39,16 +39,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             // auto logout if 401 response returned from api
             this.authenticationService.logout();
             location.reload(true);
-          }
-
-          if (err.status === 417) {
-            console.error('ERRO-1->:', er.message);
-            this.ErroInterceptado.erro(er);
-            return EMPTY;
-          }
-
-
-          if (err.status !== 417) {
+          } else if (err.status !== 417) {
 
             const error = err.error || err.statusText;
             let data: any = {};
@@ -57,22 +48,19 @@ export class ErrorInterceptor implements HttpInterceptor {
               status: error.message!
             };
             this.ms.add({severity: 'Error', summary: data.reason, detail: data.status});
-            return throwError(err);
-          }/* else {
+          } else {
             const error: ErroI = err.error;
             this.ms.add({severity: 'Error', summary: error.type.toUpperCase(), detail: error.detail});
-            return throwError(err);
-          }*/
+          }
 
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong.
           console.error( `Backend returned code ${err.status}, body was: `, err.error.text);
-          return throwError(err);
         }
       }
-
-
+      this.ErroInterceptado.erro(er);
+      return throwError(err);
     }));
   }
 }
@@ -85,9 +73,9 @@ export class ErroInterceptador implements ErroInterceptado {
   ) { }
 
 
-  erro(erros: ErroI): void {
+  erro(erros: any): any {
     this.es.erro = erros;
-    // return erros;
+    return erros;
   }
 
 }
