@@ -7,6 +7,8 @@ import { CadastroDatatableComponent } from './cadastro-datatable';
 import {CadastroListarResolver} from "./_resolvers/cadastro-listar.resolver";
 import {CadastroFormResolver} from "./_resolvers/cadastro-form.resolver";
 import {CadastroFormComponent} from "./cadastro-form/cadastro-form.component";
+import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
+import {CadastroExcluirResolver} from "./_resolvers/cadastro-excluir.resolver";
 
 const cadastroRoutes: Routes = [
   {
@@ -80,6 +82,18 @@ const cadastroRoutes: Routes = [
         },
         resolve: {
           dados: CadastroFormResolver
+        }
+      },
+      {
+        path: 'excluir/:id',
+        component: CadastroExcluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.cadastro,
+          scopes: Scope.cadastro_apagar
+        },
+        resolve: {
+          dados: CadastroExcluirResolver
         }
       },
 

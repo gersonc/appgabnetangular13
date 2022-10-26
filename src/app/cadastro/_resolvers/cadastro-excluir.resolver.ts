@@ -2,35 +2,32 @@ import { Injectable } from '@angular/core';
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { CadastroDetalheCompletoInterface } from '../_models';
-import { CadastroService } from '../_services';
-import {CarregadorService} from "../../_services";
+import {CadastroService} from "../_services/cadastro.service";
+
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class CadastroExcluirResolver implements Resolve<CadastroDetalheCompletoInterface> {
+export class CadastroExcluirResolver implements Resolve<boolean | never> {
 
   constructor(
     private router: Router,
-    private cadastroService: CadastroService,
-    private cr: CarregadorService,
+    private cs: CadastroService,
   ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<CadastroDetalheCompletoInterface> | Observable<never> {
+    state: RouterStateSnapshot): Observable<boolean | never> {
     const cadastro_id = +route.paramMap.get('id');
-    return this.cadastroService.getDetalheCompleto(cadastro_id)
+    return this.cs.getCadastroVinculos(cadastro_id)
       .pipe(
         take(1),
         mergeMap(dados => {
           if (dados) {
-            this.cr.escondeCarregador();
-            return of(dados);
+            this.cs.cadastroVinculos = dados;
+            return of(true);
           } else {
-            this.cr.escondeCarregador();
             this.router.navigate(['/cadastro/listar']);
             return EMPTY;
           }

@@ -185,7 +185,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)" class="p-mr-2">
+              <!--<div *ngIf="cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -195,6 +195,19 @@
                   pTooltip="Apagar"
                   tooltipPosition="top"
                   (click)="cadastroApagar(cad)"
+                >
+                </button>
+              </div>-->
+              <div *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar" class="p-mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  (click)="cadastroApagar(indice,cad)"
                 >
                 </button>
               </div>
@@ -264,12 +277,12 @@
     [baseZIndex]="0"
     [modal]="true"
     [dismissableMask]="false"
-    [closable]="true"
+    [closable]="false"
     styleClass="tablistagem"
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-cadastro-excluir *ngIf="showApagar" [cadastro]="cs.cadastroApagar" [cadVin]="cadastroVinculos"></app-cadastro-excluir>
+    <app-cadastro-excluir *ngIf="showApagar" [cadVin]="cadastroVinculos" (hideApagar)="escondeApagar()"></app-cadastro-excluir>
   </p-dialog>
 </ng-container>
 

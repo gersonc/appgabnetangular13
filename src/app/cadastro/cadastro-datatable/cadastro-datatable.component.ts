@@ -333,8 +333,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
         {
           label: 'APAGAR', icon: 'pi pi-trash', style: {'font-size': '1em'},
           command: () => {
-            if (this.cp.getPermissaoApager(this.cs.Contexto.vinculos, this.cs.Contexto.snum, this.cs.Contexto.pnum, this.cs.Contexto.onum, this.cs.Contexto.enum, this.cs.Contexto.tarq)) {
-              this.cadastroApagar(this.cs.Contexto);
+            if (this.permArquivo(this.cs.Contexto)) {
+              this.cadastroApagar(this.cs.idx,this.cs.Contexto);
             }
           }
         });
@@ -397,26 +397,22 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   cadastroDetalheCompleto(cad: CadastroI) {
-    console.log('cadastroDetalheCompleto', cad);
-
     if(this.cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum)) {
       this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
             this.cadastroVinculos = dados;
-            console.log('cadastroVinculos', this.cadastroVinculos);
           },
           error: err => console.error('ERRO-->', err),
           complete: () => {
-            this.cs.cadastroApagar = cad;
-            this.showApagar = true;
+            this.cadastroDetalhe = cad;
+            this.showCompleto = true;
+            this.showDetalhe = true;
           }
         })
       );
     }
-
-
   }
 
   escondeDetalhe() {
@@ -442,9 +438,19 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
   }
 
-  cadastroApagar(cad: CadastroI) {
-    if(this.cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)) {
-      this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
+  permArquivo(cad: CadastroI): boolean {
+    return (cad.cadastro_arquivos.length === 0) ? true : (this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn || this.aut.arquivos_apagar);
+  }
+
+  cadastroApagar(index: number, cad: CadastroI) {
+    if(this.permArquivo(cad)) {
+      this.cs.cadastroApagar = cad;
+      this.cs.idx = +index;
+      this.cs.Contexto = undefined;
+      this.cs.salvaState();
+      this.dtb.saveState();
+      this.router.navigate(['/cadastro/excluir', +cad.cadastro_id]);
+      /*this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -453,15 +459,23 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
           },
           error: err => console.error('ERRO-->', err),
           complete: () => {
-            this.cadastroDetalhe = cad;
-            this.showCompleto = true;
-            this.showDetalhe = true;
+            this.cs.Contexto = undefined
+            this.showApagar = true;
           }
         })
-      );
+      );*/
     } else {
+
       console.log('SEM PERMISSAO');
     }
+  }
+
+  escondeApagar() {
+    this.cadastroVinculos = null;
+    this.showApagar = false;
+    this.cs.idx = undefined;
+    this.cs.cadastroApagar = null;
+    this.sub2.forEach(s => s.unsubscribe());
   }
 
   stripslashes(str?: string): string | null {

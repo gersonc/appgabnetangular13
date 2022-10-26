@@ -82,10 +82,10 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
     { provide: ErroInterceptado, useClass: ErroInterceptador },
     MessageService,
-    WindowsService
+    WindowsService,
+    /*{ provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },*/
   ],
   bootstrap: [AppComponent]
 })

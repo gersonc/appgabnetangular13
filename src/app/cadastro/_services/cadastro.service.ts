@@ -32,7 +32,8 @@ export class CadastroService {
   sub: Subscription[] = [];
   cadastros: CadastroI[] = [];
   selecionados: CadastroI[] = [];
-  Contexto: CadastroI;
+  Contexto?: CadastroI;
+  cadastroVinculos: CadastroVinculosI | null = null;
   busca?: CadastroBuscaI;
   tabela?: DatatableI;
   stateSN = false;
@@ -670,7 +671,7 @@ export class CadastroService {
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
-  getCadastroVinculos(id: number) {
+  getCadastroVinculos(id: number): Observable<CadastroVinculosI> {
     let url: string;
     url = this.url.cadastro + '/vinculos/' + id;
     return this.http.get<CadastroVinculosI>(url);
