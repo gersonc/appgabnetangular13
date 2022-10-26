@@ -42,7 +42,8 @@ export class EtiquetaCadastroService {
         cadastro_estado_nome: d.cadastro_estado_nome,
         cadastro_responsavel: this.limpaTxt(d.cadastro_responsavel),
         cadastro_tratamento_nome: d.cadastro_tratamento_nome,
-        cadastro_cargo: this.limpaTxt(d.cadastro_cargo)
+        cadastro_cargo: this.limpaTxt(d.cadastro_cargo),
+        cadastro_sigilo2: d.cadastro_sigilo2
       }
     });
   }

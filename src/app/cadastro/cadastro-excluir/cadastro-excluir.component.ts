@@ -5,6 +5,8 @@ import {Stripslashes} from "../../shared/functions/stripslashes";
 import {CadastroService} from "../_services/cadastro.service";
 import {MsgService} from "../../_services/msg.service";
 import {Router} from "@angular/router";
+import {take} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-cadastro-excluir',
@@ -14,8 +16,10 @@ import {Router} from "@angular/router";
 export class CadastroExcluirComponent implements OnInit {
 
   idx = -1;
-
+  sub: Subscription[] = [];
   botaoEnviarVF = false;
+  resp: any[] = [];
+
   constructor(
     public aut: AuthenticationService,
     public cs: CadastroService,
@@ -24,9 +28,7 @@ export class CadastroExcluirComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.cadastro = this.cs.cadastroApagar;
     this.idx = this.cs.idx;
-    // console.log('cadastro', this.cadastro);
   }
 
 
@@ -57,7 +59,75 @@ export class CadastroExcluirComponent implements OnInit {
   }
 
   excluir(){
+    if(this.permArquivo()) {
+      this.botaoEnviarVF = true;
+      this.sub.push(this.cs.excluirCadastro(this.cs.cadastroApagar.cadastro_id)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.resp = dados;
+          },
+          error: (err) => {
+            this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO APAGAR', detail: this.resp[2]});
+            console.error(err);
+          },
+          complete: () => {
+            if (this.resp[0]) {
+              let a = 0;
+              let ct: any = {};
+              if (sessionStorage.getItem('cadastro-table')) {
+                ct = JSON.parse(sessionStorage.getItem('cadastro-table'));
+              }
 
+              if (this.cs.expandidoSN) {
+                if (this.cs.expandido.cadastro_id === this.cs.cadastroApagar.cadastro_id) {
+                  this.cs.expandidoSN = false;
+                  delete this.cs.expandido;
+                  this.cs.expandido = undefined;
+                  if (ct.expandedRowKeys !== undefined) {
+                    delete ct.expandedRowKeys;
+                    a++;
+                  }
+                }
+              }
+
+              if (ct.selection !== undefined && Array.isArray(ct.selection) && ct.selection.length > 0) {
+                const i: number = ct.selection.findIndex(c => +c.cadastro_id === this.cs.cadastroApagar.cadastro_id);
+                if (i !== -1) {
+                  ct.selection.splice(i, 1);
+                  a++;
+                }
+              }
+
+              if (a > 0) {
+                sessionStorage.removeItem('cadastro-table');
+                sessionStorage.setItem('cadastro-table', JSON.stringify(ct));
+              }
+
+              this.cs.cadastros.splice(this.cs.idx, 1);
+              this.cs.cadastroApagar = null;
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'success',
+                summary: 'CADASTRO APAGADO',
+                detail: this.resp[2]
+              });
+
+
+              this.voltar();
+            } else {
+              console.error('ERRO - EXCLUIR ', this.resp[2]);
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'warn',
+                summary: 'ATENÇÃO - ERRO',
+                detail: this.resp[2]
+              });
+            }
+          }
+        })
+      );
+    }
   }
 
   voltarListar() {

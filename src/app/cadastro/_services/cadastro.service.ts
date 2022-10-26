@@ -97,7 +97,6 @@ export class CadastroService {
         this.criaBusca();
       } else {
         this.tabela.sortField = 'cadastro_nome';
-        // this.tabela.sortField = 'cadastro_cep';
         this.tabela.camposTexto = cadastrocampostexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -141,9 +140,7 @@ export class CadastroService {
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
       this.busca.sortOrder = 1;
-      //this.busca.sortOrder = -1;
       this.busca.sortField = 'cadastro_nome';
-      // this.busca.sortField = 'cadastro_cep';
       this.busca.etiqueta = 0;
     }
   }
@@ -163,7 +160,6 @@ export class CadastroService {
   }
 
   onContextMenuSelect(event) {
-    console.log('onContextMenuSelect', event);
     this.idx = this.cadastros.findIndex(c => +event.data.cadastro_id === +c.cadastro_id);
     this.Contexto = event.data;
   }
@@ -223,7 +219,6 @@ export class CadastroService {
   }
 
   onColResize(ev) {
-    console.log('onColResize', ev);
   }
 
   testaCampoTexto(field: string): boolean {
@@ -280,7 +275,7 @@ export class CadastroService {
     this.busca.cadastro_jornal = (b.cadastro_jornal !== undefined) ? +b.cadastro_jornal : undefined;
     this.busca.cadastro_mala = (b.cadastro_mala !== undefined) ? +b.cadastro_mala : undefined;
     this.busca.cadastro_agenda = (b.cadastro_agenda !== undefined) ? +b.cadastro_agenda : undefined;
-    this.busca.cadastro_sigilo = (b.cadastro_sigilo !== undefined) ? +b.cadastro_sigilo : undefined;
+    this.busca.cadastro_sigilo2 = (b.cadastro_sigilo2 !== undefined) ? +b.cadastro_sigilo2 : undefined;
     this.busca.cadastro_cpfcnpj = (b.cadastro_cpfcnpj !== undefined) ? b.cadastro_cpfcnpj : undefined;
     this.busca.telefone = (b.telefone !== undefined) ? b.telefone : undefined;
     this.busca.cadastro_campo1 = (b.cadastro_campo1 !== undefined) ? b.cadastro_campo1 : undefined;
@@ -488,23 +483,6 @@ export class CadastroService {
           this.ecs.parceEtiquetas(this.cadastros);
           this.showEtiquetas = true;
         }
-        // let listEtiquetas: CadastroEtiquetaListI;
-        /*this.sub.push(this.postCadastroBuscaEtiqueta(busca)
-          .subscribe({
-            next: (dados) => {
-              this.ecs.cadastro = dados.cadastros;
-              this.numEtiquetas = +dados.total.num;
-            },
-            error: err => {
-              console.error('ERRO-->', err);
-            },
-            complete: () => {
-              this.showEtiquetas = true;
-              // CsvService.jsonToCsv('cadastro', this.tabela.selectedColumns, slolicRelatorio.cadastros);
-
-            }
-          })
-        );*/
       }
 
   }
@@ -512,50 +490,6 @@ export class CadastroService {
   hideEtiqueta(ev) {
     this.showEtiquetas = false;
   }
-
-  /*parceEtiquetas(c: CadastroI[]): CadastroEtiquetaI[] {
-    return c.filter( cd => (
-      cd.cadastro_endereco !== null &&
-      cd.cadastro_endereco.length > 3 &&
-      cd.cadastro_cep !== null &&
-      cd.cadastro_cep.length >= 8 &&
-      cd.cadastro_cep.length <= 9
-    )).map(d => {
-      return {
-        cadastro_id: d.cadastro_id,
-        cadastro_tipo_tipo: d.cadastro_tipo_tipo,
-        cadastro_nome: d.cadastro_nome,
-        cadastro_endereco: d.cadastro_endereco,
-        cadastro_endereco_numero: d.cadastro_endereco_numero,
-        cadastro_endereco_complemento: d.cadastro_endereco_complemento,
-        cadastro_bairro: d.cadastro_bairro,
-        cadastro_municipio_nome: d.cadastro_municipio_nome,
-        cadastro_cep: (d.cadastro_cep.length === 8) ? d.cadastro_cep.substring(0,5) + '-' + d.cadastro_cep.substring(5,3): d.cadastro_cep,
-        cadastro_estado_nome: d.cadastro_estado_nome,
-        cadastro_responsavel: d.cadastro_responsavel,
-        cadastro_tratamento_nome: d.cadastro_tratamento_nome,
-        cadastro_cargo: d.cadastro_cargo
-      }
-    });
-    /!*const e: CadastroEtiquetaI[] = c.map(d => {
-      return {
-        cadastro_id: d.cadastro_id,
-        cadastro_tipo_tipo: d.cadastro_tipo_tipo,
-        cadastro_nome: d.cadastro_nome,
-        cadastro_endereco: d.cadastro_endereco,
-        cadastro_endereco_numero: d.cadastro_endereco_numero,
-        cadastro_endereco_complemento: d.cadastro_endereco_complemento,
-        cadastro_bairro: d.cadastro_bairro,
-        cadastro_municipio_nome: d.cadastro_municipio_nome,
-        cadastro_cep: d.cadastro_cep,
-        cadastro_estado_nome: d.cadastro_estado_nome,
-        cadastro_responsavel: d.cadastro_responsavel,
-        cadastro_tratamento_nome: d.cadastro_tratamento_nome,
-        cadastro_cargo: d.cadastro_cargo
-      }
-    });
-    return e;*!/
-  }*/
 
   customSort(ev) {
   }
@@ -708,34 +642,9 @@ export class CadastroService {
 
   }
 
-  /*montaHistorico(idx: number) {
-    this.aps.idx = idx;
-    this.aps.andPropForm.idx = idx;
-  }*/
-
-  /*recebeRegistro(h: AndPropI) {
-    if (h.acao === 'incluir') {
-      if (Array.isArray(this.cadastros[h.idx].andamento_cadastro)) {
-        this.cadastros[h.idx].andamento_cadastro.push(h.andamentoCadastroListar[0]);
-      } else {
-        this.cadastros[h.idx].andamento_cadastro = [h.andamentoCadastroListar[0]];
-      }
-    }
-    if (h.acao === 'alterar') {
-      const m: AndamentoCadastroI[] = this.cadastros[h.idx].andamento_cadastro;
-      const n: number = m.findIndex(s => s.andamento_cadastro_id === h.andamentoCadastroListar[0].andamento_cadastro_id);
-      this.cadastros[h.idx].andamento_cadastro.splice(n, 1, h.andamentoCadastroListar[0]);
-    }
-    if (h.acao === 'apagar') {
-      const m: AndamentoCadastroI[] = this.cadastros[h.idx].andamento_cadastro;
-      const n: number = m.findIndex(s => s.andamento_cadastro_id === h.andamentoCadastroListar[0].andamento_cadastro_id);
-      this.cadastros[h.idx].andamento_cadastro.splice(n, 1);
-    }
-  }*/
 
   rowsChange(ev) {
     this.mudaRows = this.tabela.rows;
-    console.log('rowsChange',ev);
     if (+ev <= this.tabela.rows) {
       this.tabela.rows = +ev;
       this.tabela.pageCount = this.tabela.totalRecords / +ev;
@@ -755,7 +664,6 @@ export class CadastroService {
 
       }
     }
-    // this.mudaRows = this.tabela.rows;
   }
 
   mudaRowsPerPageOptions(t: number) {

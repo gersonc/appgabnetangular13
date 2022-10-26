@@ -14,6 +14,7 @@ export interface CadastroEtiquetaI {
   cadastro_responsavel: string | null;
   cadastro_tratamento_nome: string | null;
   cadastro_cargo: string | null;
+  cadastro_sigilo2: number;
 }
 
 export interface CadastroEtiquetaListI {

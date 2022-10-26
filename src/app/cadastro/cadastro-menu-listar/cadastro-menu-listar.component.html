@@ -1,5 +1,12 @@
 <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
   <form [formGroup]="formMenu" (keyup)="onKey($event)" class="menuinterno-form">
+    <ng-container *ngIf="!auth.cadastrosigilo_listar">
+      <input
+        type="hidden"
+        formControlName="cadastro_sigilo2"
+        id="cadastro_sigilo2"
+      >
+    </ng-container>
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
         <div class="p-mr-2">
@@ -411,7 +418,7 @@
                 id="cadastro_sigilo"
                 [options]="dd.ddn.ddCadastroSn"
                 optionLabel="label"
-                formControlName="cadastro_sigilo"
+                formControlName="cadastro_sigilo2"
                 placeholder="TODOS"
                 [showClear]="true"
               ></p-dropdown>

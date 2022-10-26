@@ -31,7 +31,7 @@ export interface CadastroBuscaI {
   cadastro_jornal?: number;
   cadastro_mala?: number;
   cadastro_agenda?: number;
-  cadastro_sigilo?: number;
+  cadastro_sigilo2?: number;
   cadastro_cpfcnpj?: string;
   telefone?: string;
   cadastro_campo1?: string;

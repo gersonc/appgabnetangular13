@@ -71,7 +71,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
       cadastro_jornal: [null],
       cadastro_mala: [null],
       cadastro_agenda: [null],
-      cadastro_sigilo: [null],
+      cadastro_sigilo2: [null],
       cadastro_cpfcnpj: [null],
       telefone: [null],
       cadastro_campo1: [null],
@@ -219,8 +219,8 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     if (this.formMenu.get('cadastro_agenda').value !== null) {
       b.cadastro_agenda = +this.formMenu.get('cadastro_agenda').value.value;
     }
-    if (this.formMenu.get('cadastro_sigilo').value !== null) {
-      b.cadastro_sigilo = +this.formMenu.get('cadastro_sigilo').value.value;
+    if (this.formMenu.get('cadastro_sigilo2').value !== null) {
+      b.cadastro_sigilo2 = +this.formMenu.get('cadastro_sigilo2').value.value;
     }
     if (this.formMenu.get('cadastro_campo4_id').value !== null && this.formMenu.get('cadastro_campo4_id').value.value > 0) {
       b.cadastro_campo4_id = +this.formMenu.get('cadastro_campo4_id').value.value;

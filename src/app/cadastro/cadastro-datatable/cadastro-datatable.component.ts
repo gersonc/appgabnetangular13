@@ -355,11 +355,10 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       this.cs.tabela.first = +event.first;
       ct++;
     }
-    if (event.rows !== undefined && this.cs.tabela.rows !== +event.rows) {
-      console.log('onLazyLoad event.rows',event.rows);
-      // this.cs.tabela.rows = +event.rows;
-      // ct++;
-    }
+    /*if (event.rows !== undefined && this.cs.tabela.rows !== +event.rows) {
+      this.cs.tabela.rows = +event.rows;
+      ct++;
+    }*/
     if (this.cs.tabela.sortOrder !== +event.sortOrder) {
       this.cs.tabela.sortOrder = +event.sortOrder;
       ct++;
@@ -389,7 +388,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   cadastroDetalheSimples(cad) {
-    console.log('cadastroDetalheCompleto', cad)
     this.cadastroVinculos = null;
     this.showCompleto = false;
     this.showDetalhe = true;
