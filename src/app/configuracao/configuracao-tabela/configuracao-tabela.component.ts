@@ -43,7 +43,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   tabela: string = null;
   configuracao = new ConfiguracaoModel();
   titulo = 'CONFIGURAÇÕES'
-
+  btnOff = false;
 
   mostraIncluir = false;
 
@@ -300,6 +300,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.cfs.configuracao = this.configuracao;
     // this.onConfTitulo.emit(this.configuracao);
     this.getAll(this.configuracao.tabela);
+    this.btnOff = false;
   }
 
   resetAll() {
@@ -330,6 +331,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.mostraIncluir = false;
     this.msgErroIncluir = null;
     this.msgErroEditar = null;
+    this.btnOff = false;
   }
 
   getAll(tabela: string) {
@@ -450,6 +452,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         this.nomeOld = nome;
       }
     }
+    this.btnOff = true;
   }
 
   onAlterar() {
@@ -552,6 +555,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   onIncluir() {
     this.acao = 'incluir';
+    this.btnOff = true;
     this.msgErroIncluir = null;
     this.messageService.clear();
     if (this.nomeIncluir) {
@@ -603,6 +607,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onApagar() {
+    this.btnOff = true;
     this.acao = 'deletar';
     const dados: any = {
       'tabela': this.tabel,
@@ -633,6 +638,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   onDeletar(id: number, nome: string, idx: number) {
     this.acao = 'deletar';
+    this.btnOff = true;
     this.mostraAlterar = 0;
     this.mostraApagar = id;
     this.id = id;
@@ -717,6 +723,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       this.colsp++;
     }
     this.confirmaAlterar = false;
+    this.btnOff = false;
   }
 
   corrigeDropdown(tabela: string) {

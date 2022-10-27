@@ -15,12 +15,12 @@
     <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
   </div>
   <table *ngIf="cfs.configuracao" class="tabela table-hover" style="width: 100%;">
-    <caption *ngIf="cfs.configuracao.titulo"><b>{{cfs.configuracao.titulo}}</b></caption>
-    <thead *ngIf="perIncluir && !idx">
+    <!--<caption *ngIf="cfs.configuracao.titulo"><b>{{cfs.configuracao.titulo}}</b></caption>-->
+    <thead *ngIf="perIncluir">
       <tr *ngIf="!mostraIncluir">
         <td>&nbsp;</td>
         <td style="text-align:center; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
-          <button pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" style="margin-right: .5em" (click)="clickIncluir()"></button>
+          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" style="margin-right: .5em" (click)="clickIncluir()"></button>
         </td>
       </tr>
       <tr *ngIf="mostraIncluir">
