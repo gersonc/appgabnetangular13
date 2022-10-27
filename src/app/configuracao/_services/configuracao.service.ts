@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Configuracao2Model, ConfiguracaoModel } from "../_models/configuracao-model";
+import {Configuracao2Model, ConfiguracaoModel, ConfiguracaoModelInterface} from "../_models/configuracao-model";
 import { DropdownService, UrlService } from "../../_services";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, Subscription } from "rxjs";
@@ -11,6 +11,7 @@ import { SelectItem, SelectItemGroup } from "primeng/api";
 })
 export class ConfiguracaoService {
   public configuracao = new ConfiguracaoModel();
+  public confTitulo: ConfiguracaoModelInterface = {};
   public configuracao2 = new Configuracao2Model();
   private sub: Subscription[] = [];
 

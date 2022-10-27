@@ -48,12 +48,35 @@ export class WindowsService {
     };
   }
 
+  public static getTopo(): any {
+    return  {
+      altura: document.getElementById('topoprincipal')!.offsetHeight,
+      largura: document.getElementById('topoprincipal')!.offsetWidth
+    };
+  }
+
+  public static getApp(): any {
+    return  {
+      altura: document.getElementById('app')!.offsetHeight,
+      largura: document.getElementById('app')!.offsetWidth
+    };
+  }
+
+  public static getCorpo(): any {
+    return  {
+      altura: +WindowsService.nativeWindow.innerHeight - (+document.getElementById('topoprincipal')!.offsetHeight + document.getElementById('principal')!.offsetHeight),
+      largura: +WindowsService.nativeWindow.innerWidth
+    };
+  }
+
   public static getMedidas(elemento: string): any {
     return  {
       altura: document.getElementById(elemento)!.offsetHeight,
       largura: document.getElementById(elemento)!.offsetWidth
     };
   }
+
+
 
   public static get altura(): number {
     return WindowsService.nativeWindow.innerHeight;

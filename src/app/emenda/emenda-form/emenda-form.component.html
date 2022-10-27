@@ -33,7 +33,8 @@
                       name="emenda_cadastro_tipo_id"
                       [ngClass]="aplicaCssErro('emenda_cadastro_tipo_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_cadastro_tipo_id')" msgErro="Tipo de Cadastro é obrigatório.">
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_cadastro_tipo_id')"
+                                            msgErro="Tipo de Cadastro é obrigatório.">
                     </app-campo-control-erro>
                   </div>
 
@@ -69,7 +70,8 @@
                         [disabled]="cadastroDisabled"
                       ></button>
                     </div>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_cadastro_id')" msgErro="Solicitante é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_cadastro_id')"
+                                            msgErro="Solicitante é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** emenda_autor_nome ***-->
@@ -84,7 +86,8 @@
                       [ngClass]="aplicaCssErro('emenda_autor_nome')"
                       pInputText
                     />
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_autor_nome')" msgErro="Autor é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_autor_nome')"
+                                            msgErro="Autor é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** emenda_assunto_id ***-->
@@ -116,7 +119,8 @@
                         (onBlockSubmit)="onBlockSubmit($event)"
                       ></app-configaux-incluir>
                     </div>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_assunto_id')" msgErro="Assunto é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_assunto_id')"
+                                            msgErro="Assunto é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** emenda_tipo_emenda_id ***-->
@@ -131,7 +135,8 @@
                       [required]="true"
                       [ngClass]="aplicaCssErro('emenda_tipo_emenda_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_tipo_emenda_id')" msgErro="Tipo de emenda é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_tipo_emenda_id')"
+                                            msgErro="Tipo de emenda é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** emenda_orgao_solicitado_nome ***-->
@@ -146,7 +151,8 @@
                       [ngClass]="aplicaCssErro('emenda_orgao_solicitado_nome')"
                       pInputText
                     />
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_orgao_solicitado_nome')" msgErro="Orgão solicitado é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_orgao_solicitado_nome')"
+                                            msgErro="Orgão solicitado é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** emenda_situacao ***-->
@@ -161,7 +167,8 @@
                       [required]="true"
                       [ngClass]="aplicaCssErro('emenda_situacao_id')"
                     ></p-dropdown>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_situacao_id')" msgErro="Situação é obrigatório."></app-campo-control-erro>
+                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('emenda_situacao_id')"
+                                            msgErro="Situação é obrigatório."></app-campo-control-erro>
                   </div>
 
                   <!--*** emenda_numero ***-->

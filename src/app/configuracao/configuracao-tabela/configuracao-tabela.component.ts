@@ -1,11 +1,11 @@
-import {Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input} from '@angular/core';
+import {Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConfiguracaoService } from '../_services';
 import { take } from 'rxjs/operators';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { Message, MessageService, SelectItem } from 'primeng/api';
 import { DropdownService } from '../../_services';
-import { ConfiguracaoModel } from '../_models/configuracao-model';
+import {ConfiguracaoModel, ConfiguracaoModelInterface} from '../_models/configuracao-model';
 
 @Component({
   selector: 'app-configuracao-tabela',
@@ -13,7 +13,7 @@ import { ConfiguracaoModel } from '../_models/configuracao-model';
   styleUrls: ['./configuracao-tabela.component.css']
 })
 export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy {
-
+  @Output() onConfTitulo = new EventEmitter<ConfiguracaoModelInterface>();
   @Input() componente?: string = null;
 
   private sub: Subscription[] = [];
@@ -42,7 +42,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   confirmaApagar = false;
   tabela: string = null;
   configuracao = new ConfiguracaoModel();
-  titulo = 'CONFIGURAÇÕES';
+  titulo = 'CONFIGURAÇÕES'
+
 
   mostraIncluir = false;
 
@@ -297,6 +298,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.tabel = this.configuracao.tabela;
     this.titulo = this.configuracao.titulo;
     this.cfs.configuracao = this.configuracao;
+    // this.onConfTitulo.emit(this.configuracao);
     this.getAll(this.configuracao.tabela);
   }
 
@@ -331,7 +333,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   getAll(tabela: string) {
-    this.cs.mostraCarregador();
     this.getDropDown(tabela);
     const dados: any[] = [];
     dados.push(tabela);
@@ -342,10 +343,9 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         },
         (err) => {
           console.error(err);
-          this.cs.escondeCarregador();
         },
         () => {
-          this.cs.escondeCarregador();
+          this.onConfTitulo.emit(this.configuracao);
         }
       )
     );
@@ -457,7 +457,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.messageService.clear();
     if (this.nome && this.nome !== this.nomeOld) {
       if (this.nome.length > 1) {
-        this.cs.mostraCarregador();
         const dados: any[] = [];
         dados.push(this.tabel);
         dados.push(this.id);
@@ -470,10 +469,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             },
             (err) => {
               console.error(err);
-              this.cs.escondeCarregador();
             },
             () => {
-              this.cs.escondeCarregador();
               if (!this.resp[0]) {
                 this.nome = this.nomeOld;
                 this.confirmaAlterar = false;
@@ -515,7 +512,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.messageService.clear();
     if (this.nome && this.nome !== this.nomeOld) {
       if (this.nome.length > 1) {
-        this.cs.mostraCarregador();
         const dados: any[] = [];
         dados.push(this.tabel);
         dados.push(this.id);
@@ -528,10 +524,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             },
             (err) => {
               console.error(err);
-              this.cs.escondeCarregador();
             },
             () => {
-              this.cs.escondeCarregador();
               if (+this.resp[1] === +this.id) {
                 this.corrigeDropdown(this.tabel);
                 const tmp = this.listagem.find(i =>
@@ -562,7 +556,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.messageService.clear();
     if (this.nomeIncluir) {
       if (this.nomeIncluir.length > 1) {
-        this.cs.mostraCarregador();
         const dados: any[] = [];
         dados.push(this.tabel);
         dados.push(this.nomeIncluir);
@@ -573,10 +566,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             },
             (err) => {
               console.error(err);
-              this.cs.escondeCarregador();
             },
             () => {
-              this.cs.escondeCarregador();
               if (this.resp[0]) {
                 this.listagem.push({campo_id: this.resp[1], campo_nome: this.nomeIncluir.toUpperCase()});
                 this.corrigeDropdown(this.tabel);
@@ -618,7 +609,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       'id': this.id
     };
     this.messageService.clear();
-    this.cs.mostraCarregador();
     this.sub.push(this.cfs.deletar(dados)
       .pipe(take(1))
       .subscribe((dados3) => {
@@ -626,10 +616,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         },
         (err) => {
           console.error(err);
-          this.cs.escondeCarregador();
         },
         () => {
-          this.cs.escondeCarregador();
           const tmp = this.listagem.find(i =>
             i.campo_id === this.id
           );
@@ -659,7 +647,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     const dados: any[] = [];
     dados.push(this.tabel);
     dados.push(this.id);
-    this.cs.mostraCarregador();
     this.sub.push(this.cfs.impactoDelete(dados)
       .pipe(take(1))
       .subscribe((dados4) => {
@@ -667,10 +654,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         },
         (err) => {
           console.error(err);
-          this.cs.escondeCarregador();
         },
         () => {
-          this.cs.escondeCarregador();
           this.confirmaApagar = this.resp[0];
           if (this.resp[2].length > 0) {
             this.resp[2].forEach((m: string) => {
@@ -697,7 +682,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         'id': this.id,
         'novo_id': this.drop
       };
-      this.cs.mostraCarregador();
       this.sub.push(this.cfs.deletar(dados)
         .pipe(take(1))
         .subscribe((dados5) => {
@@ -705,11 +689,9 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           },
           (err) => {
             console.error(err);
-            this.cs.escondeCarregador();
           },
           () => {
             this.corrigeDropdown(this.tabel);
-            this.cs.escondeCarregador();
             this.msgs.push({key: 'msg1', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
             this.onCancela();
           })
@@ -745,5 +727,21 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.mostraIncluir = !this.mostraIncluir;
   }
 
+  cssIncluir(): any {
+    return (!this.mostraIncluir) ? null : {
+      'background': 'var(--blue-200)'
+    };
+  }
 
+  cssAlterar(): any {
+    return (this.mostraAlterar === 0) ? null : {
+      'background': 'var(--yellow-200)'
+    };
+  }
+
+  cssApagar(): any {
+    return (this.acao!=='deletar') ? null : {
+      'background': 'var(--pink-200)'
+    };
+  }
 }

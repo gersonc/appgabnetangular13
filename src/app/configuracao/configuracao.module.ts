@@ -27,6 +27,7 @@ import { NucleoModule } from '../nucleo/nucleo.module';
 import { ConfiguracaoTabela2Component } from './configuracao-tabela2/configuracao-tabela2.component';
 import { UsuarioModule } from '../usuario/usuario.module';
 import {InputSwitchModule} from "primeng/inputswitch";
+import {RippleModule} from "primeng/ripple";
 
 
 
@@ -60,7 +61,8 @@ import {InputSwitchModule} from "primeng/inputswitch";
         EtiquetaModule,
         NucleoModule,
         UsuarioModule,
-        InputSwitchModule
+        InputSwitchModule,
+        RippleModule
     ],
   exports: [
     ConfiguracaoComponent

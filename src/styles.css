@@ -246,7 +246,6 @@ body {
   font-family: var(--font-family);
 }
 
-andamento-proposicao-expandido
 
 
 /*
@@ -14496,8 +14495,8 @@ form.menuinterno-form {
 
 .formulario .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   margin: 0;
-  font-size: .8em;
-  font-weight: 400;
+  font-size: 1em;
+  font-weight: 500;
   padding: 0.3rem 2rem;
   border-bottom: 1px solid;
   border-bottom-color: var(--border-elementos-input-forms);
@@ -18798,6 +18797,18 @@ input.p-dropdown-filter {
 tr:not(.p-highlight):hover button.expandir {
   color: #ffffff !important;
 }
+
+
+button.config {
+  height: 1.5em !important;
+  font-size: 1.2em !important;
+  padding: .5em !important;
+  width: 1.7em !important;
+}
+tr:not(.p-highlight):hover button.config {
+  color: #ffffff !important;
+}
+
 
 @page {
   background: white;
