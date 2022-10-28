@@ -1,4 +1,3 @@
-
 <div
   style="
   padding: 10px;
@@ -12,22 +11,25 @@
   align-content: center;
   "
 >
-  <div *ngIf="!cfs.configuracao2" class="container" style="text-align:center">
-    <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
-  </div>
-  <!--<table  class="tabelasimples" style="width: 100%;">
-    <caption *ngIf="cfs.configuracao2.titulo">{{cfs.configuracao2.titulo}}</caption>
-  </table>-->
-<p-table *ngIf="cfs.configuracao2" [value]="listagem" dataKey="campo_id" editMode="row">
-  <ng-template *ngIf="cfs.configuracao2.titulo" pTemplate="caption">
+<p-table
+  *ngIf="cfs.configuracao2"
+  [value]="listagem"
+  dataKey="campo_id"
+  editMode="row"
+  [scrollable]="true"
+  [scrollable]="true"
+  [scrollHeight]="'100%'"
+  styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
+>
+<!--  <ng-template *ngIf="cfs.configuracao2.titulo" pTemplate="caption">
     <b><span style="text-align: center">{{cfs.configuracao2.titulo}}</span></b>
-  </ng-template>
+  </ng-template>-->
   <ng-template pTemplate="header">
     <tr>
       <th>{{cfs.configuracao2.titulo}}</th>
       <th>{{campo_txt2}}</th>
-      <th style="text-align:center; padding-bottom: .3em; padding-top: .3em; min-width: 50px;">
-        <button *ngIf="alt.configuracao_incluir && !incluindo" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="p-button-raised p-button-rounded" [disabled]="editando"></button>
+      <th style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
+        <button *ngIf="alt.configuracao_incluir && !incluindo" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="config p-button-raised p-button-rounded" [disabled]="editando"></button>
       </th>
     </tr>
     <tr *ngIf="alt.configuracao_incluir && incluindo">
@@ -37,13 +39,13 @@
         <p-dropdown *ngIf="cfs.configuracao2.tabela === 'tipo_cadastro'" [options]="ddTipoCadastroTipo" [(ngModel)]="campo_id2_incluir"></p-dropdown>
       </th>
       <th style="text-align: center">
-        <button  pButton type="button" icon="pi pi-check" class="p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onIncluir()"></button>&nbsp;&nbsp;
-        <button pButton type="button" icon="pi pi-times" class="p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
+        <button  pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onIncluir()"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
       </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-    <tr [pEditableRow]="rowData">
+    <tr [pEditableRow]="rowData" >
       <td *ngIf="acao!=='deletar' && ri!==idx && !confirmaApagar">
         <p-cellEditor>
           <ng-template pTemplate="input">
@@ -79,16 +81,16 @@
           </ng-template>
         </p-cellEditor>
       </td>
-      <td *ngIf="acao!=='deletar'" style="text-align:center">
-        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(rowData)" class="p-button-raised p-button-rounded p-button-info" style="margin-right: .5em" [disabled]="!alt.configuracao_alterar || incluindo || editando"></button>
-        <button *ngIf="!editing" pButton type="button" icon="pi pi-trash" (click)="onDeletar(rowData, ri)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="!alt.configuracao_apagar || incluindo || editando"></button>
-        <button *ngIf="editing"  pButton type="button" pSaveEditableRow icon="pi pi-check" class="p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
-        <button *ngIf="editing"  pButton type="button" pCancelEditableRow icon="pi pi-times" class="p-button-raised p-button-rounded p-button-warning" (click)="onRowEditCancel(rowData, ri)"></button>
+      <td *ngIf="acao!=='deletar'" style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
+        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(rowData)" class="config p-button-raised p-button-rounded p-button-info" style="margin-right: .5em" [disabled]="!alt.configuracao_alterar || incluindo || editando"></button>
+        <button *ngIf="!editing" pButton type="button" icon="pi pi-trash" (click)="onDeletar(rowData, ri)" class="config p-button-raised p-button-rounded p-button-danger" [disabled]="!alt.configuracao_apagar || incluindo || editando"></button>
+        <button *ngIf="editing"  pButton type="button" pSaveEditableRow icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+        <button *ngIf="editing"  pButton type="button" pCancelEditableRow icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onRowEditCancel(rowData, ri)"></button>
       </td>
       <ng-container *ngIf="acao==='deletar' && confirmaApagar && ri===idx && alt.configuracao_apagar">
         <td colspan="2">
           <div class="atencao">
-            <div><i class="pi pi-exclamation-triangle"  style="color: var(--atencao);font-size: 3em;"></i></div>
+            <div><i class="pi pi-exclamation-triangle"  style="color: var(--danger);font-size: 3em;"></i></div>
             <div *ngFor="let ms of msg">
               {{ms}}
             </div>
@@ -106,7 +108,7 @@
           &nbsp;&nbsp;
           <span *ngIf="!mostraDropDown">{{rowData.campo_nome}}</span>
         </td>
-        <td>
+        <td style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
           <button *ngIf="mostraDropDown"
                   pButton
                   type="button"
@@ -123,7 +125,7 @@
                   (click)="onApagar()"
           ></button>
           &nbsp;&nbsp;
-          <button pButton type="button" icon="pi pi-times" class="p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
+          <button pButton type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
         </td>
       </ng-container>
     </tr>

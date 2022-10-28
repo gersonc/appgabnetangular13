@@ -1,4 +1,4 @@
-<div
+<!--<div
   style="
   padding: 10px;
   border-width: 2px 0 2px 2px;
@@ -10,30 +10,40 @@
   background-color: white;
   align-content: center;
   "
+  class="fixTableHead"
+>-->
+
+<div
+  class="fixTableHead"
 >
-  <div *ngIf="!cfs.configuracao" class="container" style="text-align:center">
-    <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
-  </div>
-  <table *ngIf="cfs.configuracao" class="tabela table-hover" style="width: 100%;">
+<!--  <table *ngIf="cfs.configuracao" class="tabela table-hover" style="width: 100%;">-->
+  <table *ngIf="cfs.configuracao" class="fixTableHead table-hover tabela">
     <!--<caption *ngIf="cfs.configuracao.titulo"><b>{{cfs.configuracao.titulo}}</b></caption>-->
     <thead *ngIf="perIncluir">
+      <!--<tr *ngIf="!mostraIncluir">
+        <th style="text-align:right;"><b>INCLUIR</b></th>
+        <th style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
+          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" (click)="clickIncluir()"></button>
+        </th>
+      </tr>-->
       <tr *ngIf="!mostraIncluir">
-        <td>&nbsp;</td>
-        <td style="text-align:center; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
-          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" style="margin-right: .5em" (click)="clickIncluir()"></button>
-        </td>
+        <th><b>INCLUIR</b></th>
+        <th>
+          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" (click)="clickIncluir()"></button>
+        </th>
       </tr>
       <tr *ngIf="mostraIncluir">
-      <td [ngStyle]="cssIncluir()">
+      <th [ngStyle]="cssIncluir()">
         <p-messages key="msgIncluirErro" [(value)]="msgErroIncluir"></p-messages>
         <input type="text" pInputText [(ngModel)]="nomeIncluir" size="60" maxlength="80" />
-      </td>
-      <td style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;" [ngStyle]="cssIncluir()">
+      </th>
+      <th [ngStyle]="cssIncluir2()">
         <button pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em"  (click)="onIncluir()"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
-      </td>
+      </th>
     </tr>
     </thead>
+    <tbody>
     <tr *ngFor="let cf of listagem; let i=index">
       <ng-container *ngIf="acao=='editar' && perAltarar && i===idx">
         <td [ngStyle]="cssAlterar()">
@@ -47,7 +57,7 @@
             [maxlength]="80"
           />
         </td>
-        <td style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;" [ngStyle]="cssAlterar()">
+        <td [ngStyle]="cssAlterar2()">
           <p-messages key="msgEditarErro" *ngIf="msgErroEditar" [(value)]="msgErroEditar"></p-messages>
           <button *ngIf="!confirmaAlterar && mostraAlterar !== 0"  pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onAlterar()"></button>
           <button *ngIf="confirmaAlterar && mostraAlterar !== 0"  pButton pRipple type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onAlterarConfirma()"></button>
@@ -60,7 +70,7 @@
           <p-dropdown
             *ngIf="mostraDropDown"
             [(ngModel)]="drop"
-            placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            placeholder="Selecione"
             [options]="dropDown"
             [required]="true"
             [autofocus]="true"
@@ -69,7 +79,7 @@
           &nbsp;&nbsp;
           <span *ngIf="!mostraDropDown">{{cf.campo_nome}}</span>
         </td>
-        <td style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;" [ngStyle]="cssApagar()">
+        <td [ngStyle]="cssApagar2()">
           <button *ngIf="mostraDropDown && perDeletar && confirmaApagar && mostraApagar !== 0"
                   pButton
                   pRipple
@@ -88,21 +98,18 @@
         </td>
       </ng-container>
       <ng-container *ngIf="i!==idx">
-        <td style="padding-left: 1rem">
+        <td>
           {{cf.campo_nome}}
         </td>
-        <td *ngIf="i!==idx" style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
+        <td *ngIf="i!==idx">
           <button *ngIf="perAltarar" pButton pRipple type="button" icon="pi pi-pencil" (click)="onEditar(cf.campo_id, cf.campo_nome, i)" class="config p-button-raised p-button-rounded p-button-info" style="margin-right: .5em" [disabled]="!alt.configuracao_alterar && mostraAlterar == 0 && mostraApagar == 0"></button>
           <button *ngIf="perDeletar" pButton pRipple type="button" icon="pi pi-trash" (click)="onDeletar(cf.campo_id, cf.campo_nome, i)" class="config p-button-raised p-button-rounded p-button-danger" [disabled]="!alt.configuracao_apagar  && mostraAlterar == 0 && mostraApagar == 0"></button>
         </td>
       </ng-container>
     </tr>
+    </tbody>
   </table>
 </div>
-
-<br>
-<br>
-<br>
 <p-toast key="msg2"></p-toast>
 <p-toast key="msgIncluir" position="center"></p-toast>
 <p-toast key="msgExcluir" position="center"></p-toast>

@@ -1,62 +1,64 @@
-<p-scrollPanel [style]="{width: '100%', height: altura}">
-  <div class="formulario externo">
-    <div class="p-fluid formulario-bg-externo" id="conf01">
+<div class="formulario-externo-bg">
+  <!--<p-scrollPanel styleClass="configuracao2">-->
+  <div class="p-fluid formulario-bg-externo">
 
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
-          <span class="formulario-titulo">{{titulo}}</span>
-        </div>
+    <div class="p-d-flex p-jc-center">
+      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <span class="formulario-titulo">{{titulo}}</span>
       </div>
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
-              <div class="p-fluid p-formgrid p-grid">
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-grid p-input-filled">
+          <div class="p-col-12 formulario">
+            <div class="p-fluid p-formgrid p-grid">
 
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                  <div class="p-pt-2 p-px-3 p-pb-1">
-                    <p-dropdown
-                      name="opcao"
-                      id="opcao"
-                      placeholder="Selecione"
-                      #opcao1="ngModel"
-                      [options]="menuCfgItens"
-                      [(ngModel)]="cfgItem"
-                      (onChange)="selectCfg($event)"
-                      [autofocus]="true"
-                    ></p-dropdown>
-                  </div>
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                <div class="p-pt-2 p-px-3 p-pb-1">
+                  <p-dropdown
+                    name="opcao"
+                    id="opcao"
+                    placeholder="Selecione"
+                    #opcao1="ngModel"
+                    [options]="menuCfgItens"
+                    [(ngModel)]="cfgItem"
+                    (onChange)="selectCfg($event)"
+                    [autofocus]="true"
+                  ></p-dropdown>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
       </div>
+      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
     </div>
 
-    <div class="p-grid" id="conf02">
-      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+
+    <div class="p-grid">
+      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 formulario-bg-externo"></div>
     </div>
 
-    <div class="p-fluid formulario-bg-externo">
+    <!--<div class="p-fluid">-->
       <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
           <div class="p-grid p-input-filled">
 
-            <div class="p-col-12 formulario">
+            <div class="p-col-12">
               <div class="p-fluid p-formgrid p-grid">
 
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                  <p-scrollPanel [style]="{width: '100%', height: altura2}">
+                  <!--<p-scrollPanel styleClass="configuracao" id="scrconf">-->
                     <ng-container *ngIf="tipoComp === 1">
-                      <app-configuracao-tabela [componente]="componente" (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela>
+                      <app-configuracao-tabela [componente]="componente"
+                                               (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela>
                     </ng-container>
                     <ng-container *ngIf="tipoComp === 2">
-                      <app-configuracao-tabela2 [componente]="componente"></app-configuracao-tabela2>
+                      <app-configuracao-tabela2 [componente]="componente"
+                                                (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela2>
                     </ng-container>
                     <ng-container *ngIf="tipoComp === 3">
-                      <app-etiqueta-config></app-etiqueta-config>
+                      <app-etiqueta-config (onConfTitulo)="onConfTitulo($event)"></app-etiqueta-config>
                     </ng-container>
                     <ng-container *ngIf="tipoComp === 4">
                       <app-nucleo-config></app-nucleo-config>
@@ -74,7 +76,7 @@
                         </p>
                       </div>
                     </ng-container>
-                  </p-scrollPanel>
+                  <!--</p-scrollPanel>-->
                 </div>
 
               </div>
@@ -83,15 +85,15 @@
           </div>
         </div>
       </div>
-    </div>
+    <!--</div>-->
+  </div>
 
-
-    <div class="p-fluid formulario-bg-externo">
-      <br>
-    </div>
-    <div class="p-fluid formulario-bg-externo">
-      <br>
-    </div>
+  <div class="p-fluid formulario-bg-externo" style="min-height: 2rem; padding-top: 2rem">
 
   </div>
-</p-scrollPanel>
+<!--  <div class="p-fluid formulario-bg-externo">
+    <br>
+  </div>-->
+  <!--</p-scrollPanel>-->
+</div>
+

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, OnChanges, Input, SimpleChanges} from '@angular/core';
+import {Component, OnInit, OnDestroy, OnChanges, Input, SimpleChanges, Output, EventEmitter} from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfiguracaoService } from "../_services";
@@ -6,7 +6,10 @@ import { take } from "rxjs/operators";
 import { AuthenticationService, CarregadorService } from "../../_services";
 import { ConfirmationService, Message, MessageService, SelectItem } from "primeng/api";
 import { DropdownService } from "../../_services";
-import { Configuracao2Model, ConfiguracaoModel} from "../_models/configuracao-model";
+import {
+  Configuracao2Model,
+  Configuracao2ModelInterface,
+} from "../_models/configuracao-model";
 
 @Component({
   selector: 'app-configuracao-tabela2',
@@ -15,7 +18,7 @@ import { Configuracao2Model, ConfiguracaoModel} from "../_models/configuracao-mo
   providers: [ConfirmationService]
 })
 export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestroy {
-
+  @Output() onConfTitulo = new EventEmitter<Configuracao2ModelInterface>();
   @Input() componente?: string = null;
 
   private sub: Subscription[] = [];
@@ -55,7 +58,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   constructor(
     public cfs: ConfiguracaoService,
     public alt: AuthenticationService,
-    private cs: CarregadorService,
     private dd: DropdownService,
     private messageService: MessageService,
     private cf: ConfirmationService,
@@ -74,7 +76,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_id2: null,
             campo_nome: 'prioridade_nome',
             campo_txt1: 'prioridade_color',
-            titulo: 'PRIORIDADE',
+            titulo: 'PRIORIDADES',
             campo_txt2: 'COR',
             texto: 'a prioridade'
           };
@@ -87,7 +89,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_id: 'tipo_cadastro_id',
             campo_id2: 'tipo_cadastro_tipo',
             campo_nome: 'tipo_cadastro_nome',
-            titulo: 'TIPO DE CADASTRO',
+            titulo: 'TIPOS DE CADASTRO',
             campo_txt1: null,
             campo_txt2: 'PF/PJ',
             texto: 'o tipo de cadastro'
@@ -185,7 +187,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   getAll() {
-    this.cs.mostraCarregador();
     this.getDropDown();
     let dados: any[] = [];
     dados.push(this.cfs.configuracao2.tabela);
@@ -196,10 +197,9 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         },
         (err) => {
           console.error(err);
-          this.cs.escondeCarregador();
         },
         () => {
-          this.cs.escondeCarregador();
+          this.onConfTitulo.emit(this.configuracao);;
         }
       )
     );
@@ -264,7 +264,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.acao = 'incluir';
     if (this.nomeIncluir) {
       if (this.nomeIncluir.length > 1) {
-        this.cs.mostraCarregador();
         let dados: any[] = [];
         dados.push(this.cfs.configuracao2.tabela);
         dados.push(this.nomeIncluir);
@@ -281,11 +280,9 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             },
             (err) => {
               console.error(err);
-              this.cs.escondeCarregador();
             },
             () => {
               this.incluindo = false;
-              this.cs.escondeCarregador();
               if (this.resp[0]) {
                 if (this.cfs.configuracao2.tabela === 'prioridade') {
                   this.listagem.push({
@@ -356,7 +353,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     }
     if (rowData.campo_nome && erro === 0) {
       if (rowData.campo_nome.length > 1) {
-        this.cs.mostraCarregador();
         let dados: any[] = [];
         dados.push(this.cfs.configuracao2.tabela);
         dados.push(rowData.campo_id);
@@ -374,10 +370,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             },
             (err) => {
               console.error(err);
-              this.cs.escondeCarregador();
             },
             () => {
-              this.cs.escondeCarregador();
               if (!this.resp[0]) {
                 this.confirmaAlterar = false;
                 this.messageService.add({key: 'msg2',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
@@ -426,7 +420,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   onAlterarConfirma(dados: any[], txt: string) {
     this.messageService.clear();
-    this.cs.mostraCarregador();
     this.sub.push(this.cfs.alterar(dados)
       .pipe(take(1))
       .subscribe({
@@ -435,7 +428,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         },
         error: err => console.error('ERRO-->', err),
         complete: () => {
-          this.cs.escondeCarregador();
           if (!this.resp[0]) {
             this.confirmaAlterar = false;
             this.messageService.add({key: 'msg2',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
@@ -529,7 +521,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         'id': this.id,
         'novo_id': this.drop
       };
-      this.cs.mostraCarregador();
       this.sub.push(this.cfs.deletar(dados)
         .pipe(take(1))
         .subscribe((dados) => {
@@ -537,7 +528,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
           },
           (err) => {
             console.error(err);
-            this.cs.escondeCarregador();
           },
           () => {
             const tmp = this.listagem.find(i =>
@@ -545,7 +535,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             );
             this.listagem.splice(this.listagem[this.listagem.indexOf(tmp)],1);
             this.corrigeDropdown();
-            this.cs.escondeCarregador();
             this.messageService.add({key: 'msg2',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
             this.onCancela();
           })
@@ -560,7 +549,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       'id': this.id
     };
     this.messageService.clear();
-    this.cs.mostraCarregador();
     this.sub.push(this.cfs.deletar(dados)
       .pipe(take(1))
       .subscribe((dados) => {
@@ -568,10 +556,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         },
         (err) => {
           console.error(err);
-          this.cs.escondeCarregador();
         },
         () => {
-          this.cs.escondeCarregador();
           const tmp = this.listagem.find(i =>
             i.campo_id === this.id
           );
@@ -597,7 +583,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     let dados: any[] = [];
     dados.push(this.cfs.configuracao2.tabela);
     dados.push(this.id);
-    this.cs.mostraCarregador();
     this.sub.push(this.cfs.impactoDelete(dados)
       .pipe(take(1))
       .subscribe((dados) => {
@@ -605,10 +590,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         },
         (err) => {
           console.error(err);
-          this.cs.escondeCarregador();
         },
         () => {
-          this.cs.escondeCarregador();
           if (this.resp[0] === true) {
             if (+this.resp[1] === this.id) {
               const tmp = this.listagem.find(i =>
@@ -688,5 +671,25 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     return v === 1 ? 'PF' : 'PJ';
   }
 
+  cssIncluir(): any {
+    return (!this.incluindo) ? null : {
+      'background': 'var(--blue-200)'
+    };
+  }
 
+  cssAlterar(): any {
+    return (!this.editando) ? null : {
+      'background': 'var(--yellow-200)'
+    };
+  }
+
+  cssApagar(): any {
+    return (this.acao!=='deletar') ? null : {
+      'background': 'var(--pink-200)'
+    };
+  }
+
+  cssRow(): any {
+    return (this.acao === 'deletar') ? {'background': 'var(--pink-200)'} : (!this.editando) ? null : { 'background': 'var(--yellow-200)'};
+  }
 }

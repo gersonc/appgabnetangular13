@@ -740,9 +740,22 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     };
   }
 
+  cssIncluir2(): any {
+    return (!this.mostraIncluir) ? null : {
+      'background': 'var(--blue-200)',
+      'padding': '0.55rem 1.65em 0.55rem 0'
+    };
+  }
+
   cssAlterar(): any {
     return (this.mostraAlterar === 0) ? null : {
       'background': 'var(--yellow-200)'
+    };
+  }
+  cssAlterar2(): any {
+    return (this.mostraAlterar === 0) ? null : {
+      'background': 'var(--yellow-200)',
+      'padding': '0.5rem 0.5rem'
     };
   }
 
@@ -751,4 +764,13 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       'background': 'var(--pink-200)'
     };
   }
+
+  cssApagar2(): any {
+    return (this.acao!=='deletar') ? null : {
+      'background': 'var(--pink-200)',
+      'padding': '1rem 0.5rem'
+    };
+  }
+
+
 }

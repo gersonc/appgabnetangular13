@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { EtiquetaClass, EtiquetaInterface } from "../_models";
 import { EtiquetaConfigService } from "../_services";
 import { CarregadorService, AuthenticationService } from "../../_services";
 import { Subscription } from "rxjs";
 import { take } from "rxjs/operators";
+import {ConfiguracaoModel, ConfiguracaoModelInterface} from "../../configuracao/_models/configuracao-model";
 
 
 @Component({
@@ -14,7 +15,7 @@ import { take } from "rxjs/operators";
   providers: [ConfirmationService]
 })
 export class EtiquetaConfigComponent implements OnInit, OnDestroy {
-
+  @Output() onConfTitulo = new EventEmitter<ConfiguracaoModelInterface>();
   etiquetas: EtiquetaInterface[];
   etiqueta: EtiquetaInterface;
   sub: Subscription[] = [];
@@ -26,9 +27,15 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   perIncluir = false;
   perAltarar = false;
   perDeletar = false;
+  configuracao: ConfiguracaoModelInterface = {
+    tabela: 'etiquetas',
+    campo_id: 'etq_id',
+    campo_nome: 'etq_modelo',
+    titulo: 'ETIQUETAS',
+    texto: ''
+  }
 
   constructor(
-    private cs: CarregadorService,
     private cf: ConfirmationService,
     public ecs: EtiquetaConfigService,
     private messageService: MessageService,
@@ -52,7 +59,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
         },
         error: err => console.error('ERRO-->', err),
         complete: () => {
-          this.cs.escondeCarregador();
+          this.onConfTitulo.emit(this.configuracao);
         }
       })
     );
@@ -79,7 +86,6 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
       icon: 'pi pi-trash',
       accept: () => {
         this.messageService.clear('msgExcluir');
-        this.cs.mostraCarregador();
         this.sub.push(this.ecs.excluir(etiqueta.etq_id)
           .pipe(take(1))
           .subscribe({
@@ -88,7 +94,6 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
             },
             error: err => console.error('ERRO-->', err),
             complete: () => {
-              this.cs.escondeCarregador();
               if (this.resp[0]) {
                 this.ecs.etqExecutado = true;
                 this.ecs.etqForm.etq_id = +this.resp[1];

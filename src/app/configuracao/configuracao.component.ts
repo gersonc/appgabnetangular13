@@ -4,6 +4,7 @@ import { AuthenticationService, CarregadorService } from '../_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfiguracaoService } from './_services';
 import {
+  Configuracao2ModelInterface,
   ConfiguracaoMenuIntensInterface,
   ConfiguracaoModel,
   ConfiguracaoModelInterface
@@ -124,7 +125,7 @@ export class ConfiguracaoComponent implements OnInit {
   checked: boolean = this.aut.dispositivo === 'mobile';
   medidas: any = {};
   altura = `${+WindowsService.getCorpo().altura}` + 'px';
-  altura2 = `${WindowsService.getCorpo().altura - 140}` + 'px';
+  altura2 = `${WindowsService.getCorpo().altura - 200}` + 'px';
 
   constructor(
     private aut: AuthenticationService,
@@ -147,7 +148,7 @@ export class ConfiguracaoComponent implements OnInit {
 
   }
 
-  onConfTitulo(ev: ConfiguracaoModelInterface) {
+  onConfTitulo(ev: ConfiguracaoModelInterface | Configuracao2ModelInterface) {
     this.confTitulo = ev;
     this.titulo = ev.titulo;
   }

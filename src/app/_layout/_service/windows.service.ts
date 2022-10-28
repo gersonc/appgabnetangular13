@@ -64,15 +64,15 @@ export class WindowsService {
 
   public static getCorpo(): any {
     return  {
-      altura: +WindowsService.nativeWindow.innerHeight - (+document.getElementById('topoprincipal')!.offsetHeight + document.getElementById('principal')!.offsetHeight),
-      largura: +WindowsService.nativeWindow.innerWidth
+      altura: +WindowsService.nativeWindow.document.offsetHeight - (+WindowsService.nativeWindow.document.getElementById('topoprincipal').innerHeight + WindowsService.nativeWindow.document.getElementById('principal')!.offsetHeight),
+      largura: +WindowsService.nativeWindow.document.innerWidth
     };
   }
 
   public static getMedidas(elemento: string): any {
     return  {
-      altura: document.getElementById(elemento)!.offsetHeight,
-      largura: document.getElementById(elemento)!.offsetWidth
+      altura: +WindowsService.nativeWindow.document.getElementById(elemento)!.offsetHeight,
+      largura: +WindowsService.nativeWindow.document.getElementById(elemento)!.offsetWidth
     };
   }
 
