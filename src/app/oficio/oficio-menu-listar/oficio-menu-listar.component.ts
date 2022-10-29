@@ -26,7 +26,7 @@ export class OficioMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     public vs: VersaoService,
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
+    // private dd: DropdownService,
     private os: OficioService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,

@@ -1,15 +1,17 @@
 import {Component, OnInit, OnDestroy, OnChanges, Input, SimpleChanges, Output, EventEmitter} from '@angular/core';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfiguracaoService } from "../_services";
 import { take } from "rxjs/operators";
-import { AuthenticationService, CarregadorService } from "../../_services";
-import { ConfirmationService, Message, MessageService, SelectItem } from "primeng/api";
+import { AuthenticationService } from "../../_services";
+import { ConfirmationService, Message, SelectItem } from "primeng/api";
 import { DropdownService } from "../../_services";
 import {
   Configuracao2Model,
   Configuracao2ModelInterface,
 } from "../_models/configuracao-model";
+import {MsgService} from "../../_services/msg.service";
+import {WindowsService} from "../../_layout/_service";
+import {DdService} from "../../_services/dd.service";
 
 @Component({
   selector: 'app-configuracao-tabela2',
@@ -30,9 +32,9 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   idx: number = null;
   mostraDropDown = false;
   dropDown: SelectItem[] = null;
+  testeDD: SelectItem = null;
   drop = 0;
   acao: string = null;
-  msgs: Message[] = [];
   msg: string[] = [];
   resp: any[];
   nomeIncluir: string = null;
@@ -49,7 +51,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   ddTipoCadastroTipo: SelectItem[] = [{ label: 'PF', value: 1}, { label: 'PJ', value: 2}];
   mostraApagar = 0;
   titulo = 'CONFIGURAÇÕES';
-
+  altura = `${WindowsService.altura - 170}` + 'px';
   msgErroEditar: Message[];
 
   configuracao = new Configuracao2Model();
@@ -57,12 +59,10 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   constructor(
     public cfs: ConfiguracaoService,
-    public alt: AuthenticationService,
-    private dd: DropdownService,
-    private messageService: MessageService,
+    public alt: AuthenticationService, // private dd: DropdownService,
+    private dd: DdService,
+    private ms: MsgService,
     private cf: ConfirmationService,
-    // private router: Router,
-    // private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -107,7 +107,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   ngOnInit(): void {
-    // this.cfs.configuracao2 = new Configuracao2Model();
+    // #dee2e6
+    console.log('cor->',this.hexToRGB2('#dee2e6', false) );
   }
 
   inicio() {
@@ -124,12 +125,10 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       this.cfs.configuracao2.texto = this.configuracao.texto;
       if (this.configuracao.tabela === 'prioridade') {
         this.cfs.configuracao2.campo_txt1 = this.configuracao.campo_txt1;
-        // this.cfs.configuracao2.campo_txt2 = null;
         this.cfs.configuracao2.campo_id2 = null;
       }
       if (this.configuracao.tabela === 'tipo_cadastro') {
         this.cfs.configuracao2.campo_txt1 = null;
-        // this.cfs.configuracao2.campo_txt2 = null;
         this.cfs.configuracao2.campo_id2 = this.configuracao.campo_id2;
       }
     this.campo_txt2 = this.configuracao.campo_txt2;
@@ -168,7 +167,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.dropDown = null;
     this.drop = 0;
     this.acao = null;
-    this.msgs = [];
     this.msg = [];
     this.resp = null;
     this.nomeIncluir = null;
@@ -216,6 +214,24 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         tp = 2;
         break;
     }
+
+    this.sub.push(this.dd.getDd(dropDownNome)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          this.dropDown = dados;
+        },
+        error: (err) => {
+          console.error(err);
+        },
+        complete: () => {
+          sessionStorage.setItem(dropDownNome, JSON.stringify(this.dropDown));
+        }
+      })
+    );
+
+
+    /*
     if (tp === 1) {
       if (!sessionStorage.getItem(dropDownNome)) {
         this.sub.push(this.dd.getDropdownNomeId(this.cfs.configuracao2.tabela, this.cfs.configuracao2.campo_id, this.cfs.configuracao2.campo_nome)
@@ -250,10 +266,12 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
           }
       }));
     }
+    */
+
+
   }
 
   onIncluindo() {
-    this.messageService.clear();
     this.nomeIncluir = null;
     this.campo_txt1Incluir = null;
     this.campo_id2_incluir = 1;
@@ -299,22 +317,21 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
                   });
                 }
                 this.corrigeDropdown();
-                this.messageService.add({key: 'msg2',severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
               } else {
-                this.messageService.add({key: 'msg2',severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
               }
             }
           )
         );
       } else {
-        this.messageService.add({key: 'msg2',severity: 'warn', summary: 'INCLUIR: ', detail: 'DADOS INVÁLIDOS.'});
+        this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'INCLUIR: ', detail: 'DADOS INVÁLIDOS.'});
       }
     }
   }
 
   onRowEditInit(rowData) {
     this.confirmaAlterar = false;
-    this.messageService.clear();
     this.acao = 'alterar';
     this.editando = true;
     this.id = +rowData.id;
@@ -374,7 +391,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             () => {
               if (!this.resp[0]) {
                 this.confirmaAlterar = false;
-                this.messageService.add({key: 'msg2',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
               } else {
                 if (this.resp[1] === 0) {
                   this.confirmaAlterar = true;
@@ -402,8 +419,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
                       };
                     }
                   }
-                  this.messageService.add({
-                    key: 'msg2',
+                  this.ms.add({
+                    key: 'toastprincipal',
                     severity: 'success',
                     summary: 'Alterações: ',
                     detail: this.resp[2]
@@ -419,7 +436,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   onAlterarConfirma(dados: any[], txt: string) {
-    this.messageService.clear();
     this.sub.push(this.cfs.alterar(dados)
       .pipe(take(1))
       .subscribe({
@@ -430,7 +446,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         complete: () => {
           if (!this.resp[0]) {
             this.confirmaAlterar = false;
-            this.messageService.add({key: 'msg2',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
           } else {
             if (+this.resp[1] === +this.id) {
               this.corrigeDropdown();
@@ -453,12 +469,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
                     campo_id2: this.campo_id2
                   };
                 }
-                /*else {
-                  this.listagem[this.listagem.indexOf(tmp)] = {
-                    campo_id: tmp.campo_id,
-                    campo_nome: this.nome.toString().toUpperCase()
-                  };
-                }*/
               }
               this.mostraMsgs(this.resp[2]);
             }
@@ -469,7 +479,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   onRowEditCancel(rowData, ri) {
-    this.messageService.clear();
     this.editando = false;
   }
 
@@ -478,14 +487,14 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       if (res.length > 0) {
         if (this.resp[1] === 0) {
           res.forEach((m: string) => {
-            this.messageService.add({key: 'msg2',severity: 'info', summary: 'Alterações: ', detail: m});
+            this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Alterações: ', detail: m});
           });
         } else {
-          this.messageService.add({key: 'msg2',severity: 'success', summary: 'Alterações: ', detail: this.resp[2]});
+          this.ms.add({key: 'toastprincipal',severity: 'success', summary: 'Alterações: ', detail: this.resp[2]});
         }
       }
     } else {
-      this.messageService.add({key: 'msg2',severity: 'error', summary: 'Alterações: ', detail: this.resp[2]});
+      this.ms.add({key: 'toastprincipal',severity: 'error', summary: 'Alterações: ', detail: this.resp[2]});
     }
   }
 
@@ -514,7 +523,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   onApagarConfirma() {
-    this.msgs = [];
+
     if (+this.drop > 0 && +this.drop !== this.id) {
       let dados: any = {
         'tabela': this.cfs.configuracao2.tabela,
@@ -535,7 +544,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             );
             this.listagem.splice(this.listagem[this.listagem.indexOf(tmp)],1);
             this.corrigeDropdown();
-            this.messageService.add({key: 'msg2',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
             this.onCancela();
           })
       );
@@ -548,7 +557,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       'tabela': this.cfs.configuracao2.tabela,
       'id': this.id
     };
-    this.messageService.clear();
+
     this.sub.push(this.cfs.deletar(dados)
       .pipe(take(1))
       .subscribe((dados) => {
@@ -565,7 +574,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             const idx = this.listagem.indexOf(tmp);
             this.listagem.splice(idx, 1);
           }
-          this.messageService.add({key: 'msg2',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
+          this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
           this.onCancela();
         })
     );
@@ -577,9 +586,9 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.idx = +idx;
     this.drop = 0;
     this.resp = null;
-    this.msgs = [];
+
     this.mostraDropDown = false;
-    this.messageService.clear();
+
     let dados: any[] = [];
     dados.push(this.cfs.configuracao2.tabela);
     dados.push(this.id);
@@ -599,10 +608,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               );
               this.listagem.splice(this.listagem[this.idx],1);
               this.corrigeDropdown();
-              // this.confirmaApagar = false;
-              // this.mostraDropDown = false;
-              this.messageService.add({
-                key: 'msg2',
+              this.ms.add({
+                key: 'toastprincipal',
                 severity: 'success',
                 summary: 'Exclusão: ',
                 detail: this.resp[2]
@@ -613,12 +620,12 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
                 this.mostraDropDown = this.resp[0];
                 this.mostraConfirmacao([this.id, this.idx]);
               } else {
-                this.messageService.add({key: 'msg2',severity: 'warn', summary: 'Exclusão: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'Exclusão: ', detail: this.resp[2]});
               }
             }
           } else {
             if (!this.confirmaApagar) {
-              this.messageService.add({key: 'msg2',severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
+              this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
             }
           }
 
@@ -660,7 +667,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.editando = false;
     this.confirmaApagar = false;
     this.confirmaAlterar = false;
-    this.messageService.clear();
+
   }
 
   corrigeDropdown() {
@@ -692,4 +699,112 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   cssRow(): any {
     return (this.acao === 'deletar') ? {'background': 'var(--pink-200)'} : (!this.editando) ? null : { 'background': 'var(--yellow-200)'};
   }
+
+  getCorTxt(campo_txt1?: string | null): string {
+    if (campo_txt1 === undefined || campo_txt1 === null) {
+      return 'NÃO DEFINIDO';
+    } else {
+      if (campo_txt1.substring(0,4) === 'var(') {
+        return 'PADRÃO';
+      } else {
+        return campo_txt1;
+      }
+    }
+  }
+
+  testarDD(a,ev) {
+    console.log('testarDD',a,ev, this.testeDD);
+  }
+
+  ddcor(cor?: string): any {
+    const b: string =  (cor === undefined || cor === null) ? 'transparent' : cor;
+    let c: string =  (cor === undefined || cor === null ) ? 'var(--text-color)' : cor;
+    if (c === 'var(--text-color)' || c.substring(0,4) === 'var(' || ((c.length < 3 || c.length > 4 ) && (c.length < 6 || c.length > 7))){
+      c = 'var(--text-color)';
+    } else {
+      c = this.setForegroundColor(cor);
+    }
+
+
+    return {
+      margin: 0,
+      padding: '0.2rem 1rem',
+      border: 0,
+      color: c,
+      background: b,
+      transition: 'box-shadow 0.2s',
+      borderRadius: 0
+    }
+  }
+
+  setForegroundColor(cor: string) {
+    let rgb  = this.hexToRGB(cor, false);
+    let sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+    return (sum > 128) ? 'black' : 'white';
+  }
+
+  hexToRGB(h,isPct) {
+    let ex = /^#([\da-f]{3}){1,2}$/i;
+    if (ex.test(h)) {
+      let r: any = 0, g: any = 0, b: any = 0;
+      isPct = isPct === true;
+
+      // 3 digits
+      if (h.length == 4) {
+        r = "0x" + h[1] + h[1];
+        g = "0x" + h[2] + h[2];
+        // @ts-ignore
+        b = "0x" + h[3] + h[3];
+      } else if (h.length == 7) {
+        r = "0x" + h[1] + h[2];
+        g = "0x" + h[3] + h[4];
+        b = "0x" + h[5] + h[6];
+      }
+      if (isPct) {
+        r = +(r / 255 * 100).toFixed(1);
+        g = +(g / 255 * 100).toFixed(1);
+        b = +(b / 255 * 100).toFixed(1);
+      }
+      return "rgb("+ (isPct ? r + "%," + g + "%," + b + "%" : +r + "," + +g + "," + +b) + ")";
+      // return [r,g,b];
+
+    } else {
+      return null;
+    }
+  }
+
+
+  hexToRGB2(h,isPct) {
+    let ex = /^#([\da-f]{3}){1,2}$/i;
+    if (ex.test(h)) {
+      let r: any = 0, g: any = 0, b: any = 0;
+      isPct = isPct === true;
+
+      // 3 digits
+      if (h.length == 4) {
+        // @ts-ignore
+        r = "0x" + h[1] + h[1];
+        g = "0x" + h[2] + h[2];
+        // @ts-ignore
+        b = "0x" + h[3] + h[3];
+
+        // 6 digits
+      } else if (h.length == 7) {
+        r = "0x" + h[1] + h[2];
+        g = "0x" + h[3] + h[4];
+        b = "0x" + h[5] + h[6];
+      }
+      if (isPct) {
+        r = +(r / 255 * 100).toFixed(1);
+        g = +(g / 255 * 100).toFixed(1);
+        b = +(b / 255 * 100).toFixed(1);
+      }
+      return "rgb("+ (isPct ? r + "%," + g + "%," + b + "%" : +r + "," + +g + "," + +b) + ")";
+
+    } else {
+      return "Invalid input color";
+    }
+  }
+
+
 }

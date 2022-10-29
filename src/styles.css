@@ -11,6 +11,33 @@
   font-style: normal;
 }
 
+
+:root {
+  --red: 28;
+  --green: 150;
+  --blue: 130;
+
+  --accessible-color: calc(
+    ((((var(--red) * 299) +
+    (var(--green) * 587) +
+    (var(--blue) * 114)) / 1000) - 128) * -1000
+  );
+}
+
+.button {
+  color: rgb(
+    var(--accessible-color),
+    var(--accessible-color),
+    var(--accessible-color)
+  );
+  background-color: rgb(
+    var(--red),
+    var(--green),
+    var(--blue)
+  );
+}
+
+
 .bi {
   font-family: 'word';
   speak: none;
@@ -49,8 +76,7 @@
   --surface-e: #ffffff;
   --surface-f: #ffffff;
 
-  --text-color: #212529;
-  : #6c757d;
+  --text-color: #212529;: #6c757d;
   --primary-color: #007bff;
   --secondary-color: var(--gray-700);
   --primary-color-highlight: var(--blue-300);
@@ -18939,8 +18965,6 @@ tr:not(.p-highlight):hover button.config {
 }
 
 
-
-
 .formulario-externo-bg {
   min-height: 100vh;
   padding-top: 1rem;
@@ -19011,38 +19035,37 @@ table.fixTableHead thead {
   width: 100% !important;
 }
 
-table.fixTableHead tbody{
+table.fixTableHead tbody {
   display: inline-block;
   width: 100% !important;
   overflow-y: auto !important;
   max-height: 70vh !important;
 }
 
-table.fixTableHead th:nth-child(1){
+table.fixTableHead th:nth-child(1) {
   width: calc(100vw - 7.8rem);
-  text-align:left;
+  text-align: left;
 }
 
-table.fixTableHead td:nth-child(1){
+table.fixTableHead td:nth-child(1) {
   width: calc(100vw - 7rem);
-  text-align:left;
+  text-align: left;
 }
 
 
-
-table.fixTableHead th:nth-child(2){
+table.fixTableHead th:nth-child(2) {
   display: inline-block;
-  text-align:right;
+  text-align: right;
   padding-bottom: .3em;
   padding-top: .3em;
   padding-right: 1.65em;
   width: 7rem;
 }
 
-table.fixTableHead td:nth-child(2){
+table.fixTableHead td:nth-child(2) {
   display: inline-block;
   box-sizing: border-box !important;
-  text-align:right;
+  text-align: right;
   width: 6rem;
   border-right: 0;
   border-left: 0;
@@ -19052,17 +19075,42 @@ table.fixTableHead td:nth-child(2){
 table.fixTableHead tbody::-webkit-scrollbar {
   width: 1em;
 }
+
 table.fixTableHead tbody::-webkit-scrollbar-track {
-  background: var(--surface-c-border);        /* color of the tracking area */
+  background: var(--surface-c-border); /* color of the tracking area */
 }
+
 table.fixTableHead tbody::-webkit-scrollbar-thumb {
-  background-color: var(--gray-400);    /* color of the scroll thumb */
-  border-radius: 20px;       /* roundness of the scroll thumb */
-  border: 3px solid var(--surface-c-border);  /* creates padding around scroll thumb */
+  background-color: var(--gray-400); /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid var(--surface-c-border); /* creates padding around scroll thumb */
 }
+
 /* Works on Firefox */
 table.fixTableHead tbody {
   scrollbar-width: thin;
   scrollbar-color: var(--gray-400) var(--surface-c-border);
 }
 
+.ddteste .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  color: var(--text-color);
+  background: none;
+  transition: none;
+  border-radius: 0;
+}
+
+/*
+
+.ddteste .p-dropdown-item {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  color: var(--text-color);
+  background: none;
+  transition: none;
+  border-radius: 0;
+}
+*/

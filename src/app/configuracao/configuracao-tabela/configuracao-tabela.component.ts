@@ -6,6 +6,7 @@ import { AuthenticationService, CarregadorService } from '../../_services';
 import { Message, MessageService, SelectItem } from 'primeng/api';
 import { DropdownService } from '../../_services';
 import {ConfiguracaoModel, ConfiguracaoModelInterface} from '../_models/configuracao-model';
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-configuracao-tabela',
@@ -55,7 +56,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     public alt: AuthenticationService,
     private cs: CarregadorService,
     private dd: DropdownService,
-    private messageService: MessageService
+    private ms: MsgService,
+    // private messageService: MessageService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -440,7 +442,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   onEditar(id: number, nome: string, idx: number) {
     this.msgErroEditar = null;
-    this.messageService.clear();
     this.acao = 'editar';
     this.mostraApagar = 0;
     if (this.mostraAlterar === 0) {
@@ -457,7 +458,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   onAlterar() {
     this.msgErroEditar = null;
-    this.messageService.clear();
     if (this.nome && this.nome !== this.nomeOld) {
       if (this.nome.length > 1) {
         const dados: any[] = [];
@@ -494,12 +494,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
                     };
                   }
                   this.onCancela();
-                  this.messageService.add({
-                    key: 'msg2',
-                    severity: 'success',
-                    summary: 'Alterações: ',
-                    detail: this.resp[2]
-                  });
+                  this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
                 }
                 this.mostraMsgs(this.resp[2]);
               }
@@ -512,7 +507,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onAlterarConfirma() {
-    this.messageService.clear();
     if (this.nome && this.nome !== this.nomeOld) {
       if (this.nome.length > 1) {
         const dados: any[] = [];
@@ -541,7 +535,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
                   };
                 }
                 this.onCancela();
-                this.messageService.add({key: 'msg2', severity: 'success', summary: 'Alterações: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
               } else {
                 this.mostraMsgs(this.resp[2]);
               }
@@ -557,7 +551,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.acao = 'incluir';
     this.btnOff = true;
     this.msgErroIncluir = null;
-    this.messageService.clear();
     if (this.nomeIncluir) {
       if (this.nomeIncluir.length > 1) {
         const dados: any[] = [];
@@ -575,10 +568,10 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               if (this.resp[0]) {
                 this.listagem.push({campo_id: this.resp[1], campo_nome: this.nomeIncluir.toUpperCase()});
                 this.corrigeDropdown(this.tabel);
-                this.messageService.add({key: 'msgIncluir', severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
                 this.onCancela();
               } else {
-                this.msgErroIncluir = [{key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]}];
+                this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
                 this.onCancela();
               }
             }
@@ -595,14 +588,14 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       if (res.length > 0) {
         if (this.resp[1] === 0) {
           res.forEach((m: string) => {
-            this.msgs.push({key: 'msg1', severity: 'info', summary: 'Alterações: ', detail: m});
+            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Alterações: ', detail: m});
           });
         } else {
-          this.messageService.add({key: 'msg2', severity: 'success', summary: 'Alterações: ', detail: this.resp[2]});
+          this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
         }
       }
     } else {
-      this.msgs.push({key: 'msg1', severity: 'error', summary: 'Alterações: ', detail: this.resp[2]});
+      this.ms.add({key: 'toastprincipal', severity: 'error', summary: 'Alterações: ', detail: this.resp[2]});
     }
   }
 
@@ -613,7 +606,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       'tabela': this.tabel,
       'id': this.id
     };
-    this.messageService.clear();
     this.sub.push(this.cfs.deletar(dados)
       .pipe(take(1))
       .subscribe((dados3) => {
@@ -630,7 +622,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             const idx = this.listagem.indexOf(tmp);
             this.listagem.splice(idx, 1);
           }
-          this.messageService.add({key: 'msgExcluir', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
+          this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão', detail: this.resp[2]});
           this.onCancela();
         })
     );
@@ -649,7 +641,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.resp = null;
     this.msgs = [];
     this.mostraDropDown = false;
-    this.messageService.clear();
     const dados: any[] = [];
     dados.push(this.tabel);
     dados.push(this.id);
@@ -665,7 +656,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           this.confirmaApagar = this.resp[0];
           if (this.resp[2].length > 0) {
             this.resp[2].forEach((m: string) => {
-              this.msgs.push({key: 'msg1', severity: 'info', summary: 'Vinculo(s): ', detail: m});
+              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Vinculo(s): ', detail: m});
             });
           }
           if (this.confirmaApagar && this.resp[3]) {
@@ -673,7 +664,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             this.mostraDropDown = true;
           }
           if (!this.confirmaApagar) {
-            this.msgs.push({key: 'msg2', severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
+            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
           }
         }
       )
@@ -698,7 +689,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           },
           () => {
             this.corrigeDropdown(this.tabel);
-            this.msgs.push({key: 'msg1', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
             this.onCancela();
           })
       );

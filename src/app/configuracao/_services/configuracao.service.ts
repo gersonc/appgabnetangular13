@@ -62,7 +62,6 @@ export class ConfiguracaoService {
   }
 
   deletar(dados: any): Observable<any[]> {
-    console.log('dados->', dados);
     const url = this.url.configuracao;
     const httpOptions = {
       headers: new HttpHeaders ({ 'Content-Type': 'application/json' }),

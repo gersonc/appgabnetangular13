@@ -17,8 +17,7 @@
   dataKey="campo_id"
   editMode="row"
   [scrollable]="true"
-  [scrollable]="true"
-  [scrollHeight]="'100%'"
+  [scrollHeight]="altura"
   styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
 <!--  <ng-template *ngIf="cfs.configuracao2.titulo" pTemplate="caption">
@@ -64,12 +63,12 @@
           <ng-template pTemplate="output">
             <div style="
             background-color: #cccccc;
-            border: 2px solid var(--fundo);
+            border: 2px solid var(--surface-400);
             padding: 0.429em;
             height: 30px;
             width: 2em;
             float: left"
-            [style]="{'backgroundColor':rowData.campo_txt1}"></div> &nbsp;&nbsp; {{rowData.campo_txt1}}
+            [style]="{'backgroundColor':rowData.campo_txt1}"></div> &nbsp;&nbsp; {{getCorTxt(rowData.campo_txt1)}}
           </ng-template>
         </p-cellEditor>
         <p-cellEditor *ngIf="cfs.configuracao2.tabela === 'tipo_cadastro'">
@@ -99,7 +98,7 @@
           <p-dropdown
             *ngIf="mostraDropDown"
             [(ngModel)]="drop"
-            placeholder="Selecione &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            placeholder="Selecione"
             [options]="dropDown"
             [required]="true"
             [autofocus]="true"
@@ -135,6 +134,13 @@
 
 </div>
 <br>
+<p-dropdown #tdd [options]="dropDown" [(ngModel)]="testeDD" placeholder="Selecione"[showClear]="true" styleClass="ddteste" (onChange)="testarDD($event,tdd.selectedOption)">
+  <ng-template let-it pTemplate="item">
+    <div [ngStyle]="ddcor(it.styleClass)">
+      {{it.label}}
+    </div>
+  </ng-template>
+</p-dropdown>
 <br>
 <br>
 <p-toast key="msg2" position="center" (onClose)="toastClose()"></p-toast>
