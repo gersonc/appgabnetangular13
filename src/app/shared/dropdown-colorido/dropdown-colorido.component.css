@@ -1,0 +1,37 @@
+:root {
+  --red: 28;
+  --green: 150;
+  --blue: 130;
+
+  --accessible-color: calc(
+    ((((var(--red) * 299) +
+    (var(--green) * 587) +
+    (var(--blue) * 114)) / 1000) - 128) * -1000
+  );
+
+  --cor-texto: #000000;
+  --cor-fundo: transparent;
+}
+
+
+
+
+/*.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}*/
+.ddcolorold > li.p-dropdown-item {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+

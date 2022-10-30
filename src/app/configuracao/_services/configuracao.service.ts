@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import { SelectItem, SelectItemGroup } from "primeng/api";
+import {DdService} from "../../_services/dd.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,12 @@ export class ConfiguracaoService {
   public configuracao2 = new Configuracao2Model();
   private sub: Subscription[] = [];
 
-  constructor(private url: UrlService, private http: HttpClient, private dd: DropdownService) { }
+  constructor(
+    private url: UrlService,
+    private http: HttpClient,
+    private dd2: DropdownService,
+    private dd: DdService,
+  ) { }
 
   postListarAll(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao + '/listar';
@@ -112,7 +118,8 @@ export class ConfiguracaoService {
         this.corrigeSimples('dropdown-prioridade', 'prioridade', 'prioridade_id', 'prioridade_nome');
         break;
       case 'tipo_cadastro' :
-        this.corrigeTipoCadastro();
+        // this.corrigeTipoCadastro();
+        this.corrigeSimples('dropdown-tipo_cadastro', 'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome');
         break;
       case 'tipo_emenda' :
         this.corrigeSimples('dropdown-tipo_emenda', 'tipo_emenda', 'tipo_emenda_id', 'tipo_emenda_nome');
@@ -139,9 +146,25 @@ export class ConfiguracaoService {
   }
 
   corrigeSimples(drop: string, tabela: string, campo_id: string, campo_nome: string) {
-    if (sessionStorage.getItem(drop)) {
-      let dd: SelectItem[] = null;
-      this.sub.push(this.dd.getDropdownNomeId(tabela, campo_id, campo_nome)
+    // if (sessionStorage.getItem(drop)) {
+      // let dd: SelectItem[] = null;
+    this.sub.push(this.dd.getDd(drop)
+      .pipe(take(1))
+      .subscribe({
+        next: (dados) => {
+          // dd = dados;
+          sessionStorage.removeItem(drop);
+          sessionStorage.setItem(drop, JSON.stringify(dados));
+        },
+        error: (err) => {
+          console.error(err);
+        },
+        complete: () => {
+          this.destroy()
+        }
+      })
+    );
+      /*this.sub.push(this.dd.getDropdownNomeId(tabela, campo_id, campo_nome)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
@@ -158,14 +181,14 @@ export class ConfiguracaoService {
             }, 500);
           }
         })
-      );
-    }
+      );*/
+    // }
   }
 
   corrigeTipoCadastro() {
     if (sessionStorage.getItem('dropdown-tipo_cadastro')) {
       let dd: SelectItemGroup[] = null;
-      this.sub.push(this.dd.getDropdown3campos(
+      this.sub.push(this.dd2.getDropdown3campos(
         'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
         .pipe(take(1))
         .subscribe({
@@ -181,7 +204,56 @@ export class ConfiguracaoService {
             console.log(erro);
           },
           complete: () => {
-            this.sub.push(this.dd.getDropdown3campos(
+            this.sub.push(this.dd2.getDropdown3campos(
+              'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '1')
+              .pipe(take(1))
+              .subscribe({
+                next: (dados) => {
+                  const tipo: SelectItemGroup = {
+                    label: dados['label'].toString(),
+                    value: null,
+                    items: dados['items']
+                  };
+                  dd.push(tipo);
+                },
+                error: (erro) => {
+                  console.log(erro);
+                },
+                complete: () => {
+                  sessionStorage.removeItem('dropdown-tipo_cadastro');
+                  sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dd));
+                  setTimeout (() => {
+                    this.destroy();
+                  }, 500);
+                }
+              })
+            );
+          }
+        })
+      );
+    }
+  }
+
+  corrigeTipoCadastro2() {
+    if (sessionStorage.getItem('dropdown-tipo_cadastro')) {
+      let dd: SelectItemGroup[] = null;
+      this.sub.push(this.dd2.getDropdown3campos(
+        'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            const tipo: SelectItemGroup = {
+              label: dados['label'].toString(),
+              value: null,
+              items: dados['items']
+            };
+            dd.push(tipo);
+          },
+          error: (erro) => {
+            console.log(erro);
+          },
+          complete: () => {
+            this.sub.push(this.dd2.getDropdown3campos(
               'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '1')
               .pipe(take(1))
               .subscribe({

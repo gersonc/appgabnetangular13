@@ -23,6 +23,7 @@ import {QuillModule} from "ngx-quill";
 import {SeletorColunasComponent} from './seletor-colunas/seletor-colunas.component';
 import {PickListModule} from "primeng/picklist";
 
+
 @NgModule({
   imports: [
     CommonModule,

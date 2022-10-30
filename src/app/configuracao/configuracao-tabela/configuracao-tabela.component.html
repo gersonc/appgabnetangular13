@@ -38,8 +38,8 @@
         <input type="text" pInputText [(ngModel)]="nomeIncluir" size="60" maxlength="80" />
       </th>
       <th [ngStyle]="cssIncluir2()">
-        <button pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em"  (click)="onIncluir()"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
+        <button [disabled]="btnEnviarInativo || nomeIncluir === null ||  nomeIncluir.length === 0"  pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em"  (click)="onIncluir()"></button>
+        <button pButton pRipple type="button" [disabled]="btnCancelarInativo" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
       </th>
     </tr>
     </thead>
@@ -66,7 +66,8 @@
       </ng-container>
       <ng-container *ngIf="acao=='deletar' && i===idx">
         <td [ngStyle]="cssApagar()">
-          <p-messages key="msg1" *ngIf="msgs" [(value)]="msgs"></p-messages>
+          <p-messages key="msg1" *ngIf="msgs.length > 0" [(value)]="msgs"></p-messages>
+
           <p-dropdown
             *ngIf="mostraDropDown"
             [(ngModel)]="drop"

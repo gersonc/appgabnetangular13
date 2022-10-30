@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { AuthenticationService, CarregadorService } from '../_services';
+import { AuthenticationService } from '../_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfiguracaoService } from './_services';
 import {
   Configuracao2ModelInterface,
   ConfiguracaoMenuIntensInterface,
-  ConfiguracaoModel,
   ConfiguracaoModelInterface
 } from "./_models/configuracao-model";
 import {WindowsService} from "../_layout/_service";

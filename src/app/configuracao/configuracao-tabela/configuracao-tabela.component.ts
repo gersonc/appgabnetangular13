@@ -45,6 +45,11 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   configuracao = new ConfiguracaoModel();
   titulo = 'CONFIGURAÇÕES'
   btnOff = false;
+  btnIncluirInativo = true;
+  btnAlterarInativo = true;
+  btnApagarInativo = true;
+  btnCancelarInativo = false;
+  btnEnviarInativo = true;
 
   mostraIncluir = false;
 
@@ -284,9 +289,9 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       s.unsubscribe();
     });
     this.resetAll();
-    this.perIncluir = this.alt.configuracao_incluir;
-    this.perAltarar = this.alt.configuracao_alterar;
-    this.perDeletar = this.alt.configuracao_apagar;
+    this.perIncluir = (this.alt.configuracao_incluir || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
+    this.perAltarar = (this.alt.configuracao_alterar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
+    this.perDeletar = (this.alt.configuracao_apagar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
     this.perPrincipal = this.alt.usuario_principal_sn;
     this.perResponsavel = this.alt.usuario_responsavel_sn;
     this.colsp = 1;
@@ -548,6 +553,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onIncluir() {
+    this.btnCancelarInativo = true;
+    this.btnEnviarInativo = true;
     this.acao = 'incluir';
     this.btnOff = true;
     this.msgErroIncluir = null;
@@ -567,6 +574,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             () => {
               if (this.resp[0]) {
                 this.listagem.push({campo_id: this.resp[1], campo_nome: this.nomeIncluir.toUpperCase()});
+                this.listagem.sort((a,b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0))
                 this.corrigeDropdown(this.tabel);
                 this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
                 this.onCancela();
@@ -579,6 +587,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         );
       } else {
         this.msgErroIncluir = [{key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR: ', detail: 'DADOS INVÁLIDOS.'}];
+        this.onCancela();
       }
     }
   }
@@ -653,19 +662,38 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           console.error(err);
         },
         () => {
-          this.confirmaApagar = this.resp[0];
-          if (this.resp[2].length > 0) {
-            this.resp[2].forEach((m: string) => {
-              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Vinculo(s): ', detail: m});
-            });
+          if (this.resp[0]) {
+            if (+this.resp[1] === 0) {
+              this.confirmaApagar = true;
+              this.resp[2].forEach((m: string) => {
+                this.msgs.push({severity: 'warn', summary: 'Vinculo(s): ', detail: m});
+              });
+              if (this.resp[3]) {
+                this.drop = this.id;
+                this.mostraDropDown = true;
+              }
+            } else {
+              this.corrigeDropdown(this.tabel);
+                this.ms.add({
+                  key: 'toastprincipal',
+                  severity: 'success',
+                  summary: 'Exclusão: ',
+                  detail: this.resp[2][0]
+                });
+              this.onCancela();
+            }
+          } else {
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'error',
+                summary: 'Exclusão: ',
+                detail: this.resp[2][0]
+              });
+            this.onCancela();
           }
-          if (this.confirmaApagar && this.resp[3]) {
-            this.drop = this.id;
-            this.mostraDropDown = true;
-          }
-          if (!this.confirmaApagar) {
+          /*if (!this.confirmaApagar) {
             this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
-          }
+          }*/
         }
       )
     );
@@ -707,6 +735,11 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.mostraApagar = 0;
     this.mostraIncluir = false;
     this.colsp = 1;
+    this.btnIncluirInativo = true;
+    this.btnAlterarInativo = true;
+    this.btnApagarInativo = true;
+    this.btnCancelarInativo = false;
+    this.btnEnviarInativo = true;
     if (this.alt.configuracao_alterar) {
       this.colsp++;
     }
@@ -723,6 +756,11 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   clickIncluir() {
     this.mostraIncluir = !this.mostraIncluir;
+/*    this.btnIncluirInativo = true;
+    this.btnAlterarInativo = true;
+    this.btnApagarInativo = true;*/
+    this.btnCancelarInativo = false;
+    this.btnEnviarInativo = false;
   }
 
   cssIncluir(): any {

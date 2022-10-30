@@ -33,6 +33,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   mostraDropDown = false;
   dropDown: SelectItem[] = null;
   testeDD: SelectItem = null;
+  testeDD2: SelectItem = null;
   drop = 0;
   acao: string = null;
   msg: string[] = [];
@@ -714,6 +715,10 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   testarDD(a,ev) {
     console.log('testarDD',a,ev, this.testeDD);
+  }
+
+  testarDD2(ev: SelectItem) {
+    console.log('testarDD',ev, this.testeDD2);
   }
 
   ddcor(cor?: string): any {

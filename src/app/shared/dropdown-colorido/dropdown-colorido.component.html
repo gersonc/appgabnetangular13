@@ -1,0 +1,7 @@
+<p-dropdown #tdd [options]="dropDown" [(ngModel)]="variavel" placeholder="Selecione" [showClear]="true" styleClass="ddcolor" class="ddcolor" (onChange)="mudaDD(tdd.selectedOption)">
+  <ng-template let-it pTemplate="item">
+    <div [ngStyle]="mudaCor(it.styleClass)">
+      {{it.label}}
+    </div>
+  </ng-template>
+</p-dropdown>

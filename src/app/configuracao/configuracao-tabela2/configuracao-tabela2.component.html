@@ -20,9 +20,6 @@
   [scrollHeight]="altura"
   styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
 >
-<!--  <ng-template *ngIf="cfs.configuracao2.titulo" pTemplate="caption">
-    <b><span style="text-align: center">{{cfs.configuracao2.titulo}}</span></b>
-  </ng-template>-->
   <ng-template pTemplate="header">
     <tr>
       <th>{{cfs.configuracao2.titulo}}</th>
@@ -134,7 +131,7 @@
 
 </div>
 <br>
-<p-dropdown #tdd [options]="dropDown" [(ngModel)]="testeDD" placeholder="Selecione"[showClear]="true" styleClass="ddteste" (onChange)="testarDD($event,tdd.selectedOption)">
+<p-dropdown #tdd [options]="dropDown" [(ngModel)]="testeDD" placeholder="Selecione" [showClear]="true" styleClass="ddteste" (onChange)="testarDD($event,tdd.selectedOption)">
   <ng-template let-it pTemplate="item">
     <div [ngStyle]="ddcor(it.styleClass)">
       {{it.label}}
@@ -142,6 +139,7 @@
   </ng-template>
 </p-dropdown>
 <br>
+<app-dropdown-colorido [(variavel)]="testeDD2" [dropDown]="dropDown" (onMuda)="testarDD2($event)"></app-dropdown-colorido>
 <br>
 <p-toast key="msg2" position="center" (onClose)="toastClose()"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
