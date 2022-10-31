@@ -16,26 +16,19 @@
 <div
   class="fixTableHead"
 >
-<!--  <table *ngIf="cfs.configuracao" class="tabela table-hover" style="width: 100%;">-->
   <table *ngIf="cfs.configuracao" class="fixTableHead table-hover tabela">
-    <!--<caption *ngIf="cfs.configuracao.titulo"><b>{{cfs.configuracao.titulo}}</b></caption>-->
     <thead *ngIf="perIncluir">
-      <!--<tr *ngIf="!mostraIncluir">
-        <th style="text-align:right;"><b>INCLUIR</b></th>
-        <th style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;">
-          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" (click)="clickIncluir()"></button>
-        </th>
-      </tr>-->
       <tr *ngIf="!mostraIncluir">
         <th><b>INCLUIR</b></th>
         <th>
-          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" (click)="clickIncluir()"></button>
+          <button [disabled]="btnOff" pButton pRipple type="button" icon="pi pi-plus" class="config p-button-raised p-button-rounded" (change)="testeInput($event)" (click)="clickIncluir()"></button>
         </th>
       </tr>
-      <tr *ngIf="mostraIncluir">
-      <th [ngStyle]="cssIncluir()">
+      <tr *ngIf="mostraIncluir" [ngStyle]="cssIncluir()">
+      <th>
         <p-messages key="msgIncluirErro" [(value)]="msgErroIncluir"></p-messages>
-        <input type="text" pInputText [(ngModel)]="nomeIncluir" size="60" maxlength="80" />
+        <input type="text" pInputText [(ngModel)]="nomeIncluir" size="60" maxlength="80" autofocus/>
+        <div><small>Enter your username to reset your password.</small></div>
       </th>
       <th [ngStyle]="cssIncluir2()">
         <button [disabled]="btnEnviarInativo || nomeIncluir === null ||  nomeIncluir.length === 0"  pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em"  (click)="onIncluir()"></button>
@@ -47,7 +40,7 @@
     <tr *ngFor="let cf of listagem; let i=index">
       <ng-container *ngIf="acao=='editar' && perAltarar && i===idx">
         <td [ngStyle]="cssAlterar()">
-          <p-messages key="msgEditarErro" *ngIf="msgErroEditar" [(value)]="msgErroEditar"></p-messages>
+          <p-messages key="msgEditar" *ngIf="msgEditar.length > 0" [(value)]="msgEditar"></p-messages>
           <input
             *ngIf="mostraAlterar !== 0"
             type="text"
@@ -55,13 +48,14 @@
             [(ngModel)]="nome"
             [size]="60"
             [maxlength]="80"
+            [readOnly]="readOnly"
           />
         </td>
         <td [ngStyle]="cssAlterar2()">
-          <p-messages key="msgEditarErro" *ngIf="msgErroEditar" [(value)]="msgErroEditar"></p-messages>
-          <button *ngIf="!confirmaAlterar && mostraAlterar !== 0"  pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onAlterar()"></button>
-          <button *ngIf="confirmaAlterar && mostraAlterar !== 0"  pButton pRipple type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onAlterarConfirma()"></button>
-          <button pButton type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
+          <!--<p-messages key="msgEditarErro" *ngIf="msgErroEditar" [(value)]="msgErroEditar"></p-messages>-->
+          <button [disabled]="btnEnviarInativo || nome === null || nome.length === 0 || nome.toUpperCase() === nomeOld.toUpperCase()" *ngIf="!confirmaAlterar && mostraAlterar !== 0"  pButton pRipple type="button" icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success" style="margin-right: .5em" (click)="onAlterar()"></button>
+          <button *ngIf="confirmaAlterar && mostraAlterar !== 0" [disabled]="btnEnviarInativo"  pButton pRipple type="button" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onAlterarConfirma()"></button>
+          <button pButton type="button" [disabled]="btnCancelarInativo" icon="pi pi-times" class="config p-button-raised p-button-rounded p-button-warning" (click)="onCancela()" ></button>
         </td>
       </ng-container>
       <ng-container *ngIf="acao=='deletar' && i===idx">

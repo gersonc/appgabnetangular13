@@ -1,10 +1,9 @@
-import {Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ConfiguracaoService } from '../_services';
-import { take } from 'rxjs/operators';
-import { AuthenticationService, CarregadorService } from '../../_services';
-import { Message, MessageService, SelectItem } from 'primeng/api';
-import { DropdownService } from '../../_services';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ConfiguracaoService} from '../_services';
+import {take} from 'rxjs/operators';
+import {AuthenticationService, DropdownService} from '../../_services';
+import {Message, SelectItem} from 'primeng/api';
 import {ConfiguracaoModel, ConfiguracaoModelInterface} from '../_models/configuracao-model';
 import {MsgService} from "../../_services/msg.service";
 
@@ -22,8 +21,10 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   perIncluir = false;
   perAltarar = false;
   perDeletar = false;
-  perPrincipal = false;
-  perResponsavel = false;
+  mostraIncluir = false;
+  btnacaoInativo = false;
+  // perPrincipal = false;
+  // perResponsavel = false;
   nome: string = null;
   id: number = null;
   idx: number = null;
@@ -50,20 +51,22 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   btnApagarInativo = true;
   btnCancelarInativo = false;
   btnEnviarInativo = true;
+  readOnly = false;
 
-  mostraIncluir = false;
 
-  msgErroIncluir: Message[];
-  msgErroEditar: Message[];
+  msgErroIncluir: Message[] = [];
+  msgErroEditar: Message[] = [];
+  msgEditar: Message[] = [];
 
   constructor(
     public cfs: ConfiguracaoService,
     public alt: AuthenticationService,
-    private cs: CarregadorService,
+    // private cs: CarregadorService,
     private dd: DropdownService,
     private ms: MsgService,
     // private messageService: MessageService
-  ) { }
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.componente) {
@@ -275,7 +278,13 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.perIncluir = (this.alt.configuracao_incluir || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
+    this.perAltarar = (this.alt.configuracao_alterar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
+    this.perDeletar = (this.alt.configuracao_apagar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
+    // this.perPrincipal = this.alt.usuario_principal_sn;
+    // this.perResponsavel = this.alt.usuario_responsavel_sn;
+  }
 
   ngOnDestroy(): void {
     this.cfs.configuracao = null;
@@ -289,11 +298,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       s.unsubscribe();
     });
     this.resetAll();
-    this.perIncluir = (this.alt.configuracao_incluir || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
-    this.perAltarar = (this.alt.configuracao_alterar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
-    this.perDeletar = (this.alt.configuracao_apagar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
-    this.perPrincipal = this.alt.usuario_principal_sn;
-    this.perResponsavel = this.alt.usuario_responsavel_sn;
+
     this.colsp = 1;
     if (this.alt.configuracao_alterar) {
       this.colsp++;
@@ -315,19 +320,19 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.perIncluir = false;
     this.perAltarar = false;
     this.perDeletar = false;
-    this.perPrincipal = false;
-    this.perResponsavel = false;
-    this.nome  = null;
-    this.id  = null;
-    this.idx  = null;
+    // this.perPrincipal = false;
+    // this.perResponsavel = false;
+    this.nome = null;
+    this.id = null;
+    this.idx = null;
     this.mostraAlterar = 0;
     this.mostraApagar = 0;
     this.mostraDropDown = false;
     this.dropDown = null;
     this.drop = 0;
-    this.acao  = null;
-    this.tabel  = null;
-    this.msgs  = [];
+    this.acao = null;
+    this.tabel = null;
+    this.msgs = [];
     this.resp = null;
     this.nomeIncluir = null;
     this.colsp = 1;
@@ -337,7 +342,9 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.tabela = null;
     this.mostraIncluir = false;
     this.msgErroIncluir = null;
-    this.msgErroEditar = null;
+    this.readOnly = false;
+    this.msgErroEditar = [];
+    this.msgEditar = [];
     this.btnOff = false;
   }
 
@@ -446,7 +453,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onEditar(id: number, nome: string, idx: number) {
-    this.msgErroEditar = null;
+    this.msgErroEditar = [];
+    this.msgEditar = [];
     this.acao = 'editar';
     this.mostraApagar = 0;
     if (this.mostraAlterar === 0) {
@@ -462,58 +470,83 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onAlterar() {
-    this.msgErroEditar = null;
-    if (this.nome && this.nome !== this.nomeOld) {
-      if (this.nome.length > 1) {
-        const dados: any[] = [];
-        dados.push(this.tabel);
-        dados.push(this.id);
-        dados.push(this.nome);
-        const msg: string[] = null;
-        this.sub.push(this.cfs.impactoAlterar(dados)
-          .pipe(take(1))
-          .subscribe((dados1) => {
-              this.resp = dados1;
-            },
-            (err) => {
-              console.error(err);
-            },
-            () => {
-              if (!this.resp[0]) {
-                this.nome = this.nomeOld;
-                this.confirmaAlterar = false;
-                this.mostraMsgs(this.resp[2]);
-              } else {
-                if (this.resp[1] === 0) {
-                  this.confirmaAlterar = true;
-                }
-                if (+this.resp[1] === +this.id) {
-                  this.corrigeDropdown(this.tabel);
-                  const tmp = this.listagem.find(i =>
-                    i.campo_id === this.id
-                  );
-                  if (tmp !== undefined) {
-                    this.listagem[this.listagem.indexOf(tmp)] = {
-                      campo_id: tmp.campo_id,
-                      campo_nome: this.nome.toString().toUpperCase()
-                    };
-                  }
-                  this.onCancela();
-                  this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
-                }
-                this.mostraMsgs(this.resp[2]);
-              }
-            }
-          )
-        );
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.nome.toUpperCase());
+    if (this.nome !== null && this.nome.toUpperCase() !== this.nomeOld.toUpperCase() && this.nome.length > 1 && n > -1) {
+      this.btnCancelarInativo = true;
+      this.btnEnviarInativo = true;
+      this.btnOff = true;
+      this.msgErroEditar = [];
+      this.msgEditar = [];
+      this.msgs = [];
 
-      }
+      const dados: any[] = [];
+      dados.push(this.tabel);
+      dados.push(this.id);
+      dados.push(this.nome.toUpperCase());
+      console.log('dados', dados);
+      const msg: string[] = null;
+      this.sub.push(this.cfs.impactoAlterar(dados)
+        .pipe(take(1))
+        .subscribe((dados1) => {
+            this.resp = dados1;
+          },
+          (err) => {
+            console.error(err);
+            this.onCancela();
+          },
+          () => {
+            if (!this.resp[0]) {
+              this.nome = this.nomeOld;
+              this.confirmaAlterar = false;
+              this.ms.add({
+                key: 'toastprincipal',
+                severity: 'error',
+                summary: 'Alterações: ',
+                detail: this.resp[2][0]
+              });
+              // this.mostraMsgs(this.resp[2]);
+              this.onCancela();
+            } else {
+              if (this.resp[1] === 0) {
+                this.confirmaAlterar = true;
+                this.resp[2].forEach((m: string) => {
+                  this.msgEditar.push({severity: 'warn', summary: 'Vinculo(s): ', detail: m});
+                });
+                this.btnCancelarInativo = false;
+                this.btnEnviarInativo = false;
+                this.readOnly = true;
+              }
+              if (+this.resp[1] === +this.id) {
+                this.listagem[this.idx].nome = this.nome.toUpperCase();
+                this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0))
+                this.corrigeDropdown(this.tabel);
+                /*const tmp = this.listagem.find(i =>
+                  i.campo_id === this.id
+                );
+                if (tmp !== undefined) {
+                  this.listagem[this.listagem.indexOf(tmp)] = {
+                    campo_id: tmp.campo_id,
+                    campo_nome: this.nome.toString().toUpperCase()
+                  };
+                }*/
+                this.onCancela();
+                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
+              }
+              // this.mostraMsgs(this.resp[2]);
+            }
+          }
+        )
+      );
+
+
     }
   }
 
   onAlterarConfirma() {
     if (this.nome && this.nome !== this.nomeOld) {
       if (this.nome.length > 1) {
+        this.btnCancelarInativo = true;
+        this.btnEnviarInativo = true;
         const dados: any[] = [];
         dados.push(this.tabel);
         dados.push(this.id);
@@ -529,8 +562,10 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             },
             () => {
               if (+this.resp[1] === +this.id) {
+                this.listagem[this.idx].nome = this.nome.toUpperCase();
+                this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
                 this.corrigeDropdown(this.tabel);
-                const tmp = this.listagem.find(i =>
+                /*const tmp = this.listagem.find(i =>
                   i.campo_id === this.id
                 );
                 if (tmp !== undefined) {
@@ -538,11 +573,20 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
                     campo_id: tmp.campo_id,
                     campo_nome: this.nome.toString().toUpperCase()
                   };
-                }
+                }*/
                 this.onCancela();
                 this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
               } else {
-                this.mostraMsgs(this.resp[2]);
+                this.nome = this.nomeOld;
+                this.confirmaAlterar = false;
+                this.ms.add({
+                  key: 'toastprincipal',
+                  severity: 'error',
+                  summary: 'Alterações: ',
+                  detail: this.resp[2][0]
+                });
+                // this.mostraMsgs(this.resp[2]);
+                this.onCancela();
               }
             }
           )
@@ -558,37 +602,41 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.acao = 'incluir';
     this.btnOff = true;
     this.msgErroIncluir = null;
-    if (this.nomeIncluir) {
-      if (this.nomeIncluir.length > 1) {
-        const dados: any[] = [];
-        dados.push(this.tabel);
-        dados.push(this.nomeIncluir);
-        this.sub.push(this.cfs.verificaIncluir(dados)
-          .pipe(take(1))
-          .subscribe((dados2) => {
-              this.resp = dados2;
-            },
-            (err) => {
-              console.error(err);
-            },
-            () => {
-              if (this.resp[0]) {
-                this.listagem.push({campo_id: this.resp[1], campo_nome: this.nomeIncluir.toUpperCase()});
-                this.listagem.sort((a,b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0))
-                this.corrigeDropdown(this.tabel);
-                this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
-                this.onCancela();
-              } else {
-                this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
-                this.onCancela();
-              }
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.nomeIncluir.toUpperCase());
+    if (this.nomeIncluir !== null && this.nomeIncluir.length > 1 && n < 0) {
+      const dados: any[] = [];
+      dados.push(this.tabel);
+      dados.push(this.nomeIncluir);
+      this.sub.push(this.cfs.verificaIncluir(dados)
+        .pipe(take(1))
+        .subscribe((dados2) => {
+            this.resp = dados2;
+          },
+          (err) => {
+            console.error(err);
+          },
+          () => {
+            if (this.resp[0]) {
+              this.listagem.push({campo_id: this.resp[1], campo_nome: this.nomeIncluir.toUpperCase()});
+              this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+              this.corrigeDropdown(this.tabel);
+              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
+              this.onCancela();
+            } else {
+              this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+              this.onCancela();
             }
-          )
-        );
-      } else {
-        this.msgErroIncluir = [{key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR: ', detail: 'DADOS INVÁLIDOS.'}];
-        this.onCancela();
-      }
+          }
+        )
+      );
+    } else {
+      this.msgErroIncluir = [{
+        key: 'msgIncluirErro',
+        severity: 'warn',
+        summary: 'INCLUIR: ',
+        detail: 'DADOS INVÁLIDOS.'
+      }];
+      this.onCancela();
     }
   }
 
@@ -642,6 +690,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.btnOff = true;
     this.mostraAlterar = 0;
     this.mostraApagar = id;
+    this.btnCancelarInativo = true;
+    this.btnEnviarInativo = true;
     this.id = id;
     this.nome = nome;
     this.idx = idx;
@@ -660,6 +710,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         },
         (err) => {
           console.error(err);
+          this.onCancela();
         },
         () => {
           if (this.resp[0]) {
@@ -674,21 +725,22 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               }
             } else {
               this.corrigeDropdown(this.tabel);
-                this.ms.add({
-                  key: 'toastprincipal',
-                  severity: 'success',
-                  summary: 'Exclusão: ',
-                  detail: this.resp[2][0]
-                });
-              this.onCancela();
-            }
-          } else {
+              this.listagem.splice(this.idx, 1);
               this.ms.add({
                 key: 'toastprincipal',
-                severity: 'error',
+                severity: 'success',
                 summary: 'Exclusão: ',
                 detail: this.resp[2][0]
               });
+              this.onCancela();
+            }
+          } else {
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'error',
+              summary: 'Exclusão: ',
+              detail: this.resp[2][0]
+            });
             this.onCancela();
           }
           /*if (!this.confirmaApagar) {
@@ -700,6 +752,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onApagarConfirma() {
+    this.btnCancelarInativo = true;
+    this.btnEnviarInativo = true;
     this.msgs = [];
     if (+this.drop > 0 && +this.drop !== this.id) {
       const dados: any = {
@@ -735,6 +789,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.mostraApagar = 0;
     this.mostraIncluir = false;
     this.colsp = 1;
+    this.readOnly = false;
     this.btnIncluirInativo = true;
     this.btnAlterarInativo = true;
     this.btnApagarInativo = true;
@@ -756,23 +811,25 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   clickIncluir() {
     this.mostraIncluir = !this.mostraIncluir;
-/*    this.btnIncluirInativo = true;
-    this.btnAlterarInativo = true;
-    this.btnApagarInativo = true;*/
+    /*    this.btnIncluirInativo = true;
+        this.btnAlterarInativo = true;
+        this.btnApagarInativo = true;*/
     this.btnCancelarInativo = false;
     this.btnEnviarInativo = false;
   }
 
   cssIncluir(): any {
     return (!this.mostraIncluir) ? null : {
-      'background': 'var(--blue-200)'
+      'background': 'var(--blue-200)',
+      'border': 'none !important'
     };
   }
 
   cssIncluir2(): any {
     return (!this.mostraIncluir) ? null : {
       'background': 'var(--blue-200)',
-      'padding': '0.55rem 1.65em 0.55rem 0'
+      'padding': '0.55rem 1.65em 0.55rem 0',
+      'border': 'none'
     };
   }
 
@@ -781,6 +838,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       'background': 'var(--yellow-200)'
     };
   }
+
   cssAlterar2(): any {
     return (this.mostraAlterar === 0) ? null : {
       'background': 'var(--yellow-200)',
@@ -789,16 +847,20 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   cssApagar(): any {
-    return (this.acao!=='deletar') ? null : {
+    return (this.acao !== 'deletar') ? null : {
       'background': 'var(--pink-200)'
     };
   }
 
   cssApagar2(): any {
-    return (this.acao!=='deletar') ? null : {
+    return (this.acao !== 'deletar') ? null : {
       'background': 'var(--pink-200)',
       'padding': '1rem 0.5rem'
     };
+  }
+
+  testeInput(ev) {
+    console.log('ev', ev);
   }
 
 
