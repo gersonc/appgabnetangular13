@@ -1,3 +1,8 @@
+export interface ConfiguracaoRegistroI {
+  campo_id?: number | null;
+  campo_nome?: string | null;
+}
+
 export interface ConfiguracaoModelInterface {
   tabela?: string;
   campo_id?: string;

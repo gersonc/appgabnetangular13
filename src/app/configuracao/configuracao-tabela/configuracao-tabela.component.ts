@@ -2,10 +2,11 @@ import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Si
 import {Subscription} from 'rxjs';
 import {ConfiguracaoService} from '../_services';
 import {take} from 'rxjs/operators';
-import {AuthenticationService, DropdownService} from '../../_services';
+import {AuthenticationService} from '../../_services';
 import {Message, SelectItem} from 'primeng/api';
-import {ConfiguracaoModel, ConfiguracaoModelInterface} from '../_models/configuracao-model';
+import {ConfiguracaoModel, ConfiguracaoModelInterface, ConfiguracaoRegistroI} from '../_models/configuracao-model';
 import {MsgService} from "../../_services/msg.service";
+import {DdService} from "../../_services/dd.service";
 
 @Component({
   selector: 'app-configuracao-tabela',
@@ -17,59 +18,41 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   @Input() componente?: string = null;
 
   private sub: Subscription[] = [];
-  listagem: any[] = null;
+  configuracao: ConfiguracaoModelInterface | null = null;
+  listagem: ConfiguracaoRegistroI[] = [];
   perIncluir = false;
   perAltarar = false;
   perDeletar = false;
   mostraIncluir = false;
+  mostraAlterar = false;
   btnacaoInativo = false;
-  // perPrincipal = false;
-  // perResponsavel = false;
-  nome: string = null;
-  id: number = null;
-  idx: number = null;
-  mostraAlterar = 0;
-  mostraApagar = 0;
-  mostraDropDown = false;
-  dropDown: SelectItem[] = null;
-  drop = 0;
-  acao: string = null;
-  tabel: string = null;
-  msgs: Message[] = [];
-  resp: any[];
-  nomeIncluir: string = null;
-  colsp = 1;
-  nomeOld: string = null;
+  registro: ConfiguracaoRegistroI | null = null;
+  registroOld: ConfiguracaoRegistroI | null = null;
+  acao: string | null = null;
+  msg: string[] = [];
+  msgErro: Message[] = [];
+  idx: number = -1;
+  titulo = 'CONFIGURAÇÕES';
+  dropDown: SelectItem[] = [];
+  resp: any[] = [];
   confirmaAlterar = false;
-  confirmaApagar = false;
-  tabela: string = null;
-  configuracao = new ConfiguracaoModel();
-  titulo = 'CONFIGURAÇÕES'
-  btnOff = false;
-  btnIncluirInativo = true;
-  btnAlterarInativo = true;
-  btnApagarInativo = true;
+  readOnly = false;
   btnCancelarInativo = false;
   btnEnviarInativo = true;
-  readOnly = false;
-
-
-  msgErroIncluir: Message[] = [];
-  msgErroEditar: Message[] = [];
-  msgEditar: Message[] = [];
+  mostraApagar = false;
+  drop: SelectItem | null = null;
 
   constructor(
     public cfs: ConfiguracaoService,
-    public alt: AuthenticationService,
-    // private cs: CarregadorService,
-    private dd: DropdownService,
+    public aut: AuthenticationService,
     private ms: MsgService,
-    // private messageService: MessageService
+    private dd: DdService,
   ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.componente) {
+      console.log('changes.componente.currentValue', changes.componente.currentValue);
       switch (changes.componente.currentValue) {
         case 'area_interesse': {
           this.configuracao = {
@@ -279,11 +262,9 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnInit(): void {
-    this.perIncluir = (this.alt.configuracao_incluir || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
-    this.perAltarar = (this.alt.configuracao_alterar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
-    this.perDeletar = (this.alt.configuracao_apagar || this.alt.usuario_principal_sn || this.alt.usuario_responsavel_sn);
-    // this.perPrincipal = this.alt.usuario_principal_sn;
-    // this.perResponsavel = this.alt.usuario_responsavel_sn;
+    this.perIncluir = (this.aut.configuracao_incluir || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+    this.perAltarar = (this.aut.configuracao_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+    this.perDeletar = (this.aut.configuracao_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
   }
 
   ngOnDestroy(): void {
@@ -294,197 +275,108 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   inicio() {
+    console.log('this.configuracao', this.configuracao);
     this.sub.forEach(s => {
       s.unsubscribe();
     });
     this.resetAll();
-
-    this.colsp = 1;
-    if (this.alt.configuracao_alterar) {
-      this.colsp++;
-    }
-    if (this.alt.configuracao_apagar) {
-      this.colsp++;
-    }
-    this.tabela = this.configuracao.tabela;
-    this.tabel = this.configuracao.tabela;
     this.titulo = this.configuracao.titulo;
     this.cfs.configuracao = this.configuracao;
-    // this.onConfTitulo.emit(this.configuracao);
-    this.getAll(this.configuracao.tabela);
-    this.btnOff = false;
+    this.getDropDown(this.configuracao.tabela);
   }
 
   resetAll() {
-    this.listagem = null;
-    this.perIncluir = false;
-    this.perAltarar = false;
-    this.perDeletar = false;
-    // this.perPrincipal = false;
-    // this.perResponsavel = false;
-    this.nome = null;
-    this.id = null;
-    this.idx = null;
-    this.mostraAlterar = 0;
-    this.mostraApagar = 0;
-    this.mostraDropDown = false;
-    this.dropDown = null;
-    this.drop = 0;
-    this.acao = null;
-    this.tabel = null;
-    this.msgs = [];
-    this.resp = null;
-    this.nomeIncluir = null;
-    this.colsp = 1;
-    this.nomeOld = null;
-    this.confirmaAlterar = false;
-    this.confirmaApagar = false;
-    this.tabela = null;
+    this.listagem = [];
     this.mostraIncluir = false;
-    this.msgErroIncluir = null;
+    this.mostraAlterar = false;
+    this.btnacaoInativo = false;
+    this.btnCancelarInativo = false;
+    this.registro = null;
+    this.registroOld = null;
+    this.acao = null;
+    this.msgErro = [];
+    this.msg = [];
+    this.idx = -1;
+    this.titulo = 'CONFIGURAÇÕES';
+    this.dropDown = [];
+    this.resp = [];
+    this.confirmaAlterar = false;
     this.readOnly = false;
-    this.msgErroEditar = [];
-    this.msgEditar = [];
-    this.btnOff = false;
-  }
-
-  getAll(tabela: string) {
-    this.getDropDown(tabela);
-    const dados: any[] = [];
-    dados.push(tabela);
-    this.sub.push(this.cfs.postListarAll(dados)
-      .pipe(take(1))
-      .subscribe((dados1) => {
-          this.listagem = dados1;
-        },
-        (err) => {
-          console.error(err);
-        },
-        () => {
-          this.onConfTitulo.emit(this.configuracao);
-        }
-      )
-    );
+    this.mostraApagar = false;
+    this.drop = null;
   }
 
   getDropDown(tabela: string) {
-    const dropDownNome = 'dropdown-' + tabela;
-    let tp: number = null;
-    switch (tabela) {
-      case 'area_interesse' :
-        tp = 1;
-        break;
-      case 'assunto' :
-        tp = 1;
-        break;
-      case 'aerolinha' :
-        tp = 1;
-        break;
-      case 'escolaridade' :
-        tp = 1;
-        break;
-      case 'estado' :
-        tp = 1;
-        break;
-      case 'estado_civil' :
-        tp = 1;
-        break;
-      case 'grupo' :
-        tp = 1;
-        break;
-      case 'municipio' :
-        tp = 1;
-        break;
-      case 'ogu' :
-        tp = 1;
-        break;
-      case 'origem_proposicao' :
-        tp = 1;
-        break;
-      case 'orgao_proposicao' :
-        tp = 1;
-        break;
-      case 'tipo_emenda' :
-        tp = 1;
-        break;
-      case 'tipo_proposicao' :
-        tp = 1;
-        break;
-      case 'emenda_proposicao' :
-        tp = 1;
-        break;
-      case 'andamento' :
-        tp = 1;
-        break;
-      case 'tipo_recebimento' :
-        tp = 1;
-        break;
-      case 'tratamento' :
-        tp = 1;
-        break;
-      case 'situacao_proposicao' :
-        tp = 1;
-        break;
-
-
-    }
-    if (tp === 1) {
-      if (!sessionStorage.getItem(dropDownNome)) {
-        this.sub.push(this.dd.getDropdownNomeId(this.configuracao.tabela, this.configuracao.campo_id, this.configuracao.campo_nome)
+      if (!sessionStorage.getItem('dropdown-' + this.configuracao.tabela)) {
+        this.sub.push(this.dd.getDd('dropdown-' + this.configuracao.tabela)
           .pipe(take(1))
           .subscribe({
             next: (dados) => {
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(dados));
               this.dropDown = dados;
             },
             error: (erro) => {
               console.error(erro);
             },
             complete: () => {
-              sessionStorage.setItem(dropDownNome, JSON.stringify(this.dropDown));
-              this.dropDown = JSON.parse(sessionStorage.getItem(dropDownNome));
+              this.listagem = this.dropDown.map((d) => {
+                return {
+                  campo_id: +d.value,
+                  campo_nome: d.label
+                }
+              });
             }
           })
         );
       } else {
-        this.dropDown = JSON.parse(sessionStorage.getItem(dropDownNome));
+        this.dropDown = JSON.parse(sessionStorage.getItem('dropdown-' + this.configuracao.tabela));
+        this.listagem = this.dropDown.map((d) => {
+          return {
+            campo_id: +d.value,
+            campo_nome: d.label
+          }
+        });
       }
-    }
-
   }
 
-  onEditar(id: number, nome: string, idx: number) {
-    this.msgErroEditar = [];
-    this.msgEditar = [];
-    this.acao = 'editar';
-    this.mostraApagar = 0;
-    if (this.mostraAlterar === 0) {
-      if (id) {
-        this.mostraAlterar = id;
-        this.id = id;
-        this.nome = nome;
-        this.idx = idx;
-        this.nomeOld = nome;
-      }
+  clickIncluir() {
+    this.msg = [];
+    this.msgErro = [];
+    this.registro = {
+      campo_id: null,
+      campo_nome: null
     }
-    this.btnOff = true;
+    this.btnacaoInativo = true;
+    this.mostraIncluir = !this.mostraIncluir;
+    this.btnCancelarInativo = false;
+    this.btnEnviarInativo = false;
+  }
+
+  clickEditar(cf: ConfiguracaoRegistroI, idx: number) {
+    this.msg = [];
+    this.msgErro = [];
+    this.btnacaoInativo = true;
+    this.acao = 'editar';
+    this.confirmaAlterar = false;
+    this.registro = cf;
+    this.registroOld = cf;
+    this.idx = idx;
+    this.mostraAlterar = !this.mostraAlterar;
   }
 
   onAlterar() {
-    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.nome.toUpperCase());
-    if (this.nome !== null && this.nome.toUpperCase() !== this.nomeOld.toUpperCase() && this.nome.length > 1 && n > -1) {
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
+    if (this.registro.campo_nome !== null && this.registro.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() && this.registro.campo_nome.length > 1 && n < 0) {
+      this.btnacaoInativo = true;
       this.btnCancelarInativo = true;
       this.btnEnviarInativo = true;
-      this.btnOff = true;
-      this.msgErroEditar = [];
-      this.msgEditar = [];
-      this.msgs = [];
-
+      this.msgErro = [];
+      this.msg = [];
+      this.readOnly = true;
       const dados: any[] = [];
-      dados.push(this.tabel);
-      dados.push(this.id);
-      dados.push(this.nome.toUpperCase());
-      console.log('dados', dados);
-      const msg: string[] = null;
+      dados.push(this.configuracao.tabela);
+      dados.push(this.registro.campo_id);
+      dados.push(this.registro.campo_nome.toUpperCase());
       this.sub.push(this.cfs.impactoAlterar(dados)
         .pipe(take(1))
         .subscribe((dados1) => {
@@ -496,43 +388,36 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           },
           () => {
             if (!this.resp[0]) {
-              this.nome = this.nomeOld;
+              this.registro.campo_nome = this.registroOld.campo_nome;
               this.confirmaAlterar = false;
-              this.ms.add({
-                key: 'toastprincipal',
-                severity: 'error',
-                summary: 'Alterações: ',
-                detail: this.resp[2][0]
-              });
-              // this.mostraMsgs(this.resp[2]);
-              this.onCancela();
+              this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+              this.readOnly = false;
             } else {
-              if (this.resp[1] === 0) {
+              if (this.resp[3]) {
                 this.confirmaAlterar = true;
-                this.resp[2].forEach((m: string) => {
-                  this.msgEditar.push({severity: 'warn', summary: 'Vinculo(s): ', detail: m});
-                });
+                this.msg.push('Vinculo(s): ');
+                this.resp[2].forEach(m => this.msg.push(m));
                 this.btnCancelarInativo = false;
                 this.btnEnviarInativo = false;
                 this.readOnly = true;
               }
-              if (+this.resp[1] === +this.id) {
-                this.listagem[this.idx].nome = this.nome.toUpperCase();
-                this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0))
-                this.corrigeDropdown(this.tabel);
-                /*const tmp = this.listagem.find(i =>
-                  i.campo_id === this.id
-                );
-                if (tmp !== undefined) {
-                  this.listagem[this.listagem.indexOf(tmp)] = {
-                    campo_id: tmp.campo_id,
-                    campo_nome: this.nome.toString().toUpperCase()
-                  };
-                }*/
+              if (!this.resp[3]) {
+                this.listagem[this.idx].campo_nome = this.registro.campo_nome.toUpperCase();
+                this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+                this.dropDown = [];
+                this.dropDown = this.listagem.map((l) => {
+                  return {
+                    value: +l.campo_id,
+                    label: l.campo_nome
+                  }
+                });
+                sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+                sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2][0]});
                 this.onCancela();
-                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
               }
-              // this.mostraMsgs(this.resp[2]);
             }
           }
         )
@@ -543,15 +428,13 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onAlterarConfirma() {
-    if (this.nome && this.nome !== this.nomeOld) {
-      if (this.nome.length > 1) {
+    this.btnacaoInativo = true;
         this.btnCancelarInativo = true;
         this.btnEnviarInativo = true;
         const dados: any[] = [];
-        dados.push(this.tabel);
-        dados.push(this.id);
-        dados.push(this.nome);
-        const msg: string[] = null;
+        dados.push(this.configuracao.tabela);
+        dados.push(this.registro.campo_id);
+        dados.push(this.registro.campo_nome);
         this.sub.push(this.cfs.alterar(dados)
           .pipe(take(1))
           .subscribe((dados1) => {
@@ -561,52 +444,48 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               console.error(err);
             },
             () => {
-              if (+this.resp[1] === +this.id) {
-                this.listagem[this.idx].nome = this.nome.toUpperCase();
+              if (this.resp[0]) {
+                this.listagem[this.idx].campo_nome = this.registro.campo_nome.toUpperCase();
                 this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
-                this.corrigeDropdown(this.tabel);
-                /*const tmp = this.listagem.find(i =>
-                  i.campo_id === this.id
-                );
-                if (tmp !== undefined) {
-                  this.listagem[this.listagem.indexOf(tmp)] = {
-                    campo_id: tmp.campo_id,
-                    campo_nome: this.nome.toString().toUpperCase()
-                  };
-                }*/
-                this.onCancela();
-                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
-              } else {
-                this.nome = this.nomeOld;
-                this.confirmaAlterar = false;
-                this.ms.add({
-                  key: 'toastprincipal',
-                  severity: 'error',
-                  summary: 'Alterações: ',
-                  detail: this.resp[2][0]
+                this.dropDown = [];
+                this.dropDown = this.listagem.map((l) => {
+                  return {
+                    value: +l.campo_id,
+                    label: l.campo_nome
+                  }
                 });
-                // this.mostraMsgs(this.resp[2]);
+                sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+                sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2][0]});
                 this.onCancela();
+              } else {
+                this.registro.campo_nome = this.registroOld.campo_nome;
+                this.confirmaAlterar = false;
+                this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2]});
+                this.btnCancelarInativo = false;
+                this.btnEnviarInativo = false;
+                this.readOnly = false;
               }
             }
           )
         );
 
-      }
-    }
+
+
   }
 
   onIncluir() {
+    this.btnacaoInativo = true;
     this.btnCancelarInativo = true;
     this.btnEnviarInativo = true;
     this.acao = 'incluir';
-    this.btnOff = true;
-    this.msgErroIncluir = null;
-    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.nomeIncluir.toUpperCase());
-    if (this.nomeIncluir !== null && this.nomeIncluir.length > 1 && n < 0) {
+    this.msgErro = [];
+    this.msg = [];
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
+    if (this.registro.campo_nome !== null && this.registro.campo_nome.length > 1 && n < 0) {
       const dados: any[] = [];
-      dados.push(this.tabel);
-      dados.push(this.nomeIncluir);
+      dados.push(this.configuracao.tabela);
+      dados.push(this.registro.campo_nome);
       this.sub.push(this.cfs.verificaIncluir(dados)
         .pipe(take(1))
         .subscribe((dados2) => {
@@ -617,92 +496,49 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           },
           () => {
             if (this.resp[0]) {
-              this.listagem.push({campo_id: this.resp[1], campo_nome: this.nomeIncluir.toUpperCase()});
+              this.listagem.push({campo_id: +this.resp[1], campo_nome: this.registro.campo_nome.toUpperCase()});
               this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
-              this.corrigeDropdown(this.tabel);
+              this.dropDown = [];
+              this.dropDown = this.listagem.map((l) => {
+                return {
+                  value: +l.campo_id,
+                  label: l.campo_nome
+                }
+              });
+              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
               this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
               this.onCancela();
             } else {
-              this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
-              this.onCancela();
+              this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
             }
           }
         )
       );
     } else {
-      this.msgErroIncluir = [{
-        key: 'msgIncluirErro',
-        severity: 'warn',
-        summary: 'INCLUIR: ',
-        detail: 'DADOS INVÁLIDOS.'
-      }];
-      this.onCancela();
-    }
-  }
-
-  mostraMsgs(res: string[]) {
-    if (this.resp[0]) {
-      if (res.length > 0) {
-        if (this.resp[1] === 0) {
-          res.forEach((m: string) => {
-            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Alterações: ', detail: m});
-          });
-        } else {
-          this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2]});
-        }
+      if (n > -1) {
+        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
       }
-    } else {
-      this.ms.add({key: 'toastprincipal', severity: 'error', summary: 'Alterações: ', detail: this.resp[2]});
+      this.btnCancelarInativo = false;
+      this.btnEnviarInativo = false;
     }
   }
 
-  onApagar() {
-    this.btnOff = true;
-    this.acao = 'deletar';
-    const dados: any = {
-      'tabela': this.tabel,
-      'id': this.id
-    };
-    this.sub.push(this.cfs.deletar(dados)
-      .pipe(take(1))
-      .subscribe((dados3) => {
-          this.resp = dados3;
-        },
-        (err) => {
-          console.error(err);
-        },
-        () => {
-          const tmp = this.listagem.find(i =>
-            i.campo_id === this.id
-          );
-          if (tmp !== undefined) {
-            const idx = this.listagem.indexOf(tmp);
-            this.listagem.splice(idx, 1);
-          }
-          this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão', detail: this.resp[2]});
-          this.onCancela();
-        })
-    );
-  }
 
-  onDeletar(id: number, nome: string, idx: number) {
+  clickDeletar(cf: ConfiguracaoRegistroI, idx: number) {
+    this.btnacaoInativo = true;
     this.acao = 'deletar';
-    this.btnOff = true;
-    this.mostraAlterar = 0;
-    this.mostraApagar = id;
     this.btnCancelarInativo = true;
     this.btnEnviarInativo = true;
-    this.id = id;
-    this.nome = nome;
+    this.registro = cf;
+    this.registroOld = cf;
     this.idx = idx;
-    this.drop = 0;
-    this.nomeOld = nome;
-    this.resp = null;
-    this.msgs = [];
-    this.mostraDropDown = false;
+    this.resp = [];
     const dados: any[] = [];
-    dados.push(this.tabel);
-    dados.push(this.id);
+    dados.push(this.configuracao.tabela);
+    dados.push(cf.campo_id);
     this.sub.push(this.cfs.impactoDelete(dados)
       .pipe(take(1))
       .subscribe((dados4) => {
@@ -714,18 +550,23 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         },
         () => {
           if (this.resp[0]) {
-            if (+this.resp[1] === 0) {
-              this.confirmaApagar = true;
-              this.resp[2].forEach((m: string) => {
-                this.msgs.push({severity: 'warn', summary: 'Vinculo(s): ', detail: m});
-              });
-              if (this.resp[3]) {
-                this.drop = this.id;
-                this.mostraDropDown = true;
-              }
+            if (this.resp[3]) {
+              this.msg.push('Vinculo(s): ');
+              this.resp[2].forEach(m => this.msg.push(m));
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+              this.mostraApagar = true;
             } else {
-              this.corrigeDropdown(this.tabel);
               this.listagem.splice(this.idx, 1);
+              this.dropDown = [];
+              this.dropDown = this.listagem.map((l) => {
+                return {
+                  value: +l.campo_id,
+                  label: l.campo_nome
+                }
+              });
+              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
               this.ms.add({
                 key: 'toastprincipal',
                 severity: 'success',
@@ -735,31 +576,25 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               this.onCancela();
             }
           } else {
-            this.ms.add({
-              key: 'toastprincipal',
-              severity: 'error',
-              summary: 'Exclusão: ',
-              detail: this.resp[2][0]
-            });
-            this.onCancela();
+            this.msgErro.push({key: 'msgDeletarErro', severity: 'error', summary: 'APAGAR', detail: this.resp[2][0]});
+            this.btnCancelarInativo = false;
+            this.btnEnviarInativo = false;
           }
-          /*if (!this.confirmaApagar) {
-            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
-          }*/
         }
       )
     );
   }
 
-  onApagarConfirma() {
+  onApagarConfirma(cf: ConfiguracaoRegistroI) {
+    this.btnacaoInativo = true;
     this.btnCancelarInativo = true;
     this.btnEnviarInativo = true;
-    this.msgs = [];
-    if (+this.drop > 0 && +this.drop !== this.id) {
+    this.msg = [];
+    if (cf.campo_id > 0 && cf.campo_id !== this.registro.campo_id) {
       const dados: any = {
-        'tabela': this.tabel,
-        'id': this.id,
-        'novo_id': this.drop
+        'tabela': this.configuracao.tabela,
+        'id': this.registro.campo_id,
+        'novo_id': cf.campo_id
       };
       this.sub.push(this.cfs.deletar(dados)
         .pipe(take(1))
@@ -770,7 +605,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             console.error(err);
           },
           () => {
-            this.corrigeDropdown(this.tabel);
+            this.corrigeDropdown(this.configuracao.tabela);
             this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
             this.onCancela();
           })
@@ -779,44 +614,31 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onCancela() {
-    this.acao = null;
-    this.nome = null;
-    this.nomeIncluir = null;
-    this.id = null;
-    this.idx = null;
-    this.nomeOld = null;
-    this.mostraAlterar = 0;
-    this.mostraApagar = 0;
-    this.mostraIncluir = false;
-    this.colsp = 1;
     this.readOnly = false;
-    this.btnIncluirInativo = true;
-    this.btnAlterarInativo = true;
-    this.btnApagarInativo = true;
+    this.mostraIncluir = false;
+    this.btnacaoInativo = false;
     this.btnCancelarInativo = false;
-    this.btnEnviarInativo = true;
-    if (this.alt.configuracao_alterar) {
-      this.colsp++;
-    }
-    if (this.alt.configuracao_apagar) {
-      this.colsp++;
-    }
+    delete this.registro;
+    this.registro = null;
+    this.registroOld = null;
+    this.acao = null;
+    this.msgErro = [];
+    this.msg = [];
+    this.idx = -1;
+    this.acao = null;
     this.confirmaAlterar = false;
-    this.btnOff = false;
+    this.mostraAlterar = false;
+    this.idx = null;
+    this.mostraApagar = false
+    this.btnEnviarInativo = true;
+    this.drop = null
   }
 
   corrigeDropdown(tabela: string) {
     this.cfs.corrigeDropdown(tabela);
   }
 
-  clickIncluir() {
-    this.mostraIncluir = !this.mostraIncluir;
-    /*    this.btnIncluirInativo = true;
-        this.btnAlterarInativo = true;
-        this.btnApagarInativo = true;*/
-    this.btnCancelarInativo = false;
-    this.btnEnviarInativo = false;
-  }
+
 
   cssIncluir(): any {
     return (!this.mostraIncluir) ? null : {
@@ -834,13 +656,13 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   cssAlterar(): any {
-    return (this.mostraAlterar === 0) ? null : {
+    return (this.mostraAlterar) ? null : {
       'background': 'var(--yellow-200)'
     };
   }
 
   cssAlterar2(): any {
-    return (this.mostraAlterar === 0) ? null : {
+    return (this.mostraAlterar) ? null : {
       'background': 'var(--yellow-200)',
       'padding': '0.5rem 0.5rem'
     };
@@ -859,6 +681,10 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     };
   }
 
+  apagaMsg() {
+    this.msg = [];
+    this.msgErro = [];
+  }
   testeInput(ev) {
     console.log('ev', ev);
   }

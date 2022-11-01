@@ -11,7 +11,7 @@ import {DdService} from "../../_services/dd.service";
   providedIn: 'root'
 })
 export class ConfiguracaoService {
-  public configuracao = new ConfiguracaoModel();
+  public configuracao: ConfiguracaoModelInterface | null = null;
   public confTitulo: ConfiguracaoModelInterface = {};
   public configuracao2 = new Configuracao2Model();
   private sub: Subscription[] = [];
