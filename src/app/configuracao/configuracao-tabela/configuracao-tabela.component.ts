@@ -325,6 +325,31 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.drop = null;
   }
 
+  onCancela() {
+    if (this.acao === 'editar') {
+      this.registro.campo_nome = this.registroOld.campo_nome;
+    }
+    this.readOnly = false;
+    this.mostraIncluir = false;
+    this.btnacaoInativo = false;
+    this.btnCancelarInativo = false;
+    delete this.registro;
+    this.registro = null;
+    this.registroOld = null;
+    this.acao = null;
+    this.msgErro = [];
+    this.msg = [];
+    this.idx = -1;
+    this.acao = null;
+    this.confirmaAlterar = false;
+    this.mostraAlterar = false;
+    this.idx = null;
+    this.mostraApagar = false
+    this.confirmaApagar = false
+    this.btnEnviarInativo = false;
+    this.drop = null
+  }
+
   getDropDown(tabela: string) {
     if (!sessionStorage.getItem('dropdown-' + this.configuracao.tabela)) {
       this.sub.push(this.dd.getDd('dropdown-' + this.configuracao.tabela)
@@ -369,6 +394,58 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.mostraIncluir = !this.mostraIncluir;
     this.btnCancelarInativo = false;
     this.btnEnviarInativo = false;
+  }
+
+  onIncluir() {
+    this.btnacaoInativo = true;
+    this.btnCancelarInativo = true;
+    this.btnEnviarInativo = true;
+    this.acao = 'incluir';
+    this.msgErro = [];
+    this.msg = [];
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
+    if (this.registro.campo_nome !== null && this.registro.campo_nome.length > 1 && n < 0) {
+      const dados: any[] = [];
+      dados.push(this.configuracao.tabela);
+      dados.push(this.registro.campo_nome);
+      this.sub.push(this.cfs.verificaIncluir(dados)
+        .pipe(take(1))
+        .subscribe((dados2) => {
+            this.resp = dados2;
+          },
+          (err) => {
+            console.error(err);
+          },
+          () => {
+            if (this.resp[0]) {
+              this.listagem.push({campo_id: +this.resp[1], campo_nome: this.registro.campo_nome.toUpperCase()});
+              this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+              this.dropDown = [];
+              this.dropDown = this.listagem.map((l) => {
+                return {
+                  value: +l.campo_id,
+                  label: l.campo_nome
+                }
+              });
+              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
+              this.onCancela();
+            } else {
+              this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+            }
+          }
+        )
+      );
+    } else {
+      if (n > -1) {
+        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
+      }
+      this.btnCancelarInativo = false;
+      this.btnEnviarInativo = false;
+    }
   }
 
   clickEditar(cf: ConfiguracaoRegistroI, idx: number) {
@@ -532,58 +609,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
 
   }
 
-  onIncluir() {
-    this.btnacaoInativo = true;
-    this.btnCancelarInativo = true;
-    this.btnEnviarInativo = true;
-    this.acao = 'incluir';
-    this.msgErro = [];
-    this.msg = [];
-    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
-    if (this.registro.campo_nome !== null && this.registro.campo_nome.length > 1 && n < 0) {
-      const dados: any[] = [];
-      dados.push(this.configuracao.tabela);
-      dados.push(this.registro.campo_nome);
-      this.sub.push(this.cfs.verificaIncluir(dados)
-        .pipe(take(1))
-        .subscribe((dados2) => {
-            this.resp = dados2;
-          },
-          (err) => {
-            console.error(err);
-          },
-          () => {
-            if (this.resp[0]) {
-              this.listagem.push({campo_id: +this.resp[1], campo_nome: this.registro.campo_nome.toUpperCase()});
-              this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
-              this.dropDown = [];
-              this.dropDown = this.listagem.map((l) => {
-                return {
-                  value: +l.campo_id,
-                  label: l.campo_nome
-                }
-              });
-              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
-              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
-              this.onCancela();
-            } else {
-              this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
-              this.btnCancelarInativo = false;
-              this.btnEnviarInativo = false;
-            }
-          }
-        )
-      );
-    } else {
-      if (n > -1) {
-        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
-      }
-      this.btnCancelarInativo = false;
-      this.btnEnviarInativo = false;
-    }
-  }
-
   clickDeletar(cf: ConfiguracaoRegistroI, idx: number) {
 
     const cfn: string = cf.campo_nome;
@@ -693,41 +718,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  onCancela() {
-    if (this.acao === 'editar') {
-      this.registro.campo_nome = this.registroOld.campo_nome;
-    }
-    this.readOnly = false;
-    this.mostraIncluir = false;
-    this.btnacaoInativo = false;
-    this.btnCancelarInativo = false;
-    delete this.registro;
-    this.registro = null;
-    this.registroOld = null;
-    this.acao = null;
-    this.msgErro = [];
-    this.msg = [];
-    this.idx = -1;
-    this.acao = null;
-    this.confirmaAlterar = false;
-    this.mostraAlterar = false;
-    this.idx = null;
-    this.mostraApagar = false
-    this.confirmaApagar = false
-    this.btnEnviarInativo = false;
-    this.drop = null
-  }
-
-  testaInput(): boolean {
-    return this.registro.campo_nome.toUpperCase() === this.registroOld.campo_nome.toUpperCase();
-  }
-
   mudaTeste(cno: string, cno2: string) {
     this.registro.campo_nome = cno.toUpperCase();
-  }
-
-  corrigeDropdown(tabela: string) {
-    this.cfs.corrigeDropdown(tabela);
   }
 
   cssIncluir(): any {
@@ -779,5 +771,11 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.msgErro = [];
   }
 
+  corrigeDropdown(tabela: string) {
+    this.cfs.corrigeDropdown(tabela);
+  }
 
+  testaInput(): boolean {
+    return this.registro.campo_nome.toUpperCase() === this.registroOld.campo_nome.toUpperCase();
+  }
 }
