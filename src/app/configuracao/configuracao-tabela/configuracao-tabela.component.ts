@@ -43,8 +43,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   mostraApagar = false;
   drop: SelectItem | null = null;
 
-  // nome: string | null = null;
-
   constructor(
     public cfs: ConfiguracaoService,
     public aut: AuthenticationService,
