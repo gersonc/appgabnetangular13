@@ -88,7 +88,7 @@ export class ConfiguracaoComponent implements OnInit {
     },
     {
       label: 'Tipo de Emenda de Proposição',
-      code: 'emenda_proposicao'
+      code: 'proposicao_emenda_tipo'
     },
     {
       label: 'Tipo de Proposição',

@@ -9,6 +9,7 @@ export interface ConfiguracaoModelInterface {
   campo_nome?: string;
   titulo?: string;
   texto?: string;
+  tamanho?: number;
 }
 
 export class ConfiguracaoModel implements ConfiguracaoModelInterface {
