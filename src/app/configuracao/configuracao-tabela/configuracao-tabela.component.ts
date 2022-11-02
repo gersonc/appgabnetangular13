@@ -210,7 +210,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           this.inicio();
           break;
         }
-        case 'proposicao_emenda_tipo': {
+        case 'emenda_proposicao': {
           this.configuracao = {
             tabela: 'emenda_proposicao',
             campo_id: 'emenda_proposicao_id',
@@ -427,10 +427,10 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               });
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
               sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2][0]});
               this.onCancela();
             } else {
-              this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+              this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2][0]});
               this.btnCancelarInativo = false;
               this.btnEnviarInativo = false;
             }
@@ -491,7 +491,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             if (!this.resp[0]) {
               this.registro.campo_nome = this.registroOld.campo_nome;
               this.confirmaAlterar = false;
-              this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2]});
+              this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2][0]});
               this.btnCancelarInativo = false;
               this.btnEnviarInativo = false;
               this.readOnly = false;
@@ -595,7 +595,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           } else {
             this.registro.campo_nome = this.registroOld.campo_nome;
             this.confirmaAlterar = false;
-            this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2]});
+            this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2][0]});
             this.btnCancelarInativo = false;
             this.btnEnviarInativo = false;
             this.readOnly = false;
@@ -709,7 +709,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             });
             sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
             sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
+            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2][0]});
             this.onCancela();
           })
       );
