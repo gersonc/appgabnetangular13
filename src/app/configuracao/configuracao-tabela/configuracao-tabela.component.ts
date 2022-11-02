@@ -90,6 +90,18 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           this.inicio();
           break;
         }
+        case 'emenda_situacao': {
+          this.configuracao = {
+            tabela: 'emenda_situacao',
+            campo_id: 'emenda_situacao_id',
+            campo_nome: 'emenda_situacao_nome',
+            titulo: 'SITUAÇÃO DA EMENDA',
+            texto: 'a situação da emenda',
+            tamanho: 45
+          }
+          this.inicio();
+          break;
+        }
         case 'escolaridade': {
           this.configuracao = {
             tabela: 'escolaridade',
@@ -181,6 +193,18 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'orgao_proposicao_nome',
             titulo: 'ORGÃO DA PROPOSIÇÃO',
             texto: 'o orgão da proposicao',
+            tamanho: 50
+          }
+          this.inicio();
+          break;
+        }
+        case 'regiao': {
+          this.configuracao = {
+            tabela: 'regiao',
+            campo_id: 'regiao_id',
+            campo_nome: 'regiao_nome',
+            titulo: 'REGIÃO',
+            texto: 'a região',
             tamanho: 50
           }
           this.inicio();
@@ -298,6 +322,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     });
     this.resetAll();
     this.titulo = this.configuracao.titulo;
+    this.onConfTitulo.emit(this.configuracao);
     this.cfs.configuracao = this.configuracao;
     this.getDropDown(this.configuracao.tabela);
   }

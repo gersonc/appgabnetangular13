@@ -75,6 +75,14 @@ export class ConfiguracaoComponent implements OnInit {
       code: 'prioridade'
     },
     {
+      label: 'Regiões',
+      code: 'regiao'
+    },
+    {
+      label: 'Situação da emenda',
+      code: 'emenda_situacao'
+    },
+    {
       label: 'Situação da proposição',
       code: 'situacao_proposicao'
     },
