@@ -1,4 +1,4 @@
-  <div *ngFor="let col of tus" class="p-d-block">
+  <div *ngFor="let col of tus" class="p-d-block"  style="display: table-column-group">
     <div class="p-d-block" [ngClass]="rowColor(col.tus_situacao_id)">
       <div *ngIf="+aut.usuario_id !== col.tus_usuario_id" class="p-mb-0 p-ml-2 tarefainterno">{{col.tu_usuario_nome}}</div>
       <div *ngIf="+aut.usuario_id === col.tus_usuario_id" class="p-mb-0 p-ml-2 tarefainterno tmouse" (click)="alterarClick(col)">{{col.tu_usuario_nome}}</div>

@@ -38,7 +38,7 @@
          (onContextMenuSelect)="ct.onContextMenuSelect($event)"
          (sortFunction)="ct.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'1rem'}"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
          stateStorage="session"
          stateKey="conta-table"
          selectionMode="multiple"
@@ -102,22 +102,30 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col *ngFor="let col of columns">
+      <!--<col style="width: 2rem;" pResizableColumnDisabled>-->
+      <col *ngFor="let col of columns" [style]="{width:col.width}">
     </colgroup>
   </ng-template>
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 7rem;"></th>
-      <th *ngFor="let col of columns"
+      <!--<th></th>-->
+      <ng-container  *ngFor="let col of columns">
+      <th
           [pSortableColumn]="col.field"
           [style.width]="col.width"
           pReorderableColumn
           pResizableColumn
+          [pReorderableColumnDisabled]="contaIdVF(col)"
+          [pResizableColumnDisabled]="contaIdVF(col)"
+          [pSortableColumnDisabled]="contaIdVF(col)"
+
       >
         {{col.header}}
-        <p-sortIcon [field]="col.field"></p-sortIcon>
+        <p-sortIcon *ngIf="!contaIdVF(col)" [field]="col.field"></p-sortIcon>
       </th>
+      </ng-container>
+
     </tr>
   </ng-template>
 
@@ -125,7 +133,11 @@
   <ng-template pTemplate="body" let-cta let-columns="columns" let-editing="editing" let-expanded="expanded"
                let-rowIndex="rowIndex">
     <tr [pSelectableRow]="cta" [pContextMenuRow]="cta" [pContextMenuRowIndex]="rowIndex" [pEditableRow]="cta">
-      <td style="width: 7rem; padding-bottom: 0; padding-top: .3em;text-align: center">
+      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col)"
+          [ngClass]="setCurrentClass(col, cta[col.field], cta.conta_paga_id, cta.conta_vencimento3)"
+          style="text-align: left"
+      >
+        <ng-container *ngIf="col.field === 'conta_id'">
         <button
           *ngIf="!editing && btnExpandirVF && !botaoEnviarVF"
           type="button"
@@ -134,7 +146,7 @@
           [pTooltip]="expanded ? 'Expandir' : 'Recolher'"
           tooltipPosition="top"
           [pRowToggler]="cta"
-          class="p-button-rounded p-button-text p-button-sm"
+          class="expandir p-button-rounded  p-button-text p-button-sm"
           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
         ></button>
         <div class="p-m-0" (mouseover)="valido()">
@@ -143,8 +155,10 @@
             pButton
             type="button"
             pSaveEditableRow
+            pTooltip="Salvar"
+            tooltipPosition="top"
             icon="pi pi-check"
-            class="p-button-success"
+            class="config p-button-rounded p-button-success p-button-sm"
             style="margin-right: .5em"
             [disabled]="botaoEnviarVF || validaBtnVf(cta)"
             (click)="onRowEditSave(cta)"
@@ -154,18 +168,18 @@
             pButton
             id="btncancel"
             type="button"
+            pTooltip="Cancelar"
+            tooltipPosition="top"
             pCancelEditableRow
             icon="pi pi-times"
-            class="p-button-danger"
+            class="config p-button-rounded p-button-danger p-button-sm"
             [disabled]="botaoEnviarVF"
             (click)="onRowEditCancel(cta)"
           ></button>
         </div>
-      </td>
+        </ng-container>
 
-      <td *ngFor="let col of columns" [ngStyle]="setCurrentStyles(col)"
-          [ngClass]="setCurrentClass(col, cta[col.field], cta.conta_paga_id, cta.conta_vencimento3)"
-          style="text-align: left">
+
 
         <p-cellEditor *ngIf="col.field === 'conta_valor'">
           <ng-template pTemplate="input">
@@ -275,7 +289,7 @@
 
 
         <ng-container
-          *ngIf="col.field !== 'conta_valor' && col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
+          *ngIf="col.field !== 'conta_id' && col.field !== 'conta_valor' && col.field !== 'conta_paga' && col.field !== 'conta_pagamento'">
           <app-exporter-celula [celula]="{
           valor: cta[col.field],
           field: col.field,

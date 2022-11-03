@@ -117,7 +117,7 @@
   <!--*** DADOS ****************************************************************************************************-->
   <ng-template pTemplate="body" let-sol let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="sol" [pContextMenuRow]="sol" [pSelectableRowIndex]="rowIndex">
-      <td style="width: 3.5em" pResizableColumnDisabled>
+      <td style="width: 2em" pResizableColumnDisabled>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
                 [pRowToggler]="sol" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>

@@ -12,6 +12,7 @@ import {ContaI} from "../_models/conta-i";
 import {ContaFormService} from "../_services/conta-form.service";
 import {DateTime} from "luxon";
 import {MsgService} from "../../_services/msg.service";
+import {Table} from "primeng/table/table";
 
 @Component({
   selector: 'app-conta-datatable',
@@ -20,7 +21,7 @@ import {MsgService} from "../../_services/msg.service";
   providers: [ ConfirmationService ]
 })
 export class ContaDatatableComponent implements OnInit, OnDestroy {
-  @ViewChild('dtb', {static: true}) public dtb: any;
+  @ViewChild('dtb', {static: true}) public dtb: Table;
   altura = `${WindowsService.altura - 170}` + 'px';
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
@@ -167,8 +168,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   montaColunas() {
     this.cols = [
-      { field: 'conta_id', header: 'ID', sortable: 'true', width: '80px'},
-      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
+      { field: 'conta_id', header: '', sortable: 'false', width: '2rem'},
+      { field: 'conta_cedente', header: 'CREDOR', sortable: 'true', width: '250px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '7rem'},
       { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '8rem'},
       { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
@@ -184,7 +185,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   resetSelectedColumns(): void {
     this.ct.criaTabela();
     this.ct.tabela.selectedColumns = [
-      { field: 'conta_cedente', header: 'CEDENTE', sortable: 'true', width: '250px'},
+      { field: 'conta_id', header: '', sortable: 'false', width: '2rem'},
+      { field: 'conta_cedente', header: 'CREDOR', sortable: 'true', width: '250px'},
       { field: 'conta_vencimento', header: 'DT. VENC.', sortable: 'true', width: '7rem'},
       { field: 'conta_valor', header: 'VALOR', sortable: 'true', width: '8rem'},
       { field: 'conta_paga', header: 'PAGO', sortable: 'true', width: '5rem'},
@@ -404,13 +406,32 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
 
   setCurrentStyles(col: any) {
       return {
-        'width':   col.width,
+        'width': col.width,
         'padding-bottom': 0,
-        'padding-top': '.3em'
+        'padding-top': '.3em',
+        'text-align': (col.field === 'conta_id') ? 'center' : null
       }
   }
 
+  contaIdVF(col: any): boolean {
+    return (col.field === 'conta_id');
+  }
+
+  /*ajustaLargura() {
+    console.log('ajustaLargura');
+    let t: any = document.getElementsByTagName('table');
+    console.log('t', t);
+    for (let tKey of t) {
+      console.log('tKey', tKey);
+      this.dtb.resizeColGroup(tKey, 4, '600px', '800px');
+    }
+
+  }*/
+
   onRowEditInit(c: any, idx: number) {
+    // this.ajustaLargura();
+    /*console.log('ajustaLargura');
+    this.dtb.resizeColGroup(this, 4, '200px', null);*/
     this.idx = idx;
     this.getWidth();
     this.contaEdit = {...c};
@@ -538,6 +559,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   // FUNCOES RELATORIOS=========================================================
 
   getWidth() {
+    this.ct.tabela.selectedColumns[0].width = '7rem';
+
     this.valorIdx = this.ct.tabela.selectedColumns.findIndex(l => l.field === 'conta_valor');
     this.valorWidth = this.ct.tabela.selectedColumns[this.valorIdx].width;
     this.ct.tabela.selectedColumns[this.valorIdx].width = '13rem';
@@ -552,6 +575,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   setWidth() {
+    this.ct.tabela.selectedColumns[0].width = '2rem';
     this.ct.tabela.selectedColumns[this.valorIdx].width = this.valorWidth;
     this.ct.tabela.selectedColumns[this.pagaIdx].width = this.pagaWidth;
     this.ct.tabela.selectedColumns[this.pagamentoIdx].width = this.pagamentoWidth;

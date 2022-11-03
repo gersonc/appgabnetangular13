@@ -39,7 +39,7 @@
          (onRowSelect)="es.calcular()"
          (onRowUnselect)="es.calcular()"
          [customSort]="true"
-         [tableStyle]="{'font-size':'1rem'}"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
          [frozenValue]="es.totais"
          stateStorage="session"
          stateKey="emenda-table"
@@ -96,16 +96,16 @@
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
-<!--  <ng-template pTemplate="colgroup" let-columns>
+  <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col>
-      <col *ngFor="let col of columns">
+      <col style="width: 2rem;" pResizableColumnDisabled>
+      <col *ngFor="let col of columns" [style]="{width:col.width}">
     </colgroup>
-  </ng-template>-->
+  </ng-template>
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 3.5em" pResizableColumnDisabled ></th>
+      <th></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.width"
@@ -124,7 +124,7 @@
         [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
       <td style="width: 3.5em" pResizableColumnDisabled >
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
-                [pRowToggler]="eme" class="p-button-rounded  p-button-text p-button-sm"
+                [pRowToggler]="eme" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 
@@ -149,7 +149,7 @@
 
   <ng-template pTemplate="frozenrows" let-eme let-columns="columns">
     <tr>
-      <td  style="width: 3.5em" pResizableColumnDisabled ></td>
+      <td  style="width: 3.5em; background-color: var(--surface-b)" pResizableColumnDisabled ></td>
 
       <ng-container *ngFor="let col of columns">
         <td *ngIf="valCols.indexOf(col.field) !== -1"

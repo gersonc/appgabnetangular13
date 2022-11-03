@@ -37,7 +37,7 @@
          (onContextMenuSelect)="ps.onContextMenuSelect($event)"
          (sortFunction)="ps.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'1rem'}"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
          stateStorage="session"
          stateKey="proposicao-table"
          selectionMode="multiple"
@@ -95,14 +95,14 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col style="width: 3.5em" pResizableColumnDisabled>
-      <col *ngFor="let col of columns">
+      <col style="width: 2rem;" pResizableColumnDisabled>
+      <col *ngFor="let col of columns" [style]="{width:col.width}">
     </colgroup>
   </ng-template>
 
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 3.5em;" pResizableColumnDisabled></th>
+      <th></th>
       <th *ngFor="let col of columns"
           [pSortableColumn]="col.field"
           [style.width]="col.width"
@@ -119,9 +119,9 @@
   <ng-template pTemplate="body" let-prop let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="prop" [pContextMenuRow]="prop" [pContextMenuRowIndex]="rowIndex"
         [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
-      <td style="width: 3.5em" pResizableColumnDisabled>
+      <td style="width: 2em" pResizableColumnDisabled>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
-                [pRowToggler]="prop" class="p-button-rounded  p-button-text p-button-sm"
+                [pRowToggler]="prop" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 

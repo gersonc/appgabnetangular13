@@ -37,7 +37,7 @@
          (onContextMenuSelect)="ts.onContextMenuSelect($event)"
          (sortFunction)="ts.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'1rem'}"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
          stateStorage="session"
          stateKey="telefone-table"
          selectionMode="multiple"
@@ -95,7 +95,8 @@
   <!--*** TITULOS **************************************************************************************************-->
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <col *ngFor="let col of columns">
+      <col style="width: 2rem;" pResizableColumnDisabled>
+      <col *ngFor="let col of columns" [style]="{width:col.width}">
     </colgroup>
   </ng-template>
 
@@ -118,9 +119,9 @@
   <ng-template pTemplate="body" let-tel let-columns="columns" let-expanded="expanded" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="tel" [pContextMenuRow]="tel" [pContextMenuRowIndex]="rowIndex"
         [pSelectableRowIndex]="rowIndex" class="p-selectable-row">
-      <td>
+      <td style="width: 2em" pResizableColumnDisabled>
         <button type="button" pButton pRipple [pTooltip]="expanded ? 'Recolher' : 'Expandir'" tooltipPosition="top"
-                [pRowToggler]="tel" class="p-button-rounded  p-button-text p-button-sm"
+                [pRowToggler]="tel" class="expandir p-button-rounded  p-button-text p-button-sm"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
       </td>
 

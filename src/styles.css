@@ -49,7 +49,8 @@
   --surface-e: #ffffff;
   --surface-f: #ffffff;
 
-  --text-color: #212529;: #6c757d;
+  --text-color: #212529;
+  --text-color-secondary: #6c757d;
   --primary-color: #007bff;
   --secondary-color: var(--gray-700);
   --primary-color-highlight: var(--blue-300);
@@ -18180,6 +18181,7 @@ div.tstatus-0 {
 div.tarefainterno {
   display: inline-block;
   width: 50%;
+  min-height: calc(var(--font-padrao) * 1.6);
 }
 
 div.tarefainternospc {
