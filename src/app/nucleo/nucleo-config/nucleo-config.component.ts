@@ -29,7 +29,6 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private cs: CarregadorService,
     private cf: ConfirmationService,
     private messageService: MessageService,
     private alt: AuthenticationService,
@@ -55,7 +54,6 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
         },
         error: err => console.error('ERRO-->', err),
         complete: () => {
-          this.cs.escondeCarregador();
         }
       })
     );
@@ -85,7 +83,6 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
       icon: 'pi pi-trash',
       accept: () => {
         this.messageService.clear('msgExcluir');
-        this.cs.mostraCarregador();
         this.sub.push(this.ns.excluir(local.local_id)
           .pipe(take(1))
           .subscribe({
@@ -94,7 +91,6 @@ export class NucleoConfigComponent implements OnInit, OnDestroy {
             },
             error: err => console.error('ERRO-->', err),
             complete: () => {
-              this.cs.escondeCarregador();
               if (this.resp[0]) {
                 this.cfs.corrigeDropdown('nucleo');
                 this.ns.nuExecutado = true;

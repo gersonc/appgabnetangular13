@@ -116,7 +116,7 @@ export class ConfiguracaoComponent implements OnInit {
     }
   ];
   public cfgItem: ConfiguracaoMenuIntensInterface = {
-    label: '',
+    label: 'CONFIGURAÇÕES',
     code: ''
   };
   titulo = "CONFIGURAÇÕES"
@@ -169,7 +169,8 @@ export class ConfiguracaoComponent implements OnInit {
     }
   }
 
-  selectCfg(event) {
+  selectCfg(ev) {
+    console.log('selectCfg', ev);
     this.componente = this.cfgItem.code;
     switch (this.componente) {
       case 'etiqueta_config': {
@@ -197,7 +198,10 @@ export class ConfiguracaoComponent implements OnInit {
         break;
       }
     }
-    this.titulo = "CONFIGURAÇÕES - " + this.cfgItem.code.toUpperCase();
+    /*if (this.tipoComp !== 4) {
+      this.titulo = "CONFIGURAÇÕES - " + this.cfgItem.code.toUpperCase();
+    }*/
+
   }
 
   getAlturaScrInterno(): number {

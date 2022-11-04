@@ -7,6 +7,7 @@ import {Message, SelectItem} from 'primeng/api';
 import {ConfiguracaoModel, ConfiguracaoModelInterface, ConfiguracaoRegistroI} from '../_models/configuracao-model';
 import {MsgService} from "../../_services/msg.service";
 import {DdService} from "../../_services/dd.service";
+import {WindowsService} from "../../_layout/_service";
 
 @Component({
   selector: 'app-configuracao-tabela',
@@ -41,7 +42,11 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   btnCancelarInativo = false;
   btnEnviarInativo = true;
   mostraApagar = false;
-  drop: SelectItem | null = null;
+  drop: SelectItem = {
+    label: null,
+    value: null
+  };
+  altura = `${WindowsService.altura - 170}` + 'px';
 
   constructor(
     public cfs: ConfiguracaoService,
@@ -373,6 +378,33 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.drop = null
   }
 
+  onRowEditCancel(cf, i) {
+    if (this.acao === 'editar') {
+      this.registro.campo_nome = this.registroOld.campo_nome;
+    }
+    this.readOnly = false;
+    this.mostraIncluir = false;
+    this.btnacaoInativo = false;
+    this.btnCancelarInativo = false;
+    delete this.registro;
+    this.registro = null;
+    this.registroOld = null;
+    this.acao = null;
+    this.msgErro = [];
+    this.msg = [];
+    this.idx = -1;
+    this.acao = null;
+    this.confirmaAlterar = false;
+    this.mostraAlterar = false;
+    this.idx = null;
+    this.mostraApagar = false
+    this.confirmaApagar = false
+    this.btnEnviarInativo = false;
+    this.drop = null
+  }
+
+
+
   getDropDown(tabela: string) {
     if (!sessionStorage.getItem('dropdown-' + this.configuracao.tabela)) {
       this.sub.push(this.dd.getDd('dropdown-' + this.configuracao.tabela)
@@ -480,7 +512,6 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.acao = 'editar';
     this.confirmaAlterar = false;
     this.registro = cf;
-    // this.nome = cf.campo_nome;
     this.registroOld = {
       campo_id: cfv,
       campo_nome: cfn
@@ -488,11 +519,37 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.idx = idx;
     this.btnEnviarInativo = false;
     this.mostraAlterar = !this.mostraAlterar;
+    console.log('idx1', this.idx);
   }
+
+  onRowEditInit(cf: ConfiguracaoRegistroI, idx: number) {
+    const cfn: string = cf.campo_nome;
+    const cfv: number = cf.campo_id;
+    this.msg = [];
+    this.msgErro = [];
+    this.btnacaoInativo = true;
+    this.acao = 'editar';
+    this.confirmaAlterar = false;
+    this.registro = cf;
+    this.registroOld = {
+      campo_id: cfv,
+      campo_nome: cfn
+    };
+    this.idx = idx;
+    this.btnEnviarInativo = false;
+    this.mostraAlterar = !this.mostraAlterar;
+    console.log('idx1', this.idx);
+  }
+
+
+
+
 
   onAlterar() {
     const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
     if (this.registro.campo_nome !== null && this.registro.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() && this.registro.campo_nome.length > 1 && n < 0) {
+      console.log('idx2', this.idx);
+      this.registro.campo_nome = this.registro.campo_nome.toUpperCase();
       this.btnacaoInativo = true;
       this.btnCancelarInativo = true;
       this.btnEnviarInativo = true;
@@ -530,7 +587,10 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
                 this.readOnly = true;
               }
               if (!this.resp[3]) {
-                this.listagem[this.idx].campo_nome = this.registro.campo_nome.toUpperCase();
+                console.log('idx3', this.idx);
+                // this.listagem[this.idx].campo_nome = this.registro.campo_nome.toUpperCase();
+                this.listagem.splice(this.idx,1);
+                this.listagem.push(this.registro);
                 this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
                 this.dropDown = [];
                 this.dropDown = this.listagem.map((l) => {
@@ -581,7 +641,110 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
+  onRowEditSave(cd, i) {
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
+    if (this.registro.campo_nome !== null && this.registro.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() && this.registro.campo_nome.length > 1 && n < 0) {
+      console.log('idx2', this.idx);
+      this.registro.campo_nome = this.registro.campo_nome.toUpperCase();
+      this.btnacaoInativo = true;
+      this.btnCancelarInativo = true;
+      this.btnEnviarInativo = true;
+      this.msgErro = [];
+      this.msg = [];
+      this.readOnly = true;
+      const dados: any[] = [];
+      dados.push(this.configuracao.tabela);
+      dados.push(this.registro.campo_id);
+      dados.push(this.registro.campo_nome.toUpperCase());
+      this.sub.push(this.cfs.impactoAlterar(dados)
+        .pipe(take(1))
+        .subscribe((dados1) => {
+            this.resp = dados1;
+          },
+          (err) => {
+            console.error(err);
+            this.onCancela();
+          },
+          () => {
+            if (!this.resp[0]) {
+              this.registro.campo_nome = this.registroOld.campo_nome;
+              this.confirmaAlterar = false;
+              this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2][0]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+              this.readOnly = false;
+            } else {
+              if (this.resp[3]) {
+                this.confirmaAlterar = true;
+                const str: string = 'Vinculo(s): ' + this.resp[2].join(', ') + '.';
+                this.msg.push(str);
+                this.btnCancelarInativo = false;
+                this.btnEnviarInativo = false;
+                this.readOnly = true;
+              }
+              if (!this.resp[3]) {
+                console.log('idx3', this.idx);
+                // this.listagem[this.idx].campo_nome = this.registro.campo_nome.toUpperCase();
+                this.listagem.splice(this.idx,1);
+                this.listagem.push(this.registro);
+                this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+                this.dropDown = [];
+                this.dropDown = this.listagem.map((l) => {
+                  return {
+                    value: +l.campo_id,
+                    label: l.campo_nome
+                  }
+                });
+                sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+                sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+                this.ms.add({
+                  key: 'toastprincipal',
+                  severity: 'success',
+                  summary: 'Alterações',
+                  detail: this.resp[2][0]
+                });
+                this.onCancela();
+              }
+            }
+          }
+        )
+      )
+    } else {
+      if (this.registro.campo_nome === null || this.registro.campo_nome.length === 0) {
+        this.msgErro.push({
+          key: 'msgAlterarErro',
+          severity: 'warn',
+          summary: 'ALTERAR',
+          detail: 'ERRO - Registro com 0 caracteres.'
+        });
+      }
+      if (this.registro.campo_nome.toUpperCase() === this.registroOld.campo_nome.toUpperCase()) {
+        this.msgErro.push({
+          key: 'msgAlterarErro',
+          severity: 'warn',
+          summary: 'ALTERAR',
+          detail: 'ERRO - Registro não alterado.'
+        });
+      }
+      if (n !== -1) {
+        this.msgErro.push({
+          key: 'msgAlterarErro',
+          severity: 'warn',
+          summary: 'ALTERAR',
+          detail: 'ERRO - Registro com valor repetido.'
+        });
+      }
+    }
+  }
+
+
+
+
+
+
+
   onAlterarConfirma() {
+    console.log('idx4', this.idx);
     this.btnacaoInativo = true;
     this.btnCancelarInativo = true;
     this.btnEnviarInativo = true;
@@ -603,9 +766,15 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
         },
         () => {
           if (this.resp[0]) {
+            console.log('idx5', this.idx, this.registro);
             this.listagem.splice(this.idx,1);
-            this.listagem.push(this.registro);
+            console.log('resp1', this.listagem);
+            // this.listagem.push(this.registro);
+            // arr.unshift("water");
+            this.listagem.unshift(this.registro);
+            console.log('resp2', this.listagem);
             this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+            console.log('resp3', this.listagem);
             this.dropDown = [];
             this.dropDown = this.listagem.map((l) => {
               return {
@@ -633,7 +802,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   clickDeletar(cf: ConfiguracaoRegistroI, idx: number) {
-
+    console.log('drop', this.drop, cf, idx);
     const cfn: string = cf.campo_nome;
     const cfv: number = cf.campo_id;
     this.msg = [];
@@ -755,33 +924,37 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   cssIncluir2(): any {
     return (!this.mostraIncluir) ? null : {
       'background': 'var(--blue-200)',
-      'padding': '0.55rem 1.65em 0.55rem 0',
-      'border': 'none'
     };
   }
 
-  cssAlterar(): any {
-    return (this.acao !== 'editar') ? null : {
+  cssAlterar(vf: boolean, idx: number): any {
+    return (this.acao === 'editar' && vf && this.idx === idx) ? {
       'background': 'var(--yellow-200)'
-    };
-  }
-
-  cssAlterar2(): any {
-    return (this.acao !== 'editar') ? null : {
-      'background': 'var(--yellow-200)',
-      'padding': '0.55rem 0 0.55rem 0.5em',
-      'border': 'none'
-    };
-  }
-
-  cssApagar(): any {
-    return (this.acao !== 'deletar') ? null : {
+    } : (this.acao === 'deletar' && this.idx === idx) ? {
       'background': 'var(--pink-200)',
       'border': 'none'
-    };
+    } : null;
   }
 
-  cssApagar2(): any {
+  cssAlterar2(vf: boolean, idx: number): any {
+    return (this.acao === 'editar' && vf && this.idx === idx) ? {
+      'background': 'var(--yellow-200)',
+      'padding': '0.55rem 0 0.55rem 0.5em'
+    } : (this.acao === 'deletar' && this.idx === idx) ? {
+      'background': 'var(--pink-200)',
+      'padding': '1rem 0.5rem',
+      'border': 'none'
+    } : null;
+  }
+
+  cssApagar(idx: number): any {
+    return (this.acao === 'deletar' && this.idx === idx) ? {
+      'background': 'var(--pink-200)',
+      'border': 'none'
+    } : null ;
+  }
+
+  cssApagar2(idx: number): any {
     return (this.acao !== 'deletar') ? null : {
       'background': 'var(--pink-200)',
       'padding': '1rem 0.5rem',

@@ -1,9 +1,12 @@
 
 <div class="card">
-  <div style="text-align:center; background-color: var(--primary-color); height: 48px;">
-    <div style="color: var(--claro); padding-top: .8em"><h5>ETIQUETAS</h5></div>
-  </div>
-  <p-table [value]="etiquetas" dataKey="etq_id">
+
+  <p-table
+    [value]="etiquetas"
+    dataKey="etq_id"
+    [tableStyle]="{'font-size':'var(--font-padrao)'}"
+    styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
+  >
     <ng-template pTemplate="header">
       <tr style="font-size: small">
         <th nowrap="nowrap">Marca</th>
@@ -19,13 +22,13 @@
         <th>Folha Horz.</th>
         <th>Folha Vert.</th>
         <th colspan="2" style="text-align:center">
-          <button *ngIf="perIncluir" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="p-button-raised p-button-rounded"></button>
+          <button *ngIf="perIncluir" pButton type="button" icon="pi pi-plus" (click)="onIncluindo()" class="p-button-raised p-button-rounded p-button-sm"></button>
         </th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-etiqueta let-ri="rowIndex">
-      <tr style="font-size: small">
+      <tr>
         <td>
           {{etiqueta.etq_marca}}
         </td>
@@ -63,10 +66,10 @@
           {{etiqueta.etq_folha_vert}}
         </td>
         <td style="text-align:center">
-          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(etiqueta)" class="p-button-raised p-button-rounded" [disabled]="!perAltarar"></button>
+          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(etiqueta)" class="p-button-raised p-button-rounded p-button-sm" [disabled]="!perAltarar"></button>
         </td>
         <td style="text-align:center">
-          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta)" class="p-button-raised p-button-rounded p-button-danger" [disabled]="!perDeletar"></button>
+          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
         </td>
       </tr>
     </ng-template>

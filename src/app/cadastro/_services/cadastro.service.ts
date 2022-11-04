@@ -216,6 +216,7 @@ export class CadastroService {
   onRowCollapse(ev) {
     this.tabela.celulas = [];
     this.expandidoSN = false;
+    delete this.expandido;
   }
 
   onColResize(ev) {
@@ -684,8 +685,13 @@ export class CadastroService {
     this.busca = undefined;
     this.selecionados = undefined;
     this.Contexto = undefined;
-    this.stateSN = false;
     this.expandidoSN = false;
+    if (!this.stateSN) {
+      this.cadastros = [];
+      delete this.expandido;
+      sessionStorage.removeItem('cadastro-table');
+    }
+    // this.stateSN = false;
     this.sub.forEach(s => s.unsubscribe());
   }
 

@@ -50,7 +50,11 @@ export class CadastroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    const t: boolean =  this.cs.stateSN;
     this.cs.onDestroy();
+    if (!t) {
+      delete this.cs;
+    }
     this.sub.forEach(s => s.unsubscribe());
   }
 }

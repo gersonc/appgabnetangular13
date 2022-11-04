@@ -49,7 +49,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   incluindo = false;
   editando = false;
   campo_txt2: string = null;
-  ddTipoCadastroTipo: SelectItem[] = [{ label: 'PF', value: 1}, { label: 'PJ', value: 2}];
+  ddTipoCadastroTipo: SelectItem[] = [{ label: 'Pessoa Fisica', value: 1}, { label: 'Pessoa Juridica', value: 2}];
   mostraApagar = 0;
   titulo = 'CONFIGURAÇÕES';
   altura = `${WindowsService.altura - 170}` + 'px';

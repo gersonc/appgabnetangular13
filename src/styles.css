@@ -18963,6 +18963,14 @@ tr:not(.p-highlight):hover button.config {
   max-height: 70vh;
 }
 
+.configuracao2 .p-scrollpanel-wrapper {
+  box-sizing: border-box !important;
+  width: 100%;
+  height: 100vh;
+  max-height: 90vh;
+}
+
+
 /*.fixTableHead {
   overflow-y: auto;
   height: 110px;
@@ -19105,6 +19113,14 @@ table.fixTableHead tbody {
     var(--green),
     var(--blue)
   );
+}
+
+
+.p-button.p-button-raised.p-button-icon-only.p-button-rounded.p-button-sm{
+  height: 1.5em !important;
+  font-size: 1.2em !important;
+  padding: .5em !important;
+  width: 1.7em !important;
 }
 
 /*
