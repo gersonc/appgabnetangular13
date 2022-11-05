@@ -3,6 +3,13 @@ export interface ConfiguracaoRegistroI {
   campo_nome?: string | null;
 }
 
+export interface Configuracao2RegistroI {
+  campo_id?: number | null;
+  campo_id2?: number | null;
+  campo_nome?: string | null;
+  campo_nome2?: string | null;
+}
+
 export interface ConfiguracaoModelInterface {
   tabela?: string;
   campo_id?: string;
@@ -29,6 +36,7 @@ export interface Configuracao2ModelInterface {
   campo_txt2?: string;
   titulo?: string;
   texto?: string;
+  tamanho?: number;
 }
 
 export class Configuracao2Model implements Configuracao2ModelInterface {
@@ -40,6 +48,7 @@ export class Configuracao2Model implements Configuracao2ModelInterface {
   campo_txt2 = null;
   titulo = null;
   texto = null;
+
 }
 
 export interface ConfiguracaoMenuIntensInterface {

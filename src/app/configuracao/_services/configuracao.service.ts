@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Configuracao2Model, ConfiguracaoModel, ConfiguracaoModelInterface} from "../_models/configuracao-model";
+import {
+  Configuracao2Model,
+  Configuracao2ModelInterface,
+  ConfiguracaoModel,
+  ConfiguracaoModelInterface
+} from "../_models/configuracao-model";
 import { DropdownService, UrlService } from "../../_services";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, Subscription } from "rxjs";
@@ -13,7 +18,7 @@ import {DdService} from "../../_services/dd.service";
 export class ConfiguracaoService {
   public configuracao: ConfiguracaoModelInterface | null = null;
   public confTitulo: ConfiguracaoModelInterface = {};
-  public configuracao2 = new Configuracao2Model();
+  public configuracao2: Configuracao2ModelInterface | null = null;
   private sub: Subscription[] = [];
 
   constructor(

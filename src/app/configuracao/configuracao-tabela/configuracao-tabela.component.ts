@@ -315,7 +315,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
           break;
         }
         default: {
-          this.configuracao = new ConfiguracaoModel();
+          this.configuracao = null;
           this.titulo = 'CONFIGURAÇÕES';
           break;
         }
@@ -330,6 +330,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnDestroy(): void {
+    this.resetAll();
     this.cfs.configuracao = null;
     this.sub.forEach(s => {
       s.unsubscribe();

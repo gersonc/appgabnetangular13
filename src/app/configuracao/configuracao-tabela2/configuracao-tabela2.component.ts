@@ -1,4 +1,14 @@
-import {Component, OnInit, OnDestroy, OnChanges, Input, SimpleChanges, Output, EventEmitter} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  OnChanges,
+  Input,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+  ViewChild, ElementRef
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConfiguracaoService } from "../_services";
 import { take } from "rxjs/operators";
@@ -7,7 +17,7 @@ import { ConfirmationService, Message, SelectItem } from "primeng/api";
 import { DropdownService } from "../../_services";
 import {
   Configuracao2Model,
-  Configuracao2ModelInterface,
+  Configuracao2ModelInterface, Configuracao2RegistroI, ConfiguracaoModelInterface, ConfiguracaoRegistroI,
 } from "../_models/configuracao-model";
 import {MsgService} from "../../_services/msg.service";
 import {WindowsService} from "../../_layout/_service";
@@ -20,47 +30,50 @@ import {DdService} from "../../_services/dd.service";
   providers: [ConfirmationService]
 })
 export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestroy {
-  @Output() onConfTitulo = new EventEmitter<Configuracao2ModelInterface>();
+  @ViewChild('btnAlt', {static: true}) btnAlt: ElementRef;
+  @Output() onConfTitulo = new EventEmitter<ConfiguracaoModelInterface>();
   @Input() componente?: string = null;
 
   private sub: Subscription[] = [];
-  listagem: any[] = null;
-  nome: string = null;
-  id: number = null;
-  campo_txt1: string = null;
-  campo_id2: number = null;
-  idx: number = null;
-  mostraDropDown = false;
-  dropDown: SelectItem[] = null;
-  testeDD: SelectItem = null;
-  testeDD2: SelectItem = null;
-  drop = 0;
-  acao: string = null;
+  configuracao: Configuracao2ModelInterface | null = null;
+  listagem: Configuracao2RegistroI[] = [];
+  perIncluir = false;
+  perAltarar = false;
+  perDeletar = false;
+  mostraIncluir = false;
+  mostraAlterar = false;
+  btnacaoInativo = false;
+  registro: Configuracao2RegistroI = {
+    campo_id: 0,
+    campo_id2: 0,
+    campo_nome: null,
+    campo_nome2: null
+  };
+  registroOld: Configuracao2RegistroI | null = null;
+  acao: string | null = null;
   msg: string[] = [];
-  resp: any[];
-  nomeIncluir: string = null;
-  campo_txt1Incluir: string = null;
-  campo_id2_incluir: number = null;
-  nomeOld: string = null;
-  campo_txt1Old: string = null;
-  campo_idOld: number = null;
+  msgErro: Message[] = [];
+  idx: number = -1;
+  titulo = 'CONFIGURAÇÕES';
+  dropDown: SelectItem[] = [];
+  resp: any[] = [];
   confirmaAlterar = false;
   confirmaApagar = false;
-  incluindo = false;
-  editando = false;
-  campo_txt2: string = null;
-  ddTipoCadastroTipo: SelectItem[] = [{ label: 'Pessoa Fisica', value: 1}, { label: 'Pessoa Juridica', value: 2}];
-  mostraApagar = 0;
-  titulo = 'CONFIGURAÇÕES';
+  readOnly = false;
+  btnCancelarInativo = false;
+  btnEnviarInativo = true;
+  mostraApagar = false;
+  drop: number | null = null;
   altura = `${WindowsService.altura - 170}` + 'px';
-  msgErroEditar: Message[];
+  alterarFake = false;
+  apagarFake = false;
+  btnAlterar: boolean = true;
 
-  configuracao = new Configuracao2Model();
   cpn: string = null;
 
   constructor(
     public cfs: ConfiguracaoService,
-    public alt: AuthenticationService, // private dd: DropdownService,
+    public aut: AuthenticationService, // private dd: DropdownService,
     private dd: DdService,
     private ms: MsgService,
     private cf: ConfirmationService,
@@ -79,7 +92,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_txt1: 'prioridade_color',
             titulo: 'PRIORIDADES',
             campo_txt2: 'COR',
-            texto: 'a prioridade'
+            texto: 'a prioridade',
+            tamanho: 20,
           };
           this.inicio();
           break;
@@ -93,13 +107,14 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             titulo: 'TIPOS DE CADASTRO',
             campo_txt1: null,
             campo_txt2: 'PF/PJ',
-            texto: 'o tipo de cadastro'
+            texto: 'o tipo de cadastro',
+            tamanho: 30,
           }
           this.inicio();
           break;
         }
         default: {
-          this.configuracao = new Configuracao2Model();
+          this.configuracao = null;
           this.titulo = 'CONFIGURAÇÕES';
           break;
         }
@@ -108,8 +123,17 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   ngOnInit(): void {
-    // #dee2e6
-    console.log('cor->',this.hexToRGB2('#dee2e6', false) );
+    this.perIncluir = (this.aut.configuracao_incluir || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+    this.perAltarar = (this.aut.configuracao_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+    this.perDeletar = (this.aut.configuracao_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
+  }
+
+  ngOnDestroy(): void {
+    this.resetAll();
+    this.cfs.configuracao = null;
+    this.sub.forEach(s => {
+      s.unsubscribe();
+    });
   }
 
   inicio() {
@@ -117,698 +141,546 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       s.unsubscribe();
     });
     this.resetAll();
-    this.cfs.configuracao2 = this.configuracao;
-
-      this.cfs.configuracao2.titulo = this.configuracao.titulo;
-      this.cfs.configuracao2.campo_id = this.configuracao.campo_id;
-      this.cfs.configuracao2.campo_nome = this.configuracao.campo_nome;
-      this.cfs.configuracao2.tabela = this.configuracao.tabela;
-      this.cfs.configuracao2.texto = this.configuracao.texto;
-      if (this.configuracao.tabela === 'prioridade') {
-        this.cfs.configuracao2.campo_txt1 = this.configuracao.campo_txt1;
-        this.cfs.configuracao2.campo_id2 = null;
-      }
-      if (this.configuracao.tabela === 'tipo_cadastro') {
-        this.cfs.configuracao2.campo_txt1 = null;
-        this.cfs.configuracao2.campo_id2 = this.configuracao.campo_id2;
-      }
-    this.campo_txt2 = this.configuracao.campo_txt2;
-      this.getAll();
-  }
-
-  ngOnDestroy(): void {
-    this.cfs.configuracao2 = null;
-    this.acao = null;
-    this.nome = null;
-    this.nomeIncluir = null;
-    this.campo_txt1Incluir = null;
-    this.campo_id2_incluir = null;
-    this.campo_txt1 = null;
-    this.campo_id2 = null;
-    this.id = null;
-    this.idx = null;
-    this.nomeOld = null;
-    this.campo_txt1Old = null;
-    this.campo_idOld = null;
-    this.incluindo = false;
-    this.editando = false;
-    this.sub.forEach(s => {
-      s.unsubscribe();
-    });
+    this.titulo = this.configuracao.titulo;
+    this.onConfTitulo.emit(this.configuracao);
+    this.cfs.configuracao = this.configuracao;
+    this.getDropDown(this.configuracao.tabela);
   }
 
   resetAll() {
-    this.listagem = null;
-    this.nome = null;
-    this.id = null;
-    this.campo_txt1 = null;
-    this.campo_id2 = null;
-    this.idx = null;
-    this.mostraDropDown = false;
-    this.dropDown = null;
-    this.drop = 0;
+    this.listagem = [];
+    this.mostraIncluir = false;
+    this.mostraAlterar = false;
+    this.btnacaoInativo = false;
+    this.btnCancelarInativo = false;
+    delete this.registro;
+    delete this.registroOld;
     this.acao = null;
+    this.msgErro = [];
     this.msg = [];
-    this.resp = null;
-    this.nomeIncluir = null;
-    this.campo_txt1Incluir = null;
-    this.campo_id2_incluir = null;
-    this.nomeOld = null;
-    this.campo_txt1Old = null;
-    this.campo_idOld = null;
+    this.idx = -1;
+    this.titulo = 'CONFIGURAÇÕES';
+    this.dropDown = [];
+    this.resp = [];
     this.confirmaAlterar = false;
-    this.confirmaApagar = false;
-    this.incluindo = false;
-    this.editando = false;
-    this.campo_txt2 = null;
-    this.mostraApagar = 0;
-    this.msgErroEditar = null;
+    this.mostraAlterar = false;
+    this.readOnly = false;
+    this.mostraApagar = false
+    this.confirmaApagar = false
+    this.btnEnviarInativo = false;
+    this.drop = null;
+    this.alterarFake = false;
+    this.apagarFake = false;
   }
 
-  getAll() {
-    this.getDropDown();
-    let dados: any[] = [];
-    dados.push(this.cfs.configuracao2.tabela);
-    this.sub.push(this.cfs.postListarAll(dados)
-      .pipe(take(1))
-      .subscribe((dados) => {
-          this.listagem = dados;
-        },
-        (err) => {
-          console.error(err);
-        },
-        () => {
-          this.onConfTitulo.emit(this.configuracao);;
-        }
-      )
-    );
+  onCancela(cf: ConfiguracaoRegistroI, idx: number, cancelaVF: boolean = false) {
+    if (this.acao === 'editar' && cancelaVF) {
+      this.listagem[idx] = this.registroOld;
+    }
+    this.alterarFake = false;
+    this.apagarFake = false;
+    this.readOnly = false;
+    this.mostraIncluir = false;
+    this.btnacaoInativo = false;
+    this.btnCancelarInativo = false;
+    delete this.registro;
+    delete this.registroOld;
+    this.acao = null;
+    this.msgErro = [];
+    this.msg = [];
+    this.idx = -1;
+    this.acao = null;
+    this.confirmaAlterar = false;
+    this.mostraAlterar = false;
+    this.idx = null;
+    this.mostraApagar = false
+    this.confirmaApagar = false
+    this.btnEnviarInativo = false;
+    this.drop = null;
+    this.listagemDrop();
   }
 
-  getDropDown() {
-    const dropDownNome = 'dropdown-' + this.cfs.configuracao2.tabela;
-    let tp: number = null;
-    switch (this.cfs.configuracao2.tabela) {
-      case 'prioridade' :
-        tp = 1;
-        break;
-      case 'tipo_cadastro' :
-        tp = 2;
-        break;
+  onRowEditCancel(cf: ConfiguracaoRegistroI, idx: number, cancelaVF: boolean = false) {
+    if (this.acao === 'editar' && cancelaVF) {
+      this.registro[idx] = this.registroOld;
     }
+    this.readOnly = false;
+    this.mostraIncluir = false;
+    this.btnacaoInativo = false;
+    this.btnCancelarInativo = false;
+    delete this.registro;
+    delete this.registroOld;
+    this.acao = null;
+    this.msgErro = [];
+    this.msg = [];
+    this.idx = -1;
+    this.acao = null;
+    this.confirmaAlterar = false;
+    this.mostraAlterar = false;
+    this.idx = null;
+    this.mostraApagar = false
+    this.confirmaApagar = false
+    this.btnEnviarInativo = false;
+    this.drop = null
+  }
 
-    this.sub.push(this.dd.getDd(dropDownNome)
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          this.dropDown = dados;
-        },
-        error: (err) => {
-          console.error(err);
-        },
-        complete: () => {
-          sessionStorage.setItem(dropDownNome, JSON.stringify(this.dropDown));
-        }
-      })
-    );
 
-
-    /*
-    if (tp === 1) {
-      if (!sessionStorage.getItem(dropDownNome)) {
-        this.sub.push(this.dd.getDropdownNomeId(this.cfs.configuracao2.tabela, this.cfs.configuracao2.campo_id, this.cfs.configuracao2.campo_nome)
-          .pipe(take(1))
-          .subscribe({
-            next: (dados) => {
-              this.dropDown = dados;
-            },
-            error: (erro) => {
-              console.error(erro);
-            },
-            complete: () => {
-              sessionStorage.setItem(dropDownNome, JSON.stringify(this.dropDown));
-              this.dropDown = JSON.parse(sessionStorage.getItem(dropDownNome));
-            }
-          })
-        );
-      } else {
-        this.dropDown = JSON.parse(sessionStorage.getItem(dropDownNome));
-      }
-    }
-
-    if (tp === 2) {
-      this.sub.push(this.dd.getDropdownTipoCadastroConcat().pipe(take(1))
+  getDropDown(tabela: string) {
+    if (!sessionStorage.getItem('dropdown-' + this.configuracao.tabela)) {
+      this.sub.push(this.dd.getDd('dropdown-' + this.configuracao.tabela)
+        .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            this.dropDown = dados;},
+            sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(dados));
+            this.dropDown = dados;
+          },
           error: (erro) => {
-            console.error(erro);},
+            console.error(erro);
+          },
           complete: () => {
-            console.log('this.dropDown', this.dropDown);
-          }
-      }));
-    }
-    */
-
-
-  }
-
-  onIncluindo() {
-    this.nomeIncluir = null;
-    this.campo_txt1Incluir = null;
-    this.campo_id2_incluir = 1;
-    this.incluindo = true;
-  }
-
-  onIncluir() {
-    this.acao = 'incluir';
-    if (this.nomeIncluir) {
-      if (this.nomeIncluir.length > 1) {
-        let dados: any[] = [];
-        dados.push(this.cfs.configuracao2.tabela);
-        dados.push(this.nomeIncluir);
-        if (this.cfs.configuracao2.tabela === 'prioridade') {
-          dados.push(this.campo_txt1Incluir);
-        }
-        if (this.cfs.configuracao2.tabela === 'tipo_cadastro') {
-          dados.push(this.campo_id2_incluir);
-        }
-        this.sub.push(this.cfs.verificaIncluir(dados)
-          .pipe(take(1))
-          .subscribe((dados) => {
-              this.resp = dados;
-            },
-            (err) => {
-              console.error(err);
-            },
-            () => {
-              this.incluindo = false;
-              if (this.resp[0]) {
-                if (this.cfs.configuracao2.tabela === 'prioridade') {
-                  this.listagem.push({
-                    campo_id: this.resp[1],
-                    campo_nome: this.nomeIncluir.toString().toUpperCase(),
-                    campo_txt1: this.campo_txt1Incluir ? this.campo_txt1Incluir.toString().toUpperCase() : null
-                  });
-                }
-                if (this.cfs.configuracao2.tabela === 'tipo_cadastro') {
-                  this.listagem.push({
-                    campo_id: this.resp[1],
-                    campo_nome: this.nomeIncluir.toString().toUpperCase(),
-                    campo_id2: this.campo_id2_incluir ? this.campo_id2_incluir : null
-                  });
-                }
-                this.corrigeDropdown();
-                this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
-              } else {
-                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
+            this.listagem = this.dropDown.map((d) => {
+              return {
+                campo_id: +d.value,
+                campo_nome: d.label
               }
-            }
-          )
-        );
-      } else {
-        this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'INCLUIR: ', detail: 'DADOS INVÁLIDOS.'});
-      }
-    }
-  }
-
-  onRowEditInit(rowData) {
-    this.confirmaAlterar = false;
-    this.acao = 'alterar';
-    this.editando = true;
-    this.id = +rowData.id;
-    this.nomeOld = rowData.campo_nome;
-    if (this.cfs.configuracao2.tabela === 'prioridade' && rowData.campo_txt1) {
-      this.campo_txt1Old = rowData.campo_txt1;
-    }
-    if (this.cfs.configuracao2.tabela === 'tipo_cadastro' && rowData.campo_id2) {
-      this.campo_idOld = rowData.campo_id2;
-    }
-
-  }
-
-  onRowEditSave(rowData) {
-    this.editando = false;
-    let a = 0;
-    let erro = 0;
-    if (!rowData.campo_nome) {
-      erro++;
+            });
+          }
+        })
+      );
     } else {
-      if (this.nomeOld === rowData.campo_nome) {
-        if (this.cfs.configuracao2.tabela === 'prioridade') {
-          if (!this.campo_txt1Old && !rowData.campo_txt1) {
-            erro++;
-          }
-        }
-        if (this.cfs.configuracao2.tabela === 'tipo_cadastro') {
-          if (!this.campo_idOld && !rowData.campo_id2) {
-            erro++;
-          }
-        }
-      }
-    }
-    if (erro > 0) {
-      this.onCancela();
-    }
-    if (rowData.campo_nome && erro === 0) {
-      if (rowData.campo_nome.length > 1) {
-        let dados: any[] = [];
-        dados.push(this.cfs.configuracao2.tabela);
-        dados.push(rowData.campo_id);
-        dados.push(rowData.campo_nome);
-        if (this.cfs.configuracao2.tabela === 'prioridade' && rowData.campo_txt1) {
-          dados.push(rowData.campo_txt1);
-        }
-        if (this.cfs.configuracao2.tabela === 'tipo_cadastro' && rowData.campo_id2) {
-          dados.push(rowData.campo_id2);
-        }
-        this.sub.push(this.cfs.impactoAlterar(dados)
-          .pipe(take(1))
-          .subscribe((dadosResp) => {
-              this.resp = dadosResp;
-            },
-            (err) => {
-              console.error(err);
-            },
-            () => {
-              if (!this.resp[0]) {
-                this.confirmaAlterar = false;
-                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
-              } else {
-                if (this.resp[1] === 0) {
-                  this.confirmaAlterar = true;
-                  this.mostraConfirmacao(dados);
-                }
-                if (+this.resp[1] === +this.id) {
-                  this.corrigeDropdown();
-                  const tmp = this.listagem.find(i =>
-                    i.campo_id === this.id
-                  );
-                  if (tmp !== undefined) {
-                    this.confirmaAlterar = false;
-                    if (this.cfs.configuracao2.tabela === 'prioridade') {
-                      this.listagem[this.listagem.indexOf(tmp)] = {
-                        campo_id: tmp.campo_id,
-                        campo_nome: this.nome.toString().toUpperCase(),
-                        campo_txt1: this.campo_txt1.toString().toUpperCase()
-                      };
-                    }
-                    if (this.cfs.configuracao2.tabela === 'tipo_cadastro') {
-                      this.listagem[this.listagem.indexOf(tmp)] = {
-                        campo_id: tmp.campo_id,
-                        campo_nome: this.nome.toString().toUpperCase(),
-                        campo_id2: this.campo_id2
-                      };
-                    }
-                  }
-                  this.ms.add({
-                    key: 'toastprincipal',
-                    severity: 'success',
-                    summary: 'Alterações: ',
-                    detail: this.resp[2]
-                  });
-                }
-              }
-            }
-          )
-        );
-
-      }
-    }
-  }
-
-  onAlterarConfirma(dados: any[], txt: string) {
-    this.sub.push(this.cfs.alterar(dados)
-      .pipe(take(1))
-      .subscribe({
-        next: (dadosResp) => {
-          this.resp = dadosResp;
-        },
-        error: err => console.error('ERRO-->', err),
-        complete: () => {
-          if (!this.resp[0]) {
-            this.confirmaAlterar = false;
-            this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
-          } else {
-            if (+this.resp[1] === +this.id) {
-              this.corrigeDropdown();
-              const tmp = this.listagem.find(i =>
-                i.campo_id === this.id
-              );
-              if (tmp !== undefined) {
-                this.confirmaAlterar = false;
-                if (this.cfs.configuracao2.tabela === 'prioridade') {
-                  this.listagem[this.listagem.indexOf(tmp)] = {
-                    campo_id: tmp.campo_id,
-                    campo_nome: this.nome.toString().toUpperCase(),
-                    campo_txt1: this.campo_txt1.toString().toUpperCase()
-                  };
-                }
-                if (this.cfs.configuracao2.tabela === 'tipo_cadastro') {
-                  this.listagem[this.listagem.indexOf(tmp)] = {
-                    campo_id: tmp.campo_id,
-                    campo_nome: this.nome.toString().toUpperCase(),
-                    campo_id2: this.campo_id2
-                  };
-                }
-              }
-              this.mostraMsgs(this.resp[2]);
-            }
-          }
-        }
-      })
-    );
-  }
-
-  onRowEditCancel(rowData, ri) {
-    this.editando = false;
-  }
-
-  mostraMsgs(res: string[]) {
-    if (this.resp[0]) {
-      if (res.length > 0) {
-        if (this.resp[1] === 0) {
-          res.forEach((m: string) => {
-            this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Alterações: ', detail: m});
-          });
-        } else {
-          this.ms.add({key: 'toastprincipal',severity: 'success', summary: 'Alterações: ', detail: this.resp[2]});
-        }
-      }
-    } else {
-      this.ms.add({key: 'toastprincipal',severity: 'error', summary: 'Alterações: ', detail: this.resp[2]});
-    }
-  }
-
-  mostraConfirmacao(dados: any[]) {
-    const ms: string[] = this.resp[2];
-    let txt: string = '';
-    this.msg = [];
-    this.resp[2].forEach( (m: string) => {
-      this.msg.push('Existem ' + m + ' vinculados a esse registro.');
-    });
-    if (this.acao === 'alterar') {
-      this.msg.push('Deseja realizar as alterações?');
-      this.cf.confirm({
-        message: txt,
-        header: 'ALTERAR',
-        icon: 'pi pi-pencil',
-        accept: () => {
-          this.onAlterarConfirma(dados, txt);
+      this.dropDown = JSON.parse(sessionStorage.getItem('dropdown-' + this.configuracao.tabela));
+      this.listagem = this.dropDown.map((d) => {
+        return {
+          campo_id: +d.value,
+          campo_nome: d.label
         }
       });
     }
-    if (this.acao === 'deletar') {
-      this.msg.push('Escolha o registro abaixo que ira substituir o registro excluido.');
-    }
-
   }
 
-  onApagarConfirma() {
+  clickIncluir() {
+    this.msg = [];
+    this.msgErro = [];
+    this.registro = {
+      campo_id: 0,
+      campo_nome: null
+    }
+    this.btnacaoInativo = true;
+    this.mostraIncluir = !this.mostraIncluir;
+    this.btnCancelarInativo = false;
+    this.btnEnviarInativo = false;
+  }
 
-    if (+this.drop > 0 && +this.drop !== this.id) {
-      let dados: any = {
-        'tabela': this.cfs.configuracao2.tabela,
-        'id': this.id,
-        'novo_id': this.drop
-      };
-      this.sub.push(this.cfs.deletar(dados)
+  onIncluir() {
+    this.btnacaoInativo = true;
+    this.btnCancelarInativo = true;
+    this.btnEnviarInativo = true;
+    this.acao = 'incluir';
+    this.msgErro = [];
+    this.msg = [];
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === this.registro.campo_nome.toUpperCase());
+    if (this.registro.campo_nome !== null && this.registro.campo_nome.length > 1 && n < 0) {
+      this.registro.campo_nome = this.registro.campo_nome.toUpperCase();
+      const dados: any[] = [];
+      dados.push(this.configuracao.tabela);
+      dados.push(this.registro.campo_nome);
+      this.sub.push(this.cfs.verificaIncluir(dados)
         .pipe(take(1))
-        .subscribe((dados) => {
-            this.resp = dados;
+        .subscribe((dados2) => {
+            this.resp = dados2;
           },
           (err) => {
             console.error(err);
           },
           () => {
-            const tmp = this.listagem.find(i =>
-              i.campo_id === this.id
-            );
-            this.listagem.splice(this.listagem[this.listagem.indexOf(tmp)],1);
-            this.corrigeDropdown();
-            this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
-            this.onCancela();
-          })
+            if (this.resp[0]) {
+              this.registro.campo_id = +this.resp[1];
+              this.listagem.push(this.registro);
+              this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+              this.dropDown = [];
+              this.dropDown = this.listagem.map((l) => {
+                return {
+                  value: +l.campo_id,
+                  label: l.campo_nome
+                }
+              });
+              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2][0]});
+              this.onCancela(this.registro, 0);
+            } else {
+              this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2][0]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+            }
+          }
+        )
       );
+    } else {
+      if (n > -1) {
+        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
+      }
+      this.btnCancelarInativo = false;
+      this.btnEnviarInativo = false;
     }
   }
 
-  onApagar() {
-    this.acao = 'deletar';
-    let dados: any = {
-      'tabela': this.cfs.configuracao2.tabela,
-      'id': this.id
+  onRowEditInit(cf: ConfiguracaoRegistroI, idx: number) {
+    const cfn: string = cf.campo_nome;
+    const cfv: number = cf.campo_id;
+    this.registroOld = {
+      campo_id: cfv,
+      campo_nome: cfn
     };
-
-    this.sub.push(this.cfs.deletar(dados)
-      .pipe(take(1))
-      .subscribe((dados) => {
-          this.resp = dados;
-        },
-        (err) => {
-          console.error(err);
-        },
-        () => {
-          const tmp = this.listagem.find(i =>
-            i.campo_id === this.id
-          );
-          if (tmp !== undefined) {
-            const idx = this.listagem.indexOf(tmp);
-            this.listagem.splice(idx, 1);
-          }
-          this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Exclusão: ', detail: this.resp[2]});
-          this.onCancela();
-        })
-    );
+    cf.campo_nome = cf.campo_nome.toUpperCase();
+    this.msg = [];
+    this.msgErro = [];
+    this.btnacaoInativo = true;
+    this.acao = 'editar';
+    this.confirmaAlterar = false;
+    this.registro = cf;
+    this.idx = idx;
+    this.btnEnviarInativo = false;
+    this.mostraAlterar = !this.mostraAlterar;
   }
 
-  onDeletar(rowdata: any, idx: number) {
+  onAlterar(cd: ConfiguracaoRegistroI, i: number) {
+    cd.campo_nome = cd.campo_nome.toUpperCase();
+    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === cd.campo_nome.toUpperCase());
+    if (cd.campo_nome !== null && cd.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() && cd.campo_nome.length > 1 && n < 0) {
+      this.btnacaoInativo = true;
+      this.btnCancelarInativo = true;
+      this.btnEnviarInativo = true;
+      this.msgErro = [];
+      this.msg = [];
+      this.readOnly = true;
+      const dados: any[] = [];
+      dados.push(this.configuracao.tabela);
+      dados.push(+cd.campo_id);
+      dados.push(cd.campo_nome.toUpperCase());
+      this.sub.push(this.cfs.impactoAlterar(dados)
+        .pipe(take(1))
+        .subscribe((dados1) => {
+            this.resp = dados1;
+          },
+          (err) => {
+            console.error(err);
+            this.onCancela(cd, i);
+          },
+          () => {
+            if (!this.resp[0]) {
+              this.listagem[i] = this.registroOld;
+              this.confirmaAlterar = false;
+              this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2][0]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+              this.readOnly = false;
+            } else {
+              if (this.resp[3]) {
+                this.registro = cd;
+                this.confirmaAlterar = true;
+                this.alterarFake = false;
+                const str: string = 'Vinculo(s): ' + this.resp[2].join(', ') + '.';
+                this.msg.push(str);
+                this.btnCancelarInativo = false;
+                this.btnEnviarInativo = false;
+                this.readOnly = true;
+              }
+              if (!this.resp[3]) {
+                this.registro = cd;
+                this.alterarFake = true;
+                this.btnEnviarInativo = false;
+                this.btnAlt.nativeElement.click();
+              }
+            }
+          }
+        )
+      )
+    } else {
+      if (cd.campo_nome === null || cd.campo_nome.length === 0) {
+        this.msgErro.push({
+          key: 'msgAlterarErro',
+          severity: 'warn',
+          summary: 'ALTERAR',
+          detail: 'ERRO - Registro com 0 caracteres.'
+        });
+      }
+      if (cd.campo_nome.toUpperCase() === this.registroOld.campo_nome.toUpperCase()) {
+        this.msgErro.push({
+          key: 'msgAlterarErro',
+          severity: 'warn',
+          summary: 'ALTERAR',
+          detail: 'ERRO - Registro não alterado.'
+        });
+      }
+      if (n !== -1) {
+        this.msgErro.push({
+          key: 'msgAlterarErro',
+          severity: 'warn',
+          summary: 'ALTERAR',
+          detail: 'ERRO - Registro com valor repetido.'
+        });
+      }
+    }
+  }
+
+  onRowEditSave(cd: ConfiguracaoRegistroI, i: number) {
+    cd.campo_nome = cd.campo_nome.toUpperCase();
+    if (!this.alterarFake) {
+      this.btnacaoInativo = true;
+      this.btnCancelarInativo = true;
+      this.btnEnviarInativo = true;
+      this.msgErro = [];
+      this.msg = [];
+      const dados: any[] = [];
+      dados.push(this.configuracao.tabela);
+      dados.push(this.registro.campo_id);
+      dados.push(this.registro.campo_nome);
+      this.sub.push(this.cfs.alterar(dados)
+        .pipe(take(1))
+        .subscribe((dados1) => {
+            this.readOnly = false;
+            this.resp = dados1;
+          },
+          (err) => {
+            console.error(err);
+            this.readOnly = false;
+          },
+          () => {
+            if (this.resp[0]) {
+              this.listagem[i] = cd;
+              this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+              this.dropDown = [];
+              this.dropDown = this.listagem.map((l) => {
+                return {
+                  value: +l.campo_id,
+                  label: l.campo_nome
+                }
+              });
+              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+              this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2][0]});
+              this.onCancela(cd, i);
+            } else {
+              this.registro = this.registroOld;
+              this.listagem[i] = this.registroOld;
+              this.confirmaAlterar = false;
+              this.msgErro.push({key: 'msgAlterarErro', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2][0]});
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+              this.readOnly = false;
+            }
+          }
+        )
+      );
+    } else {
+      this.listagem[i] = this.registro;
+      this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
+      this.dropDown = [];
+      this.dropDown = this.listagem.map((l) => {
+        return {
+          value: +l.campo_id,
+          label: l.campo_nome
+        }
+      });
+      sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+      sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+      this.ms.add({
+        key: 'toastprincipal',
+        severity: 'success',
+        summary: 'Alterações',
+        detail: this.resp[2][0]
+      });
+      this.onCancela(cd, i);
+    }
+
+  }
+
+  clickDeletar(cf: ConfiguracaoRegistroI, idx: number) {
+    const cfn: string = cf.campo_nome;
+    const cfv: number = cf.campo_id;
+    this.registroOld = {
+      campo_id: cfv,
+      campo_nome: cfn
+    };
+    this.msg = [];
+    this.msgErro = [];
+    this.btnacaoInativo = true;
     this.acao = 'deletar';
-    this.id = +rowdata.campo_id;
-    this.idx = +idx;
-    this.drop = 0;
-    this.resp = null;
-
-    this.mostraDropDown = false;
-
-    let dados: any[] = [];
-    dados.push(this.cfs.configuracao2.tabela);
-    dados.push(this.id);
+    this.mostraApagar = true;
+    this.confirmaApagar = false;
+    this.registro = cf;
+    this.idx = idx;
+    this.btnEnviarInativo = false;
+    this.btnCancelarInativo = true;
+    this.resp = [];
+    const dados: any[] = [];
+    dados.push(this.configuracao.tabela);
+    dados.push(cf.campo_id);
     this.sub.push(this.cfs.impactoDelete(dados)
       .pipe(take(1))
-      .subscribe((dados) => {
-          this.resp = dados;
+      .subscribe((dados4) => {
+          this.resp = dados4;
+          if (this.resp[3]) {
+            this.dropDown.splice(+idx, 1);
+          }
         },
         (err) => {
           console.error(err);
+          this.onCancela(cf, idx);
         },
         () => {
-          if (this.resp[0] === true) {
-            if (+this.resp[1] === this.id) {
-              const tmp = this.listagem.find(i =>
-                i.campo_id === this.id
-              );
-              this.listagem.splice(this.listagem[this.idx],1);
-              this.corrigeDropdown();
+          if (this.resp[0]) {
+            if (this.resp[3]) {
+              this.confirmaApagar = true;
+              const str: string = 'Vinculo(s): ' + this.resp[2].join(', ') + '.';
+              this.msg.push(str);
+              this.btnCancelarInativo = false;
+              this.btnEnviarInativo = false;
+
+            } else {
+              this.listagem.splice(+idx, 1);
+              this.dropDown = [];
+              this.dropDown = this.listagem.map((l) => {
+                return {
+                  value: +l.campo_id,
+                  label: l.campo_nome
+                }
+              });
+              sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+              sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
               this.ms.add({
                 key: 'toastprincipal',
                 severity: 'success',
                 summary: 'Exclusão: ',
-                detail: this.resp[2]
+                detail: this.resp[2][0]
               });
-            } else {
-              if (this.resp[2].length > 0) {
-                this.confirmaApagar = this.resp[0];
-                this.mostraDropDown = this.resp[0];
-                this.mostraConfirmacao([this.id, this.idx]);
-              } else {
-                this.ms.add({key: 'toastprincipal',severity: 'warn', summary: 'Exclusão: ', detail: this.resp[2]});
-              }
+              this.onCancela(cf, idx);
             }
           } else {
-            if (!this.confirmaApagar) {
-              this.ms.add({key: 'toastprincipal',severity: 'info', summary: 'Exclusão: ', detail: 'Você não tem permissões suficientes'});
-            }
+            this.msgErro.push({key: 'msgDeletarErro', severity: 'error', summary: 'APAGAR', detail: this.resp[2][0]});
+            this.btnCancelarInativo = false;
+            this.btnEnviarInativo = false;
           }
-
         }
       )
     );
   }
 
-  toastClose() {
-    if (this.acao === 'incluir') {
-        this.onCancela();
+  onApagarConfirma(i: number) {
+    this.btnacaoInativo = true;
+    this.btnCancelarInativo = true;
+    this.btnEnviarInativo = true;
+    this.msg = [];
+    if (this.drop !== null && +this.drop > 0 && +this.drop !== +this.registro.campo_id) {
+      const dados: any = {
+        'tabela': this.configuracao.tabela,
+        'id': +this.registro.campo_id,
+        'novo_id': +this.drop
+      };
+      this.sub.push(this.cfs.deletar(dados)
+        .pipe(take(1))
+        .subscribe((dados5) => {
+            this.resp = dados5;
+          },
+          (err) => {
+            console.error(err);
+          },
+          () => {
+            this.listagem.splice(i, 1);
+            sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
+            sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
+            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2][0]});
+            this.onCancela({}, i);
+          })
+      );
     }
-    if (this.acao === 'alterar') {
-      if (!this.confirmaAlterar && !this.resp[0]) {
-        this.onCancela();
-      }
-    }
-    if (this.acao === 'deletar') {
-      if (!this.confirmaApagar) {
-        this.onCancela();
-      }
-    }
-  }
 
-  onCancela() {
-    this.acao = null;
-    this.nome = null;
-    this.nomeIncluir = null;
-    this.campo_txt1Incluir = null;
-    this.campo_id2_incluir = null;
-    this.campo_txt1 = null;
-    this.campo_id2 = null;
-    this.id = null;
-    this.idx = null;
-    this.nomeOld = null;
-    this.mostraDropDown = false;
-    this.mostraApagar = 0;
-    this.incluindo = false;
-    this.editando = false;
-    this.confirmaApagar = false;
-    this.confirmaAlterar = false;
 
   }
 
-  corrigeDropdown() {
-    this.cfs.corrigeDropdown(this.cfs.configuracao2.tabela);
-  }
-
-  pfpj(v) {
-    return v === 1 ? 'PF' : 'PJ';
+  mudaTeste(cno: string, cno2: string) {
+    this.registro.campo_nome = cno.toUpperCase();
   }
 
   cssIncluir(): any {
-    return (!this.incluindo) ? null : {
-      'background': 'var(--blue-200)'
+    return (!this.mostraIncluir) ? null : {
+      'background': 'var(--blue-200)',
+      'border': 'none !important'
     };
   }
 
-  cssAlterar(): any {
-    return (!this.editando) ? null : {
+  cssIncluir2(): any {
+    return (!this.mostraIncluir) ? null : {
+      'background': 'var(--blue-200)',
+    };
+  }
+
+  cssAlterar(vf: boolean, idx: number): any {
+    return (this.acao === 'editar' && vf && this.idx === idx) ? {
       'background': 'var(--yellow-200)'
+    } : (this.acao === 'deletar' && this.idx === idx) ? {
+      'background': 'var(--pink-200)',
+      'border': 'none'
+    } : null;
+  }
+
+  cssAlterar2(vf: boolean, idx: number): any {
+    return (this.acao === 'editar' && vf && this.idx === idx) ? {
+      'background': 'var(--yellow-200)',
+      'padding': '0.55rem 0 0.55rem 0.5em'
+    } : (this.acao === 'deletar' && this.idx === idx) ? {
+      'background': 'var(--pink-200)',
+      'padding': '1rem 0.5rem',
+      'border': 'none'
+    } : null;
+  }
+
+  cssApagar(idx: number): any {
+    return (this.acao === 'deletar' && this.idx === idx) ? {
+      'background': 'var(--pink-200)',
+      'border': 'none'
+    } : null;
+  }
+
+  cssApagar2(idx: number): any {
+    return (this.acao !== 'deletar') ? null : {
+      'background': 'var(--pink-200)',
+      'padding': '1rem 0.5rem',
+      'border': 'none'
     };
   }
 
-  cssApagar(): any {
-    return (this.acao!=='deletar') ? null : {
-      'background': 'var(--pink-200)'
-    };
+  apagaMsg() {
+    this.msg = [];
+    this.msgErro = [];
   }
 
-  cssRow(): any {
-    return (this.acao === 'deletar') ? {'background': 'var(--pink-200)'} : (!this.editando) ? null : { 'background': 'var(--yellow-200)'};
-  }
-
-  getCorTxt(campo_txt1?: string | null): string {
-    if (campo_txt1 === undefined || campo_txt1 === null) {
-      return 'NÃO DEFINIDO';
-    } else {
-      if (campo_txt1.substring(0,4) === 'var(') {
-        return 'PADRÃO';
-      } else {
-        return campo_txt1;
+  listagemDrop() {
+    this.dropDown = this.listagem.map((d) => {
+      return {
+        value: +d.campo_id,
+        label: d.campo_nome
       }
-    }
+    });
   }
 
-  testarDD(a,ev) {
-    console.log('testarDD',a,ev, this.testeDD);
-  }
-
-  testarDD2(ev: SelectItem) {
-    console.log('testarDD',ev, this.testeDD2);
-  }
-
-  ddcor(cor?: string): any {
-    const b: string =  (cor === undefined || cor === null) ? 'transparent' : cor;
-    let c: string =  (cor === undefined || cor === null ) ? 'var(--text-color)' : cor;
-    if (c === 'var(--text-color)' || c.substring(0,4) === 'var(' || ((c.length < 3 || c.length > 4 ) && (c.length < 6 || c.length > 7))){
-      c = 'var(--text-color)';
-    } else {
-      c = this.setForegroundColor(cor);
-    }
-
-
-    return {
-      margin: 0,
-      padding: '0.2rem 1rem',
-      border: 0,
-      color: c,
-      background: b,
-      transition: 'box-shadow 0.2s',
-      borderRadius: 0
-    }
-  }
-
-  setForegroundColor(cor: string) {
-    let rgb  = this.hexToRGB(cor, false);
-    let sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
-    return (sum > 128) ? 'black' : 'white';
-  }
-
-  hexToRGB(h,isPct) {
-    let ex = /^#([\da-f]{3}){1,2}$/i;
-    if (ex.test(h)) {
-      let r: any = 0, g: any = 0, b: any = 0;
-      isPct = isPct === true;
-
-      // 3 digits
-      if (h.length == 4) {
-        r = "0x" + h[1] + h[1];
-        g = "0x" + h[2] + h[2];
-        // @ts-ignore
-        b = "0x" + h[3] + h[3];
-      } else if (h.length == 7) {
-        r = "0x" + h[1] + h[2];
-        g = "0x" + h[3] + h[4];
-        b = "0x" + h[5] + h[6];
+  dropListagem() {
+    this.listagem = this.dropDown.map((d) => {
+      return {
+        campo_id: +d.value,
+        campo_nome: d.label
       }
-      if (isPct) {
-        r = +(r / 255 * 100).toFixed(1);
-        g = +(g / 255 * 100).toFixed(1);
-        b = +(b / 255 * 100).toFixed(1);
-      }
-      return "rgb("+ (isPct ? r + "%," + g + "%," + b + "%" : +r + "," + +g + "," + +b) + ")";
-      // return [r,g,b];
+    });
 
-    } else {
-      return null;
-    }
   }
 
+  testaCampoNome(ev: string) {
+    this.btnAlterar = (this.btnEnviarInativo || ev === null || ev.length === 0 || ev.toUpperCase() === this.registroOld.campo_nome.toUpperCase());
+  }
 
-  hexToRGB2(h,isPct) {
-    let ex = /^#([\da-f]{3}){1,2}$/i;
-    if (ex.test(h)) {
-      let r: any = 0, g: any = 0, b: any = 0;
-      isPct = isPct === true;
-
-      // 3 digits
-      if (h.length == 4) {
-        // @ts-ignore
-        r = "0x" + h[1] + h[1];
-        g = "0x" + h[2] + h[2];
-        // @ts-ignore
-        b = "0x" + h[3] + h[3];
-
-        // 6 digits
-      } else if (h.length == 7) {
-        r = "0x" + h[1] + h[2];
-        g = "0x" + h[3] + h[4];
-        b = "0x" + h[5] + h[6];
-      }
-      if (isPct) {
-        r = +(r / 255 * 100).toFixed(1);
-        g = +(g / 255 * 100).toFixed(1);
-        b = +(b / 255 * 100).toFixed(1);
-      }
-      return "rgb("+ (isPct ? r + "%," + g + "%," + b + "%" : +r + "," + +g + "," + +b) + ")";
-
-    } else {
-      return "Invalid input color";
-    }
+  btnAlterarAtivo(): boolean {
+    return this.btnAlterar;
   }
 
 

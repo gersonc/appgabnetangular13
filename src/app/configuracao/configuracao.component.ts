@@ -170,8 +170,8 @@ export class ConfiguracaoComponent implements OnInit {
   }
 
   selectCfg(ev) {
-    console.log('selectCfg', ev);
     this.componente = this.cfgItem.code;
+    console.log('selectCfg', ev, this.cfgItem, this.componente);
     switch (this.componente) {
       case 'etiqueta_config': {
         this.tipoComp = 3;
