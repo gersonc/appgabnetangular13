@@ -197,10 +197,6 @@ export class ConfiguracaoComponent implements OnInit {
         break;
       }
     }
-    /*if (this.tipoComp !== 4) {
-      this.titulo = "CONFIGURAÇÕES - " + this.cfgItem.code.toUpperCase();
-    }*/
-
   }
 
   getAlturaScrInterno(): number {

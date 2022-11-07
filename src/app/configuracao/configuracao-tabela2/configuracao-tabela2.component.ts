@@ -263,7 +263,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     } else {
       this.dropDown = JSON.parse(sessionStorage.getItem('dropdown-' + this.configuracao.tabela));
       this.listagem = this.dropToReg(JSON.parse(sessionStorage.getItem('dropdown-' + this.configuracao.tabela)));
-      // this.listagem = this.dropToReg(this.dropDown);
 
     }
   }
@@ -328,14 +327,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
               this.dropDown = [];
               this.dropDown = this.regToDrop(this.listagem);
-              /*this.dropDown = this.listagem.map((d) => {
-                return {
-                  value: +d.campo_id,
-                  title: (this.configuracao.tabela === 'tipo_cadastro') ? d.campo_id2.toString() : null,
-                  label: d.campo_nome,
-                  styleClass: (this.configuracao.tabela === 'tipo_cadastro') ? null : d.campo_nome2
-                }
-              });*/
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
               sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
               this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'INCLUIR', detail: this.resp[2][0]});
@@ -499,14 +490,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
               this.dropDown = [];
               this.dropDown = this.regToDrop(this.listagem);
-              /*this.dropDown = this.listagem.map((d) => {
-                return {
-                  value: +d.campo_id,
-                  title: (this.configuracao.tabela === 'tipo_cadastro') ? d.campo_id2.toString() : null,
-                  label: d.campo_nome,
-                  styleClass: (this.configuracao.tabela === 'tipo_cadastro') ? null : d.campo_nome2
-                }
-              });*/
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
               sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
               this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Alterações', detail: this.resp[2][0]});
@@ -528,14 +511,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
       this.dropDown = [];
       this.dropDown = this.regToDrop(this.listagem);
-      /*this.dropDown = this.listagem.map((d) => {
-        return {
-          value: +d.campo_id,
-          title: (this.configuracao.tabela === 'tipo_cadastro') ? d.campo_id2.toString() : null,
-          label: d.campo_nome,
-          styleClass: (this.configuracao.tabela === 'tipo_cadastro') ? null : d.campo_nome2
-        }
-      });*/
       sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
       sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
       this.ms.add({
@@ -595,12 +570,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               this.listagem.splice(+idx, 1);
               this.dropDown = [];
               this.dropDown = this.regToDrop(this.listagem);
-              /*this.dropDown = this.listagem.map((l) => {
-                return {
-                  value: +l.campo_id,
-                  label: l.campo_nome
-                }
-              });*/
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
               sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
               this.ms.add({
@@ -713,12 +682,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   listagemDrop() {
     this.dropDown = this.regToDrop(this.listagem);
-    /*this.dropDown = this.listagem.map((d) => {
-      return {
-        value: +d.campo_id,
-        label: d.campo_nome
-      }
-    });*/
   }
 
   dropListagem() {
@@ -972,15 +935,11 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         b = +(b / 255 * 100).toFixed(1);
       }
       return "rgb(" + (isPct ? r + "%," + g + "%," + b + "%" : +r + "," + +g + "," + +b) + ")";
-      // return [r,g,b];
 
     } else {
       return null;
     }
   }
 
-  mudaConteudo(ev) {
-    // console.log('mudaConteudo', ev);
-  }
 
 }

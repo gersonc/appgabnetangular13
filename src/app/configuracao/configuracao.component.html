@@ -1,5 +1,4 @@
 <div class="formulario-externo-bg">
-  <!--<p-scrollPanel styleClass="configuracao2">-->
   <div class="p-fluid formulario-bg-externo">
 
     <div class="p-d-flex p-jc-center">
@@ -40,61 +39,53 @@
       <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 formulario-bg-externo"></div>
     </div>
 
-    <!--<div class="p-fluid">-->
-      <div class="p-grid">
-        <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
+    <div class="p-grid">
+      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-grid p-input-filled">
 
-            <div class="p-col-12">
-              <div class="p-fluid p-formgrid p-grid">
+          <div class="p-col-12">
+            <div class="p-fluid p-formgrid p-grid">
 
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                  <!--<p-scrollPanel styleClass="configuracao" id="scrconf">-->
-                    <ng-container *ngIf="tipoComp === 1">
-                      <app-configuracao-tabela [componente]="componente"
-                                               (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela>
-                    </ng-container>
-                    <ng-container *ngIf="tipoComp === 2">
-                      <app-configuracao-tabela2 [componente]="componente"
-                                                (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela2>
-                    </ng-container>
-                    <ng-container *ngIf="tipoComp === 3">
-                      <app-etiqueta-config (onConfTitulo)="onConfTitulo($event)"></app-etiqueta-config>
-                    </ng-container>
-                    <ng-container *ngIf="tipoComp === 4">
-                      <app-nucleo-config></app-nucleo-config>
-                    </ng-container>
-                    <ng-container *ngIf="tipoComp === 5">
-                      <app-usuario></app-usuario>
-                    </ng-container>
-                    <ng-container *ngIf="tipoComp === 0">
-                      <div class="container" style="text-align:center">
-                        <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
-                        <p>
-                          <i class="pi pi-desktop"></i>
-                          <p-inputSwitch [(ngModel)]="checked" (onChange)="mudaDispositivo()"></p-inputSwitch>
-                          <i class="pi pi-mobile"></i>
-                        </p>
-                      </div>
-                    </ng-container>
-                  <!--</p-scrollPanel>-->
-                </div>
-
+              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                <ng-container *ngIf="tipoComp === 1">
+                  <app-configuracao-tabela [componente]="componente"
+                                           (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 2">
+                  <app-configuracao-tabela2 [componente]="componente"
+                                            (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela2>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 3">
+                  <app-etiqueta-config (onConfTitulo)="onConfTitulo($event)"></app-etiqueta-config>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 4">
+                  <app-nucleo-config></app-nucleo-config>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 5">
+                  <app-usuario></app-usuario>
+                </ng-container>
+                <ng-container *ngIf="tipoComp === 0">
+                  <div class="container" style="text-align:center">
+                    <h3><b>ESCOLHA UMA DAS OPÇÕES</b></h3>
+                    <p>
+                      <i class="pi pi-desktop"></i>
+                      <p-inputSwitch [(ngModel)]="checked" (onChange)="mudaDispositivo()"></p-inputSwitch>
+                      <i class="pi pi-mobile"></i>
+                    </p>
+                  </div>
+                </ng-container>
               </div>
-            </div>
 
+            </div>
           </div>
+
         </div>
       </div>
-    <!--</div>-->
+    </div>
   </div>
 
   <div class="p-fluid formulario-bg-externo" style="min-height: 2rem; padding-top: 2rem">
 
   </div>
-<!--  <div class="p-fluid formulario-bg-externo">
-    <br>
-  </div>-->
-  <!--</p-scrollPanel>-->
 </div>
 

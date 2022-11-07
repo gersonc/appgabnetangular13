@@ -15,7 +15,7 @@ import {ConfiguracaoService} from '../_services';
 import {take} from 'rxjs/operators';
 import {AuthenticationService} from '../../_services';
 import {Message, SelectItem} from 'primeng/api';
-import {ConfiguracaoModel, ConfiguracaoModelInterface, ConfiguracaoRegistroI} from '../_models/configuracao-model';
+import {ConfiguracaoModelInterface, ConfiguracaoRegistroI} from '../_models/configuracao-model';
 import {MsgService} from "../../_services/msg.service";
 import {DdService} from "../../_services/dd.service";
 import {WindowsService} from "../../_layout/_service";
