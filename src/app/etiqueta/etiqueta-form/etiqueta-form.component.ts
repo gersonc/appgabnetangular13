@@ -6,6 +6,7 @@ import { EtiquetaConfigService } from '../_services';
 import { MessageService } from 'primeng/api';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import {MsgService} from "../../_services/msg.service";
 
 @Component({
   selector: 'app-etiqueta-form',
@@ -22,9 +23,10 @@ export class EtiquetaFormComponent implements OnInit {
 
 
   constructor(
-    private cs: CarregadorService,
+    // private cs: CarregadorService,
     public ecs: EtiquetaConfigService,
-    private messageService: MessageService
+    private ms: MsgService,
+    // private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -45,8 +47,6 @@ export class EtiquetaFormComponent implements OnInit {
   incluirEtiqueta(et: EtiquetaClass) {
     this.mostraBtn = false;
     if (this.verificaRequired()) {
-      this.messageService.clear('msgForm');
-      this.cs.mostraCarregador();
       this.sub.push(this.ecs.incluir(et)
         .pipe(take(1))
         .subscribe({
@@ -55,22 +55,24 @@ export class EtiquetaFormComponent implements OnInit {
           },
           error: err => console.error('ERRO-->', err),
           complete: () => {
-            this.cs.escondeCarregador();
             if (this.resp[0]) {
               this.ecs.etqExecutado = true;
               this.ecs.etqForm.etq_marca = this.ecs.etqForm.etq_marca.toString().toUpperCase();
               this.ecs.etqForm.etq_modelo = this.ecs.etqForm.etq_modelo.toString().toUpperCase();
               this.ecs.etqForm.etq_id = +this.resp[1];
-              this.messageService.add({key: 'msgForm', severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'INCLUIR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
             } else {
-              this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
               this.mostraBtn = true;
             }
           }
         })
       );
     } else {
-      this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: 'Dados inválidos'});
+      this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: 'Dados inválidos'});
+      // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: 'Dados inválidos'});
       this.mostraBtn = true;
     }
 
@@ -79,8 +81,6 @@ export class EtiquetaFormComponent implements OnInit {
   alterarEtiqueta(et: EtiquetaClass) {
     this.mostraBtn = false;
     if (this.verificaRequired()) {
-      this.messageService.clear('msgForm');
-      this.cs.mostraCarregador();
       this.sub.push(this.ecs.alterar(et)
         .pipe(take(1))
         .subscribe({
@@ -89,21 +89,23 @@ export class EtiquetaFormComponent implements OnInit {
           },
           error: err => console.error('ERRO-->', err),
           complete: () => {
-            this.cs.escondeCarregador();
             if (this.resp[0]) {
               this.ecs.etqExecutado = true;
               this.ecs.etqForm.etq_marca = this.ecs.etqForm.etq_marca.toString().toUpperCase();
               this.ecs.etqForm.etq_modelo = this.ecs.etqForm.etq_modelo.toString().toUpperCase();
-              this.messageService.add({key: 'msgForm', severity: 'info', summary: 'ALTERAR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'ALTERAR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'info', summary: 'ALTERAR: ', detail: this.resp[2]});
             } else {
-              this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
               this.mostraBtn = true;
             }
           }
         })
       );
     } else {
-      this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: 'Dados inválidos'});
+      this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ALTERAR', detail:'Dados inválidos'});
+      // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: 'Dados inválidos'});
       this.mostraBtn = true;
     }
   }
@@ -130,8 +132,8 @@ export class EtiquetaFormComponent implements OnInit {
 
   aplicaCssErro(campo) {
     return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
+      'ng-invalid': this.verificaValidTouched(campo),
+      'ng-dirty': this.verificaValidTouched(campo)
     };
   }
 

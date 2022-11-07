@@ -14,7 +14,7 @@ import {Subscription} from 'rxjs';
 import {ConfiguracaoService} from "../_services";
 import {take} from "rxjs/operators";
 import {AuthenticationService} from "../../_services";
-import {ConfirmationService, Message, SelectItem} from "primeng/api";
+import {Message, SelectItem} from "primeng/api";
 import {
   Configuracao2ModelInterface,
   Configuracao2RegistroI,
@@ -28,8 +28,7 @@ import {SelectItemGroup} from "primeng/api/selectitemgroup";
 @Component({
   selector: 'app-configuracao-tabela2',
   templateUrl: './configuracao-tabela2.component.html',
-  styleUrls: ['./configuracao-tabela2.component.css'],
-  providers: [ConfirmationService]
+  styleUrls: ['./configuracao-tabela2.component.css']
 })
 export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestroy {
   @ViewChild('btnAlt', {static: true}) btnAlt: ElementRef;
@@ -89,7 +88,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     public aut: AuthenticationService, // private dd: DropdownService,
     private dd: DdService,
     private ms: MsgService,
-    private cf: ConfirmationService,
   ) {
   }
 

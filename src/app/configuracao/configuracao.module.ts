@@ -28,8 +28,6 @@ import { ConfiguracaoTabela2Component } from './configuracao-tabela2/configuraca
 import { UsuarioModule } from '../usuario/usuario.module';
 import {InputSwitchModule} from "primeng/inputswitch";
 import {RippleModule} from "primeng/ripple";
-import {DropdownColoridoModule} from "../shared/dropdown-colorido/dropdown-colorido.module";
-import {RadioButtonModule} from "primeng/radiobutton";
 
 
 
@@ -65,8 +63,6 @@ import {RadioButtonModule} from "primeng/radiobutton";
         UsuarioModule,
         InputSwitchModule,
         RippleModule,
-        DropdownColoridoModule,
-        RadioButtonModule
     ],
   exports: [
     ConfiguracaoComponent

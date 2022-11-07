@@ -6,6 +6,7 @@ import { CarregadorService, AuthenticationService } from "../../_services";
 import { Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import {ConfiguracaoModel, ConfiguracaoModelInterface} from "../../configuracao/_models/configuracao-model";
+import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
@@ -38,7 +39,8 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   constructor(
     private cf: ConfirmationService,
     public ecs: EtiquetaConfigService,
-    private messageService: MessageService,
+    private ms: MsgService,
+    // private messageService: MessageService,
     private alt: AuthenticationService,
   ) { }
 
@@ -85,7 +87,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
       header: 'APAGAR ETIQUETA',
       icon: 'pi pi-trash',
       accept: () => {
-        this.messageService.clear('msgExcluir');
+        // this.messageService.clear('msgExcluir');
         this.sub.push(this.ecs.excluir(etiqueta.etq_id)
           .pipe(take(1))
           .subscribe({
@@ -98,9 +100,11 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
                 this.ecs.etqExecutado = true;
                 this.ecs.etqForm.etq_id = +this.resp[1];
                 this.etiquetas.splice(this.etiquetas.indexOf(this.etiquetas.find(i => i.etq_id === etiqueta.etq_id)), 1);
-                this.messageService.add({key: 'msgExcluir',severity: 'info', summary: 'APAGAR: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'APAGAR', detail: this.resp[2]});
+                // this.messageService.add({key: 'msgExcluir',severity: 'info', summary: 'APAGAR: ', detail: this.resp[2]});
               } else {
-                this.messageService.add({key: 'msgExcluir',severity: 'warn', summary: 'APAGAR: ', detail: this.resp[2]});
+                this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'APAGAR', detail: this.resp[2]});
+                // this.messageService.add({key: 'msgExcluir',severity: 'warn', summary: 'APAGAR: ', detail: this.resp[2]});
               }
             }
           })

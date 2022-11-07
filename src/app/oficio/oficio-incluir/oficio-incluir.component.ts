@@ -215,17 +215,6 @@ export class OficioIncluirComponent implements OnInit {
     });
 
     if (this.ofs.processo_id > 0) {
-      /*if (this.ofs.processo_id > 0) {
-      this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.processo_id === this.ofs.processo_id))];
-        this.formOfIncluir.get('oficio_processo_id').patchValue(this.ofs.processo_id);
-        if (this.ofs.solicitacao_id === 0) {
-          this.ofs.solicitacao_id = this.lb.solicitacao_id;
-        }
-      } else {
-        this.lb = this.ddForm.ddOficioProcessoId[this.ddForm.ddOficioProcessoId.findIndex(o => (o.solicitacao_id === this.ofs.solicitacao_id))];
-        this.formOfIncluir.get('oficio_processo_id').patchValue(this.lb.processo_id);
-        this.ofs.processo_id = this.lb.processo_id;
-      }*/
       this.formOfIncluir.get('oficio_processo_id').markAsTouched();
       this.formOfIncluir.get('oficio_processo_id').markAsDirty();
     }

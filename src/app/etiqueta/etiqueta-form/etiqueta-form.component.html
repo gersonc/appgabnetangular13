@@ -18,7 +18,7 @@
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_marca)">
                   <label for="etq_marca">Marca</label>
                   <input pInputText id="etq_marca" name="etq_marca" #etq_marca="ngModel" type="text" [maxlength]="30"
-                         [(ngModel)]="ecs.etqForm.etq_marca" [required]="true">
+                         [(ngModel)]="ecs.etqForm.etq_marca" [required]="true" [ngClass]="aplicaCssErro(etq_marca)">
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_marca)"
                     msgErro="Marca é obrigatório.">
@@ -27,73 +27,115 @@
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_modelo)">
                   <label for="etq_modelo">Modelo</label>
                   <input pInputText id="etq_modelo" name="etq_modelo" #etq_modelo="ngModel" type="text" [maxlength]="20"
-                         [(ngModel)]="ecs.etqForm.etq_modelo" [required]="true">
+                         [(ngModel)]="ecs.etqForm.etq_modelo" [required]="true" [ngClass]="aplicaCssErro(etq_modelo)">
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_modelo)"
                     msgErro="Modelo é obrigatório.">
                   </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_linhas)">
                   <label for="etq_linhas">Linhas</label>
                   <p-inputNumber id="etq_linhas" name="etq_linhas" #etq_linhas="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_linhas"
-                                 mode="decimal" [required]="true" [min]="1"></p-inputNumber>
+                                 mode="decimal" [required]="true" [min]="1" [ngClass]="aplicaCssErro(etq_linhas)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_linhas)"
+                    msgErro="Linhas é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_colunas)">
                   <label for="etq_colunas">Colunas</label>
                   <p-inputNumber id="etq_colunas" name="etq_colunas" #etq_colunas="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_colunas"
-                                 mode="decimal" [required]="true" [min]="1"></p-inputNumber>
+                                 [ngClass]="aplicaCssErro(etq_colunas)"
+                                 mode="decimal" [required]="true" [min]="1"
+                  ></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_colunas)"
+                    msgErro="Colunas é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_largura)">
                   <label for="etq_largura">Largura (mm)</label>
                   <p-inputNumber id="etq_largura" name="etq_largura" #etq_largura="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_largura" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_largura)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_largura)"
+                    msgErro="Largura é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_altura)">
                   <label for="etq_altura">Altura (mm)</label>
                   <p-inputNumber id="etq_altura" name="etq_altura" #etq_altura="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_altura" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_altura)"></p-inputNumber>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <app-campo-control-erro
+                  [mostrarErro]="verificaValidTouched(etq_altura)"
+                  msgErro="Altura é obrigatório.">
+                </app-campo-control-erro>
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_margem_lateral)">
                   <label for="etq_margem_lateral">Marg. Lat. (mm)</label>
                   <p-inputNumber id="etq_margem_lateral" name="etq_margem_lateral" #etq_margem_lateral="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_margem_lateral"
-                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_margem_lateral)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_margem_lateral)"
+                    msgErro="Margem lateral é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_margem_superior)">
                   <label for="etq_margem_superior">Marg. Sup. (mm)</label>
                   <p-inputNumber id="etq_margem_superior" name="etq_margem_superior" #etq_margem_superior="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_margem_superior"
-                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_margem_superior)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_margem_superior)"
+                    msgErro="Margem superior é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_distancia_vertical)">
                   <label for="etq_distancia_vertical">Dist. Vert. (mm)</label>
                   <p-inputNumber id="etq_distancia_vertical" name="etq_distancia_vertical"
                                  #etq_distancia_vertical="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_distancia_vertical"
-                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_distancia_vertical)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_distancia_vertical)"
+                    msgErro="Distância vertical é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_distancia_horizontal)">
                   <label for="etq_distancia_horizontal">Dist. Horz. (mm)</label>
                   <p-inputNumber id="etq_distancia_horizontal" name="etq_distancia_horizontal"
                                  #etq_distancia_horizontal="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_distancia_horizontal" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_distancia_horizontal)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_distancia_horizontal)"
+                    msgErro="Distância horizontal é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_folha_horz)">
                   <label for="etq_folha_horz">Folha Horz. (mm)</label>
                   <p-inputNumber id="etq_folha_horz" name="etq_folha_horz" #etq_folha_horz="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_folha_horz" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_folha_horz)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_folha_horz)"
+                    msgErro="Distância verticalFolha horizontal é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_folha_vert)">
                   <label for="etq_folha_vert">Folha Vert. (mm)</label>
                   <p-inputNumber id="etq_folha_vert" name="etq_folha_vert" #etq_folha_vert="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_folha_vert" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_folha_vert)"></p-inputNumber>
+                  <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(etq_folha_vert)"
+                    msgErro="Folha vertical é obrigatório.">
+                  </app-campo-control-erro>
                 </div>
 
               </div>
@@ -166,4 +208,4 @@
 
   </form>
 </div>
-<p-toast key="msgForm" position="center" (onClose)="onToastClose($event)"></p-toast>
+<!--<p-toast key="msgForm" position="center" (onClose)="onToastClose($event)"></p-toast>-->
