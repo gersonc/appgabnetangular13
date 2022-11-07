@@ -20,7 +20,7 @@
       <tr *ngIf="mostraIncluir" >
         <th [ngStyle]="cssIncluir()">
           <input #cp1 pInputText type="text" [(ngModel)]="registro.campo_nome" size="60" [maxlength]="configuracao.tamanho"
-                 autofocus (keydown)="apagaMsg()" (ngModelChange)="mudaConteudo($event)">
+                 autofocus (keydown)="apagaMsg()">
         </th>
         <th [ngStyle]="cssIncluir()">
           <p-dropdown #cp2 *ngIf="tp" [options]="ddtipo" [(ngModel)]="registro.campo_id2" placeholder="Selecione" appendTo="body"></p-dropdown>
