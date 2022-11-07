@@ -8259,10 +8259,14 @@ p-chips.ng-dirty.ng-invalid > .p-chips > .p-inputtext {
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
   margin: 0;
-  padding: 0.75rem 1rem;
+  padding: 0.4rem 1rem;
   color: var(--text-color);
   background: var(--surface-a);
   font-weight: 600;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item-group:hover {
+  background: var(--surface-c);
 }
 
 p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
@@ -19122,6 +19126,12 @@ table.fixTableHead tbody {
   padding: .5em !important;
   width: 1.7em !important;
 }
+
+
+#config-pfpj .p-dropdown-items-wrapper {
+  position: fixed !important;
+}
+
 
 /*
 

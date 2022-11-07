@@ -32,6 +32,7 @@ export interface Configuracao2ModelInterface {
   campo_id?: string;
   campo_id2?: string;
   campo_nome?: string;
+  campo_nome2?: string;
   campo_txt1?: string;
   campo_txt2?: string;
   titulo?: string;

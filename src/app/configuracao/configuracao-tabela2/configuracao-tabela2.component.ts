@@ -1,27 +1,29 @@
 import {
   Component,
-  OnInit,
-  OnDestroy,
-  OnChanges,
-  Input,
-  SimpleChanges,
-  Output,
+  ElementRef,
   EventEmitter,
-  ViewChild, ElementRef
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ConfiguracaoService } from "../_services";
-import { take } from "rxjs/operators";
-import { AuthenticationService } from "../../_services";
-import { ConfirmationService, Message, SelectItem } from "primeng/api";
-import { DropdownService } from "../../_services";
+import {Subscription} from 'rxjs';
+import {ConfiguracaoService} from "../_services";
+import {take} from "rxjs/operators";
+import {AuthenticationService} from "../../_services";
+import {ConfirmationService, Message, SelectItem} from "primeng/api";
 import {
-  Configuracao2Model,
-  Configuracao2ModelInterface, Configuracao2RegistroI, ConfiguracaoModelInterface, ConfiguracaoRegistroI,
+  Configuracao2ModelInterface,
+  Configuracao2RegistroI,
+  ConfiguracaoModelInterface,
 } from "../_models/configuracao-model";
 import {MsgService} from "../../_services/msg.service";
 import {WindowsService} from "../../_layout/_service";
 import {DdService} from "../../_services/dd.service";
+import {SelectItemGroup} from "primeng/api/selectitemgroup";
 
 @Component({
   selector: 'app-configuracao-tabela2',
@@ -49,13 +51,19 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     campo_nome: null,
     campo_nome2: null
   };
+  regTmp: Configuracao2RegistroI = {
+    campo_id: 0,
+    campo_id2: 0,
+    campo_nome: null,
+    campo_nome2: null
+  };
   registroOld: Configuracao2RegistroI | null = null;
   acao: string | null = null;
   msg: string[] = [];
   msgErro: Message[] = [];
   idx: number = -1;
   titulo = 'CONFIGURAÇÕES';
-  dropDown: SelectItem[] = [];
+  dropDown: SelectItem[] | SelectItemGroup[] = [];
   resp: any[] = [];
   confirmaAlterar = false;
   confirmaApagar = false;
@@ -69,7 +77,12 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   apagarFake = false;
   btnAlterar: boolean = true;
 
+  ddtipo: SelectItem[] = [
+    {label: 'PESSOA FISICA', value: 1}, {label: 'PESSOA JURIDICA', value: 2}
+  ];
   cpn: string = null;
+  tp = false;
+  campoTxt2: string = null;
 
   constructor(
     public cfs: ConfiguracaoService,
@@ -77,7 +90,8 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     private dd: DdService,
     private ms: MsgService,
     private cf: ConfirmationService,
-  ) { }
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.componente) {
@@ -89,12 +103,14 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_id: 'prioridade_id',
             campo_id2: null,
             campo_nome: 'prioridade_nome',
-            campo_txt1: 'prioridade_color',
+            campo_nome2: 'prioridade_color',
             titulo: 'PRIORIDADES',
+            campo_txt1: 'PRIORIDADE',
             campo_txt2: 'COR',
             texto: 'a prioridade',
             tamanho: 20,
           };
+          this.tp = false;
           this.inicio();
           break;
         }
@@ -104,12 +120,14 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_id: 'tipo_cadastro_id',
             campo_id2: 'tipo_cadastro_tipo',
             campo_nome: 'tipo_cadastro_nome',
+            campo_nome2: null,
             titulo: 'TIPOS DE CADASTRO',
-            campo_txt1: null,
+            campo_txt1: 'TIPO DE CADASTRO',
             campo_txt2: 'PF/PJ',
             texto: 'o tipo de cadastro',
             tamanho: 30,
-          }
+          };
+          this.tp = true;
           this.inicio();
           break;
         }
@@ -173,7 +191,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.apagarFake = false;
   }
 
-  onCancela(cf: ConfiguracaoRegistroI, idx: number, cancelaVF: boolean = false) {
+  onCancela(cf: Configuracao2RegistroI, idx: number, cancelaVF: boolean = false) {
     if (this.acao === 'editar' && cancelaVF) {
       this.listagem[idx] = this.registroOld;
     }
@@ -200,7 +218,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.listagemDrop();
   }
 
-  onRowEditCancel(cf: ConfiguracaoRegistroI, idx: number, cancelaVF: boolean = false) {
+  onRowEditCancel(cf: Configuracao2RegistroI, idx: number, cancelaVF: boolean = false) {
     if (this.acao === 'editar' && cancelaVF) {
       this.registro[idx] = this.registroOld;
     }
@@ -238,32 +256,49 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             console.error(erro);
           },
           complete: () => {
-            this.listagem = this.dropDown.map((d) => {
+            this.listagem = this.dropToReg(this.dropDown);
+            console.log(this.listagem);
+            /*this.listagem = this.dropDown.map((d) => {
               return {
                 campo_id: +d.value,
-                campo_nome: d.label
+                campo_id2: +d.title,
+                campo_nome: d.label,
+                campo_nome2: d.styleClass
               }
-            });
+            });*/
           }
         })
       );
     } else {
       this.dropDown = JSON.parse(sessionStorage.getItem('dropdown-' + this.configuracao.tabela));
-      this.listagem = this.dropDown.map((d) => {
+      console.log('this.dropDown',this.dropDown );
+      this.listagem = this.dropToReg(this.dropDown);
+      /*this.listagem = this.dropDown.map((d) => {
         return {
           campo_id: +d.value,
-          campo_nome: d.label
+          campo_id2: +d.title,
+          campo_nome: d.label,
+          campo_nome2: d.styleClass
         }
-      });
+      });*/
     }
   }
 
   clickIncluir() {
+    this.acao = 'incluir';
     this.msg = [];
     this.msgErro = [];
+    this.registroOld = {
+      campo_id: 0,
+      campo_id2: null,
+      campo_nome: '',
+      campo_nome2: ''
+    }
     this.registro = {
       campo_id: 0,
-      campo_nome: null
+      campo_id2: null,
+      campo_nome: null,
+      campo_nome2: null
     }
     this.btnacaoInativo = true;
     this.mostraIncluir = !this.mostraIncluir;
@@ -284,6 +319,16 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       const dados: any[] = [];
       dados.push(this.configuracao.tabela);
       dados.push(this.registro.campo_nome);
+      if (this.tp) {
+        dados.push(this.registro.campo_id2);
+      } else {
+        if (this.registro.campo_nome2 !== null && this.registro.campo_nome2.length > 4) {
+          this.registro.campo_nome2 = this.registro.campo_nome2.toUpperCase();
+          dados.push(this.registro.campo_nome2);
+        } else {
+          dados.push(null);
+        }
+      }
       this.sub.push(this.cfs.verificaIncluir(dados)
         .pipe(take(1))
         .subscribe((dados2) => {
@@ -298,15 +343,18 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               this.listagem.push(this.registro);
               this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
               this.dropDown = [];
-              this.dropDown = this.listagem.map((l) => {
+              this.dropDown = this.regToDrop(this.listagem);
+              /*this.dropDown = this.listagem.map((d) => {
                 return {
-                  value: +l.campo_id,
-                  label: l.campo_nome
+                  value: +d.campo_id,
+                  title: (this.configuracao.tabela === 'tipo_cadastro') ? d.campo_id2.toString() : null,
+                  label: d.campo_nome,
+                  styleClass: (this.configuracao.tabela === 'tipo_cadastro') ? null : d.campo_nome2
                 }
-              });
+              });*/
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
               sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2][0]});
+              this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'INCLUIR', detail: this.resp[2][0]});
               this.onCancela(this.registro, 0);
             } else {
               this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2][0]});
@@ -318,20 +366,25 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       );
     } else {
       if (n > -1) {
-        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
+        this.msg.push('ATENÇÃO - Já existe registro com essa successrmação.');
       }
       this.btnCancelarInativo = false;
       this.btnEnviarInativo = false;
     }
   }
 
-  onRowEditInit(cf: ConfiguracaoRegistroI, idx: number) {
-    const cfn: string = cf.campo_nome;
+  onRowEditInit(cf: Configuracao2RegistroI, idx: number) {
+    const cfn: string = cf.campo_nome.toUpperCase();
     const cfv: number = cf.campo_id;
+    const cfn2: string = (!this.tp) ? (cf.campo_nome2 !== null) ? cf.campo_nome2.toUpperCase() : '' : '';
+    const cfv2: number = (this.tp) ? +cf.campo_id2 : 0;
     this.registroOld = {
       campo_id: cfv,
-      campo_nome: cfn
+      campo_nome: cfn,
+      campo_id2: cfv2,
+      campo_nome2: cfn2
     };
+
     cf.campo_nome = cf.campo_nome.toUpperCase();
     this.msg = [];
     this.msgErro = [];
@@ -344,10 +397,15 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.mostraAlterar = !this.mostraAlterar;
   }
 
-  onAlterar(cd: ConfiguracaoRegistroI, i: number) {
+  onAlterar(cd: Configuracao2RegistroI, i: number) {
     cd.campo_nome = cd.campo_nome.toUpperCase();
-    const n: number = this.dropDown.findIndex(r => r.label.toUpperCase() === cd.campo_nome.toUpperCase());
-    if (cd.campo_nome !== null && cd.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() && cd.campo_nome.length > 1 && n < 0) {
+    const cn2: string = (!this.tp) ? (cd.campo_nome2 !== null) ? cd.campo_nome2.toUpperCase() : '' : '';
+    if (
+      cd.campo_nome !== null &&
+      ((this.tp === true && (cd.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() || cd.campo_id2 !== this.registroOld.campo_id2)) ||
+        (this.tp === false && (cd.campo_nome.toUpperCase() !== this.registroOld.campo_nome.toUpperCase() || cn2 !== this.registroOld))) &&
+      cd.campo_nome.length > 1
+    ) {
       this.btnacaoInativo = true;
       this.btnCancelarInativo = true;
       this.btnEnviarInativo = true;
@@ -357,7 +415,17 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       const dados: any[] = [];
       dados.push(this.configuracao.tabela);
       dados.push(+cd.campo_id);
-      dados.push(cd.campo_nome.toUpperCase());
+      dados.push(cd.campo_nome);
+      if (this.tp) {
+        dados.push(this.registro.campo_id2);
+      } else {
+        if (this.registro.campo_nome2 !== null && this.registro.campo_nome2.length > 4) {
+          this.registro.campo_nome2 = this.registro.campo_nome2.toUpperCase();
+          dados.push(this.registro.campo_nome2);
+        } else {
+          dados.push(null);
+        }
+      }
       this.sub.push(this.cfs.impactoAlterar(dados)
         .pipe(take(1))
         .subscribe((dados1) => {
@@ -389,8 +457,10 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               if (!this.resp[3]) {
                 this.registro = cd;
                 this.alterarFake = true;
+                this.confirmaAlterar = true;
                 this.btnEnviarInativo = false;
-                this.btnAlt.nativeElement.click();
+                const bt = document.getElementById('btnAlt');
+                bt.dispatchEvent(new Event("click"));
               }
             }
           }
@@ -413,18 +483,11 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
           detail: 'ERRO - Registro não alterado.'
         });
       }
-      if (n !== -1) {
-        this.msgErro.push({
-          key: 'msgAlterarErro',
-          severity: 'warn',
-          summary: 'ALTERAR',
-          detail: 'ERRO - Registro com valor repetido.'
-        });
-      }
     }
   }
 
-  onRowEditSave(cd: ConfiguracaoRegistroI, i: number) {
+  onRowEditSave(cd: Configuracao2RegistroI, i: number) {
+    this.btnEnviarInativo = true;
     cd.campo_nome = cd.campo_nome.toUpperCase();
     if (!this.alterarFake) {
       this.btnacaoInativo = true;
@@ -451,10 +514,12 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
               this.listagem[i] = cd;
               this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
               this.dropDown = [];
-              this.dropDown = this.listagem.map((l) => {
+              this.dropDown = this.listagem.map((d) => {
                 return {
-                  value: +l.campo_id,
-                  label: l.campo_nome
+                  value: +d.campo_id,
+                  title: (this.configuracao.tabela === 'tipo_cadastro') ? d.campo_id2.toString() : null,
+                  label: d.campo_nome,
+                  styleClass: (this.configuracao.tabela === 'tipo_cadastro') ? null : d.campo_nome2
                 }
               });
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
@@ -477,10 +542,12 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       this.listagem[i] = this.registro;
       this.listagem.sort((a, b) => (a.campo_nome > b.campo_nome) ? 1 : ((b.campo_nome > a.campo_nome) ? -1 : 0));
       this.dropDown = [];
-      this.dropDown = this.listagem.map((l) => {
+      this.dropDown = this.listagem.map((d) => {
         return {
-          value: +l.campo_id,
-          label: l.campo_nome
+          value: +d.campo_id,
+          title: (this.configuracao.tabela === 'tipo_cadastro') ? d.campo_id2.toString() : null,
+          label: d.campo_nome,
+          styleClass: (this.configuracao.tabela === 'tipo_cadastro') ? null : d.campo_nome2
         }
       });
       sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
@@ -496,7 +563,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   }
 
-  clickDeletar(cf: ConfiguracaoRegistroI, idx: number) {
+  clickDeletar(cf: Configuracao2RegistroI, idx: number) {
     const cfn: string = cf.campo_nome;
     const cfv: number = cf.campo_id;
     this.registroOld = {
@@ -590,7 +657,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             this.listagem.splice(i, 1);
             sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
             sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2][0]});
+            this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Exclusão: ', detail: this.resp[2][0]});
             this.onCancela({}, i);
           })
       );
@@ -675,6 +742,32 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   }
 
+  testaBtnEnviar(r: Configuracao2RegistroI): boolean {
+    if (this.tp) {
+      return (this.btnEnviarInativo ||
+        r.campo_nome === null ||
+        r.campo_nome.length === 0 ||
+        (r.campo_nome.toUpperCase() === this.registroOld.campo_nome.toUpperCase() && r.campo_id2 === this.registroOld.campo_id2) ||
+        r.campo_id2 === null ||
+        (r.campo_id2 !== 1 && r.campo_id2 !== 2)
+      );
+    }
+    if (!this.tp) {
+      const cn2: string = (!this.tp) ? (r.campo_nome2 !== null) ? r.campo_nome2.toUpperCase() : '' : '';
+      return (this.btnEnviarInativo ||
+        r.campo_nome === null ||
+        r.campo_nome.length === 0 ||
+        (r.campo_nome.toUpperCase() === this.registroOld.campo_nome.toUpperCase() && cn2 === this.registroOld.campo_nome2)
+      );
+    }
+  }
+
+  mostraBtnEnviarStyle() {
+    return {
+      display: (!this.confirmaAlterar) ? 'none' : null
+    }
+  }
+
   testaCampoNome(ev: string) {
     this.btnAlterar = (this.btnEnviarInativo || ev === null || ev.length === 0 || ev.toUpperCase() === this.registroOld.campo_nome.toUpperCase());
   }
@@ -683,5 +776,223 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     return this.btnAlterar;
   }
 
+  regToDrop(r: Configuracao2RegistroI[]): SelectItem[] | SelectItemGroup[] {
+    if (this.configuracao.tabela === 'tipo_cadastro') {
+      return [
+        {
+          label: "PESSOA FÍSICA",
+          items: r.filter((d) => d.campo_id2 === 1).map((d) => {
+            return {
+              label: d.campo_nome,
+              value: d.campo_id,
+              title: d.campo_id2.toString(),
+              styleClass: null
+            }
+          })
+        },
+        {
+          label: "PESSOA JURÍDICA",
+          items: r.filter((d) => d.campo_id2 !== 1).map((d) => {
+            return {
+              label: d.campo_nome,
+              value: d.campo_id,
+              title: d.campo_id2.toString(),
+              styleClass: null
+            }
+          })
+        }
+      ];
+    }
+
+    if (this.configuracao.tabela === 'prioridade') {
+      return r.map((d) => {
+        return {
+          label: d.campo_nome,
+          value: d.campo_id,
+          title: null,
+          styleClass: d.campo_nome2
+        }
+      });
+    }
+  }
+
+  regSel(r: Configuracao2RegistroI): SelectItem {
+    if (this.configuracao.tabela === 'tipo_cadastro') {
+      return {
+        label: r.campo_nome,
+        value: r.campo_id,
+        title: r.campo_id2.toString(),
+        styleClass: null
+      };
+    }
+
+    if (this.configuracao.tabela === 'prioridade') {
+      return {
+        label: r.campo_nome,
+        value: r.campo_id,
+        title: null,
+        styleClass: r.campo_nome2
+      };
+    }
+  }
+
+  dropToReg(r: SelectItem[] | SelectItemGroup[]): Configuracao2RegistroI[] {
+    if (this.configuracao.tabela === 'tipo_cadastro') {
+      return this.dropToRegAux(r.map((d) => {
+        return d.items.map((i: SelectItem) => {
+          return {
+            campo_id: i.value,
+            campo_id2: +i.title,
+            campo_nome: i.label,
+            campo_nome2: null
+          };
+        });
+      }));
+    }
+
+    if (this.configuracao.tabela === 'prioridade') {
+      return r.map((i) => {
+        return {
+          campo_id: i.value,
+          campo_id2: null,
+          campo_nome: i.label,
+          campo_nome2: i.styleClass
+        }
+      });
+    }
+  }
+
+  pfpj(v) {
+    return v === 1 ? 'PF' : 'PJ';
+  }
+
+  dddelChange(dddel: SelectItem) {
+    console.log('dddelChange', dddel);
+    if (this.tp) {
+      this.campoTxt2 = (+dddel.title === 1) ? 'PESSOA FISICA' : 'PESSOA JURIDICA';
+    }
+
+    if (!this.tp) {
+      this.campoTxt2 = dddel.styleClass;
+    }
+  }
+
+  dropToRegAux(r: Configuracao2RegistroI[][]): Configuracao2RegistroI[] {
+    return (r.length === 2) ? r[0].concat(r[1]) : r[0];
+  }
+
+  selReg(r: SelectItem): Configuracao2RegistroI {
+    if (this.configuracao.tabela === 'tipo_cadastro') {
+      return {
+        campo_id: r.value,
+        campo_id2: +r.title,
+        campo_nome: r.label,
+        campo_nome2: null
+      };
+    }
+
+    if (this.configuracao.tabela === 'prioridade') {
+      return {
+        campo_id: r.value,
+        campo_id2: null,
+        campo_nome: r.label,
+        campo_nome2: r.styleClass
+      };
+    }
+  }
+
+  boxCor(cor?: string): any {
+    const b: string = (cor === undefined || cor === null) ? 'transparent' : cor;
+    let c: string = (cor === undefined || cor === null) ? 'var(--text-color)' : cor;
+    if (c === 'var(--text-color)' || c.substring(0, 4) === 'var(' || ((c.length < 3 || c.length > 4) && (c.length < 6 || c.length > 7))) {
+      c = 'var(--text-color)';
+    } else {
+      c = this.setForegroundColor(cor);
+    }
+    return {
+      border: '2px solid var(--surface-400)',
+      padding: '0.429em',
+      height: '30px',
+      width: '2em',
+      float: 'left',
+      margin: 0,
+      color: c,
+      background: b,
+      transition: 'box-shadow 0.2s',
+      borderRadius: 0,
+      'vertical-align': 'baseline'
+    }
+  }
+
+  ddcor(cor?: string): any {
+    const b: string = (cor === undefined || cor === null) ? 'transparent' : cor;
+    let c: string = (cor === undefined || cor === null) ? 'var(--text-color)' : cor;
+    if (c === 'var(--text-color)' || c.substring(0, 4) === 'var(' || ((c.length < 3 || c.length > 4) && (c.length < 6 || c.length > 7))) {
+      c = 'var(--text-color)';
+    } else {
+      c = this.setForegroundColor(cor);
+    }
+    return {
+      margin: 0,
+      padding: '0.2rem 1rem',
+      border: 0,
+      color: c,
+      background: b,
+      transition: 'box-shadow 0.2s',
+      borderRadius: 0
+    }
+  }
+
+  getCorTxt(campo_txt1?: string | null): string {
+    if (campo_txt1 === undefined || campo_txt1 === null) {
+      return 'NÃO DEFINIDO';
+    } else {
+      if (campo_txt1.substring(0, 4) === 'var(') {
+        return 'PADRÃO';
+      } else {
+        return campo_txt1;
+      }
+    }
+  }
+
+  setForegroundColor(cor: string) {
+    let rgb = this.hexToRGB(cor, false);
+    let sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+    return (sum > 128) ? 'black' : 'white';
+  }
+
+  hexToRGB(h, isPct) {
+    let ex = /^#([\da-f]{3}){1,2}$/i;
+    if (ex.test(h)) {
+      let r: any = 0, g: any = 0, b: any = 0;
+      isPct = isPct === true;
+
+      // 3 digits
+      if (h.length == 4) {
+        r = "0x" + h[1] + h[1];
+        g = "0x" + h[2] + h[2];
+        // @ts-ignore
+        b = "0x" + h[3] + h[3];
+      } else if (h.length == 7) {
+        r = "0x" + h[1] + h[2];
+        g = "0x" + h[3] + h[4];
+        b = "0x" + h[5] + h[6];
+      }
+      if (isPct) {
+        r = +(r / 255 * 100).toFixed(1);
+        g = +(g / 255 * 100).toFixed(1);
+        b = +(b / 255 * 100).toFixed(1);
+      }
+      return "rgb(" + (isPct ? r + "%," + g + "%," + b + "%" : +r + "," + +g + "," + +b) + ")";
+      // return [r,g,b];
+
+    } else {
+      return null;
+    }
+  }
+
+  mudaConteudo(ev) {
+    // console.log('mudaConteudo', ev);
+  }
 
 }

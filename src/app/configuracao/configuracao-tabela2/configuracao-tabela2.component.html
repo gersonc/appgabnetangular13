@@ -8,22 +8,27 @@
     scrollHeight="70vh"
     styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
   >
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" >
       <tr>
-        <th>{{configuracao.titulo}}</th>
+        <th>{{configuracao.campo_txt1}}</th>
+        <th>{{configuracao.campo_txt2}}</th>
         <th style="text-align:right; padding: 0.2rem 0.5rem !important; width: 7rem;">
           <button *ngIf="perIncluir && !mostraIncluir" pButton type="button" icon="pi pi-plus" (click)="clickIncluir()"
                   class="p-button-raised p-button-rounded p-button-sm" [disabled]="btnacaoInativo"></button>
         </th>
       </tr>
-      <tr *ngIf="mostraIncluir">
+      <tr *ngIf="mostraIncluir" >
         <th [ngStyle]="cssIncluir()">
-          <input pInputText type="text" [(ngModel)]="registro.campo_nome" size="60" [maxlength]="configuracao.tamanho"
-                 autofocus (keydown)="apagaMsg()">
+          <input #cp1 pInputText type="text" [(ngModel)]="registro.campo_nome" size="60" [maxlength]="configuracao.tamanho"
+                 autofocus (keydown)="apagaMsg()" (ngModelChange)="mudaConteudo($event)">
+        </th>
+        <th [ngStyle]="cssIncluir()">
+          <p-dropdown #cp2 *ngIf="tp" [options]="ddtipo" [(ngModel)]="registro.campo_id2" placeholder="Selecione" appendTo="body"></p-dropdown>
+          <p-colorPicker *ngIf="!tp" [(ngModel)]="registro.campo_nome2"  appendTo="body"></p-colorPicker>
         </th>
         <th [ngStyle]="cssIncluir2()" style="text-align:right; padding: 0 0.5em 0 0.5em; width: 7rem;">
           <div class="p-text-nowrap">
-            <button [disabled]="btnEnviarInativo || registro.campo_nome === null || registro.campo_nome.length === 0"
+            <button [disabled]="testaBtnEnviar(registro)"
                     pButton pRipple type="button" icon="pi pi-check"
                     class="p-button-raised p-button-rounded p-button-success p-button-sm" style="margin-right: .5em"
                     (click)="onIncluir()"></button>
@@ -34,7 +39,7 @@
         </th>
       </tr>
       <tr *ngIf="mostraIncluir && msgErro.length > 0">
-        <th colspan="2">
+        <th colspan="3">
           <p-messages key="msgIncluirErro" [(value)]="msgErro"></p-messages>
         </th>
       </tr>
@@ -42,8 +47,8 @@
 
 
     <ng-template pTemplate="body" let-cf let-editing="editing" let-i="rowIndex">
-      <tr [pEditableRow]="cf">
-        <td [ngStyle]="cssAlterar(editing, i)">
+      <tr [pEditableRow]="cf" style="text-align: center">
+        <td [ngStyle]="cssAlterar(editing, i)" style="vertical-align:center;">
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input #cpnome pInputText type="text" [(ngModel)]="cf.campo_nome" required [size]="60"
@@ -57,6 +62,8 @@
             <ng-template pTemplate="output">
               <ng-container *ngIf="acao==='deletar' && confirmaApagar && i===idx">
                 <p-dropdown
+                  *ngIf="tp"
+                  #dddel
                   [disabled]="btnEnviarInativo"
                   [(ngModel)]="drop"
                   placeholder="Selecione"
@@ -64,8 +71,17 @@
                   [required]="true"
                   [autofocus]="true"
                   optionValue="value"
+                  [group]="true"
                   [style]="{'width':'100%', 'max-width': '313px'}"
+                  (onChange)="dddelChange(dddel.selectedOption)"
                 ></p-dropdown>
+                <p-dropdown #dddel *ngIf="!tp" #tdd [options]="dropDown" [(ngModel)]="drop" placeholder="Selecione" [showClear]="true" (onChange)="dddelChange(dddel.selectedOption)">
+                  <ng-template let-it pTemplate="item">
+                    <div [ngStyle]="ddcor(it.styleClass)">
+                      {{it.label}}
+                    </div>
+                  </ng-template>
+                </p-dropdown>
                 <p-messages *ngIf="msgErro.length > 0" key="msgDeletarErro"
                             [(value)]="msgErro"></p-messages>
                 <ng-container *ngIf="msg.length > 0">
@@ -78,7 +94,39 @@
             </ng-template>
           </p-cellEditor>
         </td>
-        <td style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;"
+
+        <td [ngStyle]="cssAlterar(editing, i)" style="vertical-align: center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown *ngIf="tp" [options]="ddtipo" [(ngModel)]="cf.campo_id2" styleClass="formulario" appendTo="body"></p-dropdown>
+              <p-colorPicker *ngIf="!tp" [(ngModel)]="cf.campo_nome2" appendTo="body" class="p-mr-3"></p-colorPicker>
+              <ng-container *ngIf="!tp">{{getCorTxt(cf.campo_nome2)}}</ng-container>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <ng-container *ngIf="acao==='deletar' && confirmaApagar && i===idx">
+                <ng-container *ngIf="tp">{{campoTxt2}}</ng-container>
+                <ng-container *ngIf="!tp">
+                  <div style="
+                    background-color: #cccccc;
+                    border: 2px solid var(--surface-400);
+                    padding: 0.429em;
+                    height: 30px;
+                    width: 2em;
+                    float: left"
+                    [style]="{'backgroundColor':campoTxt2}"></div> &nbsp;&nbsp; {{getCorTxt(campoTxt2)}}
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="acao!=='deletar' || i!==idx">
+                <ng-container *ngIf="tp">{{pfpj(cf.campo_id2)}}</ng-container>
+                <ng-container *ngIf="!tp">
+                  <div [ngStyle]="boxCor(cf.campo_nome2)" class="p-mr-3"></div>{{getCorTxt(cf.campo_nome2)}}
+                </ng-container>
+              </ng-container>
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td style="text-align:right; padding-bottom: .3em; padding-top: .3em; width: 7rem;vertical-align: center"
             [ngStyle]="cssAlterar2(editing, i)">
           <button *ngIf="!editing && acao!=='deletar' && perAltarar" pButton type="button" pInitEditableRow
                   icon="pi pi-pencil" (click)="onRowEditInit(cf, i)"
@@ -91,11 +139,11 @@
           <button *ngIf="editing && acao!=='deletar' && !confirmaAlterar" pButton type="button"
                   icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success p-button-sm"
                   style="margin-right: .5em" (click)="onAlterar(cf, i)"
-                  [disabled]="btnAlterarAtivo()"></button>
-          <button id="btnAlt" #btnAlt *ngIf="editing && acao!=='deletar' && confirmaAlterar" pButton type="button"
+                  [disabled]="testaBtnEnviar(cf)"></button>
+          <button id="btnAlt" #btnAlt *ngIf="editing && acao!=='deletar'" pButton type="button"
                   pSaveEditableRow
                   icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success p-button-sm"
-                  style="margin-right: .5em" (click)="onRowEditSave(cf, i)" [disabled]="btnEnviarInativo"></button>
+                  style="margin-right: .5em" [ngStyle]="mostraBtnEnviarStyle()" (click)="onRowEditSave(cf, i)" [disabled]="btnEnviarInativo"></button>
           <button *ngIf="editing && acao!=='deletar'" pButton type="button" pCancelEditableRow icon="pi pi-times"
                   class="config p-button-raised p-button-rounded p-button-warning p-button-sm"
                   (click)="onRowEditCancel(cf, i, true)" [disabled]="btnEnviarInativo"></button>

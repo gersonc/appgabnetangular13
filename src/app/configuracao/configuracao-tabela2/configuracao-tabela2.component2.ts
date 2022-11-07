@@ -788,7 +788,6 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     }
   }
 
-
   hexToRGB2(h,isPct) {
     let ex = /^#([\da-f]{3}){1,2}$/i;
     if (ex.test(h)) {

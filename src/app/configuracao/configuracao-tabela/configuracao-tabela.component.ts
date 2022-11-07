@@ -507,7 +507,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               });
               sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
               sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-              this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'INCLUIR', detail: this.resp[2][0]});
+              this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'INCLUIR', detail: this.resp[2][0]});
               this.onCancela(this.registro, 0);
             } else {
               this.msgErro.push({key: 'msgIncluirErro', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2][0]});
@@ -519,7 +519,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
       );
     } else {
       if (n > -1) {
-        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
+        this.msg.push('ATENÇÃO - Já existe registro com essa successrmação.');
       }
       this.btnCancelarInativo = false;
       this.btnEnviarInativo = false;
@@ -590,6 +590,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
               if (!this.resp[3]) {
                 this.registro = cd;
                 this.alterarFake = true;
+                this.confirmaAlterar = true;
                 this.btnEnviarInativo = false;
                 this.btnAlt.nativeElement.click();
               }
@@ -791,7 +792,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             this.listagem.splice(i, 1);
             sessionStorage.removeItem('dropdown-' + this.configuracao.tabela);
             sessionStorage.setItem('dropdown-' + this.configuracao.tabela, JSON.stringify(this.dropDown));
-            this.ms.add({key: 'toastprincipal', severity: 'info', summary: 'Exclusão: ', detail: this.resp[2][0]});
+            this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'Exclusão: ', detail: this.resp[2][0]});
             this.onCancela({}, i);
           })
       );

@@ -29,6 +29,7 @@ import { UsuarioModule } from '../usuario/usuario.module';
 import {InputSwitchModule} from "primeng/inputswitch";
 import {RippleModule} from "primeng/ripple";
 import {DropdownColoridoModule} from "../shared/dropdown-colorido/dropdown-colorido.module";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 
 
@@ -64,7 +65,8 @@ import {DropdownColoridoModule} from "../shared/dropdown-colorido/dropdown-color
         UsuarioModule,
         InputSwitchModule,
         RippleModule,
-        DropdownColoridoModule
+        DropdownColoridoModule,
+        RadioButtonModule
     ],
   exports: [
     ConfiguracaoComponent
