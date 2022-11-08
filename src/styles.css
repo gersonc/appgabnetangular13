@@ -94,7 +94,7 @@
   --menu-lateral-pq-width-768: 60vw;
   --menu-lateral-pq-width-576: 100vw;
 
-  --altura-main: 100vh;
+  --altura-main: calc(100vh - 2.2em);
   --menu-lateral-height: calc(100vh - 4.6em);
 
 
@@ -15716,17 +15716,17 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
 .div-menu-principal {
   float: left;
   font-size: 1em;
-  padding: .3em .2em .1em .2em;
+  padding: 0 .2em .1em .2em;
   width: 3em;
 }
 
 .btn-menu-principal {
-  font-size: 1.5em !important;
+  font-size: 1em !important;
   color: var(--primary-color-text);
 }
 
 .btn-menu-principal:hover {
-  font-size: 1.6em !important;
+  font-size: 1.2em !important;
   cursor: pointer;
 }
 
@@ -16134,7 +16134,9 @@ p-panel.arquivolistahorizontal .p-panel-content {
 
 .main {
   position: fixed;
-  top: 2.2em;
+  display: block;
+  box-sizing: border-box;
+  top: 2.2rem;
   left: 0;
   --tamanhomenu: 12.5em;
   width: 100%;
@@ -16526,13 +16528,13 @@ h5 {
   top: 0;
   right: 0;
   width: 100%;
-  height: 2em;
+  max-height: 2.2rem;
   color: var(--primary-color-text);
   background-color: var(--primary-color);
   clear: both;
   text-align: center;
   padding: 0 0 0 .5em;
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 
 .mob-header {
@@ -16550,7 +16552,7 @@ h5 {
 }
 
 .topo {
-  font-size: 1.5em;
+  font-size: 1em;
   background-color: transparent;
 }
 
@@ -18945,7 +18947,7 @@ tr:not(.p-highlight):hover button.config {
 
 
 .formulario-externo-bg {
-  min-height: 100vh;
+  min-height: var(--altura-main);
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: var(--formularios-bg);

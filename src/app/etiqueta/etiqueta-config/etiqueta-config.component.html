@@ -87,7 +87,7 @@
   [style]="{ width: '800px' }"
   (onHide)="fechaDialog()"
 >
-  <app-etiqueta-form></app-etiqueta-form>
+  <app-etiqueta-form *ngIf="ecs.formDisplay"></app-etiqueta-form>
 </p-dialog>
 <p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
 

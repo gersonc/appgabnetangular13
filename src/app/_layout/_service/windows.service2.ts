@@ -37,7 +37,7 @@ export class WindowsService {
   expandeMenuSubject: BehaviorSubject<boolean>;
   expandeMenu: Observable<boolean>;
   width!: number;
-  // height!: number;
+  height!: number;
   coorApp = new CoordenadaXY();
   coorTopo = new CoordenadaXY();
   coorMain = new CoordenadaXY();
@@ -57,15 +57,19 @@ export class WindowsService {
     return _window();
   }
 
-  public static get doc(): Document {
-    return WindowsService.nativeWindow.document;
-  }
-
   public static all(): JanelaI {
+    let j: any = window;
+    let d: any = window.document;
+    let k: any = WindowsService.nativeWindow;
+    console.log('j',j);
+    console.log('d',d);
+    console.log('j',j.window);
+    console.log('k', k.innerHeight);
+    console.log('screen', k.screen);
     return  {
       app: WindowsService.getApp(),
       topoprincipal: WindowsService.getTopo(),
-      main: WindowsService.main,
+      main: WindowsService.getMain(),
       menuprincipal: WindowsService.getMenuPrincipal(),
       principal: WindowsService.getPrincial(),
     };
@@ -73,8 +77,8 @@ export class WindowsService {
 
   public static getPrincial(): any {
     return  {
-      altura: WindowsService.doc.getElementById('topoprincipal')!.offsetHeight,
-      largura: WindowsService.doc.getElementById('principal')!.offsetWidth
+      altura: document.getElementById('principal')!.offsetHeight,
+      largura: document.getElementById('principal')!.offsetWidth
     };
   }
 
@@ -85,19 +89,14 @@ export class WindowsService {
     };
   }
 
-  public static getMenuPrincipal(): MedidaI {
+  public static getMenuPrincipal(): any {
     return  {
       altura: document.getElementById('menuPrincipal')!.offsetHeight,
       largura: document.getElementById('menuPrincipal')!.offsetWidth
     };
   }
 
-  public static get alturaTabela(): string {
-    const doc: Document = WindowsService.doc;
-    const m: number = doc.getElementById('main')!.clientHeight;
-    const t: number = doc.getElementById('topoprincipal')!.clientHeight * 3.68;
-    return  (+m - t) + 'px';
-  }
+
 
   public static getApp(): any {
     return  {
@@ -105,15 +104,6 @@ export class WindowsService {
       largura: document.getElementById('app')!.offsetWidth
     };
   }
-
-  public static get main(): MedidaI {
-    const doc: Document = WindowsService.doc;
-    return  {
-      altura: doc.getElementById('main')!.offsetHeight,
-      largura: doc.getElementById('main')!.offsetWidth
-    };
-  }
-
 
   public static getMain(): any {
     return  {

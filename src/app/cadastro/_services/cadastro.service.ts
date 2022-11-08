@@ -40,6 +40,7 @@ export class CadastroService {
   expandido?: CadastroI;
   expandidoSN = false;
   cadastroApagar: CadastroI | null = null;
+  permissaoVinculos = false;
   sortField = 'cadastro_nome';
   //sortField = 'cadastro_cep';
   sortOrder = 1;
@@ -62,6 +63,7 @@ export class CadastroService {
   showEtiquetas = false;
   cadastroEtiqueta: CadastroEtiquetaI[] = [];
   numEtiquetas = 0;
+
 
   constructor(
     private url: UrlService,

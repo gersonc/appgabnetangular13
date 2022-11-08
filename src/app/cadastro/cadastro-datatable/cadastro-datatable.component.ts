@@ -35,7 +35,8 @@ import {take} from "rxjs/operators";
 export class CadastroDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('dtb', {static: true}) public dtb: Table;
   // @ContentChild('dtb', {static: false}) public dtb: Table;
-  altura = `${WindowsService.altura - 170}` + 'px';
+  // altura = `${WindowsService.altura - 170}` + 'px';
+  altura = WindowsService.alturaTabela;
   meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
   sub: Subscription[] = [];
   sub2: Subscription[] = [];
@@ -55,6 +56,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   autPro = false;
   autEme = false;
   solVer = 0;
+  //permissaoVinculos = false;
 
   constructor(
     //private mm: MostraMenuService,
@@ -69,6 +71,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
+    console.log('tablecaption', this.altura);
     this.cp.criaPermissao();
     this.solVer = this.aut.solicitacaoVersao;
     if (this.aut.solicitacao_listar) {
@@ -274,7 +277,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.resetSelectedColumns();
   }
 
-  mostraSelectColunas(): void {// this
+  mostraSelectColunas(): void {
+    console.log('tablecaption',this.altura);
     this.cs.tabela.mostraSeletor = true;
   }
 
@@ -441,29 +445,64 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   cadastroApagar(index: number, cad: CadastroI) {
-    if(this.permArquivo(cad)) {
+    if ((this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.cadastro_apagar) && this.permArquivo(cad)) {
+      if (cad.vinculos > 0) {
+        this.cs.permissaoVinculos = this.cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum);
+      }
       this.cs.cadastroApagar = cad;
       this.cs.idx = +index;
       this.cs.Contexto = undefined;
       this.cs.salvaState();
       this.dtb.saveState();
-      this.router.navigate(['/cadastro/excluir', +cad.cadastro_id]);
-      /*this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            this.cadastroVinculos = dados;
-            console.log('cadastroVinculos', this.cadastroVinculos);
-          },
-          error: err => console.error('ERRO-->', err),
-          complete: () => {
-            this.cs.Contexto = undefined
-            this.showApagar = true;
-          }
-        })
-      );*/
-    } else {
 
+      if (this.cs.permissaoVinculos) {
+        this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
+          .pipe(take(1))
+          .subscribe({
+            next: (dados) => {
+              this.cs.cadastroVinculos = dados;
+              console.log('cadastroVinculos', this.cadastroVinculos);
+            },
+            error: err => console.error('ERRO-->', err),
+            complete: () => {
+              this.router.navigate(['/cadastro/excluir']);
+            }
+          })
+        );
+      } else {
+        this.router.navigate(['/cadastro/excluir']);
+      }
+    } else {
+      console.log('SEM PERMISSAO');
+    }
+  }
+
+  cadastroApagar2(indice,cad) {
+    if ((this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.cadastro_apagar) && this.permArquivo(cad)) {
+      if (cad.vinculos > 0) {
+        this.cs.permissaoVinculos = this.cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum);
+      }
+      this.cs.cadastroApagar = cad;
+      this.cs.idx = +indice;
+      this.cs.Contexto = undefined;
+      if (this.cs.permissaoVinculos) {
+        this.sub2.push(this.cs.getCadastroVinculos(+cad.cadastro_id)
+          .pipe(take(1))
+          .subscribe({
+            next: (dados) => {
+              this.cs.cadastroVinculos = dados;
+              console.log('cadastroVinculos', this.cadastroVinculos);
+            },
+            error: err => console.error('ERRO-->', err),
+            complete: () => {
+              this.showApagar = true;
+            }
+          })
+        );
+      } else {
+        this.showApagar = true;
+      }
+    } else {
       console.log('SEM PERMISSAO');
     }
   }

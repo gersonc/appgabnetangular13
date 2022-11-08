@@ -21,6 +21,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EtiquetaPrintComponent } from './etiqueta-print/etiqueta-print.component';
 import { EtiquetaCelulaComponent } from './etiqueta-celula/etiqueta-celula.component';
 import {CardModule} from "primeng/card";
+import {ScrollPanelModule} from "primeng/scrollpanel";
 // import {ProgressSpinnerModule } from "primeng";
 
 @NgModule({
@@ -39,7 +40,8 @@ import {CardModule} from "primeng/card";
         DialogModule,
         ProgressSpinnerModule,
         ConfirmDialogModule,
-        CardModule
+        CardModule,
+        ScrollPanelModule
     ],
     exports: [
         EtiquetaConfigComponent,

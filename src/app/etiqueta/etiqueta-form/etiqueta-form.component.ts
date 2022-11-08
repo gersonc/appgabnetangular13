@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { EtiquetaClass } from '../_models';
-import { CarregadorService } from '../../_services';
+import {EtiquetaClass, EtiquetaInterface} from '../_models';
 import { EtiquetaConfigService } from '../_services';
-import { MessageService } from 'primeng/api';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import {MsgService} from "../../_services/msg.service";
@@ -15,7 +13,7 @@ import {MsgService} from "../../_services/msg.service";
 })
 export class EtiquetaFormComponent implements OnInit {
   @ViewChild('etqForm', { static: true }) etqtForm: FormGroup;
-  etqForm: EtiquetaClass;
+  etqForm: EtiquetaInterface;
   acao: string;
   mostraBtn = true;
   resp: any[] = [];
@@ -30,16 +28,15 @@ export class EtiquetaFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.etqForm = this.ecs.etqForm;
     this.acao = this.ecs.etqAcao;
     if (this.acao === 'INCLUIR') {
-      this.ecs.etqForm = new EtiquetaClass();
       this.ecs.etqForm.etq_id = 0;
     }
   }
 
 
   cancelar() {
-    console.log('cancelar', this.ecs.etqForm);
     this.ecs.etqExecutado = false;
     this.ecs.formDisplay = false;
   }
@@ -111,12 +108,16 @@ export class EtiquetaFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.ecs.etqAcao === 'INCLUIR') {
+    console.log('verificaRequired()', this.verificaRequired());
+    if (this.verificaRequired()) {
+      this.criarEnvio(this.ecs.etqForm);
+    }
+    /*if (this.ecs.etqAcao === 'INCLUIR') {
       this.incluirEtiqueta(this.ecs.etqForm);
     }
     if (this.ecs.etqAcao === 'ALTERAR') {
       this.alterarEtiqueta(this.ecs.etqForm);
-    }
+    }*/
   }
 
   verificaRequired(): boolean {
@@ -142,6 +143,10 @@ export class EtiquetaFormComponent implements OnInit {
       this.sub.forEach(s => s.unsubscribe());
       this.ecs.formDisplay = false;
     }
+  }
+
+  criarEnvio(e: EtiquetaInterface) {
+    console.log('criarEnvio',e);
   }
 
 

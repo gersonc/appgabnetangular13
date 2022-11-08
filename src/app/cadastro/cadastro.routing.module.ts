@@ -84,7 +84,7 @@ const cadastroRoutes: Routes = [
           dados: CadastroFormResolver
         }
       },
-      {
+      /*{
         path: 'excluir/:id',
         component: CadastroExcluirComponent,
         canActivate: [AuthChildGuard],
@@ -95,7 +95,17 @@ const cadastroRoutes: Routes = [
         resolve: {
           dados: CadastroExcluirResolver
         }
+      },*/
+      {
+        path: 'excluir',
+        component: CadastroExcluirComponent,
+        canActivate: [AuthChildGuard],
+        data: {
+          rules: Rule.cadastro,
+          scopes: Scope.cadastro_apagar
+        }
       },
+
 
 
       /*{

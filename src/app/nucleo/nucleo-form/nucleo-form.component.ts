@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CarregadorService } from '../../_services';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { NucleoService } from '../_services/nucleo.service';
-import { LocalClass, LocalInterface } from '../_models/nucleo';
-import { MessageService, SelectItem } from 'primeng/api';
+import { LocalClass } from '../_models/nucleo';
+import { SelectItem } from 'primeng/api';
 import { DropdownService } from '../../_services';
+import {MsgService} from "../../_services/msg.service";
+import {DdService} from "../../_services/dd.service";
 
 @Component({
   selector: 'app-nucleo-form',
@@ -21,10 +22,12 @@ export class NucleoFormComponent implements OnInit {
   public ddUsuario_id: SelectItem[];
 
   constructor(
-    private cs: CarregadorService,
-    private messageService: MessageService,
+    // private cs: CarregadorService,
+    // private messageService: MessageService,
+    private ms: MsgService,
     public ns: NucleoService,
-    private dd: DropdownService
+    // private dd: DropdownService
+    private dd: DdService,
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +42,8 @@ export class NucleoFormComponent implements OnInit {
   carregaDropDown() {
     this.ns.nuMostraBt = true;
     if (!sessionStorage.getItem('dropdown-usuario')) {
-      this.sub.push(this.dd.postDropdownNomeId({tabela: 'usuario', campo_id: 'usuario_id', campo_nome: 'usuario_nome'})
+      //this.sub.push(this.dd.postDropdownNomeId({tabela: 'usuario', campo_id: 'usuario_id', campo_nome: 'usuario_nome'})
+      this.sub.push(this.dd.getDd('dropdown-usuario')
         .pipe(take(1))
         .subscribe((dados) => {
             this.ddUsuario_id = dados;
@@ -64,8 +68,6 @@ export class NucleoFormComponent implements OnInit {
   incluirNucleo(et: LocalClass) {
     this.ns.nuMostraBt = false;
     if (this.verificaRequired()) {
-      this.messageService.clear('msgForm');
-      this.cs.mostraCarregador();
       this.sub.push(this.ns.incluir(et)
         .pipe(take(1))
         .subscribe({
@@ -74,7 +76,6 @@ export class NucleoFormComponent implements OnInit {
           },
           error: err => console.error('ERRO-->', err),
           complete: () => {
-            this.cs.escondeCarregador();
             if (this.resp[0]) {
               this.ns.nuExecutado = true;
               this.ns.nuForm.local_nome = this.ns.nuForm.local_nome.toString().toUpperCase();
@@ -88,16 +89,19 @@ export class NucleoFormComponent implements OnInit {
                 this.ns.nuForm.local_color = this.ns.nuForm.local_color.toString().toUpperCase();
               }
               this.ns.nuForm.local_id = +this.resp[1];
-              this.messageService.add({key: 'msgForm', severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'INCLUIR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'info', summary: 'INCLUIR: ', detail: this.resp[2]});
             } else {
-              this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: this.resp[2]});
               this.ns.nuMostraBt = true;
             }
           }
         })
       );
     } else {
-      this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: 'Dados inválidos'});
+      this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'INCLUIR', detail: this.resp[2]});
+      // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'INCLUIR: ', detail: 'Dados inválidos'});
       this.ns.nuMostraBt = true;
     }
 
@@ -106,8 +110,6 @@ export class NucleoFormComponent implements OnInit {
   alterarNucleo(et: LocalClass) {
     this.ns.nuMostraBt = false;
     if (this.verificaRequired()) {
-      this.messageService.clear('msgForm');
-      this.cs.mostraCarregador();
       this.sub.push(this.ns.alterar(et)
         .pipe(take(1))
         .subscribe({
@@ -116,7 +118,6 @@ export class NucleoFormComponent implements OnInit {
           },
           error: err => console.error('ERRO-->', err),
           complete: () => {
-            this.cs.escondeCarregador();
             if (this.resp[0]) {
               this.ns.nuExecutado = true;
               this.ns.nuForm.local_nome = this.ns.nuForm.local_nome.toString().toUpperCase();
@@ -129,16 +130,19 @@ export class NucleoFormComponent implements OnInit {
               if (this.ns.nuForm.local_color) {
                 this.ns.nuForm.local_color = this.ns.nuForm.local_color.toString().toUpperCase();
               }
-              this.messageService.add({key: 'msgForm', severity: 'info', summary: 'ALTERAR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'ALTERAR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'info', summary: 'ALTERAR: ', detail: this.resp[2]});
             } else {
-              this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
+              this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ALTERAR', detail: this.resp[2]});
+              // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: this.resp[2]});
               this.ns.nuMostraBt = true;
             }
           }
         })
       );
     } else {
-      this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: 'Dados inválidos'});
+      this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ALTERAR', detail: 'Dados inválidos'});
+      // this.messageService.add({key: 'msgForm', severity: 'warn', summary: 'ALTERAR: ', detail: 'Dados inválidos'});
       this.ns.nuMostraBt = true;
     }
   }
@@ -159,14 +163,29 @@ export class NucleoFormComponent implements OnInit {
     return this.nForm.valid;
   }
 
-  verificaValidTouched(campo) {
+  /*verificaValidTouched(campo) {
     return !campo.valid && campo.touched;
+  }*/
+
+  verificaValidTouched(campo) {
+    return (
+      !campo.valid &&
+      (campo.touched || campo.dirty)
+    );
+  }
+
+  verificaValidacoesForm() {
+    Object.keys(this.nForm.controls).forEach(campo => {
+      const controle = this.nForm.controls[campo];
+      controle.markAsDirty();
+      controle.markAsTouched();
+    });
   }
 
   aplicaCssErro(campo) {
     return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
+      'ng-invalid': this.verificaValidTouched(campo),
+      'ng-dirty': this.verificaValidTouched(campo)
     };
   }
 

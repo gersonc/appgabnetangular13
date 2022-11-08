@@ -133,17 +133,19 @@ export class ConfiguracaoComponent implements OnInit {
   medidas: any = {};
   altura = `${+WindowsService.getCorpo().altura}` + 'px';
   altura2 = `${WindowsService.getCorpo().altura - 200}` + 'px';
+  ddAltura = `${(+WindowsService.getCorpo().altura / 5)}` + 'px';
 
   constructor(
     private aut: AuthenticationService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    // private activatedRoute: ActivatedRoute,
+    // private router: Router,
     public cfs: ConfiguracaoService
   ) {
 
   }
 
   ngOnInit(): void {
+    console.log('Janela',+WindowsService.all());
     if (this.aut.usuario_incluir || this.aut.usuario_alterar || this.aut.usuario_apagar ) {
       this.menuCfgItens.push(
         {
@@ -170,6 +172,7 @@ export class ConfiguracaoComponent implements OnInit {
   }
 
   selectCfg(ev) {
+    console.log('+WindowsService.getCorpo().altura / 5)',WindowsService.getPrincial());
     this.componente = this.cfgItem.code;
     switch (this.componente) {
       case 'etiqueta_config': {

@@ -49,7 +49,7 @@
   <!--*** TOPO *****************************************************************************************************-->
 
   <ng-template pTemplate="caption">
-    <div [ngClass]="{'hide-datatable': md.mdt}">
+    <div id="tablecaption" [ngClass]="{'hide-datatable': md.mdt}">
       <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
 
         <div class="p-d-inline-flex">
@@ -198,7 +198,7 @@
                 >
                 </button>
               </div>-->
-              <div *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar" class="p-mr-2">
+              <div *ngIf="(aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar) && permArquivo(cad)" class="p-mr-2">
                 <button
                   pButton
                   pRipple
@@ -282,7 +282,7 @@
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-cadastro-excluir *ngIf="showApagar" [cadVin]="cadastroVinculos" (hideApagar)="escondeApagar()"></app-cadastro-excluir>
+    <app-cadastro-excluir *ngIf="showApagar" [cadVin]="cadastroVinculos" [permissaoVinculos]="" (hideApagar)="escondeApagar()"></app-cadastro-excluir>
   </p-dialog>
 </ng-container>
 

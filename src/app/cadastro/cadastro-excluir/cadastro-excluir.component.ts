@@ -14,7 +14,9 @@ import {Subscription} from "rxjs";
   styleUrls: ['./cadastro-excluir.component.css']
 })
 export class CadastroExcluirComponent implements OnInit {
-
+  @Input() cadVin?: CadastroVinculosI | null = null;
+  @Input() permissaoVinculos: Boolean = false;
+  @Output() hideApagar = new EventEmitter<boolean>();
   idx = -1;
   sub: Subscription[] = [];
   botaoEnviarVF = false;
@@ -29,6 +31,7 @@ export class CadastroExcluirComponent implements OnInit {
 
   ngOnInit(): void {
     this.idx = this.cs.idx;
+    console.log('cadVin', this.cadVin);
   }
 
 
@@ -131,6 +134,7 @@ export class CadastroExcluirComponent implements OnInit {
   }
 
   voltarListar() {
+    this.cs.cadastroVinculos = null;
     if (sessionStorage.getItem('cadastro-busca')) {
       this.router.navigate(['/cadastro/listar/busca']);
     } else {
@@ -139,6 +143,7 @@ export class CadastroExcluirComponent implements OnInit {
   }
 
   voltar() {
+    this.cs.cadastroVinculos = null;
     this.cs.cadastroApagar = null;
     this.cs.stateSN = false;
     sessionStorage.removeItem('cadastro-busca');

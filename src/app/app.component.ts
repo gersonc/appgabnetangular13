@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
        this.as.verificaPermissoes();
     }
 
-
+    WindowsService.all();
   }
 
   onResized(id: string, event: ResizedEvent): void {

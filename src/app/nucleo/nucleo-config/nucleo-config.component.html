@@ -74,7 +74,7 @@
   [style]="{ width: '800px'}"
   (onHide)="fechaDialog()"
 >
-  <app-nucleo-form></app-nucleo-form>
+  <app-nucleo-form *ngIf="ns.formDisplay"></app-nucleo-form>
 </p-dialog>
 <p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
 

@@ -1,11 +1,11 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { EtiquetaClass, EtiquetaInterface } from "../_models";
+import {  ConfirmationService } from 'primeng/api';
+import { EtiquetaInterface } from "../_models";
 import { EtiquetaConfigService } from "../_services";
-import { CarregadorService, AuthenticationService } from "../../_services";
+import { AuthenticationService } from "../../_services";
 import { Subscription } from "rxjs";
 import { take } from "rxjs/operators";
-import {ConfiguracaoModel, ConfiguracaoModelInterface} from "../../configuracao/_models/configuracao-model";
+import {ConfiguracaoModelInterface} from "../../configuracao/_models/configuracao-model";
 import {MsgService} from "../../_services/msg.service";
 
 
@@ -45,6 +45,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.etiqueta = this.ecs.novaEtiqueta();
     this.perIncluir = this.alt.configuracao_incluir;
     this.perAltarar = this.alt.configuracao_alterar;
     this.perDeletar = this.alt.configuracao_apagar;
@@ -52,7 +53,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   }
 
   listar() {
-    this.etiquetas = null;
+    this.etiquetas = [];
     this.sub.push(this.ecs.listar()
       .pipe(take(1))
       .subscribe({
@@ -70,7 +71,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   onIncluindo() {
     this.acao = 'INCLUIR ETIQUETA'
     this.ecs.etqAcao = 'INCLUIR';
-    this.ecs.etqForm = new EtiquetaClass();
+    this.ecs.etqForm = this.ecs.novaEtiqueta();
     this.ecs.formDisplay = true;
   }
 
@@ -129,7 +130,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
       }
     }
     setTimeout(() => {
-      this.ecs.etqForm = new EtiquetaClass();
+      this.ecs.etqForm = this.ecs.novaEtiqueta();
     }, 1000);
   }
 
