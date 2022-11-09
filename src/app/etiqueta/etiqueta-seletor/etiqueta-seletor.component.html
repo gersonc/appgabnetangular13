@@ -1,8 +1,109 @@
-  <ng-container *ngIf="etiquetaService.total > 0">
-    <div>
-      NÚMERO DE ETIQUETAS: {{etiquetaService.total}}
-    </div>
-  </ng-container>
-  <div style="min-height: 430px">
-    <p-dropdown #et [options]="ddEtiqueta" placeholder="Selecione o modelo de etiqueta." optionLabel="label" (onChange)="imprimeEtiqueta($event.value)"></p-dropdown>
+<ng-container *ngIf="etiquetaService.total > 0">
+  <div>
+    NÚMERO DE ETIQUETAS: {{etiquetaService.total}}
   </div>
+</ng-container>
+<div class="etq-seletor">
+  <div>
+    <div class="p-grid">
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+        <div class="registros p-shadow-1">
+        <h5>Selecione o modelo de etiqueta.</h5>
+          <div class="etqvalor">
+        <p-dropdown
+          #et
+          id="seletor"
+          [options]="ddEtiqueta"
+          placeholder="Selecione o modelo de etiqueta."
+          optionLabel="label"
+          appendTo="body"
+          (onChange)="imprimeEtiqueta($event.value)"
+        ></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="etiqueta !== null">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Marca</h5>
+            <div class="etqvalor">{{etiqueta.etq_marca}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Modelo</h5>
+            <div class="etqvalor">{{etiqueta.etq_modelo}}</div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Linhas</h5>
+            <div class="etqvalor">{{etiqueta.etq_linhas}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Colunas</h5>
+            <div class="etqvalor">{{etiqueta.etq_colunas}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Largura (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_largura}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Altura</h5>
+            <div class="etqvalor">{{etiqueta.etq_altura}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Marg. Lat. (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_margem_lateral}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Marg. Sup. (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_margem_superior}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Dist. Vert. (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_distancia_vertical}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Dist. Horz. (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_distancia_horizontal}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Folha Horz. (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_folha_horz}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Folha Vert. (mm)</h5>
+            <div class="etqvalor">{{etiqueta.etq_folha_vert}}</div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">6</div>
+        </div>
+      </ng-container>
+
+
+    </div>
+
+
+  </div>
+</div>

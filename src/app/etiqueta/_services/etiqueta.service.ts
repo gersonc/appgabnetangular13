@@ -49,7 +49,59 @@ export class EtiquetaService {
   }
 
 
-  imprimirEtiqueta(etq_id: number) {
+  imprimirEtiqueta(etq: EtiquetaInterface) {
+    this.etq = etq;
+    const etqsession = 'etiqueta-' + this.etq.etq_id;
+    sessionStorage.setItem(etqsession, JSON.stringify(this.etq));
+    if (this.pw !== null) {
+      this.pw.close();
+      this.pw = null;
+    }
+    if (this.ecs.tplistagem !== 3) {
+      this.printSelectedArea();
+    } else {
+      this.getEtiquetas();
+    }
+
+
+    /*const etqsession = 'etiqueta-' + etq_id;
+    if (!sessionStorage.getItem(etqsession)) {
+      this.getConfigEtiqueta(etq_id)
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            this.etq = dados;
+          },
+          error: err => console.log('erro', err.toString()),
+          complete: () => {
+            sessionStorage.setItem(etqsession, JSON.stringify(this.etq));
+            if (this.pw !== null) {
+              this.pw.close();
+              this.pw = null;
+            }
+            if (this.ecs.tplistagem !== 3) {
+              this.printSelectedArea();
+            } else {
+              this.getEtiquetas();
+            }
+
+          }
+        });
+    } else {
+      this.etq = JSON.parse(sessionStorage.getItem(etqsession));
+      if (this.pw !== null) {
+        this.pw.close();
+        this.pw = null;
+      }
+      if (this.ecs.tplistagem !== 3) {
+        this.printSelectedArea();
+      } else {
+        this.getEtiquetas();
+      }
+    }*/
+  }
+
+  imprimirEtiqueta2(etq_id: number) {
     const etqsession = 'etiqueta-' + etq_id;
     if (!sessionStorage.getItem(etqsession)) {
       this.getConfigEtiqueta(etq_id)
@@ -86,6 +138,8 @@ export class EtiquetaService {
       }
     }
   }
+
+
 
   printSelectedArea(res?: CadastroEtiquetaI[]) {
     if (res === undefined) {

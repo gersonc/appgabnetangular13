@@ -19135,6 +19135,38 @@ table.fixTableHead tbody {
 }
 
 
+.etq-seletor{
+  background: var(--formularios-bg) !important;
+  padding: 1rem;
+  margin: .5rem;
+  border-radius: 1em;
+  font-size: initial;
+}
+
+.etq-seletor .p-grid {
+  padding: .3rem;
+}
+
+.etq-seletor h5{
+  font-size: .7rem;
+  font-weight: var(--formulario-field-label-font-weight) !important;
+}
+
+.etq-seletor .p-col-12, .etq-seletor .p-sm-12,.etq-seletor .p-md-12,.etq-seletor .p-lg-12,.etq-seletor .p-xl-12,.etq-seletor .p-md-6,.etq-seletor .p-lg-6,.etq-seletor .p-xl-6 {
+  font-size: .8rem;
+  padding: .2rem;
+}
+
+
+.etq-lista{
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+  padding: .5rem;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+
 /*
 
 .ddteste .p-dropdown-item {

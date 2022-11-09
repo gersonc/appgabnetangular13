@@ -37,7 +37,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   // @ContentChild('dtb', {static: false}) public dtb: Table;
   // altura = `${WindowsService.altura - 170}` + 'px';
   altura = WindowsService.alturaTabela;
-  meiaAltura = `${(WindowsService.altura - 210) / 2}` + 'px';
+  meiaAltura = `${(WindowsService.alturaTabelaNumber ) / 2.5}` + 'px';
   sub: Subscription[] = [];
   sub2: Subscription[] = [];
   showDetalhe = false;

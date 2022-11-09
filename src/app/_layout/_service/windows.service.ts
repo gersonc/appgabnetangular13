@@ -99,6 +99,13 @@ export class WindowsService {
     return  (+m - t) + 'px';
   }
 
+  public static get alturaTabelaNumber(): number {
+    const doc: Document = WindowsService.doc;
+    const m: number = doc.getElementById('main')!.clientHeight;
+    const t: number = doc.getElementById('topoprincipal')!.clientHeight * 3.68;
+    return  (+m - t);
+  }
+
   public static getApp(): any {
     return  {
       altura: document.getElementById('app')!.offsetHeight,

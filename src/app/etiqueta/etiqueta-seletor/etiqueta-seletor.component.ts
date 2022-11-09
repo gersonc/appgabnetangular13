@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import {DdService} from "../../_services/dd.service";
 import {take} from "rxjs/operators";
 import {EtiquetaDropdownI} from "../_models/etiqueta-dropdown-i";
+import {EtiquetaInterface} from "../_models";
 
 
 @Component({
@@ -16,6 +17,7 @@ import {EtiquetaDropdownI} from "../_models/etiqueta-dropdown-i";
 export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
   @Output() hideEtiqueta = new EventEmitter<boolean>();
   ddEtiqueta: EtiquetaDropdownI[] = [];
+  etiqueta: EtiquetaInterface | null = null;
   etq_id: number;
   sub: Subscription[] = [];
 
@@ -54,10 +56,24 @@ export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
     this.ddEtiqueta = JSON.parse(sessionStorage.getItem('dropdown-etiqueta'));
   }
 
-  imprimeEtiqueta(event) {
-    console.log('imprimeEtiqueta', event);
-    /*const etqid = event.value;
-    this.etiquetaService.imprimirEtiqueta(etqid);*/
+  imprimeEtiqueta(e: EtiquetaDropdownI) {
+    console.log('imprimeEtiqueta', e);
+    this.etiqueta = {
+      etq_id: e.etq_id,
+      etq_marca: e.etq_marca,
+      etq_modelo: e.etq_modelo,
+      etq_margem_superior: e.etq_margem_superior,
+      etq_margem_lateral: e.etq_margem_lateral,
+      etq_distancia_vertical: e.etq_distancia_vertical,
+      etq_distancia_horizontal: e.etq_distancia_horizontal,
+      etq_altura: e.etq_altura,
+      etq_largura: e.etq_largura,
+      etq_linhas: e.etq_linhas,
+      etq_colunas: e.etq_colunas,
+      etq_folha_horz: e.etq_folha_horz,
+      etq_folha_vert: e.etq_folha_vert
+    };
+    // this.etiquetaService.imprimirEtiqueta(this.etiqueta);
   }
 
   fechar() {
