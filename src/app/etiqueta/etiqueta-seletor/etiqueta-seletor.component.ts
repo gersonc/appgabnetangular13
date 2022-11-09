@@ -5,6 +5,7 @@ import { EtiquetaService } from '../_services';
 import { Subscription } from 'rxjs';
 import {DdService} from "../../_services/dd.service";
 import {take} from "rxjs/operators";
+import {EtiquetaDropdownI} from "../_models/etiqueta-dropdown-i";
 
 
 @Component({
@@ -14,7 +15,7 @@ import {take} from "rxjs/operators";
 })
 export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
   @Output() hideEtiqueta = new EventEmitter<boolean>();
-  ddEtiqueta: SelectItem[] = [];
+  ddEtiqueta: EtiquetaDropdownI[] = [];
   etq_id: number;
   sub: Subscription[] = [];
 
@@ -54,8 +55,9 @@ export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
   }
 
   imprimeEtiqueta(event) {
-    const etqid = event.value;
-    this.etiquetaService.imprimirEtiqueta(etqid);
+    console.log('imprimeEtiqueta', event);
+    /*const etqid = event.value;
+    this.etiquetaService.imprimirEtiqueta(etqid);*/
   }
 
   fechar() {

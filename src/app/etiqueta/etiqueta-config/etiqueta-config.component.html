@@ -2,7 +2,7 @@
 <div class="card">
 
   <p-table
-    [value]="etiquetas"
+    [value]="ecs.etiquetas"
     dataKey="etq_id"
     [tableStyle]="{'font-size':'var(--font-padrao)'}"
     styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
@@ -66,10 +66,10 @@
           {{etiqueta.etq_folha_vert}}
         </td>
         <td style="text-align:center">
-          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(etiqueta)" class="p-button-raised p-button-rounded p-button-sm" [disabled]="!perAltarar"></button>
+          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(etiqueta, ri)" class="p-button-raised p-button-rounded p-button-sm" [disabled]="!perAltarar"></button>
         </td>
         <td style="text-align:center">
-          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
+          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta, ri)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
         </td>
       </tr>
     </ng-template>
@@ -82,12 +82,13 @@
   [(visible)]="ecs.formDisplay"
   [modal]="true"
   [closable]="true"
-  styleClass="tablistagem"
   [blockScroll]="true"
-  [style]="{ width: '800px' }"
-  (onHide)="fechaDialog()"
+  styleClass="tablistagem"
+  [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
+  [style]="{width: '60vw'}"
 >
-  <app-etiqueta-form *ngIf="ecs.formDisplay"></app-etiqueta-form>
+  <app-etiqueta-form *ngIf="ecs.formDisplay" (hideForm)="hideForm($event)"></app-etiqueta-form>
 </p-dialog>
-<p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
+<p-confirmPopup></p-confirmPopup>
+<!--<p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>-->
 

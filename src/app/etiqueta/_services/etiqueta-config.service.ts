@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { UrlService } from "../../_services";
-import { EtiquetaClass, EtiquetaInterface } from "../_models";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {UrlService} from "../../_services";
+import {EtiquetaInterface} from "../_models";
+import {EtiquetaDropdownI} from "../_models/etiqueta-dropdown-i";
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +14,31 @@ export class EtiquetaConfigService {
   etqAcao: string;
   etqExecutado = false;
   formDisplay = false;
+  etiquetas: EtiquetaInterface[];
+  etiqueta: EtiquetaInterface;
+  idx: number;
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
-  ) { }
+  ) {
+  }
 
   listar(): Observable<EtiquetaInterface[]> {
     const url = this.url.etiquetaconfig + '/listar';
     return this.http.get<EtiquetaInterface[]>(url);
   }
 
-  incluir(et: EtiquetaClass): Observable<any[]> {
+  incluir(et: EtiquetaInterface): Observable<any[]> {
     const url = this.url.etiquetaconfig + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any[]> (url, et, httpOptions);
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(url, et, httpOptions);
   }
 
-  alterar(et: EtiquetaClass): Observable<any[]> {
+  alterar(et: EtiquetaInterface): Observable<any[]> {
     const url = this.url.etiquetaconfig;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.put<any[]> (url, et, httpOptions);
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.put<any[]>(url, et, httpOptions);
   }
 
   excluir(etq_id: number): Observable<any[]> {
@@ -58,4 +63,47 @@ export class EtiquetaConfigService {
       etq_folha_vert: 0
     }
   }
+
+  dropToList(et: EtiquetaDropdownI[]): EtiquetaInterface[] {
+    return et.map((e) => {
+      return {
+        etq_id: e.etq_id,
+        etq_marca: e.etq_marca,
+        etq_modelo: e.etq_modelo,
+        etq_margem_superior: e.etq_margem_superior,
+        etq_margem_lateral: e.etq_margem_lateral,
+        etq_distancia_vertical: e.etq_distancia_vertical,
+        etq_distancia_horizontal: e.etq_distancia_horizontal,
+        etq_altura: e.etq_altura,
+        etq_largura: e.etq_largura,
+        etq_linhas: e.etq_linhas,
+        etq_colunas: e.etq_colunas,
+        etq_folha_horz: e.etq_folha_horz,
+        etq_folha_vert: e.etq_folha_vert
+      };
+    });
+  }
+
+  listToDrop(et: EtiquetaInterface[]): EtiquetaDropdownI[] {
+    return et.map((e) => {
+      return {
+        label: e.etq_marca + ' - ' + e.etq_modelo,
+        etq_id: e.etq_id,
+        etq_marca: e.etq_marca,
+        etq_modelo: e.etq_modelo,
+        etq_margem_superior: e.etq_margem_superior,
+        etq_margem_lateral: e.etq_margem_lateral,
+        etq_distancia_vertical: e.etq_distancia_vertical,
+        etq_distancia_horizontal: e.etq_distancia_horizontal,
+        etq_altura: e.etq_altura,
+        etq_largura: e.etq_largura,
+        etq_linhas: e.etq_linhas,
+        etq_colunas: e.etq_colunas,
+        etq_folha_horz: e.etq_folha_horz,
+        etq_folha_vert: e.etq_folha_vert
+      };
+    });
+  }
+
+
 }

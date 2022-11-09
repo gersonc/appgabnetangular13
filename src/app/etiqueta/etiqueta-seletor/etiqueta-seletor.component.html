@@ -4,5 +4,5 @@
     </div>
   </ng-container>
   <div style="min-height: 430px">
-    <p-dropdown [options]="ddEtiqueta" placeholder="Selecione o modelo de etiqueta." (onChange)="imprimeEtiqueta($event)"></p-dropdown>
+    <p-dropdown #et [options]="ddEtiqueta" placeholder="Selecione o modelo de etiqueta." optionLabel="label" (onChange)="imprimeEtiqueta($event.value)"></p-dropdown>
   </div>

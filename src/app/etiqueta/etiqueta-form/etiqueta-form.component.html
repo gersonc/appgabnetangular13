@@ -1,6 +1,6 @@
 <!--<p-scrollPanel [styleClass]="'formulario'">-->
   <!--<div class="formulario externo">-->
-  <form (ngSubmit)="onSubmit()" #etqForm="ngForm">
+  <form (ngSubmit)="onSubmit(etqtForm)" #etqtForm="ngForm">
     <div class="p-fluid formulario-bg-externo">
 
       <div class="p-d-flex p-jc-center">
@@ -18,10 +18,10 @@
               <div class="p-fluid p-formgrid p-grid formulario">
 
 
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_marca)">
+                <div [ngClass]="aplicaCssErro(etq_marca)" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
                   <label for="etq_marca">Marca</label>
                   <input pInputText id="etq_marca" name="etq_marca" #etq_marca="ngModel" type="text" [maxlength]="30"
-                         [(ngModel)]="ecs.etqForm.etq_marca" [required]="true" [ngClass]="aplicaCssErro(etq_marca)">
+                         [(ngModel)]="ecs.etqForm.etq_marca" [required]="true" [minlength]="3" [ngClass]="aplicaCssErro(etq_marca)">
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_marca)"
                     msgErro="Marca é obrigatório.">
@@ -30,7 +30,7 @@
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_modelo)">
                   <label for="etq_modelo">Modelo</label>
                   <input pInputText id="etq_modelo" name="etq_modelo" #etq_modelo="ngModel" type="text" [maxlength]="20"
-                         [(ngModel)]="ecs.etqForm.etq_modelo" [required]="true" [ngClass]="aplicaCssErro(etq_modelo)">
+                         [(ngModel)]="ecs.etqForm.etq_modelo" [required]="true" [minlength]="3" [ngClass]="aplicaCssErro(etq_modelo)">
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_modelo)"
                     msgErro="Modelo é obrigatório.">
@@ -148,7 +148,7 @@
 
           </div>
         </div>
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno p-my-3"></div>
         <!--<div class="p-grid">
           <div class="p-col-10 p-offset-1">&nbsp;</div>
         </div>-->
@@ -167,15 +167,15 @@
           <div class="p-grid p-input-filled">
             <div class="p-col-12 formulario">
               <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-mr-2">
+              <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
+                <div class="p-mx-2">
                     <button
                       pButton
                       *ngIf="mostraBtn && ecs.etqAcao === 'INCLUIR'"
                       label="Incluir"
                       type="submit"
                       class="p-button-rounded"
-                      [disabled]="!etqForm.valid"
+                      [disabled]="!etqtForm.valid || btnDesativado"
                     ></button>
                   </div>
                   <div class="p-mr-2">
@@ -185,7 +185,7 @@
                       label="Alterar"
                       class="p-button-rounded"
                       type="submit"
-                      [disabled]="!etqForm.valid"
+                      [disabled]="!etqtForm.valid || btnDesativado"
                     ></button>
                   </div>
                   <div class="p-mr-2">
@@ -196,6 +196,7 @@
                       class="p-button-rounded p-button-secondary"
                       label="Cancelar / Fechar"
                       (click)="cancelar()"
+                      [disabled]="btnDesativado"
                     ></button>
                   </div>
                 </div>
