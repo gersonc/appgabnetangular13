@@ -59,7 +59,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   //permissaoVinculos = false;
 
   constructor(
-    //private mm: MostraMenuService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,
     private activatedRoute: ActivatedRoute,
@@ -71,7 +70,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    console.log('tablecaption', this.altura);
     this.cp.criaPermissao();
     this.solVer = this.aut.solicitacaoVersao;
     if (this.aut.solicitacao_listar) {
@@ -278,7 +276,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraSelectColunas(): void {
-    console.log('tablecaption',this.altura);
     this.cs.tabela.mostraSeletor = true;
   }
 
@@ -293,25 +290,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   hideEtiqueta(ev) {
     this.cs.showEtiquetas = false;
   }
-
-  /*rowColor(field: string, vl1: number): string | null {
-    if (field !== 'cadastro_situacao_nome') {
-      return null;
-    }
-
-    if (field === 'cadastro_situacao_nome') {
-      switch (vl1) {
-        case 0:
-          return 'status-1';
-        case 1:
-          return 'status-3';
-        case 2:
-          return 'status-2';
-        default:
-          return 'status-1';
-      }
-    }
-  }*/
 
   montaMenuContexto() {
     this.contextoMenu = [
@@ -461,7 +439,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (dados) => {
               this.cs.cadastroVinculos = dados;
-              console.log('cadastroVinculos', this.cadastroVinculos);
             },
             error: err => console.error('ERRO-->', err),
             complete: () => {
@@ -491,7 +468,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (dados) => {
               this.cs.cadastroVinculos = dados;
-              console.log('cadastroVinculos', this.cadastroVinculos);
             },
             error: err => console.error('ERRO-->', err),
             complete: () => {

@@ -1,12 +1,12 @@
 import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
-import { SelectItem } from 'primeng/api';
-import { DynamicDialogRef, DynamicDialogConfig} from 'primeng/dynamicdialog';
 import { EtiquetaService } from '../_services';
 import { Subscription } from 'rxjs';
 import {DdService} from "../../_services/dd.service";
 import {take} from "rxjs/operators";
 import {EtiquetaDropdownI} from "../_models/etiqueta-dropdown-i";
 import {EtiquetaInterface} from "../_models";
+import {EtiquetaCadastroService} from "../_services/etiqueta-cadastro.service";
+import {WindowsService} from "../../_layout/_service";
 
 
 @Component({
@@ -21,9 +21,11 @@ export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
   etq_id: number;
   sub: Subscription[] = [];
 
+
   constructor(
     private dd: DdService,
-    public etiquetaService: EtiquetaService
+    public etiquetaService: EtiquetaService,
+    public ecs: EtiquetaCadastroService
   ) { }
 
   ngOnInit() {
@@ -57,7 +59,8 @@ export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
   }
 
   imprimeEtiqueta(e: EtiquetaDropdownI) {
-    console.log('imprimeEtiqueta', e);
+    this.ecs.mostraBtn = true;
+    this.ecs.btnDesativado = false;
     this.etiqueta = {
       etq_id: e.etq_id,
       etq_marca: e.etq_marca,
@@ -73,15 +76,34 @@ export class EtiquetaSeletorComponent implements OnInit, OnDestroy {
       etq_folha_horz: e.etq_folha_horz,
       etq_folha_vert: e.etq_folha_vert
     };
-    // this.etiquetaService.imprimirEtiqueta(this.etiqueta);
+    this.getPosicao();
+    this.etiquetaService.etq = this.etiqueta;
+  }
+
+  implimir() {
+    this.ecs.btnDesativado = true;
+    this.ecs.btnClDesativado = true;
+    this.etiquetaService.imprimirEtiqueta(this.etiqueta);
   }
 
   fechar() {
     this.hideEtiqueta.emit(true);
   }
 
+  getPosicao() {
+    const tela = WindowsService.getTela();
+    this.etiquetaService.posicao = 'top=0,screenY=0,left='+Math.ceil((tela.largura / 2) - (this.etiqueta.etq_folha_horz * 2))+','+'screenX='+Math.ceil((tela.largura / 2) - (this.etiqueta.etq_folha_horz * 2))+',';
+  }
+t
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
+    delete this.etiquetaService.posicao;
+    delete this.ecs.cadastro;
+    delete this.ecs.busca;
+    delete this.ecs.tplistagem;
+    delete this.ecs.tplistagemLabel;
+    delete this.ecs.numEtqInicial;
+    delete this.ecs.numEtqFinal;
   }
 
 }

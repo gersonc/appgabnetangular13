@@ -8,20 +8,22 @@
     <div class="p-grid">
       <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
         <div class="registros p-shadow-1">
-        <h5>Selecione o modelo de etiqueta.</h5>
+          <h5>Selecione o modelo de etiqueta.</h5>
           <div class="etqvalor">
-        <p-dropdown
-          #et
-          id="seletor"
-          [options]="ddEtiqueta"
-          placeholder="Selecione o modelo de etiqueta."
-          optionLabel="label"
-          appendTo="body"
-          (onChange)="imprimeEtiqueta($event.value)"
-        ></p-dropdown>
+            <p-dropdown
+              #et
+              id="seletor"
+              [options]="ddEtiqueta"
+              placeholder="Selecione o modelo de etiqueta."
+              optionLabel="label"
+              appendTo="body"
+              (onChange)="imprimeEtiqueta($event.value)"
+            ></p-dropdown>
           </div>
         </div>
       </div>
+
+
       <ng-container *ngIf="etiqueta !== null">
         <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
           <div class="registros p-shadow-1">
@@ -96,14 +98,82 @@
             <div class="etqvalor">{{etiqueta.etq_folha_vert}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-          <div class="registros p-shadow-1">6</div>
-        </div>
       </ng-container>
 
+      <ng-container *ngIf="ecs.tplistagemLabel !== null">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Registro</h5>
+            <div class="etqvalor">{{ecs.tplistagemLabel}}</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="ecs.numEtqInicial !== 0">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Número de etiquetas inicial</h5>
+            <div class="etqvalor">{{ecs.numEtqInicial}}</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="ecs.numEtqFinal !== 0">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>Número de etiquetas válidas</h5>
+            <div class="etqvalor">{{ecs.numEtqFinal}}</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="registros p-shadow-1">
+            <h5>ATIVO</h5>
+            <div class="etqvalor">{{ecs.btnDesativado}}</div>
+          </div>
+        </div>
+      </ng-container>
 
     </div>
 
 
   </div>
 </div>
+
+<div class="etq-seletor-btns">
+  <div class="p-grid p-input-filled">
+    <div class="p-col-12 formulario">
+      <!--*** Botões ***-->
+      <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
+        <div *ngIf="ecs.mostraBtn" class="p-mx-2">
+          <button
+            id="impet"
+            #impet
+            pButton
+            (click)="implimir()"
+            label="IMPRIMIR"
+            type="button"
+            class="p-button-rounded"
+            [disabled]="ecs.btnDesativado"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            id="impcl"
+            #impcl
+            pButton
+            type="button"
+            class="p-button-rounded p-button-secondary"
+            label="Cancelar / Fechar"
+            (click)="fechar()"
+            [disabled]="ecs.btnClDesativado"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <!--*** FIM BOTOES ***-->
+  </div>
+
+
+</div>
+
+

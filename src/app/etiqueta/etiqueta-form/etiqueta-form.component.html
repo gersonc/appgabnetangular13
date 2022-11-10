@@ -1,16 +1,13 @@
-<!--<p-scrollPanel [styleClass]="'formulario'">-->
-  <!--<div class="formulario externo">-->
-  <form (ngSubmit)="onSubmit(etqtForm)" #etqtForm="ngForm">
-    <div class="p-fluid formulario-bg-externo">
+<form (ngSubmit)="onSubmit(etqtForm)" #etqtForm="ngForm">
+  <div class="p-fluid formulario-bg-externo">
 
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
-          <!--<span class="formulario-titulo">APAGAR - CADASTRO</span>-->
-        </div>
+    <div class="p-d-flex p-jc-center">
+      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
       </div>
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-p-3">
+    </div>
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-p-3">
           <div class="p-grid p-input-filled">
 
 
@@ -21,7 +18,8 @@
                 <div [ngClass]="aplicaCssErro(etq_marca)" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
                   <label for="etq_marca">Marca</label>
                   <input pInputText id="etq_marca" name="etq_marca" #etq_marca="ngModel" type="text" [maxlength]="30"
-                         [(ngModel)]="ecs.etqForm.etq_marca" [required]="true" [minlength]="3" [ngClass]="aplicaCssErro(etq_marca)">
+                         [(ngModel)]="ecs.etqForm.etq_marca" [required]="true" [minlength]="3"
+                         [ngClass]="aplicaCssErro(etq_marca)">
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_marca)"
                     msgErro="Marca é obrigatório.">
@@ -30,7 +28,8 @@
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_modelo)">
                   <label for="etq_modelo">Modelo</label>
                   <input pInputText id="etq_modelo" name="etq_modelo" #etq_modelo="ngModel" type="text" [maxlength]="20"
-                         [(ngModel)]="ecs.etqForm.etq_modelo" [required]="true" [minlength]="3" [ngClass]="aplicaCssErro(etq_modelo)">
+                         [(ngModel)]="ecs.etqForm.etq_modelo" [required]="true" [minlength]="3"
+                         [ngClass]="aplicaCssErro(etq_modelo)">
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_modelo)"
                     msgErro="Modelo é obrigatório.">
@@ -40,7 +39,8 @@
                   <label for="etq_linhas">Linhas</label>
                   <p-inputNumber id="etq_linhas" name="etq_linhas" #etq_linhas="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_linhas"
-                                 mode="decimal" [required]="true" [min]="1" [ngClass]="aplicaCssErro(etq_linhas)"></p-inputNumber>
+                                 mode="decimal" [required]="true" [min]="1"
+                                 [ngClass]="aplicaCssErro(etq_linhas)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_linhas)"
                     msgErro="Linhas é obrigatório.">
@@ -62,7 +62,8 @@
                   <label for="etq_largura">Largura (mm)</label>
                   <p-inputNumber id="etq_largura" name="etq_largura" #etq_largura="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_largura" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="1" [ngClass]="aplicaCssErro(etq_largura)"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="1"
+                                 [ngClass]="aplicaCssErro(etq_largura)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_largura)"
                     msgErro="Largura é obrigatório.">
@@ -72,49 +73,58 @@
                   <label for="etq_altura">Altura (mm)</label>
                   <p-inputNumber id="etq_altura" name="etq_altura" #etq_altura="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_altura" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="1" [ngClass]="aplicaCssErro(etq_altura)"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="1"
+                                 [ngClass]="aplicaCssErro(etq_altura)"></p-inputNumber>
                 </div>
                 <app-campo-control-erro
                   [mostrarErro]="verificaValidTouched(etq_altura)"
                   msgErro="Altura é obrigatório.">
                 </app-campo-control-erro>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_margem_lateral)">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+                     [ngClass]="aplicaCssErro(etq_margem_lateral)">
                   <label for="etq_margem_lateral">Marg. Lat. (mm)</label>
                   <p-inputNumber id="etq_margem_lateral" name="etq_margem_lateral" #etq_margem_lateral="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_margem_lateral"
-                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_margem_lateral)"></p-inputNumber>
+                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0"
+                                 [ngClass]="aplicaCssErro(etq_margem_lateral)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_margem_lateral)"
                     msgErro="Margem lateral é obrigatório.">
                   </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_margem_superior)">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+                     [ngClass]="aplicaCssErro(etq_margem_superior)">
                   <label for="etq_margem_superior">Marg. Sup. (mm)</label>
                   <p-inputNumber id="etq_margem_superior" name="etq_margem_superior" #etq_margem_superior="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_margem_superior"
-                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_margem_superior)"></p-inputNumber>
+                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0"
+                                 [ngClass]="aplicaCssErro(etq_margem_superior)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_margem_superior)"
                     msgErro="Margem superior é obrigatório.">
                   </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_distancia_vertical)">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+                     [ngClass]="aplicaCssErro(etq_distancia_vertical)">
                   <label for="etq_distancia_vertical">Dist. Vert. (mm)</label>
                   <p-inputNumber id="etq_distancia_vertical" name="etq_distancia_vertical"
                                  #etq_distancia_vertical="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_distancia_vertical"
-                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_distancia_vertical)"></p-inputNumber>
+                                 mode="decimal" [maxFractionDigits]="2" [required]="true" [min]="0"
+                                 [ngClass]="aplicaCssErro(etq_distancia_vertical)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_distancia_vertical)"
                     msgErro="Distância vertical é obrigatório.">
                   </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(etq_distancia_horizontal)">
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+                     [ngClass]="aplicaCssErro(etq_distancia_horizontal)">
                   <label for="etq_distancia_horizontal">Dist. Horz. (mm)</label>
                   <p-inputNumber id="etq_distancia_horizontal" name="etq_distancia_horizontal"
                                  #etq_distancia_horizontal="ngModel" [useGrouping]="false"
                                  [(ngModel)]="ecs.etqForm.etq_distancia_horizontal" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_distancia_horizontal)"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0"
+                                 [ngClass]="aplicaCssErro(etq_distancia_horizontal)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_distancia_horizontal)"
                     msgErro="Distância horizontal é obrigatório.">
@@ -124,7 +134,8 @@
                   <label for="etq_folha_horz">Folha Horz. (mm)</label>
                   <p-inputNumber id="etq_folha_horz" name="etq_folha_horz" #etq_folha_horz="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_folha_horz" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_folha_horz)"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0"
+                                 [ngClass]="aplicaCssErro(etq_folha_horz)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_folha_horz)"
                     msgErro="Distância verticalFolha horizontal é obrigatório.">
@@ -134,7 +145,8 @@
                   <label for="etq_folha_vert">Folha Vert. (mm)</label>
                   <p-inputNumber id="etq_folha_vert" name="etq_folha_vert" #etq_folha_vert="ngModel"
                                  [useGrouping]="false" [(ngModel)]="ecs.etqForm.etq_folha_vert" mode="decimal"
-                                 [maxFractionDigits]="2" [required]="true" [min]="0" [ngClass]="aplicaCssErro(etq_folha_vert)"></p-inputNumber>
+                                 [maxFractionDigits]="2" [required]="true" [min]="0"
+                                 [ngClass]="aplicaCssErro(etq_folha_vert)"></p-inputNumber>
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(etq_folha_vert)"
                     msgErro="Folha vertical é obrigatório.">
@@ -143,80 +155,64 @@
 
               </div>
             </div>
-            <!--<div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>-->
           </div>
 
-          </div>
         </div>
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno p-my-3"></div>
-        <!--<div class="p-grid">
-          <div class="p-col-10 p-offset-1">&nbsp;</div>
-        </div>-->
-        <!--<div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>-->
       </div>
-
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno p-my-3"></div>
     </div>
 
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+  </div>
+
+  <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
     <div class="p-grid">
-      <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
-    </div>
-
-    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
-              <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
-                <div class="p-mx-2">
-                    <button
-                      pButton
-                      *ngIf="mostraBtn && ecs.etqAcao === 'INCLUIR'"
-                      label="Incluir"
-                      type="submit"
-                      class="p-button-rounded"
-                      [disabled]="!etqtForm.valid || btnDesativado"
-                    ></button>
-                  </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      *ngIf="mostraBtn && ecs.etqAcao === 'ALTERAR'"
-                      label="Alterar"
-                      class="p-button-rounded"
-                      type="submit"
-                      [disabled]="!etqtForm.valid || btnDesativado"
-                    ></button>
-                  </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      *ngIf="mostraBtn"
-                      type="button"
-                      class="p-button-rounded p-button-secondary"
-                      label="Cancelar / Fechar"
-                      (click)="cancelar()"
-                      [disabled]="btnDesativado"
-                    ></button>
-                  </div>
-                </div>
-              <!--*** FIM BOTOES ***-->
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-grid p-input-filled">
+          <div class="p-col-12 formulario">
+            <!--*** Botões ***-->
+            <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
+              <div class="p-mx-2">
+                <button
+                  pButton
+                  *ngIf="mostraBtn && ecs.etqAcao === 'INCLUIR'"
+                  label="Incluir"
+                  type="submit"
+                  class="p-button-rounded"
+                  [disabled]="!etqtForm.valid || btnDesativado"
+                ></button>
+              </div>
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  *ngIf="mostraBtn && ecs.etqAcao === 'ALTERAR'"
+                  label="Alterar"
+                  class="p-button-rounded"
+                  type="submit"
+                  [disabled]="!etqtForm.valid || btnDesativado"
+                ></button>
+              </div>
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  *ngIf="mostraBtn"
+                  type="button"
+                  class="p-button-rounded p-button-secondary"
+                  label="Cancelar / Fechar"
+                  (click)="cancelar()"
+                  [disabled]="btnDesativado"
+                ></button>
+              </div>
             </div>
-
-
+            <!--*** FIM BOTOES ***-->
           </div>
+
+
         </div>
       </div>
     </div>
-
-   <!-- <div class="p-fluid formulario-bg-externo">
-      <div class="p-grid formulario-bg-externo">
-        <div class="p-col-12"></div>
-        <div class="p-col-12"></div>
-      </div>
-    </div>-->
-
-  </form>
- <!-- </div>-->
-<!--</p-scrollPanel>-->
-<!--<p-toast key="msgForm" position="center" (onClose)="onToastClose($event)"></p-toast>-->
+  </div>
+</form>

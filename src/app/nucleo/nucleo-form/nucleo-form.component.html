@@ -1,14 +1,13 @@
-<div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
-  <form (ngSubmit)="onSubmit()" #nForm="ngForm">
+<form (ngSubmit)="onSubmit()" #nForm="ngForm">
+  <div class="p-fluid formulario-bg-externo">
 
-    <div class="p-fluid">
-
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
-        </div>
+    <div class="p-d-flex p-jc-center">
+      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
       </div>
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+    </div>
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-p-3">
           <div class="p-grid p-input-filled">
 
 
@@ -16,10 +15,20 @@
               <div class="p-fluid p-formgrid p-grid formulario">
 
 
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro(local_nome)">
+                <div [ngClass]="aplicaCssErro(local_nome)"  class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
                   <label for="local_nome"><span class="atencao">*</span> Nome</label>
-                  <input pInputText id="local_nome" name="local_nome" #local_nome="ngModel" type="text" maxlength="50"
-                         [(ngModel)]="ns.nuForm.local_nome" required>
+                  <input
+                    pInputText
+                    id="local_nome"
+                    name="local_nome"
+                    #local_nome="ngModel"
+                    type="text"
+                    [maxlength]="50"
+                    [minlength]="3"
+                    [(ngModel)]="ns.nuForm.local_nome"
+                    [ngClass]="aplicaCssErro(local_nome)"
+                    [required]="true"
+                  >
                   <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched(local_nome)"
                     msgErro="Nome é obrigatório.">
@@ -46,80 +55,75 @@
                   ></p-dropdown>
                 </div>
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
-                  <label for="local_color">Cor &nbsp;&nbsp;</label>
-                  <p-colorPicker id="local_color" [(ngModel)]="ns.nuForm.local_color"
-                                 name="local_color"></p-colorPicker>
+                  <label for="local_color">Cor</label>
+                  <p-colorPicker
+                    id="local_color"
+                    [(ngModel)]="ns.nuForm.local_color"
+                    name="local_color"
+                    appendTo="body"
+                  ></p-colorPicker>
                 </div>
 
 
               </div>
             </div>
-
           </div>
+
         </div>
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
       </div>
-
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno p-my-3"></div>
     </div>
 
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+  </div>
+
+  <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
     <div class="p-grid">
-      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
-    </div>
-
-    <div class="p-fluid">
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
-              <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-d-inline-flex">
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      *ngIf="ns.nuMostraBt && ns.nuAcao === 'INCLUIR'"
-                      label="Incluir"
-                      type="submit"
-                      [disabled]="!nForm.valid"
-                      class="p-button-rounded"
-                    ></button>
-                  </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      *ngIf="ns.nuMostraBt && ns.nuAcao === 'ALTERAR'"
-                      label="Alterar"
-                      type="submit"
-                      [disabled]="!nForm.valid"
-                      class="p-button-rounded"
-                    ></button>
-                  </div>
-                  <div class="p-mr-2">
-                    <button
-                      pButton
-                      *ngIf="ns.nuMostraBt"
-                      type="button"
-                      label="Cancelar / Fechar"
-                      (click)="cancelar()"
-                      class="p-button-rounded p-button-secondary"
-                    ></button>
-                  </div>
-                </div>
-                <!--*** FIM BOTOES ***-->
-              </div>
-
-
+      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="p-grid p-input-filled">
+          <div class="p-col-12 formulario">
+            <!--*** Botões ***-->
+            <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
+            <div class="p-mr-2">
+              <button
+                pButton
+                *ngIf="ns.nuMostraBt && ns.nuAcao === 'INCLUIR'"
+                label="Incluir"
+                type="submit"
+                [disabled]="!nForm.valid"
+                class="p-button-rounded"
+              ></button>
+            </div>
+            <div class="p-mr-2">
+              <button
+                pButton
+                *ngIf="ns.nuMostraBt && ns.nuAcao === 'ALTERAR'"
+                label="Alterar"
+                type="submit"
+                [disabled]="!nForm.valid"
+                class="p-button-rounded"
+              ></button>
+            </div>
+            <div class="p-mr-2">
+              <button
+                pButton
+                *ngIf="ns.nuMostraBt"
+                type="button"
+                label="Cancelar / Fechar"
+                (click)="cancelar()"
+                class="p-button-rounded p-button-secondary"
+              ></button>
+            </div>
             </div>
           </div>
+          <!--*** FIM BOTOES ***-->
         </div>
+
+
       </div>
     </div>
-
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1">&nbsp;</div>
-    </div>
-
-
-  </form>
-</div>
-<!--<p-toast key="msgForm" position="center" (onClose)="onToastClose($event)"></p-toast>-->
+  </div>
+</form>

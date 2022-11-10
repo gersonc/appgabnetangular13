@@ -4,11 +4,11 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable,} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {UrlService} from '../../_services';
-// import {EtiquetaCelula, EtiquetaInterface} from '../_models';
 import {CadastroEtiquetaI} from "../_models/cadastro-etiqueta-i";
 import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
 import {take} from "rxjs/operators";
 import {EtiquetaInterface} from "../_models";
+import {WindowsService} from "../../_layout/_service";
 
 
 @Injectable({
@@ -24,6 +24,7 @@ export class EtiquetaService {
   total = 0;
   public impEtiqueta = new Subject();
   imprimindoVF = false;
+  posicao: string = '';
 
   etq: EtiquetaInterface | null = null;
 
@@ -41,13 +42,11 @@ export class EtiquetaService {
     return this.http.get<EtiquetaInterface>(url);
   }
 
-
   postEtiquetas() {
     const url = this.urlService.cadastro + '/listaretiqueta3';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<CadastroEtiquetaI[]>(url, this.ecs.busca, httpOptions);
   }
-
 
   imprimirEtiqueta(etq: EtiquetaInterface) {
     this.etq = etq;
@@ -62,43 +61,6 @@ export class EtiquetaService {
     } else {
       this.getEtiquetas();
     }
-
-
-    /*const etqsession = 'etiqueta-' + etq_id;
-    if (!sessionStorage.getItem(etqsession)) {
-      this.getConfigEtiqueta(etq_id)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            this.etq = dados;
-          },
-          error: err => console.log('erro', err.toString()),
-          complete: () => {
-            sessionStorage.setItem(etqsession, JSON.stringify(this.etq));
-            if (this.pw !== null) {
-              this.pw.close();
-              this.pw = null;
-            }
-            if (this.ecs.tplistagem !== 3) {
-              this.printSelectedArea();
-            } else {
-              this.getEtiquetas();
-            }
-
-          }
-        });
-    } else {
-      this.etq = JSON.parse(sessionStorage.getItem(etqsession));
-      if (this.pw !== null) {
-        this.pw.close();
-        this.pw = null;
-      }
-      if (this.ecs.tplistagem !== 3) {
-        this.printSelectedArea();
-      } else {
-        this.getEtiquetas();
-      }
-    }*/
   }
 
   imprimirEtiqueta2(etq_id: number) {
@@ -139,8 +101,6 @@ export class EtiquetaService {
     }
   }
 
-
-
   printSelectedArea(res?: CadastroEtiquetaI[]) {
     if (res === undefined) {
       res = this.ecs.cadastro;
@@ -148,7 +108,7 @@ export class EtiquetaService {
     }
     this.total = +res.length;
     let ht: any = `
-    <html>
+    <html lang="pt-BR">
     <head>
     <meta http-equiv=Content-Type content="text/html; charset=utf-8">
     <title>ETIQUETAS</title>
@@ -538,19 +498,16 @@ export class EtiquetaService {
 </body>
 </html>
 `;
+
     // ORIGINAL
-    const feat = 'width=' + (this.etq.etq_folha_horz * 4) + ',height=' + (this.etq.etq_folha_vert * 4) + ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no'
+    const feat = this.posicao + 'width=' + (this.etq.etq_folha_horz * 4) + ',height=' + (this.etq.etq_folha_vert * 4) + ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no';
     this.pw = window.open('', '_blank', feat);
 
     this.pw.document.write(ht);
     this.pw.document.addEventListener("DOMContentLoaded", (event) => {
-      console.log("DOM fully loaded and parsed");
     });
 
-    this.pw.document.addEventListener('afterprint', (event) => {
-      console.log("imprimindo...");
-      this.pw.close();
-    });
+    this.pw.onafterprint = () => this.janelaPai(this.pw);
 
     const imprime = this.pw.document.getElementById('imprime');
     imprime.addEventListener('click', (event) => {
@@ -562,7 +519,9 @@ export class EtiquetaService {
 
     const fecha = this.pw.document.getElementById('fecha');
     fecha.addEventListener('click', (event) => {
+      this.ecs.btnDesativado = false;
       event.preventDefault();
+      this.janelaPai(this.pw);
       this.pw.close();
     });
 
@@ -658,8 +617,14 @@ export class EtiquetaService {
     // this.pw.document.close();
   }
 
-  imprimir() {
-
+  janelaPai(w: any) {
+    this.ecs.btnDesativado = false;
+    this.ecs.btnClDesativado = true;
+    w.opener.focus();
+    let cl = w.opener.document.getElementById('impcl');
+    cl.removeAttribute('disabled');
+    cl.click();
+    w.close();
   }
 
   montaCelula(cadastro: CadastroEtiquetaI) {
@@ -754,6 +719,7 @@ export class EtiquetaService {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
+          this.ecs.numEtqFinal = dados.length;
           this.printSelectedArea(dados);
         },
         error: (err) => {
@@ -764,6 +730,10 @@ export class EtiquetaService {
         }
       })
     );
+  }
+
+  ngDestroy() {
+
   }
 
 }

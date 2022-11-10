@@ -71,6 +71,17 @@ export class WindowsService {
     };
   }
 
+  public static getElemento(id: string): any {
+    return WindowsService.doc.getElementById(id);
+  }
+
+  public static getTela(): MedidaI {
+    return  {
+      altura: WindowsService.nativeWindow.screen.height,
+      largura: WindowsService.nativeWindow.screen.width
+    };
+  }
+
   public static getPrincial(): any {
     return  {
       altura: WindowsService.doc.getElementById('topoprincipal')!.offsetHeight,
@@ -121,7 +132,6 @@ export class WindowsService {
     };
   }
 
-
   public static getMain(): any {
     return  {
       altura: document.getElementById('main')!.offsetHeight,
@@ -142,8 +152,6 @@ export class WindowsService {
       largura: +WindowsService.nativeWindow.document.getElementById(elemento)!.offsetWidth
     };
   }
-
-
 
   public static get altura(): number {
     return WindowsService.nativeWindow.innerHeight;
@@ -196,7 +204,6 @@ export class WindowsService {
     return WindowsService.coorRodape;
   }
 
-
   public changeLarguraMenu(horz: number) {
     this.larguraMenuSubject.next(horz);
     this.expandeMenuSubject.next(WindowsService.getExpandeMenu(horz));
@@ -214,8 +221,6 @@ export class WindowsService {
   private static getExpandeMenu(larg: number) {
     return larg > 768;
   }
-
-
 
 
 

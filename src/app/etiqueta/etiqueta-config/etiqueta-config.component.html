@@ -1,16 +1,17 @@
 
 <div class="card">
-
   <p-table
     [value]="ecs.etiquetas"
     dataKey="etq_id"
-    [tableStyle]="{'font-size':'var(--font-padrao)'}"
+    [tableStyle]="{'font-size':'1em'}"
     styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
   >
+
+
     <ng-template pTemplate="header">
       <tr style="font-size: small">
-        <th nowrap="nowrap">Marca</th>
-        <th nowrap="nowrap">Modelo</th>
+        <th nowrap="nowrap" style="width: 8rem;">Marca</th>
+        <th nowrap="nowrap" style="width: 8rem;">Modelo</th>
         <th nowrap="nowrap">Linhas</th>
         <th nowrap="nowrap">Colunas</th>
         <th nowrap="nowrap">Largura</th>
@@ -28,11 +29,11 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-etiqueta let-ri="rowIndex">
-      <tr>
-        <td>
+      <tr style="text-align:center">
+        <td  style="width: 8rem;">
           {{etiqueta.etq_marca}}
         </td>
-        <td>
+        <td  style="width: 8rem;">
           {{etiqueta.etq_modelo}}
         </td>
         <td>
@@ -69,13 +70,14 @@
           <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(etiqueta, ri)" class="p-button-raised p-button-rounded p-button-sm" [disabled]="!perAltarar"></button>
         </td>
         <td style="text-align:center">
-          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta, ri)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
+          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(etiqueta, ri, $event)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
-<!--<p-toast key="msg2"></p-toast>-->
+
+<p-confirmPopup styleClass="apagar"></p-confirmPopup>
 
 <p-dialog
   header="{{acao}}"
@@ -89,6 +91,4 @@
 >
   <app-etiqueta-form *ngIf="ecs.formDisplay" (hideForm)="hideForm($event)"></app-etiqueta-form>
 </p-dialog>
-<p-confirmPopup></p-confirmPopup>
-<!--<p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>-->
 

@@ -460,6 +460,7 @@ export class CadastroService {
 
   exportToEtiquetas(n: number) {
     this.ecs.tplistagem = n;
+    this.ecs.getTpListagemLabel(n);
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
       this.ecs.parceEtiquetas(this.selecionados);
       this.showEtiquetas = true;

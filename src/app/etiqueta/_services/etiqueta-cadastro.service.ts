@@ -12,7 +12,12 @@ export class EtiquetaCadastroService {
   cadastro: CadastroEtiquetaI[] = [];
   busca: CadastroBuscaI | null = null;
   tplistagem = 0;
+  tplistagemLabel: string | null = null;
   numEtqInicial = 0;
+  numEtqFinal = 0;
+  btnDesativado = true;
+  btnClDesativado = false;
+  mostraBtn = false;
 
   constructor(
     private urlService: UrlService,
@@ -46,6 +51,8 @@ export class EtiquetaCadastroService {
         cadastro_sigilo2: d.cadastro_sigilo2
       }
     });
+    this.numEtqFinal = this.cadastro.length;
+
   }
 
   limpaTxt(s: string | null): string | null {
@@ -60,6 +67,20 @@ export class EtiquetaCadastroService {
     }
     return s.toUpperCase();
 
+  }
+
+  getTpListagemLabel(n: number) {
+    switch (n) {
+      case 1:
+        this.tplistagemLabel = 'SELECIONADOS';
+        break;
+      case 2:
+        this.tplistagemLabel = 'PÁGINA';
+        break;
+      case 3:
+        this.tplistagemLabel = 'TODOS';
+        break;
+    }
   }
 
   postEtiquetas() {

@@ -86,14 +86,16 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
 
   onEdit(etiqueta: EtiquetaInterface, idx: number) {
     this.ecs.idx = idx;
+    const e: EtiquetaInterface = {...etiqueta};
     this.acao = 'ALTERAR ETIQUETA'
     this.ecs.etqAcao = 'ALTERAR';
-    this.ecs.etqForm = etiqueta;
+    this.ecs.etqForm = e;
     this.ecs.formDisplay = true;
   }
 
-  onDelete(etiqueta: EtiquetaInterface, idx: number) {
+  onDelete(etiqueta: EtiquetaInterface, idx: number, ev: any) {
     this.cf.confirm({
+      target: ev.target,
       message: 'Apagar etiqueta marca ' + etiqueta.etq_marca + ' modelo ' + etiqueta.etq_modelo + '?',
       header: 'APAGAR ETIQUETA',
       icon: 'pi pi-trash',
@@ -113,10 +115,8 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
                 this.ecs.etiquetas.splice(idx, 1);
                 sessionStorage.setItem('dropdown-etiqueta', JSON.stringify(this.ecs.listToDrop(this.ecs.etiquetas)));
                 this.ms.add({key: 'toastprincipal', severity: 'success', summary: 'APAGAR', detail: this.resp[2]});
-                // this.messageService.add({key: 'msgExcluir',severity: 'info', summary: 'APAGAR: ', detail: this.resp[2]});
               } else {
                 this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'APAGAR', detail: this.resp[2]});
-                // this.messageService.add({key: 'msgExcluir',severity: 'warn', summary: 'APAGAR: ', detail: this.resp[2]});
               }
             }
           })
