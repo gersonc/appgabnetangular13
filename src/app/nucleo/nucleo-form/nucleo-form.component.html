@@ -1,4 +1,5 @@
-<form (ngSubmit)="onSubmit()" #nForm="ngForm">
+<form (ngSubmit)="onSubmit(nForm)" #nForm="ngForm">
+  <input type="hidden" [(ngModel)]="ns.nuForm.local_id" #local_id="ngModel" id="local_id" name="local_id">
   <div class="p-fluid formulario-bg-externo">
 
     <div class="p-d-flex p-jc-center">
@@ -15,7 +16,7 @@
               <div class="p-fluid p-formgrid p-grid formulario">
 
 
-                <div [ngClass]="aplicaCssErro(local_nome)"  class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div [ngClass]="aplicaCssErro(local_nome)" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
                   <label for="local_nome"><span class="atencao">*</span> Nome</label>
                   <input
                     pInputText
@@ -45,23 +46,27 @@
                          maxlength="40" [(ngModel)]="ns.nuForm.local_telefone">
                 </div>
                 <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
-                  <label for="local_responsavel_id">Usuário responsável</label>
-                  <p-dropdown
-                    id="local_responsavel_id"
-                    name="local_responsavel_id"
-                    [options]="ddUsuario_id"
-                    [(ngModel)]="ns.nuForm.local_responsavel_usuario_id"
-                    [appendTo]="'body'"
-                  ></p-dropdown>
-                </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
-                  <label for="local_color">Cor</label>
+                  <div class="p-mr-2">
+                    <label for="local_color" style="font-weight: var(--formulario-field-label-font-weight)">Cor</label>
+                  </div>
                   <p-colorPicker
                     id="local_color"
                     [(ngModel)]="ns.nuForm.local_color"
                     name="local_color"
-                    appendTo="body"
+                    [appendTo]="'body'"
+                    [autoZIndex]="true"
                   ></p-colorPicker>
+                </div>
+                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                  <label for="local_responsavel_id">Usuário responsável</label>
+                  <p-dropdown
+                    id="local_responsavel_id"
+                    name="local_responsavel_id"
+                    [placeholder]="'Selecione...'"
+                    [options]="ns.ddUsuario_id"
+                    [(ngModel)]="ns.nuForm.local_responsavel_usuario_id"
+                    [appendTo]="'body'"
+                  ></p-dropdown>
                 </div>
 
 
@@ -87,36 +92,48 @@
           <div class="p-col-12 formulario">
             <!--*** Botões ***-->
             <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
-            <div class="p-mr-2">
-              <button
-                pButton
-                *ngIf="ns.nuMostraBt && ns.nuAcao === 'INCLUIR'"
-                label="Incluir"
-                type="submit"
-                [disabled]="!nForm.valid"
-                class="p-button-rounded"
-              ></button>
-            </div>
-            <div class="p-mr-2">
-              <button
-                pButton
-                *ngIf="ns.nuMostraBt && ns.nuAcao === 'ALTERAR'"
-                label="Alterar"
-                type="submit"
-                [disabled]="!nForm.valid"
-                class="p-button-rounded"
-              ></button>
-            </div>
-            <div class="p-mr-2">
-              <button
-                pButton
-                *ngIf="ns.nuMostraBt"
-                type="button"
-                label="Cancelar / Fechar"
-                (click)="cancelar()"
-                class="p-button-rounded p-button-secondary"
-              ></button>
-            </div>
+              <div *ngIf="ns.nuAcao === 'INCLUIR'" class="p-mx-2">
+                <button
+                  pButton
+                  *ngIf="ns.nuMostraBt && ns.nuAcao === 'INCLUIR'"
+                  label="Incluir"
+                  type="submit"
+                  [disabled]="!nForm.valid || btnDesativado"
+                  class="p-button-rounded"
+                ></button>
+              </div>
+              <div *ngIf="ns.nuAcao === 'ALTERAR'" class="p-mr-2">
+                <button
+                  pButton
+                  *ngIf="ns.nuMostraBt && ns.nuAcao === 'ALTERAR'"
+                  label="Alterar"
+                  type="submit"
+                  [disabled]="!nForm.valid || btnDesativado"
+                  class="p-button-rounded"
+                ></button>
+              </div>
+              <div class="p-mr-2">
+                <button
+                  pButton
+                  *ngIf="ns.nuMostraBt"
+                  type="button"
+                  label="Fechar"
+                  (click)="cancelar()"
+                  [disabled]="btnDesativado"
+                  class="p-button-rounded p-button-secondary"
+                ></button>
+              </div>
+              <div *ngIf="nForm.dirty" class="p-mr-2">
+                <button
+                  pButton
+                  *ngIf="ns.nuMostraBt"
+                  type="button"
+                  label="Limpar"
+                  (click)="reset()"
+                  [disabled]="btnDesativado"
+                  class="p-button-rounded p-button-secondary"
+                ></button>
+              </div>
             </div>
           </div>
           <!--*** FIM BOTOES ***-->

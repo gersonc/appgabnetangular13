@@ -1,10 +1,9 @@
-
 <!--<div class="card">
   <div style="text-align:center; background-color: var(&#45;&#45;primary-color); height: 48px;">
     <div style="color: var(&#45;&#45;claro); padding-top: .8em"><h5>NÚCLEOS</h5></div>
   </div>-->
-  <p-table
-    [value]="locais"
+<p-table
+    [value]="ns.locais"
     dataKey="local_id"
     [tableStyle]="{'font-size':'var(--font-padrao)'}"
     styleClass="tablistagem p-datatable-sm p-datatable-striped p-datatable-gridlines p-selectable-row"
@@ -52,18 +51,20 @@
           {{local.local_color}}
         </td>-->
         <td>
-          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(local)" class="p-button-raised p-button-rounded p-button-sm" [disabled]="!perAltarar"></button>
+          <button pButton type="button" icon="pi pi-pencil" (click)="onEdit(local, ri)" class="p-button-raised p-button-rounded p-button-sm" [disabled]="!perAltarar"></button>
         </td>
         <td>
-          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(local)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
+          <button pButton type="button" icon="pi pi-trash" (click)="onDelete(local, ri, $event)" class="p-button-raised p-button-rounded p-button-danger p-button-sm" [disabled]="!perDeletar"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 <!--</div>-->
-<p-toast key="msg2"></p-toast>
 
-<p-toast key="msgExcluir" position="center"></p-toast>
+
+<p-confirmPopup styleClass="apagar"></p-confirmPopup>
+
+<ng-container *ngIf="ns.formularioSN">
 <p-dialog
   header="{{acao}}"
   [(visible)]="ns.formDisplay"
@@ -72,9 +73,7 @@
   [blockScroll]="true"
   styleClass="tablistagem"
   [style]="{ width: '800px'}"
-  (onHide)="fechaDialog()"
 >
-  <app-nucleo-form *ngIf="ns.formDisplay"></app-nucleo-form>
+  <app-nucleo-form *ngIf="ns.formDisplay" (hideForm)="hideForm($event)"></app-nucleo-form>
 </p-dialog>
-<p-confirmDialog [style]="{width: '50vw'}" styleClass="tablistagem" [baseZIndex]="10000" [acceptLabel]="'SIM'" [rejectLabel]="'NÃO'"></p-confirmDialog>
-
+</ng-container>

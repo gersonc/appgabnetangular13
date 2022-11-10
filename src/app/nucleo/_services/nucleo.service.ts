@@ -3,34 +3,57 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { UrlService } from "../../_services";
 import { LocalClass, LocalInterface } from "../_models/nucleo";
+import {SelectItem} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NucleoService {
-  nuForm = new LocalClass();
+  nuForm: LocalInterface = null;
   nuAcao: string;
   nuExecutado = false;
   nuMostraBt = true;
   formDisplay = false;
+  formularioSN = false;
+  ddUsuario_id: SelectItem[] = [];
+  ddnucleo: SelectItem[] = [];
+  locais: LocalInterface[] = [];
+  idx = -1;
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
   ) { }
 
+  newNucleo(): LocalInterface {
+    return {
+      local_id: 0,
+      local_nome: null,
+      local_endereco: null,
+      local_telefone: null,
+      local_responsavel_usuario_id: null,
+      local_responsavel_usuario_nome: null,
+      local_color: null
+    };
+  }
+
+  fechaForm() {
+    this.formDisplay = false;
+    this.formularioSN = false;
+  }
+
   listar(): Observable<LocalInterface[]> {
     const url = this.url.nucleo + '/listar';
     return this.http.get<LocalInterface[]>(url);
   }
 
-  incluir(et: LocalClass): Observable<any[]> {
+  incluir(et: LocalInterface): Observable<any[]> {
     const url = this.url.nucleo + '/incluir';
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, et, httpOptions);
   }
 
-  alterar(nu: LocalClass): Observable<any[]> {
+  alterar(nu: LocalInterface): Observable<any[]> {
     const url = this.url.nucleo;
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.put<any[]> (url, nu, httpOptions);
@@ -39,5 +62,18 @@ export class NucleoService {
   excluir(local_id: number): Observable<any[]> {
     const url = this.url.nucleo + '/' + local_id;
     return this.http.delete<any[]>(url)
+  }
+
+  ngDestroy() {
+    delete this.nuForm;
+    delete this.nuAcao;
+    delete this.nuExecutado;
+    delete this.nuMostraBt;
+    delete this.formDisplay;
+    delete this.formularioSN;
+    delete this.ddUsuario_id;
+    delete this.ddnucleo;
+    delete this.locais;
+    delete this.idx;
   }
 }

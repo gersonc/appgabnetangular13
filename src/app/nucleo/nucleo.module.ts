@@ -9,32 +9,32 @@ import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ColorPickerModule } from 'primeng/colorpicker';
 
 import { NucleoConfigComponent } from './nucleo-config/nucleo-config.component';
 import { NucleoFormComponent } from './nucleo-form/nucleo-form.component';
+import {ConfirmPopupModule} from "primeng/confirmpopup";
 
 
 
 @NgModule({
   declarations: [NucleoConfigComponent, NucleoFormComponent],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    UtilModule,
-    TableModule,
-    DropdownModule,
-    ButtonModule,
-    InputTextModule,
-    ToastModule,
-    DialogModule,
-    ConfirmDialogModule,
-    ColorPickerModule
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        FormsModule,
+        UtilModule,
+        TableModule,
+        DropdownModule,
+        ButtonModule,
+        InputTextModule,
+        DialogModule,
+        ConfirmDialogModule,
+        ColorPickerModule,
+        ConfirmPopupModule
+    ],
   exports: [
     NucleoConfigComponent
   ],

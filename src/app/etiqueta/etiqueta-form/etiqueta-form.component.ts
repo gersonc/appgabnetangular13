@@ -148,9 +148,6 @@ export class EtiquetaFormComponent implements OnInit, OnDestroy {
       'ng-invalid': this.verificaValidTouched(campo),
       'ng-dirty': this.verificaValidTouched(campo)
     };
-
-
-
   }
 
   onToastClose(ev) {
