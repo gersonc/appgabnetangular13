@@ -16,7 +16,7 @@ import { UIChart } from 'primeng/chart';
 export class GraficosSolicitacaoComponent implements OnInit, OnDestroy {
   @ViewChild('hbar', { static: true }) public hbar: UIChart;
   sub: Subscription[] = [];
-  campo: string = 'solicitacao_data';
+  campo: string = 'solicitacao_data2';
   tipoGraf: string = 'horizontalBar';
   massaDados: any[] = null;
   dados: GraficoInterface = null;
@@ -73,7 +73,7 @@ export class GraficosSolicitacaoComponent implements OnInit, OnDestroy {
     this.ddTipoGraf.push(tp2);
     this.ddTipoGraf.push(tp3);
 
-    this.titulos['solicitacao_data'] = 'Solicitações - Data das solicitações';
+    this.titulos['solicitacao_data2'] = 'Solicitações - Data das solicitações';
     this.titulos['solicitacao_assunto_nome'] = 'Solicitações - Assuntos';
     this.titulos['solicitacao_cadastrante_cadastro_nome'] = 'Solicitações - Cadastrantes';
     this.titulos['solicitacao_atendente_cadastro_nome'] = 'Solicitações - Atendentes';
