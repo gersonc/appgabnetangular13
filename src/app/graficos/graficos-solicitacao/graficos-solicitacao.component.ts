@@ -84,8 +84,8 @@ export class GraficosSolicitacaoComponent implements OnInit, OnDestroy {
   }
 
   getDados() {
-    const dts = {data1: this.data1, data2: this.data2};
-    this.sub.push(this.gs.postListarAll('solicitacao', dts)
+    const dts = {modulo: 'solicitacao', data1: this.data1, data2: this.data2};
+    this.sub.push(this.gs.postListarAll('modulo', dts)
       .pipe(take(1))
       .subscribe((dados) => {
           this.massaDados = dados;

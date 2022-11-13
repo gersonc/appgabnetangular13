@@ -41,29 +41,44 @@
 
               <div class="p-formgroup">
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo1" id="campo1" value="solicitacao_data" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
-                  <label for="campo1">Datas de emissão</label>
+                  <p-radioButton name="campo1" id="campo1" value="processo_status_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo1">Situação</label>
                 </div>
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo2" id="campo2" value="solicitacao_assunto_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
-                  <label for="campo2">Assuntos</label>
+                  <p-radioButton name="campo2" id="campo2" value="solicitacao_status_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo2">Status</label>
                 </div>
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo3" id="campo3" value="solicitacao_cadastro_tipo_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
-                  <label for="campo3">Tipos de solicitante</label>
+                  <p-radioButton name="campo3" id="campo3" value="solicitacao_data2" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo3">Datas de emissão</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo4" id="campo4" value="solicitacao_assunto_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo4">Assuntos</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo5" id="campo5" value="cadastro_tipo_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo5">Tipos de solicitante</label>
                 </div>
                 <div class="p-field-radiobutton">
                   <p-radioButton name="campo6" id="campo6" value="cadastro_municipio_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
                   <label for="campo6">Municípios</label>
                 </div>
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo7" id="campo7" value="solicitacao_area_interesse_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
-                  <label for="campo7">Áreas de interesse</label>
+                  <p-radioButton name="campo7" id="campo7" value="cadastro_regiao_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo7">Região</label>
                 </div>
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo8" id="campo8" value="processo_posicao" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
-                  <label for="campo8">Posições</label>
+                  <p-radioButton name="campo8" id="campo8" value="solicitacao_area_interesse_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo8">Áreas de interesse</label>
                 </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo9" id="campo9" value="solicitacao_local_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo9">Núcleo</label>
+                </div>
+
+
+
 
                 <div class="p-field p-col-12">
                   <label for="tipografico">Tipo de gráfico</label>

@@ -73,19 +73,21 @@ export class GraficosOficioComponent implements OnInit, OnDestroy {
     this.ddTipoGraf.push(tp2);
     this.ddTipoGraf.push(tp3);
 
-    this.titulos['oficio_data_emissao'] = 'Ofícios - Datas de emissão';
+    this.titulos['oficio_data_emissao2'] = 'Ofícios - Datas de emissão';
     this.titulos['oficio_assunto_nome'] = 'Ofícios - Assuntos';
     this.titulos['oficio_tipo_solicitante_nome'] = 'Ofícios - Tipos de solicitante';
     this.titulos['oficio_orgao_protocolante_nome'] = 'Ofícios - Orgãos protocolantes';
     this.titulos['oficio_orgao_solicitado_nome'] = 'Ofícios - Orgãos solicitados';
-    this.titulos['cadastro_municipio_nome'] = 'Ofícios - Municípios';
-    this.titulos['oficio_area_interesse_nome'] = 'Ofícios - Áreas de interesse';
-    this.titulos['oficio_posicao'] = 'Ofícios - Posições';
+    this.titulos['oficio_municipio_nome'] = 'Ofícios - Municípios';
+    this.titulos['oficio_status_nome'] = 'Ofícios - Áreas de interesse';
+    this.titulos['oficio_area_interesse_nome'] = 'Ofícios - Posições';
+    this.titulos['oficio_tipo_andamento_nome'] = 'Ofícios - Tipo de andamento';
+    this.titulos['oficio_tipo_recebimento_nome'] = 'Ofícios - Tipo de recebimento';
   }
 
   getDados() {
-    const dts = {data1: this.data1, data2: this.data2};
-    this.sub.push(this.gs.postListarAll('oficio', dts)
+    const dts = {modulo: 'oficio', data1: this.data1, data2: this.data2};
+    this.sub.push(this.gs.postListarAll('modulo', dts)
       .pipe(take(1))
       .subscribe((dados) => {
           this.massaDados = dados;

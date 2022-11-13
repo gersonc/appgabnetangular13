@@ -24,7 +24,7 @@ export class GraficosCadastroComponent implements OnInit, OnDestroy {
   ddTipoGraf: SelectItem[] = [];
   numregs: any = null;
 
-  linhas: number = 25;
+  linhas: number = 40;
   alturaGrafico: string = null;
   titulos: string[] = [];
   titulo: string = 'Tipos de cadastros';
@@ -74,14 +74,18 @@ export class GraficosCadastroComponent implements OnInit, OnDestroy {
     this.ddTipoGraf.push(tp3);
 
     this.titulos['cadastro_tipo_nome'] = 'Cadastros - Tipos de cadastros';
+    this.titulos['cadastro_bairro'] = 'Cadastros - Bairros';
     this.titulos['cadastro_municipio_nome'] = 'Cadastros - Municípios';
     this.titulos['cadastro_regiao_nome'] = 'Cadastros - Regiões';
     this.titulos['cadastro_estado_nome'] = 'Cadastros - Estados';
+    this.titulos['cadastro_grupo_nome'] = 'Cadastros - Grupos';
+    this.titulos['cadastro_estado_civil_nome'] = 'Cadastros - Estado Civil';
+    this.titulos['cadastro_sexo'] = 'Cadastros - Gênero';
   }
 
   getDados() {
-    const dts = {data1: this.data1, data2: this.data2};
-    this.sub.push(this.gs.postListarAll('cadastro', dts)
+    const dts = {modulo: 'cadastro', data1: this.data1, data2: this.data2};
+    this.sub.push(this.gs.postListarAll('modulo', dts)
       .pipe(take(1))
       .subscribe((dados) => {
           this.massaDados = dados;
@@ -104,7 +108,7 @@ export class GraficosCadastroComponent implements OnInit, OnDestroy {
   }
 
   onTipoGraficoChange(event) {
-    if (this.linhas > 30) {
+    if (this.linhas > 40) {
       this.tipoGraf = 'horizontalBar';
     } else {
       this.tipoGraf = event.value.toString();
@@ -118,7 +122,7 @@ export class GraficosCadastroComponent implements OnInit, OnDestroy {
   onCampoClick(event) {
     this.titulo = this.titulos[this.campo];
     this.linhas = this.numregs[this.campo];
-    if (this.linhas > 30) {
+    if (this.linhas > 40) {
       this.tipoGraf = 'horizontalBar';
     }
     this.alturaGrafico = this.gs.calculaAltura(this.numregs[this.campo]);

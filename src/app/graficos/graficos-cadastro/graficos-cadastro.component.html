@@ -15,7 +15,7 @@
                   [yearNavigator]="true"
                   [locale]="ptbr"
                   [styleClass]="'estreito'"
-                  yearRange="1900:2030"
+                  yearRange="1900:2040"
                   id="data1"
                   dataType="string"
                 ></p-calendar>
@@ -29,7 +29,7 @@
                   [yearNavigator]="true"
                   [locale]="ptbr"
                   [styleClass]="'estreito'"
-                  yearRange="1900:2030"
+                  yearRange="1900:2040"
                   id="data2"
                   dataType="string"
                 ></p-calendar>
@@ -43,6 +43,10 @@
                   <label for="campo1">Tipos de cadastros</label>
                 </div>
                 <div class="p-field-radiobutton">
+                  <p-radioButton name="campo5" id="campo5" value="cadastro_bairro" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo5">Bairros</label>
+                </div>
+                <div class="p-field-radiobutton">
                   <p-radioButton name="campo2" id="campo2" value="cadastro_municipio_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
                   <label for="campo2">Municípios</label>
                 </div>
@@ -53,6 +57,18 @@
                 <div class="p-field-radiobutton">
                   <p-radioButton name="campo4" id="campo4" value="cadastro_estado_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
                   <label for="campo4">Estados</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo6" id="campo6" value="cadastro_grupo_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo6">Grupos</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo7" id="campo7" value="cadastro_estado_civil_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo7">Estado Civil</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo8" id="campo8" value="cadastro_sexo" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo8">Gênero</label>
                 </div>
                 <div class="p-field p-col-12">
                   <label for="tipografico">Tipo de gráfico</label>
@@ -65,7 +81,7 @@
         </div>
         <div class="p-col-9 p-xl-10 p-lg-9 p-md-12 p-sm-12">
           <div id="pdfContent" class="p-grid">
-            <div *ngIf="tipoGraf=='horizontalBar' && linhas > 30" class="p-col-12">
+            <div *ngIf="tipoGraf=='horizontalBar' && linhas > 40" class="p-col-12">
               <p-card [header]="titulo">
                 <p-chart #hbar
                          type="horizontalBar"
@@ -80,7 +96,7 @@
                         (click)="printImg2(hbar.el)"></button>
               </p-card>
             </div>
-            <div *ngIf="tipoGraf=='horizontalBar' && linhas <= 30" class="p-col-12">
+            <div *ngIf="tipoGraf=='horizontalBar' && linhas <= 40" class="p-col-12">
               <p-card [header]="titulo">
                 <p-chart #hbar
                          type="horizontalBar"

@@ -18,7 +18,7 @@ declare var jsPDF: any;
 export class GraficosEmendaComponent implements OnInit, OnDestroy {
 
   sub: Subscription[] = [];
-  campo: string = 'emenda_data_solicitacao';
+  campo: string = 'emenda_data_solicitacao2';
   tipoGraf: string = 'horizontalBar';
   massaDados: any[] = null;
   dados: GraficoInterface = null;
@@ -29,7 +29,7 @@ export class GraficosEmendaComponent implements OnInit, OnDestroy {
   linhas: number = 25;
   alturaGrafico: string = null;
   titulos: string[] = [];
-  titulo: string = 'Datas de solicitação';
+  titulo: string = 'Mês / Ano (solicitação)';
   data1: string = null;
   data2: string = null;
   ptbr: any = null;
@@ -75,19 +75,23 @@ export class GraficosEmendaComponent implements OnInit, OnDestroy {
     this.ddTipoGraf.push(tp2);
     this.ddTipoGraf.push(tp3);
 
-    this.titulos['emenda_data_solicitacao'] = 'Emendas - Datas de solicitação';
+    this.titulos['emenda_data_solicitacao2'] = 'Emendas - Mês /Ano';
+    this.titulos['emenda_autor_nome'] = 'Emendas - Autor';
     this.titulos['emenda_assunto_nome'] = 'Emendas - Assuntos';
-    this.titulos['emenda_cadastro_tipo_nome'] = 'Emendas - Tipos de cadastros';
+    this.titulos['emenda_cadastro_tipo_nome'] = 'Emendas -Tipo de cadastro (solicitante)';
     this.titulos['emenda_tipo_emenda_nome'] = 'Emendas - Tipos de emendas';
     this.titulos['cadastro_municipio_nome'] = 'Emendas - Municípios';
     this.titulos['emenda_orgao_solicitado_nome'] = 'Emendas - Orgãos solicitados';
     this.titulos['emenda_ogu_nome'] = 'Emendas - O.G.U.';
-    this.titulos['emenda_situacao'] = 'Emendas - Situações';
+    this.titulos['emenda_local_nome'] = 'Emendas - Núcleo';
+    this.titulos['emenda_uggestao'] = 'Emendas - UG/Gestão';
+    this.titulos['emenda_situacao_nome'] = 'Emendas - Situações';
+    this.titulos['cadastro_regiao_nome'] = 'Emendas - Região';
   }
 
   getDados() {
-    const dts = {data1: this.data1, data2: this.data2};
-    this.sub.push(this.gs.postListarAll('emenda', dts)
+    const dts = {modulo: 'emenda', data1: this.data1, data2: this.data2};
+    this.sub.push(this.gs.postListarAll('modulo', dts)
       .pipe(take(1))
       .subscribe((dados) => {
           this.massaDados = dados;

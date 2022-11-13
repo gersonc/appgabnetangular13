@@ -41,7 +41,7 @@
 
               <div class="p-formgroup">
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo1" id="campo1" value="oficio_data_emissao" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <p-radioButton name="campo1" id="campo1" value="oficio_data_emissao2" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
                   <label for="campo1">Datas de emissão</label>
                 </div>
                 <div class="p-field-radiobutton">
@@ -61,7 +61,7 @@
                   <label for="campo5">Orgãos solicitados</label>
                 </div>
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo6" id="campo6" value="cadastro_municipio_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <p-radioButton name="campo6" id="campo6" value="oficio_municipio_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
                   <label for="campo6">Municípios</label>
                 </div>
                 <div class="p-field-radiobutton">
@@ -69,8 +69,16 @@
                   <label for="campo7">Áreas de interesse</label>
                 </div>
                 <div class="p-field-radiobutton">
-                  <p-radioButton name="campo8" id="campo8" value="oficio_posicao" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <p-radioButton name="campo8" id="campo8" value="oficio_status_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
                   <label for="campo8">Posições</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo9" id="campo9" value="oficio_tipo_andamento_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo7">Tipo de andamento</label>
+                </div>
+                <div class="p-field-radiobutton">
+                  <p-radioButton name="campo10" id="campo10" value="oficio_tipo_recebimento_nome" [(ngModel)]="campo" (onClick)="onCampoClick($event)"></p-radioButton>
+                  <label for="campo8">Tipo de recebimento</label>
                 </div>
 
                 <div class="p-field p-col-12">

@@ -16,7 +16,7 @@ import { UIChart } from 'primeng/chart';
 export class GraficosProcessoComponent implements OnInit, OnDestroy {
   @ViewChild('hbar', { static: true }) public hbar: UIChart;
   sub: Subscription[] = [];
-  campo: string = 'solicitacao_data';
+  campo: string = 'solicitacao_data2';
   tipoGraf: string = 'horizontalBar';
   massaDados: any[] = null;
   dados: GraficoInterface = null;
@@ -73,17 +73,21 @@ export class GraficosProcessoComponent implements OnInit, OnDestroy {
     this.ddTipoGraf.push(tp2);
     this.ddTipoGraf.push(tp3);
 
-    this.titulos['solicitacao_data'] = 'Processos - Datas de emissão';
+    this.titulos['processo_status_nome'] = 'Processos - Situação';
+    this.titulos['solicitacao_status_nome'] = 'Processos - Status';
+    this.titulos['solicitacao_data2'] = 'Processos - Datas de emissão';
     this.titulos['solicitacao_assunto_nome'] = 'Processos - Assuntos';
-    this.titulos['solicitacao_cadastro_tipo_nome'] = 'Processos - Tipos de solicitante';
+    this.titulos['cadastro_tipo_nome'] = 'Processos - Tipos de solicitante';
     this.titulos['cadastro_municipio_nome'] = 'Processos - Municípios';
+    this.titulos['cadastro_regiao_nome'] = 'Processos - Região';
     this.titulos['solicitacao_area_interesse_nome'] = 'Processos - Áreas de interesse';
-    this.titulos['processo_posicao'] = 'Processos - Posições';
+    this.titulos['solicitacao_local_nome'] = 'Processos - Núcleo';
+
   }
 
   getDados() {
-    const dts = {data1: this.data1, data2: this.data2};
-    this.sub.push(this.gs.postListarAll('processo', dts)
+    const dts = {modulo: 'processo', data1: this.data1, data2: this.data2};
+    this.sub.push(this.gs.postListarAll('modulo', dts)
       .pipe(take(1))
       .subscribe((dados) => {
           this.massaDados = dados;
