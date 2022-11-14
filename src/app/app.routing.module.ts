@@ -114,7 +114,7 @@ const routes: Routes = [
   },
   {
     path: 'grafico',
-    loadChildren: () => import('./graficos/graficos.module').then(m => m.GraficosModule),
+    loadChildren: () => import('./grafico/grafico.module').then(m => m.GraficoModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.configuracao
