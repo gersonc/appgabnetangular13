@@ -1,28 +1,23 @@
 import {SelectItem} from "primeng/api";
 
-export type Dataset = { [key: string]: GraficoCampoI | GraficoCampoI[] };
-
 export interface GraficoI {
   dropdown: SelectItem[],
   total: number;
-  linhas: any[];
+  linhas: any;
   labels: string[];
-  campos: GraficoCampoI[];
+  campos: GraficoInterface[];
 }
 
-
-
-export interface GraficoCampoI {
-  campo: Dataset;
-  // datasets: DatasetInterface | DatasetInterface[];
+export interface GraficoInterface {
+  campo: string;
+  labels: string[];
+  datasets: DatasetInterface[] | null;
 }
 
 export interface DatasetInterface {
-  labels?: string[];
-  backgroundColor?: string | string[];
-  borderColor?: string | string[];
-  hoverBackgroundColor?: string | string[];
-  data: number[];
-  nlinhas: number;
-  nomes: string[];
+  label?: string;
+  backgroundColor?: string[];
+  borderColor?: string[];
+  hoverBackgroundColor?: string[];
+  data?: number[];
 }

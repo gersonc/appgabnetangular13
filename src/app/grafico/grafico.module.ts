@@ -13,6 +13,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {CalendarModule} from "primeng/calendar";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {ChartModule} from 'primeng-lts/chart';
 
 
 @NgModule({
@@ -21,17 +22,18 @@ import {RadioButtonModule} from "primeng/radiobutton";
     GraficoMenuComponent,
     GraficoGraficoComponent
   ],
-  imports: [
-    CommonModule,
-    GraficoRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    FocusTrapModule,
-    FormsModule,
-    DropdownModule,
-    CalendarModule,
-    RadioButtonModule
-  ],
+    imports: [
+        CommonModule,
+        GraficoRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        FocusTrapModule,
+        FormsModule,
+        DropdownModule,
+        CalendarModule,
+        RadioButtonModule,
+      ChartModule
+    ],
   exports: [
     GraficoComponent
   ],

@@ -1,14 +1,25 @@
 <p-sidebar
-  id="sidebar-menuinterno"
+  id="sidebar-grafico"
   [(visible)]="mi.mostraMenuInterno"
   [blockScroll]="true"
   [dismissible]="true"
-  styleClass="menuinterno"
+  styleClass="grafico"
   appendTo="body"
 >
-  <p-scrollPanel [styleClass]="'menu-lateral'" >
+  <p-scrollPanel styleClass="grafico">
     <app-grafico-menu></app-grafico-menu>
   </p-scrollPanel>
 </p-sidebar>
 
-<router-outlet></router-outlet>
+<div id="grafico-main">
+
+  <div id="grafico-esquerda">
+    <div id="btn-menu-interno-grafico">
+      <i class="btn-menu-interno-grafico pi pi-bars" (click)="mostraMenu()"></i>
+    </div>
+  </div>
+
+  <div id="grafico-direita">
+    <router-outlet></router-outlet>
+  </div>
+</div>

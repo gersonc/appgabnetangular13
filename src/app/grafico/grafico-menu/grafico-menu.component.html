@@ -3,7 +3,7 @@
 <div class="p-d-flex p-ml-1 p-pl-2">
   <div class="p-fluid p-formgrid p-grid formulario">
 
-  <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 menu-lateral">
+  <div class="p-field p-col-12 menu-lateral">
     <p-dropdown
       #gf
       [options]="menuGrafico"
@@ -16,9 +16,9 @@
     ></p-dropdown>
   </div>
 
-  <ng-container *ngIf="gs.massaDados !== null">
+  <ng-container *ngIf="gs.graficos !== null">
 
-  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+  <div class="p-field p-col-12  menu-lateral">
     <!-- aniversario intervalo1 -->
     <label for="data1">De</label>
     <p-calendar
@@ -34,8 +34,7 @@
       [appendTo]="'body'"
     ></p-calendar>
   </div>
-  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-    <!-- aniversario intervalo1 -->
+  <div class="p-field p-col-12 menu-lateral">
     <label for="data2">Até</label>
     <p-calendar
       [(ngModel)]="gs.data2"
@@ -51,13 +50,34 @@
     ></p-calendar>
   </div>
 
-  <div *ngFor="let cp of gs.massaDados.dropdown" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 menu-lateral">
-    <!-- aniversario intervalo1 -->
-    <label for="{{cp.value}}">{{cp.label}}</label>
-    <p-radioButton [name]="cp.value" [(ngModel)]="gs.campo" [inputId]="cp.value"></p-radioButton>
+  <div *ngFor="let cp of gs.graficos.dropdown" class="p-field-radiobutton p-col-12 menu-lateral">
+    <p-radioButton name="campo" [label]="cp.label" [(ngModel)]="gs.campo" [value]="cp.value" [inputId]="cp.value" (onClick)="escolheCampo($event)"></p-radioButton>
   </div>
 
+    <div class="p-field p-col-12 menu-lateral">
+      <p-dropdown
+        [options]="menuTipoGrafico"
+        [(ngModel)]="gs.tipoGrafico"
+        placeholder="Seleione"
+        optionLabel="label"
+        [showClear]="true"
+        [appendTo]="'body'"
+        (ngModelChange)="escolheTipoGrafico($event)"
+      ></p-dropdown>
+    </div>
+
   </ng-container>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-times"
+      iconPos="left"
+      label="{{gs.ativo}}"
+      class="p-button-rounded p-button-secondary"
+      (click)="onAtivo()"
+    ></button>
+
+
   </div>
 </div>
 

@@ -1,1 +1,9 @@
-<p>grafico-grafico works!</p>
+<div style="background-color: transparent">
+  <p-chart
+    *ngIf="gs.idx!==-1"
+    [type]="gs.tipoGrafico.value"
+    [data]="gs.graficos.campos[gs.idx]"
+    [responsive]="true"
+    #hbar.uiChart
+  ></p-chart>
+</div>

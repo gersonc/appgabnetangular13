@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuInternoService} from "../_services";
 import {Subscription} from "rxjs";
+import {WindowsService} from "../_layout/_service";
 
 @Component({
   selector: 'app-grafico',
@@ -8,9 +9,10 @@ import {Subscription} from "rxjs";
   styleUrls: ['./grafico.component.css']
 })
 export class GraficoComponent implements OnInit , OnDestroy {
-  public altura = (window.innerHeight) + 'px';
+  public altura = WindowsService.getMain().altura + 'px'
   sub: Subscription[] = [];
-  public mostraMenuInterno = false;
+  mostraMenuInterno = false;
+
 
   constructor(
     public mi: MenuInternoService,
@@ -25,6 +27,10 @@ export class GraficoComponent implements OnInit , OnDestroy {
     );
 
     this.mi.mudaMenuInterno(true);
+  }
+
+  mostraMenu(): void {
+    this.mi.mudaMenuInterno();
   }
 
   onHide() {

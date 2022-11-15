@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {GraficoService} from "../_services/grafico.service";
-import {GraficoCampoI} from "../_models/grafico-i";
 
 @Component({
   selector: 'app-grafico-menu',
@@ -11,15 +10,45 @@ import {GraficoCampoI} from "../_models/grafico-i";
 export class GraficoMenuComponent implements OnInit {
 
 
-
   menuGrafico: SelectItem[] = [
     {
       label: 'Cadastro',
       value: 'cadastro'
-    },
-    {
+    },{
       label: 'Solicitação',
       value: 'solicitacao'
+    }
+    ,{
+      label: 'Ofício',
+      value: 'oficio'
+    }
+    ,{
+      label: 'Processo',
+      value: 'processo'
+    }
+    ,{
+      label: 'Emenda',
+      value: 'emenda'
+    }
+
+  ];
+
+  menuTipoGrafico: SelectItem[] = [
+    {
+      label: 'BARRAS',
+      value: 'bar'
+    }, {
+      label: 'DONUT',
+      value: 'doughnut'
+    }, {
+      label: 'POLAR',
+      value: 'polarArea'
+    }, {
+      label: 'TORTA',
+      value: 'pie'
+    }, {
+      label: 'BARRAS HORZ.',
+      value: 'horizontalBar'
     }
   ];
 
@@ -30,15 +59,25 @@ export class GraficoMenuComponent implements OnInit {
   ) {
   }
 
+  ngOnInit(): void {
+  }
 
   escoleGrafico(ev: SelectItem) {
-    console.log('ev', ev );
     const d = {modulo: ev.value};
     this.gs.getDados(d);
   }
 
+  escolheTipoGrafico(ev: SelectItem) {
+    this.gs.criaGrafico();
+    this.gs.tpgraf.next(ev.value);
+  }
 
-  ngOnInit(): void {
+  escolheCampo(ev) {
+    this.gs.criaGrafico();
+  }
+
+  onAtivo() {
+    this.gs.ativo = !this.gs.ativo;
   }
 
 }
