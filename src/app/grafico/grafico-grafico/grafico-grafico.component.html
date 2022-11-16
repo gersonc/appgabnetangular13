@@ -1,9 +1,13 @@
-<div style="background-color: transparent">
-  <p-chart
-    *ngIf="gs.idx!==-1"
-    [type]="gs.tipoGrafico.value"
-    [data]="gs.graficos.campos[gs.idx]"
+<div id="grafico-chart">
+  <!--<p-chart
+    *ngIf="gs.getAtivo()"
+    [type]="gs.tipo"
+    [data]="gs.dados"
     [responsive]="true"
-    #hbar.uiChart
-  ></p-chart>
+    (onDataSelect)="selectData($event)"
+    #graf
+  ></p-chart>-->
+  <canvas id="chart"></canvas>
 </div>
+
+

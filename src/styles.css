@@ -19265,6 +19265,12 @@ table.fixTableHead tbody {
 
 }
 
+#grafico-chart{
+  background-color: #c2e6e2;
+  height: 100%;
+  width: calc(100vw - 3rem);
+}
+
 /*
 #grafico-direita {
   display: block;

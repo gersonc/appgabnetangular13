@@ -10,7 +10,7 @@ import {GraficoService} from "../_services/grafico.service";
 export class GraficoMenuComponent implements OnInit {
 
 
-  menuGrafico: SelectItem[] = [
+  ddModulos: SelectItem[] = [
     {
       label: 'Cadastro',
       value: 'cadastro'
@@ -32,8 +32,7 @@ export class GraficoMenuComponent implements OnInit {
     }
 
   ];
-
-  menuTipoGrafico: SelectItem[] = [
+  ddTipo: SelectItem[] = [
     {
       label: 'BARRAS',
       value: 'bar'
@@ -51,8 +50,9 @@ export class GraficoMenuComponent implements OnInit {
       value: 'horizontalBar'
     }
   ];
-
-  grafVal: string | null = null;
+  modulo: SelectItem = null;
+  tipo: SelectItem = null;
+  campo: string = null;
 
   constructor(
     public gs: GraficoService,
@@ -62,18 +62,18 @@ export class GraficoMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  escoleGrafico(ev: SelectItem) {
-    const d = {modulo: ev.value};
-    this.gs.getDados(d);
+  mudaModulo() {
+    this.tipo = null;
+    this.campo = null;
+    this.gs.mudaModulo(this.modulo.value);
   }
 
-  escolheTipoGrafico(ev: SelectItem) {
-    this.gs.criaGrafico();
-    this.gs.tpgraf.next(ev.value);
+  mudaTipo(ev: SelectItem) {
+    this.gs.mudaTipo(this.tipo.value);
   }
 
-  escolheCampo(ev) {
-    this.gs.criaGrafico();
+  mudaCampo(i: number) {
+    this.gs.mudaCampo(this.campo, i)
   }
 
   onAtivo() {

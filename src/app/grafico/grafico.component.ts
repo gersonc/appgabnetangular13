@@ -13,7 +13,6 @@ export class GraficoComponent implements OnInit , OnDestroy {
   sub: Subscription[] = [];
   mostraMenuInterno = false;
 
-
   constructor(
     public mi: MenuInternoService,
   ) { }

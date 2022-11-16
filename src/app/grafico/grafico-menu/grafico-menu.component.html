@@ -1,84 +1,78 @@
 <div class="p-fluid formulario-bg-externo espacoInferiorMenu" (mouseenter)="gf.focus()" pFocusTrap>
 
-<div class="p-d-flex p-ml-1 p-pl-2">
-  <div class="p-fluid p-formgrid p-grid formulario">
+  <div class="p-ml-1 p-pl-2">
+    <div class="p-fluid p-formgrid p-grid formulario">
 
-  <div class="p-field p-col-12 menu-lateral">
-    <p-dropdown
-      #gf
-      [options]="menuGrafico"
-      [(ngModel)]="grafVal"
-      placeholder="Seleione"
-      optionLabel="label"
-      [showClear]="true"
-      [appendTo]="'body'"
-      (ngModelChange)="escoleGrafico($event)"
-    ></p-dropdown>
-  </div>
+      <div class="p-field p-col-12 menu-lateral">
+        <p-dropdown
+          #gf
+          [options]="ddModulos"
+          [(ngModel)]="modulo"
+          placeholder="Seleione                    "
+          optionLabel="label"
+          [showClear]="false"
+          [appendTo]="'body'"
+          [style]="{width:'100%'}"
+          (ngModelChange)="mudaModulo()"
 
-  <ng-container *ngIf="gs.graficos !== null">
+        ></p-dropdown>
+      </div>
 
-  <div class="p-field p-col-12  menu-lateral">
-    <!-- aniversario intervalo1 -->
-    <label for="data1">De</label>
-    <p-calendar
-      [(ngModel)]="gs.data1"
-      placeholder="De"
-      dateFormat="dd/mm/yy"
-      [monthNavigator]="true"
-      [yearNavigator]="true"
-      [styleClass]="'estreito'"
-      yearRange="1900:2040"
-      id="data1"
-      dataType="string"
-      [appendTo]="'body'"
-    ></p-calendar>
-  </div>
-  <div class="p-field p-col-12 menu-lateral">
-    <label for="data2">Até</label>
-    <p-calendar
-      [(ngModel)]="gs.data2"
-      placeholder="Até"
-      dateFormat="dd/mm/yy"
-      [monthNavigator]="true"
-      [yearNavigator]="true"
-      [styleClass]="'estreito'"
-      yearRange="1900:2040"
-      id="data2"
-      dataType="string"
-      [appendTo]="'body'"
-    ></p-calendar>
-  </div>
+      <ng-container *ngIf="gs.graficos !== null">
 
-  <div *ngFor="let cp of gs.graficos.dropdown" class="p-field-radiobutton p-col-12 menu-lateral">
-    <p-radioButton name="campo" [label]="cp.label" [(ngModel)]="gs.campo" [value]="cp.value" [inputId]="cp.value" (onClick)="escolheCampo($event)"></p-radioButton>
-  </div>
+        <div class="p-field p-col-12  menu-lateral">
+          <!-- aniversario intervalo1 -->
+          <label for="data1">De</label>
+          <p-calendar
+            [(ngModel)]="gs.data1"
+            placeholder="De"
+            dateFormat="dd/mm/yy"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [styleClass]="'estreito'"
+            yearRange="1900:2040"
+            id="data1"
+            dataType="string"
+            [appendTo]="'body'"
+          ></p-calendar>
+        </div>
+        <div class="p-field p-col-12 menu-lateral">
+          <label for="data2">Até</label>
+          <p-calendar
+            [(ngModel)]="gs.data2"
+            placeholder="Até"
+            dateFormat="dd/mm/yy"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [styleClass]="'estreito'"
+            yearRange="1900:2040"
+            id="data2"
+            dataType="string"
+            [appendTo]="'body'"
+          ></p-calendar>
+        </div>
 
-    <div class="p-field p-col-12 menu-lateral">
-      <p-dropdown
-        [options]="menuTipoGrafico"
-        [(ngModel)]="gs.tipoGrafico"
-        placeholder="Seleione"
-        optionLabel="label"
-        [showClear]="true"
-        [appendTo]="'body'"
-        (ngModelChange)="escolheTipoGrafico($event)"
-      ></p-dropdown>
+        <div *ngFor="let cp of gs.graficos.dropdown; index as i" class="p-field-radiobutton p-col-12 menu-lateral">
+          <p-radioButton name="campo" [label]="cp.label" [(ngModel)]="campo" [value]="cp.value" [inputId]="cp.value"
+                         (onClick)="mudaCampo(i)"></p-radioButton>
+        </div>
+
+        <div class="p-field p-col-12 menu-lateral">
+          <p-dropdown
+            [options]="ddTipo"
+            [(ngModel)]="tipo"
+            placeholder="Seleione"
+            optionLabel="label"
+            [showClear]="false"
+            [appendTo]="'body'"
+            (ngModelChange)="mudaTipo($event)"
+          ></p-dropdown>
+        </div>
+
+      </ng-container>
+
+
     </div>
-
-  </ng-container>
-    <button
-      pButton
-      type="button"
-      icon="pi pi-times"
-      iconPos="left"
-      label="{{gs.ativo}}"
-      class="p-button-rounded p-button-secondary"
-      (click)="onAtivo()"
-    ></button>
-
-
   </div>
-</div>
 
 </div>
