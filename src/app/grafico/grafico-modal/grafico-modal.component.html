@@ -1,0 +1,42 @@
+<ng-container *ngIf="showGrafico">
+  <p-dialog
+    [(visible)]="showGrafico"
+    [modal]="true"
+    [dismissableMask]="false"
+    [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
+    [style]="{width: '80vw'}"
+    styleClass="tablistagem"
+    header="DETALHE"
+    (onHide)="escondeGrafico()"
+  >
+
+<div id="grafico-main">
+  <p-sidebar
+    id="sidebar-grafico2"
+    [(visible)]="showMenu"
+    [blockScroll]="true"
+    [dismissible]="true"
+    styleClass="grafico"
+    appendTo="body"
+  >
+    <p-scrollPanel styleClass="grafico2">
+      <app-grafico-menu></app-grafico-menu>
+    </p-scrollPanel>
+  </p-sidebar>
+  <div id="grafico-esquerda" class="grafico-esquerda">
+    <div id="btn-menu-interno-grafico">
+      <i class="btn-menu-interno-grafico pi pi-bars" (click)="mostraMenu()"></i>
+      <i *ngIf="gs.getAtivo()" class="btn-menu-interno-grafico pi pi-download" (click)="gs.getImg()"></i>
+      <i *ngIf="gs.getAtivo()" class="btn-menu-interno-grafico pi pi-print" (click)="gs.getPrintPdf(true)"></i>
+      <i *ngIf="gs.getAtivo()" class="btn-menu-interno-grafico pi pi-file-pdf" (click)="gs.getPrintPdf(false)"></i>
+    </div>
+  </div>
+
+  <div id="grafico-direita">
+    <app-grafico-grafico></app-grafico-grafico>
+  </div>
+</div>
+
+
+  </p-dialog>
+</ng-container>

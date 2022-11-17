@@ -19219,6 +19219,43 @@ table.fixTableHead tbody {
   width: calc(100%);
 }
 
+
+
+.p-sidebar.grafico2 {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  top: 0 !important;
+  height: calc(100%) !important;
+  width: 20rem !important;
+  left: 0;
+  padding: 0 0 1rem 0 !important;
+}
+
+.p-sidebar-left.grafico2 {
+  width: 20rem !important;
+}
+
+.p-sidebar.grafico2 .p-sidebar-content {
+  position: relative;
+  overflow: hidden !important;
+  padding-top: .5em;
+  padding-left: 0;
+  /*overflow-y: auto;
+  overflow-x: hidden !important;*/
+}
+
+.grafico2 .p-scrollpanel-content {
+  box-sizing: border-box;
+  height: calc(100% - 2.2rem);
+  overflow: auto;
+  padding: 0 1rem 1rem 0;
+  position: relative;
+  width: calc(100%);
+}
+
+/*
+
 #grafico-main {
   position: fixed;
   display: flex;
@@ -19229,6 +19266,21 @@ table.fixTableHead tbody {
   left: 0;
   padding: 0;
 }
+*/
+
+
+#grafico-main {
+  position: absolute;
+  display: flex;
+  box-sizing: border-box;
+  top: 0 !important;
+  height: calc(100%) !important;
+  width: 100%;
+  left: 0;
+  padding: 0;
+}
+
+
 
 #grafico-esquerda {
   height: 100%;
@@ -19252,15 +19304,7 @@ table.fixTableHead tbody {
 
 #grafico-direita {
   flex: 1 0 auto;
-  /*background-color: #0dcaf0;*/
-  /*border: 0.2rem solid var(--gray-600);*/
 }
-
-/*#btn-menu-interno-grafico {
-  position: absolute;
-  top: 2rem;
-}*/
-
 
 #btn-menu-interno-grafico {
   padding-top: 1.8rem;

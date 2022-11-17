@@ -14,13 +14,16 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {CalendarModule} from "primeng/calendar";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {ChartModule} from 'primeng-lts/chart';
+import { GraficoModalComponent } from './grafico-modal/grafico-modal.component';
+import {DialogModule} from "primeng/dialog";
 
 
 @NgModule({
   declarations: [
     GraficoComponent,
     GraficoMenuComponent,
-    GraficoGraficoComponent
+    GraficoGraficoComponent,
+    GraficoModalComponent
   ],
     imports: [
         CommonModule,
@@ -32,7 +35,8 @@ import {ChartModule} from 'primeng-lts/chart';
         DropdownModule,
         CalendarModule,
         RadioButtonModule,
-      ChartModule
+        ChartModule,
+        DialogModule
     ],
   exports: [
     GraficoComponent
