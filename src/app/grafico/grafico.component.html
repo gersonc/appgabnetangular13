@@ -13,15 +13,13 @@
 
 <div id="grafico-main">
 
-  <div id="grafico-esquerda">
+  <div id="grafico-esquerda" class="grafico-esquerda">
     <div id="btn-menu-interno-grafico">
       <i class="btn-menu-interno-grafico pi pi-bars" (click)="mostraMenu()"></i>
+      <i *ngIf="gs.getAtivo()" class="btn-menu-interno-grafico pi pi-download" (click)="gs.getImg()"></i>
+      <i *ngIf="gs.getAtivo()" class="btn-menu-interno-grafico pi pi-print" (click)="gs.getPrintPdf(true)"></i>
+      <i *ngIf="gs.getAtivo()" class="btn-menu-interno-grafico pi pi-file-pdf" (click)="gs.getPrintPdf(false)"></i>
     </div>
-    <!--<div>
-      <button pButton type="button" icon="pi pi-plus" (click)="teste()"
-              class="p-button-raised p-button-rounded p-button-sm"></button>
-    </div>-->
-
   </div>
 
   <div id="grafico-direita">

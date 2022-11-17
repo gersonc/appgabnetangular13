@@ -1,13 +1,13 @@
+
 <div id="grafico-chart">
-  <!--<p-chart
-    *ngIf="gs.getAtivo()"
-    [type]="gs.tipo"
-    [data]="gs.dados"
-    [responsive]="true"
-    (onDataSelect)="selectData($event)"
-    #graf
-  ></p-chart>-->
   <canvas id="chart"></canvas>
 </div>
 
+<div style="display: none">
+  <a id="chartimg"></a>
+</div>
+
+<div id="print-chart" class="print-chart">
+  <canvas id="chartp"></canvas>
+</div>
 

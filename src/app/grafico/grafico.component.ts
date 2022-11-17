@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuInternoService} from "../_services";
 import {Subscription} from "rxjs";
 import {WindowsService} from "../_layout/_service";
+import {GraficoService} from "./_services/grafico.service";
 
 @Component({
   selector: 'app-grafico',
@@ -14,6 +15,7 @@ export class GraficoComponent implements OnInit , OnDestroy {
   mostraMenuInterno = false;
 
   constructor(
+    public gs: GraficoService,
     public mi: MenuInternoService,
   ) { }
 
@@ -38,5 +40,6 @@ export class GraficoComponent implements OnInit , OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
+    this.gs.onDestroy();
   }
 }

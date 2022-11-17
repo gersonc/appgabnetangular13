@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UrlService} from "../../_services";
-import {interval, Observable, Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {GraficoI, GraficoInterface} from "../_models/grafico-i";
-import {SelectItem} from "primeng/api";
 import Chart from 'chart.js';
+import * as printJS from 'print-js';
+import {jsPDF} from "jspdf";
 import {WindowsService} from "../../_layout/_service";
 
 @Injectable({
@@ -27,16 +28,25 @@ export class GraficoService {
   graf: CanvasRenderingContext2D;
   chart: Chart = null;
   opcaoes: any = null;
+  arquivoNome: string = null;
 
   constructor(
     private url: UrlService,
     private http: HttpClient
-  ) { }
+  ) {
+
+  }
 
   inicio() {
     const canvas = <HTMLCanvasElement> WindowsService.doc.getElementById('chart');
     this.graf = canvas.getContext("2d");
+    // this.graf.fillStyle = "blue";
     this.opcaoes = {
+      plugins: {
+        customCanvasBackgroundColor: {
+          color: 'rgb(255, 255, 255)',
+        }
+      },
       layout: {
         padding: {
           left: 50,
@@ -46,22 +56,28 @@ export class GraficoService {
         }
       },
       maintainAspectRatio: false,
-      /*scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }*/
     };
   }
 
   setGraf() {
+    const plugin = {
+      id: 'customCanvasBackgroundColor',
+      beforeDraw: (chart, args, options) => {
+        const {ctx} = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = options.color || '#ffffff';
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      }
+    };
     this.chart = new Chart(this.graf, {
       type: this.tipo,
       data: this.dados,
-      options: this.opcaoes
+      options: this.opcaoes,
+      plugins: [plugin],
     });
+
   }
 
   upDateDados() {
@@ -72,11 +88,6 @@ export class GraficoService {
       }
     }
     this.chart.update();
-  }
-
-  geraCor(): string {
-    const randomColor = Math.floor(Math.random()*16777215).toString(16);
-    return "#" + randomColor;
   }
 
   postListarAll(dados?: any): Observable<GraficoI> {
@@ -161,11 +172,6 @@ export class GraficoService {
     }
   }
 
- /* mudaTipoAux(t: string) {
-    this.tipo = t;
-    this.dados = this.graficos.campos[this.idx];
-  }*/
-
   getAtivo(): boolean {
     return (this.graficos !== null && this.dados !== null && this.modulo !== null && this.campo !== null && this.tipo !== null && this.idx !== -1);
   }
@@ -180,4 +186,86 @@ export class GraficoService {
       }
     }
   }
+
+  getArquivoNome():string {
+    let tmpDate = new Date();
+    let tmpNome = this.modulo + '-' + this.campo + '-';
+    return tmpNome + '-' + tmpDate.toISOString().split('T')[0] + '.png';
+  }
+
+  getArquivoNome2():string {
+    let tmpDate = new Date();
+    let tmpNome = this.modulo + '-' + this.campo + '-';
+    return tmpNome + '-' + tmpDate.toISOString().split('T')[0] + '.pdf';
+  }
+
+
+  getImg() {
+    let x = <HTMLAnchorElement> WindowsService.doc.getElementById('chartimg');
+    x.href = this.chart.toBase64Image();
+    x.download = this.getArquivoNome();
+    x.click();
+  }
+
+
+  getPrintPdf(vf: boolean = false) {
+    console.log('print1');
+    const canvas2 = <HTMLCanvasElement> WindowsService.doc.getElementById('chartp');
+    const grafp = canvas2.getContext("2d");
+
+    let chartp = new Chart(grafp, {
+      type: this.tipo,
+      data: this.dados,
+      options: {
+        plugins: {
+          customCanvasBackgroundColor: {
+            color: 'rgb(255, 255, 255)',
+          }
+        },
+        layout: {
+          padding: {
+            left: 50,
+            right: 50,
+            top: 50,
+            bottom: 50
+          }
+        },
+        maintainAspectRatio: false,
+        animation: {
+          onComplete: (animation) => {
+            if (vf) {
+              var img = animation.animationObject.chart.toBase64Image();
+              printJS({printable: img, type: 'image'})
+            } else {
+              var newCanvasImg = animation.animationObject.chart.toBase64Image();
+              var doc = new jsPDF('landscape');
+              doc.addImage(newCanvasImg, 'PNG', 10, 10, 280, 150 );
+              doc.save(this.getArquivoNome2());
+            }
+          }
+        }
+      }
+    });
+
+  }
+
+  onDestroy() {
+    this.sub.forEach(s => s.unsubscribe());
+    delete this.graficos;
+    delete this.data1;
+    delete this.data2;
+    delete this.idx;
+    delete this.modulo;
+    delete this.campo;
+    delete this.tipo;
+    delete this.ativo;
+    delete this.busca;
+    delete this.dados;
+    delete this.graf;
+    delete this.chart;
+    delete this.opcaoes;
+    delete this.arquivoNome;
+  }
+
+
 }
