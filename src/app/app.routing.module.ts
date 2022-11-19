@@ -6,6 +6,7 @@ import { Rule } from './_models';
 
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
+import {GraficosModule} from "./graficos/graficos.module";
 
 
 const routes: Routes = [
@@ -114,7 +115,7 @@ const routes: Routes = [
   },
   {
     path: 'grafico',
-    loadChildren: () => import('./grafico/grafico.module').then(m => m.GraficoModule),
+    loadChildren: () => import('./graficos/graficos.module').then(m => m.GraficosModule),
     canActivate: [AuthGuard],
     data: {
       rules: Rule.configuracao

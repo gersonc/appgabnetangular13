@@ -1,0 +1,73 @@
+<ng-container *ngIf="showGrafico">
+  <p-dialog
+    [(visible)]="showSN"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{width: '90vw', height: '90vh'}"
+    (onHide)="escondeGrafico()"
+    [closable]="true"
+    [showHeader]="false"
+    styleClass="grafico-modal"
+  >
+    <div id="grafico-main2">
+
+      <div id="grafico-esquerda2" [ngStyle]="{'width': wd}">
+        <div id="btn-menu-interno-grafico2">
+          <button pButton pRipple type="button" [disabled]="graficos === null" pTooltip="Filtrar" icon="pi pi-filter" class="p-button-rounded p-button-text" (click)="toggle()"></button>
+          <button pButton pRipple type="button" [disabled]="graficos === null" pTooltip="Download" icon="pi pi-download" class="p-button-rounded p-button-text" (click)="getImg()"></button>
+          <button pButton pRipple type="button" [disabled]="graficos === null" pTooltip="Imprimir" icon="pi pi-print" class="p-button-rounded p-button-text" (click)="getPrintPdf(true)"></button>
+          <button pButton pRipple type="button" [disabled]="graficos === null" pTooltip="Pdf" icon="pi pi-file-pdf" class="p-button-rounded p-button-text" (click)="getPrintPdf(false)"></button>
+          <button pButton pRipple type="button" [disabled]="graficos === null" pTooltip="Sair" icon="pi pi-times-circle" class="p-button-rounded p-button-text" (click)="fechar()"></button>
+          <ng-container *ngIf="graficos === null">
+            <div style="padding-left: 0.5rem;">
+            <i class="pi pi-spin pi-spinner" style="font-size: 1.5rem; color:var(--primary-color)"></i>
+        </div>
+          </ng-container>
+        </div>
+        <div *ngIf="isOpen && graficos !== null" class="grafico-esquerda2-menu">
+          <div class="p-ml-1 p-pl-2">
+            <div class="p-fluid p-formgrid p-grid">
+              <ng-container *ngIf="graficos !== null">
+                <div *ngFor="let cp of graficos.dropdown; index as i" class="p-field-radiobutton p-col-12 menu-lateral">
+                  <p-radioButton name="campo" [label]="cp.label" [(ngModel)]="campof" [value]="cp.value" [inputId]="cp.value"
+                                 (onClick)="mudaCampo(cp.value, i)"></p-radioButton>
+                </div>
+                <div class="p-field p-col-12 menu-lateral">
+                  <p-dropdown
+                    #tp
+                    [options]="ddTipo"
+                    placeholder="Seleione"
+                    optionLabel="label"
+                    [showClear]="false"
+                    [(ngModel)]="tipof"
+                    [appendTo]="'body'"
+                    (onChange)="mudaTipo(tp.value)"
+                  ></p-dropdown>
+                </div>
+                <div class="p-field p-col-12 menu-lateral">
+                  <br>
+                  <b>Total de registros: {{graficos.total}}</b>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="grafico-direita2">
+        <div id="grafico-chart2">
+          <canvas id="chart"></canvas>
+        </div>
+
+        <div style="display: none">
+          <a id="chartimg"></a>
+        </div>
+
+        <div id="print-chart" class="print-chart">
+          <canvas id="chartp"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </p-dialog>
+</ng-container>

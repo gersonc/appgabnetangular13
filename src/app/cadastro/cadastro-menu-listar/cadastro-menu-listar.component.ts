@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { SelectItem, SelectItemGroup } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 import { take } from 'rxjs/operators';
 
 import { AuthenticationService,  AutocompleteService } from '../../_services';
@@ -12,7 +12,6 @@ import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.s
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroBuscaI} from "../_models/cadastro-busca-i";
 import {CadastroFormService} from "../_services/cadastro-form.service";
-import {ProposicaoBuscaI} from "../../proposicao/_models/proposicao-busca-i";
 import {DateTime} from "luxon";
 
 

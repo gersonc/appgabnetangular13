@@ -56,6 +56,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   autPro = false;
   autEme = false;
   solVer = 0;
+
+  showGrafico = false;
   //permissaoVinculos = false;
 
   constructor(
@@ -103,6 +105,11 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     this.montaColunas();
 
     this.itemsAcao = [
+      {
+        label: 'Graficos', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+          this.showGrafico = true;
+        }
+      },
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly: true});
@@ -527,5 +534,10 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     });
 
   }
+
+  hideGrafico(ev: boolean) {
+    this.showGrafico = ev;
+  }
+
 
 }

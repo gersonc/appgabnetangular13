@@ -11,7 +11,7 @@ import {ButtonModule} from 'primeng/button';
 import {PanelModule} from 'primeng/panel';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {DialogModule} from 'primeng/dialog';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
+// import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputMaskModule} from 'primeng/inputmask';
 import {CalendarModule} from 'primeng/calendar';
@@ -55,56 +55,60 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
+import {GraficoModule} from "../grafico/grafico.module";
+import {GrafModule} from "../shared/graf/graf.module";
 
 
 @NgModule({
-    imports: [
-        ArquivoModule,
-        AutoCompleteModule,
-        ButtonModule,
-        CadastroRoutingModule,
-        CalendarModule,
-        CheckboxModule,
-        ChipsModule,
-        CommonModule,
-        ContextMenuModule,
-        DialogModule,
-        DropdownModule,
-        DynamicDialogModule,
-        EtiquetaModule,
-        ExporterAcessoModule,
-        FormsModule,
-        HttpClientModule,
-        InputMaskModule,
-        InputSwitchModule,
-        InputTextareaModule,
-        InputTextModule,
-        KeyFilterModule,
-        ListboxModule,
-        MenuModule,
-        MessageModule,
-        MessagesModule,
-        NgxViacepModule,
-        OverlayPanelModule,
-        PaginatorModule,
-        PanelModule,
-        ProgressBarModule,
-        ProgressSpinnerModule,
-        ReactiveFormsModule,
-        RippleModule,
-        ScrollPanelModule,
-        SidebarModule,
-        TableModule,
-        ToastModule,
-        TooltipModule,
-        TriStateCheckboxModule,
-        UtilModule,
-        QuillModule,
-        ConfigauxModule,
-        ImpressaoModule,
-        ExplorerModule,
-        KillViewModule,
-    ],
+  imports: [
+    ArquivoModule,
+    AutoCompleteModule,
+    ButtonModule,
+    CadastroRoutingModule,
+    CalendarModule,
+    CheckboxModule,
+    ChipsModule,
+    CommonModule,
+    ContextMenuModule,
+    DialogModule,
+    DropdownModule,
+    // DynamicDialogModule,
+    EtiquetaModule,
+    ExporterAcessoModule,
+    FormsModule,
+    HttpClientModule,
+    InputMaskModule,
+    InputSwitchModule,
+    InputTextareaModule,
+    InputTextModule,
+    KeyFilterModule,
+    ListboxModule,
+    MenuModule,
+    MessageModule,
+    MessagesModule,
+    NgxViacepModule,
+    OverlayPanelModule,
+    PaginatorModule,
+    PanelModule,
+    ProgressBarModule,
+    ProgressSpinnerModule,
+    ReactiveFormsModule,
+    RippleModule,
+    ScrollPanelModule,
+    SidebarModule,
+    TableModule,
+    ToastModule,
+    TooltipModule,
+    TriStateCheckboxModule,
+    UtilModule,
+    QuillModule,
+    ConfigauxModule,
+    ImpressaoModule,
+    ExplorerModule,
+    KillViewModule,
+    GraficoModule,
+    GrafModule,
+  ],
   declarations: [
     CadastroComponent,
     CadastroDatatableComponent,
@@ -116,11 +120,11 @@ import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.comp
   ],
   exports: [
     CadastroComponent
-  ]/*,
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-  ]*/
+  ]
 })
 export class CadastroModule {
 }

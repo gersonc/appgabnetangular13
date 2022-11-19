@@ -58,4 +58,8 @@ export class UrlService {
 
   constructor() {
   }
+
+  getModulo(modulo: string) {
+    return this[modulo];
+  }
 }

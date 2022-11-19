@@ -29,6 +29,7 @@ export class GraficoService {
   chart: Chart = null;
   opcaoes: any = null;
   arquivoNome: string = null;
+  modal = false;
 
   constructor(
     private url: UrlService,
@@ -40,7 +41,7 @@ export class GraficoService {
   inicio() {
     const canvas = <HTMLCanvasElement> WindowsService.doc.getElementById('chart');
     this.graf = canvas.getContext("2d");
-    // this.graf.fillStyle = "blue";
+    this.graf.fillStyle = "blue";
     this.opcaoes = {
       plugins: {
         customCanvasBackgroundColor: {
@@ -91,7 +92,12 @@ export class GraficoService {
   }
 
   postListarAll(dados?: any): Observable<GraficoI> {
-    const url = this.url.grafico + '/';
+    let url = '';
+    if (this.modal) {
+      url = this.url[dados.modulo] + '/grafico';
+    } else {
+      url = this.url.grafico + '/';
+    }
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<GraficoI>(url, dados, httpOptions);
   }
@@ -108,10 +114,11 @@ export class GraficoService {
       this.graf = null;
     }
     if (sessionStorage.getItem('grafico-'+dados.modulo)) {
+      this.graficos = JSON.parse(sessionStorage.getItem('grafico-'+dados.modulo));
       if (this.graf === null) {
         this.inicio();
       }
-      this.graficos = JSON.parse(sessionStorage.getItem('grafico-'+dados.modulo));
+
     } else {
       this.sub.push(this.postListarAll(dados)
         .pipe(take(1))
@@ -207,9 +214,7 @@ export class GraficoService {
     x.click();
   }
 
-
   getPrintPdf(vf: boolean = false) {
-    console.log('print1');
     const canvas2 = <HTMLCanvasElement> WindowsService.doc.getElementById('chartp');
     const grafp = canvas2.getContext("2d");
 

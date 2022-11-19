@@ -14,30 +14,31 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {CalendarModule} from "primeng/calendar";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {ChartModule} from 'primeng-lts/chart';
-import { GraficoModalComponent } from './grafico-modal/grafico-modal.component';
 import {DialogModule} from "primeng/dialog";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+
 
 
 @NgModule({
   declarations: [
     GraficoComponent,
     GraficoMenuComponent,
-    GraficoGraficoComponent,
-    GraficoModalComponent
+    GraficoGraficoComponent
   ],
-    imports: [
-        CommonModule,
-        GraficoRoutingModule,
-        SidebarModule,
-        ScrollPanelModule,
-        FocusTrapModule,
-        FormsModule,
-        DropdownModule,
-        CalendarModule,
-        RadioButtonModule,
-        ChartModule,
-        DialogModule
-    ],
+  imports: [
+    CommonModule,
+    GraficoRoutingModule,
+    SidebarModule,
+    ScrollPanelModule,
+    FocusTrapModule,
+    FormsModule,
+    DropdownModule,
+    CalendarModule,
+    RadioButtonModule,
+    ChartModule,
+    DialogModule,
+    OverlayPanelModule
+  ],
   exports: [
     GraficoComponent
   ],

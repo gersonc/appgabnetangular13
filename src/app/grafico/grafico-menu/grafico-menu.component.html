@@ -1,11 +1,12 @@
-<div class="p-fluid formulario-bg-externo espacoInferiorMenu" (mouseenter)="gf.focus()" pFocusTrap>
+<div id="grafico-menu" class="p-fluid formulario-bg-externo espacoInferiorMenu">
 
   <div class="p-ml-1 p-pl-2">
     <div class="p-fluid p-formgrid p-grid formulario">
 
-      <div class="p-field p-col-12 menu-lateral">
+      <div *ngIf="!gs.modal" class="p-field p-col-12 menu-lateral">
         <p-dropdown
           #gf
+          *ngIf="!gs.modal"
           [options]="ddModulos"
           [(ngModel)]="modulo"
           placeholder="Seleione                    "
@@ -20,7 +21,7 @@
 
       <ng-container *ngIf="gs.graficos !== null">
 
-        <div class="p-field p-col-12  menu-lateral">
+        <div *ngIf="!gs.modal"  class="p-field p-col-12  menu-lateral">
           <!-- aniversario intervalo1 -->
           <label for="data1">De</label>
           <p-calendar
@@ -36,7 +37,7 @@
             [appendTo]="'body'"
           ></p-calendar>
         </div>
-        <div class="p-field p-col-12 menu-lateral">
+        <div  *ngIf="!gs.modal"  class="p-field p-col-12 menu-lateral">
           <label for="data2">Até</label>
           <p-calendar
             [(ngModel)]="gs.data2"
