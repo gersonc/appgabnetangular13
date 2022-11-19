@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { WindowsService } from '../../_layout/_service';
 import {AuthenticationService, MenuInternoService} from '../../_services';

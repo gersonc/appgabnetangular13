@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {GraficoI, GraficoInterface} from "../../../grafico/_models/grafico-i";
-
 
 import Chart from 'chart.js';
 import * as printJS from 'print-js';
@@ -11,6 +9,7 @@ import {SelectItem} from "primeng/api";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {take} from "rxjs/operators";
 import {UrlService} from "../../../_services";
+import {GraficoI, GraficoInterface} from "../../../graficos/_models/grafico-i";
 
 
 @Component({
@@ -122,12 +121,6 @@ export class GrafComponent implements OnInit, OnChanges {
   fechar() {
     this.showSN = false;
   }
-
-  /*inicio() {
-    const canvas = <HTMLCanvasElement> WindowsService.doc.getElementById('chart');
-    this.graf = canvas.getContext("2d");
-    this.graf.fillStyle = "blue";
-  }*/
 
   setGraf() {
     if (this.getAtivo()) {

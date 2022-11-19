@@ -5,11 +5,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor, JwtInterceptor} from '../_helpers';
 
 import {TableModule} from 'primeng/table';
-import {PaginatorModule} from 'primeng/paginator';
+// import {PaginatorModule} from 'primeng/paginator';
 import {SidebarModule} from 'primeng/sidebar';
 import {ButtonModule} from 'primeng/button';
 import {PanelModule} from 'primeng/panel';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
+// import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {DialogModule} from 'primeng/dialog';
 // import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputTextModule} from 'primeng/inputtext';
@@ -18,16 +18,16 @@ import {CalendarModule} from 'primeng/calendar';
 import {TooltipModule} from 'primeng/tooltip';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {InputSwitchModule} from 'primeng/inputswitch';
-import {ToastModule} from 'primeng/toast';
+// import {ToastModule} from 'primeng/toast';
 import {ListboxModule} from 'primeng/listbox';
 import {CheckboxModule} from 'primeng/checkbox';
-import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
+/*import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';
+import {MessageModule} from 'primeng/message';*/
 import {MenuModule} from 'primeng/menu';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
+// import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ContextMenuModule} from 'primeng/contextmenu';
-import {ProgressBarModule} from 'primeng/progressbar';
+// import {ProgressBarModule} from 'primeng/progressbar';
 import {NgxViacepModule} from '@brunoc/ngx-viacep';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {AutoCompleteModule} from 'primeng/autocomplete';
@@ -41,7 +41,7 @@ import {CadastroDatatableComponent} from './cadastro-datatable';
 import {ArquivoModule} from '../arquivo/arquivo.module';
 import {RippleModule} from 'primeng/ripple';
 import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
-import {ChipsModule} from "primeng/chips";
+// import {ChipsModule} from "primeng/chips";
 import {CadastroFormComponent} from "./cadastro-form/cadastro-form.component";
 import {QuillModule} from "ngx-quill";
 import {CadastroMenuListarComponent} from "./cadastro-menu-listar/cadastro-menu-listar.component";
@@ -51,12 +51,11 @@ import {
 } from "./cadastro-incluir-listaexistente/cadastro-incluir-listaexistente.component";
 import {ConfigauxModule} from "../configaux/configaux.module";
 import {CadastroDetalheComponent} from "./cadastro-detalhe/cadastro-detalhe.component";
-import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {ExplorerModule} from "../explorer/explorer.module";
 import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
-import {GraficoModule} from "../grafico/grafico.module";
 import {GrafModule} from "../shared/graf/graf.module";
+import {ImpressaoModule} from "../shared/impressao/impressao.module";
 
 
 @NgModule({
@@ -67,7 +66,7 @@ import {GrafModule} from "../shared/graf/graf.module";
     CadastroRoutingModule,
     CalendarModule,
     CheckboxModule,
-    ChipsModule,
+    // ChipsModule,
     CommonModule,
     ContextMenuModule,
     DialogModule,
@@ -84,30 +83,29 @@ import {GrafModule} from "../shared/graf/graf.module";
     KeyFilterModule,
     ListboxModule,
     MenuModule,
-    MessageModule,
-    MessagesModule,
+    // MessageModule,
+    // MessagesModule,
     NgxViacepModule,
-    OverlayPanelModule,
-    PaginatorModule,
+    // OverlayPanelModule,
+    // PaginatorModule,
     PanelModule,
-    ProgressBarModule,
-    ProgressSpinnerModule,
+    // ProgressBarModule,
+    // ProgressSpinnerModule,
     ReactiveFormsModule,
     RippleModule,
     ScrollPanelModule,
     SidebarModule,
     TableModule,
-    ToastModule,
+    // ToastModule,
     TooltipModule,
-    TriStateCheckboxModule,
+    // TriStateCheckboxModule,
     UtilModule,
     QuillModule,
     ConfigauxModule,
-    ImpressaoModule,
     ExplorerModule,
     KillViewModule,
-    GraficoModule,
     GrafModule,
+    ImpressaoModule,
   ],
   declarations: [
     CadastroComponent,

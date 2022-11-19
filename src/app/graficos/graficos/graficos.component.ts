@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {Observable, Subscription} from "rxjs";
-import {GraficoI, GraficoInterface} from "../../grafico/_models/grafico-i";
 import Chart from 'chart.js';
 import * as printJS from 'print-js';
 import {jsPDF} from "jspdf";
@@ -9,6 +8,7 @@ import {WindowsService} from "../../_layout/_service";
 import {take} from "rxjs/operators";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UrlService} from "../../_services";
+import {GraficoI, GraficoInterface} from "../_models/grafico-i";
 
 
 @Component({
