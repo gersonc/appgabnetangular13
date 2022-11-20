@@ -60,6 +60,11 @@ export class UrlService {
   }
 
   getModulo(modulo: string) {
-    return this[modulo];
+    if(modulo === 'solicitacao') {
+      return this.solic;
+    } else {
+      return this[modulo];
+    }
+
   }
 }

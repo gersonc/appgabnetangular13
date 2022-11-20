@@ -375,7 +375,9 @@
   </div>
 </ng-container>
 
-
+<ng-container *ngIf="showGrafico">
+  <app-graf [modulo]="'solicitacao'" [busca]="ss.busca" (hideGrafico)="hideGrafico($event)"></app-graf>
+</ng-container>
 <!--*** IMPRESSAO ****************************************************************************************-->
 
 

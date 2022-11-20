@@ -106,7 +106,7 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
 
     this.itemsAcao = [
       {
-        label: 'Graficos', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
+        label: 'Graficos', icon: 'pi pi-chart-line', style: {'font-size': '.9em'}, command: () => {
           this.showGrafico = true;
         }
       },

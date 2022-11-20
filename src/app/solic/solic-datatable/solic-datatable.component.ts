@@ -45,6 +45,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   permListHist: boolean = false;
   permInclHist: boolean = false;
   permitirAcao: boolean = true;
+  showGrafico = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -69,6 +70,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
 
     this.itemsAcao = [
       {
+        label: 'Graficos', icon: 'pi pi-chart-line', style: {'font-size': '.9em'}, command: () => {
+          this.showGrafico = true;
+        }
+      },
+      {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly: true});
         }
@@ -90,7 +96,6 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
       },
       {
         label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          ;
           this.ss.tabelaPdf(2);
         }
       },
@@ -496,6 +501,11 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
   }
+
+  hideGrafico(ev: boolean) {
+    this.showGrafico = ev;
+  }
+
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

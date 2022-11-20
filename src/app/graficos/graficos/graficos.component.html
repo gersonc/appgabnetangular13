@@ -9,9 +9,6 @@
   (onShow)="mostraMenu(true)"
 >
   <p-scrollPanel styleClass="grafico">
-
-
-
     <div id="grafico-menu" class="p-fluid formulario-bg-externo espacoInferiorMenu">
 
       <div class="p-ml-1 p-pl-2">
@@ -28,7 +25,6 @@
               [appendTo]="'body'"
               [style]="{width:'100%'}"
               (ngModelChange)="mudaModulo()"
-
             ></p-dropdown>
           </div>
 
@@ -101,13 +97,8 @@
     </div>
 
 
-
-
   </p-scrollPanel>
 </p-sidebar>
-
-
-
 
 <div id="grafico-main">
 
@@ -121,23 +112,14 @@
   </div>
 
   <div id="grafico-direita">
-
-
     <div id="grafico-chart">
       <canvas id="chart"></canvas>
     </div>
-
     <div style="display: none">
       <a id="chartimg"></a>
     </div>
-
     <div id="print-chart" class="print-chart">
       <canvas id="chartp"></canvas>
     </div>
-
-
-
-
-
   </div>
 </div>
