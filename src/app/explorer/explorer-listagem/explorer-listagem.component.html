@@ -1,6 +1,29 @@
+
+<ng-container *ngIf="tipo==='arquivo' && display">
+  <p-dialog *ngIf="exs.aut.arquivos_baixar && imgSN"
+            [(visible)]="display"
+            [modal]="true"
+            [draggable]="true"
+            [resizable]="true"
+            [maximizable]="true"
+            [dismissableMask]="true"
+            [styleClass]="'imgviewer tablistagem'"
+            (onShow)="op.hide()"
+  >
+    <ng-template pTemplate="header">
+      <i class="dowloadIcon pi pi-download" style="font-size: 1rem" (click)="download()"></i>
+    </ng-template>
+    <img src="{{arquivo.arquivo_url_s3}}" alt="{{arquivo.arquivo_nome_original}}" *ngIf="tipo==='arquivo' && exs.aut.arquivos_baixar && imgSN">
+  </p-dialog>
+</ng-container>
+
+
+
+
 <ng-container *ngIf="arquivo && (exs.aut.arquivos_baixar || exs.aut.arquivos_apagar)">
   <div class="explorer-arquivo" #arq>
-    <div id="tst" class="explorer-arquivo-icons" [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}"
+    <div id="tst0" class="explorer-arquivo-icons"
+         [ngStyle]="{'background': urlbackGround, 'background-size': 'contain'}"
          (click)="op.toggle($event)">
     </div>
     <div class="explorer-file-text" (click)="op.toggle($event)">
@@ -9,52 +32,95 @@
   </div>
 </ng-container>
 
-<p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true" class="explorer">
-  <ng-template pTemplate>
 
-      <div class="explorer-overlay-text">
-        <div>{{arquivo.arquivo_nome_original}}</div>
-        <div>{{readableBytes(arquivo.arquivo_tamanho)}}</div>
+<p-overlayPanel #op [dismissable]="true" [showCloseIcon]="false" class="explorer">
+  <ng-template pTemplate>
+    <!--<app-explorer-detalhe [arquivo]="arquivo"></app-explorer-detalhe>-->
+    <div class="explorer-overlay-text">
+      <div>{{arquivo.arquivo_nome_original}}</div>
+      <div>{{readableBytes(arquivo.arquivo_tamanho)}}</div>
+    </div>
+
+    <div class="p-d-inline-flex">
+      <div *ngIf="imgSN && exs.aut.arquivos_baixar" class="p-mx-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-window-maximize"
+          pTooltip="Abrir"
+          tooltipPosition="top"
+          class="p-button-raised p-button-rounded p-button-success p-button-sm"
+          (click)="showDialog()"
+        >
+        </button>
       </div>
-      <div class="p-d-inline explorer-overlay-content">
-        <ng-container *ngIf="exs.aut.arquivos_baixar">
-        <a href="{{arquivo.arquivo_url_s3}}">
-          <p-avatar icon="pi pi-download" shape="circle" styleClass="p-shadow-3 explorer-download"></p-avatar>
-        </a>
-        </ng-container>
-        <ng-container *ngIf="exs.aut.arquivos_apagar">
-        <div class="explorer-overlay-buttons" *ngIf="exs.mostraUpload()">
-          <p-avatar icon="pi pi-trash" shape="circle" (click)="onApagarArquivo()"
-                    styleClass="p-shadow-3 explorer-delete"></p-avatar>
+      <div *ngIf="exs.aut.arquivos_baixar" class="p-mx-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-download"
+          pTooltip="Download"
+          tooltipPosition="top"
+          class="p-button-raised p-button-rounded p-button-sm"
+          (click)="download()"
+        >
+        </button>
+      </div>
+        <div *ngIf="exs.aut.arquivos_apagar" class="p-mr-2">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-trash"
+            pTooltip="Apagar"
+            tooltipPosition="top"
+            class="p-button-raised p-button-rounded p-button-danger p-button-sm"
+            (click)="onApagarArquivo()"
+          >
+          </button>
         </div>
-        </ng-container>
+        <div class="p-mr-2">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-times-circle"
+            pTooltip="Fechar"
+            tooltipPosition="top"
+            class="p-button-raised p-button-rounded p-button-sm"
+            (click)="op.hide()"
+          >
+          </button>
+        </div>
       </div>
+
   </ng-template>
 </p-overlayPanel>
 
-
-<ng-container *ngIf="pasta && exs.aut.arquivos_apagar">
+<ng-container *ngIf="tipo==='pasta' && pasta && exs.aut.arquivos_apagar">
   <div class="explorer-folder">
     <ng-container>
-    <div class="explorer-folder-icons"
-         (click)="exs.addCaminho(pasta.arquivo_pasta_id)"
-         (auxclick)="fdr.toggle($event)"
-         (contextmenu)="onRightClickPasta($event)"
-    >
-    </div>
-    <div class="explorer-file-text"
-         (click)="exs.addCaminho(pasta.arquivo_pasta_id)"
-         (auxclick)="fdr.toggle($event)"
-         (contextmenu)="onRightClickPasta($event)"
-    >
-      {{pasta.arquivo_pasta_titulo}}
-    </div>
+      <div class="explorer-folder-icons"
+           (click)="exs.addCaminho(pasta.arquivo_pasta_id)"
+           (auxclick)="fdr.toggle($event)"
+           (contextmenu)="onRightClickPasta($event)"
+      >
+      </div>
+      <div class="explorer-file-text"
+           (click)="exs.addCaminho(pasta.arquivo_pasta_id)"
+           (auxclick)="fdr.toggle($event)"
+           (contextmenu)="onRightClickPasta($event)"
+      >
+        {{pasta.arquivo_pasta_titulo}}
+      </div>
     </ng-container>
   </div>
 
 </ng-container>
 
-<ng-container *ngIf="pasta && !exs.aut.arquivos_apagar">
+<ng-container *ngIf="tipo==='pasta' && pasta && !exs.aut.arquivos_apagar">
   <div class="explorer-folder">
     <ng-container>
       <div class="explorer-folder-icons">
@@ -80,8 +146,14 @@
         Confirma apagar?
       </div>
       <div class="p-d-flex p-jc-between">
-        <div><button pButton pRipple type="button" label="Sim" class="p-button-rounded p-button-danger" (click)="apagarPasta()" [disabled]="exs.desligaBtnApagar"></button></div>
-        <div><button pButton pRipple type="button" label="Não" class="p-button-rounded p-button-secondary" (click)="fdr.hide()" [disabled]="exs.desligaBtnApagar"></button></div>
+        <div>
+          <button pButton pRipple type="button" label="Sim" class="p-button-rounded p-button-danger"
+                  (click)="apagarPasta()" [disabled]="exs.desligaBtnApagar"></button>
+        </div>
+        <div>
+          <button pButton pRipple type="button" label="Não" class="p-button-rounded p-button-secondary"
+                  (click)="fdr.hide()" [disabled]="exs.desligaBtnApagar"></button>
+        </div>
       </div>
     </ng-container>
 
