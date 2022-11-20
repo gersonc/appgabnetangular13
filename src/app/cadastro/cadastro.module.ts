@@ -28,7 +28,7 @@ import {MenuModule} from 'primeng/menu';
 // import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ContextMenuModule} from 'primeng/contextmenu';
 // import {ProgressBarModule} from 'primeng/progressbar';
-import {NgxViacepModule} from '@brunoc/ngx-viacep';
+// import {NgxViacepModule} from '@brunoc/ngx-viacep';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {DropdownModule} from 'primeng/dropdown';
@@ -56,6 +56,7 @@ import {KillViewModule} from "../shared/kill-view/kill-view.module";
 import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
 import {GrafModule} from "../shared/graf/graf.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
+import {ViacepModule} from "../shared/viacep";
 
 
 @NgModule({
@@ -85,7 +86,7 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
     MenuModule,
     // MessageModule,
     // MessagesModule,
-    NgxViacepModule,
+    ViacepModule,
     // OverlayPanelModule,
     // PaginatorModule,
     PanelModule,

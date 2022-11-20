@@ -12,13 +12,15 @@ import {SelectItem, SelectItemGroup} from "primeng/api";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 import {WindowsService} from "../../_layout/_service";
 import {catchError, take} from "rxjs/operators";
-import {CEPError, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
+// import {CEPError, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroFormI} from "../_models/cadastro-form-i";
 import {DateTime} from "luxon";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {CadastroI} from "../_models/cadastro-i";
 import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.service";
+// import {NgxViacepService} from "@brunoc/ngx-viacep";
+import {CEPError, Endereco, ViacepService} from "../../shared/viacep";
 
 @Component({
   selector: 'app-cadastro-form',
@@ -194,7 +196,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     public cs: CadastroService,
     private router: Router,
     private ms: MsgService,
-    private viacep: NgxViacepService,
+    private viacep: ViacepService,
   ) {
   }
 
