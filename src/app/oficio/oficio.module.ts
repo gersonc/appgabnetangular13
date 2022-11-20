@@ -37,6 +37,7 @@ import {SelectButtonModule} from "primeng/selectbutton";
 import {FocusTrapModule} from "primeng/focustrap";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
+import {GrafModule} from "../shared/graf/graf.module";
 
 
 @NgModule({
@@ -50,36 +51,37 @@ import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
     OficioExcluirComponent,
     OficioAnalisarComponent
   ],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    DropdownModule,
-    ReactiveFormsModule,
-    OficioRoutingModule,
-    InputTextModule,
-    TableModule,
-    MenuModule,
-    RippleModule,
-    TooltipModule,
-    ExporterAcessoModule,
-    DialogModule,
-    UtilModule,
-    ContextMenuModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ListboxModule,
-    InputNumberModule,
-    CalendarModule,
-    AccordionModule,
-    QuillModule,
-    ArquivoModule,
-    CardModule,
-    ExplorerModule,
-    ImpressaoModule,
-    KillViewModule,
-    SelectButtonModule,
-    FocusTrapModule
-  ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        DropdownModule,
+        ReactiveFormsModule,
+        OficioRoutingModule,
+        InputTextModule,
+        TableModule,
+        MenuModule,
+        RippleModule,
+        TooltipModule,
+        ExporterAcessoModule,
+        DialogModule,
+        UtilModule,
+        ContextMenuModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ListboxModule,
+        InputNumberModule,
+        CalendarModule,
+        AccordionModule,
+        QuillModule,
+        ArquivoModule,
+        CardModule,
+        ExplorerModule,
+        ImpressaoModule,
+        KillViewModule,
+        SelectButtonModule,
+        FocusTrapModule,
+        GrafModule
+    ],
   exports: [
     OficioComponent,
     OficioIncluirComponent

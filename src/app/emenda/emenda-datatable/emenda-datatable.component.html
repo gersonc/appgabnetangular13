@@ -352,3 +352,7 @@
     </p-dialog>
   </div>
 </ng-container>
+
+<ng-container *ngIf="showGrafico">
+  <app-graf [modulo]="'solicitacao'" [busca]="es.busca" (hideGrafico)="hideGrafico($event)"></app-graf>
+</ng-container>

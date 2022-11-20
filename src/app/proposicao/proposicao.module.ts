@@ -36,6 +36,7 @@ import {AccordionModule} from "primeng/accordion";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {ProposicaoExcluirComponent} from "./proposicao-excluir/proposicao-excluir.component";
 import {AndamentoProposicaoModule} from "../andamento-proposicao/andamento-proposicao.module";
+import {GrafModule} from "../shared/graf/graf.module";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {AndamentoProposicaoModule} from "../andamento-proposicao/andamento-propo
         AccordionModule,
         InputSwitchModule,
         AndamentoProposicaoModule,
+        GrafModule,
     ],
   exports: [
     ProposicaoComponent

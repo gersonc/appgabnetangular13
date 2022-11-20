@@ -60,11 +60,13 @@ export class UrlService {
   }
 
   getModulo(modulo: string) {
-    if(modulo === 'solicitacao') {
-      return this.solic;
-    } else {
-      return this[modulo];
+    switch (modulo) {
+      case 'solicitacao':
+        return this.solic;
+      case 'processo':
+        return this.proce;
+      default:
+        return this[modulo];
     }
-
   }
 }

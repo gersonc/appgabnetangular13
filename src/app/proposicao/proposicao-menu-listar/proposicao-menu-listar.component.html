@@ -1,4 +1,4 @@
-<div class="p-fluid formulario-bg-externo">
+<div #menu class="p-fluid formulario-bg-externo">
   <form [formGroup]="formMenuProposicao" (keyup)="onKey($event)">
     <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
       <div class="p-d-inline-flex">
@@ -139,6 +139,7 @@
                 formControlName="proposicao_origem_id"
                 placeholder="TODOS"
                 [showClear]="true"
+                appendTo="body"
               ></p-dropdown>
             </div>
 

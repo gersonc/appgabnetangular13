@@ -48,6 +48,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   permInclHist: boolean = false;
   permitirAcao: boolean = true;
   idx: number = 0;
+  showGrafico = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -72,6 +73,11 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     }
 
     this.itemsAcao = [
+      {
+        label: 'Graficos', icon: 'pi pi-chart-line', style: {'font-size': '.9em'}, command: () => {
+          this.showGrafico = true;
+        }
+      },
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly: true});
@@ -481,6 +487,10 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
+  }
+
+  hideGrafico(ev: boolean) {
+    this.showGrafico = ev;
   }
 
   ngOnDestroy(): void {

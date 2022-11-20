@@ -38,7 +38,7 @@ export class EmendaDatatableComponent implements OnInit {
   permListHist: boolean = false;
   permInclHist: boolean = false;
   permitirAcao: boolean = true;
-
+  showGrafico = false;
 
 
 
@@ -76,6 +76,11 @@ export class EmendaDatatableComponent implements OnInit {
     }
 
     this.itemsAcao = [
+      {
+        label: 'Graficos', icon: 'pi pi-chart-line', style: {'font-size': '.9em'}, command: () => {
+          this.showGrafico = true;
+        }
+      },
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly: true});
@@ -417,6 +422,9 @@ export class EmendaDatatableComponent implements OnInit {
     this.es.recebeRegistro(h);
   }
 
+  hideGrafico(ev: boolean) {
+    this.showGrafico = ev;
+  }
 
   ngOnDestroy(): void {
     this.es.selecionados = [];

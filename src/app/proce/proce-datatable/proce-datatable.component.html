@@ -377,7 +377,9 @@
   </div>
 </ng-container>
 
-
+<ng-container *ngIf="showGrafico">
+  <app-graf [modulo]="'processo'" [busca]="ps.busca" (hideGrafico)="hideGrafico($event)"></app-graf>
+</ng-container>
 
 
 

@@ -30,7 +30,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   contextoMenu: MenuItem[];
   mostraSeletor = false;
   cols: any[] = [];
-
+  showGrafico = false;
 
 
   constructor(
@@ -51,6 +51,11 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
     }
 
     this.itemsAcao = [
+      {
+        label: 'Graficos', icon: 'pi pi-chart-line', style: {'font-size': '.9em'}, command: () => {
+          this.showGrafico = true;
+        }
+      },
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly: true});
@@ -353,6 +358,10 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
+  }
+
+  hideGrafico(ev: boolean) {
+    this.showGrafico = ev;
   }
 
   ngOnDestroy(): void {

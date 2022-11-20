@@ -39,7 +39,7 @@ export class GraficosComponent implements OnInit, OnDestroy {
   graf: CanvasRenderingContext2D;
   chart: Chart = null;
   arquivoNome: string = null;
-  modal = false;
+  // modal = false;
 
   ddModulos: SelectItem[] = [
     {
@@ -61,6 +61,11 @@ export class GraficosComponent implements OnInit, OnDestroy {
       label: 'Emenda',
       value: 'emenda'
     }
+    ,{
+      label: 'Proposição',
+      value: 'proposicao'
+    }
+
 
   ];
   ddTipo: SelectItem[] = [

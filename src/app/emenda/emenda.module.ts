@@ -35,6 +35,7 @@ import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {HistModule} from "../hist/hist.module";
 import {EmendaExcluirComponent} from './emenda-excluir/emenda-excluir.component';
 import {EmendaAtualizarComponent} from './emenda-atualizar/emenda-atualisar.component';
+import {GrafModule} from "../shared/graf/graf.module";
 
 
 
@@ -48,35 +49,36 @@ import {EmendaAtualizarComponent} from './emenda-atualizar/emenda-atualisar.comp
     EmendaExcluirComponent,
     EmendaAtualizarComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    EmendaRoutingModule,
-    SidebarModule,
-    ScrollPanelModule,
-    ButtonModule,
-    DropdownModule,
-    TableModule,
-    MenuModule,
-    ExporterAcessoModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    UtilModule,
-    ContextMenuModule,
-    AutoCompleteModule,
-    InputTextModule,
-    ConfigauxModule,
-    CalendarModule,
-    InputNumberModule,
-    AccordionModule,
-    QuillModule,
-    ArquivoModule,
-    KillViewModule,
-    ExplorerModule,
-    ImpressaoModule,
-    HistModule
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        EmendaRoutingModule,
+        SidebarModule,
+        ScrollPanelModule,
+        ButtonModule,
+        DropdownModule,
+        TableModule,
+        MenuModule,
+        ExporterAcessoModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        UtilModule,
+        ContextMenuModule,
+        AutoCompleteModule,
+        InputTextModule,
+        ConfigauxModule,
+        CalendarModule,
+        InputNumberModule,
+        AccordionModule,
+        QuillModule,
+        ArquivoModule,
+        KillViewModule,
+        ExplorerModule,
+        ImpressaoModule,
+        HistModule,
+        GrafModule
+    ],
   exports: [
     EmendaComponent
   ],

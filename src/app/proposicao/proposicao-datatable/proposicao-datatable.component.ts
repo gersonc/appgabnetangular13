@@ -40,6 +40,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   permListHist: boolean = false;
   permInclHist: boolean = false;
   permitirAcao: boolean = true;
+  showGrafico = false;
 
   constructor(
     public mi: MenuInternoService,
@@ -64,6 +65,11 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
     }
 
     this.itemsAcao = [
+      {
+        label: 'Graficos', icon: 'pi pi-chart-line', style: {'font-size': '.9em'}, command: () => {
+          this.showGrafico = true;
+        }
+      },
       {
         label: 'CSV - LINHAS SELECIONADAS', icon: 'pi pi-share-alt', style: {'font-size': '.9em'}, command: () => {
           this.dtb.exportCSV({selectionOnly: true});
@@ -383,6 +389,10 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
       ap.push(p)
     }*/
     // this.ps.recebeRegistro(h);
+  }
+
+  hideGrafico(ev: boolean) {
+    this.showGrafico = ev;
   }
 
   ngOnDestroy(): void {

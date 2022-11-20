@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 
 import Chart from 'chart.js';
 import * as printJS from 'print-js';
@@ -17,7 +17,7 @@ import {GraficoI, GraficoInterface} from "../../../graficos/_models/grafico-i";
   templateUrl: './graf.component.html',
   styleUrls: ['./graf.component.css']
 })
-export class GrafComponent implements OnInit, OnChanges {
+export class GrafComponent implements OnInit, OnChanges, OnDestroy {
   @Output() hideGrafico = new EventEmitter<boolean>();
   @Input() busca: any;
   @Input() modulo: string;
@@ -28,11 +28,13 @@ export class GrafComponent implements OnInit, OnChanges {
   graficos: GraficoI | null = null;
   data1: string = null;
   data2: string = null;
+  data12: string = null;
+  data22: string = null;null;
   idx = -1;
-  campof: SelectItem = null;
-  campo: string = null;
-  tipof: SelectItem = null;
-  tipo: string = null;
+  campo: string = null
+  campo1: string = null;
+  tipo: string = null
+  tipo1: SelectItem = null;
   ativo = false;
   dados: GraficoInterface = null;
   // graf: CanvasRenderingContext2D = null;
@@ -159,6 +161,8 @@ export class GrafComponent implements OnInit, OnChanges {
       }
     }
     this.chart.update();
+    this.isOpen = false;
+    this.wd =  '3rem'
   }
 
   postListarAll(dados?: any): Observable<GraficoI> {
@@ -191,21 +195,105 @@ export class GrafComponent implements OnInit, OnChanges {
   }
 
   getAtivo(): boolean {
-    return (this.graficos !== null && this.dados !== null && this.modulo !== null && this.campo !== null && this.tipo !== null && this.idx !== -1);
+    return (
+      this.graficos !== undefined &&
+      this.graficos !== null &&
+      this.dados !== undefined &&
+      this.dados !== null &&
+      this.modulo !== undefined &&
+      this.modulo !== null &&
+      this.campo !== undefined &&
+      this.campo !== null &&
+      this.tipo !== undefined &&
+      this.tipo !== null &&
+      this.idx !== -1);
   }
 
-  mudaTipo(ev: SelectItem) {
-    this.tipo = ev.value;
-    this.setGraf();
+  mudaTipo() {
+    if (this.tipo1.value !== this.tipo) {
+      this.tipo = this.tipo1.value;
+      if (this.campo !== undefined && this.campo !== null) {
+        if (this.chart !== undefined && this.chart !== null) {
+          this.chart.destroy();
+          delete this.chart;
+        }
+        this.chart = null;
+        const canvas = <HTMLCanvasElement>WindowsService.doc.getElementById('chart');
+        const graf: CanvasRenderingContext2D = canvas.getContext("2d");
+        graf.fillStyle = "white";
+        const plugin = {
+          id: 'customCanvasBackgroundColor',
+          beforeDraw: (chart, args, options) => {
+            const {ctx} = chart;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = options.color || '#ffffff';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+          }
+        };
+        this.chart = new Chart(graf, {
+          type: this.tipo,
+          data: this.dados,
+          options: this.opcaoes,
+          plugins: [plugin],
+        });
+        this.isOpen = false;
+        this.wd =  '3rem'
+      }
+    }
   }
 
-  mudaCampo(ev: string, i: number) {
-    this.idx = i;
-    this.campo = ev;
-    this.dados = this.graficos.campos[this.idx];
-    this.upDateDados()
-    // this.setGraf();
+  mudaCampo(i) {
+    if (this.campo !== this.campo1) {
+      this.campo = this.campo1;
+      this.idx = i;
+      delete this.dados;
+      this.dados = null;
+      this.dados = this.graficos.campos[this.idx];
+      if (this.tipo !== undefined && this.tipo !== null) {
+        if (this.chart !== undefined && this.chart !== null) {
+          this.upDateDados();
+        } else {
+          const canvas = <HTMLCanvasElement>WindowsService.doc.getElementById('chart');
+          const graf: CanvasRenderingContext2D = canvas.getContext("2d");
+          graf.fillStyle = "white";
+          const plugin = {
+            id: 'customCanvasBackgroundColor',
+            beforeDraw: (chart, args, options) => {
+              const {ctx} = chart;
+              ctx.save();
+              ctx.globalCompositeOperation = 'destination-over';
+              ctx.fillStyle = options.color || '#ffffff';
+              ctx.fillRect(0, 0, chart.width, chart.height);
+              ctx.restore();
+            }
+          };
+          this.chart = new Chart(graf, {
+            type: this.tipo,
+            data: this.dados,
+            options: this.opcaoes,
+            plugins: [plugin],
+          });
+          this.isOpen = false;
+          this.wd =  '3rem'
+        }
+      }
+    }
   }
+
+  mouseEnter() {
+    if (this.graficos !== undefined && this.graficos !== null && !this.isOpen) {
+      this.isOpen = true;
+      this.wd =  '20rem';
+    }
+  }
+  mouseleave() {
+    this.isOpen = false;
+    this.wd =  '3rem';
+  }
+
+
 
   getArquivoNome():string {
     let tmpDate = new Date();
@@ -219,14 +307,12 @@ export class GrafComponent implements OnInit, OnChanges {
     return tmpNome + '-' + tmpDate.toISOString().split('T')[0] + '.pdf';
   }
 
-
   getImg() {
     let x = <HTMLAnchorElement> WindowsService.doc.getElementById('chartimg');
     x.href = this.chart.toBase64Image();
     x.download = this.getArquivoNome();
     x.click();
   }
-
 
   getPrintPdf(vf: boolean = false) {
     const canvas2 = <HTMLCanvasElement> WindowsService.doc.getElementById('chartp');
@@ -265,6 +351,23 @@ export class GrafComponent implements OnInit, OnChanges {
       }
     });
 
+  }
+
+  ngOnDestroy() {
+    this.sub.forEach(s => s.unsubscribe());
+    delete this.graficos;
+    delete this.data1;
+    delete this.data2;
+    delete this.idx;
+    delete this.modulo;
+    delete this.campo;
+    delete this.tipo;
+    delete this.ativo;
+    delete this.busca;
+    delete this.dados;
+    delete this.chart;
+    delete this.opcaoes;
+    delete this.arquivoNome;
   }
 
 }
