@@ -72,6 +72,9 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
 
   description: string | null = null;
 
+  modulo: string = null;
+  registro_id: any = null;
+
   constructor(
     public authenticationService: AuthenticationService,
     public cl: CalendarioService
@@ -101,6 +104,7 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   criaEvento() {
+    console.log('criaEvento', this.dados);
     this.description = Stripslashes(this.ev.description);
     this.prioridadeStyle = null;
     this.calendarioStatusStyle = null;
@@ -165,6 +169,11 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
       };
     } else {
       this.tipoStyle = this.subTituloStyle;
+    }
+
+    if (this.ev.modulo !== undefined) {
+      this.modulo = this.ev.modulo;
+      this.registro_id = this.ev.registro_id;
     }
 
 
@@ -281,6 +290,10 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
         this.windowObjectReference.focus();
       }
     }
+  }
+
+  detalhe() {
+    console.log('detalhe', this.ev);
   }
 
   ngOnDestroy(): void {

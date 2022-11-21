@@ -1,16 +1,16 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
-import {SolicListarI} from "../solic/_models/solic-listar-i";
-import {AuthenticationService} from "../_services";
-import {VersaoService} from "../_services/versao.service";
+import {SolicListarI} from "../../solic/_models/solic-listar-i";
+import {AuthenticationService} from "../../_services";
+import {VersaoService} from "../../_services/versao.service";
 import {DetalheService} from "./_services/detalhe.service";
-import {Stripslashes} from "../shared/functions/stripslashes";
-import {OficioListarI} from "../oficio/_models/oficio-listar-i";
-import {ProceListarI} from "../proce/_model/proce-listar-i";
-import {EmendaListarI} from "../emenda/_models/emenda-listar-i";
-import {ProposicaoListarI} from "../proposicao/_models/proposicao-listar-i";
-import {TarefaI} from "../tarefa/_models/tarefa-i";
-import {ContaI} from "../conta/_models/conta-i";
-import {CadastroI} from "../cadastro/_models/cadastro-i";
+import {Stripslashes} from "../functions/stripslashes";
+import {OficioListarI} from "../../oficio/_models/oficio-listar-i";
+import {ProceListarI} from "../../proce/_model/proce-listar-i";
+import {EmendaListarI} from "../../emenda/_models/emenda-listar-i";
+import {ProposicaoListarI} from "../../proposicao/_models/proposicao-listar-i";
+import {TarefaI} from "../../tarefa/_models/tarefa-i";
+import {ContaI} from "../../conta/_models/conta-i";
+import {CadastroI} from "../../cadastro/_models/cadastro-i";
 
 @Component({
   selector: 'app-detalhe',
@@ -21,7 +21,7 @@ export class DetalheComponent implements OnInit, OnChanges {
   @Input() id: number;
   @Input() modulo: string | null = null;
   @Input() registro?: any = null;
-  @Output() hideDetalhe = new EventEmitter<boolean>();
+  @Output() fechaDetalhe = new EventEmitter<boolean>();
 
   sol?: SolicListarI | null = null;
   oficio?: OficioListarI | null = null;
@@ -31,6 +31,7 @@ export class DetalheComponent implements OnInit, OnChanges {
   tarefa?: TarefaI | null = null;
   conta?: ContaI | null = null;
   cadastro?: CadastroI | null = null;
+  dialog = false;
 
   vSolicitacao = false;
   vOficio = false;
@@ -64,7 +65,7 @@ export class DetalheComponent implements OnInit, OnChanges {
   }
 
   fechar() {
-    this.hideDetalhe.emit(true);
+    this.fechaDetalhe.emit(true);
   }
 
   stripslashes(str?: string): string | null {

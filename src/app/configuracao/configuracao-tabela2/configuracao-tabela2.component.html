@@ -52,7 +52,7 @@
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input #cpnome pInputText type="text" [(ngModel)]="cf.campo_nome" required [size]="60"
-                     [maxlength]="configuracao.tamanho" [readOnly]="readOnly" (ngModelChange)="testaCampoNome($event)">
+                     [maxlength]="configuracao.tamanho" [readOnly]="readOnly || cf.campo_id <= configuracao.bloqueio_id" (ngModelChange)="testaCampoNome($event)">
               <p-messages *ngIf="acao==='editar' && i===idx && msgErro.length > 0" key="msgAlterarErro"
                           [(value)]="msgErro"></p-messages>
               <ng-container *ngIf="acao==='editar' && i===idx && msg.length > 0">
@@ -135,7 +135,7 @@
           <button *ngIf="!editing && acao!=='deletar' && perDeletar" pButton type="button" icon="pi pi-trash"
                   (click)="clickDeletar(cf, i)"
                   class="config p-button-raised p-button-rounded p-button-danger p-button-sm"
-                  [disabled]="!perDeletar || btnacaoInativo"></button>
+                  [disabled]="!perDeletar || btnacaoInativo || cf.campo_id <= configuracao.bloqueio_id"></button>
           <button *ngIf="editing && acao!=='deletar' && !confirmaAlterar" pButton type="button"
                   icon="pi pi-check" class="config p-button-raised p-button-rounded p-button-success p-button-sm"
                   style="margin-right: .5em" (click)="onAlterar(cf, i)"

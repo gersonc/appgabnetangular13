@@ -17,6 +17,7 @@ export interface ConfiguracaoModelInterface {
   titulo?: string;
   texto?: string;
   tamanho?: number;
+  bloqueio_id?: number;
 }
 
 export class ConfiguracaoModel implements ConfiguracaoModelInterface {
@@ -25,6 +26,7 @@ export class ConfiguracaoModel implements ConfiguracaoModelInterface {
   campo_nome = null;
   titulo = null;
   texto = null;
+  bloqueio_id = 0;
 }
 
 export interface Configuracao2ModelInterface {
@@ -38,6 +40,7 @@ export interface Configuracao2ModelInterface {
   titulo?: string;
   texto?: string;
   tamanho?: number;
+  bloqueio_id?: number;
 }
 
 export class Configuracao2Model implements Configuracao2ModelInterface {
@@ -49,7 +52,7 @@ export class Configuracao2Model implements Configuracao2ModelInterface {
   campo_txt2 = null;
   titulo = null;
   texto = null;
-
+  bloqueio_id = 20;
 }
 
 export interface ConfiguracaoMenuIntensInterface {
@@ -57,6 +60,7 @@ export interface ConfiguracaoMenuIntensInterface {
   code: string;
 }
 
+/*
 export interface ConfiguracaoComponenteInterface {
   tabela?: string;
   campo_id?: string;
@@ -67,6 +71,7 @@ export interface ConfiguracaoComponenteInterface {
   texto?: string;
 }
 
+
 export class ConfiguracaoComponente implements ConfiguracaoComponenteInterface {
   tabela = null;
   campo_id = null;
@@ -76,3 +81,4 @@ export class ConfiguracaoComponente implements ConfiguracaoComponenteInterface {
   labelTxt1 = null;
   texto = null;
 }
+*/

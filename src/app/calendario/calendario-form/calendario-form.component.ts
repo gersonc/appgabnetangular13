@@ -15,7 +15,6 @@ import {AuthenticationService, DropdownService, UrlService, UuidService} from '.
 import {Frequency, RRule, RRuleSet, Weekday} from 'rrule';
 import {DateTime, Duration, Interval} from 'luxon';
 import {take} from 'rxjs/operators';
-import {isArray} from 'rxjs/internal-compatibility';
 import {Subscription} from 'rxjs';
 import {EventoInterface} from "../_models/evento-interface";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
@@ -333,7 +332,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
           if (this.frequencia === Frequency.WEEKLY) {
             this.semanaDiasLiteral = [];
-            if (isArray(rr2['BYDAY'])) {
+            if (Array.isArray(rr2['BYDAY'])) {
               rr2['BYDAY'].forEach((e: string) => {
                 this.semanaDiasLiteral.push(this.getWeekDay(e));
               });
@@ -350,7 +349,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
               this.mesDias = [];
               this.vfMes = true;
               this.rdMensal = 'mesDia';
-              if (isArray(rr2['BYMONTHDAY'])) {
+              if (Array.isArray(rr2['BYMONTHDAY'])) {
                 rr2['BYMONTHDAY'].forEach((e: number) => {
                   this.mesDias.push(e);
                 });
@@ -365,7 +364,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
               this.rdMensal = 'mesPosicao';
               this.mesPosicao = rr2['BYSETPOS'];
               this.mesDiasLiteral = [];
-              if (isArray(rr2['BYDAY'])) {
+              if (Array.isArray(rr2['BYDAY'])) {
                 rr2['BYDAY'].forEach((e: string) => {
                   this.mesDiasLiteral.push(this.getWeekDay(e));
                 });

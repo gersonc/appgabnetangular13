@@ -505,6 +505,16 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       delete ev.recorrente;
     }
+    if (info.event.extendedProps.modulo) {
+      ev.modulo = info.event.extendedProps.modulo;
+    } else {
+      delete ev.modulo;
+    }
+    if (info.event.extendedProps.registro_id) {
+      ev.registro_id = +info.event.extendedProps.registro_id;
+    } else {
+      delete ev.registro_id;
+    }
     if (info.event.extendedProps.description) {
       ev.description = info.event.extendedProps.description;
     } else {

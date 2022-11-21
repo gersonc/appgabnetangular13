@@ -9,7 +9,6 @@ import {
   PassagemInterface,
   PassagemPaginacaoInterface
 } from '../_models';
-import { isArray } from 'rxjs/internal-compatibility';
 import { SelectItem } from 'primeng/api';
 import { take } from 'rxjs/operators';
 
@@ -48,7 +47,7 @@ export class PassagemService {
         and[key] = 1;
         continue;
       }
-      if (isArray(this.pf[key])) {
+      if (Array.isArray(this.pf[key])) {
         if (this.pf[key].lenght > 0) {
           and[key] = this.pf[key];
           continue;

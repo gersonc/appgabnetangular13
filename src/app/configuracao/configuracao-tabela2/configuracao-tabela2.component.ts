@@ -95,6 +95,42 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     if (changes.componente) {
       this.cpn = changes.componente.currentValue.toString();
       switch (changes.componente.currentValue) {
+        case 'calendario_status': {
+          this.configuracao = {
+            tabela: 'calendario_status',
+            campo_id: 'calendario_status_id',
+            campo_id2: null,
+            campo_nome: 'calendario_status_nome',
+            campo_nome2: 'calendario_status_color',
+            titulo: 'AGENDA STATUS',
+            campo_txt1: 'STATUS',
+            campo_txt2: 'COR',
+            texto: 'o status',
+            tamanho: 45,
+            bloqueio_id: 20
+          };
+          this.tp = false;
+          this.inicio();
+          break;
+        }
+        case 'evento_type': {
+          this.configuracao = {
+            tabela: 'evento_type',
+            campo_id: 'type_id',
+            campo_id2: null,
+            campo_nome: 'type_name',
+            campo_nome2: 'type_color',
+            titulo: 'TIPO DE EVENTO (AGENDA)',
+            campo_txt1: 'TIPO DE EVENTO',
+            campo_txt2: 'COR',
+            texto: 'o tipo de evento',
+            tamanho: 50,
+            bloqueio_id: 20
+          };
+          this.tp = false;
+          this.inicio();
+          break;
+        }
         case 'prioridade': {
           this.configuracao = {
             tabela: 'prioridade',
@@ -107,6 +143,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_txt2: 'COR',
             texto: 'a prioridade',
             tamanho: 20,
+            bloqueio_id: 20
           };
           this.tp = false;
           this.inicio();
@@ -124,6 +161,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
             campo_txt2: 'PF/PJ',
             texto: 'o tipo de cadastro',
             tamanho: 30,
+            bloqueio_id: 20
           };
           this.tp = true;
           this.inicio();
@@ -339,7 +377,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
       );
     } else {
       if (n > -1) {
-        this.msg.push('ATENÇÃO - Já existe registro com essa successrmação.');
+        this.msg.push('ATENÇÃO - Já existe registro com essa informação.');
       }
       this.btnCancelarInativo = false;
       this.btnEnviarInativo = false;
@@ -764,6 +802,29 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         }
       });
     }
+
+    if (this.configuracao.tabela === 'calendario_status') {
+      return r.map((d) => {
+        return {
+          label: d.campo_nome,
+          value: d.campo_id,
+          title: null,
+          styleClass: d.campo_nome2
+        }
+      });
+    }
+
+    if (this.configuracao.tabela === 'evento_type') {
+      return r.map((d) => {
+        return {
+          label: d.campo_nome,
+          value: d.campo_id,
+          title: null,
+          styleClass: d.campo_nome2
+        }
+      });
+    }
+
   }
 
   regSel(r: Configuracao2RegistroI): SelectItem {
@@ -784,6 +845,28 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         styleClass: r.campo_nome2
       };
     }
+
+    if (this.configuracao.tabela === 'calendario_status') {
+      return {
+        label: r.campo_nome,
+        value: r.campo_id,
+        title: null,
+        styleClass: r.campo_nome2
+      };
+    }
+
+    if (this.configuracao.tabela === 'evento_type') {
+      return {
+        label: r.campo_nome,
+        value: r.campo_id,
+        title: null,
+        styleClass: r.campo_nome2
+      };
+    }
+
+
+
+
   }
 
   dropToReg(r: SelectItem[] | SelectItemGroup[]): Configuracao2RegistroI[] {
@@ -810,6 +893,30 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         }
       });
     }
+
+    if (this.configuracao.tabela === 'calendario_status') {
+      return r.map((i) => {
+        return {
+          campo_id: i.value,
+          campo_id2: null,
+          campo_nome: i.label,
+          campo_nome2: i.styleClass
+        }
+      });
+    }
+
+    if (this.configuracao.tabela === 'evento_type') {
+      return r.map((i) => {
+        return {
+          campo_id: i.value,
+          campo_id2: null,
+          campo_nome: i.label,
+          campo_nome2: i.styleClass
+        }
+      });
+    }
+
+
   }
 
   pfpj(v) {
@@ -848,6 +955,27 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
         campo_nome2: r.styleClass
       };
     }
+
+    if (this.configuracao.tabela === 'calendario_status') {
+      return {
+        campo_id: r.value,
+        campo_id2: null,
+        campo_nome: r.label,
+        campo_nome2: r.styleClass
+      };
+    }
+
+    if (this.configuracao.tabela === 'evento_type') {
+      return {
+        campo_id: r.value,
+        campo_id2: null,
+        campo_nome: r.label,
+        campo_nome2: r.styleClass
+      };
+    }
+
+
+
   }
 
   boxCor(cor?: string): any {

@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     private config: PrimeNGConfig,
     public authenticationService: AuthenticationService,
     private windowsService: WindowsService,
-    public cs: CarregadorService,
+    // public cs: CarregadorService,
     private as: ArquivoLoginService,
     public md: MenuDatatableService,
     public sps: SpinnerService,
@@ -67,9 +67,9 @@ export class AppComponent implements OnInit {
 
     this.configPrime();
 
-    this.cs.getCarregador().subscribe(vf => {
+    /*this.cs.getCarregador().subscribe(vf => {
       this.mostraEsconde(vf);
-    });
+    });*/
 
     if (this.authenticationService.permissoes_carregadas) {
        this.as.verificaPermissoes();

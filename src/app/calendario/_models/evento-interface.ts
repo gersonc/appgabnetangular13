@@ -28,6 +28,8 @@ export interface ExtendedPropsI {
   type_name?: string | null;
   type_color?: string | null;
   usuario_id?: string | number[]| null;
+  modulo?: string | null;
+  registro_id?: number| null;
   todos_usuarios_sn?: number| null;
 }
 
@@ -74,6 +76,8 @@ export interface EventoInterface {
   type_name?: string | null;
   type_color?: string | null;
   usuario_id?: string | number[]| null;
+  modulo?: string | null;
+  registro_id?: number| null;
   todos_usuarios_sn?: number| null;
   extendedProps?: ExtendedPropsI | null;
 }

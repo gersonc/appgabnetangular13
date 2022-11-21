@@ -23,6 +23,10 @@ export class ConfiguracaoComponent implements OnInit {
       code: 'area_interesse'
     },
     {
+      label: 'Agenda Status',
+      code: 'calendario_status'
+    },
+    {
       label: 'Assuntos',
       code: 'assunto'
     },
@@ -103,6 +107,10 @@ export class ConfiguracaoComponent implements OnInit {
       code: 'tipo_proposicao'
     },
     {
+      label: 'Tipo de Evento (Agenda)',
+      code: 'evento_type'
+    },
+    {
       label: 'Tipos de encaminhamento',
       code: 'andamento'
     },
@@ -181,6 +189,14 @@ export class ConfiguracaoComponent implements OnInit {
       }
       case 'nucleo': {
         this.tipoComp = 4;
+        break;
+      }
+      case 'calendario_status': {
+        this.tipoComp = 2;
+        break;
+      }
+      case 'evento_type': {
+        this.tipoComp = 2;
         break;
       }
       case 'prioridade': {

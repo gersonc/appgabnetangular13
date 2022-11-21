@@ -81,7 +81,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'area_interesse_nome',
             titulo: 'ÁREAS DE INTERESSE',
             texto: 'a área de interesse',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           };
           this.inicio();
           break;
@@ -93,7 +94,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'assunto_nome',
             titulo: 'ASSUNTOS',
             texto: 'o assunto',
-            tamanho: 100
+            tamanho: 100,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -105,7 +107,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'aerolinha_nome',
             titulo: 'COMPANHIAS AÉREAS',
             texto: 'a companhias aérea',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -117,7 +120,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'emenda_situacao_nome',
             titulo: 'SITUAÇÃO DA EMENDA',
             texto: 'a situação da emenda',
-            tamanho: 45
+            tamanho: 45,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -129,7 +133,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'escolaridade_nome',
             titulo: 'ESCOLARIDADE',
             texto: 'a escolaridade',
-            tamanho: 30
+            tamanho: 30,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -141,7 +146,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'estado_nome',
             titulo: 'ESTADOS',
             texto: 'o estado',
-            tamanho: 2
+            tamanho: 2,
+            bloqueio_id: 30
           }
           this.inicio();
           break;
@@ -153,7 +159,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'estado_civil_nome',
             titulo: 'ESTADO CIVIL',
             texto: 'o estado civil',
-            tamanho: 15
+            tamanho: 15,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -165,7 +172,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'grupo_nome',
             titulo: 'GRUPOS',
             texto: 'o grupo',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -177,7 +185,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'municipio_nome',
             titulo: 'MUNICÍPIOS',
             texto: 'o município',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -189,7 +198,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'ogu_nome',
             titulo: 'O.G.U.',
             texto: 'o O.G.U.',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -201,7 +211,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'origem_proposicao_nome',
             titulo: 'ORIGEM DA PROPOSIÇÃO',
             texto: 'a origem da proposicao',
-            tamanho: 150
+            tamanho: 150,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -213,7 +224,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'orgao_proposicao_nome',
             titulo: 'ORGÃO DA PROPOSIÇÃO',
             texto: 'o orgão da proposicao',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -225,7 +237,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'regiao_nome',
             titulo: 'REGIÃO',
             texto: 'a região',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -237,7 +250,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'tipo_emenda_nome',
             titulo: 'TIPO DE EMENDA',
             texto: 'o tipo de emenda',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -249,7 +263,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'tipo_proposicao_nome',
             titulo: 'TIPO DE PROPOSIÇÃO',
             texto: 'o tipo de proposição',
-            tamanho: 100
+            tamanho: 100,
+            bloqueio_id: 0
           }
           this.inicio();
           break;
@@ -261,7 +276,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'emenda_proposicao_nome',
             titulo: 'TIPO DE EMEDA DE PROPOSIÇÃO',
             texto: 'o tipo de emenda de proposição',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -273,7 +289,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'andamento_nome',
             titulo: 'TIPOS DE ENCAMINHAMENTO',
             texto: 'o tipo de encaminhamento',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -285,7 +302,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'tipo_recebimento_nome',
             titulo: 'TIPOS DE RECEBIMENTOS',
             texto: 'o tipo de recebimento',
-            tamanho: 50
+            tamanho: 50,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -297,7 +315,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'tratamento_nome',
             titulo: 'TRATAMENTOS',
             texto: 'o tratamento',
-            tamanho: 30
+            tamanho: 30,
+            bloqueio_id: 20
           }
           this.inicio();
           break;
@@ -309,7 +328,8 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
             campo_nome: 'situacao_proposicao_nome',
             titulo: 'SITUAÇÃO DA PROPOSIÇÃO',
             texto: 'a situação da proposição',
-            tamanho: 150
+            tamanho: 150,
+            bloqueio_id: 0
           }
           this.inicio();
           break;

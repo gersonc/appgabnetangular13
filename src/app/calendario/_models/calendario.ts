@@ -58,6 +58,8 @@ export class Evento implements EventoInterface {
   type_name = null;
   type_color = null;
   usuario_id = null;
+  modulo = null;
+  registro_id = null;
   todos_usuarios_sn = null;
   extendedProps = null;
 }
@@ -86,6 +88,8 @@ export interface CalendarioFormularioInterface extends EventoInterface {
   title?: string | null;
   todos_usuarios_sn?: number | null;
   usuario_id?: string | number[] | null;
+  registro_id?: number | null;
+  modulo?: string | null;
   // usuario_id?: string | EventoUsarioId[];
 }
 
@@ -111,6 +115,8 @@ export class CalendarioForm implements CalendarioFormularioInterface {
   title = null;
   todos_usuarios_sn = null;
   usuario_id = null;
+  registro_id = null;
+  modulo = null;
 }
 
 export class Opcoes implements Options {
@@ -168,6 +174,8 @@ export interface CalDadosInterface {
   type_id?: number | null;
   prioridade_id?: number | null;
   calendario_status_id?: number | null;
+  modulo?: string | null;
+  registro_id?: number | null;
 }
 
 export interface CalInterface {
@@ -210,6 +218,8 @@ export class CalDados implements CalDadosInterface {
   type_id = null;
   prioridade_id = null;
   calendario_status_id = null;
+  modulo = null;
+  registro_id = null;
 }
 
 export class Cal implements CalInterface {

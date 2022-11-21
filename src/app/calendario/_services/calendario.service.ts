@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { UrlService } from '../../_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { isArray } from 'rxjs/internal-compatibility';
-import { saveAs } from 'file-saver';
+// import { isArray } from 'rxjs/internal-compatibility';
+/*import { saveAs } from 'file-saver';
 import { take } from 'rxjs/operators';
-import {SelectItem} from 'primeng/api';
+import {SelectItem} from 'primeng/api';*/
 import {EventoInterface} from "../_models/evento-interface";
 import {Cal, CalBusca, CalendarioForm, CalendarioFormularioInterface, CalInterface} from "../_models/calendario";
+
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class CalendarioService {
         and[key] = 1;
         continue;
       }
-      if (isArray(this.cf[key])) {
+      if (Array.isArray(this.cf[key])) {
         if (this.cf[key].lenght > 0) {
           and[key] = this.cf[key];
           continue;

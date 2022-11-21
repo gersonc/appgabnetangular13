@@ -130,6 +130,12 @@
     <button pButton type="button" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
     &nbsp;&nbsp;
     <ng-container *ngIf="mostrabts">
+      <ng-container *ngIf="modulo !== null">
+        <button pButton type="button" label="DETALHE"
+                class="p-button-raised p-button-rounded p-button-secondary"
+                (click)="detalhe()"></button>
+        &nbsp;&nbsp;
+      </ng-container>
     <button pButton type="button" label="PDF"
             class="p-button-raised p-button-rounded p-button-secondary"
             (click)="getPdf(false)"></button>
