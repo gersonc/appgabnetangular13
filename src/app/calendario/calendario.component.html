@@ -252,7 +252,7 @@
     [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-calendario-exibir [dados]="dadosExibir" (onFechar)="onFecharExibir($event)"></app-calendario-exibir>
+    <app-calendario-exibir [dados]="dadosExibir" (onFechar)="onFecharExibir($event)" (onDetalhe)="onDetalhe($event)"></app-calendario-exibir>
   </p-dialog>
 </ng-container>
 
@@ -295,6 +295,9 @@
   </p-dialog>
 </ng-container>
 
+<ng-container *ngIf="detalhemodulo !== null && detalheid!== null">
+<app-detalhe [modulo]="detalhemodulo" [id]="detalheid"></app-detalhe>
+</ng-container>
 <p-toast key="calToast" [style]="{marginTop: '80px'}"></p-toast>
 <app-calendario-tooltip *ngIf="mostra" [evT]="evT" [largura]="novaLargura" [altura]="novaAltura"></app-calendario-tooltip>
 

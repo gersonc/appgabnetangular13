@@ -104,6 +104,9 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   PreviousUrl: string = null;
   id: number;
 
+  detalhemodulo: string = null;
+  detalheid: number = null;
+
   constructor(
     private url: UrlService,
     private http: HttpClient,
@@ -1090,6 +1093,13 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fecharBusca() {
     this.mostraMenu = false;
+  }
+
+  onDetalhe(ev: any) {
+    console.log('onDetalhe', ev);
+    this.detalhemodulo = ev.modulo;
+    this.detalheid = ev.id;
+    this.mostraExibir = false;
   }
 
   openRequestedSinglePopup(url) {

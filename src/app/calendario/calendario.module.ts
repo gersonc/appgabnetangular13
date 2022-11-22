@@ -52,6 +52,7 @@ import { CalendarioExcluirComponent } from './calendario-excluir/calendario-excl
 import { CalendarioImprimirComponent } from './calendario-imprimir/calendario-imprimir.component';
 import { CalendarioFormComponent } from './calendario-form/calendario-form.component';
 import {QuillModule} from "ngx-quill";
+import {DetalheModule} from "../shared/detalhe/detalhe.module";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -108,7 +109,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         SidebarModule,
         RippleModule,
         AngularResizeEventModule,
-        QuillModule
+        QuillModule,
+        DetalheModule
     ],
   entryComponents: [
     CalendarioFormularioComponent,

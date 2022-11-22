@@ -35,6 +35,7 @@ declare interface ColumnsInterface {
 export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dados: any = null;
   @Output() onFechar = new EventEmitter<string | null>();
+  @Output() onDetalhe = new EventEmitter<any>();
   @ViewChild('tabcalendario', {static: true}) tabcalendario: ElementRef;
 
   ev: EventoInterface = null;
@@ -294,6 +295,12 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
 
   detalhe() {
     console.log('detalhe', this.ev);
+    const dt: any = {
+      modulo: this.modulo,
+      id: this.registro_id
+    }
+    console.log('detalhe2', dt);
+    this.onDetalhe.emit(dt);
   }
 
   ngOnDestroy(): void {

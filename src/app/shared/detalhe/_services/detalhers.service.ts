@@ -16,7 +16,19 @@ export class DetalhersService {
     private ds: DetalheService
   ) { }
 
-  getDetalhes(modulo: string, id: number, campo_id?: string) {
-      this.ds.getDetalhe(modulo, id, campo_id);
+  getDetalhes(modulo: string, id: number) {
+    this.modulo = modulo;
+    this.id = id;
+     //  this.ds.getDetalhe(modulo, id);
   }
+
+  sair() {
+    this.mostraDetalhe = false;
+    delete this.id;
+    delete this.registro;
+    delete this.modulo;
+    delete this.campo_id;
+    this.ds.destroy();
+  }
+
 }
