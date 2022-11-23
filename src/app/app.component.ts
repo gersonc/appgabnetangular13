@@ -149,7 +149,12 @@ export class AppComponent implements OnInit {
       'monthNamesShort': ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', ' Dez '],
       'today': 'Hoje',
       'weekHeader': 'Sm',
-      'emptyMessage': 'Sem resultados'
+      'emptyMessage': 'Sem resultados',
+      "weak": 'Fraca',
+      "medium": 'Media',
+      "strong": 'Forte',
+      "passwordPrompt": 'Entre com a senha',
+      "emptyFilterMessage": 'Sem resultados encontrados'
     });
     this.config.ripple = true;
   }

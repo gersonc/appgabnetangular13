@@ -25,6 +25,8 @@ import {DetalhersService} from "./_services/detalhers.service";
 import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {EventoInterface} from "../../calendario/_models/evento-interface";
+import {EventoEstiloI} from "../../calendario/_models/evento-estilo-i";
 
 @Component({
   selector: 'app-detalhe',
@@ -46,6 +48,9 @@ export class DetalheComponent implements OnInit, OnDestroy, OnChanges {
   tarefa?: TarefaI | null = null;
   conta?: ContaI | null = null;
   cadastro?: CadastroI | null = null;
+  calendario?: EventoInterface | null;
+  evstl?: EventoEstiloI | null;
+
   dialog = false;
   mostraDetalhe = false;
 
@@ -57,6 +62,7 @@ export class DetalheComponent implements OnInit, OnDestroy, OnChanges {
   vTarefa = false;
   vConta = false;
   vCadastro = false;
+  vCalendario = false;
 
 
   impressao = false;
@@ -93,6 +99,12 @@ export class DetalheComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe({
         next: (dados) => {
           switch (this.modulo) {
+            case 'calendario': {
+              this.calendario = dados;
+              this.criaEvento(dados);
+              this.vCalendario = true;
+              break;
+            }
             case 'tarefa': {
               this.tarefa = dados
               this.vTarefa = true;
@@ -145,8 +157,6 @@ export class DetalheComponent implements OnInit, OnDestroy, OnChanges {
     );
   }
 
-
-
   fechar() {
     this.dialog = false;
     this.mostraDetalhe = false;
@@ -155,6 +165,91 @@ export class DetalheComponent implements OnInit, OnDestroy, OnChanges {
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)
+  }
+
+  criaEvento(dados: EventoInterface) {
+    console.log('criaEvento', dados);
+    this.calendario.description = Stripslashes(this.calendario.description);
+    this.evstl.prioridadeStyle = null;
+    this.evstl.calendarioStatusStyle = null;
+    this.evstl.tipoStyle = null;
+    if (this.calendario.backgroundColor === undefined) {
+      this.calendario.backgroundColor = 'var(--primary-color)';
+    }
+    if (this.calendario.borderColor === undefined) {
+      this.calendario.borderColor = 'transparent';
+    }
+    this.evstl.tituloEstilo = {
+      backgroundColor: this.calendario.backgroundColor,
+      color: this.calendario.textColor,
+      borderColor: this.calendario.borderColor,
+    };
+    this.evstl.subTituloStyle = {
+      backgroundColor: this.calendario.backgroundColor,
+      color: this.calendario.textColor,
+      borderColor: this.calendario.borderColor,
+    };
+    this.evstl.subTituloStyleLink = {
+      backgroundColor: this.calendario.backgroundColor,
+      color: this.calendario.textColor,
+      borderColor: this.calendario.borderColor,
+      cursor: 'pointer'
+    };
+
+    if (this.calendario.prioridade_color !== undefined) {
+      this.evstl.prioridadeStyle = {
+        backgroundColor: this.calendario.prioridade_color,
+        color: this.getContrastYIQ(this.calendario.prioridade_color)
+      };
+    } else {
+      this.evstl.prioridadeStyle = this.evstl.subTituloStyle;
+    }
+
+
+    if (this.calendario.calendario_status_color !== undefined) {
+      this.evstl.calendarioStatusStyle = {
+        backgroundColor: this.calendario.calendario_status_color,
+        color: this.getContrastYIQ(this.calendario.calendario_status_color)
+      };
+    } else {
+      this.evstl.calendarioStatusStyle = this.evstl.subTituloStyle;
+    }
+
+
+    if (this.calendario.type_color !== undefined) {
+      this.evstl.tipoStyle = {
+        backgroundColor: this.calendario.type_color,
+        color: this.getContrastYIQ(this.calendario.type_color)
+      };
+    } else {
+      this.evstl.tipoStyle = this.evstl.subTituloStyle;
+    }
+
+
+    if (this.calendario.local_color !== undefined) {
+      this.evstl.localStyle = {
+        backgroundColor: this.calendario.local_color,
+        color: this.getContrastYIQ(this.calendario.local_color)
+      };
+    } else {
+      this.evstl.tipoStyle = this.evstl.subTituloStyle;
+    }
+
+    /*if (this.calendario.modulo !== undefined) {
+      this.modulo = this.calendario.modulo;
+      this.calendario.registro_id = this.calendario.registro_id;
+    }*/
+
+
+  }
+
+  getContrastYIQ(hexcolor) {
+    hexcolor = hexcolor.replace('#', '');
+    const r = parseInt(hexcolor.substr(0, 2), 16);
+    const g = parseInt(hexcolor.substr(2, 2), 16);
+    const b = parseInt(hexcolor.substr(4, 2), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? 'black' : 'white';
   }
 
   fcor(vl1: number): string | null {

@@ -1,0 +1,175 @@
+<div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
+  <form [formGroup]="formU" (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        </div>
+      </div>
+      <div class="p-grid">
+
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-my-1 p-py-2 p-px-3 p-pb-1">
+            <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+
+              <!-- usuario_nome -->
+              <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_nome')">
+                <label for="usuario_nome"><span class="atencao">*</span>Nome</label>
+                <input
+                  id="usuario_nome"
+                  formControlName="usuario_nome"
+                  type="text"
+                  [size]="40"
+                  [minlength]="4"
+                  [maxlength]="50"
+                  pInputText
+                  [ngClass]="aplicaCssErro('usuario_nome')"
+                />
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('usuario_nome')"
+                                        msgErro="Nome é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_login')">
+                <label for="usuario_login"><span class="atencao">*</span>Usuário</label>
+                <input
+                  id="usuario_login"
+                  formControlName="usuario_login"
+                  type="text"
+                  [size]="40"
+                  [minlength]="7"
+                  [maxlength]="15"
+                  pInputText
+                  [ngClass]="aplicaCssErro('usuario_login')"
+                />
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('usuario_login')"
+                                        msgErro="Usuário é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_senha')">
+                <label for="usuario_senha"><span class="atencao">*</span>Senha</label>
+                <p-password
+                  id="usuario_senha"
+                  formControlName="usuario_senha"
+                  [mediumRegex]="'^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{7,})'"
+                  [toggleMask]="true"
+                  [ngClass]="aplicaCssErro('usuario_senha')"
+                ></p-password>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('usuario_senha')"
+                                        msgErro="Senha é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_email')">
+                <label for="usuario_email"><span class="atencao">*</span>E-mail</label>
+                <input
+                  id="usuario_email"
+                  formControlName="usuario_email"
+                  type="text"
+                  [size]="40"
+                  [minlength]="4"
+                  [maxlength]="50"
+                  pInputText
+                  [ngClass]="aplicaCssErro('usuario_email')"
+                />
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('usuario_email')"
+                                        msgErro="E-mail é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_cargo')">
+                <label for="usuario_cargo"><span class="atencao">*</span>Cargo</label>
+                <input
+                  id="usuario_cargo"
+                  formControlName="usuario_cargo"
+                  type="text"
+                  [size]="40"
+                  [minlength]="5"
+                  [maxlength]="50"
+                  pInputText
+                  [ngClass]="aplicaCssErro('usuario_cargo')"
+                />
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('usuario_cargo')"
+                                        msgErro="Cargo é obrigatório."></app-campo-control-erro>
+              </div>
+
+              <div class="p-field p-col-12" [ngClass]="aplicaCssErro('usuario_celular')">
+                <label for="usuario_celular"><span class="atencao">*</span>Celular</label>
+                <p-inputMask
+                  id="usuario_celular"
+                  formControlName="usuario_celular"
+                  mask="(99) 99999-9999"
+                  placeholder="(99) 99999-9999"
+                  [ngClass]="aplicaCssErro('usuario_celular')"
+                ></p-inputMask>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('usuario_celular')"
+                                        msgErro="Celular é obrigatório."></app-campo-control-erro>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+
+      </div>
+    </div>
+
+
+    <div class="p-grid">
+      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+    </div>
+
+    <div class="p-fluid">
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+          <div class="p-grid p-input-filled">
+            <div class="p-col-12 formulario">
+              <!--*** Botões ***-->
+              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                <div class="p-d-inline-flex">
+                  <div class="p-ml-2" [ngClass]="{'p-d-none': !formU.valid}">
+                    <button
+                      pButton
+                      type="submit"
+                      class="p-button-rounded"
+                      [disabled]="!formU.valid || mostraForm"
+                      label="Enviar"
+                    ></button>
+                  </div>
+                  <div class="p-mx-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="resetForm()"
+                      label="Limpar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                  <div class="p-mr-2">
+                    <button
+                      pButton
+                      type="button"
+                      class="p-button-rounded p-button-secondary"
+                      (click)="voltarListar()"
+                      label="Fechar"
+                      [disabled]="botaoEnviarVF"
+                    ></button>
+                  </div>
+                </div>
+                <!--*** FIM BOTOES ***-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="p-grid">
+        <div class="p-col-10 p-offset-1">&nbsp;</div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<!--</p-scrollPanel>-->

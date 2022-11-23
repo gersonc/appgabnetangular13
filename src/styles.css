@@ -15717,18 +15717,24 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   float: left;
   font-size: 1em;
   padding: .1em .2em .1em .2em;
-  width: 2em;
+  width: 2em
 }
 
 .btn-menu-principal {
-  font-size: 1em !important;
+  padding-top: .1rem;
+  font-size: 1.5rem !important;
   color: var(--primary-color-text);
 }
 
 .btn-menu-principal:hover {
-  font-size: 1.2em !important;
-  padding-top: .1em;
+  padding-top: 0;
+  font-size: 1.7rem !important;
   cursor: pointer;
+}
+
+.topo-esquerda-texto {
+  position: absolute;
+  left: 3rem;
 }
 
 .menu-principal {
@@ -16524,19 +16530,7 @@ h5 {
 }
 
 
-.header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100%;
-  max-height: 2.2rem;
-  color: var(--primary-color-text);
-  background-color: var(--primary-color);
-  clear: both;
-  text-align: center;
-  padding: 0;
-  font-size: 1.4em;
-}
+
 
 .mob-header {
   position: fixed;
@@ -19427,4 +19421,75 @@ table.fixTableHead tbody {
 
 #btn-interno-grafico2 {
   padding-top: 0.5rem;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  /*height: 2.6rem;*/
+  color: var(--primary-color-text);
+  background-color: var(--primary-color);
+  text-align: center;
+  padding: 0;
+  font-size: 1.6rem;
+  /*line-height: 2rem;*/
+}
+
+.topo-esquerda {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50vw;
+}
+
+.topo-direita .p-avatar {
+  font-size: 1.2rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-bottom: 0.2rem;
+  align-items: end;
+  overflow: unset;
+}
+
+.topo-direita {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50vw;
+}
+
+.topo-direita .p-badge.p-badge-warning {
+  z-index: 200;
+  background-color: var(--amarelo);
+  color: var(--text-color);
+}
+
+.topo-direita .p-avatar.p-avatar-circle {
+  border-radius: 50%;
+  overflow: unset;
+}
+
+.topo-direita .p-overlay-badge .p-badge {
+  top: 0.5rem;
+  right: 1.5rem;
+}
+
+.topo-direita  .p-badge {
+  background: var(--primary-color);
+  color: var(--surface-a);
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+}
+
+.topo-direita  .p-badge:hover {
+  font-size: 1rem;
+  font-weight: 700;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
 }

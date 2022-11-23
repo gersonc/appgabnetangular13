@@ -52,11 +52,7 @@ export class DetalheService {
     );
   }*/
 
-  montaBusca() {
-    if (this.registro === undefined || this.registro === null) {
 
-    }
-  }
 
   sair() {
     this.destroy();

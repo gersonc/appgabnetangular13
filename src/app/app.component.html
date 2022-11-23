@@ -1,13 +1,41 @@
 <div id="app" class="app" (resized)="onResized('app', $event)">
   <header [ngClass]="classe" class="header p-shadow-2" id="topoprincipal">
 
-    <div class="div-menu-principal"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
+    <div class="topo-esquerda">
+      <div class="p-ml-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
+      <div class="topo-esquerda-texto"><span *ngIf="authenticationService.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span></div>
+    </div>
+
+
+    <div class="topo-direita p-jc-end">
+      <div class="p-mr-2"><app-pessoal></app-pessoal></div>
+      <div class="p-mx-2">{{authenticationService.usuario_nome}}</div>
+    </div>
+
+
+    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
+      <div class="p-text-left p-text-uppercase" style="padding-left: 1em; padding-bottom: 0">{{authenticationService.parlamentar_nome}}</div>
+      <div class="p-text-left p-text-uppercase" style="padding-left: 1em;">{{authenticationService.usuario_nome}}</div>
+    </div>
+
+    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable">
+      <i class="btn-menu-datatable pi pi-list" (click)="abreFechaMd()"></i>
+    </div>
+
+
+
+
+
+
+
+    <!--<div class="div-menu-principal"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
 
     <div *ngIf="authenticationService.dispositivo !== 'mobile'" class="topo">
       <div class="p-text-left p-text-uppercase"
            style="float: left; padding-left: 1em;">{{authenticationService.parlamentar_nome}}</div>
-      <div class="p-text-right p-text-uppercase"
-           style="padding-right: 1em;">{{authenticationService.usuario_nome}}</div>
+      <div class="p-text-right p-text-uppercase" style="padding-right: 1em;">
+        {{authenticationService.usuario_nome}}<app-pessoal></app-pessoal>
+      </div>
     </div>
 
     <div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
@@ -17,7 +45,7 @@
     </div>
 
     <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable"><i
-      class="btn-menu-datatable pi pi-list" (click)="abreFechaMd()"></i></div>
+      class="btn-menu-datatable pi pi-list" (click)="abreFechaMd()"></i></div>-->
 
   </header>
 

@@ -21,10 +21,13 @@ import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
 import { UsuarioIncluirComponent } from './usuario-incluir/usuario-incluir.component';
 import { UsuarioComponent } from './usuario.component';
 import { UsuarioAlterarComponent } from './usuario-alterar/usuario-alterar.component';
+import { UsuarioFormUsuarioComponent } from './usuario-form-usuario/usuario-form-usuario.component';
+import {PasswordModule} from "primeng/password";
+import {InputMaskModule} from "primeng/inputmask";
 
 
 @NgModule({
-  declarations: [UsuarioListarComponent, UsuarioFormComponent, UsuarioIncluirComponent, UsuarioComponent, UsuarioAlterarComponent],
+  declarations: [UsuarioListarComponent, UsuarioFormComponent, UsuarioIncluirComponent, UsuarioComponent, UsuarioAlterarComponent, UsuarioFormUsuarioComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -41,7 +44,9 @@ import { UsuarioAlterarComponent } from './usuario-alterar/usuario-alterar.compo
     MessageModule,
     ReactiveFormsModule,
     ToastModule,
-    UtilModule
+    UtilModule,
+    PasswordModule,
+    InputMaskModule
   ],
   exports: [UsuarioComponent],
   providers: [

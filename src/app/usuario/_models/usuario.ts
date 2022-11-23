@@ -29,3 +29,4 @@ export class Usuario implements UsuarioInterface {
   usuario_acesso2? = [];
   usuario_celular? = null;
 }
+

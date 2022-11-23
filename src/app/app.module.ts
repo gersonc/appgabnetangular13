@@ -31,6 +31,7 @@ import {QuillModule} from "ngx-quill";
 import {MsgModule} from "./shared/msg/msg.module";
 import {ExporterModule} from "./shared/exporter/exporter.module";
 import {ErroModule} from "./shared/erro/erro.module";
+import {PessoalModule} from "./shared/pessoal/pessoal.module";
 // import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";
 /*import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";*/
 
@@ -76,6 +77,7 @@ export function tokenGetter() {
         MsgModule,
         ExporterModule,
         ErroModule,
+        PessoalModule,
         /*ExporterTextoModule,*/
         /*ExporterTextoModule*/
     ],
