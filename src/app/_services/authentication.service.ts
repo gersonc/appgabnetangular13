@@ -147,6 +147,8 @@ export class AuthenticationService {
   public telefone = false;
   public tarefa = false;
   public usuario = false;
+  public mensagem = false;
+
   public configuracao_incluir = false;
   public configuracao_alterar = false;
   public assunto_incluir = false;
@@ -255,7 +257,7 @@ export class AuthenticationService {
   public config_cota_disponivel = 0;
   public config_cota_utilizada = 0;
   public dispositivo = 'desktop';
-
+  public mensagem_enviar = false;
 
   private currentUserSubject?: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -491,6 +493,10 @@ export class AuthenticationService {
     this.usuario_responsavel_sn = (regra?.indexOf('ur') !== -1 ||  acesso.indexOf('us_r') !== -1 || regra?.indexOf('up') !== -1);
     this.userRules = acesso;
     this.currentUserSubject!.next(JSON.parse(<string>localStorage.getItem('currentUser')));
+
+    this.mensagem = true;
+    this.mensagem_enviar = true;
+
     this.mostraMenuEmiter(true);
   }
 
@@ -614,6 +620,10 @@ export class AuthenticationService {
     this.versaoN = 0;
     this.dispositivo = 'desktop';
     this.permissoes_carregadas = false;
+
+    this.mensagem = false;
+    this.mensagem_enviar = false;
+
     this.mostraMenuEmiter(false);
   }
 

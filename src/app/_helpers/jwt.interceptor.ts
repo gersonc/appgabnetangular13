@@ -20,6 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('intercept', request);
     if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1) {
       const currentUser = this.authenticationService.currentUserValue;
       if (currentUser && currentUser.token) {
