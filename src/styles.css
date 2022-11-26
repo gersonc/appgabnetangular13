@@ -19493,3 +19493,21 @@ table.fixTableHead tbody {
   height: 1.2rem;
   line-height: 1.2rem;
 }
+
+.main2 {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  top: 99.99vh;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 0;
+  background-color: transparent;
+}
+
+.main2 {
+  padding: 0;
+  margin: 0;
+}

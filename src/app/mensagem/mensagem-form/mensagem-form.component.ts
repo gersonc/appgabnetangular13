@@ -7,6 +7,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MensagemFormI} from "../_models/mensagem-form-i";
 import Quill from "quill";
 import {CpoEditor} from "../../_models/in-out-campo-texto";
+import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
+import {MensagemFormService} from "../_services/mensagem-form.service";
+import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
@@ -17,12 +20,12 @@ import {CpoEditor} from "../../_models/in-out-campo-texto";
 export class MensagemFormComponent implements OnInit, OnDestroy {
   @Output() fechaMensagemForm = new EventEmitter<boolean>();
   private sub: Subscription[] = [];
-  displayForm = false;
+  displayForm = true;
   ddUsuario_id: SelectItem[] = null;
   formMensagem: FormGroup;
   msgF: MensagemFormI = null;
   botaoEnviarVF = false;
-
+  resp: any[] = [];
   kill: Quill = null;
   kill0: Quill;
   cpoEditor: CpoEditor = null;
@@ -46,9 +49,15 @@ export class MensagemFormComponent implements OnInit, OnDestroy {
   constructor(
     private dd: DdService,
     private formBuilder: FormBuilder,
+    private mo: MensagemOnoffService,
+    private mfs: MensagemFormService,
+    private ms: MsgService,
   ) { }
 
   ngOnInit(): void {
+    console.log('MENSAGEM INICIO');
+    this.carregaDropdown();
+    this.criaForm();
   }
 
   carregaDropdown() {
@@ -77,37 +86,67 @@ export class MensagemFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  onHide() {
+    this.mo.msgform = false;
+  }
+
   fechar() {
     this.displayForm = false;
     this.fechaMensagemForm.emit(false);
   }
 
   reset() {
-    this.carregaDropdown();
-    this.botaoEnviarVF = false;
+    this.formMensagem.reset();
+    this.formMensagem.get('mensagem_titulo').setValue(null);
+    this.formMensagem.get('mensagem_usuario_id').setValue(null);
+    this.formMensagem.get('mensagem_texto').setValue(null);
+    // this.carregaDropdown();
+    // this.botaoEnviarVF = false;
   }
 
   onSubmit() {
     console.log('onSubmit', this.formMensagem.getRawValue());
     if (this.verificaValidacoesForm(this.formMensagem)) {
       this.botaoEnviarVF = true;
-      this.criaEnvio();
+      const m: MensagemFormI = {
+        mensagem_titulo: this.formMensagem.get('mensagem_titulo').value,
+        mensagem_usuario_id: this.formMensagem.get('mensagem_usuario_id').value,
+        mensagem_texto: this.formMensagem.get('mensagem_texto').value
+      }
+      this.incluir(m);
     }
   }
 
-  criaEnvio() {
-    const msg: MensagemFormI = this.formMensagem.getRawValue();
-    console.log('criaEnvio', msg);
-    let m: MensagemFormI = {
-      mensagem_titulo: this.formMensagem.get('mensagem_titulo').value,
-      mensagem_usuario_id: this.formMensagem.get('mensagem_usuario_id').value,
-      mensagem_texto: this.formMensagem.get('mensagem_texto').value
-    }
-    console.log('criaEnvio2', m);
-  }
 
-  incluir() {
-
+  incluir(m: MensagemFormI) {
+    this.sub.push(this.mfs.incluir(m)
+      .pipe(take(1))
+      .subscribe((dados) => {
+          this.resp = dados;
+        },
+        (err) => console.error(err),
+        () => {
+          if (this.resp[0]) {
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'success',
+              summary: 'INCLUIR MENSSAGEM',
+              detail: this.resp[2]
+            });
+            this.fechar();
+          } else {
+            console.error('ERRO - INCLUIR ', this.resp[2]);
+            this.ms.add({
+              key: 'toastprincipal',
+              severity: 'warn',
+              summary: 'ATENÇÃO - ERRO',
+              detail: this.resp[2]
+            });
+            this.fechar();
+          }
+        }
+      )
+    );
   }
 
 

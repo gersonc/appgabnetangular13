@@ -9,11 +9,17 @@ import { LoginComponent } from './login';
 import {GraficosModule} from "./graficos/graficos.module";
 
 
+
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '',
+    loadChildren: () => import('./main2/main2.module').then(m => m.Main2Module),
+    outlet: 'main2'
   },
 
   {
@@ -134,6 +140,7 @@ const routes: Routes = [
     component: LoginComponent
   },
   { path: 'solic', loadChildren: () => import('./solic/solic.module').then(m => m.SolicModule) },
+
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

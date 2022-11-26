@@ -1,9 +1,21 @@
-<p-dialog header="Title" [(visible)]="displayForm">
+<p-dialog
+  header="Mensagem"
+  [(visible)]="displayForm"
+  [transitionOptions]="'0ms'"
+  [baseZIndex]="0"
+  [modal]="true"
+  [dismissableMask]="false"
+  [closable]="false"
+  styleClass="tablistagem"
+  [breakpoints]="{'1400px': '40vw', '1300px': '50vw', '1200px': '60vw', '1000px': '60vw', '640px': '100vw'}"
+  [style]="{width: '40vw'}"
+  (onHide)="onHide()"
+>
   <div class="formulario" style="background-color: var(--formulario-bg-externo-color);">
     <form [formGroup]="formMensagem" (ngSubmit)="onSubmit()">
       <div class="p-fluid">
         <div class="p-grid p-input-filled">
-          <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6"
+          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
                [ngClass]="aplicaCssErro('tarefa_usuario_id')">
             <label for="mensagem_usuario_id"><span class="atencao">*</span>Usuários(s)</label>
             <p-multiSelect
@@ -24,7 +36,7 @@
           </div>
 
           <!-- tarefa_titulo -->
-          <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('tarefa_titulo')">
+          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" [ngClass]="aplicaCssErro('tarefa_titulo')">
             <label for="mensagem_titulo"><span class="atencao">*</span>Titulo</label>
             <input
               id="mensagem_titulo"

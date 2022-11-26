@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
 
 @Component({
   selector: 'app-main2',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Main2Component implements OnInit {
 
-  constructor() { }
+  constructor(
+    public mo: MensagemOnoffService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  fechaMensagemForm(ev) {
+
   }
 
 }

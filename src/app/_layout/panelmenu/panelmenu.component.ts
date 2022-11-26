@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {AuthenticationService} from '../../_services';
+import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
 
 
 @Component({
@@ -17,6 +18,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
 
   constructor(
     private authenticationService: AuthenticationService,
+    private mo: MensagemOnoffService
   ) {
   }
 
@@ -215,6 +217,19 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.authenticationService.mensagem) {
+      if (this.authenticationService.mensagem_enviar) {
+        this.items.push(
+          {
+            label: 'Mensagens',
+            icon: 'pi pi-envelope',
+            command: () => {
+              this.abreFormMensagem();
+            }
+          });
+      }
+    }
+
     if (this.authenticationService.dispositivo !== 'mobile') {
       this.items.push(
         {
@@ -254,6 +269,11 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   fechaMenuPrincipal() {
     this.mostraMenuPrincipal = false;
     this.menuPrincipalClasses = 'menu-principal-fechado';
+  }
+
+  abreFormMensagem() {
+    this.fechaMenuPrincipal();
+    this.mo.msgform = true;
   }
 
 }

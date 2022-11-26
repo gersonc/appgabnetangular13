@@ -54,7 +54,7 @@ export class UrlService {
   ping = this.url + 'ping';
   explorer = this.url + 'pasta';
   dd = this.url + 'dd';
-
+  mensagem = this.url + 'mensagem';
 
   constructor() {
   }
