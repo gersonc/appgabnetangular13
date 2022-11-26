@@ -330,6 +330,7 @@ export class AuthenticationService {
         take(1),
         map(user => {
           if (user && user.token) {
+            console.log('user', user)
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
             localStorage.setItem('currentUser', JSON.stringify(user));

@@ -18,4 +18,9 @@ export class MensagemFormService {
     const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
     return this.http.post<any[]> (url, msg, httpOptions);
   }
+
+  getAll() {
+    const url = this.url.mensagem + '/';
+    return this.http.get<any>(url);
+  }
 }
