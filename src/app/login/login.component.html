@@ -13,16 +13,17 @@
             <div class="p-col-12 p-sm-12 p-md-8 p-md-offset-2 p-lg-4 p-lg-offset-4 p-xl-4 p-xl-offset-4">
               <div class="p-grid formDiv">
                 <div class="p-col-12 campoLabel" [ngClass]="aplicaCssErro('username')">
-                  <h6>Login</h6>
+                  <h6>E-mail</h6>
                   <input
                     pInputText
-                    type="text"
+                    type="email"
                     class="form-control"
                     formControlName="username"
                     id="username"
-                    autocomplete="username"
-                    placeholder="Login"
+                    autocomplete="email"
+                    placeholder="E-mail"
                     autofocus
+                    [ngClass]="aplicaCssErro('username')"
                   >
                   <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
                                           msgErro="Login é obrigatório.">
@@ -43,6 +44,7 @@
                     autocomplete="current-password"
                     id="password"
                     placeholder="Senha"
+                    [ngClass]="aplicaCssErro('password')"
                   >
                   <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
                                           msgErro="Senha é obrigatória.">

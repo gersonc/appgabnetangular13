@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {
       const validade = +currentUser.expires - (new Date().getTime()) / 1000;
-      if (validade <= 604800) {
+      if (validade <= 4800) {
         this.authenticationService.autologin().subscribe(
           data => {
             const d = data;

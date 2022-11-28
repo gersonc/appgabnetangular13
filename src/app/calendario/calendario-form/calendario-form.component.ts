@@ -635,8 +635,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   aplicaCssErro(campo: any): any {
     return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
+      'ng-invalid': this.verificaValidTouched(campo),
+      'ng-dirty': this.verificaValidTouched(campo)
     };
   }
 

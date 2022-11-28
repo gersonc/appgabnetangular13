@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.min(7), Validators.max(50)]],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(7), Validators.max(50)]]
     });
 
@@ -72,24 +72,54 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  verificaValidacoesForm(formGroup: FormGroup) {
+  /*verificaValidacoesForm(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(campo => {
       console.log(campo);
       const controle = formGroup.get(campo);
       controle.markAsDirty();
-      /*
+      /!*
       if (controle instanceof FormGroup) {
         this.verificaValidacoesForm(controle);
       }
-      */
+      *!/
     });
-  }
+  }*/
 
   resetar() {
     this.loginForm.reset();
   }
 
+
   verificaValidTouched(campo: string) {
+    return (
+      !this.loginForm.get(campo).valid &&
+      (this.loginForm.get(campo).touched || this.loginForm.get(campo).dirty)
+    );
+  }
+
+  verificaValidacoesForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(campo => {
+      const controle = formGroup.get(campo);
+      controle.markAsDirty();
+      controle.markAsTouched();
+      if (controle instanceof FormGroup) {
+        this.verificaValidacoesForm(controle);
+      }
+    });
+  }
+
+  aplicaCssErro(campo: string) {
+    return {
+      'ng-invalid': this.verificaValidTouched(campo),
+      'ng-dirty': this.verificaValidTouched(campo)
+    };
+  }
+
+
+
+
+
+  /*verificaValidTouched(campo: string) {
     return (
       !this.loginForm.get(campo).valid &&
       (this.loginForm.get(campo).touched || this.loginForm.get(campo).dirty)
@@ -101,7 +131,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       'has-error': this.verificaValidTouched(campo),
       'has-feedback': this.verificaValidTouched(campo)
     };
-  }
+  }*/
 
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
