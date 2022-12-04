@@ -1,93 +1,112 @@
 import { Injectable } from '@angular/core';
-import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse} from '@angular/common/http';
-import {EMPTY, Observable, throwError} from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Message } from 'primeng/api';
-import { MessageService } from 'primeng/api';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpErrorResponse,
+  HttpResponse, HttpHeaderResponse
+} from '@angular/common/http';
+import {EMPTY, finalize, Observable, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 
 import { AuthenticationService } from '../_services';
-import {MsgService} from "../_services/msg.service";
-import {ErrI, ErroI} from "./erro-i";
-import {ErroService} from "../shared/erro/_services/erro.service";
-
-@Injectable()
-export abstract class ErroInterceptado {
-  abstract erro(erros: ErroI): void;
-}
+import {HandleError, HttpErrorHandler} from "../http-error-handler.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+
+  /*intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).pipe(catchError(error => ErrorInterceptor.handleError(error, req, next))
+    );
+  }*/
+  private handleError: HandleError;
+
   constructor(
-    private ms: MsgService,
-    private authenticationService: AuthenticationService,
-    private ErroInterceptado: ErroInterceptado
-  ) { }
+    httpErrorHandler: HttpErrorHandler) {
+    this.handleError = httpErrorHandler.createHandleError('Erro Interceptor');
+  }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(catchError(err => {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log("handleError 1");
+    if (next instanceof HttpResponse) {
+      console.log("handleError 2");
+      let ok: string;
+      return next.handle(req)
+        .pipe(
+          tap({
+            // Succeeds when there is a response; ignore other events
+            next: (event) => (ok = event instanceof HttpHeaderResponse ? event.status.toString() : ''),
+            // Operation failed; error is an HttpErrorResponse
+            error: (err) => (err instanceof HttpErrorResponse ? err.status + ' ' + err.message : err.message)
+          }),
+          // Log when response observable either completes or errors
+          finalize(() => {
+            const elapsed = Date.now();
+            const msg = `${req.method} "${req.urlWithParams}"
+             ${ok} in ${elapsed} ms.`;
+            // this.messenger.add(msg);
+            console.log("handleError 3", ok);
+            console.log("handleError 4", msg);
+          })
+        );
 
-      // console.error('ERRO-1->:', err);
-      let er: ErroI = err;
-      if (err.status === 0) {
-        // A client-side or network error occurred. Handle it accordingly.
-        console.error('An error occurred:', err.error);
-
-      } else {
-        if (err.status !== undefined && err.status !== null) {
-
-          if (err.status === 401) { // SEM AUTENTICACAO
-            // auto logout if 401 response returned from api
-            this.authenticationService.logout();
-            location.reload(true);
-          }
-
-          if (err.status === 417) {
-            console.error('ERRO-1->:', er.message);
-            this.ErroInterceptado.erro(er);
-            return EMPTY;
-          }
 
 
-          if (err.status !== 417) {
 
-            const error = err.error || err.statusText;
-            let data: any = {};
-            data = {
-              reason: error.name,
-              status: error.message!
-            };
-            this.ms.add({severity: 'Error', summary: data.reason, detail: data.status});
-            return throwError(err);
-          }/* else {
-            const error: ErroI = err.error;
-            this.ms.add({severity: 'Error', summary: error.type.toUpperCase(), detail: error.detail});
-            return throwError(err);
-          }*/
 
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong.
-          console.error( `Backend returned code ${err.status}, body was: `, err.error.text);
-          return throwError(err);
+
+     /* return next.handle(req).pipe(map((event: HttpEvent<any>) => {
+        if (event instanceof HttpErrorResponse) {
+          console.log('HttpResponse::event3 =', event, event.status);
+          this.handleError('search', [event,event.status ])
         }
-      }
+        console.log("handleError 4");
+        return event;
+      }));*/
+
+    } else {
+      console.log("handleError 5");
+      return next.handle(req);
+    }
 
 
-    }));
+    /*return next.handle(req)
+      .pipe(
+        map(res => {
+          console.log("Passed through the interceptor in response");
+          return res;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          let errorMsg = '';
+          if (error.error instanceof ErrorEvent) {
+            console.log('This is client side error', error.error.message);
+            errorMsg = `Error: ${error.error.message}`;
+          } else {
+            console.log('This is server side error', error.status, error.message);
+            errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+          }
+          console.log(errorMsg);
+          return throwError(() => error);
+        })
+      )*/
   }
-}
-
-@Injectable()
-export class ErroInterceptador implements ErroInterceptado {
-
-  constructor(
-    private es: ErroService,
-  ) { }
 
 
-  erro(erros: ErroI): void {
-    this.es.erro = erros;
-    // return erros;
-  }
+  /*private static handleError(err: HttpErrorResponse, request: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
+    // if token has expired
+    if (err.status == 401) {
+      console.log('refresh JWT token');
+      // refresh JWT token
+    }
+    // server error
+    else if (err.status == 500) {
+      console.log('handle your server error here');
+      //  handle your server error here
+    }
+    // rethrow Error
+    console.log('Error', err.status);
+    return throwError(() => err);
+  }*/
 }

@@ -6,9 +6,10 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class UrlService {
-  // private url = `${environment.apiUrl}`;
+  private url = `${environment.apiUrl}`;
+  // private url = 'api/';
 
-   url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
+    // url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
    // url = (location.hostname === 'localhost') ? 'http://gn5.gabnet.com.br/api' : 'api/';
 
     // url = 'api/';

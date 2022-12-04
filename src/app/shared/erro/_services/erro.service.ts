@@ -10,10 +10,17 @@ export class ErroService {
   erro$ = this.erroSubject.asObservable();
 
   display = false;
-  err: ErrI[] | null = null;
+  err: any[] = [];
 
   constructor() { }
 
+  add(erro: any) {
+    this.err.push(erro);
+  }
+
+  clear() {
+    this.err = [];
+  }
 
   set erro(erro: any) {
 
@@ -35,6 +42,8 @@ export class ErroService {
         }
 
       });
+    } else {
+      this.add(erro);
     }
     this.erroSubject.next(this.display);
   }

@@ -3,7 +3,7 @@
     "target": "http://slimgn08.dv",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": true
+    "changeOrigin": false
   },
   "/viacep": {
     "target": "https://viacep.com.br",

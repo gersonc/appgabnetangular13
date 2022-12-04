@@ -2,7 +2,9 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://gn5.gabnet.com.br/api/'
+  apiUrl: 'http://api.gn5.dv/',
+  apiUrlReflesh: 'http://api.gn5.dv/refleshtoken',
+  secure: true
 };
 
 /*export const environment = {

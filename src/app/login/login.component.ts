@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(first())
         .subscribe(
           data => {
+            console.log('login', data);
             this.router.navigate([this.returnUrl]);
           },
           error => {

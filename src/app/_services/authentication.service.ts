@@ -1,13 +1,14 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, pipe, Subject } from 'rxjs';
+import {BehaviorSubject, Observable, of, pipe, Subject, Subscription} from 'rxjs';
 import { catchError, map, take} from 'rxjs/operators';
 
 import { User } from '../_models';
 import { UrlService} from '../_services';
 import {Versao} from './versao';
 import {VersaoService} from "./versao.service";
+import {AutenticacaoService} from "./autenticacao.service";
 
 @Injectable({providedIn: 'root'})
 
@@ -264,9 +265,15 @@ export class AuthenticationService {
   private user$?: Observable<User>;
   private mostraMenuSource =  new BehaviorSubject<boolean>(false);
   public mostraMenu$ = this.mostraMenuSource.asObservable();
-
+  public token: string = '';
+  public refleshToken: string = '';
+  public vfToken = false;
+  // public futuro?: Date;
+  public expires?: Date;
+  public expiresRef?: Date;
 
   constructor(
+    private ats: AutenticacaoService,
     private versaoService: VersaoService,
     private urlService: UrlService,
     private http: HttpClient,
@@ -277,7 +284,9 @@ export class AuthenticationService {
     if (this.currentUserSubject.value) {
       this.carregaPermissoes(this.currentUserSubject.value);
       this.currentUserSubject!.next(this.currentUserSubject.value);
+      console.log('AuthenticationService constructor1', this.currentUserSubject.value);
     }
+    console.log('AuthenticationService constructor2');
   }
 
   public get currentUserValue() {
@@ -318,7 +327,7 @@ export class AuthenticationService {
   login(username: string, password: string) {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
-
+    console.log('aut-login1', hvalue);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -329,12 +338,26 @@ export class AuthenticationService {
       .pipe(
         take(1),
         map(user => {
+          console.log('aut-login2', user);
           if (user && user.token) {
-            console.log('user', user)
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.removeItem('reflesh_token');
+            localStorage.removeItem('expiresRef');
+            localStorage.removeItem('expires');
             localStorage.setItem('access_token', user.token);
+            localStorage.setItem('reflesh_token', user.refleshToken);
+            localStorage.setItem('expiresRef', user.expiresRef);
+            localStorage.setItem('expires', user.expires);
+            /*this.token = user.token;
+            this.refleshToken = user.refleshToken;
+            this.expiresRef = user.expiresRef;
+            this.expires = user.expires;*/
+            delete user.token;
+            delete user.refleshToken;
+            delete user.expiresRef;
+            delete user.expires;
+            localStorage.setItem('currentUser', JSON.stringify(user));
             this.carregaPermissoes(user);
             }
           return user;
@@ -344,6 +367,15 @@ export class AuthenticationService {
   }
 
   carregaPermissoes(user): void {
+    if (localStorage.getItem('access_token') && localStorage.getItem('reflesh_token')) {
+      this.token = localStorage.getItem('access_token');
+      this.refleshToken = localStorage.getItem('reflesh_token');
+      this.expiresRef = new Date(localStorage.getItem('expiresRef'));
+      this.expires = new Date(localStorage.getItem('expires'));
+      this.vfToken = true;
+    } else {
+      this.vfToken = false;
+    }
     const regra = this.descreveRule(user.usuario_regras);
     const acesso = this.descreveAcesso(user.usuario_acesso);
     this._versao = +user.parlamentar_versao!;
@@ -502,6 +534,16 @@ export class AuthenticationService {
   }
 
   cancelaPermissoes() {
+    this.vfToken = false;
+    this.token = null;
+    this.refleshToken = null;
+    this.expiresRef = null;
+    this.expires = null;
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('reflesh_token');
+    localStorage.removeItem('expiresRef');
+    localStorage.removeItem('expires');
     this.agenda2 = false;
     this.agenda = false;
     this.andamentoproposicao = false;
@@ -624,7 +666,6 @@ export class AuthenticationService {
 
     this.mensagem = false;
     this.mensagem_enviar = false;
-
     this.mostraMenuEmiter(false);
   }
 
@@ -637,13 +678,27 @@ export class AuthenticationService {
       .pipe(
         take(1),
         map(user => {
+          console.log('autologin', user);
           if (user && user.token) {
-            localStorage.removeItem('access_token');
             localStorage.removeItem('currentUser');
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('reflesh_token');
+            localStorage.removeItem('expiresRef');
+            localStorage.removeItem('expires');
             localStorage.setItem('access_token', user.token);
+            localStorage.setItem('reflesh_token', user.refleshToken);
+            localStorage.setItem('expiresRef', user.expiresRef);
+            localStorage.setItem('expires', user.expires);
+            this.token = user.token;
+            this.refleshToken = user.refleshToken;
+            this.expiresRef = new Date(+user.expiresRef);
+            this.expires = new Date(+user.expires);
+            delete user.token;
+            delete user.refleshToken;
+            delete user.expiresRef;
+            delete user.expires;
+            localStorage.setItem('currentUser', JSON.stringify(user));
             this.carregaPermissoes(user);
-            this.currentUserSubject?.next(user);
             return true;
           } else {
           this.cancelaPermissoes();
@@ -668,4 +723,86 @@ export class AuthenticationService {
       console.log('currentUser FALSE');
     }
   }
+
+  getTokens(): any {
+    this.expires = new Date(localStorage.getItem('expires'));
+    this.expiresRef = new Date(localStorage.getItem('expiresRef'));
+    this.token = localStorage.getItem('access_token');
+    this.refleshToken = localStorage.getItem('reflesh_token');
+  }
+
+  inicio(): Observable<boolean> {
+    if (
+      localStorage.getItem('access_token') &&
+      localStorage.getItem('reflesh_token') &&
+      localStorage.getItem('expires') &&
+      localStorage.getItem('expiresRef') &&
+      localStorage.getItem('currentUser')
+    ) {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      const a: number = Date.now();
+      const b: number = +localStorage.getItem('expires');
+      const c: number = +localStorage.getItem('expiresRef');
+      if (b > a) {
+        this.carregaPermissoes(JSON.parse(localStorage.getItem('currentUser')));
+        return of(true);
+      } else {
+        if (c > a) {
+          let v = false;
+          const s: Subscription = this.ats.refleshToken()
+            .pipe(take(1))
+            .subscribe({
+              next: (vf) => {
+                if (vf) {
+                  v = vf;
+                  const user = JSON.parse(localStorage.getItem('currentUser'))
+                  this.carregaPermissoes(user);
+                  this.currentUserSubject!.next(user);
+                }
+              },
+              error: err => {
+                console.error(err.message);
+              },
+              complete: () => {
+                s.unsubscribe();
+                return of(v);
+              }
+            });
+        } else {
+          return of(false);
+        }
+
+      }
+    } else {
+      return of(false);
+    }
+  }
+
+  reflesh(): Observable<boolean> {
+    let v = false;
+    if (localStorage.getItem('reflesh_token')) {
+      const s: Subscription = this.ats.refleshToken()
+        .pipe(take(1))
+        .subscribe({
+          next: (vf) => {
+            if (vf) {
+              v = vf;
+              this.carregaPermissoes(JSON.parse(localStorage.getItem('currentUser')));
+            }
+          },
+          error: err => {
+            console.error(err.message);
+            return of(v);
+          },
+          complete: () => {
+            s.unsubscribe();
+            return of(v);
+          }
+        });
+    } else {
+      return of(v)
+    }
+  }
+
+
 }

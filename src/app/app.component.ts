@@ -15,6 +15,8 @@ import { ArquivoLoginService } from './arquivo/_services';
 import { PrimeNGConfig } from 'primeng/api';
 import { SpinnerService } from "./_services/spinner.service";
 import { Spinkit } from 'ng-http-loader';
+import {of, Subscription} from "rxjs";
+import {take} from "rxjs/operators";
 /*import {Message,MessageService} from 'primeng-lts/api';
 import {MsgService} from "./_services/msg.service";*/
 
@@ -35,7 +37,7 @@ export class AppComponent implements OnInit {
   classe: string = null;
   // mobile = true;
 
-
+  s: Subscription;
 
 
 
@@ -64,6 +66,27 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     window.__VERSAOID__ = +this.authenticationService.versao;
     window.__VERSAO__ = this.authenticationService.versao;
+    let v = false;
+    this.s = this.authenticationService.inicio()
+      .pipe(take(1))
+      .subscribe({
+        next: (vf) => {
+          if (vf) {
+            v = vf;
+          }
+        },
+        error: err => {
+          console.error(err.message);
+        },
+        complete: () => {
+          // this.unsubescreve();
+          if (v) {
+            if (this.authenticationService.permissoes_carregadas) {
+              this.as.verificaPermissoes();
+            }
+          }
+        }
+      });
 
     this.configPrime();
 
@@ -71,11 +94,13 @@ export class AppComponent implements OnInit {
       this.mostraEsconde(vf);
     });*/
 
-    if (this.authenticationService.permissoes_carregadas) {
-       this.as.verificaPermissoes();
-    }
+
 
     WindowsService.all();
+  }
+
+  unsubescreve() {
+    this.s.unsubscribe();
   }
 
   onResized(id: string, event: ResizedEvent): void {

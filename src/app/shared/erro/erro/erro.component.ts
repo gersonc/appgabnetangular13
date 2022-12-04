@@ -32,13 +32,13 @@ export class ErroComponent implements OnInit, OnDestroy {
 
   fechar() {
     console.log('APP-ERRO FECHAR');
-    this.es.err = null;
+    this.es.clear();
     this.es.display = false;
   }
 
   ngOnDestroy() {
     console.log('APP-ERRO DESTROY');
-    this.es.err = null;
+    this.es.clear();
     this.es.display = false;
   }
 

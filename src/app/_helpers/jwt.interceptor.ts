@@ -20,20 +20,30 @@ export class JwtInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1) {
-      const currentUser = this.authenticationService.currentUserValue;
-      if (currentUser && currentUser.token) {
+    if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/refleshtoken') === -1 ) {
+      // const currentUser = this.authenticationService.currentUserValue;
+      if (this.authenticationService.vfToken) {
         request = request.clone({
           setHeaders: {
-            Authorization: 'Bearer ' + currentUser.token
+            Authorization: 'Bearer ' + this.authenticationService.token
           }
         });
       }
     }
+    if(request.urlWithParams.search('/reflesh') > -1) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: 'Bearer ' + this.authenticationService.refleshToken
+        }
+      });
+    }
 
     return next.handle(request).pipe(map((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse) {
+        console.log('JwtInterceptor::event1 =', event, event.status);
+      }
         if (event instanceof HttpResponse && (event.status / 100) > 3) {
-          console.log('HttpResponse::event =', event);
+          console.log('JwtInterceptor2::event =', event);
         }
         return event;
       }));

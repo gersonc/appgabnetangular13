@@ -11,6 +11,8 @@
                 <p>Url: {{hst}}</p>
                 <p>Dispositivo: {{authenticationService.dispositivo}} <i *ngIf="authenticationService.dispositivo==='mobile'" class="pi pi-mobile"></i><i *ngIf="authenticationService.dispositivo!=='mobile'" class="pi pi-desktop"></i></p>
                 <p>Versão: {{authenticationService._versao}}</p>
+                <p>Logado: {{authenticationService.vfToken}}</p>
+                <p>Token: {{token}}</p>
                 <div class="container" style="text-align:center">
                   <h3><b>TIPO DE DISPOSITIVO</b></h3>
                   <p>

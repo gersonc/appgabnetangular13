@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   coorMain: CoordenadaXY;
   coorRodape: CoordenadaXY;
   checked: boolean = this.authenticationService.dispositivo === 'mobile';
+  token = '';
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -36,6 +37,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.authenticationService.token !== undefined && this.authenticationService.token !== null && this.authenticationService.token.length > 5) {
+      this.token = this.authenticationService.token.substr(0,30);
+    }
     this.ping();
     this.coorApp = this.ws.coorApp;
     this.coorTopo = this.ws.coorTopo;

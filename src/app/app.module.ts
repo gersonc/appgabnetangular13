@@ -13,7 +13,7 @@ import { LayoutModule } from './_layout/layout.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
-import {JwtInterceptor, ErrorInterceptor, ResponseInterceptor, ErroInterceptado, ErroInterceptador} from './_helpers';
+import {JwtInterceptor, ErrorInterceptor, ResponseInterceptor} from './_helpers';
 import { UtilModule } from './util/util.module';
 import { HomeComponent } from './home';
 /*import { ToastModule } from 'primeng/toast';
@@ -32,6 +32,8 @@ import {MsgModule} from "./shared/msg/msg.module";
 import {ExporterModule} from "./shared/exporter/exporter.module";
 import {ErroModule} from "./shared/erro/erro.module";
 import {PessoalModule} from "./shared/pessoal/pessoal.module";
+import {TesteComponent} from "./teste/teste.component";
+import {HttpErrorHandler} from "./http-error-handler.service";
 // import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";
 /*import {ExporterTextoModule} from "./shared/exporter-texto/exporter-texto.module";*/
 
@@ -44,6 +46,7 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     HomeComponent,
+    TesteComponent
   ],
     imports: [
         BrowserModule,
@@ -84,7 +87,7 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: ErroInterceptado, useClass: ErroInterceptador },
+    HttpErrorHandler,
     MessageService,
     WindowsService,
     /*{ provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },*/
