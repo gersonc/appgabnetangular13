@@ -2,8 +2,8 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://api.gn5.dv/',
-  apiUrlReflesh: 'http://api.gn5.dv/refleshtoken',
+  apiUrl: 'http://api.gn5.com.br/',
+  apiUrlReflesh: 'http://api.gn5.com.br/refleshtoken',
   secure: true
 };
 

@@ -19511,3 +19511,14 @@ table.fixTableHead tbody {
   padding: 0;
   margin: 0;
 }
+.p-toast .p-toast-message.p-toast-message-error {
+  background: #FFCDD2;
+  border: solid #e60017;
+  border-width: 0 0 0 6px;
+  color: #73000c;
+}
+
+.p-toast .p-toast-message.p-toast-message-error .p-toast-message-icon,
+.p-toast .p-toast-message.p-toast-message-error .p-toast-icon-close {
+  color: #73000c;
+}

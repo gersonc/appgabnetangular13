@@ -5,96 +5,71 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
-  HttpResponse, HttpHeaderResponse
+  HttpResponse
 } from '@angular/common/http';
-import {EMPTY, finalize, Observable, throwError} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-
-import { AuthenticationService } from '../_services';
-import {HandleError, HttpErrorHandler} from "../http-error-handler.service";
+import {MsgService} from "../_services/msg.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  /*intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(catchError(error => ErrorInterceptor.handleError(error, req, next))
-    );
-  }*/
-  private handleError: HandleError;
-
   constructor(
-    httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError('Erro Interceptor');
-  }
+    private ms: MsgService
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("handleError 1");
-    if (next instanceof HttpResponse) {
-      console.log("handleError 2");
-      let ok: string;
-      return next.handle(req)
-        .pipe(
-          tap({
-            // Succeeds when there is a response; ignore other events
-            next: (event) => (ok = event instanceof HttpHeaderResponse ? event.status.toString() : ''),
-            // Operation failed; error is an HttpErrorResponse
-            error: (err) => (err instanceof HttpErrorResponse ? err.status + ' ' + err.message : err.message)
-          }),
-          // Log when response observable either completes or errors
-          finalize(() => {
-            const elapsed = Date.now();
-            const msg = `${req.method} "${req.urlWithParams}"
-             ${ok} in ${elapsed} ms.`;
-            // this.messenger.add(msg);
-            console.log("handleError 3", ok);
-            console.log("handleError 4", msg);
-          })
-        );
-
-
-
-
-
-
-     /* return next.handle(req).pipe(map((event: HttpEvent<any>) => {
-        if (event instanceof HttpErrorResponse) {
-          console.log('HttpResponse::event3 =', event, event.status);
-          this.handleError('search', [event,event.status ])
-        }
-        console.log("handleError 4");
-        return event;
-      }));*/
-
-    } else {
-      console.log("handleError 5");
-      return next.handle(req);
-    }
-
-
-    /*return next.handle(req)
+    let erro: any[];
+    return next.handle(req)
       .pipe(
-        map(res => {
-          console.log("Passed through the interceptor in response");
-          return res;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          let errorMsg = '';
-          if (error.error instanceof ErrorEvent) {
-            console.log('This is client side error', error.error.message);
-            errorMsg = `Error: ${error.error.message}`;
-          } else {
-            console.log('This is server side error', error.status, error.message);
-            errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+        tap({
+          next: (event) => {
+            if (event instanceof HttpResponse) {
+              if ((event.status / 100) > 3) {
+                console.log("handleError ERRO status", event.status);
+                console.log("handleError ERRO ok", event.ok);
+                console.log("handleError ERRO url", event.url);
+                console.log("handleError ERRO body", event.body);
+                console.log("handleError ERRO type", event.type);
+                console.log("handleError ERRO headers", event.headers);
+                console.log("handleError ERRO statusText", event.statusText);
+              }
+
+              if (event.body !== undefined && event.body !== null) {
+                if (event.body.erro !== undefined && event.body.erro !== null) {
+                  if (Array.isArray(event.body.erro)) {
+                    this.ms.add({key: 'toastprincipal', severity: 'error', summary: 'ERRO', detail: event.body.erro[2]});
+                  }
+                }
+              }
+            }
+          },
+          error: (err) => {
+            if (err instanceof HttpErrorResponse) {
+              this.ms.add({key: 'toastprincipal', severity: 'error', summary: 'ERRO', detail: err.status + ' ' + err.message});
+            } else {
+              this.ms.add({key: 'toastprincipal', severity: 'error', summary: 'ERRO', detail: err});
+            }
           }
-          console.log(errorMsg);
-          return throwError(() => error);
-        })
-      )*/
+        }),
+        catchError(error =>
+          ErrorInterceptor.handleError(this.ms,error, req, next)
+        )
+      );
   }
 
 
-  /*private static handleError(err: HttpErrorResponse, request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-
+  private static handleError(ms: MsgService, err: HttpErrorResponse, request: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    let errorMsg = '';
+    if (err.error instanceof ErrorEvent) {
+      // console.log('This is client side error', err.error.message);
+      errorMsg = `Error: ${err.error.message}`;
+      ms.add({key: 'toastprincipal', severity: 'error', summary: 'ERRO', detail: errorMsg});
+    } else {
+      // console.log('This is server side error', err.status, err.message);
+      errorMsg = `Error Code: ${err.status},  Message: ${err.message}`;
+      ms.add({key: 'toastprincipal', severity: 'error', summary: 'ERRO', detail: errorMsg});
+    }
     // if token has expired
     if (err.status == 401) {
       console.log('refresh JWT token');
@@ -107,6 +82,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
     // rethrow Error
     console.log('Error', err.status);
-    return throwError(() => err);
-  }*/
+    return of(err);
+  }
 }
+
+

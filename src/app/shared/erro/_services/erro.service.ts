@@ -15,7 +15,11 @@ export class ErroService {
   constructor() { }
 
   add(erro: any) {
+    console.log('ErroService', erro);
     this.err.push(erro);
+    if(!this.display && this.err.length > 0) {
+      this.display = true;
+    }
   }
 
   clear() {

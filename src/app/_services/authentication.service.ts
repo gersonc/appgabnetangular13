@@ -327,7 +327,6 @@ export class AuthenticationService {
   login(username: string, password: string) {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
-    console.log('aut-login1', hvalue);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -338,7 +337,6 @@ export class AuthenticationService {
       .pipe(
         take(1),
         map(user => {
-          console.log('aut-login2', user);
           if (user && user.token) {
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');

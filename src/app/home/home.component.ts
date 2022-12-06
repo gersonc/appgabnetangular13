@@ -8,6 +8,7 @@ import { CoordenadaXY } from '../_layout/_service/coordenada-x-y';
 import { HttpClient } from "@angular/common/http";
 import { Subscription } from "rxjs";
 import {take} from "rxjs/operators";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Component({
   templateUrl: './home.component.html',
