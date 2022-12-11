@@ -8,7 +8,7 @@
 
 
     <div class="topo-direita p-jc-end">
-      <div class="p-mr-2"><app-pessoal></app-pessoal></div>
+      <div class="p-mr-2"><app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal></div>
       <div class="p-mx-2">{{authenticationService.usuario_nome}}</div>
     </div>
 
@@ -59,9 +59,9 @@
     </div>
   </div>
 
-  <div #main2 id="main2" class="main2">
+  <!--<div #main2 id="main2" class="main2">
     <router-outlet  name="main2"></router-outlet>
-  </div>
+  </div>-->
 
 </div>
 <app-msg></app-msg>

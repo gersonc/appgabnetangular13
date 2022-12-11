@@ -11,13 +11,16 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
+import { MensagemMinilistaComponent } from './mensagem-minilista/mensagem-minilista.component';
+
 
 
 
 @NgModule({
   declarations: [
     MensagemComponent,
-    MensagemFormComponent
+    MensagemFormComponent,
+    MensagemMinilistaComponent
   ],
   imports: [
     CommonModule,

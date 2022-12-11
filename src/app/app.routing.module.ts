@@ -17,11 +17,11 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
   },
-  {
+  /*{
     path: '',
     loadChildren: () => import('./main2/main2.module').then(m => m.Main2Module),
     outlet: 'main2'
-  },
+  },*/
 
   {
     path: 'calendario',

@@ -1,1 +1,33 @@
-<p-avatar icon="pi pi-user" styleClass="p-mr-2" pBadge value="4" severity="warning" [style]="{'background-color': 'var(--primary-color-text)', 'color': 'var(--primary-color)'}" shape="circle"></p-avatar>
+<p-avatar *ngIf="num === null" icon="pi pi-user" styleClass="p-mr-2" ></p-avatar>
+
+<ng-container *ngIf="num !== null">
+
+<p-avatar
+  icon="pi pi-user"
+  styleClass="p-mr-2"
+  pBadge
+  [value]="num"
+  severity="warning"
+  [style]="{'background-color': 'var(--primary-color-text)', 'color': 'var(--primary-color)'}"
+  shape="circle"
+  (click)="mop.show($event)"
+></p-avatar>
+
+
+<p-overlayPanel [showCloseIcon]="true" [style]="{width: '450px'}" #mop (onShow)="onShow()" (onHide)="onHide()">
+  <ng-template pTemplate>
+    <p-accordion>
+      <p-accordionTab *ngFor="let m of mgs" [header]="m.mensagem_titulo">
+        <div class="p-grid">
+          <div *ngIf="m.usuario_origem_nome" class="p-col-6">{{m.usuario_origem_nome}}</div>
+          <div *ngIf="m.modulo" class="p-col-6">{{m.modulo}}</div>
+          <div *ngIf="m.mensagem_data" class="p-col-6">{{m.mensagem_data}}</div>
+          <div *ngIf="m.mensagem_texto" class="p-col-12">{{m.mensagem_texto}}</div>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+
+  </ng-template>
+</p-overlayPanel>
+
+</ng-container>

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { PessoalComponent } from './pessoal/pessoal.component';
 import {AvatarModule} from "primeng/avatar";
 import {BadgeModule} from "primeng/badge";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {AccordionModule} from "primeng/accordion";
 
 
 
@@ -13,7 +15,9 @@ import {BadgeModule} from "primeng/badge";
   imports: [
     CommonModule,
     AvatarModule,
-    BadgeModule
+    BadgeModule,
+    OverlayPanelModule,
+    AccordionModule
   ],
   exports: [
     PessoalComponent

@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   // public spinkit = Spinkit;
   classe: string = null;
   // mobile = true;
-
+  mostraPessoal = false;
   s: Subscription;
 
 
@@ -86,6 +86,7 @@ export class AppComponent implements OnInit {
           if (v) {
             if (this.authenticationService.permissoes_carregadas) {
               this.as.verificaPermissoes();
+              this.mostraPessoal = true;
             }
           } else {
 
