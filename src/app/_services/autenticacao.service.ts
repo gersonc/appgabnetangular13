@@ -8,7 +8,8 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class AutenticacaoService {
-  private url = `${environment.apiUrl}`;
+  // private url = `${environment.apiUrl}`;
+
 
   constructor(
     private http: HttpClient,
@@ -17,7 +18,7 @@ export class AutenticacaoService {
   login(username: string, password: string) {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
-    const url = this.url + '/login';
+    const url = this.getUrl() + 'login';
     console.log('aut-login1', hvalue);
     const httpOptions = {
       headers: new HttpHeaders({
@@ -53,7 +54,7 @@ export class AutenticacaoService {
   }
 
   refleshToken(): Observable<boolean> {
-    const url = this.url + '/reflesh';
+    const url = this.getUrl() + '/reflesh';
     return this.http.get<any>(url)
       .pipe(
         take(1),
@@ -81,6 +82,23 @@ export class AutenticacaoService {
             return false;
           }
         }));
+  }
+
+  getUrl(): string {
+    switch (location.hostname) {
+      case 'localhost' :
+        return 'http://slimgn08.dv/api/';
+      case 'gn5.dv' :
+        return 'http://api.gn5.dv/';
+      case 'webcop.dv' :
+        return 'http://webcop.dv/api/';
+      case 'webcop2.dv' :
+        return 'http://webcop2.dv/api/';
+      case 'webcop3.dv' :
+        return 'http://webcop3.dv/api/';
+      case 'gabnet5.com.br' :
+        return 'http://gabnet5.com.br/api/';
+    }
   }
 
 

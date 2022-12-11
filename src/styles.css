@@ -19522,3 +19522,9 @@ table.fixTableHead tbody {
 .p-toast .p-toast-message.p-toast-message-error .p-toast-icon-close {
   color: #73000c;
 }
+
+
+.loginbox{
+  position: relative;
+  top: 30%;
+}

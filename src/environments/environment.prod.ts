@@ -1,14 +1,38 @@
+/*
+
+export const environment = {
+  production: true,
+  apiUrl: 'http://gn5.gabnet.com.br/api/',
+  apiUrlReflesh: 'http://gn5.gabnet.com.br/api/refleshtoken',
+  secure: true
+};
+
+*/
+
+/*
+export const environment = {
+  production: true,
+  apiUrl: 'http://192.168.0.10/gn5/api/'
+};
+*/
+
 
 
 export const environment = {
   production: true,
-  apiUrl: 'http://api.gn5.com.br/',
-  apiUrlReflesh: 'http://api.gn5.com.br/refleshtoken',
-  secure: true
-};
+  apiUrl: 'http://webcop.dv/api/',
+  apiUrlReflesh: 'http://webcop.dv/api/refleshtoken',
+  secure: true,
+}
 
-/*export const environment = {
+/*
+
+export const environment = {
   production: true,
-  apiUrl: 'http://192.168.0.10/gn5/api/'
-};*/
+  apiUrl: 'api/',
+  apiUrlReflesh: 'api/refleshtoken',
+  secure: true,
+}
+*/
 
+//
