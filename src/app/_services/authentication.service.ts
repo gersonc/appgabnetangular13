@@ -257,7 +257,7 @@ export class AuthenticationService {
   public config_arquivo_cota = 0;
   public config_cota_disponivel = 0;
   public config_cota_utilizada = 0;
-  public dispositivo = 'desktop';
+  public dispositivo: string = null;
   public mensagem_enviar = false;
 
   private currentUserSubject?: BehaviorSubject<User>;
@@ -659,7 +659,7 @@ export class AuthenticationService {
     this.versaoService.powerUser = false;
     this.versao = 0;
     this.versaoN = 0;
-    this.dispositivo = 'desktop';
+    this.dispositivo = null;
     this.permissoes_carregadas = false;
 
     this.mensagem = false;

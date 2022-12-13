@@ -33,13 +33,12 @@ export class PessoalComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
-          mg = dados
-          if (mg.length > 0) {
+          if (dados !== undefined && dados !== null && Array.isArray(dados) && dados.length > 0) {
             let mm: MensagemI[] = [];
             if (sessionStorage.getItem('mensagems')) {
               mm.push(...JSON.parse(sessionStorage.getItem('mensagems')));
             }
-            mm.push(...mg);
+            mm.push(...dados);
             sessionStorage.setItem('mensagems', JSON.stringify(mm));
           }
         },

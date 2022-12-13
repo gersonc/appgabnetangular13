@@ -56,10 +56,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   ping() {
-    this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe(
-      (data) => console.log('ping->', data),
-      (err) => console.log('ping-erro->',err)
-    ));
+    this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe({
+      next: (data: any) => this.authenticationService.dispositivo = data.dispositivo,
+      error: (err) => console.log('ping-erro->', err)
+    }));
   }
 
   mudaDispositivo() {

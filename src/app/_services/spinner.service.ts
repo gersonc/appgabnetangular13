@@ -14,7 +14,7 @@ export class SpinnerService {
   skThreeBounce: string;
   skWanderingCubes: string;
   skWave: string;*/
-  semSpinner: string[] = ['sugest'];
+  semSpinner: string[] = ['sugest','mensagem'];
   vf = true;
   modelo = Spinkit.skWave;
   _fundo = '#777777';
