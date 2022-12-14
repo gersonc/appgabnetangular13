@@ -1,33 +1,41 @@
-<p-avatar *ngIf="num === null" icon="pi pi-user" styleClass="p-mr-2" ></p-avatar>
 
-<ng-container *ngIf="num !== null">
-
-<p-avatar
-  icon="pi pi-user"
-  styleClass="p-mr-2"
-  pBadge
-  [value]="num"
-  severity="warning"
-  [style]="{'background-color': 'var(--primary-color-text)', 'color': 'var(--primary-color)'}"
-  shape="circle"
-  (click)="mop.show($event)"
-></p-avatar>
-
-
-<p-overlayPanel [showCloseIcon]="true" [style]="{width: '450px'}" #mop (onShow)="onShow()" (onHide)="onHide()">
+<i *ngIf="num === 0" class="pi pi pi-user" style="font-size: 1.6rem"></i>
+<ng-container *ngIf="num !== 0">
+<div id="pessoaldiv" #pess>
+  <i
+    *ngIf="num !== 0"
+    class="pessoalIcon pi pi pi-user"
+    pBadge
+    style="font-size: 1.6rem"
+    [value]="nm"
+    severity="warning"
+    (click)="mop.show($event)"
+  ></i>
+  </div>
+<p-overlayPanel
+  [showCloseIcon]="true"
+  [style]="{width: '450px'}"
+  #mop
+  (onShow)="onShow()"
+  (onHide)="onHide()"
+  [appendTo]="'body'"
+>
   <ng-template pTemplate>
     <p-accordion>
-      <p-accordionTab *ngFor="let m of mgs" [header]="m.mensagem_titulo">
+      <p-accordionTab *ngFor="let m of mgs" [header]="m.mensagem_titulo" class="mensagens-acord">
+        <div class="acord-msg-body">
         <div class="p-grid">
           <div *ngIf="m.usuario_origem_nome" class="p-col-6">{{m.usuario_origem_nome}}</div>
-          <div *ngIf="m.modulo" class="p-col-6">{{m.modulo}}</div>
-          <div *ngIf="m.mensagem_data" class="p-col-6">{{m.mensagem_data}}</div>
-          <div *ngIf="m.mensagem_texto" class="p-col-12">{{m.mensagem_texto}}</div>
+          <div *ngIf="m.modulo" class="p-col-6 p-text-right">{{m.modulo}}</div>
+          <div *ngIf="m.mensagem_data" class="p-col-6 p-text-right">{{m.mensagem_data}}</div>
+          <div *ngIf="m.mensagem_texto" class="p-col-12"><app-quill-view [cphtml]="m.mensagem_texto"></app-quill-view></div>
+        </div>
         </div>
       </p-accordionTab>
     </p-accordion>
 
   </ng-template>
 </p-overlayPanel>
-
 </ng-container>
+
+<app-pessoal-mensagem-form  *ngIf="mo.msgform"></app-pessoal-mensagem-form>

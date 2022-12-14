@@ -1,0 +1,135 @@
+<ng-container *ngIf="mo.msgform">
+
+<p-dialog
+  header="Mensagem"
+  [(visible)]="displayForm"
+  [transitionOptions]="'0ms'"
+  [baseZIndex]="0"
+  [modal]="true"
+  [dismissableMask]="false"
+  [closable]="false"
+  [appendTo]="'body'"
+  styleClass="tablistagem"
+  [breakpoints]="{'1400px': '40vw', '1300px': '50vw', '1200px': '60vw', '1000px': '60vw', '640px': '100vw'}"
+  [style]="{width: '40vw'}"
+  (onHide)="onHide()"
+>
+  <div class="formulario" style="background-color: var(--formulario-bg-externo-color);">
+    <form [formGroup]="formMensagem" (ngSubmit)="onSubmit()">
+      <div class="p-fluid">
+        <div class="p-grid p-input-filled">
+          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
+               [ngClass]="aplicaCssErro('tarefa_usuario_id')">
+            <label for="mensagem_usuario_id"><span class="atencao">*</span>Usuários(s)</label>
+            <p-multiSelect
+              id="mensagem_usuario_id"
+              [options]="ddUsuario_id"
+              formControlName="mensagem_usuario_id"
+              defaultLabel="Escolha usuário(s)"
+              [displaySelectedLabel]="true"
+              [maxSelectedLabels]="6"
+              [style]="{'width':'100%'}"
+              styleClass="formulario"
+              [filter]="false"
+              [ngClass]="aplicaCssErro('mensagem_usuario_id')"
+            >
+            </p-multiSelect>
+            <app-campo-control-erro [mostrarErro]="verificaValidTouched('tarefa_usuario_id')"
+                                    msgErro="Usuários(s) é obrigatório."></app-campo-control-erro>
+          </div>
+
+          <!-- tarefa_titulo -->
+          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" [ngClass]="aplicaCssErro('tarefa_titulo')">
+            <label for="mensagem_titulo"><span class="atencao">*</span>Titulo</label>
+            <input
+              id="mensagem_titulo"
+              formControlName="mensagem_titulo"
+              type="text"
+              [size]="80"
+              [maxlength]="250"
+              [ngClass]="aplicaCssErro('mensagem_titulo')"
+              pInputText
+            />
+            <app-campo-control-erro [mostrarErro]="verificaValidTouched('mensagem_titulo')"
+                                    msgErro="Titulo é obrigatório."></app-campo-control-erro>
+          </div>
+
+          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+
+            <div class="p-d-flex p-jc-center">
+              <div class="formulario-quill">
+                <h5>Mensagem</h5>
+                <div class="qeditor">
+                  <quill-editor
+                    name="mensagem_texto"
+                    class="formulario"
+                    id="mensagem_texto"
+                    formControlName="mensagem_texto"
+                    [format]="'html'"
+                    [defaultEmptyValue]="null"
+                    [theme]="'snow'"
+                    [modules]="modulos"
+                    [placeholder]="''"
+                    (onContentChanged)="onContentChanged($event)"
+                    (onEditorCreated)="onEditorCreated($event)"
+                  ></quill-editor>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--*** Botões ***-->
+          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+            <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+              <div class="p-d-inline-flex">
+                <div class="p-mr-2">
+                  <button
+                    pButton
+                    type="submit"
+                    class="p-button-rounded"
+                    [disabled]="!formMensagem.valid || botaoEnviarVF"
+                    label="Enviar"
+                  ></button>
+                </div>
+                <div class="p-mr-2">
+                  <button
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-secondary"
+                    (click)="reset()"
+                    label="Limpar"
+                    [disabled]="botaoEnviarVF"
+                  ></button>
+                </div>
+                <div class="p-mr-2">
+                  <button
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-secondary"
+                    (click)="fechar()"
+                    label="Fechar"
+                    [disabled]="botaoEnviarVF"
+                  ></button>
+                </div>
+                <div class="p-mr-2">
+                  <button
+                    pButton
+                    type="button"
+                    class="p-button-rounded p-button-secondary"
+                    (click)="testar()"
+                    label="Testar"
+                  ></button>
+                </div>
+              </div>
+              <!--*** FIM BOTOES ***-->
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+</ng-container>

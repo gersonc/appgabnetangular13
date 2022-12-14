@@ -15809,6 +15809,10 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   color: var(--surface-900);
 }
 
+#menuPrincipal .menuprincipal .p-panelmenu-icon {
+  display: none;
+}
+
 .p-panelmenu .p-panelmenu-content {
   padding: 0.5em 0;
   border: 1px solid var(--menu-lateral-bg-color);
@@ -19527,4 +19531,26 @@ table.fixTableHead tbody {
 .loginbox{
   position: relative;
   top: 30%;
+}
+
+.pessoalIcon:hover {
+  cursor: pointer;
+}
+
+.acord-msg-bg {
+  background: var(--surface-b);
+}
+
+.acord-msg-body {
+  background: var(--surface-a);
+  border-radius: .5rem;
+  padding: .5rem;
+}
+
+#pessoaldiv {
+  z-index: 2000;
+}
+
+.mensagens-acord .p-accordion-content {
+  background-color: var(--surface-b);
 }

@@ -3,6 +3,8 @@ import {MensagemService} from "../../../mensagem/_services/mensagem.service";
 import {MensagemI} from "../../../mensagem/_models/mensagem-i";
 import {retry, take, tap} from "rxjs/operators";
 import {Subscription, timer} from "rxjs";
+import {MensagemOnoffService} from "../../../_services/mensagem-onoff.service";
+
 
 @Component({
   selector: 'app-pessoal',
@@ -11,7 +13,8 @@ import {Subscription, timer} from "rxjs";
 })
 export class PessoalComponent implements OnInit, OnDestroy {
 
-  num: any = null;
+  num: number = 0;
+  nm: string = '0';
   ativo = 1;
   intervalo = 600000;
   total = 0;
@@ -19,6 +22,7 @@ export class PessoalComponent implements OnInit, OnDestroy {
   private sub: Subscription[] = [];
 
   constructor(
+    public mo: MensagemOnoffService,
     private msm: MensagemService
   ) { }
 
@@ -28,25 +32,26 @@ export class PessoalComponent implements OnInit, OnDestroy {
 
 
   pullMenssagems() {
-    let mg: MensagemI[] = [];
+    let mm: MensagemI[] = [];
     this.sub.push(this.msm.getMensagemNLidas()
       .pipe(take(1))
       .subscribe({
         next: (dados) => {
           if (dados !== undefined && dados !== null && Array.isArray(dados) && dados.length > 0) {
-            let mm: MensagemI[] = [];
-            if (sessionStorage.getItem('mensagems')) {
-              mm.push(...JSON.parse(sessionStorage.getItem('mensagems')));
+
+            if (sessionStorage.getItem('mensagens')) {
+              mm.push(...JSON.parse(sessionStorage.getItem('mensagens')));
             }
             mm.push(...dados);
-            sessionStorage.setItem('mensagems', JSON.stringify(mm));
+            sessionStorage.setItem('mensagens', JSON.stringify(mm));
           }
         },
         error: (e) => {
           retry({count:3, delay: 1200000, resetOnSuccess: true});
         },
         complete: () => {
-          this.num =  mg.length;
+          this.nm = ''+mm.length;
+          this.num =  mm.length;
         }
       })
     );
@@ -54,6 +59,11 @@ export class PessoalComponent implements OnInit, OnDestroy {
   }
 
   inicio() {
+    if (sessionStorage.getItem('mensagens')) {
+      const n: any[] = JSON.parse(sessionStorage.getItem('mensagens'));
+      this.nm = ''+n.length;
+      this.num = n.length;
+    }
     this.sub.push(timer(20000,this.intervalo)
       .pipe(
       tap((x)=> {
@@ -75,16 +85,17 @@ export class PessoalComponent implements OnInit, OnDestroy {
 
 
   onShow() {
-    if (sessionStorage.getItem('mensagems')) {
-      this.mgs = JSON.parse(sessionStorage.getItem('mensagems'));
-      sessionStorage.removeItem('mensagems');
+    if (sessionStorage.getItem('mensagens')) {
+      this.mgs = JSON.parse(sessionStorage.getItem('mensagens'));
+      // sessionStorage.removeItem('mensagens');
     }
-    this.num = null;
   }
 
   onHide() {
+    sessionStorage.removeItem('mensagens');
     this.mgs = [];
-    this.num = null;
+    this.nm = '0';
+    this.num = 0;
   }
 
 

@@ -223,9 +223,23 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Mensagens',
             icon: 'pi pi-envelope',
-            command: () => {
-              this.abreFormMensagem();
-            }
+            items: [
+              {
+                label: 'Incluir',
+                icon: 'pi pi-plus',
+                command: () => {
+                  this.abreFormMensagem();
+                }
+              },
+              {
+                label: 'Listar',
+                icon: 'pi pi-list',
+                command: () => {
+                  this.abreFormMensagem();
+                }
+              },
+            ]
+
           });
       }
     }
