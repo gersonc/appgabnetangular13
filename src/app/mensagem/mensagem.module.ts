@@ -12,6 +12,16 @@ import {ButtonModule} from "primeng/button";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import { MensagemMinilistaComponent } from './mensagem-minilista/mensagem-minilista.component';
+import { MensagemMenuComponent } from './mensagem-menu/mensagem-menu.component';
+import {SelectButtonModule} from "primeng/selectbutton";
+import {CalendarModule} from "primeng/calendar";
+import {DropdownModule} from "primeng/dropdown";
+import {ChipsModule} from "primeng/chips";
+import { MensagemDataviewComponent } from './mensagem-dataview/mensagem-dataview.component';
+import {DataViewModule} from "primeng/dataview";
+import {SidebarModule} from "primeng/sidebar";
+import {ScrollPanelModule} from "primeng/scrollpanel";
+import {MensagemRoutingModule} from "./mensagem-routing.module";
 
 
 
@@ -20,7 +30,9 @@ import { MensagemMinilistaComponent } from './mensagem-minilista/mensagem-minili
   declarations: [
     MensagemComponent,
     MensagemFormComponent,
-    MensagemMinilistaComponent
+    MensagemMinilistaComponent,
+    MensagemMenuComponent,
+    MensagemDataviewComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +42,15 @@ import { MensagemMinilistaComponent } from './mensagem-minilista/mensagem-minili
     UtilModule,
     QuillModule,
     ReactiveFormsModule,
-    ButtonModule
+    ButtonModule,
+    SelectButtonModule,
+    CalendarModule,
+    DropdownModule,
+    ChipsModule,
+    DataViewModule,
+    SidebarModule,
+    ScrollPanelModule,
+    MensagemRoutingModule
   ],
   exports: [
     MensagemFormComponent

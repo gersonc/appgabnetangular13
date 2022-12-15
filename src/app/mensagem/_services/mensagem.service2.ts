@@ -6,7 +6,7 @@ import {MensagemI} from "../_models/mensagem-i";
 @Injectable({
   providedIn: 'root'
 })
-export class MensagemPushService {
+export class MensagemService2 {
 
   constructor(
     private url: UrlService,
@@ -17,4 +17,5 @@ export class MensagemPushService {
     const url = this.url.mensagem;
     return this.http.get<MensagemI[]>(url);
   }
+
 }

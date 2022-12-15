@@ -1,1 +1,15 @@
-<p>mensagem works!</p>
+<p-sidebar
+  id="sidebar-menuinterno"
+  [(visible)]="mostraMenuInterno"
+  [blockScroll]="true"
+  [dismissible]="true"
+  styleClass="menuinterno"
+  appendTo="body"
+>
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
+<app-mensagem-menu></app-mensagem-menu>
+
+  </p-scrollPanel>
+</p-sidebar>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,35 @@
+<p-dataView [value]="ms.mensagens">
+  <ng-template let-msg pTemplate="gridItem">
+    <div>
+      {{msg.mensagem_data}}
+    </div>
+    <div>
+      {{msg.mensagem_titulo}}
+    </div>
+    <div>
+      {{msg.mensagem_texto}}
+    </div>
+    <!--<div>
+      {{msg.mensagem_data}}
+    </div>
+    <div>
+      {{msg.mensagem_data2}}
+    </div>
+    <div>
+      {{msg.mensagem_data3}}
+    </div>
+    <div>
+      {{msg.mensagem_usuarios}}
+    </div>
+    <div>
+      {{msg.usuario_id}}
+    </div>
+    <div>
+      {{msg.usuario_nome}}
+    </div>
+    <div>
+      {{msg.usuario_mensagem_visto}}
+    </div>-->
+
+  </ng-template>
+</p-dataView>

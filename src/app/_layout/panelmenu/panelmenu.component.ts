@@ -228,6 +228,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
                 label: 'Incluir',
                 icon: 'pi pi-plus',
                 command: () => {
+                  this.fechaMenuPrincipal();
                   this.abreFormMensagem();
                 }
               },
@@ -235,8 +236,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
                 label: 'Listar',
                 icon: 'pi pi-list',
                 command: () => {
-                  this.abreFormMensagem();
-                }
+                  this.fechaMenuPrincipal();
+                },
+                routerLinkActiveOptions: '{exact: true}',
+                routerLink: ['/mensagem']
               },
             ]
 

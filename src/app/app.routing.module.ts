@@ -129,6 +129,10 @@ const routes: Routes = [
     }
   },
   {
+    path: 'mensagem',
+    loadChildren: () => import('./mensagem/mensagem.module').then(m => m.MensagemModule),
+  },
+  {
     path: 'arquivos',
     loadChildren: () => import('./explorer/explorer.module').then(m => m.ExplorerModule),
     canActivate: [AuthGuard],

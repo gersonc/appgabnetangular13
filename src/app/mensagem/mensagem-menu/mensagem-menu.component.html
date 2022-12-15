@@ -1,0 +1,156 @@
+<div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+  <form [formGroup]="formMenuMensagem" (keyup)="onKey($event)">
+    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+      <div class="p-d-inline-flex">
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="limpar()"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-d-flex p-ml-1 p-pl-2">
+      <div class="p-fluid p-formgrid p-grid formulario">
+
+        <!-- mensagem_tipo -->
+        <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="tipo_listagem">Enviadas ou Recebidas</label>
+          <p-selectButton
+            #tipo
+            id="tipo_listagem"
+            [options]="ddTipo_listagem"
+            formControlName="tipo_listagem"
+            (onChange)="mudaTipo($event, tipo.value)"
+          ></p-selectButton>
+        </div>
+
+        <!-- mensagem_data1 -->
+        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="mensagem_data1">De</label>
+          <p-calendar
+            id="mensagem_data1"
+            formControlName="mensagem_data1"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+            dataType="date"
+          ></p-calendar>
+        </div>
+
+        <!-- mensagem_data2 -->
+        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="mensagem_data2">até</label>
+          <p-calendar
+            id="mensagem_data2"
+            formControlName="mensagem_data2"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+            dataType="date"
+          ></p-calendar>
+        </div>
+
+        <!-- usuario_mensagem_usuario_id -->
+        <div *ngIf="ddusuario_mensagem_usuario_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="usuario_mensagem_usuario_id">Destinatário</label>
+          <p-dropdown
+            id="usuario_mensagem_usuario_id"
+            [options]="ddusuario_mensagem_usuario_id"
+            [style]="{'width':'100%'}"
+            formControlName="usuario_mensagem_usuario_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <!-- usuario_id -->
+        <div *ngIf="ddusuario_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="usuario_id">Rementente</label>
+          <p-dropdown
+            id="usuario_id"
+            [options]="ddusuario_id"
+            [style]="{'width':'100%'}"
+            formControlName="usuario_id"
+            placeholder="TODOS"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <!-- mensagem_titulo -->
+        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="mensagem_titulo">Titulo contém</label>
+          <p-chips
+            #a2
+            id="mensagem_titulo"
+            formControlName="mensagem_titulo"
+            [addOnTab]="true"
+            [addOnBlur]="true"
+            [separator]="','"
+            (onAdd)="onAddTitulo($event, a2.value)"
+            pTooltip="Separe expressões utilizando ',' ou a tecla 'TAB', cada expressão deve conter no mínimo 4 caracteres."
+          ></p-chips>
+        </div>
+
+
+
+        <!-- mensagem_resolvido -->
+        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+          <label for="usuario_mensagem_visto">Lidas</label>
+          <p-selectButton
+            id="usuario_mensagem_visto"
+            [options]="ddMensagem_vistas"
+            formControlName="usuario_mensagem_visto"
+          ></p-selectButton>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+      <div class="p-d-inline-flex">
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="p-mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="limpar()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

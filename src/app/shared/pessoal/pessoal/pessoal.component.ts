@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MensagemService} from "../../../mensagem/_services/mensagem.service";
 import {MensagemI} from "../../../mensagem/_models/mensagem-i";
 import {retry, take, tap} from "rxjs/operators";
 import {Subscription, timer} from "rxjs";
 import {MensagemOnoffService} from "../../../_services/mensagem-onoff.service";
+import {MensagemPushService} from "../../../mensagem/_services/mensagem-push.service";
 
 
 @Component({
@@ -23,7 +23,7 @@ export class PessoalComponent implements OnInit, OnDestroy {
 
   constructor(
     public mo: MensagemOnoffService,
-    private msm: MensagemService
+    private msm: MensagemPushService
   ) { }
 
   ngOnInit(): void {
