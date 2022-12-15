@@ -19554,3 +19554,13 @@ table.fixTableHead tbody {
 .mensagens-acord .p-accordion-content {
   background-color: var(--surface-b);
 }
+
+.listmsgbox {
+  display: block;
+  box-sizing: border-box;
+}
+
+.listmsgbox {
+  width: 100%;
+  padding: .5rem;
+}

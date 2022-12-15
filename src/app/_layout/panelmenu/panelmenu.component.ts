@@ -222,7 +222,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
         this.items.push(
           {
             label: 'Mensagens',
-            icon: 'pi pi-envelope',
+            icon: 'pi pi-comments',
             items: [
               {
                 label: 'Incluir',

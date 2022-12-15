@@ -205,6 +205,7 @@ export class MensagemService {
           error: err => console.error('ERRO-->', err),
           complete: () => {
             this.lazy = false;
+            console.log('mensagemBusca', this.mensagens);
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {
               this.tabela.totalRecords = +this.tabela.total.num;
               this.mudaRowsPerPageOptions(this.tabela.totalRecords);

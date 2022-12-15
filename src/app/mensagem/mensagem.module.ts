@@ -22,6 +22,7 @@ import {DataViewModule} from "primeng/dataview";
 import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {MensagemRoutingModule} from "./mensagem-routing.module";
+import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 
 
 
@@ -34,24 +35,25 @@ import {MensagemRoutingModule} from "./mensagem-routing.module";
     MensagemMenuComponent,
     MensagemDataviewComponent,
   ],
-  imports: [
-    CommonModule,
-    DialogModule,
-    MultiSelectModule,
-    InputTextModule,
-    UtilModule,
-    QuillModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    SelectButtonModule,
-    CalendarModule,
-    DropdownModule,
-    ChipsModule,
-    DataViewModule,
-    SidebarModule,
-    ScrollPanelModule,
-    MensagemRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        DialogModule,
+        MultiSelectModule,
+        InputTextModule,
+        UtilModule,
+        QuillModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        SelectButtonModule,
+        CalendarModule,
+        DropdownModule,
+        ChipsModule,
+        DataViewModule,
+        SidebarModule,
+        ScrollPanelModule,
+        MensagemRoutingModule,
+        QuillViewModule
+    ],
   exports: [
     MensagemFormComponent
   ],
