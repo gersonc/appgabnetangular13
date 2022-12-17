@@ -9,6 +9,7 @@ import { HttpClient } from "@angular/common/http";
 import { Subscription } from "rxjs";
 import {take} from "rxjs/operators";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {DispositivoService} from "../_services/dispositivo.service";
 
 @Component({
   templateUrl: './home.component.html',
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   token = '';
 
   constructor(
+    private ds: DispositivoService,
     public authenticationService: AuthenticationService,
     public ws: WindowsService,
     public http: HttpClient,
@@ -57,7 +59,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ping() {
     this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe({
-      next: (data: any) => this.authenticationService.dispositivo = data.dispositivo,
+      next: (data: any) => {
+        this.authenticationService.dispositivo = data.dispositivo;
+        this.ds.dispositivo = data.dispositivo;
+      },
       error: (err) => console.log('ping-erro->', err)
     }));
   }
@@ -65,8 +70,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   mudaDispositivo() {
     if (this.authenticationService.dispositivo !== 'mobile') {
       this.authenticationService.dispositivo = 'mobile';
+      this.ds.dispositivo = 'mobile';
     } else {
       this.authenticationService.dispositivo = 'desktop';
+      this.ds.dispositivo = 'desktop';
     }
   }
 

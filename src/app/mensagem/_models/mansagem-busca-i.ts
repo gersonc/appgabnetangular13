@@ -3,7 +3,7 @@ export interface MansagemBuscaI {
   usuario_mensagem_id?: number;
   usuario_mensagem_usuario_id?: number;
   usuario_id?: number;
-  usuario_mensagem_visto?: number;
+  // usuario_mensagem_visto?: number;
   mensagem_titulo?: string[];
   mensagem_data1?: string;
   mensagem_data2?: string;

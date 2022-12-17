@@ -32,7 +32,7 @@ export class MensagemService {
   colunas: string[] = [];
   mudaRows = 50;
   rowsPerPageOptions = [50];
-  listagem_tipo = 1;
+  listagem_tipo = 'recebidas';
   showExcluir = false;
   // formatterBRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
 
@@ -98,8 +98,8 @@ export class MensagemService {
       this.busca.todos = this.tabela.todos;
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
-      if (this.busca.sortField === 'mensagem_data') {
-        if (this.busca.sortField === 'mensagem_data') {
+      if (this.busca.sortField === 'mensagem_data3') {
+        if (this.busca.sortField === 'mensagem_data3') {
           this.busca.sortField = 'mensagem_data2';
         }
         if (this.busca.sortOrder !== undefined) {
@@ -137,7 +137,7 @@ export class MensagemService {
     this.busca.usuario_mensagem_id = (b.usuario_mensagem_id !== undefined) ? +b.usuario_mensagem_id : undefined;
     this.busca.usuario_mensagem_usuario_id = (b.usuario_mensagem_usuario_id !== undefined) ? +b.usuario_mensagem_usuario_id : undefined;
     this.busca.usuario_id = (b.usuario_id !== undefined) ? b.usuario_id : undefined;
-    this.busca.usuario_mensagem_visto = (b.usuario_mensagem_visto !== undefined) ? b.usuario_mensagem_visto : undefined;
+    //this.busca.usuario_mensagem_visto = (b.usuario_mensagem_visto !== undefined) ? b.usuario_mensagem_visto : undefined;
     this.busca.mensagem_titulo = (b.mensagem_titulo !== undefined) ? b.mensagem_titulo : undefined;
     this.busca.mensagem_data1 = (b.mensagem_data1 !== undefined) ? b.mensagem_data1 : undefined;
     this.busca.mensagem_data2 = (b.mensagem_data2 !== undefined) ? b.mensagem_data2 : undefined;
@@ -153,7 +153,7 @@ export class MensagemService {
       this.busca.ids === this.tabela.ids &&
       this.busca.first === this.tabela.first &&
       +this.tabela.rows === +this.mudaRows) {
-      this.tabela.sortField = (this.tabela.sortField === 'mensagem_data') ? 'mensagem_data3' :  this.tabela.sortField;
+      this.tabela.sortField = 'mensagem_data3';
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         let tmp = this.mensagens;
@@ -181,7 +181,7 @@ export class MensagemService {
         }
       }
     } else {
-      this.tabela.sortField = (this.tabela.sortField === 'mensagem_data') ? 'mensagem_data2' : this.tabela.sortField;
+      this.tabela.sortField = 'mensagem_data2';
       this.busca.rows = this.tabela.rows;
       this.busca.first = this.tabela.first;
       this.busca.sortOrder = this.tabela.sortOrder;
@@ -200,6 +200,7 @@ export class MensagemService {
               p.mensagem_data3 = new Date(t.mensagem_data2);
               return p;
             });
+            this.listagem_tipo = (this.busca.tipo_listagem === 2) ? 'recebidas' : 'enviadas';
             this.tabela.total = dados.total;
           },
           error: err => console.error('ERRO-->', err),
@@ -241,8 +242,18 @@ export class MensagemService {
 
 
 
-  excluirMensagem(mensagem_id: number): Observable<any[]> {
-    const url = this.url.mensagem + '/' + mensagem_id;
+  excluirMensagemUsuario(mensagem_id: number): Observable<any[]> {
+    const url = this.url.mensagem + '/destinatario/' + mensagem_id;
+    return this.http.delete<any[]>(url);
+  }
+
+  excluirMensagemRemetente(mensagem_id: number): Observable<any[]> {
+    const url = this.url.mensagem + '/remetente/' + mensagem_id;
+    return this.http.delete<any[]>(url);
+  }
+
+  excluirMensagemRemetenteTodos(mensagem_id: number): Observable<any[]> {
+    const url = this.url.mensagem + '/todas/' + mensagem_id;
     return this.http.delete<any[]>(url);
   }
 

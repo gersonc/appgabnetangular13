@@ -13,7 +13,7 @@ export interface MensagemListagemI {
   usuario_mensagem_usuario_nome?: string;
   usuario_id?: number;
   usuario_nome?: string;
-  usuario_mensagem_visto?: number;
+  // usuario_mensagem_visto?: number;
 }
 
 

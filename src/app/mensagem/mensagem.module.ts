@@ -23,6 +23,11 @@ import {SidebarModule} from "primeng/sidebar";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {MensagemRoutingModule} from "./mensagem-routing.module";
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
+import { MensagemDatatableComponent } from './mensagem-datatable/mensagem-datatable.component';
+import {TableModule} from "primeng/table";
+import { MensagemMensagemComponent } from './mensagem-mensagem/mensagem-mensagem.component';
+import {TooltipModule} from "primeng/tooltip";
+import {RippleModule} from "primeng/ripple";
 
 
 
@@ -34,26 +39,31 @@ import {QuillViewModule} from "../shared/quill-view/quill-view.module";
     MensagemMinilistaComponent,
     MensagemMenuComponent,
     MensagemDataviewComponent,
+    MensagemDatatableComponent,
+    MensagemMensagemComponent,
   ],
-    imports: [
-        CommonModule,
-        DialogModule,
-        MultiSelectModule,
-        InputTextModule,
-        UtilModule,
-        QuillModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        SelectButtonModule,
-        CalendarModule,
-        DropdownModule,
-        ChipsModule,
-        DataViewModule,
-        SidebarModule,
-        ScrollPanelModule,
-        MensagemRoutingModule,
-        QuillViewModule
-    ],
+  imports: [
+    CommonModule,
+    DialogModule,
+    MultiSelectModule,
+    InputTextModule,
+    UtilModule,
+    QuillModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    SelectButtonModule,
+    CalendarModule,
+    DropdownModule,
+    ChipsModule,
+    DataViewModule,
+    SidebarModule,
+    ScrollPanelModule,
+    MensagemRoutingModule,
+    QuillViewModule,
+    TableModule,
+    TooltipModule,
+    RippleModule
+  ],
   exports: [
     MensagemFormComponent
   ],

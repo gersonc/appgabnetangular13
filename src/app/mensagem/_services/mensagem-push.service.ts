@@ -14,7 +14,7 @@ export class MensagemPushService {
   ) { }
 
   getMensagemNLidas() {
-    const url = this.url.mensagem;
+    const url = this.url.msg;
     return this.http.get<MensagemI[]>(url);
   }
 }

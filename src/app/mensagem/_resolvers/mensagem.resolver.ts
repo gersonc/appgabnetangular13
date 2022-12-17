@@ -7,6 +7,8 @@ import {
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {DdService} from "../../_services/dd.service";
 import {mergeMap, take} from "rxjs/operators";
+import {MensagemService} from "../_services/mensagem.service";
+import {MansagemBuscaI} from "../_models/mansagem-busca-i";
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +19,26 @@ export class MensagemResolver implements Resolve<boolean> {
   private resp$ = this.resp.asObservable();
 
   constructor(
+    private ms: MensagemService,
     private router: Router,
     private dd: DdService,
   ) {
+  }
+
+  getMensagens() {
+    const busca: MansagemBuscaI = {
+      "tipo_listagem": 2,
+      "todos": false,
+      "rows": 50,
+      "first": 0,
+      "sortOrder": -1,
+      "sortField": "mensagem_data2"
+    }
+    this.ms.criaTabela();
+    this.ms.listagem_tipo = 'recebidas';
+    this.ms.resetMensagemBusca();
+    this.ms.novaBusca(busca);
+    this.ms.buscaMenu();
   }
 
   populaDropdown() {
@@ -43,6 +62,7 @@ export class MensagemResolver implements Resolve<boolean> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    this.getMensagens();
     if (!sessionStorage.getItem('dropdown-usuario')) {
       this.populaDropdown();
       return this.resp$.pipe(

@@ -8,6 +8,7 @@ import {MenuInternoService} from "../../_services";
 import {DateTime} from "luxon";
 import {MensagemService} from "../_services/mensagem.service";
 import {MansagemBuscaI} from "../_models/mansagem-busca-i";
+import {MensagemListagemI} from "../_models/mensagem-listagem-i";
 
 @Component({
   selector: 'app-mensagem-menu',
@@ -47,8 +48,8 @@ export class MensagemMenuComponent implements OnInit , OnDestroy {
       usuario_id: [null],
       mensagem_data1: [null],
       mensagem_data2: [null],
-      usuario_mensagem_visto: [null],
-      tipo_listagem: [null],
+      //usuario_mensagem_visto: [0],
+      tipo_listagem: [2],
       mensagem_titulo: [null],
     });
 
@@ -109,9 +110,9 @@ export class MensagemMenuComponent implements OnInit , OnDestroy {
     if (f.mensagem_data2 !== null) {
       b.mensagem_data2 = DateTime.fromJSDate(f.mensagem_data2).toFormat('yyyy-LL-dd');
     }
-    if (f.usuario_mensagem_visto !== null) {
+   /* if (f.usuario_mensagem_visto !== null) {
       b.usuario_mensagem_visto = f.usuario_mensagem_visto;
-    }
+    }*/
     console.log('criaBusca', b);
     return b;
   }
@@ -122,8 +123,8 @@ export class MensagemMenuComponent implements OnInit , OnDestroy {
       usuario_id: [null],
       mensagem_data1: [null],
       mensagem_data2: [null],
-      usuario_mensagem_visto: [null],
-      tipo_listagem: [null],
+      // usuario_mensagem_visto: [0],
+      tipo_listagem: [2],
       mensagem_titulo: [null],
     });
   }
@@ -148,8 +149,9 @@ export class MensagemMenuComponent implements OnInit , OnDestroy {
   }
 
 
-  mudaTipo(ev, tipo) {
-    console.log('mudaTipo', ev, tipo);
+  mudaTipo(tipo: string) {
+    console.log('mudaTipo',tipo);
+    this.ms.listagem_tipo = tipo;
   }
 
 

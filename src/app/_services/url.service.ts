@@ -58,6 +58,7 @@ export class UrlService {
   explorer = this.url + 'pasta';
   dd = this.url + 'dd';
   mensagem = this.url + 'mensagem';
+  msg = this.url + 'msg';
 
   constructor() {
     console.log('url1');
@@ -127,6 +128,7 @@ export class UrlService {
     this.explorer = this.url + 'pasta';
     this.dd = this.url + 'dd';
     this.mensagem = this.url + 'mensagem';
+    this.msg = this.url + 'msg';
     this.ok = true;
     console.log('url3',this.ping);
   }

@@ -26,52 +26,37 @@
         </div>
       </div>
     </div>
+    <input
+      *ngIf="ms.listagem_tipo==='enviadas'"
+      type="hidden"
+      formControlName="usuario_mensagem_usuario_id"
+      [value]="null"
+    >
+    <input
+      *ngIf="ms.listagem_tipo==='recebidas'"
+      type="hidden"
+      formControlName="usuario_id"
+      [value]="null"
+    >
 
     <div class="p-d-flex p-ml-1 p-pl-2">
       <div class="p-fluid p-formgrid p-grid formulario">
 
+        <div class="p-field p-col-12 menu-lateral"></div>
         <!-- mensagem_tipo -->
-        <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div  class="p-field p-col-12 menu-lateral">
           <label for="tipo_listagem">Enviadas ou Recebidas</label>
           <p-selectButton
             #tipo
             id="tipo_listagem"
             [options]="ddTipo_listagem"
             formControlName="tipo_listagem"
-            (onChange)="mudaTipo($event, tipo.value)"
+            (onChange)="mudaTipo(tipo.value)"
           ></p-selectButton>
         </div>
 
-        <!-- mensagem_data1 -->
-        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-          <label for="mensagem_data1">De</label>
-          <p-calendar
-            id="mensagem_data1"
-            formControlName="mensagem_data1"
-            dateFormat="dd/mm/yy"
-            [yearNavigator]="true"
-            yearRange="2000:2035"
-            placeholder="dd/mm/aaaa"
-            dataType="date"
-          ></p-calendar>
-        </div>
-
-        <!-- mensagem_data2 -->
-        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
-          <label for="mensagem_data2">até</label>
-          <p-calendar
-            id="mensagem_data2"
-            formControlName="mensagem_data2"
-            dateFormat="dd/mm/yy"
-            [yearNavigator]="true"
-            yearRange="2000:2035"
-            placeholder="dd/mm/aaaa"
-            dataType="date"
-          ></p-calendar>
-        </div>
-
         <!-- usuario_mensagem_usuario_id -->
-        <div *ngIf="ddusuario_mensagem_usuario_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="ms.listagem_tipo==='recebidas' && ddusuario_mensagem_usuario_id" class="p-field p-col-12 menu-lateral">
           <label for="usuario_mensagem_usuario_id">Destinatário</label>
           <p-dropdown
             id="usuario_mensagem_usuario_id"
@@ -84,7 +69,7 @@
         </div>
 
         <!-- usuario_id -->
-        <div *ngIf="ddusuario_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="ms.listagem_tipo==='enviadas' && ddusuario_id" class="p-field p-col-12 menu-lateral">
           <label for="usuario_id">Rementente</label>
           <p-dropdown
             id="usuario_id"
@@ -96,8 +81,40 @@
           ></p-dropdown>
         </div>
 
+        <!-- mensagem_data1 -->
+        <div class="p-field p-col-6 menu-lateral">
+          <label for="mensagem_data1">De</label>
+          <p-calendar
+            id="mensagem_data1"
+            formControlName="mensagem_data1"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+            dataType="date"
+            appendTo="body"
+          ></p-calendar>
+        </div>
+
+        <!-- mensagem_data2 -->
+        <div class="p-field p-col-6 menu-lateral">
+          <label for="mensagem_data2">até</label>
+          <p-calendar
+            id="mensagem_data2"
+            formControlName="mensagem_data2"
+            dateFormat="dd/mm/yy"
+            [yearNavigator]="true"
+            yearRange="2000:2035"
+            placeholder="dd/mm/aaaa"
+            dataType="date"
+            appendTo="body"
+          ></p-calendar>
+        </div>
+
+
+
         <!-- mensagem_titulo -->
-        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div class="p-field p-col-12 menu-lateral">
           <label for="mensagem_titulo">Titulo contém</label>
           <p-chips
             #a2
@@ -113,15 +130,17 @@
 
 
 
-        <!-- mensagem_resolvido -->
-        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <!--&lt;!&ndash; mensagem_resolvido &ndash;&gt;
+        <div class="p-field p-col-12 menu-lateral">
           <label for="usuario_mensagem_visto">Lidas</label>
           <p-selectButton
             id="usuario_mensagem_visto"
             [options]="ddMensagem_vistas"
             formControlName="usuario_mensagem_visto"
           ></p-selectButton>
-        </div>
+        </div>-->
+
+        <div class="p-field p-col-12 menu-lateral"></div>
 
       </div>
     </div>

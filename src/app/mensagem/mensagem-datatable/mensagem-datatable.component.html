@@ -1,0 +1,470 @@
+<div class="p-grid">
+  <ng-container *ngIf="ds.dispositivo==='desktop'">
+  <div class="p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-2">
+<div class="menu-mensagem-externo p-shadow-3">
+    <form [formGroup]="formMenuMensagem" (keyup)="onKey($event)">
+      <div class="p-d-flex p-jc-between p-py-2 p-ml-2 p-pl-2">
+        <!--<div class="p-d-inline-flex">-->
+          <div class="p-pr-2">
+            <button
+              pButton
+              type="submit"
+              icon="pi pi-search"
+              iconPos="left"
+              label="Procurar"
+              class="p-button-rounded p-button-secondary"
+              (click)="onMudaForm()"
+            ></button>
+          </div>
+          <div class="p-pr-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-circle-off"
+              iconPos="left"
+              label="Limpar"
+              class="p-button-rounded p-button-secondary"
+              (click)="limpar()"
+            ></button>
+          </div>
+        <!--</div>-->
+      </div>
+      <input
+        *ngIf="ms.listagem_tipo===1"
+        type="hidden"
+        formControlName="usuario_mensagem_usuario_id"
+        [value]="null"
+      >
+      <input
+        *ngIf="ms.listagem_tipo===2"
+        type="hidden"
+        formControlName="usuario_id"
+        [value]="null"
+      >
+
+      <div class="p-d-flex p-ml-1 p-pl-2">
+        <div class="p-fluid p-formgrid p-grid menu-mensagem">
+
+          <div class="p-field p-col-12 menu-mensagem"></div>
+          <!-- mensagem_tipo -->
+          <div  class="p-field p-col-12 menu-mensagem formulario">
+            <label for="tipo_listagem">Enviadas ou Recebidas</label>
+            <p-selectButton
+              #tipo
+              id="tipo_listagem"
+              [options]="ddTipo_listagem"
+              formControlName="tipo_listagem"
+            ></p-selectButton>
+          </div>
+
+          <!-- usuario_mensagem_usuario_id -->
+          <div *ngIf="ms.listagem_tipo===2 && ddusuario_mensagem_usuario_id" class="p-field p-col-12 menu-mensagem">
+            <label for="usuario_mensagem_usuario_id">Destinatário</label>
+            <p-dropdown
+              id="usuario_mensagem_usuario_id"
+              [options]="ddusuario_mensagem_usuario_id"
+              [style]="{'width':'100%'}"
+              formControlName="usuario_mensagem_usuario_id"
+              placeholder="TODOS"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+
+          <!-- usuario_id -->
+          <div *ngIf="ms.listagem_tipo===1 && ddusuario_id" class="p-field p-col-12 menu-mensagem">
+            <label for="usuario_id">Rementente</label>
+            <p-dropdown
+              id="usuario_id"
+              [options]="ddusuario_id"
+              [style]="{'width':'100%'}"
+              formControlName="usuario_id"
+              placeholder="TODOS"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+
+          <!-- mensagem_data1 -->
+          <div class="p-field p-col-6 menu-mensagem">
+            <label for="mensagem_data1">De</label>
+            <p-calendar
+              id="mensagem_data1"
+              formControlName="mensagem_data1"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+              dataType="date"
+              appendTo="body"
+            ></p-calendar>
+          </div>
+
+          <!-- mensagem_data2 -->
+          <div class="p-field p-col-6 menu-mensagem">
+            <label for="mensagem_data2">até</label>
+            <p-calendar
+              id="mensagem_data2"
+              formControlName="mensagem_data2"
+              dateFormat="dd/mm/yy"
+              [yearNavigator]="true"
+              yearRange="2000:2035"
+              placeholder="dd/mm/aaaa"
+              dataType="date"
+              appendTo="body"
+            ></p-calendar>
+          </div>
+
+
+
+          <!-- mensagem_titulo -->
+          <div class="p-field p-col-12 menu-mensagem">
+            <label for="mensagem_titulo">Titulo contém</label>
+            <p-chips
+              #a2
+              id="mensagem_titulo"
+              formControlName="mensagem_titulo"
+              [addOnTab]="true"
+              [addOnBlur]="true"
+              [separator]="','"
+              (onAdd)="onAddTitulo($event, a2.value)"
+              pTooltip="Separe expressões utilizando ',' ou a tecla 'TAB', cada expressão deve conter no mínimo 4 caracteres."
+            ></p-chips>
+          </div>
+
+
+
+          <!--&lt;!&ndash; mensagem_resolvido &ndash;&gt;
+          <div class="p-field p-col-12 menu-mensagem formulario">
+            <label for="usuario_mensagem_visto">Lidas</label>
+            <p-selectButton
+              id="usuario_mensagem_visto"
+              [options]="ddMensagem_vistas"
+              formControlName="usuario_mensagem_visto"
+            ></p-selectButton>
+          </div>-->
+
+          <div class="p-field p-col-12 menu-mensagem"></div>
+
+        </div>
+      </div>
+
+      <div class="p-d-flex p-jc-between p-py-2 p-ml-2 p-pl-2">
+          <div class="p-mr-2">
+            <button
+              pButton
+              type="submit"
+              icon="pi pi-search"
+              iconPos="left"
+              label="Procurar"
+              class="p-button-rounded p-button-secondary"
+              (click)="onMudaForm()"
+            ></button>
+          </div>
+          <div class="p-mr-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-circle-off"
+              iconPos="left"
+              label="Limpar"
+              class="p-button-rounded p-button-secondary"
+              (click)="limpar()"
+            ></button>
+          </div>
+      </div>
+    </form>
+</div>
+  </div>
+  </ng-container>
+  <div [ngClass]="classe">
+
+
+<p-table #dtb
+         id="tabelatelefone"
+         [value]="ms.mensagens"
+         [columns]="ms.tabela.selectedColumns"
+         [rows]="ms.tabela.rows"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [totalRecords]="ms.tabela.totalRecords"
+         [sortField]="ms.tabela.sortField"
+         dataKey="mensagem_id"
+         [scrollable]="true"
+         [scrollHeight]="altura"
+         [(selection)]="ms.selecionados"
+         [reorderableColumns]="true"
+         [resizableColumns]="true"
+         [autoLayout]="false"
+         columnResizeMode="expand"
+         [rowHover]="true"
+         [responsive]="false"
+         rowExpandMode="single"
+         [(first)]="ms.tabela.first"
+         [pageLinks]="5"
+         [paginator]="true"
+         [alwaysShowPaginator]="true"
+         [rowsPerPageOptions]="ms.rowsPerPageOptions"
+         (rowsChange)="ms.rowsChange($event)"
+         (onLazyLoad)="onLazyLoad($event)"
+         [customSort]="true"
+         [tableStyle]="{'font-size':'var(--font-padrao)'}"
+         stateStorage="session"
+         stateKey="mensagem-table"
+         selectionMode="multiple"
+         styleClass="p-datatable-sm"
+>
+  <ng-template pTemplate="caption">
+    <div id="tablecaption">
+      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
+
+        <div class="p-d-inline-flex">
+          <div *ngIf="ds.dispositivo==='mobile'" class="p-mx-1">
+            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
+                    (click)="mostraMenu()"></button>
+          </div>
+
+          <div class="p-mr-0">
+            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
+                    (click)="incluir()"></button>
+          </div>
+
+          <div class="p-mr-0">
+            <button pButton type="button" label="Data " icon="pi pi-plus" class="p-button-text p-button-sm"
+                    (click)="incluir()"></button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th [pSortableColumn]="'msg.mensagem_data3'">Mensagem<p-sortIcon [field]="'msg.mensagem_data3'"></p-sortIcon></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-msg>
+    <tr>
+      <td class="mensagem-list">
+<app-mensagem-mensagem [msg]="msg" [listagem_tipo]="ms.listagem_tipo" (apagar)="onApagar($event)" (apagar2)="onApagar2($event)"></app-mensagem-mensagem>
+
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+
+  </div>
+</div>
+
+<ng-container *ngIf="ds.dispositivo==='mobile'">
+<p-sidebar
+  id="sidebar-menuinterno"
+  [(visible)]="mostraMenuInterno"
+  [blockScroll]="true"
+  [dismissible]="true"
+  styleClass="menuinterno-pq"
+  appendTo="body"
+>
+  <p-scrollPanel [styleClass]="'menu-lateral'" >
+    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+      <form [formGroup]="formMenuMensagem" (keyup)="onKey($event)">
+        <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+          <div class="p-d-inline-flex">
+            <div class="p-mr-2">
+              <button
+                pButton
+                type="submit"
+                icon="pi pi-search"
+                iconPos="left"
+                label="Procurar"
+                class="p-button-rounded p-button-secondary"
+                (click)="onMudaForm()"
+              ></button>
+            </div>
+            <div class="p-mr-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-circle-off"
+                iconPos="left"
+                label="Limpar"
+                class="p-button-rounded p-button-secondary"
+                (click)="limpar()"
+              ></button>
+            </div>
+            <div class="p-mr-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-times"
+                iconPos="left"
+                label="Fechar"
+                class="p-button-rounded p-button-secondary"
+                (click)="mostraMenu()"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <input
+          *ngIf="ms.listagem_tipo===1"
+          type="hidden"
+          formControlName="usuario_mensagem_usuario_id"
+          [value]="null"
+        >
+        <input
+          *ngIf="ms.listagem_tipo===2"
+          type="hidden"
+          formControlName="usuario_id"
+          [value]="null"
+        >
+
+        <div class="p-d-flex p-ml-1 p-pl-2">
+          <div class="p-fluid p-formgrid p-grid formulario">
+
+            <div class="p-field p-col-12 menu-lateral"></div>
+            <!-- mensagem_tipo -->
+            <div  class="p-field p-col-12 menu-lateral">
+              <label for="tipo_listagem2">Enviadas ou Recebidas</label>
+              <p-selectButton
+                #tipo
+                id="tipo_listagem2"
+                [options]="ddTipo_listagem"
+                formControlName="tipo_listagem"
+              ></p-selectButton>
+            </div>
+
+            <!-- usuario_mensagem_usuario_id -->
+            <div *ngIf="ms.listagem_tipo===2 && ddusuario_mensagem_usuario_id" class="p-field p-col-12 menu-lateral">
+              <label for="usuario_mensagem_usuario_id2">Destinatário</label>
+              <p-dropdown
+                id="usuario_mensagem_usuario_id2"
+                [options]="ddusuario_mensagem_usuario_id"
+                [style]="{'width':'100%'}"
+                formControlName="usuario_mensagem_usuario_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- usuario_id -->
+            <div *ngIf="ms.listagem_tipo===1 && ddusuario_id" class="p-field p-col-12 menu-lateral">
+              <label for="usuario_id2">Rementente</label>
+              <p-dropdown
+                id="usuario_id2"
+                [options]="ddusuario_id"
+                [style]="{'width':'100%'}"
+                formControlName="usuario_id"
+                placeholder="TODOS"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <!-- mensagem_data1 -->
+            <div class="p-field p-col-6 menu-lateral">
+              <label for="mensagem_data12">De</label>
+              <p-calendar
+                id="mensagem_data12"
+                formControlName="mensagem_data1"
+                dateFormat="dd/mm/yy"
+                [yearNavigator]="true"
+                yearRange="2000:2035"
+                placeholder="dd/mm/aaaa"
+                dataType="date"
+                appendTo="body"
+              ></p-calendar>
+            </div>
+
+            <!-- mensagem_data2 -->
+            <div class="p-field p-col-6 menu-lateral">
+              <label for="mensagem_data22">até</label>
+              <p-calendar
+                id="mensagem_data22"
+                formControlName="mensagem_data2"
+                dateFormat="dd/mm/yy"
+                [yearNavigator]="true"
+                yearRange="2000:2035"
+                placeholder="dd/mm/aaaa"
+                dataType="date"
+                appendTo="body"
+              ></p-calendar>
+            </div>
+
+
+
+            <!-- mensagem_titulo -->
+            <div class="p-field p-col-12 menu-lateral">
+              <label for="mensagem_titulo2">Titulo contém</label>
+              <p-chips
+                #a2
+                id="mensagem_titulo2"
+                formControlName="mensagem_titulo"
+                [addOnTab]="true"
+                [addOnBlur]="true"
+                [separator]="','"
+                (onAdd)="onAddTitulo($event, a2.value)"
+                pTooltip="Separe expressões utilizando ',' ou a tecla 'TAB', cada expressão deve conter no mínimo 4 caracteres."
+              ></p-chips>
+            </div>
+
+
+
+            <!-- mensagem_resolvido -->
+            <!--<div class="p-field p-col-12 menu-lateral">
+              <label for="usuario_mensagem_visto2">Lidas</label>
+              <p-selectButton
+                id="usuario_mensagem_visto2"
+                [options]="ddMensagem_vistas"
+                formControlName="usuario_mensagem_visto"
+              ></p-selectButton>
+            </div>-->
+
+            <div class="p-field p-col-12 menu-lateral"></div>
+
+          </div>
+        </div>
+
+        <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
+          <div class="p-d-inline-flex">
+            <div class="p-mr-2">
+              <button
+                pButton
+                type="submit"
+                icon="pi pi-search"
+                iconPos="left"
+                label="Procurar"
+                class="p-button-rounded p-button-secondary"
+                (click)="onMudaForm()"
+              ></button>
+            </div>
+            <div class="p-mr-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-circle-off"
+                iconPos="left"
+                label="Limpar"
+                class="p-button-rounded p-button-secondary"
+                (click)="limpar()"
+              ></button>
+            </div>
+            <div class="p-mr-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-times"
+                iconPos="left"
+                label="Fechar"
+                class="p-button-rounded p-button-secondary"
+                (click)="mostraMenu()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-scrollPanel>
+</p-sidebar>
+</ng-container>

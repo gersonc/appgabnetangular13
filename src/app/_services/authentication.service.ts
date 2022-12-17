@@ -9,6 +9,7 @@ import { UrlService} from '../_services';
 import {Versao} from './versao';
 import {VersaoService} from "./versao.service";
 import {AutenticacaoService} from "./autenticacao.service";
+import {DispositivoService} from "./dispositivo.service";
 
 @Injectable({providedIn: 'root'})
 
@@ -274,6 +275,7 @@ export class AuthenticationService {
 
   constructor(
     private ats: AutenticacaoService,
+    private ds: DispositivoService,
     private versaoService: VersaoService,
     private urlService: UrlService,
     private http: HttpClient,
@@ -379,6 +381,7 @@ export class AuthenticationService {
     this._versao = +user.parlamentar_versao!;
     // this.versao = +user.parlamentar_versao!;
     this.dispositivo = user.dispositivo;
+    this.ds.dispositivo = user.dispositivo;
     this.parlamentar_id = +user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;
     this.usuario_id = +user.usuario_id!;
@@ -660,6 +663,7 @@ export class AuthenticationService {
     this.versao = 0;
     this.versaoN = 0;
     this.dispositivo = null;
+    //this.ds.dispositivo = user.dispositivo;
     this.permissoes_carregadas = false;
 
     this.mensagem = false;
