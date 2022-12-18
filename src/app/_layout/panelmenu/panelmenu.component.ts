@@ -1,7 +1,10 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {AuthenticationService} from '../../_services';
 import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
+import {OnoffLineService} from "../../shared/onoff-line/onoff-line.service";
+import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -9,16 +12,21 @@ import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
   templateUrl: './panelmenu.component.html',
   styleUrls: ['./panelmenu.component.css']
 })
-export class PanelmenuComponent implements OnInit, OnChanges {
+export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
   @Input() mostra = false;
   @Input() recarrega: string = 'desktop';
   public items!: MenuItem[];
   public menuPrincipalClasses = 'menu-principal-fechado';
   public mostraMenuPrincipal = true;
+  online = false;
+  sub: Subscription[] = [];
+
 
   constructor(
     private authenticationService: AuthenticationService,
-    private mo: MensagemOnoffService
+    private mo: MensagemOnoffService,
+    public ol: OnoffLineService,
+    private router: Router,
   ) {
   }
 
@@ -32,7 +40,10 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.authenticationService.mostraMenu.subscribe(
+    if (!this.ol.ativo) {
+      this.ol.handleAppConnectivityChanges();
+    }
+    this.sub.push(this.authenticationService.mostraMenu.subscribe(
       vf => {
         if (vf) {
           this.items = this.carregaItens();
@@ -40,7 +51,14 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           this.limpaMenu();
         }
       }
-    )
+    ));
+    this.sub.push(this.ol.onoff.subscribe(
+      vf => {
+        if (!vf) {
+          this.goHome();
+        }
+      }
+    ));
   }
 
   public carregaItens() {
@@ -48,13 +66,15 @@ export class PanelmenuComponent implements OnInit, OnChanges {
     this.items.push({
       label: 'Home', icon: 'pi pi-home', command: () => {
         this.fechaMenuPrincipal();
-      }, routerLink: [''], routerLinkActiveOptions: '{exact: true}'
+      }, routerLink: [''], routerLinkActiveOptions: '{exact: true}',
+      disabled: this.ol.disabled
     });
     if (this.authenticationService.agenda) {
       this.items.push({
         label: 'Agenda', icon: 'pi pi-calendar', command: () => {
           this.fechaMenuPrincipal();
-        }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/calendario']
+        }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/calendario'],
+        disabled: this.ol.disabled
       });
     }
     if (this.authenticationService.cadastro) {
@@ -63,7 +83,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Cadastros', icon: 'pi pi-id-card', command: () => {
               this.fechaMenuPrincipal();
-            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/cadastro']
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/cadastro'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -75,7 +96,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             label: 'Solicitações', icon: 'pi pi-ticket', command: () => {
               this.fechaMenuPrincipal();
             },
-            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solic/listar']
+            routerLinkActiveOptions: '{exact: true}', routerLink: ['/solic/listar'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -86,7 +108,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Ofícios', icon: 'pi pi-file-o', command: () => {
               this.fechaMenuPrincipal();
-            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/oficio/listar']
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/oficio/listar'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -98,7 +121,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Processos', icon: 'pi pi-book', command: () => {
               this.fechaMenuPrincipal();
-            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/proce/listar']
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/proce/listar'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -109,7 +133,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Emendas', icon: 'pi pi-credit-card', command: () => {
               this.fechaMenuPrincipal();
-            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/emenda']
+            }, routerLinkActiveOptions: '{exact: true}', routerLink: ['/emenda'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -124,7 +149,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}',
-            routerLink: ['/proposicao']
+            routerLink: ['/proposicao'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -139,7 +165,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}',
-            routerLink: ['/telefone']
+            routerLink: ['/telefone'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -154,7 +181,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}',
-            routerLink: ['/conta']
+            routerLink: ['/conta'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -168,7 +196,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             this.fechaMenuPrincipal();
           },
           routerLinkActiveOptions: '{exact: true}',
-          routerLink: ['/tarefa']
+          routerLink: ['/tarefa'],
+          disabled: this.ol.disabled
         });
     }
 
@@ -182,7 +211,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}',
-            routerLink: ['/passagem']
+            routerLink: ['/passagem'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -197,7 +227,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}',
-            routerLink: ['/configuracao']
+            routerLink: ['/configuracao'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -212,7 +243,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
               this.fechaMenuPrincipal();
             },
             routerLinkActiveOptions: '{exact: true}',
-            routerLink: ['/arquivos']
+            routerLink: ['/arquivos'],
+            disabled: this.ol.disabled
           });
       }
     }
@@ -223,6 +255,7 @@ export class PanelmenuComponent implements OnInit, OnChanges {
           {
             label: 'Mensagens',
             icon: 'pi pi-comments',
+            disabled: this.ol.disabled,
             items: [
               {
                 label: 'Incluir',
@@ -256,7 +289,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
             this.fechaMenuPrincipal();
           },
           routerLinkActiveOptions: '{exact: true}',
-          routerLink: ['/grafico']
+          routerLink: ['/grafico'],
+          disabled: this.ol.disabled
         });
     }
 
@@ -264,7 +298,8 @@ export class PanelmenuComponent implements OnInit, OnChanges {
       label: 'Sair', icon: 'pi pi-sign-in', command: () => {
         this.authenticationService.logout();
         this.fechaMenuPrincipal();
-      }, routerLink: ['login'], routerLinkActiveOptions: 'active'
+      }, routerLink: ['login'], routerLinkActiveOptions: 'active',
+      disabled: this.ol.disabled
     });
     return this.items;
   }
@@ -291,6 +326,19 @@ export class PanelmenuComponent implements OnInit, OnChanges {
   abreFormMensagem() {
     this.fechaMenuPrincipal();
     this.mo.msgform = true;
+  }
+
+  goHome() {
+    if(this.authenticationService.permissoes_carregadas) {
+      this.router.navigate(['/home']);
+    } else {
+      this.ngOnDestroy();
+      this.router.navigate(['/login']);
+    }
+  }
+
+  ngOnDestroy() {
+    this.sub.forEach(s => s.unsubscribe());
   }
 
 }

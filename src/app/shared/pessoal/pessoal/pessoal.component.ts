@@ -4,6 +4,7 @@ import {retry, take, tap} from "rxjs/operators";
 import {Subscription, timer} from "rxjs";
 import {MensagemOnoffService} from "../../../_services/mensagem-onoff.service";
 import {MensagemPushService} from "../../../mensagem/_services/mensagem-push.service";
+import {OnlineService} from "../../../_services/online.service";
 
 
 @Component({
@@ -23,7 +24,8 @@ export class PessoalComponent implements OnInit, OnDestroy {
 
   constructor(
     public mo: MensagemOnoffService,
-    private msm: MensagemPushService
+    private msm: MensagemPushService,
+    public ol: OnlineService
   ) { }
 
   ngOnInit(): void {
@@ -33,28 +35,32 @@ export class PessoalComponent implements OnInit, OnDestroy {
 
   pullMenssagems() {
     let mm: MensagemI[] = [];
-    this.sub.push(this.msm.getMensagemNLidas()
-      .pipe(take(1))
-      .subscribe({
-        next: (dados) => {
-          if (dados !== undefined && dados !== null && Array.isArray(dados) && dados.length > 0) {
+    if (this.ol.isOnline) {
+      this.sub.push(this.msm.getMensagemNLidas()
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            if (dados !== undefined && dados !== null && Array.isArray(dados) && dados.length > 0) {
 
-            if (sessionStorage.getItem('mensagens')) {
-              mm.push(...JSON.parse(sessionStorage.getItem('mensagens')));
+              if (sessionStorage.getItem('mensagens')) {
+                mm.push(...JSON.parse(sessionStorage.getItem('mensagens')));
+              }
+              mm.push(...dados);
+              sessionStorage.setItem('mensagens', JSON.stringify(mm));
             }
-            mm.push(...dados);
-            sessionStorage.setItem('mensagens', JSON.stringify(mm));
+          },
+          error: (e) => {
+            retry({count: 3, delay: 1200000, resetOnSuccess: true});
+          },
+          complete: () => {
+            this.nm = '' + mm.length;
+            this.num = mm.length;
           }
-        },
-        error: (e) => {
-          retry({count:3, delay: 1200000, resetOnSuccess: true});
-        },
-        complete: () => {
-          this.nm = ''+mm.length;
-          this.num =  mm.length;
-        }
-      })
-    );
+        })
+      );
+    } else {
+
+    }
 
   }
 
@@ -67,7 +73,7 @@ export class PessoalComponent implements OnInit, OnDestroy {
     this.sub.push(timer(20000,this.intervalo)
       .pipe(
       tap((x)=> {
-        if(this.ativo === 1) {
+        if(this.ol.isOnline) {
           this.intervalo = 600000;
           this.pullMenssagems();
         } else {

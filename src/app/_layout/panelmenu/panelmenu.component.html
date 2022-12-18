@@ -1,7 +1,19 @@
+<!--suppress XmlDuplicatedId -->
+<!--<ng-container *ngIf="ol.isOnline">-->
 <div id="menuPrincipal" class="{{menuPrincipalClasses}}">
   <div *ngIf="mostraMenuPrincipal" style="background-color: transparent; min-width: 30ch; padding-right: 2em; padding-bottom: 2em;">
     <div style="background-color: transparent; box-shadow: .3em .8em .7em var(--surface-400);">
-      <p-panelMenu [model]="items" styleClass="menuprincipal"></p-panelMenu>
+      <p-panelMenu *ngIf="ol.isOnline" [model]="items" styleClass="menuprincipal"></p-panelMenu>
     </div>
   </div>
 </div>
+<!--</ng-container>-->
+
+<!--
+<ng-container *ngIf="ol.isOffline">
+  <div id="menuPrincipal" class="menu-principal-fechado">
+
+  </div>
+
+</ng-container>
+-->

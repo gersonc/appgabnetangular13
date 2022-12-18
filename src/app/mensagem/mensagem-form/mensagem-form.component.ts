@@ -201,15 +201,6 @@ export class MensagemFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  testar() {
-    this.sub.push(this.mfs.getAll()
-      .pipe(take(1))
-      .subscribe((dados) => {
-          this.resp = dados;
-          console.log('redis', this.resp);
-        })
-    );
-  }
 
   ngOnDestroy() {
     this.sub.forEach(s => {

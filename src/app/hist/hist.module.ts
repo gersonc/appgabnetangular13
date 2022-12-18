@@ -12,7 +12,7 @@ import { HistDatatableComponent } from './hist-datatable/hist-datatable.componen
 import {QuillModule} from "ngx-quill";
 import {SidebarModule} from "primeng/sidebar";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {ErrorInterceptor, JwtInterceptor, ResponseInterceptor} from "../_helpers";
+import {ErrorInterceptor, JwtInterceptor} from "../_helpers";
 import {QuillViewModule} from "../shared/quill-view/quill-view.module";
 import {DialogModule} from "primeng/dialog";
 import { HistExcluirComponent } from './hist-excluir/hist-excluir.component';

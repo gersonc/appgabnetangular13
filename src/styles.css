@@ -19618,3 +19618,22 @@ tr:not(.p-highlight):hover > td.mensagem-list {
   font-size: .8em;
   font-weight: 500;
 }
+
+.home-offline {
+  position: fixed;
+  display: block;
+  top: 15vh;
+  width: 70vw;
+  z-index: 5000;
+  margin: 0 15vw 0 15vw;
+
+}
+.home-offline h1 {
+  text-align: center;
+  background-color: var(--danger);
+  color: var(--primary-color-text);
+  padding: 2rem 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%), 0 1px 14px 0 rgb(0 0 0 / 12%);
+}
+

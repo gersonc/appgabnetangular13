@@ -8,7 +8,13 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class AutenticacaoService {
-  // private url = `${environment.apiUrl}`;
+  expires?: number;
+  expiresRef?: number;
+  exp?: number;
+  expRef?: number;
+  token?: string;
+  refToken?: string;
+  teste: any;
 
 
   constructor(
@@ -41,13 +47,21 @@ export class AutenticacaoService {
             localStorage.setItem('reflesh_token', user.refleshToken);
             localStorage.setItem('expiresRef', user.expiresRef);
             localStorage.setItem('expires', user.expires);
+            this.expires = +user.expires;
+            this.expiresRef = +user.expiresRef;
+            this.token =user.token;
+            this.refToken = user.refleshToken;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
+            this.teste = this.getTeste();
+            console.log('testeLogin', this.teste);
+            return true;
+          } else {
+            return false;
           }
-          return user;
         }),
         catchError(err => of(err))
       );
@@ -70,6 +84,10 @@ export class AutenticacaoService {
             localStorage.setItem('reflesh_token', user.refleshToken);
             localStorage.setItem('expiresRef', user.expiresRef);
             localStorage.setItem('expires', user.expires);
+            this.expires = +user.expires;
+            this.expiresRef = +user.expiresRef;
+            this.token = user.token;
+            this.refToken = user.refleshToken;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
@@ -99,6 +117,35 @@ export class AutenticacaoService {
       case 'gabnet5.com.br' :
         return 'http://gabnet5.com.br/api/';
     }
+  }
+
+  getAgora(): number {
+    return Math.floor((+Date.now())/ 1000);
+  }
+
+  validaExpires(): boolean {
+    return (this.expires > this.getAgora());
+  }
+
+  validaExpiresRef(): boolean {
+    return (this.expiresRef > this.getAgora());
+  }
+
+  getTeste() {
+    return {
+      expires: JSON.parse(localStorage.getItem('expires')),
+      expiresRef: JSON.parse(localStorage.getItem('expiresRef')),
+      token: this.token,
+      refToken: this.refToken,
+      exp: Math.floor((+Date.now())/ 1000)
+    }
+  }
+
+  getTokens(): any {
+    this.expires = +JSON.parse(localStorage.getItem('expires'));
+    this.expiresRef = +JSON.parse(localStorage.getItem('expiresRef'));
+    this.token = localStorage.getItem('access_token');
+    this.refToken = localStorage.getItem('reflesh_token');
   }
 
 

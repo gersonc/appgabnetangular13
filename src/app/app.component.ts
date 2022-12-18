@@ -17,6 +17,7 @@ import { SpinnerService } from "./_services/spinner.service";
 import { Spinkit } from 'ng-http-loader';
 import {of, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
+import {Router} from "@angular/router";
 /*import {Message,MessageService} from 'primeng-lts/api';
 import {MsgService} from "./_services/msg.service";*/
 
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
     private config: PrimeNGConfig,
     public authenticationService: AuthenticationService,
     private windowsService: WindowsService,
-    // public cs: CarregadorService,
+    private router: Router,
     private as: ArquivoLoginService,
     public md: MenuDatatableService,
     public sps: SpinnerService,
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit {
               this.mostraPessoal = true;
             }
           } else {
-
+            this.router.navigate(['/login']);
           }
         }
       });

@@ -10,6 +10,7 @@ import { Subscription } from "rxjs";
 import {take} from "rxjs/operators";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {DispositivoService} from "../_services/dispositivo.service";
+import {OnlineService} from "../_services/online.service";
 
 @Component({
   templateUrl: './home.component.html',
@@ -34,7 +35,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     public authenticationService: AuthenticationService,
     public ws: WindowsService,
     public http: HttpClient,
-    private urls: UrlService
+    private urls: UrlService,
+    public ol: OnlineService
     ) {
     this.currentUser = this.authenticationService.currentUserValue;
   }

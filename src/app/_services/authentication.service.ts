@@ -326,7 +326,7 @@ export class AuthenticationService {
     return r;
   }
 
-  login(username: string, password: string) {
+  /*login(username: string, password: string) {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
     const httpOptions = {
@@ -349,10 +349,6 @@ export class AuthenticationService {
             localStorage.setItem('reflesh_token', user.refleshToken);
             localStorage.setItem('expiresRef', user.expiresRef);
             localStorage.setItem('expires', user.expires);
-            /*this.token = user.token;
-            this.refleshToken = user.refleshToken;
-            this.expiresRef = user.expiresRef;
-            this.expires = user.expires;*/
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
@@ -364,6 +360,21 @@ export class AuthenticationService {
         }),
         catchError(err => of(err))
       );
+  }*/
+
+  login(username: string, password: string) {
+    this.ats.login(username, password)
+      .pipe(take(1))
+      .subscribe(vf => {
+        if (vf) {
+          const user: any = JSON.parse(localStorage.getItem('currentUser'));
+          this.carregaPermissoes(user);
+          return of(vf);
+        } else {
+          return of(vf);
+        }
+      }
+    );
   }
 
   carregaPermissoes(user): void {
@@ -530,7 +541,7 @@ export class AuthenticationService {
 
     this.mensagem = true;
     this.mensagem_enviar = true;
-
+    this.permissoes_carregadas = true;
     this.mostraMenuEmiter(true);
   }
 
