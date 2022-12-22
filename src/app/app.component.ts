@@ -60,8 +60,7 @@ export class AppComponent implements OnInit {
     private as: ArquivoLoginService,
     public md: MenuDatatableService,
     public sps: SpinnerService,
-    /*public messageService: MessageService,
-    public msg: MsgService*/
+
   ) {
     console.log('app1');
   }
@@ -97,9 +96,6 @@ export class AppComponent implements OnInit {
 
     this.configPrime();
 
-    /*this.cs.getCarregador().subscribe(vf => {
-      this.mostraEsconde(vf);
-    });*/
 
 
 

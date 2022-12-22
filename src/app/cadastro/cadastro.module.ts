@@ -22,8 +22,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {ListboxModule} from 'primeng/listbox';
 import {CheckboxModule} from 'primeng/checkbox';
 /*import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
-import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';*/
+// import {MessagesModule} from 'primeng/messages';
+// import {MessageModule} from 'primeng/message';*/
 import {MenuModule} from 'primeng/menu';
 // import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ContextMenuModule} from 'primeng/contextmenu';
@@ -57,7 +57,7 @@ import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.comp
 import {GrafModule} from "../shared/graf/graf.module";
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
 import {ViacepModule} from "../shared/viacep";
-import {OnoffLineModule} from "../shared/onoff-line/onoff-line.module";
+// import {OnoffLineModule} from "../shared/onoff-line/onoff-line.module";
 
 
 @NgModule({
@@ -121,10 +121,10 @@ import {OnoffLineModule} from "../shared/onoff-line/onoff-line.module";
   exports: [
     CadastroComponent
   ],
-  providers: [
+  /*providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-  ]
+  ]*/
 })
 export class CadastroModule {
 }

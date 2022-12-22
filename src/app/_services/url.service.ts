@@ -74,6 +74,9 @@ export class UrlService {
       case 'localhost' :
         this.url = 'http://slimgn08.dv/api/';
         break;
+      case 'gn5.icamara.com.br' :
+        this.url = 'http://gn5.icamara.com.br/api/';
+        break;
       case 'gn5.dv' :
         this.url = 'http://api.gn5.dv/';
         break;

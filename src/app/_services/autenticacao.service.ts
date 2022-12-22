@@ -12,14 +12,23 @@ export class AutenticacaoService {
   expiresRef?: number;
   exp?: number;
   expRef?: number;
-  token?: string;
-  refToken?: string;
+  _token?: string;
+  _refToken?: string;
+  vfToken = false;
   teste: any;
 
 
   constructor(
     private http: HttpClient,
   ) { }
+
+  get token(): string {
+    return this._token;
+  }
+
+  get refToken(): string {
+    return this._refToken;
+  }
 
   login(username: string, password: string) {
     const bt = username + ':' + password;
@@ -49,8 +58,9 @@ export class AutenticacaoService {
             localStorage.setItem('expires', user.expires);
             this.expires = +user.expires;
             this.expiresRef = +user.expiresRef;
-            this.token =user.token;
-            this.refToken = user.refleshToken;
+            this._token =user.token;
+            this._refToken = user.refleshToken;
+            this.vfToken = true;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
@@ -60,6 +70,7 @@ export class AutenticacaoService {
             console.log('testeLogin', this.teste);
             return true;
           } else {
+            this.vfToken = false;
             return false;
           }
         }),
@@ -86,8 +97,9 @@ export class AutenticacaoService {
             localStorage.setItem('expires', user.expires);
             this.expires = +user.expires;
             this.expiresRef = +user.expiresRef;
-            this.token = user.token;
-            this.refToken = user.refleshToken;
+            this._token = user.token;
+            this._refToken = user.refleshToken;
+            this.vfToken = true;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
@@ -96,6 +108,7 @@ export class AutenticacaoService {
             // this.carregaPermissoes(user);
             return true;
           } else {
+            this.vfToken = false;
             // this.cancelaPermissoes();
             return false;
           }
@@ -104,6 +117,8 @@ export class AutenticacaoService {
 
   getUrl(): string {
     switch (location.hostname) {
+      case 'gn5.icamara.com.br' :
+        return 'http://gn5.icamara.com.br/api/';
       case 'localhost' :
         return 'http://slimgn08.dv/api/';
       case 'gn5.dv' :
@@ -130,13 +145,25 @@ export class AutenticacaoService {
   validaExpiresRef(): boolean {
     return (this.expiresRef > this.getAgora());
   }
+  validaExpRef(): boolean {
+    return ((this.expiresRef - 3600) > this.getAgora());
+  }
+
+
+  getRefleshToken(): boolean {
+    if (!this.validaExpires() && this.validaExpRef()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   getTeste() {
     return {
       expires: JSON.parse(localStorage.getItem('expires')),
       expiresRef: JSON.parse(localStorage.getItem('expiresRef')),
-      token: this.token,
-      refToken: this.refToken,
+      token: this._token,
+      refToken: this._refToken,
       exp: Math.floor((+Date.now())/ 1000)
     }
   }
@@ -144,8 +171,8 @@ export class AutenticacaoService {
   getTokens(): any {
     this.expires = +JSON.parse(localStorage.getItem('expires'));
     this.expiresRef = +JSON.parse(localStorage.getItem('expiresRef'));
-    this.token = localStorage.getItem('access_token');
-    this.refToken = localStorage.getItem('reflesh_token');
+    this._token = localStorage.getItem('access_token');
+    this._refToken = localStorage.getItem('reflesh_token');
   }
 
 

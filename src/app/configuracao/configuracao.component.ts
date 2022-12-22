@@ -154,14 +154,14 @@ export class ConfiguracaoComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('Janela',+WindowsService.all());
-    if (this.aut.usuario_incluir || this.aut.usuario_alterar || this.aut.usuario_apagar ) {
+    /*if (this.aut.usuario_incluir || this.aut.usuario_alterar || this.aut.usuario_apagar ) {
       this.menuCfgItens.push(
         {
           label: 'Usuários',
           code: 'usuario'
         }
       );
-    }
+    }*/
 
   }
 

@@ -84,18 +84,7 @@ const cadastroRoutes: Routes = [
           dados: CadastroFormResolver
         }
       },
-      /*{
-        path: 'excluir/:id',
-        component: CadastroExcluirComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.cadastro,
-          scopes: Scope.cadastro_apagar
-        },
-        resolve: {
-          dados: CadastroExcluirResolver
-        }
-      },*/
+
       {
         path: 'excluir',
         component: CadastroExcluirComponent,
@@ -106,64 +95,6 @@ const cadastroRoutes: Routes = [
         }
       },
 
-
-
-      /*{
-        path: 'incluir',
-        component: CadastroIncluirComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.cadastro,
-          scopes: Scope.cadastro_incluir
-        },
-        resolve: {
-          dados: CadastroFormResolver
-        }
-      },
-      {
-        path: 'incluir/:modulo/:componente',
-        component: CadastroIncluirComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.cadastro,
-          scopes: Scope.cadastro_incluir
-        },
-        resolve: {
-          dados: CadastroFormResolver
-        }
-      },
-      {
-        path: 'alterar/:id',
-        component: CadastroAlterarComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.cadastro,
-          scopes: Scope.cadastro_alterar
-        },
-        resolve: {
-          dados: CadastroFormResolver
-        }
-      },
-      {
-        path: 'excluir/:id',
-        component: CadastroExcluirComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          rules: Rule.cadastro,
-          scopes: Scope.cadastro_apagar
-        },
-        resolve: {
-          dados: CadastroExcluirResolver
-        }
-      },
-      {
-        path: 'detalhe',
-        component: CadastroDetalheComponent,
-        canActivate: [AuthChildGuard],
-        data: {
-          scopes: [Scope.cadastro_listar]
-        }
-      }*/
     ]
   }
 ];

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { JwtModule } from "@auth0/angular-jwt";
+// import { JwtModule } from "@auth0/angular-jwt";
 import {HttpClientModule, HTTP_INTERCEPTORS, HttpInterceptor} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -52,13 +52,13 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    JwtModule.forRoot({
+    /*JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
         allowedDomains: ["gn5.dv", "192.168.0.10", "localhost:4300", "localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
-    }),
+    }),*/
     NgHttpLoaderModule.forRoot(),
     AngularResizeEventModule,
     /*    ToastModule,

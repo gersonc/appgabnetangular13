@@ -9,7 +9,6 @@ import {CampoControlErroComponent} from './campo-control-erro';
 import {ErrorMsgComponent} from './error-msg';
 import {FormDebugComponent} from './form-debug';
 import {ErrorInterceptor, JwtInterceptor} from '../_helpers';
-import {ChildLoaderComponent} from './child-loader/child-loader.component';
 import {MenuContextoComponent} from './menu-contexto/menu-contexto.component';
 import {CampoEditorComponent} from './campo-editor/campo-editor.component';
 import {FormsModule} from '@angular/forms';
@@ -44,7 +43,6 @@ import {PickListModule} from "primeng/picklist";
     CampoControlErroComponent,
     FormDebugComponent,
     ErrorMsgComponent,
-    ChildLoaderComponent,
     MenuContextoComponent,
     CampoEditorComponent,
     CampoErroComponent,
@@ -55,7 +53,6 @@ import {PickListModule} from "primeng/picklist";
     FormDebugComponent,
     CampoControlErroComponent,
     ErrorMsgComponent,
-    ChildLoaderComponent,
     MenuContextoComponent,
     CampoEditorComponent,
     CampoErroComponent,

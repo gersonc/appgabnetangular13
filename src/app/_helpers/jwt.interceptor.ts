@@ -4,28 +4,28 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpResponse, HttpErrorResponse, HttpHeaders
+  HttpResponse
 } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
-import { AuthenticationService } from '../_services';
-import * as http from "http";
 import {Observable} from "rxjs";
+import {AutenticacaoService} from "../_services/autenticacao.service";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(
-    private authenticationService: AuthenticationService
+    private aut: AutenticacaoService
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request instanceof HttpRequest) {
-      if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/refleshtoken') === -1) {
-        if (this.authenticationService.vfToken) {
+      if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1) {
+        if (this.aut.vfToken) {
+          console.log('jwt');
           request = request.clone({
             setHeaders: {
-              Authorization: 'Bearer ' + this.authenticationService.token
+              Authorization: 'Bearer ' + this.aut.token
             }
           });
         }
@@ -33,7 +33,7 @@ export class JwtInterceptor implements HttpInterceptor {
       if (request.urlWithParams.search('/reflesh') > -1) {
         request = request.clone({
           setHeaders: {
-            Authorization: 'Bearer ' + this.authenticationService.refleshToken
+            Authorization: 'Bearer ' + this.aut.refToken
           }
         });
       }
