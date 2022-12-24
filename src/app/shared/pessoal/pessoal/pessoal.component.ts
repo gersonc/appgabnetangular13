@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MensagemI} from "../../../mensagem/_models/mensagem-i";
 import {retry, take, tap} from "rxjs/operators";
-import {Subscription, timer} from "rxjs";
+import {of, Subscription, timer} from "rxjs";
 import {MensagemOnoffService} from "../../../_services/mensagem-onoff.service";
 import {MensagemPushService} from "../../../mensagem/_services/mensagem-push.service";
 import {OnlineService} from "../../../_services/online.service";
@@ -58,8 +58,6 @@ export class PessoalComponent implements OnInit, OnDestroy {
           }
         })
       );
-    } else {
-
     }
 
   }

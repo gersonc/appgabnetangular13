@@ -14,6 +14,9 @@ import {InputTextModule} from "primeng/inputtext";
 import {MultiSelectModule} from "primeng/multiselect";
 import {DialogModule} from "primeng/dialog";
 import {QuillViewModule} from "../quill-view/quill-view.module";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ErrorInterceptor, JwtInterceptor} from "../../_helpers";
+import {HttpErrorHandler} from "../../http-error-handler.service";
 
 
 
@@ -39,6 +42,11 @@ import {QuillViewModule} from "../quill-view/quill-view.module";
   ],
   exports: [
     PessoalComponent
-  ]
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    HttpErrorHandler,
+    ]
 })
 export class PessoalModule { }

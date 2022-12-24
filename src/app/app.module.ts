@@ -52,18 +52,8 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    /*JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ["gn5.dv", "192.168.0.10", "localhost:4300", "localhost:4300", "slimgn08.dv", "gn5.gabnet.com.br", "viacep.com.br", "gbnt05raiz.s3.sa-east-1.amazonaws.com"],
-        disallowedRoutes: ["http://example.com/examplebadroute/"],
-      },
-    }),*/
     NgHttpLoaderModule.forRoot(),
     AngularResizeEventModule,
-    /*    ToastModule,
-        MessagesModule,
-        MessageModule,*/
     AppRoutingModule,
     UtilModule,
     LayoutModule,

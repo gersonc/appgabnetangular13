@@ -10,17 +10,21 @@
     <div class="topo-direita p-jc-end">
       <div class="p-mr-2"><app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal></div>
       <div class="p-mx-2">{{authenticationService.usuario_nome}}</div>
+      <div *ngIf="authenticationService.dispositivo === 'mobile'" class="p-mr-2"> <i *ngIf="authenticationService.dispositivo === 'mobile'" class="btn-menu-principal pi pi-bars" (click)="abreFechaMd()"></i></div>
+     <!-- <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable">
+        <i class="btn-menu-principal pi pi-bars" (click)="abreFechaMd()"></i>
+      </div>-->
     </div>
 
 
-    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
+    <!--<div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
       <div class="p-text-left p-text-uppercase" style="padding-left: 1em; padding-bottom: 0">{{authenticationService.parlamentar_nome}}</div>
       <div class="p-text-left p-text-uppercase" style="padding-left: 1em;">{{authenticationService.usuario_nome}}</div>
-    </div>
+    </div>-->
 
-    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable">
-      <i class="btn-menu-datatable pi pi-list" (click)="abreFechaMd()"></i>
-    </div>
+   <!-- <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable">
+      <i class="btn-menu-principal pi pi-bars" (click)="abreFechaMd()"></i>
+    </div>-->
 
 
 
