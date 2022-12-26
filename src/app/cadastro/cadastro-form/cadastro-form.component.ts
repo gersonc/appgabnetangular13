@@ -354,14 +354,8 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
                 this.populaEnderecoForm(enderecos[0]);
               }
             }));
-      } else {
-        console.log('ENDEREÇO INVÁLIDO');
       }
     }
-  }
-
-  onEnderecoChange(ev) {
-    console.log('onEnderecoChange', ev);
   }
 
   populaEnderecoForm(endereco: Endereco = null) {

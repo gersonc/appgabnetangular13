@@ -27,7 +27,6 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
 
   ngOnChanges(changes: SimpleChanges): void {
     if (typeof changes.dados.currentValue !== 'undefined') {
-      console.log('imprimir currentValue', changes.dados.currentValue);
       if (changes.dados.currentValue.acao === 'imprimir') {
         this.resp = changes.dados.currentValue.dadosImp;
         // this.carregaDados();

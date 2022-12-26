@@ -61,12 +61,9 @@ export class AppComponent implements OnInit {
     public md: MenuDatatableService,
     public sps: SpinnerService,
 
-  ) {
-    console.log('app1');
-  }
+  ) { }
 
   ngOnInit() {
-    console.log('app2');
     window.__VERSAOID__ = +this.authenticationService.versao;
     window.__VERSAO__ = this.authenticationService.versao;
     let v = false;

@@ -30,22 +30,28 @@ export class AutenticacaoService {
     return this._refToken;
   }
 
-  login(username: string, password: string) {
+  /*
+postSolicitacaoRelatorio(busca: SolicBuscaI) {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.solic + '/relatorio';
+    return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
+  }
+  */
+
+  login(username: string, password: string, screen: any = null) {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
     const url = this.getUrl() + 'login';
-    console.log('aut-login1', hvalue);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': hvalue
       })
     };
-    return this.http.get<any>(url, httpOptions)
+    return this.http.post<any>(url, screen, httpOptions)
       .pipe(
         take(1),
         map(user => {
-          console.log('aut-login2', user);
           if (user && user.token) {
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
@@ -67,7 +73,6 @@ export class AutenticacaoService {
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.teste = this.getTeste();
-            console.log('testeLogin', this.teste);
             return true;
           } else {
             this.vfToken = false;
@@ -84,7 +89,6 @@ export class AutenticacaoService {
       .pipe(
         take(1),
         map(user => {
-          console.log('autologin', user);
           if (user && user.token) {
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
@@ -116,7 +120,10 @@ export class AutenticacaoService {
   }
 
   getUrl(): string {
-    switch (location.hostname) {
+    return `${environment.apiUrl}`;
+    /*switch (location.hostname) {
+      case 'app.gabinet.com.br' :
+        return 'https://app.gabinet.com.br/api/';
       case 'gn5.icamara.com.br' :
         return 'http://gn5.icamara.com.br/api/';
       case 'localhost' :
@@ -131,7 +138,7 @@ export class AutenticacaoService {
         return 'http://webcop3.dv/api/';
       case 'gabnet5.com.br' :
         return 'http://gabnet5.com.br/api/';
-    }
+    }*/
   }
 
   getAgora(): number {

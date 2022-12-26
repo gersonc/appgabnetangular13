@@ -38,17 +38,13 @@ export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (typeof changes.dados.currentValue !== 'undefined') {
-      console.log('apagar currentValue', changes.dados.currentValue);
       if (changes.dados.currentValue.acao === 'apagar') {
         this.config = changes.dados.currentValue;
         this.cs.escondeCarregador();
         this.evento = this.config.evento;
-        // this.id = this.config.evento.id;
         this.eventoData = this.config.eventoData;
         this.num = this.config.num;
         this.acao = this.config.acao;
-        console.log('this.evento', this.evento);
-        // this.carregaDados();
       }
     }
   }
@@ -56,7 +52,6 @@ export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges 
   carregaDados() {
     this.cs.escondeCarregador();
     this.evento = this.config.data.evento;
-    // this.id = this.config.data.evento.id;
     this.eventoData = this.config.data.eventoData;
     this.num = this.config.data.num;
     this.acao = this.config.data.acao;
@@ -103,13 +98,11 @@ export class CalendarioExcluirComponent implements OnInit, OnDestroy, OnChanges 
       .subscribe({
         next: value => {
           resp = value;
-          console.log(value);
         },
         error: err => {
           this.messageService.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO INCLUIR', detail: resp[2]});
           this.botaoEnviarVF = false;
           this.cs.escondeCarregador();
-          console.log(err);
         },
         complete: () => {
           this.messageService.add({

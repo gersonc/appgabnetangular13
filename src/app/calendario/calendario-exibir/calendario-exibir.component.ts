@@ -105,7 +105,6 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   criaEvento() {
-    console.log('criaEvento', this.dados);
     this.description = Stripslashes(this.ev.description);
     this.prioridadeStyle = null;
     this.calendarioStatusStyle = null;
@@ -294,12 +293,10 @@ export class CalendarioExibirComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   detalhe() {
-    console.log('detalhe', this.ev);
     const dt: any = {
       modulo: this.modulo,
       id: this.registro_id
     }
-    console.log('detalhe2', dt);
     this.onDetalhe.emit(dt);
   }
 

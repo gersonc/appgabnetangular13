@@ -145,12 +145,11 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
     this.urlUpload = this.urlService.calendario + '/upload';
   }
 
-  static montaIcal(str: (string | Uint8Array)[]) {
+  /*static montaIcal(str: (string | Uint8Array)[]) {
     console.log(str);
   }
-
+*/
   ngOnInit() {
-    // this.resetOpcoes();
     this.carregaDados();
     this.carregaDropdowns();
     this.carregaDropdownSessionStorage();
@@ -752,7 +751,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
   }
 
   onUsuarioIdChange(ev) {
-    console.log('onUsuarioIdChange', ev);
     if (ev.value.length === this.ddusuario.length) {
       this.todos_usuarios_sn = true;
       this.usuario_id = null;
@@ -1312,6 +1310,5 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
   }
 
   onBasicUpload(ev) {
-    console.log(ev);
   }
 }

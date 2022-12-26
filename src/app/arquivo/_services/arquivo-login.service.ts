@@ -35,7 +35,7 @@ export class ArquivoLoginService {
           sessionStorage.setItem('arquivo-permissoes', JSON.stringify(dados));
         },
         error: err => {
-          console.log(err);
+          console.error(err);
         },
         complete: () => {
           this.unsub();

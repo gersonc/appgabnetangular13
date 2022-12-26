@@ -32,11 +32,9 @@ export class UsuarioAlterarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('inicio alterar');
     window.scrollTo(0, 0);
     this.getDropDown();
     this.criaForm();
-    console.log('this.formUsuario33333', this.us.usuario?.usuario_acesso);
   }
 
   getDropDown() {

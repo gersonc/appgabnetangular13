@@ -264,8 +264,6 @@ export class CalendarioExibirComponent2 implements OnInit, OnDestroy {
           // this.mostraSpinner.next( false);
         },
         complete: () => {
-          // this.mostraSpinner.next( false);
-          console.log('fim');
         }
       })
     );

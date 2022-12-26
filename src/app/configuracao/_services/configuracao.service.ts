@@ -169,25 +169,6 @@ export class ConfiguracaoService {
         }
       })
     );
-      /*this.sub.push(this.dd.getDropdownNomeId(tabela, campo_id, campo_nome)
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            dd = dados;
-          },
-          error: (erro) => {
-            console.log(erro);
-          },
-          complete: () => {
-            sessionStorage.removeItem(drop);
-            sessionStorage.setItem(drop, JSON.stringify(dd));
-            setTimeout (() => {
-              this.destroy();
-            }, 500);
-          }
-        })
-      );*/
-    // }
   }
 
   corrigeTipoCadastro() {

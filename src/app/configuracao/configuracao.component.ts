@@ -152,18 +152,7 @@ export class ConfiguracaoComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    console.log('Janela',+WindowsService.all());
-    /*if (this.aut.usuario_incluir || this.aut.usuario_alterar || this.aut.usuario_apagar ) {
-      this.menuCfgItens.push(
-        {
-          label: 'Usuários',
-          code: 'usuario'
-        }
-      );
-    }*/
-
-  }
+  ngOnInit(): void {  }
 
   onConfTitulo(ev: ConfiguracaoModelInterface | Configuracao2ModelInterface) {
     this.confTitulo = ev;
@@ -180,7 +169,6 @@ export class ConfiguracaoComponent implements OnInit {
   }
 
   selectCfg(ev) {
-    console.log('+WindowsService.getCorpo().altura / 5)',WindowsService.getPrincial());
     this.componente = this.cfgItem.code;
     switch (this.componente) {
       case 'etiqueta_config': {
@@ -223,7 +211,6 @@ export class ConfiguracaoComponent implements OnInit {
   }
 
   teste() {
-    console.log('teste');
   }
 
 }

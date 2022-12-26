@@ -8,6 +8,11 @@ import {of, Subscription} from 'rxjs';
 import {OnoffLineService} from "../shared/onoff-line/onoff-line.service";
 import {AutenticacaoService} from "../_services/autenticacao.service";
 
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
+
 @Component({
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css'],
@@ -43,11 +48,39 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
+  nativeWindow(): any {
+    return _window();
+  }
+
+  getScreen() {
+    const w = this.nativeWindow();
+    const m = w.screen;
+    const n = w.navigator;
+
+    return  {
+      height:m.height,
+      width: m.width,
+      innerWidth: w.innerWidth,
+      innerHeight: w.innerHeight,
+      availWidth: m.availWidth,
+      availHeight: m.availHeight,
+      pixelDepth: m.pixelDepth,
+      colorDepth: m.colorDepth,
+      appCodeName: n.appCodeName,
+      product: n.product,
+      appVersion: n.appVersion,
+      userAgent: n.userAgent,
+      platform: n.platform,
+      onLine: n.onLine,
+      hostname: w.location.hostname,
+    };
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
 
       this.loading = true;
-      this.sub.push(this.as.login(this.loginForm.controls.username.value, this.loginForm.controls.password.value)
+      this.sub.push(this.as.login(this.loginForm.controls.username.value, this.loginForm.controls.password.value,this.getScreen())
         .pipe(take(1))
         .subscribe(vf => {
             if (vf) {

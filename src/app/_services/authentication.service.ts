@@ -286,9 +286,7 @@ export class AuthenticationService {
     if (this.currentUserSubject.value) {
       this.carregaPermissoes(this.currentUserSubject.value);
       this.currentUserSubject!.next(this.currentUserSubject.value);
-      console.log('AuthenticationService constructor1', this.currentUserSubject.value);
     }
-    console.log('AuthenticationService constructor2');
   }
 
   public get currentUserValue() {
@@ -691,7 +689,6 @@ export class AuthenticationService {
       .pipe(
         take(1),
         map(user => {
-          console.log('autologin', user);
           if (user && user.token) {
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
@@ -729,13 +726,13 @@ export class AuthenticationService {
     this.cancelaPermissoes();
   }
 
-  verificaPermissaoGravada() {
+  /*verificaPermissaoGravada() {
     if (localStorage.getItem('currentUser')) {
       console.log('currentUser', localStorage.getItem('currentUser'));
     } else {
       console.log('currentUser FALSE');
     }
-  }
+  }*/
 
   getTokens(): any {
     this.expires = new Date(localStorage.getItem('expires'));

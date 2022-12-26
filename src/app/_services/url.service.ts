@@ -7,18 +7,6 @@ import { environment } from '../../environments/environment';
 })
 export class UrlService {
   private url = `${environment.apiUrl}`;
-  // private url = 'api/';
-  // let hn = location.hostname;
-
-  // url = (location.hostname === 'localhost') ? 'http://slimgn08.dv/' : 'api/';
-   // url = (location.hostname === 'localhost') ? 'http://gn5.gabnet.com.br/api' : 'api/';
-
-    // url = 'api/';
-
-  // url = location.hostname !== ('gn5.gabnet.com.br' || 'localhost') ? '/gn5/api/' : '/api/';
-  // url = 'http://gn5.gabnet.com.br/api/';
-  // url = this.hst + '/api/';
-  // url = 'http://slimgn08.dv/';
   ok = false;
   dropdown = this.url + 'dropdown';
   autocompleteservice = this.url + 'autocomplete';
@@ -61,38 +49,13 @@ export class UrlService {
   msg = this.url + 'msg';
 
   constructor() {
-    console.log('url1');
     if(!this.ok) {
       this.getUrl();
     }
   }
 
   getUrl() {
-    console.log('url2');
-    // this.url = url;
-    switch (location.hostname) {
-      case 'localhost' :
-        this.url = 'http://slimgn08.dv/api/';
-        break;
-      case 'gn5.icamara.com.br' :
-        this.url = 'http://gn5.icamara.com.br/api/';
-        break;
-      case 'gn5.dv' :
-        this.url = 'http://api.gn5.dv/';
-        break;
-      case 'webcop.dv' :
-        this.url = 'http://webcop.dv/api/';
-        break;
-      case 'webcop2.dv' :
-        this.url = 'http://webcop2.dv/api/';
-        break;
-      case 'webcop3.dv' :
-        this.url = 'http://webcop3.dv/api/';
-        break;
-      case 'gabnet5.com.br' :
-        this.url = 'http://gabnet5.com.br/api/';
-        break;
-    }
+    this.url = `${environment.apiUrl}`;
     this.dropdown = this.url + 'dropdown';
     this.autocompleteservice = this.url + 'autocomplete';
     this.cadastro = this.url + 'cadastro';
@@ -133,7 +96,6 @@ export class UrlService {
     this.mensagem = this.url + 'mensagem';
     this.msg = this.url + 'msg';
     this.ok = true;
-    console.log('url3',this.ping);
   }
 
 

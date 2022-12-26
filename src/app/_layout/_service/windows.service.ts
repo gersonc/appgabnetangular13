@@ -224,7 +224,6 @@ export class WindowsService {
 
 
 
-
   public teste() {
     // const x = WindowsService.nativeWindow.
   }

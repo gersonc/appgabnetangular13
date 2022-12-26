@@ -151,15 +151,12 @@ export class CampoEditorComponent implements OnInit, AfterViewInit {
 
 
   onTextChange(ev: any) {
-    console.log(ev);
     this.resposta.emit(this.conteudo);
   }
 
 
 
   onModelo(ev: any) {
-      console.log(ev, this.modeloSelecionado);
-    // this.modeloSelecionado.value = ev.value;
     switch (this.modeloSelecionado) {
       case 'SIMPLES':
         this.estilo = false;

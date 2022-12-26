@@ -24,7 +24,6 @@ export class OnoffLineService {
 
 
   constructor() {
-    console.log('OnoffLineService constructor', this.n);
     this.handleAppConnectivityChanges();
     this.n++;
   }
@@ -34,10 +33,8 @@ export class OnoffLineService {
   }
 
   public handleAppConnectivityChanges(): void {
-    console.log('OnoffLineService handleAppConnectivityChanges', this.m);
     this.m++;
     if (!this.ativo) {
-      console.log('OnoffLineService handleAppConnectivityChanges', this.o);
       this.o++;
       this.onoffSubject = new BehaviorSubject<boolean>(true);
       this.onoff = this.onoffSubject.asObservable();
@@ -52,14 +49,12 @@ export class OnoffLineService {
       // handle online mode
       this.online = true;
       this.onoffSubject.next(true);
-      console.log('Online...');
     }));
 
     this.subscriptions.push(this.offlineEvent.subscribe(e => {
       this.online = false;
       this.onoffSubject.next(false);
       // handle offline mode
-      console.log('Offline...');
     }));
   }
 

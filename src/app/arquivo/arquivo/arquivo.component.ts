@@ -229,7 +229,6 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   blockSubmit(ev: boolean) {
-    console.log('blockSubmit', ev);
     this.ass.setCarregador(ev);
     this.onBlockSubmit.emit(ev);
   }
@@ -238,14 +237,6 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
     this.fuEnviarArquivos = false;
     this.onUpload.emit(ev);
   }
-/*
-  onClearArquivos(ev) {
-    console.log('onClearArquivos-arquivo');
-    this.clearArquivos = ev;
-    this.fuClearArquivos = false;
-    this.clearArquivosChange.emit(this.clearArquivos);
-  }
-*/
   onAddArquivo(ev) {
     if (ev > 0) {
       this.onPossuiArquivos.emit(true);
@@ -254,9 +245,6 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onUploadState(ev: UploadState) {
-    // console.log(ev);
-  }
 
   onCompleted(ev: UploadState[]) {
 
@@ -277,7 +265,6 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onGravados(ev: ArquivoInterface[]) {
-    console.log('onGravados', ev);
     let arqs = this.arqs;
     arqs.push(...ev);
     this.arqsChange.emit(arqs);

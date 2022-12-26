@@ -61,7 +61,6 @@ export class BuscaService {
 
   getState(sessaoListagem: string): void {
     this.state = JSON.parse(sessionStorage.getItem(sessaoListagem));
-    console.log('state-->', this.state);
   }
 
   resetSolicitacaoBusca(sessaoListagem: string) {

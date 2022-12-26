@@ -12,6 +12,7 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {DispositivoService} from "../_services/dispositivo.service";
 import {OnlineService} from "../_services/online.service";
 
+
 @Component({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   coorRodape: CoordenadaXY;
   checked: boolean = this.authenticationService.dispositivo === 'mobile';
   token = '';
+  tela: any = null;
 
   constructor(
     private ds: DispositivoService,
@@ -50,6 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.coorTopo = this.ws.coorTopo;
     this.coorMain = this.ws.coorMain;
     this.coorRodape = this.ws.coorRodape;
+    this.tela = this.getScreen();
     // this.authenticationService.dispositivo = 'mobile';
   }
 
@@ -77,6 +80,31 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.authenticationService.dispositivo = 'desktop';
       this.ds.dispositivo = 'desktop';
     }
+  }
+
+
+  getScreen() {
+    const w = WindowsService.nativeWindow;
+    const m = w.screen;
+    const n = w.navigator;
+
+    return  {
+      height:m.height,
+      width: m.width,
+      innerWidth: w.innerWidth,
+      innerHeight: w.innerHeight,
+      availWidth: m.availWidth,
+      availHeight: m.availHeight,
+      pixelDepth: m.pixelDepth,
+      colorDepth: m.colorDepth,
+      appCodeName: n.appCodeName,
+      product: n.product,
+      appVersion: n.appVersion,
+      userAgent: n.userAgent,
+      platform: n.platform,
+      onLine: n.onLine,
+      hostname: w.location.hostname,
+    };
   }
 
   ngOnDestroy() {

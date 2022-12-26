@@ -76,7 +76,6 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    console.log('proposicao', this.proposicao);
     this.permitirAcao = (this.aut.andamentoproposicao_alterar || this.aut.andamentoproposicao_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
     this.permitirAlterar = (this.aut.andamentoproposicao_alterar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
     this.permitirApagar = (this.aut.andamentoproposicao_apagar || this.aut.usuario_principal_sn || this.aut.usuario_responsavel_sn);
@@ -200,7 +199,6 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
   }
 
   onRowExpand(ev: any) {
-    console.log('onRowExpand',ev);
   }
 
   onColReorder(ev: any) {

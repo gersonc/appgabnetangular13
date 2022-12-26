@@ -217,7 +217,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   mapeiaColunas() {
-    console.log('mapeiaColunas');
     if (this.ct.titulos === undefined || this.ct.titulos === null || (Array.isArray(this.ct.titulos) && this.ct.titulos.length === 0)) {
       this.ct.montaTitulos(this.cols.map(cl => {
         return cl.field
@@ -294,8 +293,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.cfs.acao = 'incluir2';
       this.cfs.criaFormIncluir()
       this.ct.showForm = true;
-    } else {
-      console.log('SEM PERMISSAO');
     }
   }
 
@@ -315,8 +312,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       this.cfs.acao = 'alterar';
       this.cfs.parceContaForm(cta);
       this.ct.showForm = true;
-    } else {
-      console.log('SEM PERMISSAO');
     }
   }
 
@@ -331,8 +326,6 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
       }
       this.apagarId = cta.conta_id;
       this.showApagar = true;
-    } else {
-      console.log('SEM PERMISSAO');
     }
   }
 
@@ -417,21 +410,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     return (col.field === 'conta_id');
   }
 
-  /*ajustaLargura() {
-    console.log('ajustaLargura');
-    let t: any = document.getElementsByTagName('table');
-    console.log('t', t);
-    for (let tKey of t) {
-      console.log('tKey', tKey);
-      this.dtb.resizeColGroup(tKey, 4, '600px', '800px');
-    }
-
-  }*/
-
   onRowEditInit(c: any, idx: number) {
-    // this.ajustaLargura();
-    /*console.log('ajustaLargura');
-    this.dtb.resizeColGroup(this, 4, '200px', null);*/
     this.idx = idx;
     this.getWidth();
     this.contaEdit = {...c};

@@ -650,7 +650,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   incluirCalendario() {
-    console.log('this.cal incluir', this.cal);
     const dados: any[] = [];
     // if (this.criarData()) {
     this.sub.push(this.cl.incluirCalendario(this.cal)
@@ -796,13 +795,11 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   todosUsuariosOnChange(ev) {
-    console.log('ckbox', ev, this.todos_usuarios_sn);
     if (this.todos_usuarios_sn) {
       if (this.acao === 'incluir') {
         this.usuario_id = null;
       }
     }
-    console.log('ckbox ', ev, this.todos_usuarios_sn);
   }
 
   onUsuarioIdChange(ev) {
@@ -810,7 +807,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.todos_usuarios_sn = true;
       this.usuario_id = null;
     }
-    console.log('onUsuarioIdChange', ev, this.todos_usuarios_sn, this.usuario_id);
   }
 
   vfAllDay(ev) {
@@ -857,7 +853,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       this.mesDiasLiteral = null;
       this.vfMes = true;
       this.mesDias = [];
-      console.log('frequencia mensal', this.start.getDate());
       this.mesDias.push(this.start.getDate());
     }
     // ANUAL
@@ -1128,7 +1123,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         let tmp = rr.all();
         let rct = tmp.length;
         if (rct > 0) {
-          console.log('rct', rct);
           if (rct > 730) {
             delete op.until;
             op.count = 730;
@@ -1183,7 +1177,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   onSubmit(calForm: NgForm) {
     if (calForm.valid) {
-      console.log('calForm', calForm);
       this.botaoEnviarVF = true;
       this.mostraForm = false;
       let ct: any;
@@ -1413,8 +1406,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.incluirCalendario();
     }
-
-    console.log('this.cal', this.cal);
   }
 
   getWeekDay(d: string): number {
@@ -1457,8 +1448,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   chkChange(ev) {
-    console.log('chkChange', ev);
-    console.log('chkChange', this.mesDias);
     if (this.recorrenciaFim) {
       this.fimNumOcorrencias = this.mesDias.length;
     }
@@ -1466,14 +1455,11 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onRecorrenciaFim(ev) {
-    console.log('onRecorrenciaFim', ev);
-    console.log('onRecorrenciaFim', this.fimNumOcorrencias);
     if (this.rdMensal === 'mesDia' && this.fimNumOcorrencias < this.mesDias.length) {
       this.mesDias.sort();
       this.mesDias.pop();
       this.calForm.form.get('dia').setValue(this.mesDias);
     }
-    console.log('onRecorrenciaFim', this.mesDias);
   }
 
   onContentChanged(ev, campo: string) {

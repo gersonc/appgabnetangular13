@@ -371,8 +371,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       this.cfs.criaFormIncluir();
       this.mi.mudaMenuInterno(false);
       this.router.navigate(['/cadastro/incluir']);
-    } else {
-      console.log('SEM PERMISSAO');
     }
   }
 
@@ -419,8 +417,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       this.cfs.origem = origem;
       this.cfs.parceForm(cad);
       this.router.navigate(['/cadastro/alterar']);
-    } else {
-      console.log('SEM PERMISSAO');
     }
 
   }
@@ -456,8 +452,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       } else {
         this.router.navigate(['/cadastro/excluir']);
       }
-    } else {
-      console.log('SEM PERMISSAO');
     }
   }
 
@@ -485,8 +479,6 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
       } else {
         this.showApagar = true;
       }
-    } else {
-      console.log('SEM PERMISSAO');
     }
   }
 

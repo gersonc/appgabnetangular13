@@ -103,7 +103,6 @@ export class CalendarioService {
   }
 
   getEventos(fetchInfo: any[]): Observable<EventoInterface[]> {
-    // console.log('fetchInfo->', fetchInfo);
     const url = this.url.calendario + '/listar';
     return this.http.get<EventoInterface[]>(url);
   }

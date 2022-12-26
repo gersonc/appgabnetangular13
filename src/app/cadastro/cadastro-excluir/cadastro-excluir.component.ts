@@ -31,10 +31,7 @@ export class CadastroExcluirComponent implements OnInit {
 
   ngOnInit(): void {
     this.idx = this.cs.idx;
-    console.log('cadVin', this.cadVin);
   }
-
-
 
   stripslashes(str?: string): string | null {
     return Stripslashes(str)

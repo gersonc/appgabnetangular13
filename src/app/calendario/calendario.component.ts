@@ -1096,7 +1096,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onDetalhe(ev: any) {
-    console.log('onDetalhe', ev);
     this.detalhemodulo = ev.modulo;
     this.detalheid = ev.id;
     this.mostraExibir = false;
