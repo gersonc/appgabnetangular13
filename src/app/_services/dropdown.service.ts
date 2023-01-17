@@ -6,6 +6,7 @@ import {UrlService} from './url.service';
 // import {SolicitacaoDropdownMenuListarInterface} from "../solicitacao/_models";
 // import {CadastroMenuDropdown} from "../cadastro/_models";
 import {take} from "rxjs/operators";
+import {HeaderService} from "./header.service";
 
 
 @Injectable({
@@ -88,19 +89,17 @@ export class DropdownService {
   }
 
   public getDropdownSimple(tabela: string, campo_id: string, campo_nome: string, campo_sort: string): Observable<SelectItem[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/simples'
+    const dd = this.url.dropdown + '/simples'
       + '/' + tabela
       + '/' + campo_id
       + '/' + campo_nome
       + '/' + campo_sort;
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd, HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public getDropdown3campos(tabela: string, campo_id: string, campo_nome: string, campo_pesquisa: string, valor: any, params?: string) {
-    let dd: string;
-    dd = this.url.dropdown + '/dd3campos'
+    let dd = this.url.dropdown + '/dd3campos'
       + '/' + tabela
       + '/' + campo_id
       + '/' + campo_nome
@@ -109,82 +108,65 @@ export class DropdownService {
     if (params) {
       dd += '/' + params;
     }
-    this.dropdownAgrupado$ = this.http.get<SelectItemGroup>(dd);
+    this.dropdownAgrupado$ = this.http.get<SelectItemGroup>(dd, HeaderService.tokenHeader);
     return this.dropdownAgrupado$;
   }
 
   public getDropdownCadastroTipoIncluir() {
-    let dd: string;
-    dd = this.url.dropdown + '/cadtipoincluir';
-    return this.http.get<SelectItemGroup[]>(dd);
-    // const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
-    // this.dropdownAgrupados$ = this.http.get<SelectItemGroup[]>(dd);
-    // return this.dropdownSimples$;
+    const dd = this.url.dropdown + '/cadtipoincluir';
+    return this.http.get<SelectItemGroup[]>(dd, HeaderService.tokenHeader);
   }
 
   public getDropdownSolCadTipo() {
-    let dd: string;
-    dd = this.url.dropdown + '/solcadtipo';
-    return this.http.get<SelectItemGroup[]>(dd);
-    // const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json' })};
-    // this.dropdownAgrupados$ = this.http.get<any[]>(dd);
-    // return this.dropdownSimples$;
+    const dd = this.url.dropdown + '/solcadtipo';
+    return this.http.get<SelectItemGroup[]>(dd, HeaderService.tokenHeader);
   }
 
   public postDropdown3campos(dados: any): Observable<SelectItem[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/dd3campos';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownSimples$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/dd3campos';
+    this.dropdownSimples$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public getDropdownSoNomeAgrupado(tabela: string, campo: string, params?: string) {
-    let dd: string;
-    dd = this.url.dropdown + '/sonomeagrupado'
+    let dd = this.url.dropdown + '/sonomeagrupado'
       + '/' + tabela
       + '/' + campo;
     if (params) {
       dd += '/' + params;
     }
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd, HeaderService.tokenHeader);
     // console.log(this.dropdownSimples$);
     return this.dropdownSimples$;
   }
 
   public getDropdownNomeId(tabela: string, campo_id: string, campo_nome: string, params?: string): Observable<SelectItem[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/nomeid'
+    let dd = this.url.dropdown + '/nomeid'
       + '/' + tabela
       + '/' + campo_id
       + '/' + campo_nome;
     if (params) {
       dd += '/' + params;
     }
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd, HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public postDropdownNomeId(dados: any): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/nomeid';
+    const dd = this.url.dropdown + '/nomeid';
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
     return this.http.post<any[]>(dd, dados, httpOptions);
   }
 
   public postDropdownNomeIdArray(dados: any[]): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/nomeidarray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/nomeidarray';
+    this.dropdownArray$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownArray$;
   }
 
   public postDropdownNomeIdJoinArray(dados: any[]): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/nomeidjoinarray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/nomeidjoinarray';
+    this.dropdownArray$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownArray$;
   }
 
@@ -198,48 +180,36 @@ export class DropdownService {
     parametros?: string
   ): Observable<any[]> {
     const dados = [{tabela, campo_id, campo_nome, wcampo, woperador, wvalor, parametros}];
-    let dd: string;
-    dd = this.url.dropdown + '/nomeidw';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/nomeidw';
+    this.dropdownArray$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownArray$;
   }
 
   public postDropdownSoNomeArray(dados: any[]): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/sonomearray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/sonomearray';
+    this.dropdownArray$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownArray$;
   }
 
   public postDropdownSoNome(dados: any): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/sonome';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/sonome';
+    return this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
   }
 
   public postDropdownSoNome2(dados: any): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/sonome2';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/sonome2';
+    return this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
   }
 
   public postDropdownSoDataArray(dados: any[]): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/sodataarray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/sodataarray';
+    this.dropdownArray$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownArray$;
   }
 
   public postDropdownSoDataFormatadoArray(dados: any[]): Observable<any[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/sodataformatarray';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownArray$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/sodataformatarray';
+    this.dropdownArray$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownArray$;
   }
 
@@ -249,8 +219,7 @@ export class DropdownService {
     campo_nome1: string,
     campo_nome2: string,
     params?: string): Observable<SelectItem[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/dd3camposconcat'
+    let dd = this.url.dropdown + '/dd3camposconcat'
       + '/' + tabela
       + '/' + campo_id
       + '/' + campo_nome1
@@ -258,19 +227,18 @@ export class DropdownService {
     if (params) {
       dd += '/' + params;
     }
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd, HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public getDropdownSoNome(tabela: string, campo_nome: string, params?: string): Observable<SelectItem[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/sonome'
+    let dd = this.url.dropdown + '/sonome'
       + '/' + tabela
       + '/' + campo_nome;
     if (params) {
       dd += '/' + params;
     }
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd,HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
@@ -284,61 +252,58 @@ export class DropdownService {
   }
 
   public getDropdownMunReg(campo_id: string): Observable<SelectItem[]> {
-    let dd: string;
-    dd = this.url.dropdown + '/munreg/' + campo_id;
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd);
+    const dd = this.url.dropdown + '/munreg/' + campo_id;
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(dd,HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public postDropdownOficio(tipo: string, id?: number): Observable<SelectItem[]> {
     const dados = [{tipo, id}];
-    let dd: string;
-    dd = this.url.dropdown + '/oficiotipoid';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    this.dropdownSimples$ = this.http.post<any[]>(dd, dados, httpOptions);
+    const dd = this.url.dropdown + '/oficiotipoid';
+    this.dropdownSimples$ = this.http.post<any[]>(dd, dados, HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public getDropdownOficioProcessoId(): Observable<SelectItem[]> {
     const url = this.url.dropdown + '/oficioprocessoid';
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(url);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(url,HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public getDropdownOficioCodigo(): Observable<SelectItem[]> {
     const url = this.url.dropdown + '/oficiocodigo';
-    this.dropdownSimples$ = this.http.get<SelectItem[]>(url);
+    this.dropdownSimples$ = this.http.get<SelectItem[]>(url,HeaderService.tokenHeader);
     return this.dropdownSimples$;
   }
 
   public getDropdownTarefaAutores(): Observable<any[]> {
     const url = this.url.dropdown + '/tarefaautores';
-    return this.http.get<any[]>(url);
+    return this.http.get<any[]>(url,HeaderService.tokenHeader);
   }
 
   public getDropdownEmendaMenuTodos(): Observable<any[]> {
     const url = this.url.dropdown + '/emendamenutodos';
-    return this.http.get<SelectItem[]>(url);
+    return this.http.get<SelectItem[]>(url,HeaderService.tokenHeader);
   }
 
   public getDropdownEmendaMenu(campo: string): Observable<SelectItem[]> {
     const url = this.url.dropdown + '/emendamenu/' + campo;
-    return this.http.get<SelectItem[]>(url);
+    return this.http.get<SelectItem[]>(url,HeaderService.tokenHeader);
   }
 
   public getDropdownTipoCadastroConcat(): Observable<any[]> {
     const url = this.url.dropdown + '/ddtipocadastroconcat';
-    return this.http.get<any[]>(url);
+    return this.http.get<any[]>(url,HeaderService.tokenHeader);
   }
 
-/*  public getDropdownSolicitacaoMenuTodos(): Observable<SolicitacaoDropdownMenuListarInterface> {
-    const url = this.url.dropdown + '/solicitacaomenutodos';
-    return this.http.get<SolicitacaoDropdownMenuListarInterface>(url);
-  }*/
+  /*  public getDropdownSolicitacaoMenuTodos(): Observable<SolicitacaoDropdownMenuListarInterface> {
+      const url = this.url.dropdown + '/solicitacaomenutodos';
+      return this.http.get<SolicitacaoDropdownMenuListarInterface>(url);
+    }*/
 
   public getDropdownResponsavel(): Observable<SelectItem[]> {
     const url = this.url.dropdown + '/responsavel';
-    return this.http.get<SelectItem[]>(url);
+    return this.http.get<SelectItem[]>(url,HeaderService.tokenHeader);
   }
 
   /*public getDropdownCadastroMenuTodos(): Observable<CadastroMenuDropdown> {
@@ -346,22 +311,22 @@ export class DropdownService {
     return this.http.get<CadastroMenuDropdown>(url);
   }
 */
-/*  public getDdSolicitacaoMenuTodos() {
-    if (sessionStorage.getItem('solic-menu-dropdown')) {
-      sessionStorage.removeItem('solic-menu-dropdown');
-    }
-    this.sub.push(this.getDropdownSolicitacaoMenuTodos()
-      .pipe(take(1))
-      .subscribe((dados) => {
-          sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(dados));
-        },
-        (err) => console.error(err),
-        () => {
-          this.onDestroy();
-        }
-      )
-    );
-  }*/
+  /*  public getDdSolicitacaoMenuTodos() {
+      if (sessionStorage.getItem('solic-menu-dropdown')) {
+        sessionStorage.removeItem('solic-menu-dropdown');
+      }
+      this.sub.push(this.getDropdownSolicitacaoMenuTodos()
+        .pipe(take(1))
+        .subscribe((dados) => {
+            sessionStorage.setItem('solic-menu-dropdown', JSON.stringify(dados));
+          },
+          (err) => console.error(err),
+          () => {
+            this.onDestroy();
+          }
+        )
+      );
+    }*/
 
   onDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());

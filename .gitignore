@@ -48,3 +48,6 @@ Thumbs.db
 /documentation/
 /NAO_USADOS/
 !/dist/
+!/NAO_USADOS/
+/logs/*
+/NAO_USADOS/*

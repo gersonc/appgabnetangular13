@@ -8,7 +8,7 @@ import { take } from 'rxjs/operators';
 import {SelectItem} from 'primeng/api';*/
 import {EventoInterface} from "../_models/evento-interface";
 import {Cal, CalBusca, CalendarioForm, CalendarioFormularioInterface, CalInterface} from "../_models/calendario";
-
+import {HeaderService} from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -70,58 +70,53 @@ export class CalendarioService {
 
   calendarioListar(start, end): Observable<EventoInterface[]> {
     const url = this.url.calendario + '/listar/' + start + '/' + end;
-    return this.http.get<EventoInterface[]>(url);
+    return this.http.get<EventoInterface[]>(url, HeaderService.tokenHeader);
   }
 
   postCalendarioListar(dados: CalBusca, start, end): Observable<EventoInterface[]> {
     const url = this.url.calendario + '/listar/' + start + '/' + end;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<EventoInterface[]> (url, dados, httpOptions);
+    return this.http.post<EventoInterface[]> (url, dados, HeaderService.tokenHeader);
   }
 
   postCalendarioBuscar(dados: CalBusca): Observable<EventoInterface[]> {
     const url = this.url.calendario + '/buscar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<EventoInterface[]> (url, dados, httpOptions);
+    return this.http.post<EventoInterface[]> (url, dados, HeaderService.tokenHeader);
   }
 
   getEventoId(id: number): Observable<EventoInterface> {
     const url = this.url.calendario + '/id/' + id;
-    return this.http.get<EventoInterface>(url);
+    return this.http.get<EventoInterface>(url, HeaderService.tokenHeader);
   }
 
   eventoApagarId(id: number): Observable<any[]> {
     const url = this.url.calendario + '/apagar/' + id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url,HeaderService.tokenHeader);
   }
 
   eventoApagarData(id: number, exdate: any): Observable<any[]> {
     const cal = {id: id, exdate: exdate};
     const url = this.url.calendario + '/apagar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any[]> (url, cal, httpOptions);
+    return this.http.post<any[]> (url, cal, HeaderService.tokenHeader);
   }
 
   getEventos(fetchInfo: any[]): Observable<EventoInterface[]> {
     const url = this.url.calendario + '/listar';
-    return this.http.get<EventoInterface[]>(url);
+    return this.http.get<EventoInterface[]>(url, HeaderService.tokenHeader);
   }
 
   incluirCalendario(cal: CalInterface): Observable<any[]> {
     const url = this.url.calendario + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any[]> (url, cal, httpOptions);
+    return this.http.post<any[]> (url, cal, HeaderService.tokenHeader);
   }
 
   alterarCalendario(cal: CalInterface, id: any): Observable<any[]> {
     const url = this.url.calendario + '/' + id;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
-    return this.http.put<any[]>(url, cal, httpOptions);
+    return this.http.put<any[]>(url, cal, HeaderService.tokenHeader);
   }
 
   eventoExcluirId(id: number): Observable<any[]> {
     const url = this.url.calendario + '/' + id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url,HeaderService.tokenHeader);
   }
 
   eventoGetIcs(id: number, unico?: string, start?: string, end?: string): Observable<Blob> {
@@ -135,6 +130,9 @@ export class CalendarioService {
     if (end) {
       url = url + '/' + end;
     }
+    const tk: HttpHeaders =  new HttpHeaders({
+      'Authorization':  'Bearer ' + localStorage.getItem('access_token')
+    });
     return this.http.get(url, { responseType: 'blob'});
   }
 

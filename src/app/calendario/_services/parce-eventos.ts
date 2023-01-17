@@ -8,6 +8,7 @@ export function ParceEventos(eventos: EventoInterface[]): EventoInterface[] {
       const r = rrulestr(ev.rrule);
       ev.rrule = r.origOptions;
     }
+    console.log('ev', ev);
     return ev;
   });
 

@@ -20,7 +20,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request instanceof HttpRequest) {
-      if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1 && request.urlWithParams.search('/msg') === -1) {
+      // if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1 && request.urlWithParams.search('/msg') === -1) {
+      if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1) {
         if (this.aut.vfToken) {
           request = request.clone({
             setHeaders: {

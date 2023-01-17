@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UrlService} from "./url.service";
-import {Observable, Subscription} from "rxjs";
+import {Observable, of, Subject, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {SelectItem} from "primeng/api";
+import {DdArrayI, DdsI, parceDdArrayToSelectItemArray} from "../_models/dd-array-i";
+import {HeaderService} from "./header.service";
 
 
 @Injectable({
@@ -81,12 +83,34 @@ export class DdService {
   ) {
   }
 
-  getDd(dados: any) {
+  getDd2(dados: string |string[]) {
     const args = {
       dados: dados
     }
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(this.url.dd, args, httpOptions);
+    return this.http.post<any[]>(this.url.dd, args, HeaderService.tokenHeader);
+  }
+
+  getDd(dados: string |string[]): Observable<any[]>{
+    const subject = new Subject<any[]>();
+    const dd: DdsI[] = [];
+    let sb = new Subscription();
+    sb = this.getDd2(dados)
+      .pipe(take(1))
+      .subscribe({
+          next: (dados) => {
+            dd.push(...parceDdArrayToSelectItemArray(dados));
+            subject.next(dd);
+          },
+          error: err => {
+            console.error(...err);
+          },
+          complete: () => {
+            subject.complete();
+            sb.unsubscribe();
+          }
+        }
+      );
+    return subject;
   }
 
   ddSubscriptionArray(dados: string[]) {
@@ -94,6 +118,8 @@ export class DdService {
       .pipe(take(1))
       .subscribe((dds) => {
           dados.forEach(d => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             sessionStorage.setItem(d, JSON.stringify(dds[d]));
           });
 
@@ -124,8 +150,8 @@ export class DdService {
   }
 
   postDd(dados: any) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    return this.http.post<any[]>(this.url.dd, dados, httpOptions);
+    // const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    return this.http.post<any[]>(this.url.dd, dados, HeaderService.tokenHeader);
   }
 
   onDestroy(): void {
