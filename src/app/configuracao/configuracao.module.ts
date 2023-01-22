@@ -17,7 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ListboxModule } from 'primeng-lts/listbox';
+import { ListboxModule } from 'primeng/listbox';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 import { ConfiguracaoRoutingModule } from './configuracao-routing.module';

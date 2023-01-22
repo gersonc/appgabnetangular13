@@ -1075,7 +1075,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getUtc(d: DateTime = null) {
-    d = d ? d : new DateTime();
+    d = d ? d : DateTime.now();
     return Date.UTC(
       d.year,
       d.month,

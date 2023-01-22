@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Message,MessageService} from 'primeng-lts/api';
+import {Message,MessageService} from 'primeng/api';
 import {MsgI, MsgService} from "../../_services/msg.service";
 import {delay, take} from "rxjs/operators";
 import {timer} from "rxjs";

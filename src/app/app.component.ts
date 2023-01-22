@@ -18,7 +18,7 @@ import { Spinkit } from 'ng-http-loader';
 import {of, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {Router} from "@angular/router";
-/*import {Message,MessageService} from 'primeng-lts/api';
+/*import {Message,MessageService} from 'primeng/api';
 import {MsgService} from "./_services/msg.service";*/
 
 @Component({

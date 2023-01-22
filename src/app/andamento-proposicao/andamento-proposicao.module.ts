@@ -18,7 +18,7 @@ import {ConfigauxModule} from "../configaux/configaux.module";
 import {UtilModule} from "../util/util.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
-import {ConfirmationService} from 'primeng-lts/api';
+import {ConfirmationService} from 'primeng/api';
 
 
 @NgModule({

@@ -1,5 +1,5 @@
 {
-  "name": "GabNet",
+  "name": "appgabnetangular13",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -39,7 +39,7 @@
     "@fullcalendar/timegrid": "^5.11.3",
     "@types/html2canvas": "^1.0.0",
     "angular-csv-ext": "^1.0.5",
-    "angular-resize-event": "^3.0.2",
+    "angular-resize-event": "^3.1.1",
     "chart.js": "^2.9.4",
     "date-fns": "^2.25.0",
     "docx": "^7.4.0",
