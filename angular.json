@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "GabNet": {
+    "appgabnetangular13": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/gabnet/www",
+            "outputPath": "dist/appgabnetangular13/www",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -46,10 +46,6 @@
               "canvg",
               "core-js",
               "raf"
-            ],
-            "scripts": [
-              "./node_modules/quill/dist/quill.js",
-              "./node_modules/chart.js/dist/Chart.js"
             ]
           },
           "configurations": {
@@ -94,21 +90,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "GabNet:build"
+            "browserTarget": "appgabnetangular13:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "GabNet:build:production"
+              "browserTarget": "appgabnetangular13:build:production"
             },
             "development": {
-              "browserTarget": "GabNet:build:development"
+              "browserTarget": "appgabnetangular13:build:development"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "GabNet:build"
+            "browserTarget": "appgabnetangular13:build"
           }
         },
         "test": {
@@ -145,16 +141,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "GabNet:serve"
+            "devServerTarget": "appgabnetangular13:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "GabNet:serve:production"
+              "devServerTarget": "appgabnetangular13:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "GabNet"
+  "defaultProject": "appgabnetangular13"
 }
