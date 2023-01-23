@@ -18,6 +18,8 @@ import { Spinkit } from 'ng-http-loader';
 import {of, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {Router} from "@angular/router";
+import { AppConfig } from "./_models/appconfig";
+import { AppConfigService } from "./_services/appconfigservice";
 /*import {Message,MessageService} from 'primeng/api';
 import {MsgService} from "./_services/msg.service";*/
 
@@ -39,8 +41,9 @@ export class AppComponent implements OnInit {
   // mobile = true;
   mostraPessoal = false;
   s: Subscription;
-
-
+  appconfig: AppConfig;
+  theme: string = "lara-light-blue";
+  subscription: Subscription;
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
@@ -54,6 +57,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private config: PrimeNGConfig,
+    private configService: AppConfigService,
     public authenticationService: AuthenticationService,
     private windowsService: WindowsService,
     private router: Router,
@@ -91,16 +95,40 @@ export class AppComponent implements OnInit {
         }
       });
 
+    this.appconfig = {theme: 'lara-light-blue', dark: false}
+
+    this.subscription = this.configService.configUpdate$.subscribe( config => {
+      const linkElement = document.getElementById('theme-link');
+      this.replaceLink(linkElement, config.theme);
+      this.appconfig = config;
+    });
+
     this.configPrime();
-
-
-
 
     WindowsService.all();
   }
 
+
+  replaceLink(linkElement, theme) {
+    const id = linkElement.getAttribute('id');
+    const cloneLinkElement = linkElement.cloneNode(true);
+
+    cloneLinkElement.setAttribute('href', linkElement.getAttribute('href').replace(this.appconfig.theme, theme));
+    cloneLinkElement.setAttribute('id', id + '-clone');
+
+    linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
+
+    cloneLinkElement.addEventListener('load', () => {
+      linkElement.remove();
+      cloneLinkElement.setAttribute('id', id);
+    });
+  }
+
   unsubescreve() {
     this.s.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   onResized(id: string, event: ResizedEvent): void {

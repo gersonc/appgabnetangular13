@@ -1,0 +1,152 @@
+@page {
+  background: white;
+  display: block;
+}
+
+@page[size="latter"] {
+  width: 215.9mm;
+  height: 279.4mm;
+}
+@page[size="latter"][layout="landscape"] {
+       width: 279.4mm;
+       height: 215.9mm;
+     }
+
+@page[size="A4"] {
+       width: 21cm;
+       height: 29.7cm;
+     }
+
+@page[size="A4"][layout="landscape"] {
+       width: 29.7cm;
+       height: 21cm;
+     }
+@page[size="A3"] {
+       width: 29.7cm;
+       height: 42cm;
+     }
+@page[size="A3"][layout="landscape"] {
+       width: 42cm;
+       height: 29.7cm;
+     }
+@page[size="A5"] {
+       width: 14.8cm;
+       height: 21cm;
+     }
+@page[size="A5"][layout="landscape"] {
+       width: 21cm;
+       height: 14.8cm;
+     }
+@media print {
+
+  * {
+    background: transparent !important;
+    color:#000 !important;
+    text-shadow: none !important;;
+  }
+
+
+  article.artigo {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+
+  section.etq-secao {
+    font-size: 8.0pt!important;
+    font-family: 'Verdana', sans-serif;
+  }
+
+  section.etq-secao {
+    display: block;
+    box-sizing: border-box;
+    justify-items: center;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  etq-tbody {
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse:collapse;
+    background-color: transparent;
+    font-size: 8.0pt!important;
+    font-family: 'Verdana', sans-serif;
+  }
+
+
+  td {
+    box-sizing: border-box !important;
+    border: 1pt solid black;
+    overflow: hidden!important;
+    text-overflow: clip!important;
+  }
+}
+
+
+.etq-secao {
+  width: 207.9mm;
+  min-height: 253.99mm;
+  padding: 0;
+  margin-top: 12.70mm;
+  margin-right: 4.00mm;
+  margin-left: 4.00mm;
+}
+
+.linha {
+  min-height: 25.40mm;
+}
+
+.etq-tbody {
+  display: block;
+}
+
+
+.cola{
+  width: 101.60mm;
+  height: 25.40mm;
+  padding-top: 1mm;
+  padding-right: 2mm;
+  padding-bottom: 1mm;
+  padding-left: 2mm;
+}
+
+.colb{
+  width: 5.20mm;
+  height: 25.40mm;
+  padding-top: 1mm;
+  padding-right: 2mm;
+  padding-bottom: 1mm;
+  padding-left: 2mm;
+}
+
+.colc{
+  width: 101.60mm;
+  height: 25.40mm;
+  padding-top: 1mm;
+  padding-right: 2mm;
+  padding-bottom: 1mm;
+  padding-left: 2mm;
+}
+
+.cold{
+  width: 101.60mm;
+  height: 25.40mm;
+  padding-top: 1mm;
+  padding-right: 2mm;
+  padding-bottom: 1mm;
+  padding-left: 2mm;
+}
+
+.cole{
+  width: 5.20mm;
+  height: 25.40mm;
+  padding-top: 1mm;
+  padding-right: 2mm;
+  padding-bottom: 1mm;
+  padding-left: 2mm;
+}

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {Observable, Subscription} from "rxjs";
-import Chart from 'chart.js';
+import Chart from 'chart.js/auto';
 import * as printJS from 'print-js';
 import {jsPDF} from "jspdf";
 import {WindowsService} from "../../_layout/_service";

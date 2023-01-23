@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 
-import Chart from 'chart.js';
+import Chart from 'chart.js/auto';
 import * as printJS from 'print-js';
 import {jsPDF} from "jspdf";
 import {Observable, Subscription} from "rxjs";

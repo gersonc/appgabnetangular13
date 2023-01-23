@@ -1,86 +1,60 @@
-<div id="app" class="app" (resized)="onResized('app', $event)">
-  <header [ngClass]="classe" class="header p-shadow-2" id="topoprincipal">
+<div class="layout-wrapper {{appconfig.dark ? 'layout-wrapper-dark' : 'layout-wrapper-light'}}"
+     xmlns="http://www.w3.org/1999/html">
+  <div class="layout-content">
+    <div class="layout-content-inner h-full">
+      <!--<div id="app" class="app" (resized)="onResized('app', $event)">-->
+      <div id="app" class="app">
+        <header [ngClass]="classe" class="header shadow-2" id="topoprincipal">
 
-    <div class="topo-esquerda">
-      <div class="p-ml-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
-      <div class="topo-esquerda-texto"><span *ngIf="authenticationService.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span></div>
-    </div>
-
-
-    <div class="topo-direita p-jc-end">
-      <div class="p-mr-2"><app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal></div>
-      <div class="p-mx-2">{{authenticationService.usuario_nome}}</div>
-      <div *ngIf="authenticationService.dispositivo === 'mobile'" class="p-mr-2"> <i *ngIf="authenticationService.dispositivo === 'mobile'" class="btn-menu-principal pi pi-bars" (click)="abreFechaMd()"></i></div>
-     <!-- <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable">
-        <i class="btn-menu-principal pi pi-bars" (click)="abreFechaMd()"></i>
-      </div>-->
-    </div>
+          <div class="topo-esquerda">
+            <div class="mx-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
+            <div class="topo-esquerda-texto"><span
+              *ngIf="authenticationService.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span>
+            </div>
+          </div>
 
 
-    <!--<div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
-      <div class="p-text-left p-text-uppercase" style="padding-left: 1em; padding-bottom: 0">{{authenticationService.parlamentar_nome}}</div>
-      <div class="p-text-left p-text-uppercase" style="padding-left: 1em;">{{authenticationService.usuario_nome}}</div>
-    </div>-->
+          <div class="topo-direita justify-content-end">
+            <div class="mr-2">
+              <app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal>
+            </div>
+            <div class="mx-2">{{authenticationService.usuario_nome}}</div>
+            <div *ngIf="authenticationService.dispositivo === 'mobile'" class="mr-2"><i
+              *ngIf="authenticationService.dispositivo === 'mobile'" class="btn-menu-principal pi pi-bars"
+              (click)="abreFechaMd()"></i></div>
 
-   <!-- <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable">
-      <i class="btn-menu-principal pi pi-bars" (click)="abreFechaMd()"></i>
-    </div>-->
-
-
-
-
+          </div>
 
 
+        </header>
 
-    <!--<div class="div-menu-principal"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
+        <div #main id="main" class="main">
 
-    <div *ngIf="authenticationService.dispositivo !== 'mobile'" class="topo">
-      <div class="p-text-left p-text-uppercase"
-           style="float: left; padding-left: 1em;">{{authenticationService.parlamentar_nome}}</div>
-      <div class="p-text-right p-text-uppercase" style="padding-right: 1em;">
-        {{authenticationService.usuario_nome}}<app-pessoal></app-pessoal>
+          <app-panelmenu [mostra]="mostraMenuPrincipal" [recarrega]="authenticationService.dispositivo"></app-panelmenu>
+
+          <div #principal id="principal">
+
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+
       </div>
-    </div>
+      <app-msg></app-msg>
+      <div id="msgtoast"></div>
+      <app-erro></app-erro>
+      <app-exporter-texto></app-exporter-texto>
 
-    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="topo mobile">
-      <div class="p-text-left p-text-uppercase"
-           style="padding-left: 1em; padding-bottom: 0">{{authenticationService.parlamentar_nome}}</div>
-      <div class="p-text-left p-text-uppercase" style="padding-left: 1em;">{{authenticationService.usuario_nome}}</div>
-    </div>
-
-    <div *ngIf="authenticationService.dispositivo === 'mobile'" class="div-menu-datatable"><i
-      class="btn-menu-datatable pi pi-list" (click)="abreFechaMd()"></i></div>-->
-
-  </header>
-
-  <div #main id="main" class="main">
-
-    <app-panelmenu [mostra]="mostraMenuPrincipal" [recarrega]="authenticationService.dispositivo"></app-panelmenu>
-
-    <div #principal id="principal">
-
-      <router-outlet></router-outlet>
+      <ng-http-loader
+        [backdrop]="sps.vf"
+        [backgroundColor]="'#007bff'"
+        [debounceDelay]="100"
+        [extraDuration]="300"
+        [minDuration]="300"
+        [backdropBackgroundColor]="sps.fundo"
+        [spinner]="sps.modelo"
+        [filteredUrlPatterns]="sps.semSpinner"
+      >
+      </ng-http-loader>
     </div>
   </div>
-
-  <!--<div #main2 id="main2" class="main2">
-    <router-outlet  name="main2"></router-outlet>
-  </div>-->
-
 </div>
-<app-msg></app-msg>
-<div id="msgtoast"></div>
-<app-erro></app-erro>
-<app-exporter-texto></app-exporter-texto>
-
-<ng-http-loader
-  [backdrop]="sps.vf"
-  [backgroundColor]="'#007bff'"
-  [debounceDelay]="100"
-  [extraDuration]="300"
-  [minDuration]="300"
-  [backdropBackgroundColor]="sps.fundo"
-  [spinner]="sps.modelo"
-  [filteredUrlPatterns]="sps.semSpinner"
->
-</ng-http-loader>

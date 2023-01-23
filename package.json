@@ -40,7 +40,7 @@
     "@types/html2canvas": "^1.0.0",
     "angular-csv-ext": "^1.0.5",
     "angular-resize-event": "^3.1.1",
-    "chart.js": "^2.9.4",
+    "chart.js": "^3.3.2",
     "date-fns": "^2.25.0",
     "docx": "^7.4.0",
     "dropzone": "^5.9.3",

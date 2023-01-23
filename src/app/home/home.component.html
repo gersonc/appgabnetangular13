@@ -3,35 +3,35 @@
 </div>
 
 <div class="formulario home">
-  <div class="p-fluid formulario-bg-externo" style="padding-top: 5vh; padding-bottom: 5vh">
-
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-grid">
-          <div class="p-col-12 p-xl-12 p-lg-12 p-md-12 p-sm-12">
-            <div class="p-d-flex p-jc-center" style="height: 80vh;">
-              <div class="p-as-center" style="color: var(--primary-color)">
+  <div class="field formulario-bg-externo" style="padding-top: 5vh; padding-bottom: 5vh">
+    <app-main-config></app-main-config>
+    <div class="grid">
+      <div class="col-10 p-offset-1 mt-0 b-0 formulario-bg-interno">
+        <div class="grid">
+          <div class="col-12 xl:col-12 lg:col-12 md:col-12 sm:col-12">
+            <div class="flex justify-content-center" style="height: 80vh;">
+              <div class="align-self-center" style="color: var(--primary-color)">
                 <h1>GABNET<br>GERENCIADOR DE GABINETES</h1>
                 <p>Url: {{hst}}</p>
                 <p>Dispositivo: {{authenticationService.dispositivo}} <i *ngIf="authenticationService.dispositivo==='mobile'" class="pi pi-mobile"></i><i *ngIf="authenticationService.dispositivo!=='mobile'" class="pi pi-desktop"></i></p>
-                <p>Versão: {{authenticationService._versao}}</p>
-                <p>Logado: {{authenticationService.vfToken}}</p>
-                <p>Token: {{token}}</p>
-                <p>Tela altura: {{tela.height}}</p>
-                <p>Browser altura disponivel: {{tela.availHeight}}</p>
-                <p>Browser altura: {{tela.innerHeight}}</p>
-                <p>Tela diametro: {{tela.width}}</p>
-                <p>Browser diametro disponivel: {{tela.availWidth}}</p>
-                <p>Browser diametro: {{tela.innerWidth}}</p>
-                <p>Profundidade do pixel: {{tela.pixelDepth}}</p>
-                <p>Profundidade da cor: {{tela.colorDepth}}</p>
-                <p>Código do navegador: {{tela.appCodeName}}</p>
-                <p>Motor: {{tela.product}}</p>
-                <p>Versão: {{tela.appVersion}}</p>
-                <p>Agente: {{tela.userAgent}}</p>
-                <p>Plataforma: {{tela.platform}}</p>
-                <p>OnLine: {{tela.onLine}}</p>
-                <p>Hostname: {{tela.hostname}}</p>
+                <!-- <p>Versão: {{authenticationService._versao}}</p>
+                 <p>Logado: {{authenticationService.vfToken}}</p>
+                 <p>Token: {{token}}</p>
+                 <p>Tela altura: {{tela.height}}</p>
+                 <p>Browser altura disponivel: {{tela.availHeight}}</p>
+                 <p>Browser altura: {{tela.innerHeight}}</p>
+                 <p>Tela diametro: {{tela.width}}</p>
+                 <p>Browser diametro disponivel: {{tela.availWidth}}</p>
+                 <p>Browser diametro: {{tela.innerWidth}}</p>
+                 <p>Profundidade do pixel: {{tela.pixelDepth}}</p>
+                 <p>Profundidade da cor: {{tela.colorDepth}}</p>
+                 <p>Código do navegador: {{tela.appCodeName}}</p>
+                 <p>Motor: {{tela.product}}</p>
+                 <p>Versão: {{tela.appVersion}}</p>
+                 <p>Agente: {{tela.userAgent}}</p>
+                 <p>Plataforma: {{tela.platform}}</p>
+                 <p>OnLine: {{tela.onLine}}</p>
+                 <p>Hostname: {{tela.hostname}}</p>-->
 
                 <div class="container" style="text-align:center">
                   <h3><b>TIPO DE DISPOSITIVO</b></h3>
