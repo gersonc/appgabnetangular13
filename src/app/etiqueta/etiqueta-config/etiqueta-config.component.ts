@@ -23,7 +23,7 @@ export class EtiquetaConfigComponent implements OnInit, OnDestroy {
   incluindo = false;
   resp: any[];
   mostraBtn = true;
-  acao: string = 'INCLUIR';
+  acao = 'INCLUIR';
   editing = false;
   perIncluir = false;
   perAltarar = false;

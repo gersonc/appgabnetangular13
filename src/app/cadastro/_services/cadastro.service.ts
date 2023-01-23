@@ -180,11 +180,11 @@ export class CadastroService {
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
-    let ev = this.expandido;
+    const ev = this.expandido;
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
-          let celula: CelulaI = {
+          const celula: CelulaI = {
             header: t.titulo,
             field: t.field,
             valor: ev[t.field],
@@ -298,7 +298,7 @@ export class CadastroService {
     }
 
     if (n === 3) {
-      let busca: CadastroBuscaI = this.busca;
+      const busca: CadastroBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -346,7 +346,7 @@ export class CadastroService {
         );
       }
       if (n === 3) {
-        let busca: CadastroBuscaI = this.busca;
+        const busca: CadastroBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns, busca.todos = true;
         busca.first = undefined;
@@ -374,10 +374,10 @@ export class CadastroService {
     }
   }
 
-  exportToXLSX(td: number = 1) {
+  exportToXLSX(td = 1) {
     if (td === 3) {
       if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
-        let busca: CadastroBuscaI = this.busca;
+        const busca: CadastroBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = true;
@@ -431,10 +431,10 @@ export class CadastroService {
     }
   }
 
-  exportToCsvTodos(td: boolean = true) {
+  exportToCsvTodos(td = true) {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (td === true) {
-        let busca: CadastroBuscaI = this.busca;
+        const busca: CadastroBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = td;
@@ -474,7 +474,7 @@ export class CadastroService {
 
       if (n === 3) {
         if(+this.tabela.totalRecords > +this.cadastros.length) {
-          let busca: CadastroBuscaI = this.busca;
+          const busca: CadastroBuscaI = this.busca;
           busca.rows = undefined;
           busca.campos = undefined;
           busca.todos = true;
@@ -507,7 +507,7 @@ export class CadastroService {
       this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_nascimento') ? 'cadastro_data_nascimento3' : (this.tabela.sortField === 'cadastro_data_cadastramento') ? 'cadastro_data_cadastramento3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
-        let tmp = this.cadastros;
+        const tmp = this.cadastros;
         if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
           // if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
           this.busca.sortOrder = +this.tabela.sortOrder;
@@ -548,7 +548,7 @@ export class CadastroService {
         .subscribe({
           next: (dados) => {
             this.cadastros = dados.cadastros.map((t) => {
-              let p: CadastroI = t;
+              const p: CadastroI = t;
               p.cadastro_data_nascimento3 = new Date(t.cadastro_data_nascimento2);
               p.cadastro_data_cadastramento3 = new Date(t.cadastro_data_cadastramento2);
               return p;
@@ -672,7 +672,7 @@ export class CadastroService {
 
   mudaRowsPerPageOptions(t: number) {
     let anterior = 50;
-    let teste = [50];
+    const teste = [50];
     while (anterior < t) {
       anterior = anterior * 2;
       teste.push(anterior);

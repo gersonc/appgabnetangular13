@@ -19,7 +19,7 @@ export class ArquivoViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() registro_id = 0;
   @Input() arqs: ArquivoInterface[] = [];
   @Input() modelo = 'detalhe'; // Onde irá aparecer (Formilário, Detalhe etc.
-  @Input() buscaArquivos: boolean = true;
+  @Input() buscaArquivos = true;
   @Output() onBlockSubmit = new EventEmitter<boolean>();
   @Output() onApagar = new EventEmitter<ArquivoInterface>();
 

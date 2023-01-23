@@ -10,7 +10,7 @@ export function montaCelula(
   cpdelta: any = null,
   cptexto: any = null
 ): CelulaI {
-  let c: CelulaI = {
+  const c: CelulaI = {
     field: field,
     header: header,
     txtVF: txtVF,

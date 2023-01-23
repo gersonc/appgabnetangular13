@@ -11,8 +11,8 @@ import {DetalhePdf} from "../../functions/detalhe-pdf";
 })
 export class ExporterDetalheComponent implements OnInit {
   @Input() arquivoNome: string;
-  @Input() classe: string = 'tabela';
-  @Input() pdfOnOff: boolean = true;
+  @Input() classe = 'tabela';
+  @Input() pdfOnOff = true;
   @Output() pdfOnOffChange = new EventEmitter<boolean>();
 
   constructor() { }
@@ -22,7 +22,7 @@ export class ExporterDetalheComponent implements OnInit {
 
   detalhePdf() {
     this.pdfOnOffChange.emit(false);
-    let tableElements: HTMLCollectionOf<Element> = document.getElementsByClassName(this.classe);
+    const tableElements: HTMLCollectionOf<Element> = document.getElementsByClassName(this.classe);
     DetalhePdf(tableElements, this.arquivoNome);
   }
 

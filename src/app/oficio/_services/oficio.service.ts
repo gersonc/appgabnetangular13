@@ -141,13 +141,13 @@ export class OficioService {
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
-    let ev = evento.data;
+    const ev = evento.data;
 
     // this.tabela.titulos.forEach(t => {
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
-          let celula: CelulaI = {
+          const celula: CelulaI = {
             header: t.titulo,
             field: t.field,
             valor: ev[t.field],
@@ -254,7 +254,7 @@ export class OficioService {
       }
 
       if (n === 3) {
-        let busca: OficioBuscaI = this.busca;
+        const busca: OficioBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = true;
@@ -301,7 +301,7 @@ export class OficioService {
         );
       }
       if (n === 3) {
-        let busca: OficioBuscaI = this.busca;
+        const busca: OficioBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns,
           busca.todos = true;
@@ -330,11 +330,11 @@ export class OficioService {
     }
   }
 
-  exportToXLSX(td: number = 1) {
+  exportToXLSX(td = 1) {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       // const cp = this.ss.excelCamposTexto();
       if (td === 3) {
-        let busca: OficioBuscaI = this.busca;
+        const busca: OficioBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = true;
@@ -366,10 +366,10 @@ export class OficioService {
     }
   }
 
-  exportToCsvTodos(td: boolean = true) {
+  exportToCsvTodos(td = true) {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (td === true) {
-        let busca: OficioBuscaI = this.busca;
+        const busca: OficioBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = td;
@@ -399,7 +399,7 @@ export class OficioService {
     if (this.lazy && this.tabela.totalRecords <= +this.tabela.rows && this.busca.ids === this.tabela.ids && this.busca.first === this.tabela.first && +this.tabela.rows === +this.mudaRows) {
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
-        let tmp = this.oficios;
+        const tmp = this.oficios;
         if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
           this.busca.sortOrder = +this.tabela.sortOrder;
           if (+this.tabela.sortOrder === 1) {
@@ -511,7 +511,7 @@ export class OficioService {
 
   mudaRowsPerPageOptions(t: number) {
     let anterior = 50;
-    let teste = [50];
+    const teste = [50];
     while (anterior < t) {
       anterior = anterior * 2;
       teste.push(anterior);

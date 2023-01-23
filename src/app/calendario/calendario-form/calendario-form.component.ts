@@ -1121,7 +1121,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
         }
         let rr = new RRule(op);
         let tmp = rr.all();
-        let rct = tmp.length;
+        const rct = tmp.length;
         if (rct > 0) {
           if (rct > 730) {
             delete op.until;

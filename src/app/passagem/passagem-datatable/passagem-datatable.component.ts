@@ -23,7 +23,7 @@ import {
 } from '../_models';
 import { PassagemBuscaService, PassagemService } from '../_services';
 import { PassagemFormularioComponent } from '../passagem-formulario/passagem-formulario.component';
-declare var jsPDF: any;
+declare let jsPDF: any;
 
 @Component({
   selector: 'app-passagem-datatable',
@@ -571,7 +571,7 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
 
   // FUNCOES RELATORIOS=========================================================
 
-  mostraTabelaPdf(td: boolean = false) {
+  mostraTabelaPdf(td = false) {
     this.tmp = this.pss.ps.todos;
     this.pss.ps.todos = td;
     if (this.pss.ps.todos === true) {
@@ -611,7 +611,7 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  imprimirTabela(td: boolean = false) {
+  imprimirTabela(td = false) {
     this.tmp = this.pss.ps.todos;
     this.pss.ps.todos = td;
     if (this.pss.ps.todos === true) {
@@ -652,7 +652,7 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  exportToCsv(td: boolean = false) {
+  exportToCsv(td = false) {
     this.tmp = this.pss.ps.todos;
     this.pss.ps.todos = td;
     if (this.pss.ps.todos === true) {
@@ -693,7 +693,7 @@ export class PassagemDatatableComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  exportToXLSX(td: boolean = false) {
+  exportToXLSX(td = false) {
     this.tmp = this.pss.ps.todos;
     this.pss.ps.todos = td;
     if (this.pss.ps.todos === true) {

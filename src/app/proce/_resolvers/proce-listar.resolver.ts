@@ -91,5 +91,5 @@ export class ProceListarResolver implements Resolve<boolean> {
         return EMPTY;
       }
     }*/
-  };
+  }
 }

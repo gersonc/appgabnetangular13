@@ -173,7 +173,7 @@ export class ConfiguracaoService {
 
   corrigeTipoCadastro() {
     if (sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      let dd: SelectItemGroup[] = null;
+      const dd: SelectItemGroup[] = null;
       this.sub.push(this.dd2.getDropdown3campos(
         'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
         .pipe(take(1))
@@ -222,7 +222,7 @@ export class ConfiguracaoService {
 
   corrigeTipoCadastro2() {
     if (sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      let dd: SelectItemGroup[] = null;
+      const dd: SelectItemGroup[] = null;
       this.sub.push(this.dd2.getDropdown3campos(
         'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
         .pipe(take(1))

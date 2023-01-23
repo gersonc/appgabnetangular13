@@ -5,7 +5,7 @@ import {DetalheService} from "./detalhe.service";
   providedIn: 'root'
 })
 export class DetalhersService {
-  mostraDetalhe: boolean = false;
+  mostraDetalhe = false;
   id: number;
   campo_id: string;
   modulo: string;

@@ -15,7 +15,7 @@ import {Subscription} from "rxjs";
 })
 export class CadastroExcluirComponent implements OnInit {
   @Input() cadVin?: CadastroVinculosI | null = null;
-  @Input() permissaoVinculos: Boolean = false;
+  @Input() permissaoVinculos = false;
   @Output() hideApagar = new EventEmitter<boolean>();
   idx = -1;
   sub: Subscription[] = [];

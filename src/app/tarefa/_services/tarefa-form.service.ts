@@ -48,7 +48,7 @@ export class TarefaFormService {
   parceTarefaForm(t: TarefaI): TarefaFormI {
     this.montaDD();
     this.tarefa = {};
-    let r: TarefaFormI = {};
+    const r: TarefaFormI = {};
     r.tarefa_id = +t.tarefa_id;
     r.tarefa_usuario_autor_id = t.tarefa_usuario_autor_id;
     r.tarefa_usuario2 = t.tarefa_usuario_situacao.map(u => {

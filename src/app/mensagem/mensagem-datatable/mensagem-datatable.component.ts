@@ -140,7 +140,7 @@ export class MensagemDatatableComponent implements OnInit, OnDestroy {
   }
 
   criaBusca(): MansagemBuscaI {
-    let b: MansagemBuscaI = {};
+    const b: MansagemBuscaI = {};
     const f = this.formMenuMensagem.getRawValue();
     console.log('criaBusca1', f);
     if (f.tipo_listagem !== null) {

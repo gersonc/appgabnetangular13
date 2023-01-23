@@ -32,12 +32,12 @@ export class EmendaDatatableComponent implements OnInit {
   histListI: HistListI;
   showHistorico = false;
   tituloHistoricoDialog = 'ANDAMENTOS';
-  histAcao: string = '';
+  histAcao = '';
   histFormI?: HistFormI;
   cssMostra: string | null = null;
-  permListHist: boolean = false;
-  permInclHist: boolean = false;
-  permitirAcao: boolean = true;
+  permListHist = false;
+  permInclHist = false;
+  permitirAcao = true;
   showGrafico = false;
 
 
@@ -379,7 +379,7 @@ export class EmendaDatatableComponent implements OnInit {
     return Stripslashes(str)
   }
 
-  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao: boolean = true, historicos?: HistI[]) {
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao = true, historicos?: HistI[]) {
     this.tituloHistoricoDialog = 'EMENDA';
     this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
     this.histAcao = acao;

@@ -7,7 +7,7 @@ applyPlugin(jsPDF);
 interface jsPDFCustom extends jsPDF {
   autoTable: (options: UserOptions) => void;
 }
-declare var html2canvas: any;
+declare let html2canvas: any;
 declare interface ColumnsInterface {
   title: string;
   dataKey: string;
@@ -27,7 +27,7 @@ export class PdfService {
 
   public static tabelaToPdf(pdfFileName: string , colunas: ColunasI[], dados: any[]) {
     const columns: ColumnsInterface[] = colunas.map(col => ({title: col.header, dataKey: col.field}));
-    let doc = new jsPDF (
+    const doc = new jsPDF (
       {
         orientation: 'l',
         unit: 'mm',

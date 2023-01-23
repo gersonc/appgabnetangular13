@@ -83,7 +83,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
               },
               complete: () => {
                 if (this.resp[0]) {
-                  let arraitmp: SelectItem[] = this.arrai;
+                  const arraitmp: SelectItem[] = this.arrai;
                   this.novoRegistro = {
                     label: this.valor,
                     value: +this.resp[1]
@@ -247,7 +247,7 @@ export class ConfigauxIncluirComponent implements OnInit, OnChanges, OnDestroy {
     if (sessionStorage.getItem(nome)) {
       sessionStorage.removeItem(nome);
     }
-    let arr: SelectItem[] =  this.arrai;
+    const arr: SelectItem[] =  this.arrai;
     arr.push(this.novoRegistro);
     arr.sort(this.compare);
     sessionStorage.setItem(nome, JSON.stringify(arr));

@@ -16,7 +16,7 @@ import {MsgService} from "../../_services/msg.service";
 })
 export class HistFormComponent implements OnInit, OnDestroy, OnChanges {
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() display: boolean = false;
+  @Input() display = false;
   @Output() novoRegistro = new EventEmitter<HistFormI>();
   @Output() dialogExterno = new EventEmitter<boolean>();
   @Input() histFormI?: HistFormI

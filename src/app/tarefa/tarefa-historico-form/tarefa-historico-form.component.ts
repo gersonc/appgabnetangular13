@@ -130,7 +130,7 @@ export class TarefaHistoricoFormComponent implements OnInit, OnDestroy {
             if (this.lazy) {
               this.ts.lazy = false;
             }
-            let p: TarefaI = this.resp[3];
+            const p: TarefaI = this.resp[3];
             p.tarefa_data3 = new Date(p.tarefa_data2);
             p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
             if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {

@@ -43,7 +43,7 @@ export class ContaFormService {
   parceContaForm(t: ContaI): ContaFormI {
     this.contaListar = t;
     this.conta = {};
-    let r: ContaFormI = {};
+    const r: ContaFormI = {};
     r.conta_id = +t.conta_id;
     r.conta_uuid = t.conta_uuid;
     r.conta_tipo = +t.conta_tipo_id;

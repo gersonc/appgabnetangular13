@@ -142,7 +142,7 @@ export class TitulosService {
   }
 
   buscaTitulosRelatorio2(cps: string[]): string[] {
-    let rs: string[] = [];
+    const rs: string[] = [];
     cps.forEach(c => {
       if (this.titulos[c] !== undefined) {
         rs[c] = this.titulos[c].mtitulo;

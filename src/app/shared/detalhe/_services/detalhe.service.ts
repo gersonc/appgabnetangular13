@@ -11,7 +11,7 @@ import {take} from "rxjs/operators";
 export class DetalheService {
   sub: Subscription[] = [];
   id: number;
-  mostraDetalhe: boolean = false;
+  mostraDetalhe = false;
   modulo: string;
   registro?: any = null;
   hurl: string = null;

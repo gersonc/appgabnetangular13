@@ -309,7 +309,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
 
   criaEnvio() {
     this.cta = {};
-    let cta: ContaFormI = {}
+    const cta: ContaFormI = {}
     const t: any = this.formConta.getRawValue();
 
     this.mostraForm = false;
@@ -593,7 +593,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
               this.voltarListar();
             } else {
               this.botaoEnviarVF = false;
-              this.mostraForm = false;;
+              this.mostraForm = false;
               this.tt = 0;
               this.cta = {};
               console.error('ERRO - ALTERAR ', this.resp[2]);

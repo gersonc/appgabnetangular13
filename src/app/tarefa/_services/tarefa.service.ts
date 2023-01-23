@@ -220,11 +220,11 @@ export class TarefaService {
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
-    let ev = evento.data;
+    const ev = evento.data;
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
-          let celula: CelulaI = {
+          const celula: CelulaI = {
             header: t.titulo,
             field: t.field,
             valor: ev[t.field],
@@ -329,7 +329,7 @@ export class TarefaService {
     }
 
     if (n === 3) {
-      let busca: TarefaBuscaI = this.busca;
+      const busca: TarefaBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -378,7 +378,7 @@ export class TarefaService {
           });
         }
         // const h = t.tarefa_historico
-        let f: any = {
+        const f: any = {
           tarefa_titulo: t.tarefa_titulo,
           tarefa_tarefa: t.tarefa_tarefa,
           tarefa_situacao_nome: t.tarefa_situacao_nome,
@@ -399,7 +399,7 @@ export class TarefaService {
     }
 
     if (n === 3) {
-      let busca: TarefaBuscaI = this.busca;
+      const busca: TarefaBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -439,7 +439,7 @@ export class TarefaService {
     }
 
     if (n === 3) {
-      let busca: TarefaBuscaI = this.busca;
+      const busca: TarefaBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -462,10 +462,10 @@ export class TarefaService {
     }
   }
 
-  exportToXLSX(td: number = 1) {
+  exportToXLSX(td = 1) {
     if (td === 3) {
       if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
-      let busca: TarefaBuscaI = this.busca;
+      const busca: TarefaBuscaI = this.busca;
       busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -497,10 +497,10 @@ export class TarefaService {
     }
   }
 
-  exportToCsvTodos(td: boolean = true) {
+  exportToCsvTodos(td = true) {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (td === true) {
-        let busca: TarefaBuscaI = this.busca;
+        const busca: TarefaBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = td;
@@ -537,7 +537,7 @@ export class TarefaService {
       this.tabela.sortField = (this.tabela.sortField === 'tarefa_data') ? 'tarefa_data3' : (this.tabela.sortField === 'tarefa_datahora') ? 'tarefa_datahora3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
-        let tmp = this.tarefas;
+        const tmp = this.tarefas;
         if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
         // if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
           this.busca.sortOrder = +this.tabela.sortOrder;
@@ -578,7 +578,7 @@ export class TarefaService {
         .subscribe({
           next: (dados) => {
             this.tarefas = dados.tarefas.map((t) => {
-              let p: TarefaI = t;
+              const p: TarefaI = t;
               p.tarefa_data3 = new Date(t.tarefa_data2);
               p.tarefa_datahora3 = new Date(t.tarefa_datahora2);
               if (t.tarefa_historico !== undefined && t.tarefa_historico !== null && Array.isArray(t.tarefa_historico) && t.tarefa_historico.length > 0) {
@@ -691,7 +691,7 @@ export class TarefaService {
 
   mudaRowsPerPageOptions(t: number) {
     let anterior = 50;
-    let teste = [50];
+    const teste = [50];
     while (anterior < t) {
       anterior = anterior * 2;
       teste.push(anterior);

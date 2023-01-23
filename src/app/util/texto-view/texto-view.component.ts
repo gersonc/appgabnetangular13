@@ -33,7 +33,7 @@ export class TextoViewComponent implements OnInit, AfterViewInit {
   @Input() impressao = false;
 
   content?: any;
-  formato: string = 'html'
+  formato = 'html';
   tag = 1;
 
 

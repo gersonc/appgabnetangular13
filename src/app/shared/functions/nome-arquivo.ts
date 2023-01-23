@@ -1,6 +1,6 @@
-export function nomeArquivo(tipo: string, modulo: string = ''): string {
+export function nomeArquivo(tipo: string, modulo = ''): string {
   modulo = (modulo !== '') ? modulo + '_' : '';
-  let d = new Date();
+  const d = new Date();
   let h = '';
   h += (d.getDate() > 9) ? d.getDate().toString() : '0' + d.getDate().toString();
   h += (d.getMonth() > 9) ? d.getMonth().toString() : '0' + d.getMonth().toString();

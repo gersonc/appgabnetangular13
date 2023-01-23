@@ -167,7 +167,7 @@ export class UsuarioService {
 
   descreveAcesso(valor: string): string[] {
     const n = valor.length;
-    let r: string[] = [];
+    const r: string[] = [];
     for (let i = 0; i < n; i++) {
       if (valor[i] === '1') {
         r.push(this.acessoStr[i]);

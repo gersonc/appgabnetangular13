@@ -195,7 +195,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
   }
 
   criaEnvio(): TarefaFormI {
-    let tf: TarefaFormI = {};
+    const tf: TarefaFormI = {};
     const fm: frmI = this.formTarefa.getRawValue();
     if (this.tfs.acao === 'incluir') {
       const dt1: DateTime = DateTime.fromJSDate(fm.tarefa_data3);
@@ -309,7 +309,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
                 if (this.lazy) {
                   this.ts.lazy = false;
                 }
-                let p: TarefaI = this.resp[3];
+                const p: TarefaI = this.resp[3];
                 p.tarefa_data3 = new Date(p.tarefa_data2);
                 p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
                 if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {
@@ -372,7 +372,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
                 if (this.lazy) {
                   this.ts.lazy = false;
                 }
-                let p: TarefaI = this.resp[3];
+                const p: TarefaI = this.resp[3];
                 p.tarefa_data3 = new Date(p.tarefa_data2);
                 p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
                 if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {
@@ -500,7 +500,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
         if (this.lazy) {
           this.ts.lazy = false;
         }
-        let p: TarefaI = this.resp[3];
+        const p: TarefaI = this.resp[3];
         p.tarefa_data3 = new Date(p.tarefa_data2);
         p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
         if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {

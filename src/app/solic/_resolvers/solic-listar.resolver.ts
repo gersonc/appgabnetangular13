@@ -93,5 +93,5 @@ export class SolicListarResolver implements  Resolve<boolean> {
         return EMPTY;
       }
     }*/
-  };
+  }
 }

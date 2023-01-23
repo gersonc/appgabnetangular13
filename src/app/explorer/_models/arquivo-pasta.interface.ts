@@ -41,11 +41,11 @@ export interface Caminho {
 
 export class KeyFilterDemo {
 
-  blockSpecial: RegExp = /^[^<>*!\s]+$/
+  blockSpecial = /^[^<>*!\s]+$/
 
-  blockSpace: RegExp = /[^\s]/;
+  blockSpace = /[^\s]/;
 
-  ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
+  ccRegex = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
 
   cc: string;
 

@@ -21,7 +21,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
   novaPasta: Pasta
   desabilitado = false;
   mostraBtns = true;
-  blockSpecial: RegExp = /^[^<>*!\s]+$/;
+  blockSpecial = /^[^<>*!\s]+$/;
 
   clearArquivos = true;
   arquivo_pasta_id = 0;

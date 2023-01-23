@@ -24,7 +24,7 @@ export class EtiquetaService {
   total = 0;
   public impEtiqueta = new Subject();
   imprimindoVF = false;
-  posicao: string = '';
+  posicao = '';
 
   etq: EtiquetaInterface | null = null;
 
@@ -512,7 +512,7 @@ export class EtiquetaService {
     const imprime = this.pw.document.getElementById('imprime');
     imprime.addEventListener('click', (event) => {
       event.preventDefault();
-      let pcard = this.pw.document.getElementById("pcard");
+      const pcard = this.pw.document.getElementById("pcard");
       pcard.remove();
       this.pw.print();
     });
@@ -541,7 +541,7 @@ export class EtiquetaService {
 
     let ctPagina = 0;
     let ctLinha = 0;
-    let ct = 0;
+    const ct = 0;
 
     while (res.length !== 0) {
       cloneSecao = null;
@@ -599,7 +599,7 @@ export class EtiquetaService {
           artigo.append(cloneSecao);
           ctPagina++;
           if (res.length === 0) {
-            let secao = this.pw.document.getElementById('secao');
+            const secao = this.pw.document.getElementById('secao');
             secao.remove();
             this.pw.document.getElementById('numfolha').textContent = ctPagina;
           }
@@ -621,7 +621,7 @@ export class EtiquetaService {
     this.ecs.btnDesativado = false;
     this.ecs.btnClDesativado = true;
     w.opener.focus();
-    let cl = w.opener.document.getElementById('impcl');
+    const cl = w.opener.document.getElementById('impcl');
     cl.removeAttribute('disabled');
     cl.click();
     w.close();

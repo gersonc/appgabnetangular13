@@ -255,7 +255,7 @@ export class TarefaPrintService {
   }
 
 }`;
-    let mywindow = window.open('', 'PRINT', 'height=500,width=500');
+    const mywindow = window.open('', 'PRINT', 'height=500,width=500');
     mywindow.document.write('<html><head><title>TAREFAS</title>');
     mywindow.document.write('<style>' + css  + '</style>');
     mywindow.document.write('</head><body >');
@@ -338,7 +338,7 @@ export class TarefaPrintService {
     visibility: visible;
   }
 `;
-    let mywindow = window.open('', '_blank', 'height=10,width=10');
+    const mywindow = window.open('', '_blank', 'height=10,width=10');
     mywindow.document.write('<html><head><title>TAREFAS</title>');
     mywindow.document.write('<style>' + css  + '</style>');
     mywindow.document.write('</head><body >');
@@ -346,7 +346,7 @@ export class TarefaPrintService {
     mywindow.document.write('</body>');
     mywindow.document.write('</html>');
 
-    let doc = new jsPDF (
+    const doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',

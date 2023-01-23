@@ -31,7 +31,7 @@ export class DropdownColoridoComponent implements OnInit {
 
   mudaCor(cor?: string): any {
     const b: string = (cor === undefined || cor === null) ? 'transparent' : cor;
-    let c: string = (
+    const c: string = (
       cor === undefined ||
       cor === null ||
       cor === 'transparent' ||
@@ -61,15 +61,15 @@ export class DropdownColoridoComponent implements OnInit {
   }
 
   setForegroundColor(cor: string) {
-    let rgb  = this.hexToRGB(cor, false);
+    const rgb  = this.hexToRGB(cor, false);
     console.log('rgb', rgb);
-    let sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+    const sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
     console.log('sum', sum);
     return (sum > 128) ? 'black' : 'white';
   }
 
   hexToRGB(h,isPct) {
-    let ex = /^#([\da-f]{3}){1,2}$/i;
+    const ex = /^#([\da-f]{3}){1,2}$/i;
     if (ex.test(h)) {
       let r: any = 0, g: any = 0, b: any = 0;
       isPct = isPct === true;

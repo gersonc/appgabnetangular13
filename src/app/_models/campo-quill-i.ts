@@ -5,7 +5,7 @@ export interface CampoQuillI {
 }
 
 export interface HandlerQuillI {
-  range: { index: Number, length: Number },
-  oldRange: { index: Number, length: Number },
-  source: String
+  range: { index: number, length: number },
+  oldRange: { index: number, length: number },
+  source: string
 }

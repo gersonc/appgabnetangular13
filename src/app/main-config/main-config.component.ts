@@ -18,7 +18,7 @@ export class MainConfigComponent implements OnInit {
 
     news_key = 'primenews';
 
-    theme: string = "lara-light-blue";
+    theme = "lara-light-blue";
 
     public subscription: Subscription;
 

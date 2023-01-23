@@ -49,7 +49,7 @@ export class ProposicaoFormComponent implements OnInit {
   st2 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
   titulo = 'PROPOSIÇÃO - INCLUIR';
   readonly = false;
-  checked: boolean = false;
+  checked = false;
   fc: any;
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -199,7 +199,7 @@ export class ProposicaoFormComponent implements OnInit {
   }
 
   criaProposicao(): PropForm {
-    let p = new PropForm();
+    const p = new PropForm();
 
     p.sn_relator_atual= this.formProp.get('sn_relator_atual').value ? 1 : 0;
     p.sn_orgao= this.formProp.get('sn_orgao').value ? 1 : 0;
@@ -336,7 +336,7 @@ export class ProposicaoFormComponent implements OnInit {
   }
 
   alterarProposicao() {
-    let valida = true;
+    const valida = true;
     const p: PropFormI = this.criaProposicao();
     const ob: string[] = Object.keys(p);
     if (ob.length < 5) {
@@ -346,7 +346,7 @@ export class ProposicaoFormComponent implements OnInit {
         'sn_orgao',
         'sn_situacao'
       ];
-      let ct = 0;
+      const ct = 0;
       const valida = (ob.reduce((a: number, b: string) => {
         let newReducedValue = a;
         if(teste.indexOf(b) === -1 ) {

@@ -119,7 +119,7 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
   }
 
   criaBusca(): TelefoneBuscaInterface {
-    let b: TelefoneBuscaInterface = {};
+    const b: TelefoneBuscaInterface = {};
     const f = this.formMenuTelefone.getRawValue();
     if (f.telefone_assunto1 !== null) {
       b.telefone_assunto1 = f.telefone_assunto1;

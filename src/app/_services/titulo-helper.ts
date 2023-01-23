@@ -20,9 +20,9 @@ export class TituloHelper {
     const titulosKeys: string[] = Object.keys(titulos);
     const neys = titulosKeys.length;
     const titulosValues: any[] = Object.values(titulos);
-    let tit = new  TSMap<string, TSMap<string, string>>();
+    const tit = new  TSMap<string, TSMap<string, string>>();
     for (let tk = 0; tk < neys; tk++) {
-      let mtit = new  TSMap<string, string>();
+      const mtit = new  TSMap<string, string>();
       const kk = titulosKeys[tk];
       const ttk = Object.keys(titulosValues[tk]);
       const ttv = Object.values(titulosValues[tk]);

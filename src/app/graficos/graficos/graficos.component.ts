@@ -243,25 +243,25 @@ export class GraficosComponent implements OnInit, OnDestroy {
   }
 
   getArquivoNome():string {
-    let tmpDate = new Date();
-    let tmpNome = this.modulo + '-' + this.campo + '-';
+    const tmpDate = new Date();
+    const tmpNome = this.modulo + '-' + this.campo + '-';
     return tmpNome + '-' + tmpDate.toISOString().split('T')[0] + '.png';
   }
 
   getArquivoNome2():string {
-    let tmpDate = new Date();
-    let tmpNome = this.modulo + '-' + this.campo + '-';
+    const tmpDate = new Date();
+    const tmpNome = this.modulo + '-' + this.campo + '-';
     return tmpNome + '-' + tmpDate.toISOString().split('T')[0] + '.pdf';
   }
 
   getImg() {
-    let x = <HTMLAnchorElement> WindowsService.doc.getElementById('chartimg');
+    const x = <HTMLAnchorElement> WindowsService.doc.getElementById('chartimg');
     x.href = this.chart.toBase64Image();
     x.download = this.getArquivoNome();
     x.click();
   }
 
-  getPrintPdf(vf: boolean = false) {
+  getPrintPdf(vf = false) {
     const canvas2 = <HTMLCanvasElement> WindowsService.doc.getElementById('chartp');
     const grafp = canvas2.getContext("2d");
     grafp.fillStyle = "white";
@@ -276,7 +276,7 @@ export class GraficosComponent implements OnInit, OnDestroy {
         ctx.restore();
       }
     };
-    let chartp = new Chart(grafp, {
+    const chartp = new Chart(grafp, {
       type: this.tipo,
       data: this.dados,
       options: {
@@ -297,11 +297,11 @@ export class GraficosComponent implements OnInit, OnDestroy {
         animation: {
           onComplete: (animation) => {
             if (vf) {
-              var img = animation.animationObject.chart.toBase64Image();
+              const img = animation.animationObject.chart.toBase64Image();
               printJS({printable: img, type: 'image'})
             } else {
-              var newCanvasImg = animation.animationObject.chart.toBase64Image();
-              var doc = new jsPDF('landscape');
+              const newCanvasImg = animation.animationObject.chart.toBase64Image();
+              const doc = new jsPDF('landscape');
               doc.addImage(newCanvasImg, 'PNG', 10, 10, 280, 150 );
               doc.save(this.getArquivoNome2());
             }

@@ -148,7 +148,7 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
   }
 
   criaBusca(): CadastroBuscaI {
-    let b: CadastroBuscaI = {};
+    const b: CadastroBuscaI = {};
     if (this.formMenu.get('cadastro_nome').value !== null) {
       if (typeof this.formMenu.get('cadastro_nome').value === 'string') {
         b.cadastro_nome = this.formMenu.get('cadastro_nome').value;

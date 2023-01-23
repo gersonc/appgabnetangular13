@@ -151,11 +151,11 @@ export class ContaService {
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
-    let ev = evento.data;
+    const ev = evento.data;
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].toString().length > 0) {
-          let celula: CelulaI = {
+          const celula: CelulaI = {
             header: t.titulo,
             field: t.field,
             valor: (t.field !== 'conta_valor') ? ev[t.field] : this.formatterBRL.format(ev[t.field]),
@@ -241,7 +241,7 @@ export class ContaService {
     }
 
     if (n === 3) {
-      let busca: ContaBuscaI = this.busca;
+      const busca: ContaBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -289,7 +289,7 @@ export class ContaService {
         );
       }
       if (n === 3) {
-        let busca: ContaBuscaI = this.busca;
+        const busca: ContaBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns, busca.todos = true;
         busca.first = undefined;
@@ -317,9 +317,9 @@ export class ContaService {
     }
   }
 
-  exportToXLSX(td: number = 1) {
+  exportToXLSX(td = 1) {
     if (td === 3) {
-      let busca: ContaBuscaI = this.busca;
+      const busca: ContaBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.excelColumns;
       busca.todos = true;
@@ -351,10 +351,10 @@ export class ContaService {
     }
   }
 
-  exportToCsvTodos(td: boolean = true) {
+  exportToCsvTodos(td = true) {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (td === true) {
-        let busca: ContaBuscaI = this.busca;
+        const busca: ContaBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = td;
@@ -387,7 +387,7 @@ export class ContaService {
       this.tabela.sortField = (this.tabela.sortField === 'conta_vencimento') ? 'conta_vencimento3' : (this.tabela.sortField === 'conta_pagamento') ? 'conta_pagamento3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
-        let tmp = this.contas;
+        const tmp = this.contas;
         if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
           this.busca.sortOrder = +this.tabela.sortOrder;
           if (+this.tabela.sortOrder === 1) {
@@ -425,7 +425,7 @@ export class ContaService {
         .subscribe({
           next: (dados) => {
             this.contas = dados.contas.map((t) => {
-              let p: ContaI = t;
+              const p: ContaI = t;
               p.conta_vencimento3 = new Date(t.conta_vencimento2);
               if (t.conta_pagamento2 !== undefined && t.conta_pagamento2 !== null) {
                 p.conta_pagamento3 = new Date(t.conta_pagamento2);
@@ -514,7 +514,7 @@ export class ContaService {
 
   mudaRowsPerPageOptions(t: number) {
     let anterior = 50;
-    let teste = [50];
+    const teste = [50];
     while (anterior < t) {
       anterior = anterior * 2;
       teste.push(anterior);

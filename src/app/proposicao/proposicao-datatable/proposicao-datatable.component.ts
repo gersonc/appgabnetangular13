@@ -37,9 +37,9 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   // histAcao: string = '';
   histFormI?: AndamentoProposicaoI;
   cssMostra: string | null = null;
-  permListHist: boolean = false;
-  permInclHist: boolean = false;
-  permitirAcao: boolean = true;
+  permListHist = false;
+  permInclHist = false;
+  permitirAcao = true;
   showGrafico = false;
 
   constructor(

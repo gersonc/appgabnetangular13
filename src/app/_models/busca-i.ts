@@ -13,7 +13,7 @@ export interface BuscaI {
 
 export class Busca implements BuscaI {
   campos: ColunasI[] | null  = null;
-  excel: boolean = false;
+  excel = false;
   first: number | null = null;
   ids: number[] | null = null;
   rows: number | null = null;

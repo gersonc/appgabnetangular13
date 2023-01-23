@@ -16,7 +16,7 @@ export class IncluirAuxService {
     private http: HttpClient
   ) { }
 
-  incluir(tabela: string, campo: string, valor: string, tamanho: number = 0): Observable<any[]> {
+  incluir(tabela: string, campo: string, valor: string, tamanho = 0): Observable<any[]> {
     let url: string;
     url = this.url.aux + '/incluir';
     const aux = {

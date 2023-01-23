@@ -191,7 +191,7 @@ export class UploadArquivoComponent implements OnInit, OnChanges, OnDestroy, Aft
 
   onEnviado(ev) {
     console.log('onEnviado', ev);
-    let arqs: any[] = [];
+    const arqs: any[] = [];
     if (ev.originalEvent.body.length > 0) {
       arqs.push(...ev.originalEvent.body);
       ev.originalEvent.body.forEach( (x: ArquivoInterface) => {

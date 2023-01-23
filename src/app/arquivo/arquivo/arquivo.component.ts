@@ -19,7 +19,7 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() modulo: string;
   @Input() arqs: ArquivoInterface[] = [];
   @Input() registro_id = 0;
-  @Input() buscaArquivos: boolean = true;
+  @Input() buscaArquivos = true;
   @Input() stiloClass: string = null;
   @Input() modelo: string; // 'incluir', 'alterar', 'exibir',Onde irá aparecer (Formilário, Detalhe etc.
   @Input() clearArquivos = false;
@@ -259,13 +259,13 @@ export class ArquivoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onApagarAux(arq: ArquivoInterface) {
-    let arqs = this.arqs.filter(val => val.arquivo_id !== arq.arquivo_id);
+    const arqs = this.arqs.filter(val => val.arquivo_id !== arq.arquivo_id);
     this.arqsChange.emit(arqs);
     this.onApagar.emit(arq);
   }
 
   onGravados(ev: ArquivoInterface[]) {
-    let arqs = this.arqs;
+    const arqs = this.arqs;
     arqs.push(...ev);
     this.arqsChange.emit(arqs);
     this.onArquivosGravados.emit(ev);

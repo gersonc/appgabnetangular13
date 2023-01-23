@@ -27,10 +27,10 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
   @Output() dialogExterno = new EventEmitter<boolean>();
   @Output() novoRegistro = new EventEmitter<HistFormI>();
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() display: boolean = false;
+  @Input() display = false;
   @Input() imprimir?: boolean;
   @Input() histListI?: HistListI | undefined;
-  @Input() permitirAcao: boolean = true;
+  @Input() permitirAcao = true;
   @Output() impressao = new EventEmitter<any>();
 
 
@@ -115,7 +115,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
     this.histListI.hist.splice(n[0], 1);
   }
 
-  escolheTipoImpressao(hi: any | null): Boolean | HistI {
+  escolheTipoImpressao(hi: any | null): boolean | HistI {
     if (hi) {
       if (hi.historico_andamento_texto !== undefined && hi.historico_andamento_texto !== null) {
         hi.historico_andamento = hi.historico_andamento_texto;
@@ -138,7 +138,7 @@ export class HistDatatableComponent implements OnInit, OnChanges, OnDestroy {
       if (dados.length === 0) {
         return null;
       }
-      let re: HistI[] = [];
+      const re: HistI[] = [];
       dados.forEach(value => {
         if (this.escolheTipoImpressao(value)) {
           re.push(<HistI>this.escolheTipoImpressao(value));

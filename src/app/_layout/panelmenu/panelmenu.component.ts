@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
 })
 export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
   @Input() mostra = false;
-  @Input() recarrega: string = 'desktop';
+  @Input() recarrega = 'desktop';
   public items!: MenuItem[];
   public menuPrincipalClasses = 'menu-principal-fechado';
   public mostraMenuPrincipal = true;

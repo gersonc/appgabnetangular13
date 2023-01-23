@@ -115,9 +115,9 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
 
   criaEnvio(): TarefaUsuarioSituacaoAtualisarFormI {
     let mudaTarefaSN = false;
-    let envio: TarefaUsuarioSituacaoAtualisarFormI = {};
+    const envio: TarefaUsuarioSituacaoAtualisarFormI = {};
     const dt: DateTime = DateTime.now().setZone('America/Sao_Paulo');
-    let tf: TarefaI = {};
+    const tf: TarefaI = {};
     envio.tarefa_id = this.tss.tus.tarefa_id;
     envio.tarefa_usuario_situacao = {
       tus_id: this.tss.tarefa.tarefa_usuario_situacao.find(tu => tu.tus_usuario_id === this.tss.usuario_id).tus_id,
@@ -171,7 +171,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
 
     }
 
-    let h: TarefaHistoricoI = {
+    const h: TarefaHistoricoI = {
       th_tarefa_id: this.tss.tus.tarefa_id,
       th_data: dt.toFormat('yyyy-LL-dd HH:mm:ss'),
       th_usuario_id: this.tss.tus.tus_usuario_id,
@@ -229,7 +229,7 @@ export class TarefaAtualizarFormComponent implements OnInit, OnDestroy {
             if (lazy) {
               this.ts.lazy = false;
             }
-            let p: TarefaI = this.resp[3];
+            const p: TarefaI = this.resp[3];
             p.tarefa_data3 = new Date(p.tarefa_data2);
             p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
             if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {

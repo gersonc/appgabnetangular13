@@ -53,7 +53,7 @@ export class ExporterTextoComponent implements OnInit {
       'assets/css/quill/quill.bubble.css',
       'assets/css/quill/quill.snow.css'
     ]
-    let cfg: printJS.Configuration = {
+    const cfg: printJS.Configuration = {
       printable: this.es.celula.cphtml,
       css: css,
       documentTitle: this.es.celula.header,

@@ -601,7 +601,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   valido() {
-    let b = document.getElementById('btncancel');
+    const b = document.getElementById('btncancel');
     b.focus();
   }
 

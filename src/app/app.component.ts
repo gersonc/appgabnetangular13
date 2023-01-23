@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   mostraPessoal = false;
   s: Subscription;
   appconfig: AppConfig;
-  theme: string = "lara-light-blue";
+  theme = "lara-light-blue";
   subscription: Subscription;
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;

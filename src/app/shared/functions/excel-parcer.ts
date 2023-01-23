@@ -2,9 +2,9 @@ import {ColunasI} from "../../_models/colunas-i";
 
 export function ExcelParcer(valores: any[], campos: ColunasI[]): any[] {
   let dados: any[];
-  let keys: string[] = [];
-  let tamanho: any[] = [];
-  let titulos = {}
+  const keys: string[] = [];
+  const tamanho: any[] = [];
+  const titulos = {}
   campos.forEach(c => {
     keys.push(c.field);
     tamanho.push({
@@ -21,7 +21,7 @@ export function ExcelParcer(valores: any[], campos: ColunasI[]): any[] {
   dados = valores;
   // @ts-ignore
   const arrayOfKeys: (keyof dados)[] = keys;
-  let titulosTmp = {}
+  const titulosTmp = {}
   arrayOfKeys.forEach(key => {
     if (titulos[key] === undefined) {
       titulosTmp[key] = '';
@@ -64,9 +64,9 @@ export function ExcelParcer(valores: any[], campos: ColunasI[]): any[] {
 }
 
 export function ExcelParcer2(dados: any[], campos: ColunasI[]): any[] {
-  let keys: string[] = [];
-  let titulos: string[] = [];
-  let tamanho: any[] = [];
+  const keys: string[] = [];
+  const titulos: string[] = [];
+  const tamanho: any[] = [];
   campos.forEach(c => {
     keys.push(c.field);
     titulos.push(c.header);

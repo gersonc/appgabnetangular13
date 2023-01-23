@@ -86,7 +86,7 @@ export class ContaMenuListarComponent implements OnInit, OnDestroy {
   }
 
   criaBusca(): ContaBuscaI {
-    let b: ContaBuscaI = {};
+    const b: ContaBuscaI = {};
     const f = this.formMenuConta.getRawValue();
 
     if (f.cedente_array !== null && Array.isArray(f.cedente_array)) {

@@ -116,7 +116,7 @@ export class DatatableService {
     console.log('onRowExpand', evento);
     let a = 0;
     const b: any[] = [];
-    let ev = evento.data;
+    const ev = evento.data;
     this.dadosExpandidos = evento.data;
     for (const v in ev) {
       if (ev[v] !== null) {
@@ -132,7 +132,7 @@ export class DatatableService {
             let tst = '';
             // cc.push(this.titulos[n].toString());
             if (m >= 0) {
-              let keyidx: string[] = [
+              const keyidx: string[] = [
                 this.camposTexto[m],
                 this.camposTexto[m] + '_texto',
                 this.camposTexto[m] + '_delta'

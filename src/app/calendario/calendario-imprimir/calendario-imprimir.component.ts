@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit
 import {AuthenticationService} from '../../_services';
 import {Subscription} from 'rxjs';
 
-declare var jsPDF: any;
+declare let jsPDF: any;
 
 @Component({
   selector: 'app-calendario-imprimir',
@@ -38,7 +38,7 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
     // this.resp = this.config.data;
   }
 
-  montaHora(allDay: boolean = false, hora: any = null): string {
+  montaHora(allDay = false, hora: any = null): string {
     let rp = '';
     if (!allDay) {
       if (hora) {
@@ -59,7 +59,7 @@ export class CalendarioImprimirComponent implements OnInit, OnDestroy, OnChanges
     this.sub.forEach(s => s.unsubscribe());
   }
 
-  imprimir(vf: boolean = true) {
+  imprimir(vf = true) {
 
     const divToPrint = document.getElementById('divToPrint').innerHTML;
     const newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');

@@ -47,7 +47,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   acao: string | null = null;
   msg: string[] = [];
   msgErro: Message[] = [];
-  idx: number = -1;
+  idx = -1;
   titulo = 'CONFIGURAÇÕES';
   dropDown: SelectItem[] = [];
   resp: any[] = [];
@@ -61,7 +61,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
   altura = `${WindowsService.altura - 170}` + 'px';
   alterarFake = false;
   apagarFake = false;
-  btnAlterar: boolean = true;
+  btnAlterar = true;
 
   constructor(
     public cfs: ConfiguracaoService,
@@ -394,7 +394,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.apagarFake = false;
   }
 
-  onCancela(cf: ConfiguracaoRegistroI, idx: number, cancelaVF: boolean = false) {
+  onCancela(cf: ConfiguracaoRegistroI, idx: number, cancelaVF = false) {
     if (this.acao === 'editar' && cancelaVF) {
       this.listagem[idx] = this.registroOld;
     }
@@ -421,7 +421,7 @@ export class ConfiguracaoTabelaComponent implements OnInit, OnChanges, OnDestroy
     this.listagemDrop();
   }
 
-  onRowEditCancel(cf: ConfiguracaoRegistroI, idx: number, cancelaVF: boolean = false) {
+  onRowEditCancel(cf: ConfiguracaoRegistroI, idx: number, cancelaVF = false) {
     if (this.acao === 'editar' && cancelaVF) {
       this.registro[idx] = this.registroOld;
     }

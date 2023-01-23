@@ -65,7 +65,6 @@ export class FormValidations {
       'pattern': 'Campo inválido'
     };
 
-    // @ts-ignore
     return config[validatorName];
   }
 }

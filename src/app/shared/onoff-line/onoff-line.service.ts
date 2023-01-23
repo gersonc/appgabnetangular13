@@ -20,7 +20,7 @@ export class OnoffLineService {
   onoffSubject: BehaviorSubject<boolean>;
   onoff: Observable<boolean>;
   subscriptions: Subscription[] = [];
-  online: boolean = true;
+  online = true;
 
 
   constructor() {

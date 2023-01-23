@@ -17,7 +17,7 @@ export class ExporterService {
   showView = false;
 
   html: any = null;
-  tipo: string = '';
+  tipo = '';
   gerarSN = false;
   nome: string | null = null
 

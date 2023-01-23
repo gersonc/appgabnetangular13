@@ -4,7 +4,7 @@ import {nomeArquivo} from "./nome-arquivo";
 
 export function DetalhePdf(tableElements: HTMLCollectionOf<Element>, arquivoNome: string) {
   if (tableElements.length > 0) {
-    let doc = new jsPDF (
+    const doc = new jsPDF (
       {
         orientation: 'p',
         unit: 'mm',

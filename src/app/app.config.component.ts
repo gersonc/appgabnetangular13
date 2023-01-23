@@ -308,7 +308,7 @@ export class AppConfigComponent implements OnInit, OnDestroy {
 
     active: boolean;
 
-    scale: number = 14;
+    scale = 14;
     scales: number[] = [12,13,14,15,16];
 
     outsideClickListener: any;

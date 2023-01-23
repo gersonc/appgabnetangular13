@@ -21,29 +21,29 @@ export class ImpressaoBotaoComponent implements OnInit {
   imprimir() {
     this.imprimindo.emit(true);
     window.addEventListener('afterprint', (event) => {
-      let y = document.getElementById("printSection");
+      const y = document.getElementById("printSection");
       if (y) {
-        let c = document.getElementById('body');
+        const c = document.getElementById('body');
         c.removeChild(y);
       }
       window.removeEventListener('afterprint', event => {});
     });
     const ref: HTMLTableElement = this.dados[1];
-    let t = document.getElementById("printSection");
+    const t = document.getElementById("printSection");
     if (t) {
-      let b = document.getElementById('body');
-      let throwawayNode = b.removeChild(t);
+      const b = document.getElementById('body');
+      const throwawayNode = b.removeChild(t);
     }
     const tit: string = this.dados[0];
-    let printSection = document.createElement("div");
+    const printSection = document.createElement("div");
     printSection.id = "printSection";
     document.body.appendChild(printSection);
     printSection.innerHTML = "";
     printSection.appendChild(ref.cloneNode(true));
     window.print();
-    let y = document.getElementById("printSection");
+    const y = document.getElementById("printSection");
     if (y) {
-      let c = document.getElementById('body');
+      const c = document.getElementById('body');
       c.removeChild(y);
       this.imprimindo.emit(false);
     }

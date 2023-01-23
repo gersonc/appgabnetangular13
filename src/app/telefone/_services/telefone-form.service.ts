@@ -31,7 +31,7 @@ export class TelefoneFormService {
   parceTelefoneForm(t: TelefoneInterface): TelefoneFormI {
     this.telefoneListar = t;
     this.telefone = {};
-    let r: TelefoneFormI = {};
+    const r: TelefoneFormI = {};
     r.telefone_id = +t.telefone_id;
     r.telefone_tipo = +t.telefone_tipo;
     r.telefone_data = null;

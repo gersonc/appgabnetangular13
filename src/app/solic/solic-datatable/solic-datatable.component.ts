@@ -37,14 +37,14 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   histListI: HistListI;
   showHistorico = false;
   tituloHistoricoDialog = 'ANDAMENTOS';
-  histAcao: string = '';
+  histAcao = '';
   histFormI?: HistFormI;
   cssMostra: string | null = null;
-  permListHistSol: boolean = false;
-  permInclHistSol: boolean = false;
-  permListHist: boolean = false;
-  permInclHist: boolean = false;
-  permitirAcao: boolean = true;
+  permListHistSol = false;
+  permInclHistSol = false;
+  permListHist = false;
+  permInclHist = false;
+  permitirAcao = true;
   showGrafico = false;
 
   constructor(
@@ -461,7 +461,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao: boolean = true, historicos?: HistI[]) {
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao = true, historicos?: HistI[]) {
     this.tituloHistoricoDialog = (modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
     this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
     this.histAcao = acao;

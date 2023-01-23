@@ -131,7 +131,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
       this.formSol.get('solicitacao_tipo_analize').value > 0 ||
       this.formSol.get('solicitacao_tipo_analize').value < 22) {
 
-      let solicitacao = new SolicFormAnalisar();
+      const solicitacao = new SolicFormAnalisar();
       solicitacao.solicitacao_tipo_analize = this.formSol.get('solicitacao_tipo_analize').value;
       solicitacao.solicitacao_id = this.sfs.solA.solicitacao_id;
       solicitacao.solicitacao_cadastro_id = this.sfs.solA.solicitacao_cadastro_id;
@@ -284,7 +284,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
 
   verificaNumOficio(ev) {
     if (this.sfs.solA.solicitacao_numero_oficio !== this.formSol.get('solicitacao_numero_oficio').value) {
-      let of = this.formSol.get('solicitacao_numero_oficio').value;
+      const of = this.formSol.get('solicitacao_numero_oficio').value;
       if (of.length > 0) {
         let resp: any[] = [];
         const dados: any = {
@@ -302,7 +302,7 @@ export class SolicAnalisarComponent implements OnInit, OnDestroy {
   }
 
   verificaNumProcesso(ev) {
-    let np = this.formSol.get('processo_numero').value;
+    const np = this.formSol.get('processo_numero').value;
     let nPro = '';
     if (typeof this.sfs.solA.processo_numero !== 'undefined' &&
       this.sfs.solA.processo_numero !== null &&

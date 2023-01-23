@@ -430,7 +430,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     }
     if (this.formCadastro.get('cadastro_endereco').value !== null && +this.formCadastro.get('cadastro_endereco').value.toString().length >= 3) {
       // let e: string  = this.formCadastro.get('cadastro_endereco').value.toUpperCase();
-      let e: string = this.getEndereco();
+      const e: string = this.getEndereco();
       logradouro = e.replace(/[^a-zA-Z0–9ÀÁÃÂÉÊÍÓÕÔÚÜÇ _]/g, '');
     }
     if (uf !== '' && cidade !== '' && logradouro !== '') {
@@ -490,7 +490,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   criarEnvio(): CadastroFormI {
-    let c: CadastroFormI = {};
+    const c: CadastroFormI = {};
     if (this.cfs.acao === 'incluir') {
       this.cfs.i.forEach((cp) => {
         if (this.formCadastro.get(cp).value !== null) {
@@ -852,7 +852,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
   }
 
   atualizarCadastro() {
-    let cad: CadastroI = this.resp[3];
+    const cad: CadastroI = this.resp[3];
     if (this.arquivos.length > 0) {
       cad.cadastro_arquivos.push(...this.arquivos);
     }

@@ -157,7 +157,7 @@ export class EmendaService {
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
     const cl: CelulaI[] = [];
-    let ev = evento.data;
+    const ev = evento.data;
     this.has.histFormI = {
       hist: {
         historico_emenda_id: +evento.data.emenda_id
@@ -166,7 +166,7 @@ export class EmendaService {
     this.titulos.forEach(t => {
       if (ev[t.field] !== undefined && ev[t.field] !== null) {
         if (ev[t.field].length > 0) {
-          let celula: CelulaI = {
+          const celula: CelulaI = {
             header: t.titulo,
             field: t.field,
             valor: ev[t.field],
@@ -275,7 +275,7 @@ export class EmendaService {
     }
 
     if (n === 3) {
-      let busca: EmendaBuscaI = this.busca;
+      const busca: EmendaBuscaI = this.busca;
       busca.rows = undefined;
       busca.campos = this.tabela.selectedColumns;
       busca.todos = true;
@@ -323,7 +323,7 @@ export class EmendaService {
         );
       }
       if (n === 3) {
-        let busca: EmendaBuscaI = this.busca;
+        const busca: EmendaBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns,
           busca.todos = true;
@@ -352,11 +352,11 @@ export class EmendaService {
     }
   }
 
-  exportToXLSX(td: number = 1) {
+  exportToXLSX(td = 1) {
 
     if (td === 3) {
       if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
-        let busca: EmendaBuscaI = this.busca;
+        const busca: EmendaBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = true;
@@ -388,10 +388,10 @@ export class EmendaService {
     }
   }
 
-  exportToCsvTodos(td: boolean = true) {
+  exportToCsvTodos(td = true) {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (td === true) {
-        let busca: EmendaBuscaI = this.busca;
+        const busca: EmendaBuscaI = this.busca;
         busca.rows = undefined;
         busca.campos = this.tabela.selectedColumns;
         busca.todos = td;
@@ -423,7 +423,7 @@ export class EmendaService {
       this.tabela.sortField = (this.tabela.sortField === 'emenda_data_solicitacao') ? 'emenda_data_solicitacao3' : (this.tabela.sortField === 'emenda_data_empenho') ? 'emenda_data_empenho3' : (this.tabela.sortField === 'emenda_data_pagamento') ? 'emenda_data_pagamento3' : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
-        let tmp = this.emendas;
+        const tmp = this.emendas;
         if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
           this.busca.sortOrder = +this.tabela.sortOrder;
           if (+this.tabela.sortOrder === 1) {
@@ -460,7 +460,7 @@ export class EmendaService {
         .subscribe({
           next: (dados) => {
             this.emendas = dados.emendas.map((t) => {
-              let p: EmendaListarI = t;
+              const p: EmendaListarI = t;
               p.emenda_data_solicitacao3 = new Date(t.emenda_data_solicitacao2);
               if (t.emenda_data_empenho2 !== undefined && t.emenda_data_empenho2 !== null) {
                 p.emenda_data_empenho3 = new Date(t.emenda_data_empenho2);
@@ -579,7 +579,7 @@ export class EmendaService {
 
   mudaRowsPerPageOptions(t: number) {
     let anterior = 50;
-    let teste = [50];
+    const teste = [50];
     while (anterior < t) {
       anterior = anterior * 2;
       teste.push(anterior);
@@ -605,7 +605,7 @@ export class EmendaService {
 
   calcular() {
     this.totais = [];
-    let tt: EmendaListarI = {};
+    const tt: EmendaListarI = {};
     this.colunas.forEach( f => {
       tt[f] = null;
     });
@@ -625,7 +625,7 @@ export class EmendaService {
 
   trocaColunas(cols: any[]): any[] {
     return cols.map(c => {
-      let t = c;
+      const t = c;
       t.field = (this.colsTrocar.indexOf(t.field) !== -1) ? t.field + '3' : t.field;
       return t;
     });

@@ -23,7 +23,7 @@ export class HistService {
   incluir(dados: HistFormI): Observable<any[]> {
     console.log('dados', dados);
     const envio: HistI = dados.hist;
-    let url: string = '';
+    let url = '';
     if (dados.modulo === 'solicitacao') {
       url = this.url.historicoSolicitacao;
     }
@@ -40,7 +40,7 @@ export class HistService {
 
   alterar(dados: HistFormI): Observable<any[]> {
     const envio: HistI = dados.hist;
-    let url: string = '';
+    let url = '';
     if (dados.modulo === 'solicitacao') {
       url = this.url.historicoSolicitacao;
     }
@@ -56,7 +56,7 @@ export class HistService {
 
 
   delete(id: number, modulo: string): Observable<any[]> {
-    let url: string = '';
+    let url = '';
     if (modulo === 'solicitacao') {
       url = this.url.historicoSolicitacao + '/' + id;
     }

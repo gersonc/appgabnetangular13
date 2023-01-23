@@ -137,7 +137,7 @@ export class EmendaAtualizarComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    let envio = this.criaEnvio();
+    const envio = this.criaEnvio();
     if (envio) {
       this.botaoEnviarVF = false;
       this.mostraForm = true;
@@ -200,7 +200,7 @@ export class EmendaAtualizarComponent implements OnInit, OnDestroy {
   }
 
   criaEnvio(): EmendaAtualizarI {
-    let e = new EmendaAtualizar();
+    const e = new EmendaAtualizar();
     e.emenda_id = this.efs.emendaAt.emenda_id;
     e.emenda_situacao_id = +this.formEmenda.get('emenda_situacao_id').value;
     if (this.formEmenda.get('emenda_valor_empenhado').value !== null) {

@@ -19,7 +19,7 @@ export class TabelaPdfService {
   constructor() { }
 
   public static getDataNomeArquivo(): string {
-    let d = new Date();
+    const d = new Date();
     let h = '';
     h += (d.getDate() > 9) ? d.getDate().toString() : '0' + d.getDate().toString();
     h += (d.getMonth() > 9) ? d.getMonth().toString() : '0' + d.getMonth().toString();
@@ -30,7 +30,7 @@ export class TabelaPdfService {
     return h;
   }
 
-  public static tabelaPdf(nomeArquivo: string, titulo: string, colunas: any[], valores: any[], campoTexto: string[] = [], vertical: boolean = false) {
+  public static tabelaPdf(nomeArquivo: string, titulo: string, colunas: any[], valores: any[], campoTexto: string[] = [], vertical = false) {
     if (campoTexto.length === 0) {
       TabelaPdfService.getTabelaPdf(nomeArquivo, titulo, colunas, valores, vertical);
     } else {
@@ -44,7 +44,7 @@ export class TabelaPdfService {
     }
   }
 
-  public static getTabelaPdf(nomeArquivo: string, titulo: string, colunas: any[], valores: any[], vertical: boolean = false) {
+  public static getTabelaPdf(nomeArquivo: string, titulo: string, colunas: any[], valores: any[], vertical = false) {
     const colums: ColumnsInterface[] = colunas.map(col => ({header: col.header, dataKey: col.field}));
 
     let doc: any|null = null;
@@ -68,7 +68,7 @@ export class TabelaPdfService {
       );
     }
 
-    let totalPagesExp = '{total_pages_count_string}';
+    const totalPagesExp = '{total_pages_count_string}';
 
     doc.setFontSize(15);
     doc.text(titulo.toUpperCase(), 15, 15);
@@ -124,9 +124,9 @@ export class TabelaPdfService {
         doc.setFontSize(8);
 
         // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-        let pageSize = doc.internal.pageSize;
-        let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-        let pageWidth = pageSize.width ? pageSize.width : doc.internal.pageSize.getWidth;
+        const pageSize = doc.internal.pageSize;
+        const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+        const pageWidth = pageSize.width ? pageSize.width : doc.internal.pageSize.getWidth;
         doc.text(str, pageWidth - 34, pageHeight - 10);
         doc.setFontSize(9);
       }

@@ -128,7 +128,7 @@ export function get_html_translation_table(table, quoteStyle): any {
     entities['253'] = '&yacute;'
     entities['254'] = '&thorn;'
     entities['255'] = '&yuml;'
-  };
+  }
 
   if (useQuoteStyle !== 'ENT_NOQUOTES') {
     entities['34'] = '&quot;';

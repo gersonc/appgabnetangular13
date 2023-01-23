@@ -55,7 +55,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
   stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
   titulo = 'EMENDA - INCLUIR';
   readonly = false;
-  checked: boolean = false;
+  checked = false;
   fc: any;
   cpoEditor: CpoEditor[] | null = [];
   format0: 'html' | 'object' | 'text' | 'json' = 'html';
@@ -461,7 +461,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
   }
 
   criaEnvio(): EmendaFormI {
-    let e = new EmendaForm();
+    const e = new EmendaForm();
     if (this.efs.acao === 'alterar') {
       e.emenda_id = this.efs.emenda.emenda_id;
     }

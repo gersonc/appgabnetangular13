@@ -14,8 +14,8 @@ import {OnlineService} from "../../../_services/online.service";
 })
 export class PessoalComponent implements OnInit, OnDestroy {
 
-  num: number = 0;
-  nm: string = '0';
+  num = 0;
+  nm = '0';
   ativo = 1;
   intervalo = 600000;
   total = 0;
@@ -34,7 +34,7 @@ export class PessoalComponent implements OnInit, OnDestroy {
 
 
   pullMenssagems() {
-    let mm: MensagemI[] = [];
+    const mm: MensagemI[] = [];
     if (this.ol.isOnline) {
       this.sub.push(this.msm.getMensagemNLidas()
         .pipe(take(1))

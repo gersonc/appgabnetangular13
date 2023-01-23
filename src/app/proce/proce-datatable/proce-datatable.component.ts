@@ -39,15 +39,15 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   histListI: HistListI;
   showHistorico = false;
   tituloHistoricoDialog = 'ANDAMENTOS';
-  histAcao: string = '';
+  histAcao = '';
   histFormI?: HistFormI;
   cssMostra: string | null = null;
-  permListHistSol: boolean = false;
-  permInclHistSol: boolean = false;
-  permListHist: boolean = false;
-  permInclHist: boolean = false;
-  permitirAcao: boolean = true;
-  idx: number = 0;
+  permListHistSol = false;
+  permInclHistSol = false;
+  permListHist = false;
+  permInclHist = false;
+  permitirAcao = true;
+  idx = 0;
   showGrafico = false;
 
   constructor(
@@ -100,7 +100,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       },
       {
         label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          ;
+          
           this.ps.tabelaPdf(2);
         }
       },
@@ -403,7 +403,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
 
   //  HISTIRICO - ANDAMENTO ***********************************************************
 
-  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao: boolean = true, historicos?: HistI[]) {
+  historicoAcao(registro_id: number, acao: string, modulo: string, idx: number, permitirAcao = true, historicos?: HistI[]) {
     this.tituloHistoricoDialog = (modulo === 'solicitacao') ? 'SOLICITAÇÃO - ' : 'PROCESSO - ';
     this.tituloHistoricoDialog += acao.toUpperCase() + ' ANDAMENTOS';
     this.histAcao = acao;

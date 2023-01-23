@@ -23,9 +23,9 @@ export class OficioAnalisarComponent implements OnInit {
   acao = '';
   resp: any[];
   sub: Subscription[] = [];
-  def: boolean = false;
-  indef: boolean = false;
-  emand: boolean = false;
+  def = false;
+  indef = false;
+  emand = false;
   botoesDesativados = false;
   botaoEnviarInativo = false;
   ddOficioStatusId: SelectItem[] = [];

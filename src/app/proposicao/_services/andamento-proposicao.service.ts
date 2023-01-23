@@ -10,8 +10,8 @@ import {AndamentoProposicaoFormI, AndamentoProposicaoI, AndPropI} from "../_mode
 export class AndamentoProposicaoService {
   apListar: AndamentoProposicaoI[] | null = null;
   ap: AndamentoProposicaoI | null = null;
-  proposicao_id: number = 0;
-  idx: number = -1;
+  proposicao_id = 0;
+  idx = -1;
   andPropForm: AndPropI | null = null;
   andPropList: AndPropI | null = null;
 

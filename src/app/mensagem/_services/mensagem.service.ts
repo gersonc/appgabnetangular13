@@ -156,7 +156,7 @@ export class MensagemService {
       this.tabela.sortField = 'mensagem_data3';
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
-        let tmp = this.mensagens;
+        const tmp = this.mensagens;
         if (+this.busca.sortOrder !== +this.tabela.sortOrder && this.busca.sortField === this.tabela.sortField) {
           // if (+this.busca.sortOrder !== +this.tabela.sortOrder) {
           this.busca.sortOrder = +this.tabela.sortOrder;
@@ -196,7 +196,7 @@ export class MensagemService {
         .subscribe({
           next: (dados) => {
             this.mensagens = dados.mensagens.map((t) => {
-              let p: MensagemListagemI = t;
+              const p: MensagemListagemI = t;
               p.mensagem_data3 = new Date(t.mensagem_data2);
               return p;
             });
@@ -265,7 +265,7 @@ export class MensagemService {
 
   mudaRowsPerPageOptions(t: number) {
     let anterior = 50;
-    let teste = [50];
+    const teste = [50];
     while (anterior < t) {
       anterior = anterior * 2;
       teste.push(anterior);

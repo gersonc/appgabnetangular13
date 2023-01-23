@@ -475,7 +475,7 @@ export class TarefaDatatableComponent implements OnInit {
   }
 
   teste(): boolean {
-    let el = document.querySelector("div.p-datatable-scrollable-view");// p-datatable-scrollable-view
+    const el = document.querySelector("div.p-datatable-scrollable-view");// p-datatable-scrollable-view
     el.setAttribute('id', 'pagimprimir');
     return true;
   }

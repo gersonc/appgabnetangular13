@@ -8,7 +8,7 @@ export class ErroOpenWindowService {
   constructor() { }
 
   mostraErro(erro: any[]) {
-    let mywindow = window.open('', '_blank', 'height=800,width=600');
+    const mywindow = window.open('', '_blank', 'height=800,width=600');
     mywindow.document.write('<html><head><title>ERRO</title>');
     //mywindow.document.write('<style>' + css  + '</style>');
     mywindow.document.write('</head><body >');

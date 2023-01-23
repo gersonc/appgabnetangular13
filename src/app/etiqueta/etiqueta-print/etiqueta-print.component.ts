@@ -105,11 +105,11 @@ export class EtiquetaPrintComponent implements OnInit {
 
 
     while (this.ecs.cadastro.length !== 0) {
-      let tb: TabelaI = {
+      const tb: TabelaI = {
         linhas: []
       };
       while (tb.linhas.length < this.etq.etq_linhas) {
-        let ln: LinhaI = {
+        const ln: LinhaI = {
           celulas: []
         };
         while (ln.celulas.length < this.etq.etq_colunas) {
@@ -201,7 +201,7 @@ export class EtiquetaPrintComponent implements OnInit {
   }
 
   getCss(): string {
-    let css: string =
+    const css =
       `
 @page {
   background: white;

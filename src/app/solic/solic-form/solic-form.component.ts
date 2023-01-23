@@ -61,7 +61,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
   stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
   titulo = 'SOLICITAÇÃO - INCLUIR';
   readonly = false;
-  checked: boolean = false;
+  checked = false;
   solicitacao_tipo_analize = 0;
 
   fc: any;
@@ -696,7 +696,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
 
   verificaNumOficio(ev) {
     if (this.sfs.solicitacao.solicitacao_numero_oficio !== this.formSol.get('solicitacao_numero_oficio').value) {
-      let of = this.formSol.get('solicitacao_numero_oficio').value;
+      const of = this.formSol.get('solicitacao_numero_oficio').value;
       if (of.length > 0) {
         let resp: any[] = [];
         const dados: any = {
@@ -713,7 +713,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
   }
 
   verificaNumProcesso(ev) {
-    let np = this.formSol.get('processo_numero').value;
+    const np = this.formSol.get('processo_numero').value;
     let nPro = '';
     if (typeof this.sfs.solicitacao.processo_numero !== 'undefined' &&
       this.sfs.solicitacao.processo_numero !== null &&

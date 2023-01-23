@@ -10,8 +10,8 @@ export class TarefaSituacaoService {
   ddTarefa_situacao_id: SelectItem[] = [];
   tarefa?: TarefaI | null = null;
   tus: TarefaUsuarioSituacaoI | null = null;
-  exibir: boolean = false;
-  index: number = -1;
+  exibir = false;
+  index = -1;
   usuario_id = 0;
   tarefa_usuario_autor_id = 0;
 

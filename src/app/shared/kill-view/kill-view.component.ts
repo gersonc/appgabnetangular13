@@ -61,7 +61,7 @@ export class KillViewComponent implements OnInit, OnChanges {
       'assets/css/quill/quill.bubble.css',
       'assets/css/quill/quill.snow.css'
     ]
-    let cfg: printJS.Configuration = {
+    const cfg: printJS.Configuration = {
       printable: this.kill.html,
       css: css,
       repeatTableHeader: false,

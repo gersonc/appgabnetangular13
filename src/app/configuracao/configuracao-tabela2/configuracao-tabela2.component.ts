@@ -60,7 +60,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   acao: string | null = null;
   msg: string[] = [];
   msgErro: Message[] = [];
-  idx: number = -1;
+  idx = -1;
   titulo = 'CONFIGURAÇÕES';
   dropDown: SelectItem[] | SelectItemGroup[] = [];
   resp: any[] = [];
@@ -74,7 +74,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   altura = `${WindowsService.altura - 170}` + 'px';
   alterarFake = false;
   apagarFake = false;
-  btnAlterar: boolean = true;
+  btnAlterar = true;
 
   ddtipo: SelectItem[] = [
     {label: 'PESSOA FISICA', value: 1}, {label: 'PESSOA JURIDICA', value: 2}
@@ -227,7 +227,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.apagarFake = false;
   }
 
-  onCancela(cf: Configuracao2RegistroI, idx: number, cancelaVF: boolean = false) {
+  onCancela(cf: Configuracao2RegistroI, idx: number, cancelaVF = false) {
     if (this.acao === 'editar' && cancelaVF) {
       this.listagem[idx] = this.registroOld;
     }
@@ -254,7 +254,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
     this.listagemDrop();
   }
 
-  onRowEditCancel(cf: Configuracao2RegistroI, idx: number, cancelaVF: boolean = false) {
+  onRowEditCancel(cf: Configuracao2RegistroI, idx: number, cancelaVF = false) {
     if (this.acao === 'editar' && cancelaVF) {
       this.registro[idx] = this.registroOld;
     }
@@ -1033,13 +1033,13 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
   }
 
   setForegroundColor(cor: string) {
-    let rgb = this.hexToRGB(cor, false);
-    let sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+    const rgb = this.hexToRGB(cor, false);
+    const sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
     return (sum > 128) ? 'black' : 'white';
   }
 
   hexToRGB(h, isPct) {
-    let ex = /^#([\da-f]{3}){1,2}$/i;
+    const ex = /^#([\da-f]{3}){1,2}$/i;
     if (ex.test(h)) {
       let r: any = 0, g: any = 0, b: any = 0;
       isPct = isPct === true;

@@ -3,14 +3,14 @@ import {striptags} from "striptags";
 import {html_entity_decode} from "./html-entity";
 
 export function pdfTabelaCampoTexto (colunas: ColunasI[], campoTexto: string[], dados: any[]): any[] {
-  let cps: ColunasI[] = [];
+  const cps: ColunasI[] = [];
   colunas.forEach( (c, i) => {
     if (campoTexto.indexOf(c.field) !== -1) {
       cps.push(c);
     }
   });
   if (cps.length > 0) {
-    let ctmp: any[] = [];
+    const ctmp: any[] = [];
     cps.forEach(c => {
       ctmp.push({htm: c.field, txt: c.field + '_texto'});
     });

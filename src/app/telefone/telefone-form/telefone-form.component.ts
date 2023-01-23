@@ -189,7 +189,7 @@ export class TelefoneFormComponent implements OnInit, OnDestroy{
 
   onUpload(ev) {
     if (ev) {
-      let t: TelefoneInterface = this.resp[2]
+      const t: TelefoneInterface = this.resp[2]
       t.telefone_data3 = new Date(t.telefone_data2.replace(' ', 'T'));
       this.ts.tabela.totalRecords++;
       this.ts.telefones.push(t);
@@ -215,7 +215,7 @@ export class TelefoneFormComponent implements OnInit, OnDestroy{
 
   criaEnvio(): boolean {
     this.tel = {};
-    let tel: TelefoneFormI = {};
+    const tel: TelefoneFormI = {};
     const t: any = this.formTelefone.getRawValue();
     this.mostraForm = false;
     this.botaoEnviarVF = false;
@@ -368,7 +368,7 @@ export class TelefoneFormComponent implements OnInit, OnDestroy{
               this.arquivo_registro_id = +this.resp[1];
               this.enviarArquivos = true;
             } else {
-              let t: TelefoneInterface = this.resp[2]
+              const t: TelefoneInterface = this.resp[2]
               t.telefone_data3 = new Date(t.telefone_data2.replace(' ', 'T'));
               this.ts.tabela.totalRecords++;
               this.ts.telefones.push(t);
@@ -416,7 +416,7 @@ export class TelefoneFormComponent implements OnInit, OnDestroy{
         },
         complete: () => {
           if (this.resp[0]) {
-            let t: TelefoneInterface = this.resp[2]
+            const t: TelefoneInterface = this.resp[2]
             t.telefone_data3 = new Date(t.telefone_data2.replace(' ', 'T'));
             this.ts.telefones[this.ts.idx] = t;
             const c = {

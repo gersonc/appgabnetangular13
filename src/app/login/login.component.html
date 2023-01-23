@@ -2,83 +2,83 @@
   <h1>SEM CONEXÃO.</h1>
 </div>
 <div class="formulario home">
-  <div class="p-fluid formulario-bg-externo" style="padding-top: 5vh; padding-bottom: 5vh">
+  <div class="field formulario-bg-externo" style="padding-top: 5vh; padding-bottom: 5vh">
 
     <div class="p-grid">
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+      <div class="col-10 p-offset-1 mt-0 b-0 formulario-bg-interno">
         <div class="p-grid">
-          <div class="p-col-12 p-xl-12 p-lg-12 p-md-12 p-sm-12">
-            <div class="p-d-flex p-jc-center" style="height: 80vh;">
+          <div class="col-12 xl:col-12 lg:col-12 md:col-12 sm:col-12">
+            <div class="flex justify-content-center" style="height: 80vh;">
 
               <div class="loginbox">
 
-              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="on">
-                <div class="p-fluid">
-                  <div class="p-field p-p-2" [ngClass]="aplicaCssErro('username')">
-                    <label for="username">E-mail</label>
-                    <input
-                      pInputText
-                      type="email"
-                      class="form-control"
-                      formControlName="username"
-                      id="username"
-                      autocomplete="email"
-                      placeholder="E-mail"
-                      autofocus
-                      [ngClass]="aplicaCssErro('username')"
-                    >
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
-                                            msgErro="Login é obrigatório.">
-                    </app-campo-control-erro>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
-                                            msgErro="Login menor que 7 caracteres.">
-                    </app-campo-control-erro>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="on">
+                  <div class="field">
+                    <div class="field p-2" [ngClass]="aplicaCssErro('username')">
+                      <label for="username">E-mail</label>
+                      <input
+                        pInputText
+                        type="email"
+                        class="form-control"
+                        formControlName="username"
+                        id="username"
+                        autocomplete="email"
+                        placeholder="E-mail"
+                        autofocus
+                        [ngClass]="aplicaCssErro('username')"
+                      >
+                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
+                                              msgErro="Login é obrigatório.">
+                      </app-campo-control-erro>
+                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('username')"
+                                              msgErro="Login menor que 7 caracteres.">
+                      </app-campo-control-erro>
+                    </div>
+                    <div class="field p-2">
+                      <label for="password">Senha</label>
+                      <input
+                        pInputText
+                        type="password"
+                        formControlName="password"
+                        autocomplete="current-password"
+                        id="password"
+                        placeholder="Senha"
+                        [ngClass]="aplicaCssErro('password')"
+                      >
+                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
+                                              msgErro="Senha é obrigatória.">
+                      </app-campo-control-erro>
+                      <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
+                                              msgErro="Senha menor que 7 caracteres.">
+                      </app-campo-control-erro>
+                    </div>
                   </div>
-                  <div class="p-field p-p-2">
-                    <label for="password">Senha</label>
-                    <input
-                      pInputText
-                      type="password"
-                      formControlName="password"
-                      autocomplete="current-password"
-                      id="password"
-                      placeholder="Senha"
-                      [ngClass]="aplicaCssErro('password')"
-                    >
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
-                                            msgErro="Senha é obrigatória.">
-                    </app-campo-control-erro>
-                    <app-campo-control-erro [mostrarErro]="verificaValidTouched('password')"
-                                            msgErro="Senha menor que 7 caracteres.">
-                    </app-campo-control-erro>
+                  <div class="p-formgroup-inline">
+                    <div class="field">
+                      <button
+                        pButton
+                        appOffline
+                        type="submit"
+                        class="p-button-rounded"
+                        [disabled]="mostraForm"
+                        label="Enviar"
+                      ></button>
+                    </div>
+                    <!--<div class="field">
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-rounded p-button-secondary"
+                        (click)="resetar()"
+                        label="Cancelar"
+                      ></button>
+                    </div>-->
+
                   </div>
-                </div>
-                <div class="p-formgroup-inline">
-                  <div class="p-field">
-                    <button
-                      pButton
-                      appOffline
-                      type="submit"
-                      class="p-button-rounded"
-                      [disabled]="mostraForm"
-                      label="Enviar"
-                    ></button>
-                  </div>
-                  <!--<div class="p-field">
-                    <button
-                      pButton
-                      type="button"
-                      class="p-button-rounded p-button-secondary"
-                      (click)="resetar()"
-                      label="Cancelar"
-                    ></button>
-                  </div>-->
-
-                </div>
 
 
 
-              </form>
+                </form>
 
               </div>
 

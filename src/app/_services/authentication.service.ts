@@ -266,8 +266,8 @@ export class AuthenticationService {
   private user$?: Observable<User>;
   private mostraMenuSource =  new BehaviorSubject<boolean>(false);
   public mostraMenu$ = this.mostraMenuSource.asObservable();
-  public token: string = '';
-  public refleshToken: string = '';
+  public token = '';
+  public refleshToken = '';
   public vfToken = false;
   // public futuro?: Date;
   public expires?: Date;
@@ -303,7 +303,7 @@ export class AuthenticationService {
 
   descreveAcesso(valor: string): string[] {
     const n = valor.length;
-    let r: string[] = [];
+    const r: string[] = [];
     for (let i = 0; i < n; i++) {
       if (valor[i] === '1') {
         r.push(this.acessoStr[i]);
@@ -314,7 +314,7 @@ export class AuthenticationService {
 
   descreveRule(valor: string): string[] {
     const n = valor.length;
-    let r: string[] = [];
+    const r: string[] = [];
     for (let i = 0; i < n; i++) {
       if (valor[i] === '1') {
         r.push(this.acessoRule[i]);

@@ -120,7 +120,7 @@ export class TarefaMenuListarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   criaBusca(): TarefaBuscaI {
-    let b: TarefaBuscaI = {};
+    const b: TarefaBuscaI = {};
     const f = this.formMenuTarefa.getRawValue();
 
     if (f.tarefa_titulo !== null) {

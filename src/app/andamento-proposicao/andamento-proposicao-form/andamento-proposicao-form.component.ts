@@ -39,11 +39,11 @@ export class AndamentoProposicaoFormComponent implements OnInit, OnChanges, OnDe
   @Output() dialogExterno = new EventEmitter<boolean>();
   @Output() novoRegistro = new EventEmitter<ProposicaoListarI>();
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() display: boolean = false;
+  @Input() display = false;
   @Input() andamento_proposicao_proposicao_id: number;
   @Input() idx: number;
   @Output() apListarChange = new EventEmitter<AndamentoProposicaoI[]>();
-  @Input() listarVF: boolean = false;
+  @Input() listarVF = false;
   @Input() acao: string;
   @Input() andamento?: AndamentoProposicaoI;
   @Input() proposicao: ProposicaoListarI;
@@ -128,7 +128,7 @@ export class AndamentoProposicaoFormComponent implements OnInit, OnChanges, OnDe
       this.dtjs = this.dt.toJSDate();
     }
     this.andamentoClone = a;
-    let form: AndamentoProposicaoFormI = {};
+    const form: AndamentoProposicaoFormI = {};
     form.andamento_proposicao_id = a.andamento_proposicao_id;
     form.andamento_proposicao_proposicao_id = a.andamento_proposicao_proposicao_id;
     form.andamento_proposicao_data2 = a.andamento_proposicao_data2;
@@ -149,7 +149,7 @@ export class AndamentoProposicaoFormComponent implements OnInit, OnChanges, OnDe
   criaIncluir(id: number): AndamentoProposicaoFormI {
     this.dt = DateTime.now().setZone('America/Sao_Paulo');
     this.dtjs = this.dt.toJSDate();
-    let form: AndamentoProposicaoFormI = {};
+    const form: AndamentoProposicaoFormI = {};
     form.andamento_proposicao_proposicao_id = id;
     form.andamento_proposicao_data2 = null;
     form.andamento_proposicao_data = null;
@@ -198,7 +198,7 @@ export class AndamentoProposicaoFormComponent implements OnInit, OnChanges, OnDe
   }
 
   criaEnvio(): AndamentoProposicaoFormI {
-    let e: AndamentoProposicaoFormI = {};
+    const e: AndamentoProposicaoFormI = {};
     const tmp0: DateTime = DateTime.fromJSDate(this.formAnd.get('andamento_proposicao_data').value);
     e.andamento_proposicao_proposicao_id = this.form.andamento_proposicao_proposicao_id;
     if (this.acao === 'alterar') {

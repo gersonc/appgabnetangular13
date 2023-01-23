@@ -5,7 +5,7 @@ export function helperAdicionaCamposTexto (busca: any, colunas: ColunasI[],  cam
   if (camposTexto.length === 0) {
     return busca;
   }
-  let col: ColunasI[] = [];
+  const col: ColunasI[] = [];
   colunas.forEach((cl) => {
     col.push(cl);
     if (camposTexto.indexOf(cl.field) !== -1) {
@@ -26,7 +26,7 @@ export function helperAdicionaCamposDelta (busca: any, colunas: ColunasI[],  cam
   if (camposTexto.length === 0) {
     return busca;
   }
-  let col: ColunasI[] = [];
+  const col: ColunasI[] = [];
   colunas.forEach((cl) => {
     col.push(cl);
     if (camposTexto.indexOf(cl.field) !== -1) {
@@ -47,7 +47,7 @@ export function helperAdicionaCamposTextoDelta (busca: any, colunas: ColunasI[],
   if (camposTexto.length === 0) {
     return busca;
   }
-  let col: ColunasI[] = [];
+  const col: ColunasI[] = [];
   colunas.forEach((cl) => {
     col.push(cl);
     if (camposTexto.indexOf(cl.field) !== -1) {

@@ -25,7 +25,7 @@ import {CalBusca, Evento} from "./_models/calendario";
 import {SelectItem} from "primeng/api";
 import {MsgService} from "../_services/msg.service";
 
-declare var jsPDF: any;
+declare let jsPDF: any;
 
 @Component({
   selector: 'app-calendario',
@@ -47,7 +47,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   sub: Subscription[] = [];
   info: any;
 
-  public titulo: String;
+  public titulo: string;
   offsetX: number;
   offsetY: number;
   altura: number;
@@ -416,7 +416,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (info.event.allDay) {
-      const dur: string = 'Dia inteiro';
+      const dur = 'Dia inteiro';
       ev.duracao = dur;
       ev.tempo = dur;
     } else {

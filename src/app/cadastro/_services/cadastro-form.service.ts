@@ -11,7 +11,7 @@ export class CadastroFormService {
   cadastroListar: CadastroI | null = null;
   cadastro: CadastroFormI | null = null;
   acao?: string | null = null;
-  idx: number = -1;
+  idx = -1;
   btnEnviar = true;
   i: string[] = [
     'cadastro_tipo_id',

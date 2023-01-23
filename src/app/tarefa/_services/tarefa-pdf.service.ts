@@ -43,7 +43,7 @@ export class TarefaPdfService {
 
   getTabelaPdf(valores: any[], colunas: ColumnInput[], largura: number) {
     let contador = 0;
-    let total: number = valores.length;
+    const total: number = valores.length;
     let autoTable: autoTable;
     let doc: jsPDFCustom;
 
@@ -69,7 +69,7 @@ export class TarefaPdfService {
 
 
 
-    let totalPagesExp = '{total_pages_count_string}';
+    const totalPagesExp = '{total_pages_count_string}';
     doc.setFontSize(13);
     doc.text('TAREFAS', 40, 39);
     doc.setFontSize(9);
@@ -157,7 +157,7 @@ export class TarefaPdfService {
           if (data.column.dataKey === 'tarefa_usuario_situacao') {
             contador = data.row.index;
             if (Array.isArray(data.row.raw['tarefa_usuario_situacao'])) {
-              let dc = data.doc;
+              const dc = data.doc;
               dc.autoTable(
                 {
                   columns: [
@@ -212,7 +212,7 @@ export class TarefaPdfService {
           }
           if (data.column.dataKey === 'tarefa_usuario_situacao_andamento') {
             if (Array.isArray(data.row.raw['tarefa_usuario_situacao_andamento'])) {
-              let dados: any[] = [];
+              const dados: any[] = [];
               data.row.raw['tarefa_usuario_situacao_andamento'].forEach((d: TarefaUsuarioSituacaoAndamentoI) => {
                 const u: TarefaHistoricoI2 = {
                   th_data: d.tu_usuario_nome,
@@ -222,17 +222,17 @@ export class TarefaPdfService {
                   usuarioSn: true
                 }
                 const h2: TarefaHistoricoI2[] = d.tarefa_historico.map(h => {
-                  let hh: TarefaHistoricoI2 = h;
+                  const hh: TarefaHistoricoI2 = h;
                   hh.situacao_id = 0;
                   hh.usuarioSn = false;
                   return hh;
                 })
-                let h: TarefaHistoricoI2[] = h2.reverse();
+                const h: TarefaHistoricoI2[] = h2.reverse();
                 h.push(u);
                 h.reverse();
                 dados.push(...h);
               });
-              let da = data.doc;
+              const da = data.doc;
               da.autoTable(
                 {
                   columns: [
@@ -305,9 +305,9 @@ export class TarefaPdfService {
         hookData.doc.setFontSize(8);
 
         // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-        let pageSize = hookData.doc.internal.pageSize;
-        let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-        let pageWidth = pageSize.width ? pageSize.width : hookData.doc.internal.pageSize.getWidth;
+        const pageSize = hookData.doc.internal.pageSize;
+        const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+        const pageWidth = pageSize.width ? pageSize.width : hookData.doc.internal.pageSize.getWidth;
         hookData.doc.text(str, pageWidth - 100, pageHeight - 10);
         hookData.doc.setFontSize(9);
       }
@@ -327,7 +327,7 @@ export class TarefaPdfService {
 
   getColumsns(campos: ColunasI[], tit: ITitulos[]): [number, ColumnInput[]] {
     let tableWidth = 0;
-    let colunms = campos.map((col) => {
+    const colunms = campos.map((col) => {
       tableWidth += +col.width.replace('px', '') * 0.9;
       const c: ColumnInput = {
         dataKey: col.field,

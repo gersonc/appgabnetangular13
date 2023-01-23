@@ -404,7 +404,7 @@ export class OficioIncluirComponent implements OnInit {
   }
 
   criaOficio(): OficioFormulario  {
-    let o = new OficioFormulario();
+    const o = new OficioFormulario();
     console.log('lb',this.lb);
     if (this.ofs.processo_id === 0) {
       o.oficio_processo_id = +this.formOfIncluir.get('oficio_processo_id').value;

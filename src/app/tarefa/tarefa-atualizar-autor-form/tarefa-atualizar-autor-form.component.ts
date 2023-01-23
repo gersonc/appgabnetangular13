@@ -104,17 +104,17 @@ export class TarefaAtualizarAutorFormComponent implements OnInit, OnDestroy {
   }
 
   criaEnvio(): TarefaAutorSituacaoFormI {
-    let mudaTarefaSN = false;
-    let envio: TarefaAutorSituacaoFormI = {};
+    const mudaTarefaSN = false;
+    const envio: TarefaAutorSituacaoFormI = {};
     const dt: DateTime = DateTime.now().setZone('America/Sao_Paulo');
-    let tf: TarefaI = {};
+    const tf: TarefaI = {};
     envio.tarefa_id = this.tss.tarefa.tarefa_id;
     envio.tarefa_usuario_autor_id = this.tss.tarefa_usuario_autor_id;
     envio.tarefa_situacao_id = this.tarefa_situacao_id;
     envio.tarefa_usuario_situacao = [];
     this.tss.tarefa.tarefa_usuario_situacao.forEach(t => {
       if (t.tus_situacao_id !== this.tarefa_situacao_id) {
-        let us: TarefaAutorUsuarioSituacaoFormI = {
+        const us: TarefaAutorUsuarioSituacaoFormI = {
           tus_id: t.tus_id,
           tus_usuario_id: t.tus_usuario_id
         }
@@ -133,7 +133,7 @@ export class TarefaAtualizarAutorFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    let h: TarefaHistoricoI = {
+    const h: TarefaHistoricoI = {
       th_tarefa_id: this.tss.tarefa.tarefa_id,
       th_data: dt.toFormat('yyyy-LL-dd HH:mm:ss'),
       th_usuario_id: this.tss.tarefa_usuario_autor_id,
@@ -186,7 +186,7 @@ export class TarefaAtualizarAutorFormComponent implements OnInit, OnDestroy {
             if (lazy) {
               this.ts.lazy = false;
             }
-            let p: TarefaI = this.resp[3];
+            const p: TarefaI = this.resp[3];
             p.tarefa_data3 = new Date(p.tarefa_data2);
             p.tarefa_datahora3 = new Date(p.tarefa_datahora2);
             if (p.tarefa_historico !== undefined && p.tarefa_historico !== null && Array.isArray(p.tarefa_historico) && p.tarefa_historico.length > 0) {

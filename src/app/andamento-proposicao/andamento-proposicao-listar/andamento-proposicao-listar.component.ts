@@ -37,7 +37,7 @@ export class AndamentoProposicaoListarComponent implements OnInit, OnDestroy {
   @Output() dialogExterno = new EventEmitter<boolean>();
   @Output() novoRegistro = new EventEmitter<ProposicaoListarI>();
   @Output() displayChange = new EventEmitter<boolean>();
-  @Input() display: boolean = false;
+  @Input() display = false;
   @Input() proposicao: ProposicaoListarI;
   @Input() idx: number;
 
