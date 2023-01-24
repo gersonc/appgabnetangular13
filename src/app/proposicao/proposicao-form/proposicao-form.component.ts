@@ -44,9 +44,9 @@ export class ProposicaoFormComponent implements OnInit {
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
-  st0 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
-  st1 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
-  st2 = 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12';
+  st0 = 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12';
+  st1 = 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12';
+  st2 = 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12';
   titulo = 'PROPOSIÇÃO - INCLUIR';
   readonly = false;
   checked = false;

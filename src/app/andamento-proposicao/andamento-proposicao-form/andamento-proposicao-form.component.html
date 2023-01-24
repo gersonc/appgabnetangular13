@@ -7,9 +7,9 @@
           <tr>
             <td>
 
-              <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+              <div class="formgrid grid formulario p-input-filled">
 
-                <div class="p-field p-col-12 p-sm-12 p-md-8 p-lg-6 p-xl-4"
+                <div class="field col-12 sm:col-12 md:col-8 lg:col-6 xl:col-4"
                      [ngClass]="aplicaCssErro('andamento_proposicao_data')">
                   <label for="andamento_proposicao_data"><span class="atencao">*</span>Data</label>
                   <p-calendar
@@ -24,9 +24,9 @@
                   <app-campo-erro msgErro="Data é obrigatória."
                                   [mostrarErro]="verificaRequired('andamento_proposicao_data')"></app-campo-erro>
                 </div>
-                <div class="p-field p-md-4 p-lg-6 p-xl-8 formulario"></div>
+                <div class="field md:col-4 lg:col-6 xl:col-8 formulario"></div>
 
-                <div *ngIf="sn_relator_atual" class="p-field p-col-12 p-sm-12 p-md-8 p-lg-7 p-xl-6">
+                <div *ngIf="sn_relator_atual" class="field col-12 sm:col-12 md:col-8 lg:col-7 xl:col-6">
                   <h5>Relator atual</h5>
                   <input
                     id="proposicao_relator_atual"
@@ -37,14 +37,14 @@
                     pInputText
                   />
                 </div>
-                <div class="formulario-switch p-field"
-                     [ngClass]="sn_relator_atual ? 'p-col-12 p-sm-12 p-md-4 p-lg-5 p-xl-6' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                <div class="formulario-switch field"
+                     [ngClass]="sn_relator_atual ? 'col-12 sm:col-12 md:col-4 lg:col-5 xl:col-6' : 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12'">
                   <h5>Mudar Relator</h5>
                   <p-inputSwitch formControlName="sn_relator_atual" (onChange)="onChange0($event)"></p-inputSwitch>
                 </div>
 
                 <!--*** andamento_proposicao_orgao_id ***-->
-                <div *ngIf="sn_orgao" class="p-field p-col-12 p-sm-12 p-md-8 p-lg-7 p-xl-6">
+                <div *ngIf="sn_orgao" class="field col-12 sm:col-12 md:col-8 lg:col-7 xl:col-6">
                   <label for="proposicao_orgao_id">Orgão atual</label>
                   <div class="p-inputgroup">
                     <p-dropdown
@@ -69,13 +69,13 @@
                     ></app-configaux-incluir>
                   </div>
                 </div>
-                <div class="formulario-switch p-field"
-                     [ngClass]="sn_orgao ? 'p-col-12 p-sm-12 p-md-4 p-lg-5 p-xl-6' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                <div class="formulario-switch field"
+                     [ngClass]="sn_orgao ? 'col-12 sm:col-12 md:col-4 lg:col-5 xl:col-6' : 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12'">
                   <h5>Mudar Orgão</h5>
                   <p-inputSwitch formControlName="sn_orgao" (onChange)="onChange1($event)"></p-inputSwitch>
                 </div>
 
-                <div *ngIf="sn_situacao" class="p-field p-col-12 p-sm-12 p-md-8 p-lg-7 p-xl-6">
+                <div *ngIf="sn_situacao" class="field col-12 sm:col-12 md:col-8 lg:col-7 xl:col-6">
                   <label for="proposicao_situacao_id2">Situação</label>
                   <div class="p-inputgroup">
                     <p-dropdown
@@ -100,15 +100,15 @@
                     ></app-configaux-incluir>
                   </div>
                 </div>
-                <div class="formulario-switch p-field"
-                     [ngClass]="sn_orgao ? 'p-col-12 p-sm-12 p-md-4 p-lg-5 p-xl-6' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                <div class="formulario-switch field"
+                     [ngClass]="sn_orgao ? 'col-12 sm:col-12 md:col-4 lg:col-5 xl:col-6' : 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12'">
                   <h5>Mudar Situação</h5>
                   <p-inputSwitch #sn2 formControlName="sn_situacao"  (onChange)="onChange2($event)"></p-inputSwitch>
                 </div>
 
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                   <label for="andamento_proposicao_texto">Andamento</label>
-                  <div class="p-d-flex p-jc-start">
+                  <div class="flex justify-content-start">
                     <div class="formulario-quill">
                       <div class="qeditor">
                         <quill-editor
@@ -128,10 +128,10 @@
                   </div>
                 </div>
 
-                <div class="p-field p-col-12">
+                <div class="field col-12">
                   <!--*** Botões ***-->
-                  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                    <div class="p-mr-2">
+                  <div class="flex justify-content-start pb-2 pt-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         pRipple
@@ -141,7 +141,7 @@
                         [disabled]="!formAnd.valid || !formAnd.dirty || botaoEnviarVF"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         pRipple
@@ -152,7 +152,7 @@
                         [disabled]="!formAnd.dirty || botaoEnviarVF"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         pRipple

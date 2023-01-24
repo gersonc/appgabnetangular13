@@ -372,7 +372,7 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraDialog(ev: boolean) {
-    this.cssMostra = (ev) ? null : 'p-d-none';
+    this.cssMostra = (ev) ? null : 'hidden';
   }
 
   recebeRegistro(p: ProposicaoListarI) {

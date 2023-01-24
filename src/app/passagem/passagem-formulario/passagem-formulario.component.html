@@ -1,21 +1,21 @@
 <div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
   <form [formGroup]="formPassagem">
-    <div class="p-fluid">
+    <div class="inline-block">
 
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+      <div class="flex justify-content-center">
+        <div class="mt-1 mb-1 pt-2 px-3 pb-1">
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
+      <div class="grid">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
 
 
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6 formulario">
+              <div class="formgrid grid formulario">
 
                 <!-- passagem_beneficiario -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_beneficiario')">
+                <div class="field col-12" [ngClass]="aplicaCssErro('passagem_beneficiario')">
                   <label for="passagem_beneficiario"><span class="atencao">*</span>Beneficiário</label>
                   <p-autoComplete
                     id="passagem_beneficiario"
@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- passagem_data -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_data')">
+                <div class="field col-12" [ngClass]="aplicaCssErro('passagem_data')">
                   <div style="float: left; margin-right: 7px">
                     <label for="passagem_data"><span class="atencao">*</span>Data</label>
                     <p-calendar
@@ -65,7 +65,7 @@
 
 
                 <!-- passagem_trecho -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_trecho')">
+                <div class="field col-12" [ngClass]="aplicaCssErro('passagem_trecho')">
                   <label for="passagem_trecho"><span class="atencao">*</span>Trecho</label>
                   <p-autoComplete
                     id="passagem_trecho"
@@ -82,7 +82,7 @@
                 </div>
 
                 <!--*** passagem_aerolinha_id ***-->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_aerolinha_id')">
+                <div class="field col-12" [ngClass]="aplicaCssErro('passagem_aerolinha_id')">
                   <label for="passagem_aerolinha_id"><span class="atencao">*</span>Companhia aerea</label>
                   <p-dropdown
                     id="passagem_aerolinha_id"
@@ -97,7 +97,7 @@
                 </div>
 
                 <!-- passagem_voado_id -->
-                <div class="p-field p-col-12" [ngClass]="aplicaCssErro('passagem_voado_id')">
+                <div class="field col-12" [ngClass]="aplicaCssErro('passagem_voado_id')">
                   <label for="passagem_voado_id"><span *ngIf="acao !== 'alterar'" class="atencao">*</span>Voado
                     S/N</label>
                   <p-selectButton
@@ -111,11 +111,11 @@
 
               </div>
             </div>
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6 formulario">
+              <div class="formgrid grid formulario">
 
                 <!-- passagem_valor -->
-                <div class="p-field p-col-12">
+                <div class="field col-12">
                   <label for="passagem_valor">Valor</label>
                   <input
                     id="passagem_valor"
@@ -129,7 +129,7 @@
                 </div>
 
                 <!-- passagem_voo -->
-                <div class="p-field p-col-12">
+                <div class="field col-12">
                   <label for="passagem_voo">Voo</label>
                   <input
                     id="passagem_voo"
@@ -142,7 +142,7 @@
                 </div>
 
                 <!-- passagem_localizador -->
-                <div class="p-field p-col-12">
+                <div class="field col-12">
                   <label for="passagem_localizador">Localizador</label>
                   <input
                     id="passagem_localizador"
@@ -155,7 +155,7 @@
                 </div>
 
                 <!-- agenda -->
-                <div *ngIf="acao !== 'alterar'" class="p-field p-col-12">
+                <div *ngIf="acao !== 'alterar'" class="field col-12">
                   <label for="agenda">Lembrete na agenda</label>
                   <p-inputSwitch
                     id="agenda"
@@ -164,7 +164,7 @@
                 </div>
 
                 <!-- passagem_observacao -->
-                <div class="p-field p-col-12">
+                <div class="field col-12">
                   <label for="passagem_observacao">Observações</label>
                   <textarea
                     id="passagem_observacao"
@@ -183,24 +183,24 @@
 
           </div>
         </div>
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
       </div>
 
     </div>
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+    <div class="grid">
+      <div class="col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
     </div>
 
-    <div class="p-fluid">
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
+    <div class="inline-block">
+      <div class="grid">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
+            <div class="col-12 formulario">
               <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-d-inline-flex">
-                  <div class="p-mr-2">
+              <div class="flex justify-content-start pb-2 pt-2">
+                <div class="inline-flex">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -210,7 +210,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -220,7 +220,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -241,8 +241,8 @@
       </div>
     </div>
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1">&nbsp;</div>
+    <div class="grid">
+      <div class="col-10 p-offset-1">&nbsp;</div>
     </div>
 
   </form>

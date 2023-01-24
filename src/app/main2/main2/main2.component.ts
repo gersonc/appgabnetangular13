@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
 
 @Component({
-  selector: 'app-main2',
+  selector: 'apmain2',
   templateUrl: './main2.component.html',
   styleUrls: ['./main2.component.css']
 })

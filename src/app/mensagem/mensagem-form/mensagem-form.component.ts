@@ -13,7 +13,7 @@ import {MsgService} from "../../_services/msg.service";
 
 
 @Component({
-  selector: 'app-mensagem-form',
+  selector: 'apmensagem-form',
   templateUrl: './mensagem-form.component.html',
   styleUrls: ['./mensagem-form.component.css']
 })

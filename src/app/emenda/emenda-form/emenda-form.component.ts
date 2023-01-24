@@ -52,7 +52,7 @@ export class EmendaFormComponent implements OnInit, OnDestroy {
   clearArquivos = false;
   arquivo_registro_id = 0;
   possuiArquivos = false;
-  stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
+  stl = 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4';
   titulo = 'EMENDA - INCLUIR';
   readonly = false;
   checked = false;

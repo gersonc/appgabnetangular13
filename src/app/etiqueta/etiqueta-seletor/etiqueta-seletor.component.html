@@ -5,8 +5,8 @@
 </ng-container>
 <div class="etq-seletor">
   <div>
-    <div class="p-grid">
-      <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+    <div class="grid">
+      <div class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
         <div class="registros p-shadow-1">
           <h5>Selecione o modelo de etiqueta.</h5>
           <div class="etqvalor">
@@ -25,74 +25,74 @@
 
 
       <ng-container *ngIf="etiqueta !== null">
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Marca</h5>
             <div class="etqvalor">{{etiqueta.etq_marca}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Modelo</h5>
             <div class="etqvalor">{{etiqueta.etq_modelo}}</div>
           </div>
         </div>
 
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Linhas</h5>
             <div class="etqvalor">{{etiqueta.etq_linhas}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Colunas</h5>
             <div class="etqvalor">{{etiqueta.etq_colunas}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Largura (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_largura}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Altura</h5>
             <div class="etqvalor">{{etiqueta.etq_altura}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Marg. Lat. (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_margem_lateral}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Marg. Sup. (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_margem_superior}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Dist. Vert. (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_distancia_vertical}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Dist. Horz. (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_distancia_horizontal}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Folha Horz. (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_folha_horz}}</div>
           </div>
         </div>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Folha Vert. (mm)</h5>
             <div class="etqvalor">{{etiqueta.etq_folha_vert}}</div>
@@ -101,7 +101,7 @@
       </ng-container>
 
       <ng-container *ngIf="ecs.tplistagemLabel !== null">
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Registro</h5>
             <div class="etqvalor">{{ecs.tplistagemLabel}}</div>
@@ -109,7 +109,7 @@
         </div>
       </ng-container>
       <ng-container *ngIf="ecs.numEtqInicial !== 0">
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Número de etiquetas inicial</h5>
             <div class="etqvalor">{{ecs.numEtqInicial}}</div>
@@ -117,7 +117,7 @@
         </div>
       </ng-container>
       <ng-container *ngIf="ecs.numEtqFinal !== 0">
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>Número de etiquetas válidas</h5>
             <div class="etqvalor">{{ecs.numEtqFinal}}</div>
@@ -125,7 +125,7 @@
         </div>
       </ng-container>
       <ng-container>
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
           <div class="registros p-shadow-1">
             <h5>ATIVO</h5>
             <div class="etqvalor">{{ecs.btnDesativado}}</div>
@@ -140,11 +140,11 @@
 </div>
 
 <div class="etq-seletor-btns">
-  <div class="p-grid p-input-filled">
-    <div class="p-col-12 formulario">
+  <div class="grid p-input-filled">
+    <div class="col-12 formulario">
       <!--*** Botões ***-->
-      <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
-        <div *ngIf="ecs.mostraBtn" class="p-mx-2">
+      <div class="flex justify-content-start pb-2 pt-3 pt-2">
+        <div *ngIf="ecs.mostraBtn" class="mx-2">
           <button
             id="impet"
             #impet
@@ -156,7 +156,7 @@
             [disabled]="ecs.btnDesativado"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             id="impcl"
             #impcl

@@ -1,8 +1,8 @@
-<div class="p-fluid formulario-bg-externo espacoInferiorMenu" (mouseenter)="bt0.focus()" pFocusTrap>
+<div class="inline-block formulario-bg-externo espacoInferiorMenu" (mouseenter)="bt0.focus()" pFocusTrap>
   <form [formGroup]="formListarSolicitacao" (keyup)="onKey($event)" class="menuinterno-form">
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             #bt0
             pButton
@@ -15,7 +15,7 @@
             autofocus
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -24,7 +24,7 @@
             label="Limpar"
           ></button>
         </div>
-        <div class="p-mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
+        <div class="mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
           <button
             pButton
             type="button"
@@ -37,13 +37,13 @@
         </div>
       </div>
     </div>
-    <div class="p-d-flex p-ml-1 p-pl-2">
-      <div class="p-fluid p-formgrid p-grid formulario">
+    <div class="flex ml-1 p-pl-2">
+      <div class="formgrid grid formulario">
 
 
         <!-- solicitacao_situacao -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_situacao"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_situacao">Situação</label>
           <p-dropdown
             id="solicitacao_situacao"
@@ -55,7 +55,7 @@
         </div>
         <!-- solicitacao_status_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_situacao"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_status_id">Status</label>
           <p-dropdown
             id="solicitacao_status_id"
@@ -67,7 +67,7 @@
         </div>
         <!-- processo_status_id -->
         <div *ngIf="vs.solicitacaoVersao === 1 && ddSolicitacao.ddProcesso_status_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="processo_status_id">Status dos processo</label>
           <p-dropdown
             id="processo_status_id"
@@ -80,7 +80,7 @@
 
         <!-- solicitacao_cadastro_tipo_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_tipo_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_cadastro_tipo_id">Tipo de Cadastro</label>
           <p-dropdown
             id="solicitacao_cadastro_tipo_id"
@@ -93,7 +93,7 @@
         </div>
         <!-- solicitacao_cadastro_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_cadastro_id">Solicitante</label>
           <p-dropdown
             id="solicitacao_cadastro_id"
@@ -107,7 +107,7 @@
         </div>
         <!-- solicitacao_assunto_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_assunto_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_assunto_id">Assunto</label>
           <p-dropdown
             id="solicitacao_assunto_id"
@@ -121,7 +121,7 @@
         </div>
         <!-- solicitacao_atendente_cadastro_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_atendente_cadastro_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_atendente_cadastro_id">Atendente</label>
           <p-dropdown
             [options]="ddSolicitacao.ddSolicitacao_atendente_cadastro_id"
@@ -133,7 +133,7 @@
         </div>
         <!-- solicitacao_cadastrante_cadastro_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id && vs.solicitacaoVersao === 1"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_cadastrante_cadastro_id">Cadastrante</label>
           <p-dropdown
             [options]="ddSolicitacao.ddSolicitacao_cadastrante_cadastro_id"
@@ -147,7 +147,7 @@
 
         <!-- cadastro_municipio_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_municipio_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_municipio_id">Município</label>
           <p-dropdown
             [filter]="ddSolicitacao.ddSolicitacao_cadastro_municipio_id.length > 50"
@@ -161,7 +161,7 @@
         </div>
         <!-- ddSolicitacao_cadastro_bairro -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_bairro && vs.solicitacaoVersao > 1"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_regiao_id">Bairro</label>
           <p-dropdown
             [filter]="ddSolicitacao.ddSolicitacao_cadastro_bairro.length > 50"
@@ -175,7 +175,7 @@
         </div>
         <!-- cadastro_regiao_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_cadastro_regiao_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_regiao_id">Região</label>
           <p-dropdown
             [filter]="ddSolicitacao.ddSolicitacao_cadastro_regiao_id.length > 50"
@@ -189,7 +189,7 @@
         </div>
         <!-- solicitacao_local_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_local_id && vs.solicitacaoVersao < 3"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_local_id">Núcleo</label>
           <p-dropdown
             [options]="ddSolicitacao.ddSolicitacao_local_id"
@@ -201,7 +201,7 @@
         </div>
         <!-- solicitacao_tipo_recebimento_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_tipo_recebimento_id && vs.solicitacaoVersao === 1"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_tipo_recebimento_id">Tipo de recebimento</label>
           <p-dropdown
             [options]="ddSolicitacao.ddSolicitacao_tipo_recebimento_id"
@@ -213,7 +213,7 @@
         </div>
         <!-- solicitacao_area_interesse_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_area_interesse_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_area_interesse_id">Área de interesse</label>
           <p-dropdown
             [filter]="ddSolicitacao.ddSolicitacao_area_interesse_id.length > 50"
@@ -227,7 +227,7 @@
         </div>
         <!-- solicitacao_reponsavel_analize_id -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_reponsavel_analize_id && vs.solicitacaoVersao < 3"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_reponsavel_analize_id">Resp. p/ Análise</label>
           <p-dropdown
             [options]="ddSolicitacao.ddSolicitacao_reponsavel_analize_id"
@@ -239,7 +239,7 @@
         </div>
         <!-- solicitacao_data -->
         <div *ngIf="ddSolicitacao.ddSolicitacao_data"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_cadastro_tipo_id">Data</label>
           <p-dropdown
             [filter]="ddSolicitacao.ddSolicitacao_data.length > 50"
@@ -252,7 +252,7 @@
           ></p-dropdown>
         </div>
         <!-- solicitacao_descricao -->
-        <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_cadastro_tipo_id">Descrição Contém</label>
           <input
             type="text"
@@ -267,10 +267,10 @@
       </div>
     </div>
     <br>
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
 
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -281,7 +281,7 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -290,7 +290,7 @@
             label="Limpar"
           ></button>
         </div>
-        <div class="p-mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
+        <div class="mr-2" *ngIf="authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn || authenticationService.cadastro_incluir">
           <button
             pButton
             type="button"

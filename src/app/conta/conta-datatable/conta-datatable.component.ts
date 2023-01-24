@@ -382,7 +382,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraDialog(ev: boolean) {
-    this.cssMostra = (ev) ? null : 'p-d-none';
+    this.cssMostra = (ev) ? null : 'hidden';
   }
 
   getColunas() {
@@ -392,7 +392,7 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
   }
 
   setCurrentClass(col: any, valor: string | number, conta_paga_id: number, conta_vencimento3: Date) {
-    const esqdir: string = this.testeCss.indexOf(col.field) > -1 ? 'p-text-right' : 'p-text-left';
+    const esqdir: string = this.testeCss.indexOf(col.field) > -1 ? ' text-right' : ' text-left';
     const classe: string = (col.field === 'conta_paga') ? (+conta_paga_id === 2) ? 'status-1' : (+conta_paga_id === 0) ? (this.hoje > conta_vencimento3) ? 'status-2' : 'status-0 ' : 'status-3' : 'inherit';
     return classe + ' ' + esqdir;
   }

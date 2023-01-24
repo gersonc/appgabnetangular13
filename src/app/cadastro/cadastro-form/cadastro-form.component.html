@@ -35,24 +35,24 @@
         <input type="hidden" formControlName="cadastro_conjuge">
       </ng-container>
 
-      <div class="p-fluid formulario-bg-externo">
+      <div class="inline-block formulario-bg-externo">
 
-        <div class="p-d-flex p-jc-center">
-          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <div class="flex justify-content-center">
+          <div class="mt-1 mb-1 pt-2 px-3 pb-1">
             <span class="formulario-titulo">{{titulo}}</span>
           </div>
         </div>
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
 
 
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid formulario">
+              <div class="col-12 formulario">
+                <div class="formgrid grid formulario">
 
                   <!--*** Tipo de Cadastro ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('cadastro_tipo_id')">
                     <label for="cadastro_tipo_id"><span class="atencao">*</span> Tipo de Cadastro</label>
                     <p-dropdown
@@ -70,7 +70,7 @@
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('cadastro_tipo_id')" msgErro="Tipo de Cadastro é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** Tratamento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('cadastro_tratamento_id')">
                     <label for="cadastro_tratamento_id"><span class="atencao">*</span> Tratamento</label>
                     <div #vmunicipio class="p-inputgroup">
@@ -99,7 +99,7 @@
                                             msgErro="Tratamento é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** Nome / Razão Social ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('cadastro_nome')">
                     <label for="cadastro_nome"><span class="atencao">*</span> Nome / Razão Social</label>
                     <div class="p-inputgroup">
@@ -115,7 +115,7 @@
                       pInputText
                       [ngClass]="aplicaCssErro('cadastro_nome')"
                     />
-                      <div class="p-fluid p-inputgroup" style="font-size: 1rem;height: 2rem;">
+                      <div class="inline-block p-inputgroup" style="font-size: 1rem;height: 2rem;">
                         <button
                           class="confaux p-button-secondary p-button-icon-only"
                           pButton
@@ -132,7 +132,7 @@
                     </app-campo-control-erro>
                   </div>
                   <!--*** Apelido ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_apelido">Apelido</label>
                     <input
                       [tabindex]="4"
@@ -145,7 +145,7 @@
                     />
                   </div>
                   <!--*** Sigla ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo !== 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo !== 1">
                     <label for="cadastro_sigla">Sigla</label>
                     <input
                       [tabindex]="5"
@@ -158,7 +158,7 @@
                     />
                   </div>
                   <!--*** Empresa / Responsável ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_responsavel">Empresa / Responsável</label>
                     <input
                       [tabindex]="6"
@@ -171,7 +171,7 @@
                     />
                   </div>
                   <!--*** Cargo ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_cargo">Cargo</label>
                     <input
                       [tabindex]="7"
@@ -184,7 +184,7 @@
                     />
                   </div>
                   <!--*** Endereço ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_endereco">Endereço</label>
                     <input
                       [tabindex]="8"
@@ -197,8 +197,8 @@
                     />
                   </div>
                   <!--*** Número ***-->
-                  <!--<div class="p-field p-col-3">-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1">
+                  <!--<div class="field col-3">-->
+                  <div class="field col-12 sm:col-12 md:col-2 lg:col-2 xl:col-1">
                     <label for="cadastro_endereco_numero">Número</label>
                     <input
                       [tabindex]="9"
@@ -211,8 +211,8 @@
                     />
                   </div>
                   <!--*** Comp. *** -->
-                  <!--<div class="p-field p-col-9">-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-3">
+                  <!--<div class="field col-9">-->
+                  <div class="field col-12 sm:col-12 md:col-4 lg:col-4 xl:col-3">
                     <label for="cadastro_endereco_complemento">Comp.</label>
                     <input
                       [tabindex]="10"
@@ -225,7 +225,7 @@
                     />
                   </div>
                   <!--*** Bairro ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_bairro">Bairro</label>
                     <input
                       [tabindex]="11"
@@ -238,7 +238,7 @@
                     />
                   </div>
                   <!--*** Município ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('cadastro_municipio_id')">
                     <label for="cadastro_municipio_id"><span class="atencao">*</span> Município</label>
                     <div #vmunicipio class="p-inputgroup">
@@ -271,7 +271,7 @@
                     </app-campo-control-erro>
                   </div>
                   <!--*** Estado ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('cadastro_estado_id')">
                     <label for="cadastro_estado_id"><span class="atencao">*</span> Estado</label>
                     <div class="p-inputgroup">
@@ -302,7 +302,7 @@
                   </div>
 
                   <!--*** CEP ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_cep">CEP</label>
                     <div class="p-inputgroup">
                     <p-inputMask
@@ -331,7 +331,7 @@
                   </div>
 
                   <!--*** Região ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_regiao_id">Região</label>
                     <div class="p-inputgroup">
                       <p-dropdown
@@ -360,7 +360,7 @@
                   </div>
 
                   <!--*** Campo 1 ***-->
-                  <div *ngIf="cs.cadastro_campo1_sn" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="cs.cadastro_campo1_sn" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_campo1">{{cs.cadastro_campo1_nome}}</label>
                     <input
                       [tabindex]="16"
@@ -374,7 +374,7 @@
                   </div>
 
                   <!--*** Grupo ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_grupo_id">Grupo</label>
                     <div class="p-inputgroup">
                     <p-dropdown
@@ -400,7 +400,7 @@
                     </div>
                   </div>
                   <!--*** Telefone ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_telefone">Telefone</label>
                     <p-inputMask
                       [tabindex]="18"
@@ -415,7 +415,7 @@
                     </p-inputMask>
                   </div>
                   <!--*** Telefone2 ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_telefone2">Telefone2</label>
                     <p-inputMask
                       [tabindex]="19"
@@ -430,7 +430,7 @@
                     </p-inputMask>
                   </div>
                   <!--*** cadastro_telcom ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_telcom">Telefone Comercial</label>
                     <p-inputMask
                       [tabindex]="20"
@@ -445,7 +445,7 @@
                     </p-inputMask>
                   </div>
                   <!--*** Celular ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_celular">Celular</label>
                     <p-inputMask
                       [tabindex]="21"
@@ -460,7 +460,7 @@
                     </p-inputMask>
                   </div>
                   <!--*** Celular2 ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_celular2">Celular2</label>
                     <p-inputMask
                       [tabindex]="22"
@@ -475,7 +475,7 @@
                     </p-inputMask>
                   </div>
                   <!--*** Fax ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_fax">WhatsApp</label>
                     <p-inputMask
                       [tabindex]="23"
@@ -490,7 +490,7 @@
                     </p-inputMask>
                   </div>
                   <!--*** E-mail ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro2('cadastro_email')">
                     <label for="cadastro_email">E-mail</label>
                     <input
@@ -508,7 +508,7 @@
                     </app-campo-control-erro>
                   </div>
                   <!--*** E-mail2 ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro2('cadastro_email2')">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" [ngClass]="aplicaCssErro2('cadastro_email2')">
                     <label for="cadastro_email2">E-mail2</label>
                     <input
                       [tabindex]="25"
@@ -523,7 +523,7 @@
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched2('cadastro_email2')" msgErro="E-mail inválido."></app-campo-control-erro>
                   </div>
                   <!--*** Facebook ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_rede_social">Facebook</label>
                     <input
                       [tabindex]="26"
@@ -536,7 +536,7 @@
                     />
                   </div>
                   <!--*** Outras mídias ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_outras_midias">Outras mídias</label>
                     <input
                       [tabindex]="27"
@@ -549,7 +549,7 @@
                     />
                   </div>
                   <!--*** CPF/CNPJ ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="_cadastro_cpfcnpj">CPF/CNPJ</label>
                     <input
                       [tabindex]="28"
@@ -562,7 +562,7 @@
                     />
                   </div>
                   <!--*** Data de Nascimento / Fundação ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_data_nascimento">Data de Nascimento / Fundação</label>
                     <p-calendar
                       [tabindex]="29"
@@ -576,7 +576,7 @@
                     ></p-calendar>
                   </div>
                   <!--*** Campo 4 ***-->
-                  <div *ngIf="cs.cadastro_campo4_sn" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="cs.cadastro_campo4_sn" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_campo4_id">{{cs.cadastro_campo4_nome}}</label>
                     <p-dropdown
                       [tabindex]="30"
@@ -589,7 +589,7 @@
                   </div>
 
                   <!--*** RG ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_rg">RG</label>
                     <input
                       [tabindex]="31"
@@ -602,7 +602,7 @@
                     />
                   </div>
                   <!--*** Genero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_sexo">Genero</label>
                     <p-dropdown
                       [tabindex]="32"
@@ -614,7 +614,7 @@
                     ></p-dropdown>
                   </div>
                   <!--*** Escolaridade ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_escolaridade_id">Escolaridade</label>
                     <div class="p-inputgroup">
                     <p-dropdown
@@ -640,7 +640,7 @@
                     </div>
                   </div>
                   <!--*** Estado Civil ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_estado_civil_id">Estado Civil</label>
                     <div class="p-inputgroup">
                     <p-dropdown
@@ -666,7 +666,7 @@
                     </div>
                   </div>
                   <!--*** Conjuge ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngIf="tipotipo === 1">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" *ngIf="tipotipo === 1">
                     <label for="cadastro_conjuge">Conjuge</label>
                     <input
                       [tabindex]="35"
@@ -679,7 +679,7 @@
                     />
                   </div>
                   <!--*** Partido ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_zona">Partido</label>
                     <input
                       [tabindex]="36"
@@ -692,7 +692,7 @@
                     />
                   </div>
                   <!--*** Profissão ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_profissao">Profissão</label>
                     <input
                       [tabindex]="37"
@@ -706,7 +706,7 @@
                   </div>
 
                   <!--*** Campo 2 ***-->
-                  <div *ngIf="cs.cadastro_campo2_sn" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="cs.cadastro_campo2_sn" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_campo2">{{cs.cadastro_campo2_nome}}</label>
                     <input
                       [tabindex]="38"
@@ -719,7 +719,7 @@
                     />
                   </div>
                   <!--*** Campo 3 ***-->
-                  <div *ngIf="cs.cadastro_campo3_sn" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="cs.cadastro_campo3_sn" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="cadastro_campo3">{{cs.cadastro_campo3_nome}}</label>
                     <textarea
                       [tabindex]="39"
@@ -733,22 +733,22 @@
                   </div>
 
                   <!--*** Boletim ***-->
-                  <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
+                  <div class="field col-6 sm:col-6 md:col-6 lg:col-3 xl:col-1">
                     <h5>Boletim</h5>
                     <p-inputSwitch [tabindex]="40" id="cadastro_jornal" formControlName="cadastro_jornal"></p-inputSwitch>
                   </div>
                   <!--*** Mala direta ***-->
-                  <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
+                  <div class="field col-6 sm:col-6 md:col-6 lg:col-3 xl:col-1">
                     <h5>Mala direta</h5>
                     <p-inputSwitch [tabindex]="41" id="cadastro_mala" formControlName="cadastro_mala"></p-inputSwitch>
                   </div>
                   <!--*** Contato ***-->
-                  <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
+                  <div class="field col-6 sm:col-6 md:col-6 lg:col-3 xl:col-1">
                     <h5>Contato</h5>
                     <p-inputSwitch [tabindex]="42" id="cadastro_agenda" formControlName="cadastro_agenda"></p-inputSwitch>
                   </div>
                   <!--*** Sigilo ***-->
-                  <div class="p-field p-col-6 p-sm-6 p-md-6 p-lg-3 p-xl-1">
+                  <div class="field col-6 sm:col-6 md:col-6 lg:col-3 xl:col-1">
                     <h5>Sigilo</h5>
                     <p-inputSwitch [tabindex]="43" id="cadastro_sigilo" formControlName="cadastro_sigilo"></p-inputSwitch>
                   </div>
@@ -759,14 +759,14 @@
 
 
               <!--*** COLUNA 4 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-d-flex p-jc-center">
-                <div class="p-fluid p-formgrid p-grid">
+              <div class="col-12 formulario">
+                <div class="flex justify-content-center">
+                <div class="formgrid grid">
 
                   <!--*** Observações ***-->
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
 
-                    <div class="p-d-flex p-jc-center">
+                    <div class="flex justify-content-center">
                       <div class="formulario-quill">
                         <h5>Tarefa</h5>
                         <div class="qeditor">
@@ -790,7 +790,7 @@
 
 
                   <ng-container *ngIf="aut.arquivos">
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                    <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                           <app-arquivo *ngIf="cfs.acao === 'incluir'"
                                        [tabindex]="45"
                                        [modulo]="'cadastro'"
@@ -826,23 +826,23 @@
 
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
         </div>
 
       </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      <div class="grid">
+        <div class="col-10 p-offset-1 formulario-bg-externo"></div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
-              <div class="p-col-12 formulario">
+      <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
+              <div class="col-12 formulario">
                 <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                  <div class="p-mr-2">
+                <div class="flex justify-content-start pb-2 pt-2">
+                  <div class="mr-2">
                     <button
                       [tabindex]="46"
                       pButton
@@ -854,7 +854,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       [tabindex]="47"
                       pButton
@@ -867,7 +867,7 @@
                       [disabled]="disableSubmit"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       [tabindex]="48"
                       pButton
@@ -901,10 +901,10 @@
         </div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid formulario-bg-externo">
-          <div class="p-col-12"></div>
-          <div class="p-col-12"></div>
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid formulario-bg-externo">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
 
@@ -924,10 +924,10 @@
     [style]="{width: '40vw'}"
     (onHide)="fechaNomeDuplicado()"
   >
-    <div class="p-col-12">
+    <div class="col-12">
       <app-cadastro-incluir-listaexistente *ngIf="nomeDuplicado" [cad]="cad"></app-cadastro-incluir-listaexistente>
     </div>
-    <div class="p-col-12">
+    <div class="col-12">
       <p-button
         label="Fechar"
         (onClick)="fechaNomeDuplicado()"
@@ -948,8 +948,8 @@
     [style]="{width: '40vw'}"
     (onHide)="fechaEnderecos()"
   >
-    <div class="p-fluid p-formgrid p-grid formulario">
-      <div class="p-col-12">
+    <div class="formgrid grid formulario">
+      <div class="col-12">
 
         <p-listbox [options]="ddEnderecos" [(ngModel)]="endereco" (onChange)="populaEnderecoForm($event.value)">
           <ng-template let-end pTemplate="item">
@@ -985,10 +985,10 @@
         </p-listbox>
       </div>
 
-      <div class="p-col-12 formulario">
+      <div class="col-12 formulario">
         <!--*** Botões ***-->
-        <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-          <div class="p-mr-2">
+        <div class="flex justify-content-start pb-2 pt-2">
+          <div class="mr-2">
             <button
               pButton
               type="button"

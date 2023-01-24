@@ -26,11 +26,11 @@
   <div style="padding-top: 1.8rem">
     <p-scrollPanel [styleClass]="'menu-lateral-pq'" >
       <form (ngSubmit)="onSubmit()" name="calForm" #calForm="ngForm">
-        <div class="p-grid p-input-filled">
-          <div class="p-col-12 formulario">
-            <div class="p-fluid p-formgrid p-grid formulario">
+        <div class="grid p-input-filled">
+          <div class="col-12 formulario">
+            <div class="formgrid grid formulario">
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 <label for="bsStart"><span class="atencao">*</span> Data</label>
                 <p-calendar
                   id="bsStart"
@@ -50,7 +50,7 @@
                 ></p-calendar>
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 <label for="bsFim">Fim</label>
                 <p-calendar
                   id="bsFim"
@@ -69,7 +69,7 @@
                 ></p-calendar>
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 <label for="bsTituloIni">Título (inicia com)</label>
                 <input
                   id="bsTituloIni"
@@ -82,7 +82,7 @@
                 />
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 <label for="bsTitulo">Título (contêm)</label>
                 <input
                   id="bsTitulo"
@@ -95,7 +95,7 @@
                 />
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 <label for="bsObsIni">Observações (inicia com)</label>
                 <input
                   id="bsObsIni"
@@ -108,7 +108,7 @@
                 />
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 <label for="bsObs">Observações (contêm)</label>
                 <input
                   id="bsObs"
@@ -121,7 +121,7 @@
                 />
               </div>
 
-              <div *ngIf="ddlocal.length > 1" class="p-field p-col-12">
+              <div *ngIf="ddlocal.length > 1" class="field col-12">
                 <label for="local_id">Núcleo</label>
                 <p-dropdown
                   id="local_id"
@@ -136,7 +136,7 @@
                 </p-dropdown>
               </div>
 
-              <div *ngIf="ddprioridade.length > 1" class="p-field p-col-12">
+              <div *ngIf="ddprioridade.length > 1" class="field col-12">
                 <label for="bsPrioridade_id">Prioridade</label>
                 <p-dropdown
                   id="bsPrioridade_id"
@@ -150,7 +150,7 @@
                 </p-dropdown>
               </div>
 
-              <div *ngIf="ddcalendario_status.length > 1" class="p-field p-col-12">
+              <div *ngIf="ddcalendario_status.length > 1" class="field col-12">
                 <label for="bsStatus_id">Status</label>
                 <p-dropdown
                   id="bsStatus_id"
@@ -165,7 +165,7 @@
                 </p-dropdown>
               </div>
 
-              <div *ngIf="ddtypes.length > 1" class="p-field p-col-12">
+              <div *ngIf="ddtypes.length > 1" class="field col-12">
                 <label for="bsType_id">Categoria</label>
                 <p-dropdown
                   id="bsType_id"
@@ -183,7 +183,7 @@
           </div>
         </div>
 
-        <div class="p-col-12">
+        <div class="col-12">
           <button
             class="p-button-rounded"
             label="Buscar"

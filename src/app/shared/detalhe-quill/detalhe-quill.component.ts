@@ -6,10 +6,10 @@ import {Stripslashes} from "../functions/stripslashes";
   selector: 'app-detalhe-quill',
   template:
     `<ng-container *ngIf="txt.length <= 80">
-      <div class="p-text-nowrap p-text-truncate">{{txt}}</div>
+      <div class="white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis">{{txt}}</div>
     </ng-container>
     <ng-container *ngIf="txt.length > 80">
-      <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="mostraTexto()">{{txt}}</div>
+      <div class="mostratexto  white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis" (click)="mostraTexto()">{{txt}}</div>
     </ng-container>
     <ng-container *ngIf="showCampoTexto">
       <p-dialog

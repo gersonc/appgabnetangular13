@@ -1,8 +1,8 @@
-<div class="p-fluid formulario-bg-externo" [style]=estilo2>
+<div class="inline-block formulario-bg-externo" [style]=estilo2>
   <form [formGroup]="formMenuTarefa" (keyup)="onKey($event)" class="menuinterno-form">
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -13,7 +13,7 @@
             (click)="onMudaForm(true)"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -26,20 +26,20 @@
         </div>
       </div>
     </div>
-    <div class="p-d-flex p-ml-1 p-pl-2">
-      <div class="p-fluid p-grid">
-        <div class="p-col-12">
-          <div class="p-fluid p-formgrid p-grid formulario">
+    <div class="flex ml-1 p-pl-2">
+      <div class="inline-block grid">
+        <div class="col-12">
+          <div class="formgrid grid formulario">
 
             <!-- tp_listagem -->
-            <div class="p-field p-col-12">
+            <div class="field col-12">
               <label for="tpListagem">De (Autor)</label>
               <p-selectButton #tpl id="tpListagem" [options]="ddTipo" formControlName="tipo_listagem"></p-selectButton>
             </div>
 
 
             <!-- tarefa_usuario_autor_id -->
-            <div *ngIf="tpl.value==0" class="p-field p-col-12">
+            <div *ngIf="tpl.value==0" class="field col-12">
               <label for="tarefa_usuario_autor_id">De (Autor)</label>
               <p-dropdown
                 id="tarefa_usuario_autor_id"
@@ -52,7 +52,7 @@
             </div>
 
             <!-- tarefa_usuario_id -->
-            <div *ngIf="tpl.value==1" class="p-field p-col-12">
+            <div *ngIf="tpl.value==1" class="field col-12">
               <label for="tarefa_usuario_id">Para (Demandados)</label>
               <p-dropdown
                 id="tarefa_usuario_id"
@@ -66,7 +66,7 @@
 
 
             <!-- tarefa_titulo -->
-            <div class="p-field p-col-12">
+            <div class="field col-12">
               <label for="tarefa_titulo">Titulo Contém</label>
               <input
                 id="tarefa_titulo"
@@ -78,7 +78,7 @@
             </div>
 
             <!-- tarefa_situacao_id -->
-            <div class="p-field p-col-12">
+            <div class="field col-12">
               <label for="tarefa_situacao_id">Situação</label>
               <p-dropdown
                 id="tarefa_situacao_id"
@@ -93,7 +93,7 @@
             <!-- tarefa_datahora1 -->
 
 
-            <div class="p-field p-col-12 p-xl-6 p-lg-6 p-md-12 p-sm-12">
+            <div class="field col-12 xl:col-6 lg:col-6 md:col-12 sm:col-12">
               <label for="tarefa_datahora1"> De (Pedido)</label>
               <p-calendar
                 id="tarefa_datahora1"
@@ -108,7 +108,7 @@
             </div>
 
             <!-- tarefa_datahora2 -->
-            <div class="p-field p-col-12 p-xl-6 p-lg-6 p-md-12 p-sm-12">
+            <div class="field col-12 xl:col-6 lg:col-6 md:col-12 sm:col-12">
               <label for="tarefa_datahora2">até</label>
               <p-calendar
                 id="tarefa_datahora2"
@@ -126,7 +126,7 @@
             <!-- tarefa_data1 -->
 
 
-            <div class="p-field p-col-12 p-xl-6 p-lg-6 p-md-12 p-sm-12">
+            <div class="field col-12 xl:col-6 lg:col-6 md:col-12 sm:col-12">
               <label for="tarefa_data1"> De (Execução)</label>
               <p-calendar
                 id="tarefa_data1"
@@ -141,7 +141,7 @@
             </div>
 
             <!-- tarefa_data2 -->
-            <div class="p-field p-col-12 p-xl-6 p-lg-6 p-md-12 p-sm-12">
+            <div class="field col-12 xl:col-6 lg:col-6 md:col-12 sm:col-12">
               <label for="tarefa_data2">até</label>
               <p-calendar
                 id="tarefa_data2"
@@ -161,9 +161,9 @@
       </div>
     </div>
 
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -174,7 +174,7 @@
             (click)="onMudaForm(true)"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"

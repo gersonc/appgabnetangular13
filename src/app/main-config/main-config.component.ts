@@ -7,7 +7,7 @@ import { AppConfigService } from "../_services/appconfigservice";
 declare let gtag: Function;
 
 @Component({
-  selector: 'app-main-config',
+  selector: 'apmain-config',
   styleUrls: ['./main-config.component.css'],
   templateUrl: './main-config.component.html',
 })

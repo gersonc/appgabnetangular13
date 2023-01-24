@@ -27,21 +27,21 @@
   <ng-template let-file pTemplate="file">
 
 
-    <div class="p-d-flex p-flex-row p-ai-center p-jc-between p-mx-1 p-my-2 p-p-1 p-shadow-1">
-      <div class="p-d-flex p-flex-column p-jc-start p-m-0 p-p-0">
-          <div class="p-px-1 p-jc-start filename">
+    <div class="flex flex-row align-items-center justify-content-between mx-1 my-2 p-1 p-shadow-1">
+      <div class="flex flex-column justify-content-start m-0 p-0">
+          <div class="px-1 justify-content-start filename">
             {{file.name}}
           </div>
-          <div class="p-px-1 p-jc-start filesize">
+          <div class="px-1 justify-content-start filesize">
             {{formatSize(file.size)}}
           </div>
       </div>
-      <div class="p-d-flex p-flex-row p-jc-end p-ai-center p-m-0 p-p-0">
-      <div class="p-mr-1-0 p-p-1">
+      <div class="flex flex-row justify-content-end align-items-center m-0 p-0">
+      <div class="mr-1-0 p-1">
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-secondary p-button-text" (click)="meuRemove($event, file)" [disabled]="uploading"></button>
       </div>
 
-      <div class="p-m-0 p-p-0">
+      <div class="m-0 p-0">
         <img [src]="file.objectURL" *ngIf="fileUpload.isImage(file)" [width]="previewWidth" /><img [src]="getIcone(file.name)" *ngIf="!fileUpload.isImage(file)" [width]="previewWidth" />
       </div>
       </div>

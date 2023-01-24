@@ -1,9 +1,9 @@
-<div class="p-fluid formulario-bg-externo espacoInferiorMenu" (mouseenter)="bt0.focus()" pFocusTrap>
+<div class="inline-block formulario-bg-externo espacoInferiorMenu" (mouseenter)="bt0.focus()" pFocusTrap>
   <form #frm [formGroup]="formListar" (keyup.enter)="onKey($event)" (ngSubmit)="onMudaForm()" class="menuinterno-form">
 
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             #bt0
             id="bt0"
@@ -17,7 +17,7 @@
             autofocus
           ></button>
         </div>
-        <div *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn" class="p-mr-2">
+        <div *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn" class="mr-2">
           <button
             pButton
             type="button"
@@ -28,7 +28,7 @@
             (click)="incluirOficio()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             *ngIf="authenticationService.oficio_incluir"
             pButton
@@ -43,11 +43,11 @@
       </div>
     </div>
 
-    <div class="p-d-flex p-ml-1 p-pl-2 ">
-      <div class="p-fluid p-formgrid p-grid formulario">
+    <div class="flex ml-1 p-pl-2 ">
+      <div class="formgrid grid formulario">
 
         <!-- oficio_processo_id -->
-        <div *ngIf="ddProce.ddProcesso_numero" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="ddProce.ddProcesso_numero" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="processo_id">Número do processo</label>
           <p-dropdown
             id="processo_id"
@@ -64,7 +64,7 @@
         </div>
 
         <!-- processo_status -->
-        <div *ngIf="ddProce.ddProcesso_status_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="ddProce.ddProcesso_status_id" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="processo_status_nome">Status</label>
           <p-dropdown
             [options]="ddProce.ddProcesso_status_id"
@@ -78,7 +78,7 @@
 
         <!-- processo_status -->
         <div *ngIf="ddProce.ddProcesso_solicitacao_situacao"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_situacao">Situação</label>
           <p-dropdown
             [options]="ddProce.ddProcesso_solicitacao_situacao"
@@ -92,7 +92,7 @@
 
         <!-- solicitacao_cadastro_tipo_id -->
         <div *ngIf="ddProce.ddProcesso_cadastro_tipo_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_tipo_id">Tipo de cadastro</label>
           <p-dropdown
             id="cadastro_tipo_id"
@@ -105,7 +105,7 @@
         </div>
 
         <!-- processo_cadastro_id -->
-        <div *ngIf="ddProce.ddProcesso_cadastro_id" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="ddProce.ddProcesso_cadastro_id" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_id">Solicitante</label>
           <p-dropdown
             id="cadastro_id"
@@ -121,7 +121,7 @@
 
         <!-- solicitacao_orgao -->
         <div *ngIf="ddProce.ddProcesso_solicitacao_orgao"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_orgao">Orgão Solicitante</label>
           <p-dropdown
             id="solicitacao_orgao"
@@ -137,7 +137,7 @@
 
         <!-- solicitacao_area_interesse_id -->
         <div *ngIf="ddProce.ddProcesso_solicitacao_area_interesse_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_area_interesse_id">Área de interesse</label>
           <p-dropdown
             [options]="ddProce.ddProcesso_solicitacao_area_interesse_id"
@@ -153,7 +153,7 @@
 
         <!-- solicitacao_assunto_id -->
         <div *ngIf="ddProce.ddProcesso_solicitacao_assunto_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_assunto_id">Assunto</label>
           <p-dropdown
             [filter]="ddProce.ddProcesso_solicitacao_assunto_id.length > 50"
@@ -169,7 +169,7 @@
 
         <!-- cadastro_municipio_id -->
         <div *ngIf="ddProce.ddProcesso_cadastro_municipio_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_municipio_id">Município</label>
           <p-dropdown
             id="cadastro_municipio_id"
@@ -185,7 +185,7 @@
 
         <!-- cadastro_regiao_id -->
         <div *ngIf="ddProce.ddProcesso_cadastro_regiao_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_regiao_id">Região</label>
           <p-dropdown
             id="cadastro_regiao_id"
@@ -201,7 +201,7 @@
 
         <!-- solicitacao_local_id -->
         <div *ngIf="ddProce.ddProcesso_solicitacao_local_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_local_id">Núcleo</label>
           <p-dropdown
             [options]="ddProce.ddProcesso_solicitacao_local_id"
@@ -215,7 +215,7 @@
 
         <!-- solicitacao_reponsavel_analize_id -->
         <div *ngIf="ddProce.ddProcesso_solicitacao_reponsavel_analize_id"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="solicitacao_reponsavel_analize_id">Responsável pela analise</label>
           <p-dropdown
             [options]="ddProce.ddProcesso_solicitacao_reponsavel_analize_id"
@@ -229,7 +229,7 @@
 
         <!-- solicitacao_data1 -->
         <ng-container *ngIf="ddProce.ddProcesso_solicitacao_data1 && ddProce.ddProcesso_solicitacao_data2">
-          <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
+          <div class="field col-12 sm:col-12 md:col-6 lg:col-3 xl:col-3">
             <label for="solicitacao_data1">De</label>
             <p-dropdown
               [filter]="ddProce.ddProcesso_solicitacao_data1.length > 50"
@@ -245,7 +245,7 @@
           </div>
 
           <!-- solicitacao_data2 -->
-          <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
+          <div class="field col-12 sm:col-12 md:col-6 lg:col-3 xl:col-3">
             <label for="solicitacao_data2">até</label>
             <p-dropdown
               [filter]="ddProce.ddProcesso_solicitacao_data2.length > 50"
@@ -263,9 +263,9 @@
       </div>
     </div>
 
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2 p-mt-6">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2 mt-6">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="submit"
@@ -276,7 +276,7 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn" class="p-mr-2">
+        <div *ngIf="authenticationService.oficio_incluir || authenticationService.usuario_responsavel_sn || authenticationService.usuario_principal_sn" class="mr-2">
           <button
             pButton
             type="button"
@@ -287,7 +287,7 @@
             (click)="incluirOficio()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"

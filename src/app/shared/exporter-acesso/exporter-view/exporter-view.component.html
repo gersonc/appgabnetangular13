@@ -1,6 +1,6 @@
 <ng-container *ngIf="detalhe.htm.length <= 80">
-  <div class="p-text-nowrap p-text-truncate">{{limpaTexto150Nulo(detalhe.htm)}}</div>
+  <div class="white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis">{{limpaTexto150Nulo(detalhe.htm)}}</div>
 </ng-container>
 <ng-container *ngIf="detalhe.htm.length > 80">
-  <div class="mostratexto  p-text-nowrap p-text-truncate" (click)="es.mostraView(detalhe)">{{limpaTexto150Nulo(detalhe.htm)}}</div>
+  <div class="mostratexto  white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis" (click)="es.mostraView(detalhe)">{{limpaTexto150Nulo(detalhe.htm)}}</div>
 </ng-container>

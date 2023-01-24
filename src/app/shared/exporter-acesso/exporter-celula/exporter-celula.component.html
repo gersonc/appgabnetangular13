@@ -1,6 +1,6 @@
 <ng-container *ngIf="!celula.txtVF">
-  <div class="p-text-nowrap p-text-truncate">{{celula.valor}}</div>
+  <div class="white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis">{{celula.valor}}</div>
 </ng-container>
 <ng-container *ngIf="celula.txtVF">
-  <div class="p-text-nowrap p-text-truncate"><span class="celula-quill" (click)="mostraTexto()">{{limpaTextoNulo(celula.valor)}}</span></div>
+  <div class="white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis"><span class="celula-quill" (click)="mostraTexto()">{{limpaTextoNulo(celula.valor)}}</span></div>
 </ng-container>

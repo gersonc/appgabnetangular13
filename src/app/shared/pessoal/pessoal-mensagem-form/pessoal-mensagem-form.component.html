@@ -16,9 +16,9 @@
 >
   <div class="formulario" style="background-color: var(--formulario-bg-externo-color);">
     <form [formGroup]="formMensagem" (ngSubmit)="onSubmit()">
-      <div class="p-fluid">
-        <div class="p-grid p-input-filled">
-          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
+      <div class="inline-block">
+        <div class="grid p-input-filled">
+          <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12"
                [ngClass]="aplicaCssErro('tarefa_usuario_id')">
             <label for="mensagem_usuario_id"><span class="atencao">*</span>Usuários(s)</label>
             <p-multiSelect
@@ -39,7 +39,7 @@
           </div>
 
           <!-- tarefa_titulo -->
-          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12" [ngClass]="aplicaCssErro('tarefa_titulo')">
+          <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12" [ngClass]="aplicaCssErro('tarefa_titulo')">
             <label for="mensagem_titulo"><span class="atencao">*</span>Titulo</label>
             <input
               id="mensagem_titulo"
@@ -54,9 +54,9 @@
                                     msgErro="Titulo é obrigatório."></app-campo-control-erro>
           </div>
 
-          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+          <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
 
-            <div class="p-d-flex p-jc-center">
+            <div class="flex justify-content-center">
               <div class="formulario-quill">
                 <h5>Mensagem</h5>
                 <div class="qeditor">
@@ -80,10 +80,10 @@
           </div>
 
           <!--*** Botões ***-->
-          <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-            <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-              <div class="p-d-inline-flex">
-                <div class="p-mr-2">
+          <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
+            <div class="flex justify-content-start pb-2 pt-2">
+              <div class="inline-flex">
+                <div class="mr-2">
                   <button
                     pButton
                     type="submit"
@@ -92,7 +92,7 @@
                     label="Enviar"
                   ></button>
                 </div>
-                <div class="p-mr-2">
+                <div class="mr-2">
                   <button
                     pButton
                     type="button"
@@ -102,7 +102,7 @@
                     [disabled]="botaoEnviarVF"
                   ></button>
                 </div>
-                <div class="p-mr-2">
+                <div class="mr-2">
                   <button
                     pButton
                     type="button"

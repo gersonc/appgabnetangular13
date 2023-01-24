@@ -11,7 +11,7 @@ import {MansagemBuscaI} from "../_models/mansagem-busca-i";
 import {MensagemListagemI} from "../_models/mensagem-listagem-i";
 
 @Component({
-  selector: 'app-mensagem-menu',
+  selector: 'apmensagem-menu',
   templateUrl: './mensagem-menu.component.html',
   styleUrls: ['./mensagem-menu.component.css']
 })

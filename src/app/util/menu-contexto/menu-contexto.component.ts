@@ -2,7 +2,7 @@ import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import { WindowsService } from '../../_layout/_service';
 
 @Component({
-  selector: 'app-menu-contexto',
+  selector: 'apmenu-contexto',
   templateUrl: './menu-contexto.component.html',
   styleUrls: ['./menu-contexto.component.css']
 })

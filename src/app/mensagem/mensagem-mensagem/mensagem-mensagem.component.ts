@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MensagemListagemI} from "../_models/mensagem-listagem-i";
 
 @Component({
-  selector: 'app-mensagem-mensagem',
+  selector: 'apmensagem-mensagem',
   templateUrl: './mensagem-mensagem.component.html',
   styleUrls: ['./mensagem-mensagem.component.css']
 })

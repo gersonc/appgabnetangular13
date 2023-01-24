@@ -1,16 +1,16 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
 
-    <div class="p-fluid formulario-bg-externo">
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+    <div class="inline-block formulario-bg-externo">
+      <div class="flex justify-content-center">
+        <div class="mt-1 mb-1 pt-2 px-3 pb-1">
           <span class="formulario-titulo">OFÍCIO - ANALISAR</span>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-fluid p-formgrid p-grid formulario">
-            <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+      <div class="grid">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="formgrid grid formulario">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-offset-1 lg:col-10 xl:col-offset-1 xl:col-10">
               <table class="table-hover tabela">
                 <caption>OFÍCIO</caption>
                 <tr *ngIf="os.oficioAnalisar.oficio_status_id">
@@ -268,21 +268,21 @@
           </div>
         </div>
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
 
       </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      <div class="grid">
+        <div class="col-10 p-offset-1 formulario-bg-externo"></div>
       </div>
 
       <form [formGroup]="formOfi" (ngSubmit)="onSubmit()">
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-fluid p-formgrid p-grid formulario">
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="formgrid grid formulario">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-offset-1 lg:col-10 xl:col-offset-1 xl:col-10">
 
-                <div class="p-d-block p-jc-center">
+                <div class="block justify-content-center">
                   <h5>Andamento do Processo</h5>
                   <div class="formulario-quill">
 
@@ -304,8 +304,8 @@
                 </div>
 
               </div>
-              <div *ngIf="aut.arquivos_anexar" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
-                <div class="p-d-block p-jc-center">
+              <div *ngIf="aut.arquivos_anexar" class="field col-12 sm:col-12 md:col-12 lg:col-offset-1 lg:col-10 xl:col-offset-1 xl:col-10">
+                <div class="block justify-content-center">
 
                 <h5>Arquivos</h5>
                 <app-arquivo *ngIf="aut.arquivos_anexar"
@@ -322,40 +322,40 @@
                 </div>
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 &nbsp;
               </div>
 
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-offset-1 p-lg-10 p-xl-offset-1 p-xl-10">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-offset-1 lg:col-10 xl:col-offset-1 xl:col-10">
                 <h5>Análise</h5>
                 <p-selectButton #ofst [options]="ddOficioStatusId" id="oficio_status"
                                 formControlName="oficio_status"></p-selectButton>
               </div>
 
-              <div class="p-field p-col-12">
+              <div class="field col-12">
                 &nbsp;
               </div>
 
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
         </div>
 
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+        <div class="grid">
+          <div class="col-10 p-offset-1 formulario-bg-externo"></div>
         </div>
 
-        <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-          <div class="p-grid">
-            <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
+        <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+          <div class="grid">
+            <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
 
-              <div class="p-grid p-input-filled">
+              <div class="grid p-input-filled">
 
-                <div class="p-col-12 formulario">
+                <div class="col-12 formulario">
                   <!--*** Botões ***-->
-                  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="flex justify-content-start pb-2 pt-2">
 
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         type="submit"
@@ -364,7 +364,7 @@
                         label="Enviar"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         type="button"
@@ -374,7 +374,7 @@
                         [disabled]="!btnAtivo"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         type="button"
@@ -401,10 +401,10 @@
   </div>
 
 
-  <div class="p-fluid formulario-bg-externo">
-    <div class="p-grid formulario-bg-externo">
-      <div class="p-col-12"></div>
-      <div class="p-col-12"></div>
+  <div class="inline-block formulario-bg-externo">
+    <div class="grid formulario-bg-externo">
+      <div class="col-12"></div>
+      <div class="col-12"></div>
     </div>
   </div>
 

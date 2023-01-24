@@ -27,7 +27,7 @@
           <p-colorPicker *ngIf="!tp" [(ngModel)]="registro.campo_nome2"  appendTo="body"></p-colorPicker>
         </th>
         <th [ngStyle]="cssIncluir2()" style="text-align:right; padding: 0 0.5em 0 0.5em; width: 7rem;">
-          <div class="p-text-nowrap">
+          <div class="white-space-nowrap">
             <button [disabled]="testaBtnEnviar(registro)"
                     pButton pRipple type="button" icon="pi pi-check"
                     class="p-button-raised p-button-rounded p-button-success p-button-sm" style="margin-right: .5em"
@@ -99,7 +99,7 @@
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-dropdown *ngIf="tp" [options]="ddtipo" [(ngModel)]="cf.campo_id2" styleClass="formulario" appendTo="body"></p-dropdown>
-              <p-colorPicker *ngIf="!tp" [(ngModel)]="cf.campo_nome2" appendTo="body" class="p-mr-3"></p-colorPicker>
+              <p-colorPicker *ngIf="!tp" [(ngModel)]="cf.campo_nome2" appendTo="body" class="mr-3"></p-colorPicker>
               <ng-container *ngIf="!tp">{{getCorTxt(cf.campo_nome2)}}</ng-container>
             </ng-template>
             <ng-template pTemplate="output">
@@ -119,7 +119,7 @@
               <ng-container *ngIf="acao!=='deletar' || i!==idx">
                 <ng-container *ngIf="tp">{{pfpj(cf.campo_id2)}}</ng-container>
                 <ng-container *ngIf="!tp">
-                  <div [ngStyle]="boxCor(cf.campo_nome2)" class="p-mr-3"></div>{{getCorTxt(cf.campo_nome2)}}
+                  <div [ngStyle]="boxCor(cf.campo_nome2)" class="mr-3"></div>{{getCorTxt(cf.campo_nome2)}}
                 </ng-container>
               </ng-container>
             </ng-template>

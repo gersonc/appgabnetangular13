@@ -1,7 +1,7 @@
-<div class="p-text-nowrap p-text-truncate">
+<div class="white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis">
   <ng-container *ngIf="campo.ativo">
     <ng-container *ngIf="campo.tipo === 3">
-      <span class="p-mr-1">
+      <span class="mr-1">
         <a href="mailto:{{campo.email}}" class="campo-extendido"><i class="pi pi-at"></i></a>
       </span>
       {{campo.valor}}
@@ -10,12 +10,12 @@
     <ng-container *ngIf="campo.tipo === 2 || campo.tipo === 1">
       {{campo.valor}}
       <ng-container>
-        <span class="p-ml-1">
+        <span class="ml-1">
         <a href="tel:{{campo.tel}}" class="campo-extendido"><i class="pi pi-phone"></i></a>
         </span>
       </ng-container>
       <ng-container *ngIf="campo.tipo === 1">
-        <span class="p-ml-2">
+        <span class="ml-2">
           <a href="https://wa.me/{{campo.whats}}" class="campo-extendido"><i class="pi pi-whatsapp"></i></a>
         </span>
       </ng-container>

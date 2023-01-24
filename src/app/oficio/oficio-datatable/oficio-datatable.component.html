@@ -47,49 +47,49 @@
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
     <div [ngClass]="{'hide-datatable': md.mdt}">
-      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
-        <div class="p-d-inline-flex">
-          <div class="p-mx-2">
+      <div class="flex justify-content-between align-items-center flex-column p-flex-md-row">
+        <div class="inline-flex">
+          <div class="mx-2">
             <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
                     (click)="mostraMenu()"></button>
           </div>
-          <div class="p-mr-2">
+          <div class="mr-2">
             <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
                     (click)="mostraSelectColunas()"></button>
           </div>
-          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
+          <div class="mr-2" *ngIf="aut.dispositivo!=='mobile'">
             <button pButton type="button" label="Relatórios" icon="pi pi-info" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
           </div>
 
-          <div class="p-mr-0" *ngIf="aut.oficio_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
+          <div class="mr-0" *ngIf="aut.oficio_incluir || aut.usuario_responsavel_sn || aut.usuario_principal_sn">
             <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
                     (click)="oficioIncluir()"></button>
           </div>
         </div>
 
-        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mx-2">OFÍCIOS</div>
+        <div *ngIf="aut.dispositivo!=='mobile'" class="inline-flex align-items-center">
+          <div class="mx-2">OFÍCIOS</div>
         </div>
-        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2" *ngIf="os.selecionados.length > 0">
+        <div *ngIf="aut.dispositivo!=='mobile'" class="inline-flex align-items-center">
+          <div class="mr-2" *ngIf="os.selecionados.length > 0">
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="os.resetSelecionados()"></button>
           </div>
-          <div class="p-mr-2">Página {{os.tabela.currentPage}} de {{os.tabela.pageCount}} - Num.
+          <div class="mr-2">Página {{os.tabela.currentPage}} de {{os.tabela.pageCount}} - Num.
             Registros: {{os.tabela.totalRecords}}</div>
         </div>
 
-        <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
-          <div class="p-mx-2">OFÍCIOS</div>
-          <div class="p-mr-2">Página {{os.tabela.currentPage}} de {{os.tabela.pageCount}} - Num.
+        <div *ngIf="aut.dispositivo==='mobile'" class="flex justify-content-center">
+          <div class="mx-2">OFÍCIOS</div>
+          <div class="mr-2">Página {{os.tabela.currentPage}} de {{os.tabela.pageCount}} - Num.
             Registros: {{os.tabela.totalRecords}}</div>
         </div>
 
 
       </div>
     </div>
-    <p-menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -144,9 +144,9 @@
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
-          <div class="p-fluid">
-            <div class="p-d-flex p-jc-start p-pb-2">
-              <div class="p-mr-2">
+          <div class="inline-block">
+            <div class="flex justify-content-start pb-2">
+              <div class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -160,7 +160,7 @@
                 </button>
               </div>
 
-              <div *ngIf="(((aut.oficio_deferir || aut.oficio_indeferir) && ofi.oficio_status_nome ==='EM ANDAMENTO') || (aut.usuario_principal_sn || aut.usuario_responsavel_sn))"  class="p-mr-2">
+              <div *ngIf="(((aut.oficio_deferir || aut.oficio_indeferir) && ofi.oficio_status_nome ==='EM ANDAMENTO') || (aut.usuario_principal_sn || aut.usuario_responsavel_sn))"  class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -174,7 +174,7 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.oficio_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+              <div *ngIf="aut.oficio_alterar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -188,7 +188,7 @@
                 </button>
               </div>
 
-              <div *ngIf="aut.oficio_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="p-mr-2">
+              <div *ngIf="aut.oficio_apagar || aut.usuario_principal_sn || aut.usuario_responsavel_sn" class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -203,8 +203,8 @@
               </div>
             </div>
 
-            <div class="p-grid">
-              <div *ngFor="let ce of os.tabela.celulas;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+            <div class="grid">
+              <div *ngFor="let ce of os.tabela.celulas;" class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
                 <div class="registros p-shadow-1">
                   <h5>{{ce.header}}</h5>
                   <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
@@ -248,12 +248,12 @@
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="os.tabela.selectedColumns"></app-seletor-colunas>
   <p-footer>
-    <div class="p-d-flex p-jc-start p-pb-2">
-      <div class="p-mr-2">
+    <div class="flex justify-content-start pb-2">
+      <div class="mr-2">
         <button pButton type="button" label="Fehar " icon="pi pi-times"
                 class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
       </div>
-      <div class="p-mr-2">
+      <div class="mr-2">
         <button pButton type="button" label="Reset " icon="pi pi-backward"
                 class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
       </div>

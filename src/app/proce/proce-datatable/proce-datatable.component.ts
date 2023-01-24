@@ -100,7 +100,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
       },
       {
         label: 'PDF - PÁGINA', icon: 'pi pi-file-pdf', style: {'font-size': '.9em'}, command: () => {
-          
+
           this.ps.tabelaPdf(2);
         }
       },
@@ -434,7 +434,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
   }
 
   mostraDialog(ev: boolean) {
-    this.cssMostra = (ev) ? null : 'p-d-none';
+    this.cssMostra = (ev) ? null : 'hidden';
   }
 
   recebeRegistro(h: HistFormI) {

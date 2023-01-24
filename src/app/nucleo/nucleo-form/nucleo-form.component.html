@@ -1,22 +1,22 @@
 <form (ngSubmit)="onSubmit(nForm)" #nForm="ngForm">
   <input type="hidden" [(ngModel)]="ns.nuForm.local_id" #local_id="ngModel" id="local_id" name="local_id">
-  <div class="p-fluid formulario-bg-externo">
+  <div class="inline-block formulario-bg-externo">
 
-    <div class="p-d-flex p-jc-center">
-      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+    <div class="flex justify-content-center">
+      <div class="mt-1 mb-1 pt-2 px-3 pb-1">
       </div>
     </div>
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-p-3">
-          <div class="p-grid p-input-filled">
+    <div class="grid">
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+        <div class="p-3">
+          <div class="grid p-input-filled">
 
 
-            <div class="p-col-12 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="col-12 formulario">
+              <div class="formgrid grid formulario">
 
 
-                <div [ngClass]="aplicaCssErro(local_nome)" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div [ngClass]="aplicaCssErro(local_nome)" class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
                   <label for="local_nome"><span class="atencao">*</span> Nome</label>
                   <input
                     pInputText
@@ -35,18 +35,18 @@
                     msgErro="Nome é obrigatório.">
                   </app-campo-control-erro>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
                   <label for="local_endereco">Endreço</label>
                   <input pInputText id="local_endereco" name="local_endereco" #local_endereco="ngModel" type="text"
                          maxlength="254" [(ngModel)]="ns.nuForm.local_endereco">
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
                   <label for="local_telefone">Telefone</label>
                   <input pInputText id="local_telefone" name="local_telefone" #local_telefone="ngModel" type="text"
                          maxlength="40" [(ngModel)]="ns.nuForm.local_telefone">
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
-                  <div class="p-mr-2">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
+                  <div class="mr-2">
                     <label for="local_color" style="font-weight: var(--formulario-field-label-font-weight)">Cor</label>
                   </div>
                   <p-colorPicker
@@ -57,7 +57,7 @@
                     [autoZIndex]="true"
                   ></p-colorPicker>
                 </div>
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
                   <label for="local_responsavel_id">Usuário responsável</label>
                   <p-dropdown
                     id="local_responsavel_id"
@@ -76,23 +76,23 @@
 
         </div>
       </div>
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno p-my-3"></div>
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno my-3"></div>
     </div>
 
   </div>
 
-  <div class="p-grid">
-    <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+  <div class="grid">
+    <div class="col-10 p-offset-1 formulario-bg-externo"></div>
   </div>
 
-  <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-grid p-input-filled">
-          <div class="p-col-12 formulario">
+  <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+    <div class="grid">
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+        <div class="grid p-input-filled">
+          <div class="col-12 formulario">
             <!--*** Botões ***-->
-            <div class="p-d-flex p-jc-start p-pb-2 p-pt-3 p-pt-2">
-              <div *ngIf="ns.nuAcao === 'INCLUIR'" class="p-mx-2">
+            <div class="flex justify-content-start pb-2 pt-3 pt-2">
+              <div *ngIf="ns.nuAcao === 'INCLUIR'" class="mx-2">
                 <button
                   pButton
                   *ngIf="ns.nuMostraBt && ns.nuAcao === 'INCLUIR'"
@@ -102,7 +102,7 @@
                   class="p-button-rounded"
                 ></button>
               </div>
-              <div *ngIf="ns.nuAcao === 'ALTERAR'" class="p-mr-2">
+              <div *ngIf="ns.nuAcao === 'ALTERAR'" class="mr-2">
                 <button
                   pButton
                   *ngIf="ns.nuMostraBt && ns.nuAcao === 'ALTERAR'"
@@ -112,7 +112,7 @@
                   class="p-button-rounded"
                 ></button>
               </div>
-              <div class="p-mr-2">
+              <div class="mr-2">
                 <button
                   pButton
                   *ngIf="ns.nuMostraBt"
@@ -123,7 +123,7 @@
                   class="p-button-rounded p-button-secondary"
                 ></button>
               </div>
-              <div *ngIf="nForm.dirty" class="p-mr-2">
+              <div *ngIf="nForm.dirty" class="mr-2">
                 <button
                   pButton
                   *ngIf="ns.nuMostraBt"

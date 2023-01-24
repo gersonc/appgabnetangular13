@@ -15,7 +15,7 @@ import {MsgService} from "../../_services/msg.service";
 import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
 
 @Component({
-  selector: 'app-mensagem-datatable',
+  selector: 'apmensagem-datatable',
   templateUrl: './mensagem-datatable.component.html',
   styleUrls: ['./mensagem-datatable.component.css']
 })
@@ -41,7 +41,7 @@ export class MensagemDatatableComponent implements OnInit, OnDestroy {
     {label: 'Não lidas', value: 2},
   ];
   resp: any[] = [];
-  classe = "p-col-12 p-sm-12 p-md-8 p-lg-9 p-xl-10";
+  classe = "col-12 sm:col-12 md:col-8 lg:col-9 xl:col-10";
 
 
   constructor(
@@ -55,7 +55,7 @@ export class MensagemDatatableComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.classe = (this.ds.dispositivo === 'desktop') ? "p-col-12 p-sm-12 p-md-8 p-lg-9 p-xl-10" : "p-col-12 p-sm-12 p-md-8 p-lg-9 p-xl-10";
+    this.classe = (this.ds.dispositivo === 'desktop') ? "col-12 sm:col-12 md:col-8 lg:col-9 xl:col-10" : "col-12 sm:col-12 md:col-8 lg:col-9 xl:col-10";
     this.formMenuMensagem = this.formBuilder.group({
       usuario_mensagem_usuario_id: [null],
       usuario_id: [null],

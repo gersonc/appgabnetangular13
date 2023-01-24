@@ -24,11 +24,11 @@
     <p-accordion>
       <p-accordionTab *ngFor="let m of mgs" [header]="m.mensagem_titulo" class="mensagens-acord">
         <div class="acord-msg-body">
-        <div class="p-grid">
-          <div *ngIf="m.usuario_origem_nome" class="p-col-6">{{m.usuario_origem_nome}}</div>
-          <div *ngIf="m.modulo" class="p-col-6 p-text-right">{{m.modulo}}</div>
-          <div *ngIf="m.mensagem_data" class="p-col-6 p-text-right">{{m.mensagem_data}}</div>
-          <div *ngIf="m.mensagem_texto" class="p-col-12"><app-quill-view [cphtml]="m.mensagem_texto"></app-quill-view></div>
+        <div class="grid">
+          <div *ngIf="m.usuario_origem_nome" class="col-6">{{m.usuario_origem_nome}}</div>
+          <div *ngIf="m.modulo" class="col-6  text-right">{{m.modulo}}</div>
+          <div *ngIf="m.mensagem_data" class="col-6  text-right">{{m.mensagem_data}}</div>
+          <div *ngIf="m.mensagem_texto" class="col-12"><app-quill-view [cphtml]="m.mensagem_texto"></app-quill-view></div>
         </div>
         </div>
       </p-accordionTab>

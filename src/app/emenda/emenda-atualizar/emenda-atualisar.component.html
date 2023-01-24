@@ -1,24 +1,24 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
     <form [formGroup]="formEmenda" (ngSubmit)="onSubmit()">
-      <div class="p-fluid formulario-bg-externo">
+      <div class="inline-block formulario-bg-externo">
 
-        <div class="p-d-flex p-jc-center">
-          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <div class="flex justify-content-center">
+          <div class="mt-1 mb-1 pt-2 px-3 pb-1">
             <span class="formulario-titulo">EMENDA - ATUALIZAR</span>
           </div>
         </div>
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
 
 
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid formulario">
+              <div class="col-12 formulario">
+                <div class="formgrid grid formulario">
 
                   <!--*** emenda_situacao ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('emenda_situacao_id')">
                     <label for="emenda_situacao_id"><span class="atencao">*</span>Situação</label>
                     <p-dropdown
@@ -34,7 +34,7 @@
                   </div>
 
                   <!--*** emenda_contrato ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_contrato">Contrato Caixa</label>
                     <input
                       id="emenda_contrato"
@@ -47,7 +47,7 @@
                   </div>
 
                   <!--*** emenda_porcentagem ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_porcentagem">% Concluida</label>
                     <p-inputNumber
                       id="emenda_porcentagem"
@@ -65,7 +65,7 @@
                   </div>
 
                   <!--*** emenda_valor_empenhado ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_valor_empenhado">Valor empenhado</label>
                     <p-inputNumber
                       formControlName="emenda_valor_empenhado"
@@ -79,7 +79,7 @@
                   </div>
 
                   <!--*** emenda_data_empenho ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_data_empenho">Data do empenho</label>
                     <p-calendar
                       id="emenda_data_empenho"
@@ -91,7 +91,7 @@
                   </div>
 
                   <!--*** emenda_numero_empenho ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_numero_empenho">Número do empenho</label>
                     <input
                       id="emenda_numero_empenho"
@@ -104,7 +104,7 @@
                   </div>
 
                   <!--*** emenda_data_pagamento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_data_pagamento">Data do pagamento (1&deg; parcela ou a vista)</label>
                     <p-calendar
                       id="emenda_data_pagamento"
@@ -116,7 +116,7 @@
                   </div>
 
                   <!--*** emenda_valor_pago ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_valor_pago">Valor pago</label>
                     <p-inputNumber
                       formControlName="emenda_valor_pago"
@@ -130,7 +130,7 @@
                   </div>
 
                   <!--*** emenda_numero_ordem_bancaria ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="emenda_numero_ordem_bancaria">Órdem bancária</label>
                     <input
                       id="emenda_numero_ordem_bancaria"
@@ -145,13 +145,13 @@
               </div>
 
               <!--*** COLUNA 4 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid">
+              <div class="col-12 formulario">
+                <div class="formgrid grid">
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                     <p-accordion>
                       <p-accordionTab header="Informações sobre pagamento (quando parcelado)">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -172,7 +172,7 @@
                       </p-accordionTab>
 
                       <p-accordionTab header="Histórico / Andamento">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -196,7 +196,7 @@
                   </div>
 
                   <ng-container *ngIf="aut.arquivos">
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                    <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                       <app-arquivo
                         [modulo]="'emenda'"
                         [uploadDisabled]="arquivoDesativado"
@@ -215,23 +215,23 @@
 
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
         </div>
 
       </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      <div class="grid">
+        <div class="col-10 p-offset-1 formulario-bg-externo"></div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
-              <div class="p-col-12 formulario">
+      <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
+              <div class="col-12 formulario">
                 <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                  <div class="p-mr-2">
+                <div class="flex justify-content-start pb-2 pt-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="submit"
@@ -240,7 +240,7 @@
                       label="ATUALIZAR"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -250,7 +250,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -270,10 +270,10 @@
         </div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid formulario-bg-externo">
-          <div class="p-col-12"></div>
-          <div class="p-col-12"></div>
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid formulario-bg-externo">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
 

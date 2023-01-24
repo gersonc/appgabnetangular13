@@ -1,24 +1,24 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
     <form [formGroup]="formProp" (ngSubmit)="onSubmit()">
-      <div class="p-fluid formulario-bg-externo">
+      <div class="inline-block formulario-bg-externo">
 
-        <div class="p-d-flex p-jc-center">
-          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <div class="flex justify-content-center">
+          <div class="mt-1 mb-1 pt-2 px-3 pb-1">
             <span class="formulario-titulo">{{titulo}}</span>
           </div>
         </div>
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
 
 
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid formulario">
+              <div class="col-12 formulario">
+                <div class="formgrid grid formulario">
 
                   <!--*** proposicao_tipo_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_tipo_id')">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" [ngClass]="aplicaCssErro('proposicao_tipo_id')">
                     <label for="proposicao_tipo_id"><span class="atencao">*</span>Tipo</label>
                     <div class="p-inputgroup">
                       <p-dropdown
@@ -48,7 +48,7 @@
                   </div>
 
                   <!--*** proposicao_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="proposicao_numero">Número</label>
                     <input
                       id="proposicao_numero"
@@ -61,7 +61,7 @@
                   </div>
 
                   <!--*** proposicao_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="proposicao_autor">Autor</label>
                     <input
                       id="proposicao_autor"
@@ -74,7 +74,7 @@
                   </div>
 
                   <!--*** proposicao_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="proposicao_relator">Relator</label>
                     <input
                       id="proposicao_relator"
@@ -87,7 +87,7 @@
                   </div>
 
                   <!--*** proposicao_data_apresentacao ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('proposicao_data_apresentacao')">
                     <label for="proposicao_data_apresentacao"><span class="atencao">*</span>Data de apresentação</label>
                     <p-calendar
@@ -102,7 +102,7 @@
                   </div>
 
                   <!--*** proposicao_area_interesse_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('proposicao_area_interesse_id')">
                     <label for="proposicao_area_interesse_id"><span class="atencao">*</span>Área de interesse</label>
                     <p-dropdown
@@ -118,7 +118,7 @@
                   </div>
 
                   <!--*** proposicao_parecer ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_parecer')">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" [ngClass]="aplicaCssErro('proposicao_parecer')">
                     <label for="proposicao_parecer"><span class="atencao">*</span>Parecer</label>
                     <p-dropdown
                       id="proposicao_parecer"
@@ -133,7 +133,7 @@
                   </div>
 
                   <!--*** proposicao_origem_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4"
                        [ngClass]="aplicaCssErro('proposicao_origem_id')">
                     <label for="proposicao_origem_id"><span class="atencao">*</span>Orgão de origem</label>
                     <div class="p-inputgroup">
@@ -164,7 +164,7 @@
 
 
                   <!--*** proposicao_emenda_tipo_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_emenda_tipo_id')">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" [ngClass]="aplicaCssErro('proposicao_emenda_tipo_id')">
                     <label for="proposicao_emenda_tipo_id"><span class="atencao">*</span>Tipo de emenda</label>
                     <div class="p-inputgroup">
                       <p-dropdown
@@ -194,7 +194,7 @@
                   </div>
 
                   <!--*** proposicao_situacao_id ***-->
-                  <div *ngIf="pfs.acao === 'incluir'" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" [ngClass]="aplicaCssErro('proposicao_situacao_id')">
+                  <div *ngIf="pfs.acao === 'incluir'" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4" [ngClass]="aplicaCssErro('proposicao_situacao_id')">
                     <label for="proposicao_situacao_id"><span class="atencao">*</span>Situação</label>
                     <div class="p-inputgroup">
                       <p-dropdown
@@ -228,13 +228,13 @@
 
 
               <!--*** COLUNA 4 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid">
+              <div class="col-12 formulario">
+                <div class="formgrid grid">
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                     <p-accordion>
                       <p-accordionTab header="Ementa">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -255,7 +255,7 @@
                         </div>
                       </p-accordionTab>
                       <p-accordionTab header="Texto">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -280,14 +280,14 @@
 
                           <div class="andamento-proposicao">
                             <div class="andamento-proposicao-interno">
-                              <div class="p-grid p-input-filled">
+                              <div class="grid p-input-filled">
 
-                                <div class="p-col-12 formulario">
+                                <div class="col-12 formulario">
 
-                                  <div class="p-fluid p-formgrid p-grid formulario">
+                                  <div class="formgrid grid formulario">
 
                                     <!--*** andamento_proposicao_data ***-->
-                                    <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                    <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                                       <label for="andamento_proposicao_data">Data</label>
                                       <p-calendar
                                         id="andamento_proposicao_data"
@@ -297,10 +297,10 @@
                                         dataType="date"
                                       ></p-calendar>
                                     </div>
-                                    <div class="p-field p-md-6 p-lg-6 p-xl-8"></div>
+                                    <div class="field md:col-6 lg:col-6 xl:col-8"></div>
 
                                     <!--*** proposicao_tipo_id ***-->
-                                    <div *ngIf="sn0.checked" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                    <div *ngIf="sn0.checked" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                                       <label for="proposicao_relator_atual">Relator atual</label>
                                       <input
                                         id="proposicao_relator_atual"
@@ -311,13 +311,13 @@
                                         pInputText
                                       />
                                     </div>
-                                    <div class="formulario-switch p-field" [ngClass]="sn0.checked ? 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-8' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                                    <div class="formulario-switch field" [ngClass]="sn0.checked ? 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-8' : 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12'">
                                       <h5>Mudar Relator</h5>
                                       <p-inputSwitch #sn0 formControlName="sn_relator_atual"></p-inputSwitch>
                                     </div>
 
                                     <!--*** andamento_proposicao_orgao_id ***-->
-                                    <div *ngIf="sn1.checked" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                    <div *ngIf="sn1.checked" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                                       <label for="proposicao_orgao_id">Orgão atual</label>
                                       <div class="p-inputgroup">
                                         <p-dropdown
@@ -342,12 +342,12 @@
                                         ></app-configaux-incluir>
                                       </div>
                                     </div>
-                                    <div class="formulario-switch p-field" [ngClass]="sn1.checked ? 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-8' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                                    <div class="formulario-switch field" [ngClass]="sn1.checked ? 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-8' : 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12'">
                                       <h5>Mudar Orgão</h5>
                                       <p-inputSwitch #sn1 formControlName="sn_orgao"></p-inputSwitch>
                                     </div>
 
-                                    <div *ngIf="pfs.acao === 'alterar' && sit" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                                    <div *ngIf="pfs.acao === 'alterar' && sit" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                                       <label for="proposicao_situacao_id2">Situação</label>
                                       <div class="p-inputgroup">
                                         <p-dropdown
@@ -372,15 +372,15 @@
                                         ></app-configaux-incluir>
                                       </div>
                                     </div>
-                                    <div *ngIf="pfs.acao === 'alterar'" class="formulario-switch p-field" [ngClass]="sn2.checked ? 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-8' : 'p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12'">
+                                    <div *ngIf="pfs.acao === 'alterar'" class="formulario-switch field" [ngClass]="sn2.checked ? 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-8' : 'col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12'">
                                       <h5>Mudar Situação</h5>
                                       <p-inputSwitch #sn2 formControlName="sn_situacao" (onChange)="trocaSituacao($event)"></p-inputSwitch>
                                     </div>
 
 
-                                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                                    <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                                       <label for="andamento_proposicao_texto">Andamento</label>
-                                      <div class="p-d-flex p-jc-start">
+                                      <div class="flex justify-content-start">
                                         <div class="formulario-quill">
                                           <div class="qeditor">
                                             <quill-editor
@@ -419,7 +419,7 @@
 
 
                   <ng-container *ngIf="aut.arquivos">
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                    <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                       <app-arquivo *ngIf="pfs.acao === 'incluir'"
                                    [modulo]="'proposicao'"
                                    [modelo]="'incluir'"
@@ -450,23 +450,23 @@
 
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
         </div>
 
       </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      <div class="grid">
+        <div class="col-10 p-offset-1 formulario-bg-externo"></div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
-              <div class="p-col-12 formulario">
+      <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
+              <div class="col-12 formulario">
                 <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                  <div class="p-mr-2">
+                <div class="flex justify-content-start pb-2 pt-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="submit"
@@ -475,7 +475,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -485,7 +485,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -495,7 +495,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <!--<div class="p-mr-2">
+                  <!--<div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -515,10 +515,10 @@
         </div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid formulario-bg-externo">
-          <div class="p-col-12"></div>
-          <div class="p-col-12"></div>
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid formulario-bg-externo">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
 

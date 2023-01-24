@@ -30,14 +30,14 @@
             </ng-container>
           </div>
           <div *ngIf="isOpen && graficos !== null" class="grafico-esquerda2-menu">
-            <div class="p-ml-1 p-pl-2">
-              <div class="p-fluid p-formgrid p-grid">
+            <div class="ml-1 p-pl-2">
+              <div class="formgrid grid">
                 <ng-container *ngIf="graficos !== null">
-                  <div *ngFor="let cp of graficos.dropdown; index as i" class="p-field-radiobutton p-col-12 menu-lateral">
+                  <div *ngFor="let cp of graficos.dropdown; index as i" class="field-radiobutton col-12 menu-lateral">
                     <p-radioButton name="campo" [label]="cp.label" [(ngModel)]="campo1" [value]="cp.value" [inputId]="cp.value"
                                    (onClick)="mudaCampo(i)"></p-radioButton>
                   </div>
-                  <div class="p-field p-col-12 menu-lateral">
+                  <div class="field col-12 menu-lateral">
                     <p-dropdown
                       #tp
                       [options]="ddTipo"
@@ -49,7 +49,7 @@
                       (onChange)="mudaTipo()"
                     ></p-dropdown>
                   </div>
-                  <div class="p-field p-col-12 menu-lateral">
+                  <div class="field col-12 menu-lateral">
                     <br>
                     <b>Total de registros: {{graficos.total}}</b>
                   </div>

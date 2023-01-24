@@ -2,32 +2,32 @@
   <ng-container *ngIf="!horizontal">
     <div class="arquivolista">
 
-      <div *ngFor="let arq of arquivos" class="fileclassView p-d-flex p-flex-row p-ai-center p-jc-between p-mx-1 p-my-2 p-p-1 p-shadow-1">
-        <div *ngIf="!authenticationService.arquivos_baixar" class="arquivoNaolinkview p-d-flex p-flex-column p-jc-start p-m-0 p-p-0">
-          <div class="p-px-1 p-jc-start filename">
+      <div *ngFor="let arq of arquivos" class="fileclassView flex flex-row align-items-center justify-content-between mx-1 my-2 p-1 p-shadow-1">
+        <div *ngIf="!authenticationService.arquivos_baixar" class="arquivoNaolinkview flex flex-column justify-content-start m-0 p-0">
+          <div class="px-1 justify-content-start filename">
             {{arq.arquivo_nome_original}}
           </div>
-          <div class="p-px-1 p-jc-start filesize">
+          <div class="px-1 justify-content-start filesize">
             {{readableBytes(arq.arquivo_tamanho)}}
           </div>
         </div>
-        <div *ngIf="authenticationService.arquivos_baixar" pTooltip="Download" tooltipPosition="top" (click)="clickArquivo(arq)" class="arquivolinkview p-d-flex p-flex-column p-jc-start p-m-0 p-p-0">
-          <div class="p-px-1 p-jc-start filename">
+        <div *ngIf="authenticationService.arquivos_baixar" pTooltip="Download" tooltipPosition="top" (click)="clickArquivo(arq)" class="arquivolinkview flex flex-column justify-content-start m-0 p-0">
+          <div class="px-1 justify-content-start filename">
             {{arq.arquivo_nome_original}}
           </div>
-          <div class="p-px-1 p-jc-start filesize">
+          <div class="px-1 justify-content-start filesize">
             {{readableBytes(arq.arquivo_tamanho)}}
           </div>
         </div>
-        <div class="p-d-flex p-flex-row p-jc-end p-ai-center p-m-0 p-p-0">
-          <div *ngIf="authenticationService.arquivos_apagar && mostraExcluir" class="p-mr-3 p-p-1">
+        <div class="flex flex-row justify-content-end align-items-center m-0 p-0">
+          <div *ngIf="authenticationService.arquivos_apagar && mostraExcluir" class="mr-3 p-1">
             <button pButton pRipple type="button" pTooltip="Excluir" tooltipPosition="left" icon="pi pi-trash" class="p-button-rounded p-button-secondary p-button-text" (click)="excluir(arq)"></button>
           </div>
 
-          <div *ngIf="!authenticationService.arquivos_baixar"  class="arquivoNaolinkview p-m-0 p-p-0">
+          <div *ngIf="!authenticationService.arquivos_baixar"  class="arquivoNaolinkview m-0 p-0">
             <img [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>
           </div>
-          <div *ngIf="authenticationService.arquivos_baixar" (click)="clickArquivo(arq)" class="arquivolinkview p-m-0 p-p-0">
+          <div *ngIf="authenticationService.arquivos_baixar" (click)="clickArquivo(arq)" class="arquivolinkview m-0 p-0">
             <img pTooltip="Download" tooltipPosition="top" [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>
           </div>
         </div>
@@ -39,9 +39,9 @@
   <ng-container *ngIf="horizontal && arquivos.length > 0">
     <!--<p-panel header="ARQUIVOS" class="arquivolistahorizontal">-->
     <p-panel class="arquivolistahorizontal">
-      <div class="p-d-inline-flex arquivolistahorizontal">
+      <div class="inline-flex arquivolistahorizontal">
 
-        <div *ngFor="let arq of arquivos" class="fileclassView p-ai-center p-mx-1 p-my-2 p-p-1 p-shadow-1">
+        <div *ngFor="let arq of arquivos" class="fileclassView align-items-center mx-1 my-2 p-1 p-shadow-1">
           <ng-container *ngIf="!authenticationService.arquivos_baixar">
             <div>
               <div class="arquivolinkexcluir" *ngIf="authenticationService.arquivos_apagar && mostraExcluir">
@@ -80,11 +80,11 @@
                 >
                 </button>
               </div>
-              <div (click)="clickArquivo(arq)" class="arquivolinkview p-mx-1 p-my-1">
+              <div (click)="clickArquivo(arq)" class="arquivolinkview mx-1 my-1">
                 <img pTooltip="Download" tooltipPosition="top" [src]="getIcone(arq.arquivo_nome_original)" [alt]="arq.arquivo_nome_original" [width]="50"/>
               </div>
             </div>
-            <div (click)="clickArquivo(arq)" pTooltip="Download" tooltipPosition="top" class="arquivolinkview p-mx-1 p-my-1">
+            <div (click)="clickArquivo(arq)" pTooltip="Download" tooltipPosition="top" class="arquivolinkview mx-1 my-1">
               {{arq.arquivo_nome_original}} - {{readableBytes(arq.arquivo_tamanho)}}
             </div>
           </ng-container>

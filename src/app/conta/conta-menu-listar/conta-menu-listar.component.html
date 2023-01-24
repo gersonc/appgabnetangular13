@@ -1,8 +1,8 @@
-<div class="p-fluid formulario-bg-externo">
+<div class="inline-block formulario-bg-externo">
   <form [formGroup]="formMenuConta" (keyup)="onKey($event)">
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="submit"
@@ -13,7 +13,7 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -24,7 +24,7 @@
             (click)="limpar()"
           ></button>
         </div>
-        <div *ngIf="aut.contabilidade_incluir" class="p-mr-2">
+        <div *ngIf="aut.contabilidade_incluir" class="mr-2">
           <button
             *ngIf="aut.contabilidade_incluir"
             pButton
@@ -39,14 +39,14 @@
       </div>
     </div>
 
-    <div class="p-d-flex p-ml-1 p-pl-2">
-      <div class="p-fluid p-grid">
+    <div class="flex ml-1 p-pl-2">
+      <div class="inline-block grid">
 
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-          <div class="p-fluid p-formgrid p-grid formulario">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
+          <div class="formgrid grid formulario">
 
             <!-- cedente_array -->
-            <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
               <label for="cedente_array">Cedente</label>
               <p-chips
                 id="cedente_array"
@@ -57,9 +57,9 @@
             </div>
 
             <!-- conta_tipo -->
-            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
+            <div class="field col-12 sm:col-12 md:col-4 lg:col-4 xl:col-4">
               <h5>Tipo</h5>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_tipo_id1"
                   labelStyleClass="radiolabel"
@@ -69,7 +69,7 @@
                 ></p-radioButton>
                 <label for="conta_tipo_id1">TODOS</label>
               </div>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_tipo_id2"
                   labelStyleClass="radiolabel"
@@ -79,7 +79,7 @@
                 ></p-radioButton>
                 <label for="conta_tipo_id2">FIXA</label>
               </div>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_tipo_id3"
                   labelStyleClass="radiolabel"
@@ -92,9 +92,9 @@
             </div>
 
             <!-- conta_paga -->
-            <div class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-4">
+            <div class="field col-12 sm:col-12 md:col-4 lg:col-4 xl:col-4">
               <h5>Pago</h5>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_paga_id1"
                   labelStyleClass="radiolabel"
@@ -104,7 +104,7 @@
                 ></p-radioButton>
                 <label for="conta_paga_id1">TODOS</label>
               </div>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_paga_id2"
                   labelStyleClass="radiolabel"
@@ -114,7 +114,7 @@
                 ></p-radioButton>
                 <label for="conta_paga_id2">NÃO</label>
               </div>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_paga_id3"
                   labelStyleClass="radiolabel"
@@ -124,7 +124,7 @@
                 ></p-radioButton>
                 <label for="conta_paga_id3">SIM</label>
               </div>
-              <div class="p-field-radiobutton">
+              <div class="field-radiobutton">
                 <p-radioButton
                   id="conta_paga_id4"
                   labelStyleClass="radiolabel"
@@ -139,11 +139,11 @@
           </div>
         </div>
 
-        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-          <div class="p-fluid p-formgrid p-grid formulario">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
+          <div class="formgrid grid formulario">
 
             <!-- conta_pagamento_1data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
               <label for="conta_pagamento_1data">Data pagamento</label>
               <p-calendar
                 id="conta_pagamento_1data"
@@ -158,7 +158,7 @@
             </div>
 
             <!-- conta_pagamento_2data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
               <label for="conta_pagamento_2data">até</label>
               <p-calendar
                 id="conta_pagamento_2data"
@@ -173,7 +173,7 @@
             </div>
 
             <!-- conta_vencimento_1data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
               <label for="conta_vencimento_1data">Data vencimento</label>
               <p-calendar
                 id="conta_vencimento_1data"
@@ -187,7 +187,7 @@
             </div>
 
             <!-- conta_vencimento_2data -->
-            <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
               <label for="conta_vencimento_2data">até</label>
               <p-calendar
                 id="conta_vencimento_2data"
@@ -202,7 +202,7 @@
             </div>
 
             <!-- conta_local_id -->
-            <div *ngIf="ddConta_local_id.length > 1" class="p-field p-col-12">
+            <div *ngIf="ddConta_local_id.length > 1" class="field col-12">
               <label for="conta_local_id">Núcleo</label>
               <p-dropdown
                 id="conta_local_id"
@@ -221,9 +221,9 @@
     <br>
     <br>
 
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="submit"
@@ -234,7 +234,7 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -245,7 +245,7 @@
             (click)="limpar()"
           ></button>
         </div>
-        <div *ngIf="aut.contabilidade_incluir" class="p-mr-2">
+        <div *ngIf="aut.contabilidade_incluir" class="mr-2">
           <button
             *ngIf="aut.contabilidade_incluir"
             pButton

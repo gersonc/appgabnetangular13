@@ -6,7 +6,7 @@ import {Subscription} from "rxjs";
 import {LazyLoadEvent} from "primeng/api";
 
 @Component({
-  selector: 'app-mensagem-dataview',
+  selector: 'apmensagem-dataview',
   templateUrl: './mensagem-dataview.component.html',
   styleUrls: ['./mensagem-dataview.component.css']
 })

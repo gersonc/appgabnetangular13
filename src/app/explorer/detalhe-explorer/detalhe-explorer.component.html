@@ -1,8 +1,8 @@
 <ng-container *ngIf="arqs" >
 
-  <div class="p-d-flex">
+  <div class="flex">
   <ng-container *ngFor="let arquivo of arqs">
-    <div class="p-mr-2">
+    <div class="mr-2">
     <app-explorer-detalhe [arquivo]="arquivo"></app-explorer-detalhe>
     </div>
   </ng-container>

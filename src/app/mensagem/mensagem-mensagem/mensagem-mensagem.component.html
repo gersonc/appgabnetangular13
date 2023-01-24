@@ -1,22 +1,22 @@
 <div class="listmsgbox p-shadow-3">
-<div class="p-grid">
-  <div class="p-col-12 p-sm-12 p-md-3 p-lg-2 p-xl-2" style="background-color: var(--surface-b)">
+<div class="grid">
+  <div class="col-12 sm:col-12 md:col-3 lg:col-2 xl:col-2" style="background-color: var(--surface-b)">
     <b>Data:</b> {{msg.mensagem_data}}
   </div>
-  <div class="p-col-12 p-sm-12 p-md-9 p-lg-10 p-xl-10"><div class="p-pl-2 p-text-bold">{{msg.mensagem_titulo}}</div></div>
-  <div *ngIf="msg.mensagem_texto" class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+  <div class="col-12 sm:col-12 md:col-9 lg:col-10 xl:col-10"><div class="p-pl-2  font-bold">{{msg.mensagem_titulo}}</div></div>
+  <div *ngIf="msg.mensagem_texto" class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
     <quill-view [content]="msg.mensagem_texto" [format]="'html'" theme="snow" class="mensagem-list"></quill-view>
   </div>
-  <div *ngIf="listagem_tipo==='recebidas'" class="p-col-12 p-sm-12 p-md-9 p-lg-10 p-xl-11">
+  <div *ngIf="listagem_tipo==='recebidas'" class="col-12 sm:col-12 md:col-9 lg:col-10 xl:col-11">
     <b>Remetente:</b> {{msg.usuario_nome}}
   </div>
-  <div *ngIf="listagem_tipo==='enviadas'" class="p-col-12 p-sm-12 p-md-9 p-lg-10 p-xl-11">
+  <div *ngIf="listagem_tipo==='enviadas'" class="col-12 sm:col-12 md:col-9 lg:col-10 xl:col-11">
     <b>Destinatário(s):</b>
     {{msg.mensagem_usuarios}}
   </div>
-  <div class="p-col-12 p-sm-12 p-md-3 p-lg-2 p-xl-1 btn-apagar-msg">
-    <div class="p-d-flex p-jc-end">
-      <div class="p-ml-2 p-mr-1">
+  <div class="col-12 sm:col-12 md:col-3 lg:col-2 xl:col-1 btn-apagar-msg">
+    <div class="flex justify-content-end">
+      <div class="ml-2 mr-1">
         <button
           pButton
           pRipple
@@ -29,7 +29,7 @@
         >
         </button>
       </div>
-      <div class="p-ml-1 p-mr-2">
+      <div class="ml-1 mr-2">
     <button
       *ngIf="listagem_tipo==='enviadas'"
       pButton

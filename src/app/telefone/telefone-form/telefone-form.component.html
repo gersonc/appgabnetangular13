@@ -1,20 +1,20 @@
 <!--<p-scrollPanel class="detalhe">-->
 <div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
   <form [formGroup]="formTelefone" (ngSubmit)="onSubmit()">
-    <div class="p-fluid">
+    <div class="inline-block">
 
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+      <div class="flex justify-content-center">
+        <div class="mt-1 mb-1 pt-2 px-3 pb-1">
         </div>
       </div>
-      <div class="p-grid">
+      <div class="grid">
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-my-1 p-py-2 p-px-3 p-pb-1">
-            <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="my-1 py-2 px-3 pb-1">
+            <div class="formgrid grid formulario p-input-filled">
 
               <!-- telefone_tipo -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('telefone_tipo')">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6" [ngClass]="aplicaCssErro('telefone_tipo')">
                 <h5><span class="atencao">*</span> Tipo</h5>
                 <p-selectButton
                   id="telefone_tipo"
@@ -27,7 +27,7 @@
               </div>
 
               <!-- telefone_data -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('telefone_data')">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6" [ngClass]="aplicaCssErro('telefone_data')">
                 <h5><span class="atencao">*</span> Data</h5>
                 <p-calendar
                   id="telefone_data"
@@ -47,7 +47,7 @@
               </div>
 
               <!-- telefone_de -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('telefone_de')">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6" [ngClass]="aplicaCssErro('telefone_de')">
                 <h5><span class="atencao">*</span> De</h5>
                 <input
                   id="telefone_de"
@@ -63,7 +63,7 @@
               </div>
 
               <!-- telefone_para -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" [ngClass]="aplicaCssErro('telefone_para')">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6" [ngClass]="aplicaCssErro('telefone_para')">
                 <h5><span class="atencao">*</span> Para</h5>
                 <input
                   id="telefone_para"
@@ -79,7 +79,7 @@
               </div>
 
               <!-- telefone_assunto -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6"
                    [ngClass]="aplicaCssErro('telefone_assunto')">
                 <h5><span class="atencao">*</span> Assunto</h5>
                 <input
@@ -96,7 +96,7 @@
               </div>
 
               <!-- telefone_ddd -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
                 <h5>DDD</h5>
                 <input
                   id="telefone_ddd"
@@ -111,7 +111,7 @@
               </div>
 
               <!-- telefone_telefone -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6"
                    [ngClass]="aplicaCssErro('telefone_telefone')">
                 <h5><span class="atencao">*</span> Telefone</h5>
                 <input
@@ -129,7 +129,7 @@
               </div>
 
               <!-- telefone_local_id -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6"
                    [ngClass]="aplicaCssErro('telefone_local_id')">
                 <h5><span class="atencao">*</span> Núcleo</h5>
                 <p-dropdown
@@ -145,7 +145,7 @@
               </div>
 
               <!-- telefone_usuario_nome -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6"
                    [ngClass]="aplicaCssErro('telefone_usuario_nome')">
                 <h5><span class="atencao">*</span> Atendente</h5>
                 <p-dropdown
@@ -161,7 +161,7 @@
               </div>
 
               <!-- telefone_resolvido -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6"
                    [ngClass]="aplicaCssErro('telefone_resolvido')">
                 <h5><span class="atencao">*</span> Situação</h5>
                 <p-selectButton
@@ -176,9 +176,9 @@
               </div>
 
               <!-- telefone_observacao -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
 
-                <div class="p-d-flex p-jc-center">
+                <div class="flex justify-content-center">
                   <div class="formulario-quill">
                     <h5>Observações</h5>
                     <div class="qeditor">
@@ -201,7 +201,7 @@
 
 
               <ng-container *ngIf="aut.arquivos">
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                   <app-arquivo *ngIf="tfs.acao === 'incluir'"
                                [modulo]="'proposicao'"
                                [modelo]="'incluir'"
@@ -231,25 +231,25 @@
           </div>
         </div>
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
 
       </div>
     </div>
 
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+    <div class="grid">
+      <div class="col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
     </div>
 
-    <div class="p-fluid">
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
+    <div class="inline-block">
+      <div class="grid">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
+            <div class="col-12 formulario">
               <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-d-inline-flex">
-                  <div class="p-ml-2" [ngClass]="{'p-d-none': !formTelefone.valid}">
+              <div class="flex justify-content-start pb-2 pt-2">
+                <div class="inline-flex">
+                  <div class="ml-2" [ngClass]="{'hidden': !formTelefone.valid}">
                     <button
                       pButton
                       type="submit"
@@ -258,7 +258,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mx-2">
+                  <div class="mx-2">
                     <button
                       pButton
                       type="button"
@@ -268,7 +268,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -289,8 +289,8 @@
       </div>
 
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1">&nbsp;</div>
+      <div class="grid">
+        <div class="col-10 p-offset-1">&nbsp;</div>
       </div>
     </div>
 

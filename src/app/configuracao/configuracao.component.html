@@ -1,19 +1,19 @@
 <div class="formulario-externo-bg">
-  <div class="p-fluid formulario-bg-externo">
+  <div class="inline-block formulario-bg-externo">
 
-    <div class="p-d-flex p-jc-center">
-      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+    <div class="flex justify-content-center">
+      <div class="mt-1 mb-1 pt-2 px-3 pb-1">
         <span class="formulario-titulo">{{cfgItem.label | uppercase}}</span>
       </div>
     </div>
-    <div class="p-grid">
-      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-grid p-input-filled">
-          <div class="p-col-12 formulario">
-            <div class="p-fluid p-formgrid p-grid">
+    <div class="grid">
+      <div class="col-12 xl:col-8 lg:col-10 xl:col-offset-2 lg:col-offset-1 mt-0 pb-0 formulario-bg-interno">
+        <div class="grid p-input-filled">
+          <div class="col-12 formulario">
+            <div class="formgrid grid">
 
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                <div class="p-pt-2 p-px-3 p-pb-1">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
+                <div class="pt-2 px-3 pb-1">
                   <p-dropdown
                     name="opcao"
                     id="opcao"
@@ -32,22 +32,22 @@
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      <div class="col-12 xl:col-8 lg:col-10 xl:col-offset-2 lg:col-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
     </div>
 
 
-    <div class="p-grid">
-      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 formulario-bg-externo"></div>
+    <div class="grid">
+      <div class="col-12 xl:col-8 lg:col-10 xl:col-offset-2 lg:col-offset-1 formulario-bg-externo"></div>
     </div>
 
-    <div class="p-grid">
-      <div class="p-col-12 p-xl-8 p-lg-10 p-xl-offset-2 p-lg-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-grid p-input-filled">
+    <div class="grid">
+      <div class="col-12 xl:col-8 lg:col-10 xl:col-offset-2 lg:col-offset-1 mt-0 pb-0 formulario-bg-interno">
+        <div class="grid p-input-filled">
 
-          <div class="p-col-12">
-            <div class="p-fluid p-formgrid p-grid">
+          <div class="col-12">
+            <div class="formgrid grid">
 
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                 <ng-container *ngIf="tipoComp === 1">
                   <app-configuracao-tabela [componente]="componente"
                                            (onConfTitulo)="onConfTitulo($event)"></app-configuracao-tabela>
@@ -85,7 +85,7 @@
     </div>
   </div>
 
-  <div class="p-fluid formulario-bg-externo" style="min-height: 2rem; padding-top: 2rem">
+  <div class="inline-block formulario-bg-externo" style="min-height: 2rem; padding-top: 2rem">
 
   </div>
 </div>

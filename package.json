@@ -7,7 +7,7 @@
     "lintFix": "ng lint --fix",
     "start": "ng serve --configuration production --port 4300",
     "start2": "ng serve --configuration development --port 4300",
-    "start3": "ng serve --configuration development --port 4300",
+    "start3": "ng serve --configuration development --port 4400",
     "build": "ng build  --configuration production",
     "watchSubFolder": "ng build --watch --configuration development",
     "watch": "ng build --watch",

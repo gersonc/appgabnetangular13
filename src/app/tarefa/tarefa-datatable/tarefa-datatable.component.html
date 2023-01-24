@@ -47,50 +47,50 @@
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
     <div [ngClass]="{'hide-datatable': md.mdt}">
-      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
-        <div class="p-d-inline-flex">
-          <div class="p-mx-2">
+      <div class="flex justify-content-between align-items-center flex-column p-flex-md-row">
+        <div class="inline-flex">
+          <div class="mx-2">
             <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
                     (click)="mostraMenu()"></button>
           </div>
-          <div class="p-mr-2">
+          <div class="mr-2">
             <button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm"
                     (click)="mostraSelectColunas()"></button>
           </div>
-          <div class="p-mr-2" *ngIf="aut.dispositivo!=='mobile'">
+          <div class="mr-2" *ngIf="aut.dispositivo!=='mobile'">
             <button pButton type="button" label="Relatórios" icon="pi pi-info" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
           </div>
 
-          <div class="p-mr-0">
+          <div class="mr-0">
             <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
                     (click)="tarefaIncluir()"></button>
           </div>
         </div>
 
-        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mx-2">TAREFAS</div>
+        <div *ngIf="aut.dispositivo!=='mobile'" class="inline-flex align-items-center">
+          <div class="mx-2">TAREFAS</div>
         </div>
-        <div *ngIf="aut.dispositivo!=='mobile'" class="p-d-inline-flex p-ai-center">
-          <div class="p-mr-2"
+        <div *ngIf="aut.dispositivo!=='mobile'" class="inline-flex align-items-center">
+          <div class="mr-2"
                *ngIf="ts.selecionados !== undefined &&  ts.selecionados !== null &&  ts.selecionados.length > 0">
             <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
                     (click)="ts.resetSelecionados()"></button>
           </div>
-          <div class="p-mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
+          <div class="mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
             Registros: {{ts.tabela.totalRecords}}</div>
         </div>
 
-        <div *ngIf="aut.dispositivo==='mobile'" class="p-d-flex p-jc-center">
-          <div class="p-mx-2">TAREFAS</div>
-          <div class="p-mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
+        <div *ngIf="aut.dispositivo==='mobile'" class="flex justify-content-center">
+          <div class="mx-2">TAREFAS</div>
+          <div class="mr-2">Página {{ts.tabela.currentPage}} de {{ts.tabela.pageCount}} - Num.
             Registros: {{ts.tabela.totalRecords}}</div>
         </div>
 
 
       </div>
     </div>
-    <p-menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <menu #men styleClass="relatorio" [popup]="true" [model]="itemsAcao" appendTo="body"></menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -191,9 +191,9 @@
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
-          <div class="p-fluid">
-            <div class="p-d-flex p-jc-start p-pb-2">
-              <div class="p-mr-2">
+          <div class="inline-block">
+            <div class="flex justify-content-start pb-2">
+              <div class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -207,7 +207,7 @@
                 </button>
               </div>
 
-              <div class="p-mr-2">
+              <div class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -221,7 +221,7 @@
                 </button>
               </div>
 
-              <div *ngIf="permissaoApagarArquivo(tarf)" class="p-mr-2">
+              <div *ngIf="permissaoApagarArquivo(tarf)" class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -236,7 +236,7 @@
               </div>
 
               <div *ngIf="tarf.tarefa_historico.length > 0"
-                   class="p-mr-2">
+                   class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -249,7 +249,7 @@
                 >
                 </button>
               </div>
-              <div class="p-mr-2">
+              <div class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -266,8 +266,8 @@
 
             </div>
 
-            <div class="p-grid">
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
+            <div class="grid">
+              <div class="col-12 sm:col-12 md:col-6 lg:col-3 xl:col-3">
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_titulo}}</h5>
                   {{tarf['tarefa_titulo']}}
@@ -275,7 +275,7 @@
               </div>
               <div
                 *ngIf="tarf['tarefa_tarefa'] !== null && tarf['tarefa_tarefa'].length > 0"
-                class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6"
+                class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6"
               >
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_tarefa}}</h5>
@@ -292,7 +292,7 @@
                 </div>
               </div>
 
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-3 p-xl-3">
+              <div class="col-12 sm:col-12 md:col-6 lg:col-3 xl:col-3">
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_situacao_nome}}</h5>
                   <div
@@ -300,21 +300,21 @@
                 </div>
               </div>
 
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+              <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_data}}</h5>
                   {{tarf['tarefa_data']}}
                 </div>
               </div>
 
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+              <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_usuario_autor_nome}}</h5>
                   {{tarf['tarefa_usuario_autor_nome']}}
                 </div>
               </div>
 
-              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+              <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_datahora}}</h5>
                   {{tarf['tarefa_datahora']}}
@@ -322,10 +322,10 @@
               </div>
 
             </div>
-            <div class="p-grid">
+            <div class="grid">
 
 
-              <div class="p-col-12 p-sm-12 p-md-12 p-lg-8 p-xl-9">
+              <div class="col-12 sm:col-12 md:col-12 lg:col-8 xl:col-9">
                 <div class="registrostarefa p-shadow-1">
                   <h5>{{ts.tTit.tarefa_usuario_situacao_andamento}}</h5>
                   <app-tarefa-usuario-situacao-andamento
@@ -339,7 +339,7 @@
 
 
 
-            <div class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+            <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
               <div class="registrostarefa p-shadow-1">
                 <h5>{{ts.tTit.tarefa_usuario_situacao}}</h5>
                 <app-tarefa-usuario-situacao
@@ -388,12 +388,12 @@
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="ts.tabela.selectedColumns"></app-seletor-colunas>
   <p-footer>
-    <div class="p-d-flex p-jc-start p-pb-2">
-      <div class="p-mr-2">
+    <div class="flex justify-content-start pb-2">
+      <div class="mr-2">
         <button pButton type="button" label="Fehar " icon="pi pi-times"
                 class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
       </div>
-      <div class="p-mr-2">
+      <div class="mr-2">
         <button pButton type="button" label="Reset " icon="pi pi-backward"
                 class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
       </div>

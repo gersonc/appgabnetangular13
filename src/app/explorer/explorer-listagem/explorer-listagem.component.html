@@ -41,8 +41,8 @@
       <div>{{readableBytes(arquivo.arquivo_tamanho)}}</div>
     </div>
 
-    <div class="p-d-inline-flex">
-      <div *ngIf="imgSN && exs.aut.arquivos_baixar" class="p-mx-2">
+    <div class="inline-flex">
+      <div *ngIf="imgSN && exs.aut.arquivos_baixar" class="mx-2">
         <button
           pButton
           pRipple
@@ -55,7 +55,7 @@
         >
         </button>
       </div>
-      <div *ngIf="exs.aut.arquivos_baixar" class="p-mx-2">
+      <div *ngIf="exs.aut.arquivos_baixar" class="mx-2">
         <button
           pButton
           pRipple
@@ -68,7 +68,7 @@
         >
         </button>
       </div>
-        <div *ngIf="exs.aut.arquivos_apagar" class="p-mr-2">
+        <div *ngIf="exs.aut.arquivos_apagar" class="mr-2">
           <button
             pButton
             pRipple
@@ -81,7 +81,7 @@
           >
           </button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             pRipple
@@ -135,8 +135,8 @@
 <p-overlayPanel #fdr [dismissable]="!exs.desligaBtnApagar" [showCloseIcon]="!exs.desligaBtnApagar" class="explorer">
   <ng-template pTemplate>
     <ng-container *ngIf="mostraApagar">
-      <div class="p-d-flex p-ai-center atencao">
-        <i class="pi pi-exclamation-triangle p-mr-2" style="font-size: 2rem"></i>
+      <div class="flex align-items-center atencao">
+        <i class="pi pi-exclamation-triangle mr-2" style="font-size: 2rem"></i>
         <div><h4>Atenção</h4></div>
       </div>
       <div class="aviso0">
@@ -145,7 +145,7 @@
       <div class="aviso1">
         Confirma apagar?
       </div>
-      <div class="p-d-flex p-jc-between">
+      <div class="flex justify-content-between">
         <div>
           <button pButton pRipple type="button" label="Sim" class="p-button-rounded p-button-danger"
                   (click)="apagarPasta()" [disabled]="exs.desligaBtnApagar"></button>
@@ -158,8 +158,8 @@
     </ng-container>
 
     <ng-container *ngIf="!mostraApagar">
-      <div class="p-d-flex p-ai-center atencao">
-        <i class="pi pi-exclamation-triangle p-mr-2" style="font-size: 2rem"></i>
+      <div class="flex align-items-center atencao">
+        <i class="pi pi-exclamation-triangle mr-2" style="font-size: 2rem"></i>
         <div><h4>Atenção</h4></div>
       </div>
       <div class="aviso0">

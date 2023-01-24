@@ -16,7 +16,7 @@
 
       <td style="width: 3em; vertical-align:top;" *ngIf="permitirAcao">
 
-        <div *ngIf="alterar" class="p-m-1">
+        <div *ngIf="alterar" class="m-1">
           <button
             pButton
             pRipple
@@ -30,7 +30,7 @@
           </button>
         </div>
 
-        <div class="p-m-1">
+        <div class="m-1">
           <p-confirmPopup></p-confirmPopup>
           <button *ngIf="apagar" pButton pRipple type="button" icon="pi pi-trash" pTooltip="APAGAR"
                   class="historico p-button-sm p-button-rounded p-button-danger"
@@ -41,8 +41,8 @@
     </tr>
   </table>
 
-  <div class="p-d-flex p-jc-start p-pb-2 p-pt-4">
-    <div class="p-mr-2">
+  <div class="flex justify-content-start pb-2 pt-4">
+    <div class="mr-2">
       <button
         pButton
         pRipple
@@ -54,7 +54,7 @@
         label="FECHAR"
       ></button>
     </div>
-    <div *ngIf="incluir && permitirAcao" class="p-mr-2">
+    <div *ngIf="incluir && permitirAcao" class="mr-2">
       <button
         pButton
         pRipple

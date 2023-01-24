@@ -24,11 +24,11 @@
 >
   <!--*** TITULOS *************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <div class="p-d-inline-flex p-ai-center">
-      <div class="p-mx-2">ANDAMENTOS DA PROPOSIÇÃO</div>
+    <div class="inline-flex align-items-center">
+      <div class="mx-2">ANDAMENTOS DA PROPOSIÇÃO</div>
     </div>
-    <div class="p-d-inline-flex p-ai-end">
-      <div class="p-mr-2">Num. Registros: {{proposicao.andamento_proposicao.length}}</div>
+    <div class="inline-flex align-items-end">
+      <div class="mr-2">Num. Registros: {{proposicao.andamento_proposicao.length}}</div>
     </div>
   </ng-template>
 
@@ -57,7 +57,7 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
       <td style="width: 3rem; vertical-align:top; text-align: left" *ngIf="permitirAcao">
-        <div *ngIf="permitirAlterar" class="p-py-1 p-pr-2">
+        <div *ngIf="permitirAlterar" class="py-1 pr-2">
           <button
             #tgl
             id="tgh{{rowIndex}}"
@@ -73,7 +73,7 @@
           </button>
         </div>
 
-        <div *ngIf="permitirApagar" class="p-py-1 p-pr-2">
+        <div *ngIf="permitirApagar" class="py-1 pr-2">
           <p-confirmPopup></p-confirmPopup>
           <button pButton pRipple type="button" icon="pi pi-trash" pTooltip="APAGAR"
                   class="historico p-button-sm p-button-rounded p-button-danger"
@@ -88,8 +88,8 @@
   </ng-template>
 
 </p-table>
-  <div class="p-d-flex p-jc-start p-pb-1 p-pt-4">
-    <div class="p-mr-2">
+  <div class="flex justify-content-start pb-1 pt-4">
+    <div class="mr-2">
       <button
         pButton
         pRipple
@@ -100,7 +100,7 @@
         (click)="fechar()"
       ></button>
     </div>
-    <div *ngIf="permitirIncluir" class="p-mr-2">
+    <div *ngIf="permitirIncluir" class="mr-2">
       <button
         pButton
         pRipple

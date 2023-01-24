@@ -415,7 +415,7 @@ export class EmendaDatatableComponent implements OnInit {
   }
 
   mostraDialog(ev: boolean) {
-    this.cssMostra = (ev) ? null : 'p-d-none';
+    this.cssMostra = (ev) ? null : 'hidden';
   }
 
   recebeRegistro(h: HistFormI) {

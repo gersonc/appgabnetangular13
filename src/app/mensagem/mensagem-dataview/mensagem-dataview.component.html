@@ -1,14 +1,14 @@
 <p-dataView [value]="ms.mensagens" [paginator]="true" [rows]="10">
   <ng-template let-msg pTemplate="listItem">
     <div class="listmsgbox">
-      <div class="p-grid">
-        <div class="p-col-12">
+      <div class="grid">
+        <div class="col-12">
           {{msg.mensagem_data}}
         </div>
-        <div class="p-col-12">
+        <div class="col-12">
           {{msg.mensagem_titulo}}
         </div>
-        <div *ngIf="msg.mensagem_texto" class="p-col-12"><app-quill-view [cphtml]="msg.mensagem_texto"></app-quill-view></div>
+        <div *ngIf="msg.mensagem_texto" class="col-12"><app-quill-view [cphtml]="msg.mensagem_texto"></app-quill-view></div>
       </div>
     </div>
   </ng-template>

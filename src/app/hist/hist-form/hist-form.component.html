@@ -7,9 +7,9 @@
               <tr>
                 <td>
 
-                  <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+                  <div class="formgrid grid formulario p-input-filled">
 
-                    <div class="p-field p-col-12 p-sm-12 p-md-8 p-lg-4 p-xl-3 formulario"
+                    <div class="field col-12 sm:col-12 md:col-8 lg:col-4 xl:col-3 formulario"
                          [ngClass]="aplicaCssErro('historico_data')">
                       <label for="historico_data"><span class="atencao">*</span>Data</label>
                       <p-calendar
@@ -24,9 +24,9 @@
                       <app-campo-erro msgErro="Data é obrigatória."
                                       [mostrarErro]="verificaRequired('historico_data')"></app-campo-erro>
                     </div>
-                    <div class="p-field p-md-2 p-lg-8 p-xl-9 formulario"></div>
+                    <div class="field md:col-2 lg:col-8 xl:col-9 formulario"></div>
 
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12 formulario" [ngClass]="aplicaCssErro('historico_andamento')">
+                    <div class="field col-12 md:col-12 lg:col-12 xl:col-12 formulario" [ngClass]="aplicaCssErro('historico_andamento')">
                       <label for="historico_andamento"><span class="atencao">*</span>Andamento</label>
                       <div class="qeditor">
                       <quill-editor
@@ -47,10 +47,10 @@
 
                     </div>
 
-                    <div class="p-field p-col-12">
+                    <div class="field col-12">
                       <!--*** Botões ***-->
-                      <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                        <div class="p-mr-2">
+                      <div class="flex justify-content-start pb-2 pt-2">
+                        <div class="mr-2">
                           <button
                             pButton
                             pRipple
@@ -60,7 +60,7 @@
                             [disabled]="!formHis.valid || !formHis.dirty"
                           ></button>
                         </div>
-                        <div class="p-mr-2">
+                        <div class="mr-2">
                           <button
                             pButton
                             pRipple
@@ -71,7 +71,7 @@
                             [disabled]="!formHis.dirty"
                           ></button>
                         </div>
-                        <div class="p-mr-2">
+                        <div class="mr-2">
                           <button
                             pButton
                             pRipple

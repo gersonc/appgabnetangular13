@@ -4,7 +4,7 @@ import {Subscription} from "rxjs";
 import {MensagemService} from "../_services/mensagem.service";
 
 @Component({
-  selector: 'app-mensagem',
+  selector: 'apmensagem',
   templateUrl: './mensagem.component.html',
   styleUrls: ['./mensagem.component.css']
 })

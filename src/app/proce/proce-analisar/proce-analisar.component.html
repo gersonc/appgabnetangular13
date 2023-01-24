@@ -1,17 +1,17 @@
 <p-scrollPanel [styleClass]="'formulario'">
 
   <div class="formulario externo">
-    <div class="p-fluid formulario-bg-externo">
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+    <div class="inline-block formulario-bg-externo">
+      <div class="flex justify-content-center">
+        <div class="mt-1 mb-1 pt-2 px-3 pb-1">
           <span class="formulario-titulo">SOLICITAÇÃO - ANALISAR</span>
         </div>
       </div>
-      <div class="p-grid">
+      <div class="grid">
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
+            <div class="col-12 formulario">
               <table class="detalhefull">
                 <tr>
                   <td>
@@ -388,8 +388,8 @@
                         </table>
                       </p-accordionTab>
                       <p-accordionTab header="ARQUIVOS DO PROCESSO" *ngIf="pfs.processo.processo_arquivos.length > 0 && aut.arquivos_baixar">
-                        <div class="p-d-flex">
-                          <div class="p-mx-1">
+                        <div class="flex">
+                          <div class="mx-1">
                         <app-detalhe-explorer [arquivos]="pfs.processo.processo_arquivos"></app-detalhe-explorer>
                           </div>
                         </div>
@@ -617,29 +617,29 @@
         </div>
 
       </div>
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
 
       <form [formGroup]="formPro" (ngSubmit)="onSubmit()">
 
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+        <div class="grid">
+          <div class="col-10 p-offset-1 formulario-bg-externo"></div>
         </div>
 
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <!--<div class="p-col-12 formulario">-->
-            <div class="p-fluid p-formgrid p-grid">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <!--<div class="col-12 formulario">-->
+            <div class="formgrid grid">
 
-              <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+              <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                 &nbsp;
               </div>
 
-              <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
-                <div class="p-fluid p-formgrid p-grid">
+              <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
+                <div class="formgrid grid">
 
                   <p-accordion>
                     <p-accordionTab header="Resposta / Carta">
-                      <div class="p-d-flex p-jc-center">
+                      <div class="flex justify-content-center">
                         <div class="formulario-quill">
                           <div class="qeditor">
                             <quill-editor
@@ -659,7 +659,7 @@
                       </div>
                     </p-accordionTab>
                     <p-accordionTab header="Andamento">
-                      <div class="p-d-flex p-jc-center">
+                      <div class="flex justify-content-center">
                         <div class="formulario-quill">
                           <div class="qeditor">
                             <quill-editor
@@ -690,18 +690,18 @@
                     </p-accordionTab>
                   </p-accordion>
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                     &nbsp;
                   </div>
 
-                  <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                     <label for="processo_status_id">Análise</label>
                     <p-selectButton [options]="bts" optionValue="value" optionLabel="label" id="processo_status_id"
                                     formControlName="processo_status_id"
                                     (onChange)="onChangeBtn($event)"></p-selectButton>
                   </div>
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                     &nbsp;
                   </div>
 
@@ -715,21 +715,21 @@
 
         </div>
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
+        <div class="grid">
+          <div class="col-10 p-offset-1 formulario-bg-externo"></div>
         </div>
 
-        <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-          <div class="p-grid">
-            <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-              <div class="p-grid p-input-filled">
+        <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+          <div class="grid">
+            <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+              <div class="grid p-input-filled">
 
-                <div class="p-col-12 formulario">
+                <div class="col-12 formulario">
                   <!--*** Botões ***-->
-                  <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
+                  <div class="flex justify-content-start pb-2 pt-2">
 
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         type="submit"
@@ -738,7 +738,7 @@
                         label="Enviar"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         type="button"
@@ -747,7 +747,7 @@
                         label="Cancelar"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         type="button"
@@ -768,10 +768,10 @@
       </form>
 
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid formulario-bg-externo">
-          <div class="p-col-12"></div>
-          <div class="p-col-12"></div>
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid formulario-bg-externo">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
 

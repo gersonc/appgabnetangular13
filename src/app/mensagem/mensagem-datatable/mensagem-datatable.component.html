@@ -1,11 +1,11 @@
-<div class="p-grid">
+<div class="grid">
   <ng-container *ngIf="ds.dispositivo==='desktop'">
-  <div class="p-col-12 p-sm-12 p-md-4 p-lg-3 p-xl-2">
+  <div class="col-12 sm:col-12 md:col-4 lg:col-3 xl:col-2">
 <div class="menu-mensagem-externo p-shadow-3">
     <form [formGroup]="formMenuMensagem" (keyup)="onKey($event)">
-      <div class="p-d-flex p-jc-between p-py-2 p-ml-2 p-pl-2">
-        <!--<div class="p-d-inline-flex">-->
-          <div class="p-pr-2">
+      <div class="flex justify-content-between py-2 ml-2 p-pl-2">
+        <!--<div class="inline-flex">-->
+          <div class="pr-2">
             <button
               pButton
               type="submit"
@@ -16,7 +16,7 @@
               (click)="onMudaForm()"
             ></button>
           </div>
-          <div class="p-pr-2">
+          <div class="pr-2">
             <button
               pButton
               type="button"
@@ -42,12 +42,12 @@
         [value]="null"
       >
 
-      <div class="p-d-flex p-ml-1 p-pl-2">
-        <div class="p-fluid p-formgrid p-grid menu-mensagem">
+      <div class="flex ml-1 p-pl-2">
+        <div class="formgrid grid menu-mensagem">
 
-          <div class="p-field p-col-12 menu-mensagem"></div>
+          <div class="field col-12 menu-mensagem"></div>
           <!-- mensagem_tipo -->
-          <div  class="p-field p-col-12 menu-mensagem formulario">
+          <div  class="field col-12 menu-mensagem formulario">
             <label for="tipo_listagem">Enviadas ou Recebidas</label>
             <p-selectButton
               #tipo
@@ -58,7 +58,7 @@
           </div>
 
           <!-- usuario_mensagem_usuario_id -->
-          <div *ngIf="ms.listagem_tipo===2 && ddusuario_mensagem_usuario_id" class="p-field p-col-12 menu-mensagem">
+          <div *ngIf="ms.listagem_tipo===2 && ddusuario_mensagem_usuario_id" class="field col-12 menu-mensagem">
             <label for="usuario_mensagem_usuario_id">Destinatário</label>
             <p-dropdown
               id="usuario_mensagem_usuario_id"
@@ -71,7 +71,7 @@
           </div>
 
           <!-- usuario_id -->
-          <div *ngIf="ms.listagem_tipo===1 && ddusuario_id" class="p-field p-col-12 menu-mensagem">
+          <div *ngIf="ms.listagem_tipo===1 && ddusuario_id" class="field col-12 menu-mensagem">
             <label for="usuario_id">Rementente</label>
             <p-dropdown
               id="usuario_id"
@@ -84,7 +84,7 @@
           </div>
 
           <!-- mensagem_data1 -->
-          <div class="p-field p-col-6 menu-mensagem">
+          <div class="field col-6 menu-mensagem">
             <label for="mensagem_data1">De</label>
             <p-calendar
               id="mensagem_data1"
@@ -99,7 +99,7 @@
           </div>
 
           <!-- mensagem_data2 -->
-          <div class="p-field p-col-6 menu-mensagem">
+          <div class="field col-6 menu-mensagem">
             <label for="mensagem_data2">até</label>
             <p-calendar
               id="mensagem_data2"
@@ -116,7 +116,7 @@
 
 
           <!-- mensagem_titulo -->
-          <div class="p-field p-col-12 menu-mensagem">
+          <div class="field col-12 menu-mensagem">
             <label for="mensagem_titulo">Titulo contém</label>
             <p-chips
               #a2
@@ -130,13 +130,13 @@
             ></p-chips>
           </div>
 
-          <div class="p-field p-col-12 menu-mensagem"></div>
+          <div class="field col-12 menu-mensagem"></div>
 
         </div>
       </div>
 
-      <div class="p-d-flex p-jc-between p-py-2 p-ml-2 p-pl-2">
-          <div class="p-mr-2">
+      <div class="flex justify-content-between py-2 ml-2 p-pl-2">
+          <div class="mr-2">
             <button
               pButton
               type="submit"
@@ -147,7 +147,7 @@
               (click)="onMudaForm()"
             ></button>
           </div>
-          <div class="p-mr-2">
+          <div class="mr-2">
             <button
               pButton
               type="button"
@@ -202,15 +202,15 @@
 >
   <ng-template pTemplate="caption">
     <div id="tablecaption">
-      <div class="p-d-flex p-jc-between p-ai-center p-flex-column p-flex-md-row">
+      <div class="flex justify-content-between align-items-center flex-column p-flex-md-row">
 
-        <div class="p-d-inline-flex">
-          <div *ngIf="ds.dispositivo==='mobile'" class="p-mx-1">
+        <div class="inline-flex">
+          <div *ngIf="ds.dispositivo==='mobile'" class="mx-1">
             <button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm"
                     (click)="mostraMenu()"></button>
           </div>
 
-          <div class="p-mr-0">
+          <div class="mr-0">
             <button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm"
                     (click)="incluir()"></button>
           </div>
@@ -230,7 +230,7 @@
   <ng-template pTemplate="body" let-msg>
     <tr>
       <td class="mensagem-list">
-<app-mensagem-mensagem [msg]="msg" [listagem_tipo]="ms.listagem_tipo" (apagar)="onApagar($event)" (apagar2)="onApagar2($event)"></app-mensagem-mensagem>
+<apmensagem-mensagem [msg]="msg" [listagem_tipo]="ms.listagem_tipo" (apagar)="onApagar($event)" (apagar2)="onApagar2($event)"></apmensagem-mensagem>
 
       </td>
     </tr>
@@ -252,11 +252,11 @@
   appendTo="body"
 >
   <p-scrollPanel [styleClass]="'menu-lateral'" >
-    <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+    <div class="inline-block formulario-bg-externo espacoInferiorMenu">
       <form [formGroup]="formMenuMensagem" (keyup)="onKey($event)">
-        <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-          <div class="p-d-inline-flex">
-            <div class="p-mr-2">
+        <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+          <div class="inline-flex">
+            <div class="mr-2">
               <button
                 pButton
                 type="submit"
@@ -267,7 +267,7 @@
                 (click)="onMudaForm()"
               ></button>
             </div>
-            <div class="p-mr-2">
+            <div class="mr-2">
               <button
                 pButton
                 type="button"
@@ -278,7 +278,7 @@
                 (click)="limpar()"
               ></button>
             </div>
-            <div class="p-mr-2">
+            <div class="mr-2">
               <button
                 pButton
                 type="button"
@@ -304,12 +304,12 @@
           [value]="null"
         >
 
-        <div class="p-d-flex p-ml-1 p-pl-2">
-          <div class="p-fluid p-formgrid p-grid formulario">
+        <div class="flex ml-1 p-pl-2">
+          <div class="formgrid grid formulario">
 
-            <div class="p-field p-col-12 menu-lateral"></div>
+            <div class="field col-12 menu-lateral"></div>
             <!-- mensagem_tipo -->
-            <div  class="p-field p-col-12 menu-lateral">
+            <div  class="field col-12 menu-lateral">
               <label for="tipo_listagem2">Enviadas ou Recebidas</label>
               <p-selectButton
                 #tipo
@@ -320,7 +320,7 @@
             </div>
 
             <!-- usuario_mensagem_usuario_id -->
-            <div *ngIf="ms.listagem_tipo===2 && ddusuario_mensagem_usuario_id" class="p-field p-col-12 menu-lateral">
+            <div *ngIf="ms.listagem_tipo===2 && ddusuario_mensagem_usuario_id" class="field col-12 menu-lateral">
               <label for="usuario_mensagem_usuario_id2">Destinatário</label>
               <p-dropdown
                 id="usuario_mensagem_usuario_id2"
@@ -333,7 +333,7 @@
             </div>
 
             <!-- usuario_id -->
-            <div *ngIf="ms.listagem_tipo===1 && ddusuario_id" class="p-field p-col-12 menu-lateral">
+            <div *ngIf="ms.listagem_tipo===1 && ddusuario_id" class="field col-12 menu-lateral">
               <label for="usuario_id2">Rementente</label>
               <p-dropdown
                 id="usuario_id2"
@@ -346,7 +346,7 @@
             </div>
 
             <!-- mensagem_data1 -->
-            <div class="p-field p-col-6 menu-lateral">
+            <div class="field col-6 menu-lateral">
               <label for="mensagem_data12">De</label>
               <p-calendar
                 id="mensagem_data12"
@@ -361,7 +361,7 @@
             </div>
 
             <!-- mensagem_data2 -->
-            <div class="p-field p-col-6 menu-lateral">
+            <div class="field col-6 menu-lateral">
               <label for="mensagem_data22">até</label>
               <p-calendar
                 id="mensagem_data22"
@@ -378,7 +378,7 @@
 
 
             <!-- mensagem_titulo -->
-            <div class="p-field p-col-12 menu-lateral">
+            <div class="field col-12 menu-lateral">
               <label for="mensagem_titulo2">Titulo contém</label>
               <p-chips
                 #a2
@@ -395,7 +395,7 @@
 
 
             <!-- mensagem_resolvido -->
-            <!--<div class="p-field p-col-12 menu-lateral">
+            <!--<div class="field col-12 menu-lateral">
               <label for="usuario_mensagem_visto2">Lidas</label>
               <p-selectButton
                 id="usuario_mensagem_visto2"
@@ -404,14 +404,14 @@
               ></p-selectButton>
             </div>-->
 
-            <div class="p-field p-col-12 menu-lateral"></div>
+            <div class="field col-12 menu-lateral"></div>
 
           </div>
         </div>
 
-        <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-          <div class="p-d-inline-flex">
-            <div class="p-mr-2">
+        <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+          <div class="inline-flex">
+            <div class="mr-2">
               <button
                 pButton
                 type="submit"
@@ -422,7 +422,7 @@
                 (click)="onMudaForm()"
               ></button>
             </div>
-            <div class="p-mr-2">
+            <div class="mr-2">
               <button
                 pButton
                 type="button"
@@ -433,7 +433,7 @@
                 (click)="limpar()"
               ></button>
             </div>
-            <div class="p-mr-2">
+            <div class="mr-2">
               <button
                 pButton
                 type="button"

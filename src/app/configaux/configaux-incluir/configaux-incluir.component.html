@@ -1,5 +1,5 @@
 <ng-container *ngIf="aut.configuracao_incluir">
-  <div class="p-fluid p-inputgroup" style="font-size: 1rem;height: 2rem;">
+  <div class="inline-block p-inputgroup" style="font-size: 1rem;height: 2rem;">
     <button
       #incaux
       class="confaux p-button-secondary p-button-icon-only"
@@ -33,11 +33,11 @@
         <table class="historicoformdialog tabela">
           <tr>
             <td>
-              <div class="p-grid p-input-filled">
+              <div class="grid p-input-filled">
 
-                <div class="p-formgrid p-grid p-input-filled formulario">
+                <div class="formgrid grid p-input-filled formulario">
 
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12 formulario">
                   <label for="input1">{{tituloCampo}}</label>
                   <input
                     id="input1"
@@ -51,10 +51,10 @@
                     style="width: 100%"
                   />
                 </div>
-                  <div class="p-col-12 formulario">
+                  <div class="col-12 formulario">
                     <!--*** Botões ***-->
-                    <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                      <div class="p-mr-2">
+                    <div class="flex justify-content-start pb-2 pt-2">
+                      <div class="mr-2">
                         <button
                           pButton
                         pRipple
@@ -65,7 +65,7 @@
                           class="p-button-raised p-button-rounded"
                       ></button>
                     </div>
-                    <div class="p-mr-2">
+                    <div class="mr-2">
                       <button
                         pButton
                         pRipple

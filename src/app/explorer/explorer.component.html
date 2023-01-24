@@ -14,9 +14,9 @@
   </ng-template>
 
   <ng-template pTemplate="header">
-    <div class="p-d-inline p-jc-between p-ai-center p-flex-column p-flex-md-row">
-      <div class="p-d-flex p-jc-between">
-        <div class="p-mx-1">
+    <div class="inline justify-content-between align-items-center flex-column p-flex-md-row">
+      <div class="flex justify-content-between">
+        <div class="mx-1">
           <div *ngFor="let caminho of exs.caminhoAtual" class="explorer-topo-icones">
             <ng-container *ngIf="caminho.arquivo_pasta_id === 0">
               <span class="explorer"><i class="pi pi-home" style="font-size: 1.7rem" (click)="exs.getBase()"></i></span>
@@ -36,7 +36,7 @@
       <form (ngSubmit)="onSubmit()">
         <h5>Nova pasta</h5>
         <div class="p-formgroup-inline">
-          <div class="p-field">
+          <div class="field">
             <label for="arquivo_pasta_titulo" class="p-sr-only">Nome da pasta</label>
             <input id="arquivo_pasta_titulo" [pKeyFilter]="blockSpecial" name="arquivo_pasta_titulo"
                    [(ngModel)]="novaPasta.arquivo_pasta_titulo" type="text" pInputText placeholder="nome" required

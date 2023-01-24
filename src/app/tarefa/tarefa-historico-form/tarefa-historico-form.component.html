@@ -1,22 +1,22 @@
 <div class="formulario" style="background-color: var(--formulario-bg-externo-color);">
-  <div class="p-fluid">
+  <div class="inline-block">
 
-    <div class="p-d-flex p-jc-center">
-      <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+    <div class="flex justify-content-center">
+      <div class="mt-1 mb-1 pt-2 px-3 pb-1">
       </div>
     </div>
-    <div class="p-grid">
+    <div class="grid">
 
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-grid p-input-filled">
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+        <div class="grid p-input-filled">
 
 
-          <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
-            <div class="p-fluid p-formgrid p-grid formulario">
+          <div class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12 formulario">
+            <div class="formgrid grid formulario">
 
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
 
-                <div class="p-d-flex p-jc-center">
+                <div class="flex justify-content-center">
                   <div class="formulario-quill">
                     <h5>Tarefa - Andamento</h5>
                     <div class="qeditor">
@@ -39,8 +39,8 @@
               </div>
 
               <ng-container *ngIf="aut.arquivos">
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                  <div class="p-d-flex p-jc-center">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
+                  <div class="flex justify-content-center">
                     <div class="arquivo-upload">
                       <app-arquivo
                         [modulo]="'tarefa'"
@@ -63,25 +63,25 @@
         </div>
       </div>
 
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
 
     </div>
   </div>
 
 
-  <div class="p-grid">
-    <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+  <div class="grid">
+    <div class="col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
   </div>
 
-  <div class="p-fluid">
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-        <div class="p-grid p-input-filled">
-          <div class="p-col-12 formulario">
+  <div class="inline-block">
+    <div class="grid">
+      <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+        <div class="grid p-input-filled">
+          <div class="col-12 formulario">
             <!--*** Botões ***-->
-            <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-              <div class="p-d-inline-flex">
-                <div class="p-mr-2">
+            <div class="flex justify-content-start pb-2 pt-2">
+              <div class="inline-flex">
+                <div class="mr-2">
                   <button
                     pButton
                     type="button"
@@ -91,7 +91,7 @@
                     (click)="onSubmit()"
                   ></button>
                 </div>
-                <div class="p-mr-2">
+                <div class="mr-2">
                   <button
                     pButton
                     type="button"
@@ -112,8 +112,8 @@
     </div>
 
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1">&nbsp;</div>
+    <div class="grid">
+      <div class="col-10 p-offset-1">&nbsp;</div>
     </div>
   </div>
 

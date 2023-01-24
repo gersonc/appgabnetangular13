@@ -1,8 +1,8 @@
 <ng-container *ngIf="tah">
     <div *ngFor="let col of tah" class="tarefa-andamento">
-      <div class="p-mb-0 p-ml-2 tarefa-historico-data">{{col.th_data}}</div>
-      <div class="p-mb-0 p-ml-2 tarefa-historico-usuario">{{col.th_usuario_nome}}</div>
-      <div class="p-mb-0 p-ml-2 tarefa-historico">
+      <div class="mb-0 ml-2 tarefa-historico-data">{{col.th_data}}</div>
+      <div class="mb-0 ml-2 tarefa-historico-usuario">{{col.th_usuario_nome}}</div>
+      <div class="mb-0 ml-2 tarefa-historico">
         <!--<div style="overflow-wrap: unset;">-->
         <quill-view [content]="col.th_historico" format="html" theme="bubble" class="tarefa-historico" ></quill-view>
         <!--</div>-->

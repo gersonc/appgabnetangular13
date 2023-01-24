@@ -14,8 +14,8 @@
   <quill-view [content]="stripslashes(kill.html)" [format]="'html'" theme="snow"></quill-view>
   <div class="kill-btns" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
     <ng-container *ngIf="editorAtivo">
-      <div class="p-d-flex p-jc-end p-as-end">
-        <div class="p-mr-2">
+      <div class="flex justify-content-end align-self-end">
+        <div class="mr-2">
           <button type="button" class="campo-extendido p-button-rounded p-button-sm p-button p-component"
                   (click)="exportPdf(q.quillEditor.getContents())">
       <span class="p-button-icon p-button-icon-left" aria-hidden="true">
@@ -24,7 +24,7 @@
             <span class="p-button-label">Pdf </span>
           </button>
         </div>
-        <div class="p-mr-2 p-as-end">
+        <div class="mr-2 align-self-end">
           <button type="button" class="campo-extendido p-button-rounded p-button-sm p-button p-component"
                   (click)="imprimir()">
       <span class="p-button-icon p-button-icon-left" aria-hidden="true">
@@ -33,7 +33,7 @@
             <span class="p-button-label">Imprimir </span>
           </button>
         </div>
-        <div class="p-mr-2 p-as-end">
+        <div class="mr-2 align-self-end">
           <button type="button" class="campo-extendido p-button-rounded p-button-sm p-button p-component"
                   (click)="exportWord(q.quillEditor.getContents())">
       <span class="p-button-icon p-button-icon-left pi pi-word" aria-hidden="true">

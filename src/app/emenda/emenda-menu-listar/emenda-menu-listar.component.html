@@ -1,8 +1,8 @@
-<div class="p-fluid formulario-bg-externo espacoInferiorMenu">
+<div class="inline-block formulario-bg-externo espacoInferiorMenu">
   <form [formGroup]="formMenuEmenda" (keyup)="onKey($event)">
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="submit"
@@ -13,7 +13,7 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -23,7 +23,7 @@
             label="Limpar"
           ></button>
         </div>
-        <div class="p-mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
+        <div class="mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
           <button
             pButton
             type="button"
@@ -36,12 +36,12 @@
         </div>
       </div>
     </div>
-    <div class="p-d-flex p-ml-1 p-pl-2">
-      <div class="p-fluid p-formgrid p-grid formulario">
+    <div class="flex ml-1 p-pl-2">
+      <div class="formgrid grid formulario">
 
         <!-- emenda_situacao_id -->
         <div *ngIf="drd.dd_emenda_situacao_id.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_situacao_id">Situação</label>
           <p-dropdown
             id="emenda_situacao_id"
@@ -56,7 +56,7 @@
 
         <!-- emenda_cadastro_tipo_id -->
         <div *ngIf="drd.dd_emenda_cadastro_tipo.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_cadastro_tipo_id">Tipo de cadastro (solicitante)</label>
           <p-dropdown
             id="emenda_cadastro_tipo_id"
@@ -71,7 +71,7 @@
 
         <!-- emenda_cadastro_id -->
         <div *ngIf="drd.dd_emenda_cadastro.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_cadastro_id">Solicitante</label>
           <p-dropdown
             id="emenda_cadastro_id"
@@ -88,7 +88,7 @@
 
         <!-- emenda_cadastro_id2 -->
         <div *ngIf="drd.dd_emenda_cpfcnpj.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_cadastro_id2">C.N.P.J. (solicitante)</label>
           <p-dropdown
             id="emenda_cadastro_id2"
@@ -105,7 +105,7 @@
 
         <!-- emenda_orgao_solicitado_nome -->
         <div *ngIf="drd.dd_emenda_orgao_solicitado.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_orgao_solicitado_nome">Orgão solicitado</label>
           <p-dropdown
             id="emenda_orgao_solicitado_nome"
@@ -122,7 +122,7 @@
 
         <!-- emenda_assunto_id -->
         <div *ngIf="drd.dd_emenda_assunto.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_assunto_id">Assunto</label>
           <p-dropdown
             id="emenda_assunto_id"
@@ -138,7 +138,7 @@
         </div>
 
         <!-- emenda_local_id -->
-        <div *ngIf="drd.dd_emenda_local.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_local.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_local_id">Núcleo</label>
           <p-dropdown
             id="emenda_local_id"
@@ -153,7 +153,7 @@
 
         <!-- emenda_numero_protocolo -->
         <div *ngIf="drd.dd_emenda_numero_protocolo.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_numero_protocolo">Número do protocolo</label>
           <p-dropdown
             id="emenda_numero_protocolo"
@@ -170,7 +170,7 @@
 
         <!-- emenda_numero_empenho -->
         <div *ngIf="drd.dd_emenda_numero_empenho.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_numero_empenho">Número do empenho</label>
           <p-dropdown
             id="emenda_numero_empenho"
@@ -187,7 +187,7 @@
 
         <!-- emenda_processo -->
         <div *ngIf="drd.dd_emenda_processo.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_processo">Número do processo</label>
           <p-dropdown
             id="emenda_processo"
@@ -204,7 +204,7 @@
 
         <!-- emenda_numero_ordem_bancaria -->
         <div *ngIf="drd.dd_emenda_numero_ordem_bancaria.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_numero_ordem_bancaria">Órdem bancária</label>
           <p-dropdown
             id="emenda_numero_ordem_bancaria"
@@ -220,7 +220,7 @@
         </div>
 
         <!-- emenda_regiao -->
-        <div *ngIf="drd.dd_emenda_regiao.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_regiao.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_regiao">Região</label>
           <p-dropdown
             id="emenda_regiao"
@@ -236,7 +236,7 @@
         </div>
 
         <!-- emenda_id2 -->
-        <div *ngIf="drd.dd_emenda_codigo.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_codigo.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_id2">Código</label>
           <p-dropdown
             id="emenda_id2"
@@ -252,7 +252,7 @@
         </div>
 
         <!-- emenda_tipo_emenda_id -->
-        <div *ngIf="drd.dd_emenda_tipo.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_tipo.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_tipo_emenda_id">Tipo de emenda</label>
           <p-dropdown
             id="emenda_tipo_emenda_id"
@@ -267,7 +267,7 @@
 
         <!-- emenda_funcional_programatica -->
         <div *ngIf="drd.dd_emenda_funcional_programatica.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_funcional_programatica">Funcional programática</label>
           <p-dropdown
             id="emenda_funcional_programatica"
@@ -283,7 +283,7 @@
         </div>
 
         <!-- emenda_autor_nome -->
-        <div *ngIf="drd.dd_emenda_autor.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_autor.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_autor_nome">Autor</label>
           <p-dropdown
             id="emenda_autor_nome"
@@ -299,7 +299,7 @@
         </div>
 
         <!-- emenda_crnr -->
-        <div *ngIf="drd.dd_emenda_crnr.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_crnr.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_crnr">CR.NR.</label>
           <p-dropdown
             id="emenda_crnr"
@@ -315,7 +315,7 @@
         </div>
 
         <!-- emenda_ogu_id -->
-        <div *ngIf="drd.dd_emenda_ogu.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_ogu.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_ogu_id">O.G.U.</label>
           <p-dropdown
             id="emenda_ogu_id"
@@ -329,7 +329,7 @@
         </div>
 
         <!-- emenda_numero -->
-        <div *ngIf="drd.dd_emenda_numero.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_numero.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_numero">Número da emenda</label>
           <p-dropdown
             id="emenda_numero"
@@ -345,7 +345,7 @@
         </div>
 
         <!-- emenda_gmdna -->
-        <div *ngIf="drd.dd_emenda_gmdna.length > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+        <div *ngIf="drd.dd_emenda_gmdna.length > 0" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_gmdna">GND/MA</label>
           <p-dropdown
             id="emenda_gmdna"
@@ -362,7 +362,7 @@
 
         <!-- emenda_uggestao -->
         <div *ngIf="drd.dd_emenda_uggestao.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_uggestao">UG/Gestão</label>
           <p-dropdown
             id="emenda_uggestao"
@@ -380,7 +380,7 @@
 
         <!-- emenda_data_solicitacao1 -->
         <div *ngIf="drd.dd_emenda_data_solicitacao1.length > 0"
-             class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
+             class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3 menu-lateral">
           <label for="emenda_data_solicitacao1">Data da solicitação</label>
           <p-dropdown
             id="emenda_data_solicitacao1"
@@ -398,7 +398,7 @@
 
         <!-- emenda_data_solicitacao2 -->
         <div *ngIf="drd.dd_emenda_data_solicitacao2.length > 0"
-             class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
+             class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3 menu-lateral">
           <label for="emenda_data_solicitacao2">Até</label>
           <p-dropdown
             id="emenda_data_solicitacao2"
@@ -417,7 +417,7 @@
 
         <!-- emenda_data_empenho1 -->
         <div *ngIf="drd.dd_emenda_data_empenho1.length > 0"
-             class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
+             class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3 menu-lateral">
           <label for="emenda_data_empenho1">Data do empenho</label>
           <p-dropdown
             id="emenda_data_empenho1"
@@ -434,7 +434,7 @@
 
         <!-- emenda_data_empenho2 -->
         <div *ngIf="drd.dd_emenda_data_empenho2.length > 0"
-             class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
+             class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3 menu-lateral">
           <label for="emenda_data_empenho2">Até</label>
           <p-dropdown
             id="emenda_data_empenho2"
@@ -451,7 +451,7 @@
 
         <!-- emenda_data_pagamento1 -->
         <div *ngIf="drd.dd_emenda_data_pagamento1.length > 0"
-             class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
+             class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3 menu-lateral">
           <label for="emenda_data_pagamento1">Data do pagamento</label>
           <p-dropdown
             id="emenda_data_pagamento1"
@@ -468,7 +468,7 @@
 
         <!-- emenda_data_pagamento2 -->
         <div *ngIf="drd.dd_emenda_data_pagamento2.length > 0"
-             class="p-field p-col-12 p-sm-6 p-md-6 p-lg-3 p-xl-3 menu-lateral">
+             class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3 menu-lateral">
           <label for="emenda_data_pagamento2">Até</label>
           <p-dropdown
             id="emenda_data_pagamento2"
@@ -485,7 +485,7 @@
 
         <!-- cadastro_municipio_id -->
         <div *ngIf="drd.dd_emenda_cadastro_municipio.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="cadastro_municipio_id">Município</label>
           <p-dropdown
             id="cadastro_municipio_id"
@@ -502,7 +502,7 @@
 
         <!-- emenda_contrato -->
         <div *ngIf="drd.dd_emenda_contrato.length > 0"
-             class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 menu-lateral">
+             class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
           <label for="emenda_contrato">Contrato Caixa</label>
           <p-dropdown
             id="emenda_contrato"
@@ -520,9 +520,9 @@
       </div>
     </div>
 
-    <div class="p-d-flex p-jc-between p-pb-2 p-ml-2 p-pl-2">
-      <div class="p-d-inline-flex">
-        <div class="p-mr-2">
+    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
           <button
             pButton
             type="submit"
@@ -533,7 +533,7 @@
             (click)="onMudaForm()"
           ></button>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
             pButton
             type="button"
@@ -543,7 +543,7 @@
             label="Limpar"
           ></button>
         </div>
-        <div class="p-mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
+        <div class="mr-2" *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.emenda_incluir">
           <button
             pButton
             type="button"

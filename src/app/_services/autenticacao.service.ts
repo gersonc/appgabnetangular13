@@ -182,6 +182,16 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
     this._refToken = localStorage.getItem('reflesh_token');
   }
 
+  cancelaPermissoes() {
+    delete this.expires;
+    delete this.expiresRef;
+    delete this.exp;
+    delete this.expRef;
+    delete this._token;
+    delete this._refToken;
+    delete this.teste;
+    this.vfToken = false;
+  }
 
 
 }

@@ -54,8 +54,8 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
   possuiArquivos = false;
   agendaSN = true;
 
-  classes1 = "p-field p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6 ";
-  classes2 = "p-field p-col-12 p-sm-12 p-md-8 p-lg-3 p-xl-3 ";
+  classes1 = "field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6 ";
+  classes2 = "field col-12 sm:col-12 md:col-8 lg:col-3 xl:col-3 ";
   cedenteClass = this.classes1;
   cedenteSN = 0;
   showCedente = false;

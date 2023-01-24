@@ -1,25 +1,25 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
     <form [formGroup]="formSol" (ngSubmit)="onSubmit()">
-      <div class="p-fluid formulario-bg-externo">
+      <div class="inline-block formulario-bg-externo">
 
-        <div class="p-d-flex p-jc-center">
-          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <div class="flex justify-content-center">
+          <div class="mt-1 mb-1 pt-2 px-3 pb-1">
             <span class="formulario-titulo">{{titulo}}</span>
           </div>
         </div>
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
 
 
 
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid formulario">
+              <div class="col-12 formulario">
+                <div class="formgrid grid formulario">
 
                   <!--*** Tipo de Cadastro ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_cadastro_tipo_id"><span class="atencao">*</span> Tipo de Cadastro</label>
                     <p-dropdown
                       id="solicitacao_cadastro_tipo_id"
@@ -37,7 +37,7 @@
                   </div>
 
                   <!--*** Solicitante ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_cadastro_id"><span class="atencao">*</span> Solicitante</label>
                     <div class="p-inputgroup">
                       <p-autoComplete
@@ -72,7 +72,7 @@
                   </div>
 
                   <!--*** solicitacao_assunto_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_assunto_id"><span class="atencao">*</span> Assunto</label>
                     <p-dropdown
                       id="solicitacao_assunto_id"
@@ -89,7 +89,7 @@
                   </div>
 
                   <!--*** solicitacao_area_interesse_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_area_interesse_id"><span class="atencao">*</span> Área de
                       interesse</label>
                     <p-dropdown
@@ -106,7 +106,7 @@
                   </div>
 
                   <!--*** solicitacao_orgao ***-->
-                  <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div  class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_orgao">Orgão solicitado</label>
                     <input
                       id="solicitacao_orgao"
@@ -120,7 +120,7 @@
 
                   <!--*** solicitacao_numero_oficio ***-->
                   <ng-container *ngIf="vs.solicitacaoVersao > 1 && sfs.acao === 'alterar'">
-                  <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div  class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_numero_oficio">{{tituloNumOfi}}</label>
                     <input
                       id="solicitacao_numero_oficio"
@@ -137,7 +137,7 @@
                   </div>
                   </ng-container>
                   <ng-container *ngIf="vs.solicitacaoVersao === 1 && sfs.acao === 'alterar' && mostraCpoNumOfi">
-                    <div  class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                    <div  class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                       <label for="solicitacao_numero_oficio2">{{tituloNumOfi}}</label>
                       <input
                         id="solicitacao_numero_oficio2"
@@ -156,7 +156,7 @@
 
 
                   <!--*** solicitacao_data ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_data"><span class="atencao">*</span> Data</label>
                     <p-calendar
                       id="solicitacao_data"
@@ -172,7 +172,7 @@
 
 
                   <!--*** solicitacao_atendente_cadastro_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_atendente_cadastro_id"><span class="atencao">*</span> Atendente</label>
                     <p-dropdown
                       id="solicitacao_atendente_cadastro_id"
@@ -186,7 +186,7 @@
                   </div>
 
                   <!--*** solicitacao_data_atendimento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_data_atendimento"><span class="atencao">*</span> Data do
                       atendimento</label>
                     <p-calendar
@@ -203,7 +203,7 @@
 
 
                   <!--*** solicitacao_tipo_recebimento_id ***-->
-                  <div *ngIf="vs.solicitacaoVersao === 1" class="p-field p-col-12  p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="vs.solicitacaoVersao === 1" class="field col-12  sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_tipo_recebimento_id"><span class="atencao">*</span> Tipo de recebimento</label>
                     <p-dropdown
                       id="solicitacao_tipo_recebimento_id"
@@ -217,7 +217,7 @@
                   </div>
 
                   <!--*** solicitacao_local_id ***-->
-                  <div *ngIf="vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="vs.solicitacaoVersao < 3" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_local_id"><span class="atencao">*</span> Núcleo</label>
                     <p-dropdown
                       id="solicitacao_local_id"
@@ -231,7 +231,7 @@
                   </div>
 
                   <!--*** solicitacao_reponsavel_analize_id ***-->
-                  <div *ngIf="vs.solicitacaoVersao < 3" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+                  <div *ngIf="vs.solicitacaoVersao < 3" class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4">
                     <label for="solicitacao_reponsavel_analize_id"><span class="atencao">*</span> Responsável pela análize</label>
                     <p-dropdown
                       id="solicitacao_reponsavel_analize_id"
@@ -247,13 +247,13 @@
 
 
                   <!--*** solicitacao_indicacao_sn ***-->
-                  <div class="formulario-switch p-field" [ngClass]="stl">
+                  <div class="formulario-switch field" [ngClass]="stl">
                     <h5>Indicação</h5>
                     <p-inputSwitch #indsn formControlName="solicitacao_indicacao_sn" (onChange)="trocaIndicacaoSV($event)" ></p-inputSwitch>
                   </div>
 
                   <!--*** solicitacao_indicacao_nome ***-->
-                  <div *ngIf="indsn.checked" class="p-field p-col-12 p-sm-12 p-md-4 p-lg-4 p-xl-3">
+                  <div *ngIf="indsn.checked" class="field col-12 sm:col-12 md:col-4 lg:col-4 xl:col-3">
                     <label for="solicitacao_indicacao_nome">Indicado por</label>
                     <input
                       id="solicitacao_indicacao_nome"
@@ -272,13 +272,13 @@
 
 
               <!--*** COLUNA 4 ***-->
-              <div class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid">
+              <div class="col-12 formulario">
+                <div class="formgrid grid">
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                     <p-accordion>
                       <p-accordionTab header="Descrição da solicitação">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -298,7 +298,7 @@
                         </div>
                       </p-accordionTab>
                       <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Observações">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -319,7 +319,7 @@
                       </p-accordionTab>
 
                       <p-accordionTab *ngIf="vs.solicitacaoVersao === 1" header="Resposta / Carta">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -340,7 +340,7 @@
                       </p-accordionTab>
 
                       <p-accordionTab header="Histórico / Andamento">
-                        <div class="p-d-flex p-jc-center">
+                        <div class="flex justify-content-center">
                           <div class="formulario-quill">
                             <div class="qeditor">
                               <quill-editor
@@ -364,7 +364,7 @@
                   </div>
 
                   <ng-container *ngIf="aut.arquivos">
-                    <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                    <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                       <app-arquivo *ngIf="sfs.acao === 'incluir'"
                         [modulo]="'solicitacao'"
                         [modelo]="'incluir'"
@@ -394,13 +394,13 @@
 
 
               <!--*** COLUNA 2 ***-->
-              <div *ngIf="sfs.acao==='incluir'" class="p-col-12 formulario">
-                <div class="p-fluid p-formgrid p-grid formulario">
+              <div *ngIf="sfs.acao==='incluir'" class="col-12 formulario">
+                <div class="formgrid grid formulario">
 
                   <!--*** Tipo de analise ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
-                    <div class="p-fluid p-formgrid p-grid">
-                      <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
+                    <div class="formgrid grid">
+                      <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                     <label for="solicitacao_tipo_analize"><span class="atencao">*</span> {{tpAnalizeTitulo}}</label>
                     <p-dropdown
                       id="solicitacao_tipo_analize"
@@ -412,7 +412,7 @@
                     ></p-dropdown>
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('solicitacao_tipo_analize')" msgErro="Tipo de análise é obrigatório."></app-campo-control-erro>
                       </div>
-                      <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                      <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                         <ng-container *ngIf="sfs.analiseCpoOficioNome.ativo">
                           <ng-container *ngIf="sfs.analiseCpoOficioNome.tipo === 'ofi'">
                             <label for="solicitacao_numero_oficio3" [ngClass]="aplicaCssErroAsync('solicitacao_numero_oficio', solNumPro)">{{sfs.analiseCpoOficioNome.cpoTitulo}}</label>
@@ -456,14 +456,14 @@
                     </div>
                   </div>
 
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
                     <p-card class="analise">
                       <ng-template pTemplate="header">
-                        <div class="p-d-inline analise-header">
+                        <div class="inline analise-header">
                           <i class="pi pi-exclamation-circle" style="color: var(--yellow-500);font-size: 1rem"></i> AÇÕES
                         </div>
                       </ng-template>
-                      <div class="p-d-block analise-corpo">
+                      <div class="block analise-corpo">
                         <table>
                           <tr>
                             <th nowrap>STATUS: </th>
@@ -504,23 +504,23 @@
 
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
         </div>
 
       </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      <div class="grid">
+        <div class="col-10 p-offset-1 formulario-bg-externo"></div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo espacoInferiorMenu">
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
-              <div class="p-col-12 formulario">
+      <div class="inline-block formulario-bg-externo espacoInferiorMenu">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
+              <div class="col-12 formulario">
                 <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                  <div class="p-mr-2">
+                <div class="flex justify-content-start pb-2 pt-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -530,7 +530,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2" *ngIf="sfs.acao === 'incluir'">
+                  <div class="mr-2" *ngIf="sfs.acao === 'incluir'">
                     <button
                       pButton
                       type="button"
@@ -540,7 +540,7 @@
                       [disabled]="!mostraForm"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -560,10 +560,10 @@
         </div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid formulario-bg-externo">
-          <div class="p-col-12"></div>
-          <div class="p-col-12"></div>
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid formulario-bg-externo">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
 

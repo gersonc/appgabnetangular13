@@ -1,19 +1,19 @@
 <div class="formulariotelefone" style="background-color: var(--formulario-bg-externo-color);">
   <form (ngSubmit)="onSubmit()" #tusForm="ngForm">
-    <div class="p-fluid">
+    <div class="inline-block">
 
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+      <div class="flex justify-content-center">
+        <div class="mt-1 mb-1 pt-2 px-3 pb-1">
         </div>
       </div>
-      <div class="p-grid">
+      <div class="grid">
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-my-1 p-py-2 p-px-3 p-pb-1">
-            <div class="p-fluid p-formgrid p-grid formulario p-input-filled">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="my-1 py-2 px-3 pb-1">
+            <div class="formgrid grid formulario p-input-filled">
 
               <!-- telefone_usuario_nome -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                 <h5><span class="atencao">*</span> Atendente</h5>
                 <p-dropdown
                   id="telefone_usuario_nome"
@@ -30,9 +30,9 @@
                 </div>
 
               <!-- telefone_observacao -->
-              <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+              <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
 
-                <div class="p-d-flex p-jc-start">
+                <div class="flex justify-content-start">
                   <div class="formulario-quill">
                     <h5>Andamento</h5>
                     <div class="qeditor">
@@ -57,7 +57,7 @@
               </div>
 
               <ng-container *ngIf="aut.arquivos">
-                <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                   <app-arquivo
                                [modulo]="'tarefa'"
                                [uploadDisabled]="disabled"
@@ -74,25 +74,25 @@
           </div>
         </div>
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
 
       </div>
     </div>
 
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+    <div class="grid">
+      <div class="col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
     </div>
 
-    <div class="p-fluid">
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
+    <div class="inline-block">
+      <div class="grid">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
+            <div class="col-12 formulario">
               <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-d-inline-flex">
-                  <div class="p-ml-2" [ngClass]="{'p-d-none': !tusForm.valid}">
+              <div class="flex justify-content-start pb-2 pt-2">
+                <div class="inline-flex">
+                  <div class="ml-2" [ngClass]="{'hidden': !tusForm.valid}">
                     <button
                       pButton
                       type="submit"
@@ -101,7 +101,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mx-2">
+                  <div class="mx-2">
                     <button
                       pButton
                       type="button"
@@ -111,7 +111,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -132,8 +132,8 @@
       </div>
 
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1">&nbsp;</div>
+      <div class="grid">
+        <div class="col-10 p-offset-1">&nbsp;</div>
       </div>
     </div>
 

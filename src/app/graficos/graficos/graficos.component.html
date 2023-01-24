@@ -9,12 +9,12 @@
   (onShow)="mostraMenu(true)"
 >
   <p-scrollPanel styleClass="grafico">
-    <div id="grafico-menu" class="p-fluid formulario-bg-externo espacoInferiorMenu">
+    <div id="grafico-menu" class="inline-block formulario-bg-externo espacoInferiorMenu">
 
-      <div class="p-ml-1 p-pl-2">
-        <div class="p-fluid p-formgrid p-grid formulario">
+      <div class="ml-1 p-pl-2">
+        <div class="formgrid grid formulario">
 
-          <div class="p-field p-col-12 menu-lateral">
+          <div class="field col-12 menu-lateral">
             <p-dropdown
               #gf
               [options]="ddModulos"
@@ -30,7 +30,7 @@
 
           <ng-container *ngIf="graficos!==undefined && graficos !== null">
 
-            <div class="p-field p-col-12  menu-lateral">
+            <div class="field col-12  menu-lateral">
               <!-- aniversario intervalo1 -->
               <label for="data1">De</label>
               <p-calendar
@@ -46,7 +46,7 @@
                 [appendTo]="'body'"
               ></p-calendar>
             </div>
-            <div class="p-field p-col-12 menu-lateral">
+            <div class="field col-12 menu-lateral">
               <label for="data2">Até</label>
               <p-calendar
                 [(ngModel)]="data2"
@@ -61,18 +61,18 @@
                 [appendTo]="'body'"
               ></p-calendar>
             </div>
-            <div class="p-field p-col-6 menu-lateral">
+            <div class="field col-6 menu-lateral">
               <p-button label="Buscar" icon="pi pi-check" styleClass="p-button-sm" (onClick)="buscar()"></p-button>
             </div>
-            <div class="p-field p-col-6 menu-lateral">
+            <div class="field col-6 menu-lateral">
             </div>
 
-            <div *ngFor="let cp of graficos.dropdown; index as i" class="p-field-radiobutton p-col-12 menu-lateral">
+            <div *ngFor="let cp of graficos.dropdown; index as i" class="field-radiobutton col-12 menu-lateral">
               <p-radioButton name="campo" [label]="cp.label" [(ngModel)]="campo1" [value]="cp.value" [inputId]="cp.value"
                              (onClick)="mudaCampo(i)"></p-radioButton>
             </div>
 
-            <div class="p-field p-col-12 menu-lateral">
+            <div class="field col-12 menu-lateral">
               <p-dropdown
                 [options]="ddTipo"
                 [(ngModel)]="tipo1"
@@ -84,7 +84,7 @@
               ></p-dropdown>
             </div>
 
-            <div class="p-field p-col-12 menu-lateral">
+            <div class="field col-12 menu-lateral">
               <br>
               <b>Total de registros: {{graficos.total}}</b>
             </div>

@@ -45,23 +45,23 @@
       type="hidden"
       formControlName="usuario_id"
     >
-    <div class="p-fluid">
+    <div class="inline-block">
 
-      <div class="p-d-flex p-jc-center">
-        <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+      <div class="flex justify-content-center">
+        <div class="mt-1 mb-1 pt-2 px-3 pb-1">
         </div>
       </div>
 
-      <div class="p-grid">
+      <div class="grid">
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
 
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12 formulario">
+              <div class="formgrid grid formulario">
 
                 <!-- conta_cedente -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_cedente')">
+                <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4" [ngClass]="aplicaCssErro('conta_cedente')">
                   <label for="conta_cedente"><span class="atencao">*</span> Cedente</label>
                   <p-autoComplete
                     id="conta_cedente"
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- conta_vencimento -->
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_vencimento')">
+                <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4" [ngClass]="aplicaCssErro('conta_vencimento')">
                   <label for="conta_vencimento"><span class="atencao">*</span> Data Vencimento</label>
                   <p-calendar
                     id="conta_vencimento"
@@ -102,7 +102,7 @@
                   <app-campo-control-erro [mostrarErro]="verificaValidTouched('conta_vencimento')" msgErro="Vencimento é obrigatório."></app-campo-control-erro>
                 </div>
 
-                <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_valor')">
+                <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4" [ngClass]="aplicaCssErro('conta_valor')">
                   <label for="conta_valor"><span class="atencao">*</span> Valor</label>
                   <p-inputNumber
                     id="conta_valor"
@@ -120,7 +120,7 @@
                 </div>
 
                 <!-- conta_paga -->
-                <div *ngIf="showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="conta_paga">Pagamemento efetuado</label>
                   <span id="info2" class="info-icon pi pi-question-circle" (click)="mostraInfo('info2')"></span>
                   <p-selectButton
@@ -136,7 +136,7 @@
 
 
                 <!-- conta_pagamento -->
-                <div *ngIf="showIncluir && ctaPaga > 0" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4" [ngClass]="aplicaCssErro('conta_pagamento')">
+                <div *ngIf="showIncluir && ctaPaga > 0" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4" [ngClass]="aplicaCssErro('conta_pagamento')">
                   <label for="conta_pagamento">Data pagamento</label>
                   <p-calendar
                     id="conta_pagamento"
@@ -155,7 +155,7 @@
                 </div>
 
                 <!-- conta_local_id -->
-                <div *ngIf="showIncluir && nucleo" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir && nucleo" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="conta_local_id">Núcleo</label>
                   <p-dropdown
                     id="conta_local_id"
@@ -170,7 +170,7 @@
                 </div>
 
                 <!-- rptdia -->
-                <div *ngIf="showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="conta_rptdia">Repetir vencimento</label>
                   <p-dropdown
                     id="conta_rptdia"
@@ -184,7 +184,7 @@
                 </div>
 
                 <!-- parcelas -->
-                <div *ngIf="rptd && showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="rptd && showIncluir" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="conta_parcelas">Recorrência / Num. parcelas </label>
                   <p-dropdown
                     id="conta_parcelas"
@@ -197,7 +197,7 @@
                 </div>
 
                 <!-- conta_tipo -->
-                <div *ngIf="rptd && showIncluir" #info2 class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="rptd && showIncluir" #info2 class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="conta_tipo">Tipo</label>
                   <span id="info1" class="info-icon pi pi-question-circle" (click)="mostraInfo('info1')"></span>
                   <p-selectButton
@@ -211,7 +211,7 @@
                 </div>
 
                 <!-- conta_paga2 -->
-                <div *ngIf="acao==='incluir' && rptd && showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="acao==='incluir' && rptd && showIncluir" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="conta_paga2">Pagtos recorrentes</label>
                   <span id="info3" class="info-icon pi pi-question-circle" (click)="mostraInfo('info3')"></span>
                   <p-selectButton
@@ -225,7 +225,7 @@
                 </div>
 
                 <!-- agenda -->
-                <div *ngIf="showIncluir" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="showIncluir" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <h5>Lembrete na agenda</h5>
                   <p-inputSwitch id="conta_agenda" (onChange)="agendaOnChange($event)" #info4 formControlName="conta_agenda" [readonly]="!agendaSN" tabindex="10"></p-inputSwitch>
                   <div><small *ngIf="acao ==='alterar' && agendaSN && info4.checked" style="color: var(--erro-color)">
@@ -234,8 +234,8 @@
                 </div>
 
                 <!-- USUARIOS  ******************************************************************* -->
-                <div *ngIf="!agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"> </div>
-                <div *ngIf="agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="!agendaVF" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4"> </div>
+                <div *ngIf="agendaVF" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <h5>Todos usuários</h5>
                   <p-inputSwitch
                     #usersn
@@ -245,8 +245,8 @@
                     (onChange)="todosUsuariosOnChange($event.checked)"
                   ></p-inputSwitch>
                 </div>
-                <div *ngIf="todos_usuarios_sn || !agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"> </div>
-                <div *ngIf="!todos_usuarios_sn && agendaVF" class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                <div *ngIf="todos_usuarios_sn || !agendaVF" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4"> </div>
+                <div *ngIf="!todos_usuarios_sn && agendaVF" class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                   <label for="usuario_id">Usuarios</label>
                   <p-multiSelect
                     id="usuario_id"
@@ -271,13 +271,13 @@
               </div>
             </div>
 
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
-              <div class="p-fluid p-formgrid p-grid formulario">
+            <div class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12 formulario">
+              <div class="formgrid grid formulario">
 
 
                 <!-- conta_observacao -->
-                <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                  <div class="p-d-flex p-jc-center">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
+                  <div class="flex justify-content-center">
                     <div class="formulario-quill">
                       <h5>Observações</h5>
                       <div class="qeditor">
@@ -301,8 +301,8 @@
 
 
                 <ng-container *ngIf="aut.arquivos">
-                  <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
-                    <div class="p-d-flex p-jc-center">
+                  <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
+                    <div class="flex justify-content-center">
                       <div class="arquivo-upload">
                         <app-arquivo *ngIf="acao === 'incluir'"
                                      [modulo]="'conta'"
@@ -336,25 +336,25 @@
           </div>
         </div>
 
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
 
       </div>
     </div>
 
 
-    <div class="p-grid">
-      <div class="p-col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
+    <div class="grid">
+      <div class="col-10 p-offset-1" style="background-color: var(--formulario-bg-externo-color);">&nbsp;</div>
     </div>
 
-    <div class="p-fluid">
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-          <div class="p-grid p-input-filled">
-            <div class="p-col-12 formulario">
+    <div class="inline-block">
+      <div class="grid">
+        <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+          <div class="grid p-input-filled">
+            <div class="col-12 formulario">
               <!--*** Botões ***-->
-              <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                <div class="p-d-inline-flex">
-                  <div class="p-mr-2">
+              <div class="flex justify-content-start pb-2 pt-2">
+                <div class="inline-flex">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="submit"
@@ -364,7 +364,7 @@
                       tabindex="12"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -374,7 +374,7 @@
                       [disabled]="botaoEnviarVF"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -395,8 +395,8 @@
       </div>
 
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1">&nbsp;</div>
+      <div class="grid">
+        <div class="col-10 p-offset-1">&nbsp;</div>
       </div>
     </div>
 

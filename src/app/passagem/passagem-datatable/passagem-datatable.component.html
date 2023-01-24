@@ -43,22 +43,22 @@
 
   <!--*** TOPO *****************************************************************************************************-->
   <ng-template pTemplate="caption">
-    <div class="p-d-flex p-jc-between p-ai-center">
-      <div class="p-d-inline-flex">
-        <div class="p-mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
-        <div class="p-mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
-        <div class="p-mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
-        <div class="p-mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="passagemIncluir()"></button></div>
+    <div class="flex justify-content-between align-items-center">
+      <div class="inline-flex">
+        <div class="mx-2"><button pButton type="button" label="Filtrar" icon="pi pi-search" class="p-button-text p-button-sm" (click)="mostraMenu()"></button></div>
+        <div class="mr-2"><button pButton type="button" label="Colunas" icon="pi pi-table" class="p-button-text p-button-sm" (click)="mostraSelectColunas()"></button></div>
+        <div class="mr-2"><button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm" (click)="men.toggle($event)"></button></div>
+        <div class="mr-0"><button pButton type="button" label="Incluir" icon="pi pi-plus" class="p-button-text p-button-sm" (click)="passagemIncluir()"></button></div>
       </div>
 
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mx-2">PASSAGENS AÉREAS</div>
+      <div class="inline-flex align-items-center">
+        <div class="mx-2">PASSAGENS AÉREAS</div>
       </div>
-      <div class="p-d-inline-flex p-ai-center">
-        <div class="p-mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
+      <div class="inline-flex align-items-center">
+        <div class="mr-2">Página {{currentPage}} de {{numerodePaginas}} - Num. Registros: {{totalRecords}}</div>
       </div>
     </div>
-    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
+    <menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->
@@ -119,9 +119,9 @@
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
-          <div class="p-fluid">
-            <div class="p-d-flex p-jc-start p-pb-2">
-              <div class="p-mr-2">
+          <div class="inline-block">
+            <div class="flex justify-content-start pb-2">
+              <div class="mr-2">
                 <button
                   pButton
                   type="button"
@@ -133,7 +133,7 @@
                   [disabled]="btnInativo"
                 ></button>
               </div>
-              <div class="p-mr-2">
+              <div class="mr-2">
                 <button
                   pButton
                   type="button"
@@ -146,7 +146,7 @@
                 ></button>
 
               </div>
-              <div *ngIf="aut.passagemaerea_alterar" class="p-mr-2">
+              <div *ngIf="aut.passagemaerea_alterar" class="mr-2">
                 <button
                   pButton
                   type="button"
@@ -157,7 +157,7 @@
                   (click)="passagemAlterar(psg)"
                 ></button>
               </div>
-              <div *ngIf="aut.passagemaerea_apagar" class="p-mr-2">
+              <div *ngIf="aut.passagemaerea_apagar" class="mr-2">
                 <button
                   pButton
                   type="button"
@@ -170,8 +170,8 @@
               </div>
             </div>
 
-            <div class="p-grid">
-              <div *ngFor="let linhas of dadosExp;" class="p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-3">
+            <div class="grid">
+              <div *ngFor="let linhas of dadosExp;" class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
                 <div class="registros p-shadow-1">
                   <h5>{{linhas[0]}}</h5>
                   {{linhas[1]}}

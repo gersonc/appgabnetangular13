@@ -1,14 +1,14 @@
 <div class="corpocalform">
-  <div class="p-grid">
-    <div class="p-col-12">
-      <div class="p-grid">
-        <div class="p-col-12 campoLabelMenu">
+  <div class="grid">
+    <div class="col-12">
+      <div class="grid">
+        <div class="col-12 campoLabelMenu">
           <p><span style="font-weight: bold;">{{eventoData}}</span></p>
           <p *ngIf="evento"><span style="font-weight: bold; font-size: large">{{evento.title}}</span></p>
           <p>Existem mais de uma data para esse evento.</p>
           Você gostaria de:
         </div>
-        <div class="p-col-12 campoLabelMenu">
+        <div class="col-12 campoLabelMenu">
           <button
             (click)="excluirTodos()"
             [disabled]="botaoEnviarVF"

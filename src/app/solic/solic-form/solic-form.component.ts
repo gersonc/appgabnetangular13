@@ -58,7 +58,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
   possuiArquivos = false;
   // indicacao_sn = false;
   tpAnalizeTitulo = 'Tipo de análise';
-  stl = 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
+  stl = 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4';
   titulo = 'SOLICITAÇÃO - INCLUIR';
   readonly = false;
   checked = false;
@@ -142,7 +142,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
           label: this.sfs.solicListar.solicitacao_cadastro_nome,
           value: +this.sfs.solicListar.solicitacao_cadastro_id
         };
-        this.stl = this.sfs.solicitacao.solicitacao_indicacao_sn === 1 ? 'p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1' : 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
+        this.stl = this.sfs.solicitacao.solicitacao_indicacao_sn === 1 ? 'col-12 sm:col-12 md:col-2 lg:col-2 xl:col-1' : 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4';
         this.sgt.push(this.novoRegistro);
       }
     }
@@ -379,7 +379,7 @@ export class SolicFormComponent implements OnInit, OnDestroy {
 
   trocaIndicacaoSV(ev) {
     this.sfs.solicitacao.solicitacao_indicacao_sn = ev.checked ? 1 : 0;
-    this.stl =  ev.checked ? 'p-col-12 p-sm-12 p-md-2 p-lg-2 p-xl-1' : 'p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4';
+    this.stl =  ev.checked ? 'col-12 sm:col-12 md:col-2 lg:col-2 xl:col-1' : 'col-12 sm:col-12 md:col-6 lg:col-6 xl:col-4';
   }
 
   cadastro_tipo_change() {

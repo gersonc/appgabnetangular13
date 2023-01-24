@@ -1,26 +1,26 @@
 <p-scrollPanel [styleClass]="scrollPanelStyle">
   <ng-container *ngIf="ev">
     <div class="caldet">
-      <div class="p-grid">
-        <div class="p-col-12 p-shadow-2 calendario-titulo-detalhe" [style]="tituloEstilo">
+      <div class="grid">
+        <div class="col-12 p-shadow-2 calendario-titulo-detalhe" [style]="tituloEstilo">
           {{ev.title}}
         </div>
-        <div *ngIf="ev.prioridade_nome" class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="prioridadeStyle">
+        <div *ngIf="ev.prioridade_nome" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="prioridadeStyle">
           Prioridade:&nbsp; {{ev.prioridade_nome}}
         </div>
-        <div *ngIf="ev.calendario_status_nome" class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="calendarioStatusStyle">
+        <div *ngIf="ev.calendario_status_nome" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="calendarioStatusStyle">
           Situação:&nbsp; {{ev.calendario_status_nome}}
         </div>
-        <div *ngIf="ev.type_name" class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="tipoStyle">
+        <div *ngIf="ev.type_name" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="tipoStyle">
           {{ev.type_name}}
         </div>
-        <div *ngIf="ev.local_nome" class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="localStyle">
+        <div *ngIf="ev.local_nome" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="localStyle">
           Núcleo:&nbsp; {{ev.local_nome}}
         </div>
-        <div class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="subTituloStyle">
+        <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="subTituloStyle">
           {{ev.start}}
         </div>
-        <div class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="ev.inicio" [style]="subTituloStyle">
+        <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="ev.inicio" [style]="subTituloStyle">
           <div *ngIf="ev.endHora"  style="float: right">
             Término:&nbsp; {{ev.endHora}}
           </div>
@@ -28,25 +28,25 @@
             Inicio:&nbsp; {{ev.inicio}}
           </div>
         </div>
-        <div class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="ev.tempo" [style]="subTituloStyle">
+        <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="ev.tempo" [style]="subTituloStyle">
           Duração:&nbsp; {{ev.tempo}}
         </div>
-        <div class="p-col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="ev.recorrente && ev.fim" [style]="subTituloStyle">
+        <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="ev.recorrente && ev.fim" [style]="subTituloStyle">
           Repetir até:&nbsp; {{ev.fim}}
         </div>
-        <div class="p-col-12 p-shadow-1 calendario-sub-titulo-link-detalhe" *ngIf="ev.url" [style]="subTituloStyleLink" (click)="openRequestedSinglePopup(ev.url)">
+        <div class="col-12 p-shadow-1 calendario-sub-titulo-link-detalhe" *ngIf="ev.url" [style]="subTituloStyleLink" (click)="openRequestedSinglePopup(ev.url)">
           URL:&nbsp;{{ev.url}}
         </div>
       </div>
       <br>
-      <div class="p-grid">
-        <div class="p-col-12" *ngIf="ev.description">
+      <div class="grid">
+        <div class="col-12" *ngIf="ev.description">
           <p-card id="desc" [styleClass]="'observacaostyle'">
             <quill-view [content]="ev.description" [format]="'html'" theme="snow"></quill-view>
           </p-card>
 
         </div>
-        <!--<div class="p-col-12"  *ngIf="ev.observacao">
+        <!--<div class="col-12"  *ngIf="ev.observacao">
           <p-card id="ob" class="caldetobs">
             {{ev.observacao}}
           </p-card>

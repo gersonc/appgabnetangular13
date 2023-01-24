@@ -1,26 +1,26 @@
 <p-scrollPanel [styleClass]="'formulario'">
   <div class="formulario externo">
     <form [formGroup]="formOfIncluir" (ngSubmit)="onSubmit()">
-      <div class="p-fluid formulario-bg-externo">
+      <div class="inline-block formulario-bg-externo">
 
-        <div class="p-d-flex p-jc-center">
-          <div class="p-mt-1 p-mb-1 p-pt-2 p-px-3 p-pb-1">
+        <div class="flex justify-content-center">
+          <div class="mt-1 mb-1 pt-2 px-3 pb-1">
             <span class="formulario-titulo">OFÍCIO - INCLUIR</span>
           </div>
         </div>
 
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
 
               <!--*** COLUNA 1 ***-->
-              <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 formulario">
-                <div class="p-fluid p-formgrid p-grid formulario">
+              <div class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12 formulario">
+                <div class="formgrid grid formulario">
 
 
                   <!--*** ddOficio_processo_id ***-->
                   <ng-container *ngIf="!herancaSN">
-                    <div *ngIf="ddProcessoId.length > 0" class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6"
+                    <div *ngIf="ddProcessoId.length > 0" class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-6"
                          [ngClass]="aplicaCssErro('oficio_processo_id')">
 
                       <label for="processoid"><span class="atencao">*</span> Processo</label>
@@ -39,7 +39,7 @@
                     </div>
 
                     <!--*** DADOS DO PROCESSO ***-->
-                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-6">
+                    <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-6">
                       <label for="taboficio">Dados do processo</label>
                       <div class="p-shadow-1">
                         <table class="table-hover tabela taboficio" #taboficio id="taboficio">
@@ -77,7 +77,7 @@
                           </tr>
                           <tr *ngIf="lb.solicitacao_descricao !== null">
                             <td colspan="2">
-                              <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
+                              <div class="mb-3 demo-container white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
                             </td>
                           </tr>
 
@@ -88,7 +88,7 @@
 
                   <ng-container *ngIf="herancaSN">
                     <!--*** DADOS DO PROCESSO ***-->
-                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                    <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                       <input
                         type="hidden"
                         id="processoid2"
@@ -130,7 +130,7 @@
                           <!--<tr *ngIf="lb.solicitacao_descricao !== undefined && lb.solicitacao_descricao !== null">
                             <th>Descrição da solicitação:</th>
                             <td>
-                              <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
+                              <div class="mb-3 demo-container white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
                             </td>
                           </tr>-->
                           <tr *ngIf="lb.solicitacao_descricao !== null">
@@ -138,7 +138,7 @@
                           </tr>
                           <tr *ngIf="lb.solicitacao_descricao !== null">
                             <td colspan="2">
-                              <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
+                              <div class="mb-3 demo-container white-space-nowrap overflow-hidden white-space-nowrap text-overflow-ellipsis"  style="width: 30rem"><app-exporter-view [detalhe]="{htm: lb.solicitacao_descricao, titulo: 'Descrição da solicitação:'}"></app-exporter-view></div>
                             </td>
                           </tr>
                         </table>
@@ -147,7 +147,7 @@
                   </ng-container>
 
                   <!--*** oficio_orgao_solicitado_nome ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_orgao_solicitado_nome"><span class="atencao">*</span>Orgão solicitado</label>
                     <input
                       id="oficio_orgao_solicitado_nome"
@@ -160,7 +160,7 @@
                     />
                   </div>
                   <!--*** oficio_valor_solicitado ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_valor_solicitado">Valor solicitado</label>
                     <p-inputNumber
                       id="oficio_valor_solicitado"
@@ -174,7 +174,7 @@
                   </div>
 
                   <!--*** oficio_valor_recebido ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_valor_recebido">Valor recebido</label>
                     <p-inputNumber
                       id="oficio_valor_recebido"
@@ -187,7 +187,7 @@
                     </p-inputNumber>
                   </div>
                   <!--*** oficio_data_pagamento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_data_pagamento">Data do Pagamento</label>
                     <p-calendar
                       id="oficio_data_pagamento"
@@ -201,7 +201,7 @@
                   </div>
 
                   <!--*** oficio_protocolo_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_protocolo_numero">Protocolo número</label>
                     <input
                       id="oficio_protocolo_numero"
@@ -213,7 +213,7 @@
                     />
                   </div>
                   <!--*** oficio_data_protocolo ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_data_protocolo">Data do protocolo</label>
                     <p-calendar
                       id="oficio_data_protocolo"
@@ -227,7 +227,7 @@
                   </div>
 
                   <!--*** oficio_orgao_protocolante_nome ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_orgao_protocolante_nome"><span class="atencao">*</span>Orgão
                       protocolante</label>
                     <input
@@ -241,7 +241,7 @@
                     />
                   </div>
                   <!--*** oficio_protocolante_funcionario ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_protocolante_funcionario">Funcionário do orgão</label>
                     <input
                       id="oficio_protocolante_funcionario"
@@ -254,7 +254,7 @@
                   </div>
 
                   <!--*** oficio_prioridade_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4"
                        [ngClass]="aplicaCssErro('oficio_prioridade_id')">
                     <label for="oficio_prioridade_id"><span class="atencao">*</span> Prioridade</label>
                     <p-dropdown
@@ -269,7 +269,7 @@
                                             msgErro="Prioridade é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** oficio_prazo ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_prazo">Prazo da ação</label>
                     <p-calendar
                       id="oficio_prazo"
@@ -283,7 +283,7 @@
                   </div>
 
                   <!--*** oficio_tipo_andamento_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4"
                        [ngClass]="aplicaCssErro('oficio_tipo_andamento_id')">
                     <label for="oficio_tipo_andamento_id"><span class="atencao">*</span>
                       Encaminhamento</label>
@@ -299,7 +299,7 @@
                                             msgErro="Encaminhamento é obrigatório."></app-campo-control-erro>
                   </div>
                   <!--*** oficio_numero ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_numero">Ofício número</label>
                     <input
                       id="oficio_numero"
@@ -312,7 +312,7 @@
                   </div>
 
                   <!--*** oficio_data_emissao ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_data_emissao">Data da emissão</label>
                     <p-calendar
                       id="oficio_data_emissao"
@@ -325,7 +325,7 @@
                     ></p-calendar>
                   </div>
                   <!--*** oficio_data_empenho ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_data_empenho">Data do empenho</label>
                     <p-calendar
                       id="oficio_data_empenho"
@@ -339,7 +339,7 @@
                   </div>
 
                   <!--*** oficio_data_recebimento ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_data_empenho">Data do recebimento</label>
                     <p-calendar
                       id="oficio_data_recebimento"
@@ -352,7 +352,7 @@
                     ></p-calendar>
                   </div>
                   <!--*** oficio_tipo_recebimento_id ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4"
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4"
                        [ngClass]="aplicaCssErro('oficio_tipo_recebimento_id')">
                     <label for="oficio_tipo_recebimento_id"><span class="atencao">*</span>
                       Recebimento</label>
@@ -369,7 +369,7 @@
                   </div>
 
                   <!--*** oficio_convenio ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_convenio">Convênio</label>
                     <input
                       id="oficio_convenio"
@@ -382,7 +382,7 @@
                   </div>
 
                   <!--*** oficio_status ***-->
-                  <div class="p-field p-col-12 p-sm-12 p-md-6 p-lg-4 p-xl-4">
+                  <div class="field col-12 sm:col-12 md:col-6 lg:col-4 xl:col-4">
                     <label for="oficio_status"> Status</label>
                     <p-dropdown
                       id="oficio_status"
@@ -391,7 +391,7 @@
                     ></p-dropdown>
                   </div>
 
-                  <div class="p-field p-col-12 p-md-12 p-lg-12 p-xl-12">
+                  <div class="field col-12 md:col-12 lg:col-12 xl:col-12">
                     <label for="textos"> </label>
                     <p-accordion id="textos">
                       <p-accordionTab header="Descrição da Ação">
@@ -434,7 +434,7 @@
                   </div>
 
                   <ng-container *ngIf="aut.arquivos">
-                    <div class="p-field p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                    <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
                       <app-arquivo
                         [modulo]="'oficio'"
                         [modelo]="'incluir'"
@@ -454,23 +454,23 @@
 
             </div>
           </div>
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno"></div>
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno"></div>
         </div>
 
       </div>
 
-      <div class="p-grid">
-        <div class="p-col-10 p-offset-1 formulario-bg-externo"></div>
+      <div class="grid">
+        <div class="col-10 p-offset-1 formulario-bg-externo"></div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid">
-          <div class="p-col-10 p-offset-1 p-mt-0 p-pb-0 formulario-bg-interno">
-            <div class="p-grid p-input-filled">
-              <div class="p-col-12 formulario">
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid">
+          <div class="col-10 p-offset-1 mt-0 pb-0 formulario-bg-interno">
+            <div class="grid p-input-filled">
+              <div class="col-12 formulario">
                 <!--*** Botões ***-->
-                <div class="p-d-flex p-jc-start p-pb-2 p-pt-2">
-                  <div class="p-mr-2">
+                <div class="flex justify-content-start pb-2 pt-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -481,7 +481,7 @@
                       label="Enviar"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -491,7 +491,7 @@
                       [disabled]="botoesInativos"
                     ></button>
                   </div>
-                  <div class="p-mr-2">
+                  <div class="mr-2">
                     <button
                       pButton
                       type="button"
@@ -511,10 +511,10 @@
         </div>
       </div>
 
-      <div class="p-fluid formulario-bg-externo">
-        <div class="p-grid formulario-bg-externo">
-          <div class="p-col-12"></div>
-          <div class="p-col-12"></div>
+      <div class="inline-block formulario-bg-externo">
+        <div class="grid formulario-bg-externo">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
 

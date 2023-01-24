@@ -722,8 +722,13 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.clear();
     sessionStorage.clear();
+    this.token = null;
+    this.refleshToken = null;
+    this.expiresRef = null;
+    this.expires = null;
     this.currentUserSubject!.next(null);
     this.cancelaPermissoes();
+    this.ats.cancelaPermissoes();
   }
 
   /*verificaPermissaoGravada() {

@@ -6,7 +6,7 @@ import {timer} from "rxjs";
 import {SpinnerService} from "../../_services/spinner.service";
 
 @Component({
-  selector: 'app-msg',
+  selector: 'apmsg',
   template: `<p-toast id="toastprincipal"  styleClass="toastprincipal" autoZIndex="false" key="toastprincipal" (onClose)="onClose($event)"></p-toast><p-messages key="mensagem"></p-messages>`,
 })
 export class MsgComponent implements OnInit {
