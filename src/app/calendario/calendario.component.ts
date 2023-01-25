@@ -126,7 +126,9 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.altura = WindowsService.nativeWindow.innerHeight - 90;
     this.responsivel();
     this.options = {
+      themeSystem: 'standard',
       plugins: [rrulePlugin, luxonPlugin, dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+      timeZone: 'America/Sao_Paulo',
       locale: ptBrLocale,
       initialDate: new Date(),
       aspectRatio: this.getEscala(),
@@ -219,7 +221,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       showNonCurrentDates: false,
-      weekNumbers: true,
+      weekNumbers: false,
       navLinks: true,
       loading: (e: boolean) => {
       },
@@ -241,6 +243,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
               .pipe(take(1))
               .subscribe((data) => {
                   this.eventos = ParceEventos(data);
+
                   successCallback(this.eventos);
                 },
                 error1 => {
@@ -271,6 +274,9 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mostra = false;
       }
     };
+
+    console.log('this.largura', this.largura);
+
   }
 
   ngAfterViewInit() {

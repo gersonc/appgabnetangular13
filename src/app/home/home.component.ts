@@ -11,6 +11,7 @@ import {take} from "rxjs/operators";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {DispositivoService} from "../_services/dispositivo.service";
 import {OnlineService} from "../_services/online.service";
+import { AppConfigService } from "../_services/appconfigservice";
 
 
 @Component({
@@ -38,7 +39,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     public ws: WindowsService,
     public http: HttpClient,
     private urls: UrlService,
-    public ol: OnlineService
+    public ol: OnlineService,
+    private ac: AppConfigService
     ) {
     this.currentUser = this.authenticationService.currentUserValue;
   }
@@ -74,11 +76,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   mudaDispositivo() {
     if (this.authenticationService.dispositivo !== 'mobile') {
+      this.ac.updateDispositivo('mobile');
       this.authenticationService.dispositivo = 'mobile';
-      this.ds.dispositivo = 'mobile';
+      // this.ds.dispositivo = 'mobile';
     } else {
       this.authenticationService.dispositivo = 'desktop';
-      this.ds.dispositivo = 'desktop';
+      this.ac.updateDispositivo('desktop');
+      // this.ds.dispositivo = 'desktop';
     }
   }
 
@@ -97,11 +101,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       availHeight: m.availHeight,
       pixelDepth: m.pixelDepth,
       colorDepth: m.colorDepth,
-      appCodeName: n.appCodeName,
-      product: n.product,
-      appVersion: n.appVersion,
+      // appCodeName: n.appCodeName,
+      // product: n.product,
+      // appVersion: n.appVersion,
       userAgent: n.userAgent,
-      platform: n.platform,
+      // platform: n.platform,
       onLine: n.onLine,
       hostname: w.location.hostname,
     };

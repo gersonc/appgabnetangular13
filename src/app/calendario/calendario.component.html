@@ -21,17 +21,17 @@
   appendTo="body"
   [blockScroll]="false"
   [dismissible]="true"
-  styleClass="menu-lateral-pq"
+  [styleClass]="'menu-lateral-pq'"
 >
-  <div style="padding-top: 1.8rem">
-    <p-scrollPanel [styleClass]="'menu-lateral-pq'" >
+  <div class="pt-2">
+    <p-scrollPanel [styleClass]="'menu-lateral-pq'">
       <form (ngSubmit)="onSubmit()" name="calForm" #calForm="ngForm">
-        <div class="grid p-input-filled">
-          <div class="col-12 formulario">
-            <div class="formgrid grid formulario">
+        <!--<div class="grid">
+          <div class="col-12 formulario">-->
+            <div class="formulario formgrid grid">
 
               <div class="field col-12">
-                <label for="bsStart"><span class="atencao">*</span> Data</label>
+                <label for="bsStart" class="block"><span class="p-error">*</span> Data</label>
                 <p-calendar
                   id="bsStart"
                   [(ngModel)]="bsStart"
@@ -51,7 +51,7 @@
               </div>
 
               <div class="field col-12">
-                <label for="bsFim">Fim</label>
+                <label for="bsFim" class="block">Fim</label>
                 <p-calendar
                   id="bsFim"
                   [(ngModel)]="bsFim"
@@ -122,7 +122,7 @@
               </div>
 
               <div *ngIf="ddlocal.length > 1" class="field col-12">
-                <label for="local_id">Núcleo</label>
+                <label for="local_id" class="block">Núcleo</label>
                 <p-dropdown
                   id="local_id"
                   placeholder="Selecione"
@@ -137,7 +137,7 @@
               </div>
 
               <div *ngIf="ddprioridade.length > 1" class="field col-12">
-                <label for="bsPrioridade_id">Prioridade</label>
+                <label for="bsPrioridade_id" class="block">Prioridade</label>
                 <p-dropdown
                   id="bsPrioridade_id"
                   [(ngModel)]="bsPrioridade_id"
@@ -151,7 +151,7 @@
               </div>
 
               <div *ngIf="ddcalendario_status.length > 1" class="field col-12">
-                <label for="bsStatus_id">Status</label>
+                <label for="bsStatus_id" class="block">Status</label>
                 <p-dropdown
                   id="bsStatus_id"
                   [(ngModel)]="bsStatus_id"
@@ -166,7 +166,7 @@
               </div>
 
               <div *ngIf="ddtypes.length > 1" class="field col-12">
-                <label for="bsType_id">Categoria</label>
+                <label for="bsType_id" class="block">Categoria</label>
                 <p-dropdown
                   id="bsType_id"
                   [(ngModel)]="bsType_id"
@@ -180,38 +180,46 @@
               </div>
 
             </div>
-          </div>
-        </div>
+            <!--</div>
+          </div>-->
 
-        <div class="col-12">
-          <button
-            class="p-button-rounded"
-            label="Buscar"
-            pButton
-            pRipple
-            type="submit"
-            [disabled]="!calForm.valid"
-          ></button>
-          &nbsp;&nbsp;
-          <button
-            (click)="resetForm()"
-            class="p-button-rounded p-button-secondary"
-            label="Limpar"
-            pButton
-            pRipple
-            type="button"
-          ></button>
-          &nbsp;&nbsp;
-          <button
-            (click)="fecharBusca()"
-            class="p-button-rounded p-button-secondary"
-            label="Fechar"
-            pButton
-            pRipple
-            type="button"
-          ></button>
+            <!--<div class="col-12">-->
+        <div class="mt-3">
+            <div class="inline-flex">
+              <div class="flex-1 h-3rem">
+                <button
+                  class="p-button-rounded"
+                  label="Buscar"
+                  pButton
+                  pRipple
+                  type="submit"
+                  [disabled]="!calForm.valid"
+                ></button>
+              </div>
+              <div class="flex-1 h-3rem">
+                <button
+                  (click)="resetForm()"
+                  class="p-button-rounded p-button-secondary"
+                  label="Limpar"
+                  pButton
+                  pRipple
+                  type="button"
+                ></button>
+              </div>
+              <div class="flex-1 h-3rem">
+                <button
+                  (click)="fecharBusca()"
+                  class="p-button-rounded p-button-secondary"
+                  label="Fechar"
+                  pButton
+                  pRipple
+                  type="button"
+                ></button>
+              </div>
+            </div>
         </div>
-
+          <!--</div>
+        </div>-->
       </form>
 
     </p-scrollPanel>
@@ -233,7 +241,8 @@
     [breakpoints]="{'1100px': '80vw', '1000px': '90vw', '900px': '100vw'}"
     [style]="{width: '70vw'}"
   >
-    <app-calendario-form [formDados]="formDados" (abreFecha)="abreFechaForm()" (eventoRetorno)="eventoRetorno($event)"></app-calendario-form>
+    <app-calendario-form [formDados]="formDados" (abreFecha)="abreFechaForm()"
+                         (eventoRetorno)="eventoRetorno($event)"></app-calendario-form>
   </p-dialog>
 </ng-container>
 
@@ -252,7 +261,8 @@
     [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-calendario-exibir [dados]="dadosExibir" (onFechar)="onFecharExibir($event)" (onDetalhe)="onDetalhe($event)"></app-calendario-exibir>
+    <app-calendario-exibir [dados]="dadosExibir" (onFechar)="onFecharExibir($event)"
+                           (onDetalhe)="onDetalhe($event)"></app-calendario-exibir>
   </p-dialog>
 </ng-container>
 
@@ -272,7 +282,8 @@
     [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
     [style]="{width: '60vw'}"
   >
-    <app-calendario-excluir [dados]="dadosExcluir" (onFechar)="onFecharExcluir($event)" (onReload)="fc.getApi().refetchEvents()"></app-calendario-excluir>
+    <app-calendario-excluir [dados]="dadosExcluir" (onFechar)="onFecharExcluir($event)"
+                            (onReload)="fc.getApi().refetchEvents()"></app-calendario-excluir>
   </p-dialog>
 </ng-container>
 
@@ -296,8 +307,9 @@
 </ng-container>
 
 <ng-container *ngIf="detalhemodulo !== null && detalheid!== null">
-<app-detalhe [modulo]="detalhemodulo" [id]="detalheid"></app-detalhe>
+  <app-detalhe [modulo]="detalhemodulo" [id]="detalheid"></app-detalhe>
 </ng-container>
 <p-toast key="calToast" [style]="{marginTop: '80px'}"></p-toast>
-<app-calendario-tooltip *ngIf="mostra" [evT]="evT" [largura]="novaLargura" [altura]="novaAltura"></app-calendario-tooltip>
+<app-calendario-tooltip *ngIf="mostra" [evT]="evT" [largura]="novaLargura"
+                        [altura]="novaAltura"></app-calendario-tooltip>
 

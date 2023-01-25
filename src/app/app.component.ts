@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private config: PrimeNGConfig,
-    private configService: AppConfigService,
+    public configService: AppConfigService,
     public authenticationService: AuthenticationService,
     private windowsService: WindowsService,
     private router: Router,

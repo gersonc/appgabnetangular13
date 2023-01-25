@@ -3,8 +3,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DomHandler } from 'primeng/dom';
-import { AppConfig } from "./_models/appconfig";
-import { AppConfigService } from "./_services/appconfigservice";
+import { AppConfig } from "../_models/appconfig";
+import { AppConfigService } from "../_services/appconfigservice";
+
 
 @Component({
     selector: 'app-inputStyleSwitch',

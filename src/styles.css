@@ -5,5 +5,634 @@
 @import "../node_modules/quill/dist/quill.core.css";
 @import "../node_modules/quill/dist/quill.snow.css";
 @import "../node_modules/quill/dist/quill.bubble.css";
-@import "assets/css/appcss.css";
 @import "assets/css/app.css";
+/*@import "assets/css/appcss.css";*/
+
+
+:root {
+  --menu-lateral-width: 1100px;
+  --menu-lateral-width-1200: 70vw;
+  --menu-lateral-width-992: 80vw;
+  --menu-lateral-width-768: 100vw;
+  --menu-lateral-width-576: 100vw;
+
+  --menu-lateral-pq-width: 100vw;
+  --menu-lateral-pq-width-1200: 30vw;
+  --menu-lateral-pq-width-992: 35vw;
+  --menu-lateral-pq-width-768: 80vw;
+  --menu-lateral-pq-width-576: 100vw;
+
+  --altura-main: calc(100vh - 2.4em);
+  --menu-lateral-height: calc(100vh - 4.6em);
+}
+
+
+
+@font-face {
+  font-family: 'word';
+  font-display: block;
+  src: url('assets/icons/file-word.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.bi {
+  font-family: 'word', serif;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bi:before {
+  --webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.bi-file-word:before {
+  content: "\F3BB";
+}
+
+
+app {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*.main {
+  position: fixed;
+  display: block;
+  box-sizing: border-box;
+  top: 2.2rem;
+  left: 0;
+  --tamanhomenu: 12.5em;
+  width: 100%;
+  height: var(--altura-main);
+  z-index: 0;
+}*/
+
+.mobile {
+
+}
+
+.desktop {
+
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  /*height: 2.6rem;*/
+  color: var(--primary-color-text);
+  background-color: var(--primary-color);
+  text-align: center;
+  font-size: 1.6rem;
+  /*line-height: 2rem;*/
+}
+
+.desktop .header {
+  padding: 0 .5rem;
+}
+
+.mobile .header {
+  padding: 0 2rem;
+}
+
+.topo-esquerda {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50vw;
+  padding: 0.2rem 0;
+}
+
+.topo-direita {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50vw;
+  padding: 0.2rem 0;
+}
+
+.topo-direita .p-avatar {
+  font-size: 1.2rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-bottom: 0.2rem;
+  align-items: end;
+  overflow: unset;
+}
+
+.topo-direita .p-badge.p-badge-warning {
+  z-index: 200;
+  /*background-color: var(--amarelo);*/
+  /*color: var(--text-color);*/
+}
+
+.topo-direita .p-avatar.p-avatar-circle {
+  border-radius: 50%;
+  overflow: unset;
+}
+
+.topo-direita .p-overlay-badge .p-badge {
+  top: 0.5rem;
+  right: 1.5rem;
+}
+
+.topo-direita  .p-badge {
+  background: var(--primary-color);
+  color: var(--surface-a);
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+}
+
+.topo-direita  .p-badge:hover {
+  font-size: 1rem;
+  font-weight: 700;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+}
+
+
+.main {
+  position: fixed;
+  display: block;
+  box-sizing: border-box;
+  top: 2.45rem;
+  left: 0;
+  --tamanhomenu: 12.5em;
+  width: 100%;
+  height: var(--altura-main);
+  z-index: 0;
+}
+
+.main {
+  background: red;
+}
+
+
+
+
+
+.btn-menu-principal {
+  padding-top: .1rem;
+  font-size: 1.5rem !important;
+  color: var(--primary-color-text);
+}
+
+.btn-menu-principal:hover {
+  padding-top: 0;
+  font-size: 1.7rem !important;
+  cursor: pointer;
+}
+
+
+
+
+.menu-principal {
+  position: absolute;
+  top: .2em;
+  left: 0;
+  width: 30ch;
+  height: calc(100% - 3em);
+  z-index: 10000;
+  overflow: auto !important;
+  /*transition: height 2s;*/
+}
+
+.menu-principal-fechado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12.5em;
+  height: 0;
+  z-index: 10000;
+  background-color: var(--surface-200);
+  /*transition: height 1s;*/
+}
+
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0 !important;
+}
+
+.fc tbody {
+  overflow: hidden;
+}
+
+.fc.fc-theme-standard .fc-toolbar .fc-button-group .fc-button:last-child {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+  h2.fc-toolbar-title {
+    font-size: 1.3em !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  h2.fc-toolbar-title {
+    font-size: 1em !important;
+  }
+}
+
+.menu-lateral-pq {
+  background-color: var(--surface-ground);
+}
+
+
+.menu-lateral-pq.p-sidebar-left {
+  background-color: var(--surface-ground);
+}
+
+/*.menu-lateral-pq.p-sidebar-left {
+  display: block;
+  box-sizing: border-box;
+}*/
+
+.p-scrollpanel.menu-lateral-pq {
+  box-sizing: border-box;
+  height: 100%;
+  /*padding: 0 1.8rem 1.8rem 0;*/
+  position: relative;
+  width: 100%;
+}
+
+.menu-lateral-pq.p-sidebar-left {
+  width: var(--menu-lateral-pq-width);
+}
+
+.menu-lateral-pq.p-sidebar-left .p-sidebar-header {
+  padding: .8rem .8rem 0 0;
+}
+
+@media screen and (min-width: 550px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width);
+  }
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width);
+  }
+
+}
+
+@media screen and (min-width: 576px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-576);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-576);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-768);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-768);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-992);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-992);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-1200);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-1200);
+  }
+}
+
+
+
+.calendariottip {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.calfull {
+  display: flex;
+  width: 100%;
+}
+
+.cal-esq0 {
+  display: flex;
+  width: 100%;
+  clear: left;
+  transition: 2s;
+}
+
+.cal-esq1 {
+  display: flex;
+  width: 80%;
+  clear: left;
+  transition: 2s;
+}
+
+.cal-esq-esq {
+  width: 100%;
+}
+
+.cal-esq-dir {
+  vertical-align: middle;
+  width: 1.3rem;
+  background-color: var(--primary-color);
+}
+
+.cal-dir0 {
+  width: 0;
+  transition: width 2s;
+  background: hsla(0,0%,81.6%,.3);
+  background: var(--fc-neutral-bg-color,hsla(0,0%,81.6%,.3));
+}
+
+.cal-dir1 {
+  width: 20%;
+  background: hsla(0,0%,81.6%,.3);
+  background: var(--fc-neutral-bg-color,hsla(0,0%,81.6%,.3));
+  transition: 2s;
+}
+
+.calbtn {
+  position: relative;
+  top: 45%;
+  color: var(--primary-color-text);
+  cursor: pointer;
+}
+
+.calendariottip-description {
+  background: var(--primary-color-text);
+  padding: .4em;
+  border-radius: .4em;
+}
+
+.caldetobs {
+  background-color: greenyellow;
+  border-radius: .4em;
+}
+
+.observacaostyle .p-card {
+  padding: 0 5px 0 5px;
+  margin: 0;
+  box-shadow: 3px 3px 5px #888888;
+}
+
+.observacaostyle .p-card-content {
+  background-color: var(--surface-a);
+  padding: .5em;
+}
+
+.observacaostyle .p-card-body {
+  padding: .5em;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+
+.caltabela {
+  border-collapse: collapse;
+  width: 100%;
+  border-spacing: .2em;
+}
+
+.caltabela tr, .caltabela td {
+  border-width: 1px 2px 1px 2px;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: .4em;
+}
+
+.caltabelaobs {
+  margin-top: .4em;
+  /*border: .4em solid var(--primary-color-text);*/
+  background-color: var(--primary-color-text);
+  padding: 1em;
+  overflow-y: auto;
+  border-width: 1px 3px 1px 3px;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: .7em;
+}
+
+.detalhefull {
+  border: 0;
+  min-width: 100%;
+  background-color: var(--claro);
+}
+
+.caldetalhefull {
+  border: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.caldet {
+  margin: .4em;
+  /*background-color: var(--fundotabela);*/
+  padding: .8em;
+}
+
+body .icsupload {
+  border-radius: 1em !important;
+  /*overflow: hidden;*/
+  background-color: var(--fundo-botao-claro);
+  color: var(--fundo-botao-escuro);
+  border: 1px solid var(--fundo-botao-claro);
+}
+
+body .icsupload:hover {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+  border: 1px solid var(--primary-color);
+}
+
+.calexibir {
+  background-color: red;
+  padding: 1em;
+  border-radius: .5em;
+  min-height: 60%;
+  min-width: 768px;
+}
+
+/*
+
+.calexibir .p-dialog-title {
+  padding: .4em .8em .4em .8em;
+  background-color: var(--primary-color-text);
+  border: 1px solid var(--primary-color-text);
+  border-radius: 5px;
+}
+
+.calexibir .p-dialog-content {
+  background-color: var(--surface-300);
+  padding: .5em;
+}
+
+.calexibir .p-dialog-header {
+  background-color: var(--surface-300);
+
+  padding: .5em;
+}
+
+.calexibirpq {
+  max-height: 75%;
+}
+*/
+.calform {
+  max-height: 80%;
+  min-width: 400px;
+  max-width: 768px;
+}
+
+.calform .p-calendar input[type=text] {
+  width: 25% !important;
+  min-width: 250px !important;
+  border-collapse: collapse;
+}
+
+.calexibir2 {
+  padding: .8em 1.5em .8em 1.5em;
+  background-color: var(--primary-color-text);
+  border: 1px solid var(--primary-color-text);
+  border-radius: .5em;
+}
+
+.calendario-form .p-datepicker table th {
+  padding: 0.3em;
+}
+
+.calendario-form .p-datepicker table th > span {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.calendario-form .p-datepicker table td {
+  padding: 0.3em;
+}
+
+.calendario-form .p-datepicker table td > span {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.calendario-form > .p-multiselect.p-multiselect-chip .p-multiselect-token {
+  padding: 0.25em 0.75em;
+  margin-right: 0.5em;
+  background: var(--secondary-bg);
+  color: var(--secondary-color-text);
+  border-radius: 4px;
+  font-size: .5em !important;
+}
+
+/*
+*** EXIBIR p-dialog ***********************************************************************
+*/
+.cal-exibir.p-dialog {
+  max-height: calc(100vh - 3.1em) !important;
+  min-width: 400px;
+  background: var(--formulario-bg-externo-color);
+  top: var(--topo) !important;
+  margin-top: 0 !important;
+  margin-right: 0.75em;
+  margin-bottom: 0.75em;
+  margin-left: 0.75em;
+}
+
+.cal-exibir.p-dialog .p-dialog-header {
+  border-bottom: 1px solid var(--formulario-bg-externo-color);
+  background: var(--formulario-bg-externo-color);
+  color: var(--text-color);
+  padding: .5em 1em 0;
+}
+
+.cal-exibir.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 2em;
+  height: 2em;
+  color: var(--text-color);
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: box-shadow 0.15s;
+  margin-right: 0.5em;
+}
+
+.cal-exibir .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+  color: var(--text-color-secondary);
+  border-color: transparent;
+  background: transparent;
+}
+
+.cal-exibir.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: var(--bt-secundario-box-shadow-focus);
+}
+
+.cal-exibir.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+}
+
+.cal-exibir.p-dialog .p-dialog-content {
+  margin: 1em;
+  padding: 1em;
+  border: 1px solid var(--formulario-bg-interno-color);
+  border-radius: 1em;
+  background: var(--formulario-bg-interno-color);
+  color: var(--text-color);
+}
+
+
+
+.formulario label {
+  display: block;
+  font-size: small;
+  font-weight: 500;
+  padding-left: .5rem;
+  padding-bottom: 0;
+}
+
+.formulario .field {
+  margin-bottom: 0.5rem;
+}
+
+.formulario .field > label {
+  display: block;
+  margin-bottom: 0;
+}
+
+.formulario .p-inputtext {
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
+}
+
+.formulario .p-dropdown {
+  max-width: 90%;
+}

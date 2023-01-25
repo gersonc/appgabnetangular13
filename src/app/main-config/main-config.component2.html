@@ -1,0 +1,5 @@
+<div class="layout-wrapper {{config.dark ? 'layout-wrapper-dark' : 'layout-wrapper-light'}}">
+    <!--<app-topbar (menuButtonClick)="onMenuButtonClick()"></app-topbar>-->
+    <app-config></app-config>
+    <div class="layout-mask" [ngClass]="{'layout-mask-active': menuActive}" (click)="onMaskClick()"></div>
+</div>

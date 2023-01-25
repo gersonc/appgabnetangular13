@@ -31,10 +31,10 @@ import { PessoalModule } from "./shared/pessoal/pessoal.module";
 import { TesteComponent } from "./teste/teste.component";
 import { HttpErrorHandler } from "./http-error-handler.service";
 import { OnoffLineModule } from "./shared/onoff-line/onoff-line.module";
-import { AppTopBarComponent } from "./app.topbar.component";
-import { AppConfigComponent } from "./app.config.component";
+
+
 import { MainConfigComponent } from "./main-config/main-config.component";
-import { AppInputStyleSwitchModule } from "./app.inputstyleswitch.component";
+import { AppInputStyleSwitchModule } from "./input-styles-switch/app.inputstyleswitch.module";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -45,8 +45,8 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     HomeComponent,
-    AppTopBarComponent,
-    AppConfigComponent,
+
+
     MainConfigComponent,
     TesteComponent
   ],
