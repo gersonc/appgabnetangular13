@@ -92,25 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         )
       );
-/*
 
-
-
-      this.sub.push(this.authenticationService.login(
-        this.loginForm.controls.username.value,
-        this.loginForm.controls.password.value)
-        .pipe(first())
-        .subscribe({
-          next: vf => {
-            console.log(vf);
-            if (vf) {
-              this.router.navigate(['/']);
-            }
-          },
-          error: error => {
-            this.error = error;
-            this.loading = false;
-          }}));*/
     } else {
       this.verificaValidacoesForm(this.loginForm);
     }
