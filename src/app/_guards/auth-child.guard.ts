@@ -11,7 +11,7 @@ export class AuthChildGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.authenticationService.currentUserValue;
+    const currentUser = this.authenticationService.currentUser;
     if (this.authenticationService.usuario_principal_sn || this.authenticationService.usuario_responsavel_sn) {
       return true;
     }

@@ -17,8 +17,8 @@
   --menu-lateral-width-576: 100vw;
 
   --menu-lateral-pq-width: 100vw;
-  --menu-lateral-pq-width-1200: 30vw;
-  --menu-lateral-pq-width-992: 35vw;
+  --menu-lateral-pq-width-1200: 25rem;
+  --menu-lateral-pq-width-992: 30rem;
   --menu-lateral-pq-width-768: 80vw;
   --menu-lateral-pq-width-576: 100vw;
 
@@ -636,3 +636,35 @@ body .icsupload:hover {
 .formulario .p-dropdown {
   max-width: 90%;
 }
+
+
+.menu-lateral-pq .formulario .p-dropdown {
+  width: 90%;
+}
+
+.menu-lateral-pq .formulario input[type=text].p-inputtext {
+  width: 90% !important;
+}
+.menu-lateral-pq .p-inputtext {
+  width: 90%;
+}
+
+.menu-lateral-pq .p-datepicker table th {
+  padding: 0.3em;
+}
+
+.menu-lateral-pq .p-datepicker table th > span {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.menu-lateral-pq .p-datepicker table td {
+  padding: 0.3em;
+}
+
+.menu-lateral-pq .p-datepicker table td > span {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+

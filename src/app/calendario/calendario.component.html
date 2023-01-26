@@ -45,7 +45,6 @@
                   yearRange="2020:2040"
                   [readonlyInput]="true"
                   hourFormat="24"
-                  styleClass="calendario-form"
                   [required]="true"
                 ></p-calendar>
               </div>
@@ -64,7 +63,6 @@
                   placeholder="dd/mm/aaaa"
                   yearRange="2020:2040"
                   [readonlyInput]="true"
-                  styleClass="calendario-form"
                   hourFormat="24"
                 ></p-calendar>
               </div>
@@ -252,12 +250,12 @@
     [(visible)]="mostraExibir"
     [transitionOptions]="'0ms'"
     header="EVENTO"
-    position="top"
+    position="center"
     appendTo="body"
     [modal]="true"
     [dismissableMask]="true"
     [closable]="true"
-    styleClass="cal-exibir"
+
     [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
@@ -272,7 +270,7 @@
     [(visible)]="mostraExcluir"
     [transitionOptions]="'0ms'"
     header="APAGAR EVENTO"
-    position="top"
+    position="center"
     appendTo="body"
     [modal]="true"
     [dismissableMask]="true"

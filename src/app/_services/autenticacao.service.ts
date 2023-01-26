@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, take} from "rxjs/operators";
-import {Observable, of} from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import {environment} from "../../environments/environment";
+import { User } from "../_models";
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,18 @@ export class AutenticacaoService {
   expRef?: number;
   _token?: string;
   _refToken?: string;
-  vfToken = false;
   teste: any;
+  logado = false;
 
+  public logadoSub: BehaviorSubject<boolean>;
+  public logadoVF: Observable<boolean>;
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+    this.logadoSub = new BehaviorSubject<boolean>(!!(localStorage.getItem('currentUser')));
+    this.logadoVF = this.logadoSub.asObservable();
+  }
 
   get token(): string {
     return this._token;
@@ -29,6 +35,24 @@ export class AutenticacaoService {
   get refToken(): string {
     return this._refToken;
   }
+
+  get vfToken(): boolean {
+    if (this.expires === undefined) {
+      this.expires = this.getTokens();
+      return this.expires > Math.floor((+Date.now()) / 1000);
+    } else {
+      return this.expires > Math.floor((+Date.now()) / 1000);
+    }
+  }
+
+  get rtkvalido(): boolean {
+    if (this.expiresRef === undefined || this._refToken === undefined || this.expiresRef === 0) {
+      return false;
+    } else {
+      return this.expiresRef > Math.floor((+Date.now()) / 1000);
+    }
+  }
+
 
   /*
 postSolicitacaoRelatorio(busca: SolicBuscaI) {
@@ -66,16 +90,16 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             this.expiresRef = +user.expiresRef;
             this._token =user.token;
             this._refToken = user.refleshToken;
-            this.vfToken = true;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
+            this.logadoSub.next(true);
             this.teste = this.getTeste();
             return true;
           } else {
-            this.vfToken = false;
+            this.logadoSub.next(false);
             return false;
           }
         }),
@@ -84,7 +108,7 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
   }
 
   refleshToken(): Observable<boolean> {
-    const url = this.getUrl() + '/reflesh';
+    const url = this.getUrl() + 'reflesh';
     return this.http.get<any>(url)
       .pipe(
         take(1),
@@ -103,17 +127,17 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             this.expiresRef = +user.expiresRef;
             this._token = user.token;
             this._refToken = user.refleshToken;
-            this.vfToken = true;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
+            this.logadoSub.next(true);
             // this.carregaPermissoes(user);
             return true;
           } else {
-            this.vfToken = false;
             // this.cancelaPermissoes();
+            this.logadoSub.next(false);
             return false;
           }
         }));
@@ -175,11 +199,20 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
     }
   }
 
-  getTokens(): any {
-    this.expires = +JSON.parse(localStorage.getItem('expires'));
-    this.expiresRef = +JSON.parse(localStorage.getItem('expiresRef'));
-    this._token = localStorage.getItem('access_token');
-    this._refToken = localStorage.getItem('reflesh_token');
+
+
+  getTokens(): number {
+    if (!localStorage.getItem('access_token')) {
+      this.expires = 0;
+      this.expiresRef = 0;
+      return 0;
+    } else {
+      this.expires = +JSON.parse(localStorage.getItem('expires'));
+      this.expiresRef = +JSON.parse(localStorage.getItem('expiresRef'));
+      this._refToken = localStorage.getItem('reflesh_token');
+      this._token = localStorage.getItem('access_token');
+      return this.expires;
+    }
   }
 
   cancelaPermissoes() {
@@ -190,7 +223,6 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
     delete this._token;
     delete this._refToken;
     delete this.teste;
-    this.vfToken = false;
   }
 
 

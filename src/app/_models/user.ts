@@ -16,8 +16,8 @@ export class User {
   config_cota_utilizada?: number;
   dispositivo?: string;
   erro?: any[];
-  expires?: number;
-  futuro?: string;
+  // expires?: number;
+  // expiresRef?: number;
   parlamentar_arquivo_ativo?: number;
   parlamentar_id?: number;
   parlamentar_nome?: string;

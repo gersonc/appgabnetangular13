@@ -14,6 +14,7 @@ import {DispositivoService} from "./dispositivo.service";
 @Injectable({providedIn: 'root'})
 
 export class AuthenticationService {
+  public a = 0;
   private acessoStr = [
     'cf_i',
     'cf_a',
@@ -261,8 +262,8 @@ export class AuthenticationService {
   public dispositivo: string = null;
   public mensagem_enviar = false;
 
-  private currentUserSubject?: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  // private currentUserSubject?: BehaviorSubject<User>;
+  public currentUser: User | null = null;
   private user$?: Observable<User>;
   private mostraMenuSource =  new BehaviorSubject<boolean>(false);
   public mostraMenu$ = this.mostraMenuSource.asObservable();
@@ -281,16 +282,25 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(<string>localStorage.getItem('currentUser')));
+    this.ats.logadoVF.subscribe((vf) => {
+      if (vf) {
+        this.carregaPermissoes(JSON.parse(<string>localStorage.getItem('currentUser')));
+      } else {
+        this.logout();
+      }
+    });
+
+    /*this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(<string>localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+
     if (this.currentUserSubject.value) {
       this.carregaPermissoes(this.currentUserSubject.value);
       this.currentUserSubject!.next(this.currentUserSubject.value);
-    }
+    }*/
   }
 
   public get currentUserValue() {
-    return this.currentUserSubject!.value;
+    return this.currentUser;
   }
 
   public get mostraMenu () {
@@ -365,8 +375,8 @@ export class AuthenticationService {
       .pipe(take(1))
       .subscribe(vf => {
         if (vf) {
-          const user: any = JSON.parse(localStorage.getItem('currentUser'));
-          this.carregaPermissoes(user);
+          // const user: any = JSON.parse(localStorage.getItem('currentUser'));
+          // this.carregaPermissoes(user);
           return of(vf);
         } else {
           return of(vf);
@@ -376,15 +386,16 @@ export class AuthenticationService {
   }
 
   carregaPermissoes(user): void {
+    this.a++;
+    this.currentUser = user;
+    console.log('carregaPermissoes1', this.a, this.currentUser);
     if (localStorage.getItem('access_token') && localStorage.getItem('reflesh_token')) {
       this.token = localStorage.getItem('access_token');
       this.refleshToken = localStorage.getItem('reflesh_token');
       this.expiresRef = new Date(localStorage.getItem('expiresRef'));
       this.expires = new Date(localStorage.getItem('expires'));
-      this.vfToken = true;
-    } else {
-      this.vfToken = false;
     }
+    this.vfToken = this.ats.vfToken;
     const regra = this.descreveRule(user.usuario_regras);
     const acesso = this.descreveAcesso(user.usuario_acesso);
     this._versao = +user.parlamentar_versao!;
@@ -535,8 +546,6 @@ export class AuthenticationService {
     // this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
     this.usuario_responsavel_sn = (regra?.indexOf('ur') !== -1 ||  acesso.indexOf('us_r') !== -1 || regra?.indexOf('up') !== -1);
     this.userRules = acesso;
-    this.currentUserSubject!.next(JSON.parse(<string>localStorage.getItem('currentUser')));
-
     this.mensagem = true;
     this.mensagem_enviar = true;
     this.permissoes_carregadas = true;
@@ -681,10 +690,10 @@ export class AuthenticationService {
   }
 
   checaPermissao(str: string): any {
-    return this.currentUserSubject!.value.scope!.indexOf(str) !== -1;
+    return this.currentUser!.scope!.indexOf(str) !== -1;
   }
 
-  autologin(): Observable<boolean> {
+  /*autologin(): Observable<boolean> {
     return this.http.get<any>(this.urlService.autologin)
       .pipe(
         take(1),
@@ -715,7 +724,7 @@ export class AuthenticationService {
           return false;
         }
       }));
-  }
+  }*/
 
   logout() {
     localStorage.removeItem('access_token');
@@ -726,7 +735,7 @@ export class AuthenticationService {
     this.refleshToken = null;
     this.expiresRef = null;
     this.expires = null;
-    this.currentUserSubject!.next(null);
+    this.currentUser = null;
     this.cancelaPermissoes();
     this.ats.cancelaPermissoes();
   }
@@ -747,22 +756,16 @@ export class AuthenticationService {
   }
 
   inicio(): Observable<boolean> {
-    if (
-      localStorage.getItem('access_token') &&
-      localStorage.getItem('reflesh_token') &&
-      localStorage.getItem('expires') &&
-      localStorage.getItem('expiresRef') &&
-      localStorage.getItem('currentUser')
-    ) {
-      const user = JSON.parse(localStorage.getItem('currentUser'));
-      const a: number = Date.now();
-      const b: number = +localStorage.getItem('expires');
-      const c: number = +localStorage.getItem('expiresRef');
-      if (b > a) {
-        this.carregaPermissoes(JSON.parse(localStorage.getItem('currentUser')));
+    if ( this.ats.vfToken || this.ats.rtkvalido) {
+      // const user = JSON.parse(localStorage.getItem('currentUser'));
+      // const a: number = Date.now();
+      // const b: number = +localStorage.getItem('expires');
+      // const c: number = +localStorage.getItem('expiresRef');
+      if (this.ats.vfToken) {
+        // this.carregaPermissoes(JSON.parse(localStorage.getItem('currentUser')));
         return of(true);
       } else {
-        if (c > a) {
+        if (this.ats.rtkvalido) {
           let v = false;
           const s: Subscription = this.ats.refleshToken()
             .pipe(take(1))
@@ -770,9 +773,8 @@ export class AuthenticationService {
               next: (vf) => {
                 if (vf) {
                   v = vf;
-                  const user = JSON.parse(localStorage.getItem('currentUser'))
-                  this.carregaPermissoes(user);
-                  this.currentUserSubject!.next(user);
+                  /*const user = JSON.parse(localStorage.getItem('currentUser'))
+                  this.carregaPermhttp://localhost:4400/issoes(user);*/
                 }
               },
               error: err => {
@@ -793,7 +795,7 @@ export class AuthenticationService {
     }
   }
 
-  reflesh(): Observable<boolean> {
+  /*reflesh(): Observable<boolean> {
     let v = false;
     if (localStorage.getItem('reflesh_token')) {
       const s: Subscription = this.ats.refleshToken()
@@ -817,7 +819,7 @@ export class AuthenticationService {
     } else {
       return of(v)
     }
-  }
+  }*/
 
 
 }

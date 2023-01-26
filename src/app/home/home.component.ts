@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     public ol: OnlineService,
     private ac: AppConfigService
     ) {
-    this.currentUser = this.authenticationService.currentUserValue;
+    this.currentUser = this.authenticationService.currentUser;
   }
 
   ngOnInit() {

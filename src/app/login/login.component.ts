@@ -34,12 +34,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     public ol: OnoffLineService
   ) {
-    if (this.authenticationService.currentUserValue) {
+    if (this.authenticationService.currentUser !== null) {
       this.router.navigate(['/']);
     }
   }
 
   ngOnInit() {
+    console.log('LoginComponent carregaPermissoes1', this.authenticationService.a, this.authenticationService.currentUser);
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(7), Validators.max(50)]]
@@ -66,11 +67,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       availHeight: m.availHeight,
       pixelDepth: m.pixelDepth,
       colorDepth: m.colorDepth,
-      appCodeName: n.appCodeName,
-      product: n.product,
-      appVersion: n.appVersion,
+      // appCodeName: n.appCodeName,
+      // product: n.product,
+      // appVersion: n.appVersion,
       userAgent: n.userAgent,
-      platform: n.platform,
+      // platform: n.platform,
       onLine: n.onLine,
       hostname: w.location.hostname,
     };
@@ -84,10 +85,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(take(1))
         .subscribe(vf => {
             if (vf) {
-              const user: any = JSON.parse(localStorage.getItem('currentUser'));
-              this.authenticationService.carregaPermissoes(user);
+              // const user: any = JSON.parse(localStorage.getItem('currentUser'));
+              // this.authenticationService.carregaPermissoes(user);
               this.router.navigate(['/']);
-
             }
           }
         )
