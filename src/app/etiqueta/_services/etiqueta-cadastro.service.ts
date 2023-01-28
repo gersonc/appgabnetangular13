@@ -43,7 +43,7 @@ export class EtiquetaCadastroService {
         cadastro_endereco_complemento: this.limpaTxt(d.cadastro_endereco_complemento),
         cadastro_bairro: this.limpaTxt(d.cadastro_bairro),
         cadastro_municipio_nome: d.cadastro_municipio_nome,
-        cadastro_cep: (d.cadastro_cep.length === 8) ? d.cadastro_cep.substr(0,5) + '-' + d.cadastro_cep.substr(5,3): d.cadastro_cep,
+        cadastro_cep: (d.cadastro_cep.length === 8) ? d.cadastro_cep.substring(0,5) + '-' + d.cadastro_cep.substring(5,3): d.cadastro_cep,
         cadastro_estado_nome: d.cadastro_estado_nome,
         cadastro_responsavel: this.limpaTxt(d.cadastro_responsavel),
         cadastro_tratamento_nome: d.cadastro_tratamento_nome,

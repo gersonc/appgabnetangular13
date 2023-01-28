@@ -89,8 +89,8 @@ export function getTelWhatsApp(field: string, valor: string): EmailTelefoneCelul
   vl = vl.replace('-', '');
   vl = vl.replace('.', '');
   vl = vl.replace('+', '');
-  if (vl.substr(0, 1) === '0') {
-    vl = vl.substr(1);
+  if (vl.substring(0, 1) === '0') {
+    vl = vl.substring(1);
   }
 
   const l = vl.length;
@@ -121,7 +121,7 @@ export function getTelWhatsApp(field: string, valor: string): EmailTelefoneCelul
   }
 
   if (l === 9) {
-    if (vl.substr(0, 1) === '9') {
+    if (vl.substring(0, 1) === '9') {
       if (telefone_validation('11'.concat(vl), field)) {
         return {
           ativo: true,

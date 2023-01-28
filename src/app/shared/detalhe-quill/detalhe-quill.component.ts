@@ -45,11 +45,11 @@ export class DetalheQuillComponent implements OnInit, OnChanges {
         if (this.detalhe.htm !== undefined && this.detalhe.htm !== null) {
           this.htm = Stripslashes(this.detalhe.htm);
           if (this.detalhe.txt === undefined && false) {
-            this.txt = Stripslashes(this.detalhe.htm).substr(0, 100);
+            this.txt = Stripslashes(this.detalhe.htm).substring(0, 100);
           }
         }
         if (this.detalhe.txt !== undefined && this.detalhe.txt !== null) {
-          this.txt = this.detalhe.txt.substr(0, 100);
+          this.txt = this.detalhe.txt.substring(0, 100);
         }
       }
     }

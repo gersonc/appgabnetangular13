@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.authenticationService.token !== undefined && this.authenticationService.token !== null && this.authenticationService.token.length > 5) {
-      this.token = this.authenticationService.token.substr(0,30);
+      this.token = this.authenticationService.token.substring(0,30);
     }
     this.ping();
     this.coorApp = this.ws.coorApp;

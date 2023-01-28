@@ -54,9 +54,9 @@ export class TarefaPrintService {
         </tr>
         <tr>
           <th style="width: 60pt;">Data pedido:</th>
-          <td style="width: 60pt;" class="datahora">` + t.tarefa_datahora.substr(0,16) + `</td>
+          <td style="width: 60pt;" class="datahora">` + t.tarefa_datahora.substring(0,16) + `</td>
           <th style="width: 60pt;">Prazo:</th>
-          <td class="datahora">` + t.tarefa_data.substr(0,16) + `</td>
+          <td class="datahora">` + t.tarefa_data.substring(0,16) + `</td>
         </tr>
         <tr>
           <th style="width: 60pt;">Autor</th>
@@ -91,7 +91,7 @@ export class TarefaPrintService {
           ta.tarefa_historico.forEach(h => {
             tp += `
               <tr>
-                <td class="datahora" style="width: 60pt;">` + h.th_data.substr(0,16) + `</td>
+                <td class="datahora" style="width: 60pt;">` + h.th_data.substring(0,16) + `</td>
                 <td colspan="3">` + this.stripslashes(h.th_historico) + `</td>
               </tr>`;
           });
@@ -115,9 +115,9 @@ export class TarefaPrintService {
         </tr>
         <tr>
           <th style="width: 60px;">Data pedido:</th>
-          <td style="width: 60px;" class="datahora">` + t.tarefa_datahora.substr(0,16) + `</td>
+          <td style="width: 60px;" class="datahora">` + t.tarefa_datahora.substring(0,16) + `</td>
           <th style="width: 60px;">Prazo:</th>
-          <td class="datahora">` + t.tarefa_data.substr(0,16) + `</td>
+          <td class="datahora">` + t.tarefa_data.substring(0,16) + `</td>
         </tr>
         <tr>
           <th style="width: 60px;">Autor</th>
@@ -149,7 +149,7 @@ export class TarefaPrintService {
             ta.tarefa_historico.forEach(h => {
               tp += `
               <tr>
-                <td class="datahora" style="width: 60px;">` + h.th_data.substr(0,16) + `</td>
+                <td class="datahora" style="width: 60px;">` + h.th_data.substring(0,16) + `</td>
                 <td colspan="3">` + this.stripslashes(h.th_historico) + `</td>
               </tr>`;
             });

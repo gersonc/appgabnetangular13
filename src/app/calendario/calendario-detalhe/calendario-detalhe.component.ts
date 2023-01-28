@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {EventoInterface} from "../_models/evento-interface";
 import {Evento} from "../_models/calendario";
-import {limpaTextoNull} from "../../shared/functions/limpa-texto";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 
 @Component({
@@ -17,11 +16,11 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
   tituloEstilo: {};
   subTituloStyle: {};
   subTituloStyleLink: {};
-  observacaoStyle: {};
   prioridadeStyle: {};
   calendarioStatusStyle: {};
   tipoStyle: {};
   localStyle: {};
+  description: string | null = null;
 
   windowObjectReference = null;
 
@@ -38,7 +37,7 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
       if (changes.evT.currentValue !== null) {
         this.ev = new Evento();
         const ev = changes.evT.currentValue;
-        ev.description = (ev.description !== undefined) ? Stripslashes(ev.description) : ev.description;
+        this.description = (ev.description !== undefined && ev.description !== null) ? Stripslashes(ev.description) : null;
         this.ev = ev;
         this.criaEvento();
       }
@@ -107,21 +106,13 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
       this.tipoStyle = this.subTituloStyle;
     }
 
-    this.observacaoStyle = {
-      padding: '0 5px 0 5px',
-      backgroundColor: 'var(--surface-a)',
-      borderRadius: '5px',
-      marginBottom: '3px',
-      marginTop: '3px'
-    };
-
   }
 
   getContrastYIQ(hexcolor) {
     hexcolor = hexcolor.replace('#', '');
-    const r = parseInt(hexcolor.substr(0, 2), 16);
-    const g = parseInt(hexcolor.substr(2, 2), 16);
-    const b = parseInt(hexcolor.substr(4, 2), 16);
+    const r = parseInt(hexcolor.substring(0, 2), 16);
+    const g = parseInt(hexcolor.substring(2, 2), 16);
+    const b = parseInt(hexcolor.substring(4, 2), 16);
     const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? 'var(--surface-900)' : 'var(--surface-0)';
   }
@@ -133,10 +124,6 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
       this.windowObjectReference = window.open(url, 'SingleSecondaryWindowName', feat);
       this.windowObjectReference.focus();
     }
-  }
-
-  limpaTextoNull(valor: undefined | null | string): string | null {
-    return limpaTextoNull(valor);
   }
 
   stripslashes(valor: undefined | null | string): string | null {

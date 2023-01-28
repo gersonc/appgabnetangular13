@@ -10,7 +10,7 @@ export function limpaTextoNull(valor: undefined | null | string): string | null 
 }
 
 export function limpaTexto150Null(valor: undefined | null | string, n = 150): string | null {
-  return (valor === undefined || valor === null) ? null : html_entity_decode(striptags(valor), 'HTML_SPECIALCHARS').substr(0, n);
+  return (valor === undefined || valor === null) ? null : html_entity_decode(striptags(valor), 'HTML_SPECIALCHARS').substring(0, n);
 }
 
 export function limpaTextoNotNull(valor: undefined | null | string): string {

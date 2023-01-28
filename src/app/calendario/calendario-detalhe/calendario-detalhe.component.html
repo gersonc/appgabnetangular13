@@ -39,20 +39,23 @@
         </div>
       </div>
       <br>
-      <div class="grid">
-        <div class="col-12" *ngIf="ev.description">
-          <p-card id="desc" [styleClass]="'observacaostyle'">
-            <quill-view [content]="ev.description" [format]="'html'" theme="snow"></quill-view>
-          </p-card>
+      <ng-container *ngIf="description !== null">
+      <!--<div class="grid">-->
+        <div class="col-12">
+          <div id="desc" class="calendario-detalhe-observao">
+            <quill-view [content]="description" [format]="'html'" theme="snow"></quill-view>
+          </div>
 
         </div>
+      <!--</div> -->
+      </ng-container>
         <!--<div class="col-12"  *ngIf="ev.observacao">
           <p-card id="ob" class="caldetobs">
             {{ev.observacao}}
           </p-card>
 
         </div>-->
-      </div>
+
 
     </div>
   </ng-container>

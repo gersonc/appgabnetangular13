@@ -17,13 +17,13 @@ export function RGBToHex(rgb) {
     // choose correct separator
     let sep = rgb.indexOf(",") > -1 ? "," : " ";
     // turn "rgb(r,g,b)" into [r,g,b]
-    rgb = rgb.substr(4).split(")")[0].split(sep);
+    rgb = rgb.substring(4).split(")")[0].split(sep);
 
     // convert %s to 0–255
     for (let R in rgb) {
       let r = rgb[R];
       if (r.indexOf("%") > -1)
-        rgb[R] = Math.round(r.substr(0,r.length - 1) / 100 * 255);
+        rgb[R] = Math.round(r.substring(0,r.length - 1) / 100 * 255);
       /!* Example:
       75% -> 191
       75/100 = 0.75, * 255 = 191.25 -> 191
@@ -52,7 +52,7 @@ export function RGBAToHexA(rgba) {
   let ex = /^rgba\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){3}))|(((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){3}))\/\s)((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
   if (ex.test(rgba)) {
     let sep = rgba.indexOf(",") > -1 ? "," : " ";
-    rgba = rgba.substr(5).split(")")[0].split(sep);
+    rgba = rgba.substring(5).split(")")[0].split(sep);
 
     // strip the slash if using space-separated syntax
     if (rgba.indexOf("/") > -1)
@@ -61,7 +61,7 @@ export function RGBAToHexA(rgba) {
     for (let R in rgba) {
       let r = rgba[R];
       if (r.indexOf("%") > -1) {
-        let p = r.substr(0,r.length - 1) / 100;
+        let p = r.substring(0,r.length - 1) / 100;
 
         // @ts-ignore
         if (R < 3) {
@@ -160,13 +160,13 @@ export function RGBToHSL(rgb) {
   let ex = /^rgb\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|((((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
   if (ex.test(rgb)) {
     let sep = rgb.indexOf(",") > -1 ? "," : " ";
-    rgb = rgb.substr(4).split(")")[0].split(sep);
+    rgb = rgb.substring(4).split(")")[0].split(sep);
 
     // convert %s to 0–255
     for (let R in rgb) {
       let r = rgb[R];
       if (r.indexOf("%") > -1)
-        rgb[R] = Math.round(r.substr(0,r.length - 1) / 100 * 255);
+        rgb[R] = Math.round(r.substring(0,r.length - 1) / 100 * 255);
     }
 
     // make r, g, and b fractions of 1
@@ -223,7 +223,7 @@ export function RGBAToHSLA(rgba) {
   let ex = /^rgba\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){3}))|(((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){3}))\/\s)((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
   if (ex.test(rgba)) {
     let sep = rgba.indexOf(",") > -1 ? "," : " ";
-    rgba = rgba.substr(5).split(")")[0].split(sep);
+    rgba = rgba.substring(5).split(")")[0].split(sep);
 
     // strip the slash if using space-separated syntax
     if (rgba.indexOf("/") > -1)
@@ -232,7 +232,7 @@ export function RGBAToHSLA(rgba) {
     for (let R in rgba) {
       let r = rgba[R];
       if (r.indexOf("%") > -1) {
-        let p = r.substr(0,r.length - 1) / 100;
+        let p = r.substring(0,r.length - 1) / 100;
 
         if (R < 3) {
           rgba[R] = Math.round(p * 255);
@@ -295,20 +295,20 @@ export function HSLToRGB(hsl,isPct) {
   let ex = /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i;
   if (ex.test(hsl)) {
     let sep = hsl.indexOf(",") > -1 ? "," : " ";
-    hsl = hsl.substr(4).split(")")[0].split(sep);
+    hsl = hsl.substring(4).split(")")[0].split(sep);
     isPct = isPct === true;
 
     let h = hsl[0],
-      s = hsl[1].substr(0,hsl[1].length - 1) / 100,
-      l = hsl[2].substr(0,hsl[2].length - 1) / 100;
+      s = hsl[1].substring(0,hsl[1].length - 1) / 100,
+      l = hsl[2].substring(0,hsl[2].length - 1) / 100;
 
     // strip label and convert to degrees (if necessary)
     if (h.indexOf("deg") > -1)
-      h = h.substr(0,h.length - 3);
+      h = h.substring(0,h.length - 3);
     else if (h.indexOf("rad") > -1)
-      h = Math.round(h.substr(0,h.length - 3) / (2 * Math.PI) * 360);
+      h = Math.round(h.substring(0,h.length - 3) / (2 * Math.PI) * 360);
     else if (h.indexOf("turn") > -1)
-      h = Math.round(h.substr(0,h.length - 4) * 360);
+      h = Math.round(h.substring(0,h.length - 4) * 360);
     // keep hue fraction of 360 if ending up over
     if (h >= 360)
       h %= 360;
@@ -355,7 +355,7 @@ export function HSLAToRGBA(hsla,isPct) {
   let ex = /^hsla\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)(((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2},\s?)|((\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}\s\/\s))((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
   if (ex.test(hsla)) {
     let sep = hsla.indexOf(",") > -1 ? "," : " ";
-    hsla = hsla.substr(5).split(")")[0].split(sep);
+    hsla = hsla.substring(5).split(")")[0].split(sep);
 
     // strip the slash if using space-separated syntax
     if (hsla.indexOf("/") > -1)
@@ -365,17 +365,17 @@ export function HSLAToRGBA(hsla,isPct) {
 
     // must be fractions of 1
     let h = hsla[0],
-      s = hsla[1].substr(0,hsla[1].length-1) / 100,
-      l = hsla[2].substr(0,hsla[2].length-1) / 100,
+      s = hsla[1].substring(0,hsla[1].length-1) / 100,
+      l = hsla[2].substring(0,hsla[2].length-1) / 100,
       a = hsla[3];
 
     // strip label and convert to degrees (if necessary)
     if (h.indexOf("deg") > -1)
-      h = h.substr(0,h.length - 3);
+      h = h.substring(0,h.length - 3);
     else if (h.indexOf("rad") > -1)
-      h = Math.round(h.substr(0,h.length - 3) / (2 * Math.PI) * 360);
+      h = Math.round(h.substring(0,h.length - 3) / (2 * Math.PI) * 360);
     else if (h.indexOf("turn") > -1)
-      h = Math.round(h.substr(0,h.length - 4) * 360);
+      h = Math.round(h.substring(0,h.length - 4) * 360);
     if (h >= 360)
       h %= 360;
 
@@ -413,11 +413,11 @@ export function HSLAToRGBA(hsla,isPct) {
       if (!pctFound) {
         a *= 100;
       } else {
-        a = a.substr(0,a.length - 1);
+        a = a.substring(0,a.length - 1);
       }
 
     } else if (pctFound) {
-      a = a.substr(0,a.length - 1) / 100;
+      a = a.substring(0,a.length - 1) / 100;
     }
 
     return "rgba("+ (isPct ? r + "%," + g + "%," + b + "%," + a + "%" : +r + ","+ +g + "," + +b + "," + +a) + ")";
@@ -539,19 +539,19 @@ export function HSLToHex(hsl) {
   let ex = /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i;
   if (ex.test(hsl)) {
     let sep = hsl.indexOf(",") > -1 ? "," : " ";
-    hsl = hsl.substr(4).split(")")[0].split(sep);
+    hsl = hsl.substring(4).split(")")[0].split(sep);
 
     let h = hsl[0],
-      s = hsl[1].substr(0,hsl[1].length - 1) / 100,
-      l = hsl[2].substr(0,hsl[2].length - 1) / 100;
+      s = hsl[1].substring(0,hsl[1].length - 1) / 100,
+      l = hsl[2].substring(0,hsl[2].length - 1) / 100;
 
     // strip label and convert to degrees (if necessary)
     if (h.indexOf("deg") > -1)
-      h = h.substr(0,h.length - 3);
+      h = h.substring(0,h.length - 3);
     else if (h.indexOf("rad") > -1)
-      h = Math.round(h.substr(0,h.length - 3) * (180 / Math.PI));
+      h = Math.round(h.substring(0,h.length - 3) * (180 / Math.PI));
     else if (h.indexOf("turn") > -1)
-      h = Math.round(h.substr(0,h.length - 4) * 360);
+      h = Math.round(h.substring(0,h.length - 4) * 360);
     if (h >= 360)
       h %= 360;
 
@@ -599,30 +599,30 @@ export function HSLAToHexA(hsla) {
   let ex = /^hsla\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)(((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2},\s?)|((\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}\s\/\s))((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
   if (ex.test(hsla)) {
     let sep = hsla.indexOf(",") > -1 ? "," : " ";
-    hsla = hsla.substr(5).split(")")[0].split(sep);
+    hsla = hsla.substring(5).split(")")[0].split(sep);
 
     // strip the slash
     if (hsla.indexOf("/") > -1)
       hsla.splice(3,1);
 
     let h = hsla[0],
-      s = hsla[1].substr(0,hsla[1].length - 1) / 100,
-      l = hsla[2].substr(0,hsla[2].length - 1) / 100,
+      s = hsla[1].substring(0,hsla[1].length - 1) / 100,
+      l = hsla[2].substring(0,hsla[2].length - 1) / 100,
       a = hsla[3];
 
     // strip label and convert to degrees (if necessary)
     if (h.indexOf("deg") > -1)
-      h = h.substr(0,h.length - 3);
+      h = h.substring(0,h.length - 3);
     else if (h.indexOf("rad") > -1)
-      h = Math.round(h.substr(0,h.length - 3) * (180 / Math.PI));
+      h = Math.round(h.substring(0,h.length - 3) * (180 / Math.PI));
     else if (h.indexOf("turn") > -1)
-      h = Math.round(h.substr(0,h.length - 4) * 360);
+      h = Math.round(h.substring(0,h.length - 4) * 360);
     if (h >= 360)
       h %= 360;
 
     // strip % from alpha, make fraction of 1 (if necessary)
     if (a.indexOf("%") > -1)
-      a = a.substr(0,a.length - 1) / 100;
+      a = a.substring(0,a.length - 1) / 100;
 
     let c = (1 - Math.abs(2 * l - 1)) * s,
       x = c * (1 - Math.abs((h / 60) % 2 - 1)),
@@ -692,7 +692,7 @@ export function nameToHex(name) {
   document.body.removeChild(fakeDiv);
 
   // code ripped from RGBToHex() (except pv is substringed)
-  let rgb = pv.substr(4).split(")")[0].split(","),
+  let rgb = pv.substring(4).split(")")[0].split(","),
     r = (+rgb[0]).toString(16),
     g = (+rgb[1]).toString(16),
     b = (+rgb[2]).toString(16);
@@ -718,7 +718,7 @@ export function nameToHSL(name) {
   document.body.removeChild(fakeDiv);
 
   // code ripped from RGBToHSL() (except pv is substringed)
-  let rgb = pv.substr(4).split(")")[0].split(","),
+  let rgb = pv.substring(4).split(")")[0].split(","),
     r = rgb[0] / 255,
     g = rgb[1] / 255,
     b = rgb[2] / 255,

@@ -285,10 +285,10 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
           const rr0 = this.evento.rrule.toString().indexOf('RRULE:') + 6;
           const rr00 = this.evento.rrule.toString().indexOf('EXDATE:');
           if (rr00 === -1) {
-            rr1 = this.evento.rrule.toString().substr(rr0);
+            rr1 = this.evento.rrule.toString().substring(rr0);
           } else {
-            rr1 = this.evento.rrule.toString().substr(rr0, (rr0 - rr00));
-            rr3 = this.evento.rrule.toString().substr(rr00).split(',');
+            rr1 = this.evento.rrule.toString().substring(rr0, (rr0 - rr00));
+            rr3 = this.evento.rrule.toString().substring(rr00).split(',');
           }
           const rr = rr1.split(';');
           const rr2: any[] = [];
