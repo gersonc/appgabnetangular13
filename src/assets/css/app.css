@@ -588,13 +588,6 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
-.layout-config .premium-themes img {
-  width: 100%;
-  transition: transform 0.2s;
-}
-.layout-config .premium-themes img:hover {
-  transform: scale(1.1);
-}
 
 @media screen and (min-width: 1729px) {
   .layout-content-inner {
@@ -615,7 +608,6 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 
   .layout-wrapper .layout-content {
     margin-left: 0;
-    padding-top: 110px;
   }
   .layout-wrapper .layout-content .content-section.introduction {
     flex-direction: column;
@@ -661,9 +653,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   vertical-align: middle;
   margin-left: 0.5rem;
 }
-.text-secondary {
-  color: var(--home-secondary-text-color);
-}
+
 .hover\:surface-hover:hover {
   background-color: var(--surface-hover);
 }

@@ -414,8 +414,8 @@ app {
 
 .calendario-tooltip-description {
   background: var(--primary-color-text);
-  padding: .4em;
-  border-radius: .4em;
+  padding: .4rem;
+  border-radius: .4rem;
 }
 
 .caldetobs {
@@ -559,7 +559,7 @@ body .icsupload:hover {
 .detalhefull {
   border: 0;
   min-width: 100%;
-  background-color: var(--claro);
+  background-color: var(--surface-ground);
 }
 
 /*

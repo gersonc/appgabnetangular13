@@ -14,12 +14,10 @@ export class CalendarioDetalheComponent implements OnInit, OnChanges {
   @Input() evT: Evento | null;
   ev: EventoInterface = null;
 
-  scrollPanelStyle = 'detalhefull';
   tituloEstilo: {};
   subTituloStyle: {};
   subTituloStyleLink: {};
   observacaoStyle: {};
-  headerStyle = 'var(--primary-color)';
   prioridadeStyle: {};
   calendarioStatusStyle: {};
   tipoStyle: {};

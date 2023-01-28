@@ -1,120 +1,120 @@
+<table class="calendario-exibir-full">
+  <tr>
+    <td>
 
-  <table class="calendario-exibir-full">
-    <tr>
-      <td>
+      <table class="calendario-exibir-tabela" #tabcalendario>
+        <tr>
+          <td colspan="2">
+            <div class="shadow-2 calendario-exibir-titulo" [style]="tituloEstilo">{{ev.title}}</div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.start}}</div>
+          </td>
+        </tr>
+        <!--<tr *ngIf="ev.inicio">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Inicio:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.inicio}}</div>
+          </td>
+        </tr>-->
+        <!--<tr *ngIf="ev.endHora">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Término:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.endHora}}</div>
+          </td>
+        </tr>-->
+        <tr *ngIf="ev.tempo">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Duração:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.tempo}}</div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.recorrente && ev.fim">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Repetir até:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.fim}}</div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.prioridade_nome">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">Prioridade:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">{{ev.prioridade_nome}}</div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.calendario_status_nome">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">Situação:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo"
+                 [style]="calendarioStatusStyle">{{ev.calendario_status_nome}}</div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.type_name">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">Categoria:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">{{ev.type_name}}</div>
+          </td>
+          <!--<td colspan="2">
+            <div class="shadow-2" [style]="tipoStyle">{{tipo}}</div>
+          </td>-->
+        </tr>
+        <tr *ngIf="ev.local_nome">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Núcleo:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.local_nome}}</div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.url">
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">URL:</div>
+          </td>
+          <td>
+            <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyleLink"
+                 (click)="openRequestedSinglePopup(ev.url)">{{ev.url}}</div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.description">
+          <td colspan="2">
+            <div class="calendario-exibir-obs shadow-2 calendario-exibir-sub-titulo">
+              <quill-view [content]="description" [format]="'html'" theme="snow"></quill-view>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="ev.observacao">
+          <td colspan="2">
+            <div class="calendario-exibir-obs shadow-2 calendario-exibir-sub-titulo">
+              {{ev.observacao}}
+            </div>
+          </td>
+        </tr>
 
-        <table class="calendario-exibir-tabela" #tabcalendario>
-          <tr>
-            <td colspan="2">
-              <div class="shadow-2 calendario-exibir-titulo" [style]="tituloEstilo" >{{ev.title}}</div>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.start}}</div>
-            </td>
-          </tr>
-          <!--<tr *ngIf="ev.inicio">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Inicio:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.inicio}}</div>
-            </td>
-          </tr>-->
-          <!--<tr *ngIf="ev.endHora">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Término:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.endHora}}</div>
-            </td>
-          </tr>-->
-          <tr *ngIf="ev.tempo">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Duração:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.tempo}}</div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.recorrente && ev.fim">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Repetir até:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.fim}}</div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.prioridade_nome">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">Prioridade:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">{{ev.prioridade_nome}}</div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.calendario_status_nome">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">Situação:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">{{ev.calendario_status_nome}}</div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.type_name">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">Categoria:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">{{ev.type_name}}</div>
-            </td>
-            <!--<td colspan="2">
-              <div class="shadow-2" [style]="tipoStyle">{{tipo}}</div>
-            </td>-->
-          </tr>
-          <tr *ngIf="ev.local_nome">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Núcleo:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.local_nome}}</div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.url">
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">URL:</div>
-            </td>
-            <td>
-              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyleLink" (click)="openRequestedSinglePopup(ev.url)">{{ev.url}}</div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.description">
-            <td colspan="2">
-              <div class="calendario-exibir-obs shadow-2 calendario-exibir-sub-titulo">
-                <quill-view [content]="description" [format]="'html'" theme="snow"></quill-view>
-              </div>
-            </td>
-          </tr>
-          <tr *ngIf="ev.observacao">
-            <td colspan="2">
-              <div class="calendario-exibir-obs shadow-2 calendario-exibir-sub-titulo">
-                {{ev.observacao}}
-              </div>
-            </td>
-          </tr>
+      </table>
 
-        </table>
-
-      </td>
-    </tr>
-  </table>
-
+    </td>
+  </tr>
+</table>
 
 
 <br *ngIf="mostra">
-<div *ngIf="mostra" style="{text-align: center}">
-  <p>Este evento é recorrente. Voce gostaria de exportar todas as datas ou apenas a atual?</p>
+<div *ngIf="mostra" class="text-center">
+  <p class="text-center">Este evento é recorrente. Voce gostaria de exportar todas as datas ou apenas a atual?</p>
   <br>
   <p-selectButton
     [options]="ddunico"
@@ -124,48 +124,56 @@
 </div>
 
 
-<div class="grid"  style="margin-top: 5px">
-  <div class="col-12">
-    <button pButton type="button" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
-    &nbsp;&nbsp;
+
+  <div class="flex flex-wrap">
+    <div class="mr-2 mt-2">
+      <button pButton type="button" label="FECHAR" class="p-button-raised p-button-rounded" (click)="fechar()"></button>
+    </div>
     <ng-container *ngIf="mostrabts">
       <ng-container *ngIf="modulo !== null">
-        <button pButton type="button" label="DETALHE"
-                class="p-button-raised p-button-rounded p-button-secondary"
-                (click)="detalhe()"></button>
-        &nbsp;&nbsp;
+        <div class="mr-2 mt-2">
+          <button pButton type="button" label="DETALHE"
+                  class="p-button-raised p-button-rounded p-button-secondary p-button-sm"
+                  (click)="detalhe()"></button>
+        </div>
       </ng-container>
-    <button pButton type="button" label="PDF"
-            class="p-button-raised p-button-rounded p-button-secondary"
-            (click)="getPdf(false)"></button>
-    &nbsp;&nbsp;
-    <button pButton type="button" label="IMPRIMIR"
-            class="p-button-raised p-button-rounded p-button-secondary"
-            (click)="getPdf(true)"></button>
-    &nbsp;&nbsp;
-    <button pButton type="button" label="EXPORTAR"
-            class="p-button-raised p-button-rounded p-button-secondary"
-            (click)="exportar()"></button>
-    &nbsp;&nbsp;
-    </ng-container>
-    <button
-      *ngIf="authenticationService.agenda_alterar"
-      pButton
-      type="button"
-      label="ALTERAR"
-      class="p-button-raised p-button-rounded p-button-warning"
-      (click)="editar()"
-    ></button>
-    &nbsp;&nbsp;
-    <button
-      *ngIf="authenticationService.agenda_apagar"
-      pButton
-      type="button"
-      label="APAGAR"
-      class="p-button-raised p-button-rounded p-button-danger"
-      (click)="excluir()"
-    ></button>
+      <div class="mr-2 mt-2">
+        <button pButton type="button" label="PDF"
+                class="p-button-raised p-button-rounded p-button-secondary p-button-sm"
+                (click)="getPdf(false)"></button>
+      </div>
 
+      <div class="mr-2 mt-2">
+        <button pButton type="button" label="IMPRIMIR"
+                class="p-button-raised p-button-rounded p-button-secondary p-button-sm"
+                (click)="getPdf(true)"></button>
+      </div>
+      <div class="mr-2 mt-2">
+        <button pButton type="button" label="EXPORTAR"
+                class="p-button-raised p-button-rounded p-button-secondary p-button-sm"
+                (click)="exportar()"></button>
+      </div>
+    </ng-container>
+    <div class="mr-2 mt-2">
+      <button
+        *ngIf="authenticationService.agenda_alterar"
+        pButton
+        type="button"
+        label="ALTERAR"
+        class="p-button-raised p-button-rounded p-button-warning p-button-sm"
+        (click)="editar()"
+      ></button>
+    </div>
+    <div class="mr-2 mt-2">
+      <button
+        *ngIf="authenticationService.agenda_apagar"
+        pButton
+        type="button"
+        label="APAGAR"
+        class="p-button-raised p-button-rounded p-button-danger p-button-sm"
+        (click)="excluir()"
+      ></button>
+    </div>
   </div>
-</div>
+
 
