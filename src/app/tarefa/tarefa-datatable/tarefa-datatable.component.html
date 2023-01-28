@@ -268,7 +268,7 @@
 
             <div class="grid">
               <div class="col-12 sm:col-12 md:col-6 lg:col-3 xl:col-3">
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_titulo}}</h5>
                   {{tarf['tarefa_titulo']}}
                 </div>
@@ -277,7 +277,7 @@
                 *ngIf="tarf['tarefa_tarefa'] !== null && tarf['tarefa_tarefa'].length > 0"
                 class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6"
               >
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_tarefa}}</h5>
                   <app-exporter-celula [celula]="{
                         valor: stripslashes(tarf['tarefa_tarefa']),
@@ -293,7 +293,7 @@
               </div>
 
               <div class="col-12 sm:col-12 md:col-6 lg:col-3 xl:col-3">
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_situacao_nome}}</h5>
                   <div
                     [ngClass]="rowStyle('tarefa_situacao_nome', tarf['tarefa_situacao_id'])">{{tarf['tarefa_situacao_nome']}}</div>
@@ -301,21 +301,21 @@
               </div>
 
               <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_data}}</h5>
                   {{tarf['tarefa_data']}}
                 </div>
               </div>
 
               <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_usuario_autor_nome}}</h5>
                   {{tarf['tarefa_usuario_autor_nome']}}
                 </div>
               </div>
 
               <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_datahora}}</h5>
                   {{tarf['tarefa_datahora']}}
                 </div>
@@ -326,7 +326,7 @@
 
 
               <div class="col-12 sm:col-12 md:col-12 lg:col-8 xl:col-9">
-                <div class="registrostarefa p-shadow-1">
+                <div class="registrostarefa shadow-1">
                   <h5>{{ts.tTit.tarefa_usuario_situacao_andamento}}</h5>
                   <app-tarefa-usuario-situacao-andamento
                     *ngIf="ts.expandidoSN"
@@ -340,7 +340,7 @@
 
 
             <div class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
-              <div class="registrostarefa p-shadow-1">
+              <div class="registrostarefa shadow-1">
                 <h5>{{ts.tTit.tarefa_usuario_situacao}}</h5>
                 <app-tarefa-usuario-situacao
                   *ngIf="ts.expandidoSN"
@@ -363,7 +363,7 @@
       <td [attr.colspan]="columns.length+1" id="tabela-vazia">
         <div class="tabela-vazia-a">
           <div class="tabela-vazia-b">
-            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+            <div class="tabela-vazia-c shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
           </div>
         </div>
       </td>

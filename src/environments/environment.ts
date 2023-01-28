@@ -14,7 +14,8 @@ export const environment = {
 
 
 export const environment = {
-  apiUrl: 'http://slimgn08.dv/api/',
+  apiUrl: 'http://slimgn08.dv/',
+  apiUrlReflesh: 'http://vmgabnet.dv/api/refleshtoken',
   production: false
 };
 /*

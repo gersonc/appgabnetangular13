@@ -1,104 +1,104 @@
 
-  <table class="caldetalhefull">
+  <table class="calendario-exibir-full">
     <tr>
       <td>
 
-        <table class="caltabela" #tabcalendario>
+        <table class="calendario-exibir-tabela" #tabcalendario>
           <tr>
             <td colspan="2">
-              <div class="p-shadow-2 calendario-exibir-titulo" [style]="tituloEstilo" >{{ev.title}}</div>
+              <div class="shadow-2 calendario-exibir-titulo" [style]="tituloEstilo" >{{ev.title}}</div>
             </td>
           </tr>
           <tr>
             <td colspan="2">
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.start}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.start}}</div>
             </td>
           </tr>
           <!--<tr *ngIf="ev.inicio">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Inicio:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Inicio:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.inicio}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.inicio}}</div>
             </td>
           </tr>-->
           <!--<tr *ngIf="ev.endHora">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Término:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Término:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.endHora}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.endHora}}</div>
             </td>
           </tr>-->
           <tr *ngIf="ev.tempo">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Duração:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Duração:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.tempo}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.tempo}}</div>
             </td>
           </tr>
           <tr *ngIf="ev.recorrente && ev.fim">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Repetir até:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Repetir até:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.fim}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.fim}}</div>
             </td>
           </tr>
           <tr *ngIf="ev.prioridade_nome">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">Prioridade:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">Prioridade:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">{{ev.prioridade_nome}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="prioridadeStyle">{{ev.prioridade_nome}}</div>
             </td>
           </tr>
           <tr *ngIf="ev.calendario_status_nome">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">Situação:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">Situação:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">{{ev.calendario_status_nome}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="calendarioStatusStyle">{{ev.calendario_status_nome}}</div>
             </td>
           </tr>
           <tr *ngIf="ev.type_name">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">Categoria:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">Categoria:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">{{ev.type_name}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="tipoStyle">{{ev.type_name}}</div>
             </td>
             <!--<td colspan="2">
-              <div class="p-shadow-2" [style]="tipoStyle">{{tipo}}</div>
+              <div class="shadow-2" [style]="tipoStyle">{{tipo}}</div>
             </td>-->
           </tr>
           <tr *ngIf="ev.local_nome">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Núcleo:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">Núcleo:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.local_nome}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">{{ev.local_nome}}</div>
             </td>
           </tr>
           <tr *ngIf="ev.url">
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">URL:</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyle">URL:</div>
             </td>
             <td>
-              <div class="p-shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyleLink" (click)="openRequestedSinglePopup(ev.url)">{{ev.url}}</div>
+              <div class="shadow-2 calendario-exibir-sub-titulo" [style]="subTituloStyleLink" (click)="openRequestedSinglePopup(ev.url)">{{ev.url}}</div>
             </td>
           </tr>
           <tr *ngIf="ev.description">
             <td colspan="2">
-              <div class="caltabelaobs p-shadow-2 calendario-exibir-sub-titulo">
+              <div class="calendario-exibir-obs shadow-2 calendario-exibir-sub-titulo">
                 <quill-view [content]="description" [format]="'html'" theme="snow"></quill-view>
               </div>
             </td>
           </tr>
           <tr *ngIf="ev.observacao">
             <td colspan="2">
-              <div class="caltabelaobs p-shadow-2 calendario-exibir-sub-titulo">
+              <div class="calendario-exibir-obs shadow-2 calendario-exibir-sub-titulo">
                 {{ev.observacao}}
               </div>
             </td>

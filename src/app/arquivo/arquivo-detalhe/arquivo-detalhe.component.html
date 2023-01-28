@@ -1,6 +1,6 @@
 <!--<div class="arquivolista">
 
-  <div *ngIf="arquivo" class="fileclassView flex flex-row align-items-center justify-content-between mx-1 my-2 p-1 p-shadow-1">
+  <div *ngIf="arquivo" class="fileclassView flex flex-row align-items-center justify-content-between mx-1 my-2 p-1 shadow-1">
     <div class="flex flex-row justify-content-end align-items-center m-0 p-0">
       <div *ngIf="authenticationService.arquivos_apagar" class="mr-3 p-1">
         <button pButton pRipple type="button" pTooltip="Excluir" tooltipPosition="left" icon="pi pi-trash" class="p-button-rounded p-button-secondary p-button-text" (click)="excluir(arquivo)"></button>
@@ -23,7 +23,7 @@
   <p-panel class="arquivolistahorizontal">
     <div class="inline-flex arquivolistahorizontal ">
 
-      <div *ngFor="let arq of arquivos" class="fileclassView align-items-center mx-1 my-2 p-1 p-shadow-1 p-d-print-none nao-imprimir">
+      <div *ngFor="let arq of arquivos" class="fileclassView align-items-center mx-1 my-2 p-1 shadow-1 p-d-print-none nao-imprimir">
         <ng-container *ngIf="!authenticationService.arquivos_baixar">
           <div>
             <div class="arquivolinkexcluir" *ngIf="authenticationService.arquivos_apagar">

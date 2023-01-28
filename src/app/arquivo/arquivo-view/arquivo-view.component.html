@@ -2,7 +2,7 @@
   <ng-container *ngIf="!horizontal">
     <div class="arquivolista">
 
-      <div *ngFor="let arq of arquivos" class="fileclassView flex flex-row align-items-center justify-content-between mx-1 my-2 p-1 p-shadow-1">
+      <div *ngFor="let arq of arquivos" class="fileclassView flex flex-row align-items-center justify-content-between mx-1 my-2 p-1 shadow-1">
         <div *ngIf="!authenticationService.arquivos_baixar" class="arquivoNaolinkview flex flex-column justify-content-start m-0 p-0">
           <div class="px-1 justify-content-start filename">
             {{arq.arquivo_nome_original}}
@@ -41,7 +41,7 @@
     <p-panel class="arquivolistahorizontal">
       <div class="inline-flex arquivolistahorizontal">
 
-        <div *ngFor="let arq of arquivos" class="fileclassView align-items-center mx-1 my-2 p-1 p-shadow-1">
+        <div *ngFor="let arq of arquivos" class="fileclassView align-items-center mx-1 my-2 p-1 shadow-1">
           <ng-container *ngIf="!authenticationService.arquivos_baixar">
             <div>
               <div class="arquivolinkexcluir" *ngIf="authenticationService.arquivos_apagar && mostraExcluir">

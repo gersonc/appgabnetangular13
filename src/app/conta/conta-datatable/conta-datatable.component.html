@@ -371,7 +371,7 @@
 
             <div class="grid">
               <div *ngFor="let ce of ct.tabela.celulas;" class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
-                <div class="registros p-shadow-1">
+                <div class="registros shadow-1">
                   <h5>{{ce.header}}</h5>
                   <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
@@ -379,7 +379,7 @@
               <div
                 *ngIf="ct.contas[indice].conta_arquivos.length > 0 && (aut.arquivos_baixar  || aut.usuario_responsavel_sn || aut.usuario_principal_sn)"
                 class="col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
-                <div class="registros p-shadow-1">
+                <div class="registros shadow-1">
                   <h5 style="padding-left: 2rem;">Arquivos</h5>
                   <app-detalhe-explorer [arquivos]="ct.contas[indice].conta_arquivos"></app-detalhe-explorer>
                 </div>
@@ -398,7 +398,7 @@
       <td [attr.colspan]="columns.length+1" id="tabela-vazia">
         <div class="tabela-vazia-a">
           <div class="tabela-vazia-b">
-            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+            <div class="tabela-vazia-c shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
           </div>
         </div>
       </td>

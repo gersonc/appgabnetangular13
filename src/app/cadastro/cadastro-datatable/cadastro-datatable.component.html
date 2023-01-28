@@ -215,7 +215,7 @@
 
             <div class="grid">
               <div *ngFor="let ce of cs.tabela.celulas;" class="col-12 sm:col-12 md:col-6 lg:col-4 xl:col-3">
-                <div class="registros p-shadow-1">
+                <div class="registros shadow-1">
                   <h5>{{ce.header}}</h5>
                   <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
                 </div>
@@ -233,7 +233,7 @@
       <td [attr.colspan]="columns.length+1" id="tabela-vazia">
         <div class="tabela-vazia-a">
           <div class="tabela-vazia-b">
-            <div class="tabela-vazia-c p-shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
+            <div class="tabela-vazia-c shadow-5">&nbsp;&nbsp;&nbsp;NENHUM REGISTRO&nbsp;&nbsp;&nbsp;</div>
           </div>
         </div>
       </td>

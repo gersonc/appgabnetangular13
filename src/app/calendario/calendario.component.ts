@@ -52,13 +52,13 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   offsetY: number;
   altura: number;
   novaAltura: number;
-  largura: number;
+  largura: number = 0;
   novaLargura: number;
   mostra = false;
   mudaDetalhe = false;
   mostraDetalhe = false;
-  mostraDetalheClass = 'cal-dir0';
-  calEsq = 'cal-esq0';
+  // mostraDetalheClass = 'calendario-direita-0';
+  // calEsq = 'calendario-esquerda-0';
   escala = 1.88;
   largPadrao = 768;
   initView = 'dayGridMonth';
@@ -260,23 +260,33 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
       ],
       eventMouseEnter: (info: any) => {
-        if (this.largura > this.largPadrao) {
           this.evT = this.criaEvento(info);
           if (this.evT.ev) {
-            this.ev = this.evT.ev;
-          }
-          if (!this.mostraDetalhe) {
             this.mostra = true;
+            this.ev = this.evT.ev;
+            if (this.detalheAtivo && this.mudaDetalhe) {
+              this.mostraDetalhe = true;
+            }
           }
-        }
       },
       eventMouseLeave: (info) => {
+        this.mostraDetalhe = false;
         this.mostra = false;
       }
     };
 
-    console.log('this.largura', this.largura);
+  }
 
+  get detalheAtivo(): boolean {
+    return this.largura > this.largPadrao;
+  }
+
+  get detalheClass(): string {
+    return (this.detalheAtivo && this.mudaDetalhe) ? 'calendario-direita-1' : 'calendario-direita-0';
+  }
+
+  get calendarioEsquerdaClass(): string {
+    return (this.detalheAtivo && this.mudaDetalhe) ? 'calendario-esquerda-1' : 'calendario-esquerda-0';
   }
 
   ngAfterViewInit() {
@@ -301,67 +311,18 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.fc.getApi().setOption('footerToolbar', footerToolbar);
   }
 
-  verificaView() {
-    if (this.largura <= this.largPadrao) {
+  verificaView(): void {
+    if (this.detalheAtivo) {
       this.fc.getApi().setOption('initialView', 'listMonth');
     }
   }
 
   showDtelhe() {
     this.mudaDetalhe = !this.mudaDetalhe;
-    if (this.mudaDetalhe) {
-      setTimeout(() => {
-          this.mostraDetalhe = !this.mostraDetalhe;
-        }, 2000
-      );
-    } else {
-      this.mostraDetalhe = !this.mostraDetalhe;
-    }
-    this.mostraDetalheClass = this.mudaDetalhe ? 'cal-dir1' : 'cal-dir0';
-    this.calEsq = this.mudaDetalhe ? 'cal-esq1' : 'cal-esq0';
   }
 
   criaEvento(info) {
     const ev = new Evento();
-    /*if (acao === 'over') {
-      if (info.event.backgroundColor) {
-        ev.backgroundColor = info.event.backgroundColor;
-        ev.textColor = this.getContrastYIQ(ev.backgroundColor);
-      } else {
-        ev.backgroundColor = 'var(--primary-color)';
-        ev.textColor = 'white';
-      }
-
-      if (info.event.borderColor) {
-        ev.borderColor = info.event.borderColor;
-      } else {
-        ev.borderColor = 'var(--primary-color)';
-      }
-
-      if (info.event.color) {
-        ev.color = info.event.color;
-      } else {
-        delete ev.color;
-      }
-      ev.title = info.event.title;
-      if (info.event.rrule) {
-        ev.rrule = info.event.rrule;
-      } else {
-        delete ev.rrule;
-      }
-
-      if (info.event.extendedProps.description) {
-        const desc = limpaTextoNull(info.event.extendedProps.description);
-        if (desc) {
-          ev.description = desc;
-        }
-      } else {
-        delete ev.description;
-      }
-
-      return {ev: ev, jsEvent: info.jsEvent};
-    }*/
-
     if (info.event.id) {
       ev.id = info.event.id;
     } else {
@@ -481,20 +442,6 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
-
-    /*if (info.event.fim) {
-      const dt3: DateTime = DateTime.fromJSDate(info.event.fim);
-      ev.fim = dt3.toFormat('DDDD');
-      if (!ev.allDay) {
-        ev.fimHora = dt3.toFormat('T');
-      } else {
-        delete ev.fimHora;
-      }
-    } else {
-      delete ev.fim;
-      delete ev.fimHora;
-    }*/
-
 
     if (info.event.extendedProps.fim) {
       const dt4: DateTime = DateTime.fromSQL(info.event.extendedProps.fim);
@@ -1121,5 +1068,7 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+
+
 
 }

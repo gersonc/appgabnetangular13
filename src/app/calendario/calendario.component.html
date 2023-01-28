@@ -1,19 +1,21 @@
-<div class="calfull">
-  <div class="{{calEsq}}" #cesq (resized)="onResized($event)">
-    <div class="cal-esq-esq">
+<div class="calendario-full">
+  <div [ngClass]="calendarioEsquerdaClass"  #cesq (resized)="onResized($event)">
+    <div class="calendario-esquerda-esquerda">
       <full-calendar #fc [options]="options"></full-calendar>
     </div>
-    <div *ngIf="largura > 741" class="cal-esq-dir">
-      <div class="calbtn" (click)="showDtelhe()">
+    <div *ngIf="detalheAtivo" class="calendario-esquerda-direita">
+      <div class="calendario-btn" (click)="showDtelhe()">
         <i class="pi pi-chevron-left"></i>
       </div>
     </div>
   </div>
-  <div class="{{mostraDetalheClass}}">
+  <ng-container *ngIf="mudaDetalhe">
+  <div [ngClass]="detalheClass">
     <ng-container *ngIf="mostraDetalhe">
       <app-calendario-detalhe [evT]="ev"></app-calendario-detalhe>
     </ng-container>
   </div>
+  </ng-container>
 </div>
 
 <p-sidebar
@@ -255,7 +257,7 @@
     [modal]="true"
     [dismissableMask]="true"
     [closable]="true"
-
+    styleClass="calendario"
     [breakpoints]="{'1400px': '80vw', '1300px': '85vw', '1200px': '90vw', '1000px': '95vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"
   >
@@ -275,7 +277,7 @@
     [modal]="true"
     [dismissableMask]="true"
     [closable]="true"
-    styleClass="cal-exibir"
+    styleClass="calendario-exibir"
     (onHide)="imprimirFechar()"
     [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
     [style]="{width: '60vw'}"
@@ -296,7 +298,7 @@
     [modal]="true"
     [dismissableMask]="true"
     [closable]="true"
-    styleClass="cal-exibir"
+    styleClass="calendario-exibir"
     [breakpoints]="{'1100px': '70vw', '1000px': '85vw', '900px': '100vw'}"
     [style]="{width: '60vw'}"
   >

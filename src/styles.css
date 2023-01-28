@@ -331,65 +331,88 @@ app {
   }
 }
 
-
-
-.calendariottip {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+.calendario-tooltip {
+  border: .1rem solid var(--primary-color);
+  box-shadow: 0 1px .3rem rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   border-radius: 3px;
   box-sizing: border-box;
 }
 
-.calfull {
+.calendario-full {
   display: flex;
   width: 100%;
 }
 
-.cal-esq0 {
+.calendario-full .fc-daygrid-event-harness {
+  border: .1rem solid var(--primary-color);
+  border-radius: 3px;
+  margin-right: 2px;
+  margin-left: 2px;
+  margin-top: 2px;
+}
+
+.calendario-full .fc-event-title-container {
+  padding-left: .2rem;
+}
+
+.calendario-full  .fc .fc-daygrid-event {
+  margin-top: 0;
+}
+
+.calendario-full .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+  margin-right: 0;
+}
+
+.calendario-full .fc-direction-ltr .fc-daygrid-event.fc-event-start, .fc-direction-rtl .fc-daygrid-event.fc-event-end {
+  margin-left: 0;
+}
+
+.calendario-esquerda-0 {
   display: flex;
   width: 100%;
   clear: left;
   transition: 2s;
 }
 
-.cal-esq1 {
+.calendario-esquerda-1 {
   display: flex;
   width: 80%;
   clear: left;
   transition: 2s;
 }
 
-.cal-esq-esq {
+.calendario-esquerda-esquerda {
   width: 100%;
 }
 
-.cal-esq-dir {
+.calendario-esquerda-direita {
   vertical-align: middle;
   width: 1.3rem;
   background-color: var(--primary-color);
 }
 
-.cal-dir0 {
+.calendario-direita-0 {
   width: 0;
   transition: width 2s;
   background: hsla(0,0%,81.6%,.3);
   background: var(--fc-neutral-bg-color,hsla(0,0%,81.6%,.3));
 }
 
-.cal-dir1 {
+.calendario-direita-1 {
   width: 20%;
   background: hsla(0,0%,81.6%,.3);
   background: var(--fc-neutral-bg-color,hsla(0,0%,81.6%,.3));
   transition: 2s;
 }
 
-.calbtn {
+.calendario-btn {
   position: relative;
   top: 45%;
   color: var(--primary-color-text);
   cursor: pointer;
 }
 
-.calendariottip-description {
+.calendario-tooltip-description {
   background: var(--primary-color-text);
   padding: .4em;
   border-radius: .4em;
@@ -418,20 +441,20 @@ app {
   margin-top: 3px;
 }
 
-.caltabela {
+.calendario-exibir-tabela {
   border-collapse: collapse;
   width: 100%;
   border-spacing: .2em;
 }
 
-.caltabela tr, .caltabela td {
+.calendario-exibir-tabela tr, .calendario-exibir-tabela td {
   border-width: 1px 2px 1px 2px;
   border-style: solid;
   border-color: transparent;
   border-radius: .4em;
 }
 
-.caltabelaobs {
+.calendario-exibir-obs {
   margin-top: .4em;
   /*border: .4em solid var(--primary-color-text);*/
   background-color: var(--primary-color-text);
@@ -443,17 +466,66 @@ app {
   border-radius: .7em;
 }
 
-.detalhefull {
-  border: 0;
-  min-width: 100%;
-  background-color: var(--claro);
+
+
+.calendario.p-dialog .p-dialog-header {
+  padding: .5rem 1.5rem;
 }
 
-.caldetalhefull {
+.calendario.p-dialog .p-dialog-content {
+  padding: 0 1.5rem .5rem 1.5rem;
+}
+
+.calendario-exibir-full {
   border: 0;
   width: 100%;
   border-collapse: collapse;
 }
+
+.calendario-exibir-titulo {
+  padding: .2rem .5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: left;
+  border-width: .1rem .2rem;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+.calendario-exibir-sub-titulo {
+  padding: .2em .5em .2em .5em;
+  font-size: 1em;
+  opacity: .8;
+  font-weight: 400;
+  border-radius: 5px;
+}
+
+.calendario-sub-titulo-detalhe {
+  padding: .5rem .5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  border-radius: 5px;
+  margin-bottom: .3rem;
+}
+
+.calendario-titulo-detalhe {
+  padding: 0 5px 0 5px;
+  opacity: .8;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+
+.calendario-sub-titulo-link-detalhe {
+  padding: 0 5px 0 5px;
+  font-size: .8rem;
+  font-weight: 400;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
 
 .caldet {
   margin: .4em;
@@ -481,6 +553,13 @@ body .icsupload:hover {
   border-radius: .5em;
   min-height: 60%;
   min-width: 768px;
+}
+
+
+.detalhefull {
+  border: 0;
+  min-width: 100%;
+  background-color: var(--claro);
 }
 
 /*

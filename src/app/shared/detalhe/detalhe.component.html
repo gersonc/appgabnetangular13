@@ -21,29 +21,29 @@
           <ng-container *ngIf="calendario">
             <div class="caldet">
               <div class="grid">
-                <div class="col-12 p-shadow-2 calendario-titulo-detalhe" [style]="evstl.tituloEstilo">
+                <div class="col-12 shadow-2 calendario-titulo-detalhe" [style]="evstl.tituloEstilo">
                   {{calendario.title}}
                 </div>
-                <div *ngIf="calendario.prioridade_nome" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe"
+                <div *ngIf="calendario.prioridade_nome" class="col-12 shadow-1 calendario-sub-titulo-detalhe"
                      [style]="evstl.prioridadeStyle">
                   Prioridade:&nbsp; {{calendario.prioridade_nome}}
                 </div>
-                <div *ngIf="calendario.calendario_status_nome" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe"
+                <div *ngIf="calendario.calendario_status_nome" class="col-12 shadow-1 calendario-sub-titulo-detalhe"
                      [style]="evstl.calendarioStatusStyle">
                   Situação:&nbsp; {{calendario.calendario_status_nome}}
                 </div>
-                <div *ngIf="calendario.type_name" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe"
+                <div *ngIf="calendario.type_name" class="col-12 shadow-1 calendario-sub-titulo-detalhe"
                      [style]="evstl.tipoStyle">
                   {{calendario.type_name}}
                 </div>
-                <div *ngIf="calendario.local_nome" class="col-12 p-shadow-1 calendario-sub-titulo-detalhe"
+                <div *ngIf="calendario.local_nome" class="col-12 shadow-1 calendario-sub-titulo-detalhe"
                      [style]="evstl.localStyle">
                   Núcleo:&nbsp; {{calendario.local_nome}}
                 </div>
-                <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" [style]="evstl.subTituloStyle">
+                <div class="col-12 shadow-1 calendario-sub-titulo-detalhe" [style]="evstl.subTituloStyle">
                   {{calendario.start}}
                 </div>
-                <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="calendario.inicio"
+                <div class="col-12 shadow-1 calendario-sub-titulo-detalhe" *ngIf="calendario.inicio"
                      [style]="evstl.subTituloStyle">
                   <div *ngIf="calendario.endHora" style="float: right">
                     Término:&nbsp; {{calendario.endHora}}
@@ -52,15 +52,15 @@
                     Inicio:&nbsp; {{calendario.inicio}}
                   </div>
                 </div>
-                <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe" *ngIf="calendario.tempo"
+                <div class="col-12 shadow-1 calendario-sub-titulo-detalhe" *ngIf="calendario.tempo"
                      [style]="evstl.subTituloStyle">
                   Duração:&nbsp; {{calendario.tempo}}
                 </div>
-                <div class="col-12 p-shadow-1 calendario-sub-titulo-detalhe"
+                <div class="col-12 shadow-1 calendario-sub-titulo-detalhe"
                      *ngIf="calendario.recorrente && calendario.fim" [style]="evstl.subTituloStyle">
                   Repetir até:&nbsp; {{calendario.fim}}
                 </div>
-                <div class="col-12 p-shadow-1 calendario-sub-titulo-link-detalhe" *ngIf="calendario.url"
+                <div class="col-12 shadow-1 calendario-sub-titulo-link-detalhe" *ngIf="calendario.url"
                      [style]="evstl.subTituloStyleLink">
                   URL:&nbsp;{{calendario.url}}
                 </div>
