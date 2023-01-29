@@ -30,6 +30,7 @@ export class User {
   usuario_regras?: string;
   usuario_email?: string;
   usuario_id?: number;
+  usuario_uuid?: string;
   usuario_local_id?: number;
   usuario_login?: string;
   usuario_nome?: string;

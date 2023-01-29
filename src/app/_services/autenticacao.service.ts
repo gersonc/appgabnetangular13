@@ -82,10 +82,15 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             localStorage.removeItem('reflesh_token');
             localStorage.removeItem('expiresRef');
             localStorage.removeItem('expires');
+            localStorage.removeItem('usuario_uuid');
             localStorage.setItem('access_token', user.token);
             localStorage.setItem('reflesh_token', user.refleshToken);
             localStorage.setItem('expiresRef', user.expiresRef);
             localStorage.setItem('expires', user.expires);
+            localStorage.setItem('usuario_uuid', user.usuario_uuid);
+            if (user.appconfig !== undefined) {
+              localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
+            }
             this.expires = +user.expires;
             this.expiresRef = +user.expiresRef;
             this._token =user.token;
@@ -119,10 +124,15 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             localStorage.removeItem('reflesh_token');
             localStorage.removeItem('expiresRef');
             localStorage.removeItem('expires');
+            localStorage.removeItem('usuario_uuid');
             localStorage.setItem('access_token', user.token);
             localStorage.setItem('reflesh_token', user.refleshToken);
             localStorage.setItem('expiresRef', user.expiresRef);
             localStorage.setItem('expires', user.expires);
+            localStorage.setItem('usuario_uuid', user.usuario_uuid);
+            if (user.appconfig !== undefined) {
+              localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
+            }
             this.expires = +user.expires;
             this.expiresRef = +user.expiresRef;
             this._token = user.token;

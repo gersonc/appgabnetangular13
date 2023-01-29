@@ -67,18 +67,6 @@ app {
   height: 100%;
 }
 
-/*.main {
-  position: fixed;
-  display: block;
-  box-sizing: border-box;
-  top: 2.2rem;
-  left: 0;
-  --tamanhomenu: 12.5em;
-  width: 100%;
-  height: var(--altura-main);
-  z-index: 0;
-}*/
-
 .mobile {
 
 }
@@ -201,8 +189,6 @@ app {
 }
 
 
-
-
 .menu-principal {
   position: absolute;
   top: .2em;
@@ -251,85 +237,10 @@ app {
   }
 }
 
-.menu-lateral-pq {
-  background-color: var(--surface-ground);
-}
 
-
-.menu-lateral-pq.p-sidebar-left {
-  background-color: var(--surface-ground);
-}
-
-/*.menu-lateral-pq.p-sidebar-left {
-  display: block;
-  box-sizing: border-box;
-}*/
-
-.p-scrollpanel.menu-lateral-pq {
-  box-sizing: border-box;
-  height: 100%;
-  /*padding: 0 1.8rem 1.8rem 0;*/
-  position: relative;
-  width: 100%;
-}
-
-.menu-lateral-pq.p-sidebar-left {
-  width: var(--menu-lateral-pq-width);
-}
-
-.menu-lateral-pq.p-sidebar-left .p-sidebar-header {
-  padding: .8rem .8rem 0 0;
-}
-
-@media screen and (min-width: 550px) {
-  .menu-lateral-pq {
-    width: var(--menu-lateral-pq-width);
-  }
-  .menu-lateral-pq.p-sidebar-left {
-    width: var(--menu-lateral-pq-width);
-  }
-
-}
-
-@media screen and (min-width: 576px) {
-  .menu-lateral-pq {
-    width: var(--menu-lateral-pq-width-576);
-  }
-
-  .menu-lateral-pq.p-sidebar-left {
-    width: var(--menu-lateral-pq-width-576);
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .menu-lateral-pq {
-    width: var(--menu-lateral-pq-width-768);
-  }
-
-  .menu-lateral-pq.p-sidebar-left {
-    width: var(--menu-lateral-pq-width-768);
-  }
-}
-
-@media screen and (min-width: 992px) {
-  .menu-lateral-pq {
-    width: var(--menu-lateral-pq-width-992);
-  }
-
-  .menu-lateral-pq.p-sidebar-left {
-    width: var(--menu-lateral-pq-width-992);
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .menu-lateral-pq {
-    width: var(--menu-lateral-pq-width-1200);
-  }
-
-  .menu-lateral-pq.p-sidebar-left {
-    width: var(--menu-lateral-pq-width-1200);
-  }
-}
+/*
+*** calendario ***********************************************************************
+*/
 
 .calendario-tooltip {
   border: .1rem solid var(--primary-color);
@@ -418,6 +329,8 @@ app {
   border-radius: .4rem;
 }
 
+
+/*
 .caldetobs {
   background-color: greenyellow;
   border-radius: .4em;
@@ -439,7 +352,7 @@ app {
   border-radius: 5px;
   margin-bottom: 3px;
   margin-top: 3px;
-}
+}*/
 
 .calendario-exibir-tabela {
   border-collapse: collapse;
@@ -465,8 +378,6 @@ app {
   border-color: transparent;
   border-radius: .7em;
 }
-
-
 
 .calendario.p-dialog .p-dialog-header {
   padding: .5rem 1.5rem;
@@ -571,30 +482,6 @@ body .icsupload:hover {
   background-color: var(--surface-ground);
 }
 
-/*
-
-.calexibir .p-dialog-title {
-  padding: .4em .8em .4em .8em;
-  background-color: var(--primary-color-text);
-  border: 1px solid var(--primary-color-text);
-  border-radius: 5px;
-}
-
-.calexibir .p-dialog-content {
-  background-color: var(--surface-300);
-  padding: .5em;
-}
-
-.calexibir .p-dialog-header {
-  background-color: var(--surface-300);
-
-  padding: .5em;
-}
-
-.calexibirpq {
-  max-height: 75%;
-}
-*/
 .calform {
   max-height: 80%;
   min-width: 400px;
@@ -641,80 +528,53 @@ body .icsupload:hover {
   font-size: .5em !important;
 }
 
+
 /*
-*** EXIBIR p-dialog ***********************************************************************
+*** formulario ***********************************************************************
 */
-.cal-exibir.p-dialog {
-  max-height: calc(100vh - 3.1em) !important;
-  min-width: 400px;
-  background: var(--formulario-bg-externo-color);
-  top: var(--topo) !important;
-  margin-top: 0 !important;
-  margin-right: 0.75em;
-  margin-bottom: 0.75em;
-  margin-left: 0.75em;
+
+.formulario .base {
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
 }
 
-.cal-exibir.p-dialog .p-dialog-header {
-  border-bottom: 1px solid var(--formulario-bg-externo-color);
-  background: var(--formulario-bg-externo-color);
-  color: var(--text-color);
-  padding: .5em 1em 0;
+.formulario label{
+  font-size: small;
+  font-weight: 500;
 }
-
-.cal-exibir.p-dialog .p-dialog-header .p-dialog-header-icon {
-  width: 2em;
-  height: 2em;
-  color: var(--text-color);
-  border: 0 none;
-  background: transparent;
-  border-radius: 50%;
-  transition: box-shadow 0.15s;
-  margin-right: 0.5em;
-}
-
-.cal-exibir .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
-  color: var(--text-color-secondary);
-  border-color: transparent;
-  background: transparent;
-}
-
-.cal-exibir.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: var(--bt-secundario-box-shadow-focus);
-}
-
-.cal-exibir.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
-  margin-right: 0;
-}
-
-.cal-exibir.p-dialog .p-dialog-content {
-  margin: 1em;
-  padding: 1em;
-  border: 1px solid var(--formulario-bg-interno-color);
-  border-radius: 1em;
-  background: var(--formulario-bg-interno-color);
-  color: var(--text-color);
-}
-
-
 
 .formulario label {
   display: block;
-  font-size: small;
-  font-weight: 500;
-  padding-left: .5rem;
+  /*padding-left: .5rem;*/
   padding-bottom: 0;
-}
-
-.formulario .field {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 .formulario .field > label {
   display: block;
   margin-bottom: 0;
+}
+
+.formulario .atencao {
+  font-size: small;
+  font-weight: 500;
+  color: var(--red-600);
+}
+
+
+.formulario .field {
+  margin-bottom: 0.5rem;
+}
+
+.formulario .p-dropdown {
+  width: 90%;
+}
+
+.formulario input[type=text].p-inputtext {
+  width: 90% !important;
 }
 
 .formulario .p-inputtext {
@@ -725,6 +585,97 @@ body .icsupload:hover {
   max-width: 90%;
 }
 
+div.formulario-quill {
+  max-width: 1200px;
+}
+
+.formulario .formulario-quill .p-editor-container {
+  max-width: 1200px;
+  padding: 0 .5rem .5rem .5rem;
+  background-color: var(--input-filled);
+}
+
+/*
+*** menu-lateral-pq ***********************************************************************
+*/
+@media screen and (max-width: 549px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width);
+  }
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width);
+  }
+
+}
+@media screen and (min-width: 550px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width);
+  }
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width);
+  }
+
+}
+
+@media screen and (min-width: 576px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-576);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-576);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-768);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-768);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-992);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-992);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .menu-lateral-pq {
+    width: var(--menu-lateral-pq-width-1200);
+  }
+
+  .menu-lateral-pq.p-sidebar-left {
+    width: var(--menu-lateral-pq-width-1200);
+  }
+}
+
+.menu-lateral-pq {
+  background-color: var(--surface-ground);
+}
+
+.menu-lateral-pq.p-sidebar-left {
+  background-color: var(--surface-ground);
+}
+
+.p-scrollpanel.menu-lateral-pq {
+  box-sizing: border-box;
+  height: 100%;
+  /*padding: 0 1.8rem 1.8rem 0;*/
+  position: relative;
+  width: 100%;
+}
+
+.menu-lateral-pq.p-sidebar-left .p-sidebar-header {
+  padding: .8rem .8rem 0 0;
+}
 
 .menu-lateral-pq .formulario .p-dropdown {
   width: 90%;

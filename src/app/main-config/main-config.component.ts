@@ -41,11 +41,16 @@ export class MainConfigComponent implements OnInit {
         this.config = this.configService.config;
         this.subscription = this.configService.configUpdate$.subscribe(config => {
             this.config = config;
-          if (this.config.theme === 'nano')
+          if (this.config.theme === 'nano') {
             this.scale = 12;
-          else
-            this.scale = 14;
-
+          } else {
+            if (this.config.scale !== undefined) {
+              this.scale = this.config.scale;
+            } else {
+              this.scale = 14;
+            }
+          }
+          this.onRippleChange();
           this.applyScale();
         });
       if (this.config.theme === 'nano'){

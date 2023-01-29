@@ -47,6 +47,7 @@ export class UrlService {
   dd = this.url + 'dd';
   mensagem = this.url + 'mensagem';
   msg = this.url + 'msg';
+  tema = this.url + 'tema';
 
   constructor() {
     if(!this.ok) {
@@ -95,6 +96,7 @@ export class UrlService {
     this.dd = this.url + 'dd';
     this.mensagem = this.url + 'mensagem';
     this.msg = this.url + 'msg';
+    this.tema = this.url + 'tema';
     this.ok = true;
   }
 

@@ -240,6 +240,7 @@ export class AuthenticationService {
   // public _versao = 0; // 1-COMPLETO / 2-SIMPLES / 3-LITE
   public _versao = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
   public usuario_id = 0;
+  public usuario_uuid = '';
   public parlamentar_id = 0;
   public parlamentar_nome = '';
   public usuario_email = '';
@@ -405,6 +406,7 @@ export class AuthenticationService {
     this.parlamentar_id = +user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;
     this.usuario_id = +user.usuario_id!;
+    this.usuario_uuid = user.usuario_uuid;
     this.usuario_local_id = +user.usuario_local_id!;
     this.usuario_nome = user.usuario_nome!;
     this.versao = Versao.getVersao(+user.parlamentar_versao!);
@@ -681,6 +683,7 @@ export class AuthenticationService {
     this.versao = 0;
     this.versaoN = 0;
     this.dispositivo = null;
+    this.usuario_uuid = '';
     //this.ds.dispositivo = user.dispositivo;
     this.permissoes_carregadas = false;
 

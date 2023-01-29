@@ -88,6 +88,7 @@ export class AppComponent implements OnInit {
         complete: () => {
           // this.unsubescreve();
           if (v) {
+            this.configService.getConfig();
             if (this.authenticationService.permissoes_carregadas) {
               this.as.verificaPermissoes();
               this.mostraPessoal = true;

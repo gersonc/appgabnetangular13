@@ -174,7 +174,10 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (typeof changes.formDados.currentValue !== 'undefined') {
+    if (changes.formDados.currentValue !== undefined) {
+      if (changes.formDados.currentValue.acao !== undefined && changes.formDados.currentValue.acao !== null) {
+        this.acao = changes.formDados.currentValue.acao;
+      }
       if (changes.formDados.currentValue.acao === 'incluir' || changes.formDados.currentValue.acao === 'alterar') {
         this.config = changes.formDados.currentValue;
         this.carregaDados();
@@ -583,7 +586,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
 
   carregaDados() {
     // this.resetOpcoes();
-    this.acao = this.config.acao;
+    //this.acao = this.config.acao;
     if (this.config.acao === 'alterar' || this.config.acao === 'apagar') {
       this.evento = new Evento();
       this.evento = this.config.evento;
