@@ -50,8 +50,6 @@ export class MainConfigComponent implements OnInit {
               this.scale = 14;
             }
           }
-          this.onRippleChange();
-          this.applyScale();
         });
       if (this.config.theme === 'nano'){
         this.scale = 12;
@@ -124,16 +122,18 @@ export class MainConfigComponent implements OnInit {
   }
 
   changeTheme(event: Event, theme: string, dark: boolean) {
-    this.configService.updateConfig({...this.config, ...{theme, dark}});
+    //this.configService.updateConfig({...this.config, ...{theme, dark}});
+    this.configService.setThema(theme, dark);
     event.preventDefault();
   }
 
   onRippleChange() {
-    this.configService.updateConfig(this.config);
+    this.configService.setRipple(this.config.ripple);
+    /*this.configService.updateConfig(this.config);
     if (this.config.ripple)
       DomHandler.removeClass(document.body, 'p-ripple-disabled');
     else
-      DomHandler.addClass(document.body, 'p-ripple-disabled');
+      DomHandler.addClass(document.body, 'p-ripple-disabled');*/
   }
 
   bindOutsideClickListener() {
@@ -160,12 +160,14 @@ export class MainConfigComponent implements OnInit {
 
   decrementScale() {
     this.scale--;
-    this.applyScale();
+    this.configService.setScale(this.scale);
+    // this.applyScale();
   }
 
   incrementScale() {
     this.scale++;
-    this.applyScale();
+    this.configService.setScale(this.scale);
+    //this.applyScale();
   }
 
   applyScale() {
@@ -174,14 +176,17 @@ export class MainConfigComponent implements OnInit {
 
   toggleDarkMode() {
     this.config.dark = !this.config.dark;
-
+    this.configService.setDarkMode(this.config.dark, this.config.theme);
     let theme = this.config.theme;
     theme = this.config.dark
       ? theme.replace("light", "dark")
       : theme.replace("dark", "light");
-    this.config = { ...this.config, dark: this.config.dark, theme: theme };
 
-    this.configService.updateConfig(this.config);
+    this.configService.setDarkMode(this.config.dark, theme);
+
+    /*this.config = { ...this.config, dark: this.config.dark, theme: theme };
+
+    this.configService.updateConfig(this.config);*/
     // this.changeTableTheme(theme);
   }
 

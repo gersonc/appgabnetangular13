@@ -4,6 +4,7 @@ import {catchError, map, take} from "rxjs/operators";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import {environment} from "../../environments/environment";
 import { User } from "../_models";
+import { AppConfigService } from "./appconfigservice";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class AutenticacaoService {
 
   constructor(
     private http: HttpClient,
+    private cs: AppConfigService
   ) {
     this.logadoSub = new BehaviorSubject<boolean>(!!(localStorage.getItem('currentUser')));
     this.logadoVF = this.logadoSub.asObservable();
@@ -89,7 +91,9 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             localStorage.setItem('expires', user.expires);
             localStorage.setItem('usuario_uuid', user.usuario_uuid);
             if (user.appconfig !== undefined) {
+              user.appconfig.usuario_uuid = user.usuario_uuid;
               localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
+              this.cs.setConfig(user.appconfig);
             }
             this.expires = +user.expires;
             this.expiresRef = +user.expiresRef;
@@ -131,7 +135,9 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             localStorage.setItem('expires', user.expires);
             localStorage.setItem('usuario_uuid', user.usuario_uuid);
             if (user.appconfig !== undefined) {
+              user.appconfig.usuario_uuid = user.usuario_uuid;
               localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
+              this.cs.setConfig(user.appconfig);
             }
             this.expires = +user.expires;
             this.expiresRef = +user.expiresRef;

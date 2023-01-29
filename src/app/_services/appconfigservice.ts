@@ -11,6 +11,8 @@ import { DomHandler } from "primeng/dom";
 })
 export class AppConfigService {
 
+  primeiro = true;
+
   config: AppConfig = {
     usuario_uuid: null,
     theme: "lara-light-blue",
@@ -29,22 +31,19 @@ export class AppConfigService {
     private ts: TemaService,
     private ds: DispositivoService
   ) {
-    const c: AppConfig | null = this.ts.getTemaLogin();
+    /*const c: AppConfig | null = this.ts.getTemaLogin();
     if (c !== null) {
       this.config = c;
     }
     this.config.dispositivo = this.ds.dispositivo;
-    this.config.usuario_uuid = this.ts.usuario_uuid;
+    this.config.usuario_uuid = this.ts.usuario_uuid*/;
 
   }
 
   updateConfig(config: AppConfig) {
     this.config = config;
     this.config.dispositivo = this.ds.dispositivo;
-    this.applyScale();
-    this.onRippleChange();
     this.configUpdate.next(config);
-    this.ts.setTema(config);
   }
 
   updateDispositivo(dispositivo: string) {
@@ -53,11 +52,54 @@ export class AppConfigService {
     // this.updateConfig(this.config);
   }
 
+  setRipple(vf: boolean) {
+    this.config.ripple = vf;
+    this.updateConfig(this.config);
+    this.ts.setTema(this.config);
+  }
 
-  getConfig() {
-    this.config = this.ts.getTemaLogin();
-    this.configUpdate.next(this.config);
-    return this.config;
+  setScale(n: number) {
+    this.config.scale = n;
+    this.updateConfig(this.config);
+    this.ts.setTema(this.config);
+  }
+
+  setDarkMode(dark: boolean, theme: string) {
+    this.config.dark = dark;
+    this.config.theme = theme;
+    this.updateConfig(this.config);
+    this.ts.setTema(this.config);
+  }
+
+  setInputStyle(s: string) {
+    this.config.inputStyle = s;
+    this.updateConfig(this.config);
+    this.ts.setTema(this.config);
+  }
+
+  setConfig(config: AppConfig) {
+    this.updateConfig(this.config);
+    this.ts.setTema(config);
+  }
+
+  setThema(str: string, d: boolean) {
+    this.config.theme = str;
+    this.config.dark = d;
+    this.updateConfig(this.config);
+    this.ts.setTema(this.config);
+  }
+
+
+  getConfig(): AppConfig {
+    if (localStorage.getItem('appconfig')) {
+      this.config = this.ts.parceAppConfig(JSON.parse(localStorage.getItem('appconfig')));
+      if (this.config.usuario_uuid === undefined) {
+        this.config.usuario_uuid = JSON.parse(localStorage.getItem('usuario_uuid'));
+      }
+      return this.config;
+    } else {
+      return this.config;
+    }
   }
 
   onRippleChange() {

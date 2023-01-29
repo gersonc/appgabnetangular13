@@ -25,35 +25,35 @@ import { AppConfigService } from "../_services/appconfigservice";
         </div>
     `
 })
-export class AppInputStyleSwitchComponent implements OnInit, OnDestroy {
+export class AppInputStyleSwitchComponent {
 
     value: string;
 
     config: AppConfig;
 
-    public subscription: Subscription;
+    // public subscription: Subscription;
 
     constructor(private configService: AppConfigService) {}
 
     ngOnInit() {
         this.config = this.configService.config;
-        this.subscription = this.configService.configUpdate$.subscribe(config => this.config = config);
+        // this.subscription = this.configService.configUpdate$.subscribe(config => this.config = config);
     }
 
     onChange() {
-        this.configService.updateConfig(this.config);
-
-        if (this.config.inputStyle === 'filled')
+        // this.configService.updateConfig(this.config);
+        this.configService.setInputStyle(this.config.inputStyle);
+        /*if (this.config.inputStyle === 'filled')
             DomHandler.addClass(document.body, 'p-input-filled');
         else
-            DomHandler.removeClass(document.body, 'p-input-filled');
+            DomHandler.removeClass(document.body, 'p-input-filled');*/
     }
 
-    ngOnDestroy() {
+    /*ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
-    }
+    }*/
 }
 
 @NgModule({

@@ -18,37 +18,28 @@ export class TemaService {
     private http: HttpClient,
     private aut: AuthenticationService
   ) {
-    this.usuario_uuid = this.aut.usuario_uuid;
+    /*this.usuario_uuid = this.aut.usuario_uuid;
     if (this.usuario_uuid === undefined) {
       this.usuario_uuid = JSON.parse(localStorage.getItem('usuario_uuid'));
-    }
+    }*/
   }
 
-  getTemaLogin(): AppConfig | null {
-    if (localStorage.getItem('appconfig')) {
-      const t: AppConfig = this.parceAppConfig(JSON.parse(localStorage.getItem('appconfig')));
-      if (t.usuario_uuid === undefined) {
-        t.usuario_uuid = JSON.parse(localStorage.getItem('usuario_uuid'));
-      }
-      return t;
-    } else {
-      return null;
-    }
-  }
+
 
   getTema(uuid: string): Observable<AppConfig> {
     const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) }
     return this.http.post<AppConfig>(this.url.tema, uuid, httpOptions);
   }
 
-  putTema(dados: AppConfig): Observable<any> {
-    localStorage.setItem('appconfig', JSON.stringify(dados));
+  putTema(dados: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) }
     return this.http.put<any>(this.url.tema, dados, httpOptions);
   }
 
   setTema(dados: AppConfig) {
-    this.putTema(dados).pipe(take(1)).subscribe();
+    const dado: any = this.parceToServer(dados)
+    localStorage.setItem('appconfig', JSON.stringify(dado));
+    this.putTema(dado).pipe(take(1)).subscribe();
   }
 
   parceAppConfig(dados?: string): AppConfig {
@@ -62,8 +53,20 @@ export class TemaService {
       theme: a.theme,
       dispositivo: a.dispositivo,
       dark: (+a.dark === 1),
-      inputStyle: a.inputStyle,
+      inputStyle: a.inputstyle,
       ripple: (+a.ripple === 1)
+    }
+  }
+
+  parceToServer(a: AppConfig): any {
+    return {
+      usuario_uuid: a.usuario_uuid,
+      scale: (a.scale) ? 1 : 0,
+      theme: a.theme,
+      dispositivo: a.dispositivo,
+      dark: (a.dark) ? 1 : 0,
+      inputstyle: a.inputStyle,
+      ripple:(a.ripple) ? 1 : 0
     }
   }
 

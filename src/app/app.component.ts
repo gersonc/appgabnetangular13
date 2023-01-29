@@ -20,6 +20,7 @@ import {take} from "rxjs/operators";
 import {Router} from "@angular/router";
 import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
+import { DomHandler } from "primeng/dom";
 /*import {Message,MessageService} from 'primeng/api';
 import {MsgService} from "./_services/msg.service";*/
 
@@ -41,9 +42,19 @@ export class AppComponent implements OnInit {
   // mobile = true;
   mostraPessoal = false;
   s: Subscription;
-  appconfig: AppConfig;
+  appconfig: AppConfig = {
+    usuario_uuid: null,
+    theme: "lara-light-blue",
+    dark: false,
+    inputStyle: "outlined",
+    ripple: true,
+    scale: 14, // px
+    dispositivo: "desktop"
+  };
   theme = "lara-light-blue";
   subscription: Subscription;
+
+  ct = 0;
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
@@ -71,6 +82,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     console.log('inicio 2');
+    this.appconfig = this.configService.getConfig();
     window.__VERSAOID__ = +this.authenticationService.versao;
     window.__VERSAO__ = this.authenticationService.versao;
     let v = false;
@@ -99,12 +111,11 @@ export class AppComponent implements OnInit {
         }
       });
 
-    this.appconfig = {theme: 'lara-light-blue', dark: false}
 
     this.subscription = this.configService.configUpdate$.subscribe( config => {
-      const linkElement = document.getElementById('theme-link');
-      this.replaceLink(linkElement, config.theme);
-      this.appconfig = config;
+      this.ct++;
+      console.log("ct", this.ct);
+      this.updateAppConfig(config);
     });
 
     this.configPrime();
@@ -113,20 +124,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  replaceLink(linkElement, theme) {
-    const id = linkElement.getAttribute('id');
-    const cloneLinkElement = linkElement.cloneNode(true);
 
-    cloneLinkElement.setAttribute('href', linkElement.getAttribute('href').replace(this.appconfig.theme, theme));
-    cloneLinkElement.setAttribute('id', id + '-clone');
-
-    linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
-
-    cloneLinkElement.addEventListener('load', () => {
-      linkElement.remove();
-      cloneLinkElement.setAttribute('id', id);
-    });
-  }
 
   unsubescreve() {
     this.s.unsubscribe();
@@ -218,6 +216,70 @@ export class AppComponent implements OnInit {
 
   abreFechaMenu() {
     this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
+  }
+
+  updateAppConfig(c: AppConfig) {
+    if (c.theme !== this.appconfig.theme) {
+      const linkElement = document.getElementById('theme-link');
+      this.replaceLink(linkElement, c.theme);
+    }
+    if (c.ripple !== this.appconfig.ripple) {
+      this.rippleChange(c.ripple);
+    }
+    /*if (c.dark !== this.appconfig.dark) {
+      this.darkChange(c.dark);
+    }*/
+    if (c.scale !== this.appconfig.scale) {
+      document.documentElement.style.fontSize = c.scale + 'px';
+    }
+    if (c.inputStyle !== this.appconfig.inputStyle) {
+      this.inputStyleChange(c.inputStyle);
+    }
+    this.appconfig = c;
+    this.configService.setConfig(c);
+  }
+
+  replaceLink(linkElement, theme) {
+    const id = linkElement.getAttribute('id');
+    const cloneLinkElement = linkElement.cloneNode(true);
+
+    cloneLinkElement.setAttribute('href', linkElement.getAttribute('href').replace(this.appconfig.theme, theme));
+    cloneLinkElement.setAttribute('id', id + '-clone');
+
+    linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
+
+    cloneLinkElement.addEventListener('load', () => {
+      linkElement.remove();
+      cloneLinkElement.setAttribute('id', id);
+    });
+  }
+
+  rippleChange(vf: boolean) {
+    if (vf) {
+      DomHandler.removeClass(document.body, 'p-ripple-disabled');
+    } else {
+      DomHandler.addClass(document.body, 'p-ripple-disabled');
+    }
+  }
+
+  /*darkChange(vf: boolean) {
+    let theme = this.appconfig.theme;
+    theme = vf ? theme.replace("light", "dark") :  theme.replace("dark", "light");
+      this.appconfig = { ...this.appconfig, dark: vf, theme: theme };
+      const linkElement = document.getElementById('theme-link');
+      this.replaceLink(linkElement, theme);
+  }
+
+  isDarkTheme(theme): boolean {
+    return theme.indexOf('dark') !== -1 || theme.indexOf('vela') !== -1 || theme.indexOf('arya') !== -1 || theme.indexOf('luna') !== -1;
+  }*/
+
+  inputStyleChange(s: string) {
+    if (s === 'filled') {
+      DomHandler.addClass(document.body, 'p-input-filled');
+    } else {
+      DomHandler.removeClass(document.body, 'p-input-filled');
+    }
   }
 
   abreFechaMd() {
