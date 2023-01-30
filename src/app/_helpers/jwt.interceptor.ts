@@ -12,11 +12,13 @@ import { map, take } from "rxjs/operators";
 import { Observable } from "rxjs";
 import {AutenticacaoService} from "../_services/autenticacao.service";
 import { Router } from "@angular/router";
+import { AutorizaService } from "../_services/autoriza.service";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(
     private aut: AutenticacaoService,
+    private atz: AutorizaService,
     private router: Router,
   ) { }
 
@@ -24,10 +26,10 @@ export class JwtInterceptor implements HttpInterceptor {
     if (request instanceof HttpRequest) {
       // if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1 && request.urlWithParams.search('/msg') === -1) {
       if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1) {
-        if (this.aut.vfToken) {
+        if (this.atz.vfRefToken) {
           request = request.clone({
             setHeaders: {
-              Authorization: 'Bearer ' + this.aut.token
+              Authorization: 'Bearer ' + this.atz.token
             }
           });
           return next.handle(request).pipe(map((event: HttpEvent<any>) => {
@@ -37,7 +39,7 @@ export class JwtInterceptor implements HttpInterceptor {
             return event;
           }));
         } else {
-          if (this.aut.rtkvalido) {
+          /*if (this.atz.rtkvalido) {
             this.aut.refleshToken().pipe(take(1)).subscribe({
               next: (vf) => {
                 if (vf) {
@@ -57,14 +59,15 @@ export class JwtInterceptor implements HttpInterceptor {
                 }
               }
             });
-            /*request = request.clone({
+            /!*request = request.clone({
               setHeaders: {
                 Authorization: 'Bearer ' + this.aut.refToken
               }
-            });*/
+            });*!/
           } else {
             this.router.navigate(['/login']);
-          }
+          }*/
+          this.router.navigate(['/login']);
         }
       }
 
@@ -72,7 +75,7 @@ export class JwtInterceptor implements HttpInterceptor {
       if (request.urlWithParams.search('/reflesh') > -1) {
         request = request.clone({
           setHeaders: {
-            Authorization: 'Bearer ' + this.aut.refToken,
+            Authorization: 'Bearer ' + this.atz.refToken,
             Reflesh: 'true'
           }
         });

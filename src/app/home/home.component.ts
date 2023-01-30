@@ -40,15 +40,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     public http: HttpClient,
     private urls: UrlService,
     public ol: OnlineService,
-    private ac: AppConfigService
+    // private ac: AppConfigService
     ) {
     this.currentUser = this.authenticationService.currentUser;
   }
 
   ngOnInit() {
-    if (this.authenticationService.token !== undefined && this.authenticationService.token !== null && this.authenticationService.token.length > 5) {
+    /*if (this.authenticationService.token !== undefined && this.authenticationService.token !== null && this.authenticationService.token.length > 5) {
       this.token = this.authenticationService.token.substring(0,30);
-    }
+    }*/
     this.ping();
     this.coorApp = this.ws.coorApp;
     this.coorTopo = this.ws.coorTopo;
@@ -76,12 +76,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   mudaDispositivo() {
     if (this.authenticationService.dispositivo !== 'mobile') {
-      this.ac.updateDispositivo('mobile');
+      // this.ac.updateDispositivo('mobile');
       this.authenticationService.dispositivo = 'mobile';
       // this.ds.dispositivo = 'mobile';
     } else {
       this.authenticationService.dispositivo = 'desktop';
-      this.ac.updateDispositivo('desktop');
+      // this.ac.updateDispositivo('desktop');
       // this.ds.dispositivo = 'desktop';
     }
   }

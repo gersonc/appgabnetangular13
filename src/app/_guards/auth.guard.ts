@@ -4,20 +4,27 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { AuthenticationService } from '../_services';
 import { AutenticacaoService } from "../_services/autenticacao.service";
 import { take } from "rxjs/operators";
+import { AutorizaService } from "../_services/autoriza.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private aut: AutenticacaoService,
+    private aut: AutorizaService,
     private auth: AuthenticationService
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    if (this.aut.vfToken) {
-      const validade = +this.aut.expires - (new Date().getTime()) / 1000;
+    if (this.aut.vfRefToken) {
+      if (route.data.rules && this.auth.userScops.indexOf(route.data.rules) === -1) {
+        this.router.navigate(['/']);
+        return false;
+      } else {
+        return true;
+      }
+      /*const validade = +this.aut.expires - (new Date().getTime()) / 1000;
       if (validade <= 4800) {
         let vf: boolean;
         this.aut.refleshToken().pipe(take(1)).subscribe({
@@ -80,11 +87,10 @@ export class AuthGuard implements CanActivate {
               }
             }
           }
-        );
+        );*/
       } else {
         this.router.navigate(['/login']);
         return false;
       }
     }
-  }
 }

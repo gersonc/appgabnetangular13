@@ -19,7 +19,7 @@ export class AppConfigService {
     dark: false,
     inputStyle: "outlined",
     ripple: true,
-    scale: 14, // px
+    scale: 14,
     dispositivo: "desktop"
   };
 
@@ -78,7 +78,7 @@ export class AppConfigService {
   }
 
   setConfig(config: AppConfig) {
-    this.updateConfig(this.config);
+    // this.updateConfig(this.config);
     this.ts.setTema(config);
   }
 
@@ -90,16 +90,17 @@ export class AppConfigService {
   }
 
 
-  getConfig(): AppConfig {
+  getConfig() {
     if (localStorage.getItem('appconfig')) {
       this.config = this.ts.parceAppConfig(JSON.parse(localStorage.getItem('appconfig')));
       if (this.config.usuario_uuid === undefined) {
         this.config.usuario_uuid = JSON.parse(localStorage.getItem('usuario_uuid'));
       }
-      return this.config;
+      this.updateConfig(this.config);
     } else {
-      return this.config;
+      this.updateConfig(this.config);
     }
+    //return this.config;
   }
 
   onRippleChange() {

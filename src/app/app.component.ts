@@ -21,6 +21,8 @@ import {Router} from "@angular/router";
 import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
 import { DomHandler } from "primeng/dom";
+import { AutenticacaoService } from "./_services/autenticacao.service";
+import { AutorizaService } from "./_services/autoriza.service";
 /*import {Message,MessageService} from 'primeng/api';
 import {MsgService} from "./_services/msg.service";*/
 
@@ -55,6 +57,9 @@ export class AppComponent implements OnInit {
   subscription: Subscription;
 
   ct = 0;
+  pt = 0;
+  tt = 0;
+  gg = 0;
 
   /*private altura: number = WindowsService.nativeWindow.innerHeight;
   private largura: number = WindowsService.nativeWindow.innerWidth;
@@ -69,27 +74,73 @@ export class AppComponent implements OnInit {
   constructor(
     private config: PrimeNGConfig,
     public configService: AppConfigService,
+    private atz: AutorizaService,
     public authenticationService: AuthenticationService,
+    private aut: AutenticacaoService,
     private windowsService: WindowsService,
     private router: Router,
-    private as: ArquivoLoginService,
     public md: MenuDatatableService,
     public sps: SpinnerService,
 
   ) {
     console.log('inicio 1');
+    this.atz.logado$.subscribe({
+      next: (vf) => {
+        this.tt++;
+        console.log('AppComponent logado$', vf, this.tt);
+        if (vf) {
+          this.mostraPessoal = true;
+          this.configService.getConfig();
+        } else {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
   ngOnInit() {
     console.log('inicio 2');
-    this.appconfig = this.configService.getConfig();
-    window.__VERSAOID__ = +this.authenticationService.versao;
-    window.__VERSAO__ = this.authenticationService.versao;
-    let v = false;
+    this.subscription = this.configService.configUpdate$.subscribe( config => {
+      this.ct++;
+      console.log("ct", this.ct);
+      this.updateAppConfig(config);
+    });
+
+    // let ss: Subscription =
+      this.atz.reflesh.subscribe({
+      next: (vf) => {
+        console.log('AppComponent reflesh', vf, this.gg);
+        if (vf) {
+          this.aut.getRefleh();
+        } else {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
+
+    // let sss: Subscription =
+      /*this.atz.logado$.subscribe({
+      next: (vf) => {
+        this.tt++;
+        console.log('AppComponent logado$', vf, this.tt);
+        if (vf) {
+          this.mostraPessoal = true;
+          this.configService.getConfig();
+        } else {
+          this.router.navigate(['/login']);
+        }
+      }
+    });*/
+
+
+    // this.appconfig = this.configService.getConfig();
+
+    /*let v = false;
     this.s = this.authenticationService.inicio()
       .pipe(take(1))
       .subscribe({
         next: (vf) => {
+          console.log('init', vf);
           if (vf) {
             v = vf;
           }
@@ -98,25 +149,27 @@ export class AppComponent implements OnInit {
           console.error(err.message);
         },
         complete: () => {
+          console.log('init', v);
           // this.unsubescreve();
           if (v) {
             this.configService.getConfig();
             if (this.authenticationService.permissoes_carregadas) {
-              this.as.verificaPermissoes();
-              this.mostraPessoal = true;
+
+
             }
           } else {
             this.router.navigate(['/login']);
           }
         }
-      });
+      });*/
 
-
-    this.subscription = this.configService.configUpdate$.subscribe( config => {
+    window.__VERSAOID__ = +this.authenticationService.versao;
+    window.__VERSAO__ = this.authenticationService.versao;
+    /*this.subscription = this.configService.configUpdate$.subscribe( config => {
       this.ct++;
       console.log("ct", this.ct);
       this.updateAppConfig(config);
-    });
+    });*/
 
     this.configPrime();
 
@@ -219,6 +272,7 @@ export class AppComponent implements OnInit {
   }
 
   updateAppConfig(c: AppConfig) {
+    console.log("pt", this.pt);
     if (c.theme !== this.appconfig.theme) {
       const linkElement = document.getElementById('theme-link');
       this.replaceLink(linkElement, c.theme);
@@ -237,9 +291,11 @@ export class AppComponent implements OnInit {
     }
     this.appconfig = c;
     this.configService.setConfig(c);
+    console.log('this.appconfig', this.appconfig);
   }
 
   replaceLink(linkElement, theme) {
+    console.log('replaceLink(linkElement, theme)', linkElement, theme)
     const id = linkElement.getAttribute('id');
     const cloneLinkElement = linkElement.cloneNode(true);
 

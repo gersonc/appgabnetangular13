@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MensagemI} from "../_models/mensagem-i";
 import {AutenticacaoService} from "../../_services/autenticacao.service";
 import {of} from "rxjs";
+import { AutorizaService } from "../../_services/autoriza.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,11 @@ export class MensagemPushService {
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private aut: AutenticacaoService
+    private aut: AutorizaService
   ) { }
 
   getMensagemNLidas() {
-    if (this.aut.vfToken) {
+    if (this.aut.vfRefToken) {
 
       const httpOptions = {
         headers: new HttpHeaders({

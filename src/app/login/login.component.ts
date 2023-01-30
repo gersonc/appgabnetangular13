@@ -84,6 +84,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.sub.push(this.as.login(this.loginForm.controls.username.value, this.loginForm.controls.password.value,this.getScreen())
         .pipe(take(1))
         .subscribe(vf => {
+          console.log('login', vf);
             if (vf) {
               // const user: any = JSON.parse(localStorage.getItem('currentUser'));
               // this.authenticationService.carregaPermissoes(user);

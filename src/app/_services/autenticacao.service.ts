@@ -1,59 +1,61 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, take} from "rxjs/operators";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable, of, Subscription } from "rxjs";
 import {environment} from "../../environments/environment";
 import { User } from "../_models";
 import { AppConfigService } from "./appconfigservice";
+import { AutorizaService } from "./autoriza.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutenticacaoService {
-  expires?: number;
-  expiresRef?: number;
-  exp?: number;
-  expRef?: number;
-  _token?: string;
-  _refToken?: string;
-  teste: any;
-  logado = false;
+  //expires?: number;
+  //expiresRef?: number;
+  //exp?: number;
+  //expRef?: number;
+  //_token?: string;
+  //_refToken?: string;
+  //teste: any;
+  //logado = false;
 
-  public logadoSub: BehaviorSubject<boolean>;
-  public logadoVF: Observable<boolean>;
+  // public logadoSub: BehaviorSubject<boolean>;
+  // public logadoVF: Observable<boolean>;
 
   constructor(
     private http: HttpClient,
-    private cs: AppConfigService
+    private atz: AutorizaService
+    // private cs: AppConfigService
   ) {
-    this.logadoSub = new BehaviorSubject<boolean>(!!(localStorage.getItem('currentUser')));
-    this.logadoVF = this.logadoSub.asObservable();
+    // this.logadoSub = new BehaviorSubject<boolean>(!!(localStorage.getItem('currentUser')));
+    // this.logadoVF = this.logadoSub.asObservable();
   }
 
-  get token(): string {
+  /*get token(): string {
     return this._token;
-  }
+  }*/
 
-  get refToken(): string {
+  /*get refToken(): string {
     return this._refToken;
-  }
+  }*/
 
-  get vfToken(): boolean {
+  /*get vfToken(): boolean {
     if (this.expires === undefined) {
       this.expires = this.getTokens();
       return this.expires > Math.floor((+Date.now()) / 1000);
     } else {
       return this.expires > Math.floor((+Date.now()) / 1000);
     }
-  }
+  }*/
 
-  get rtkvalido(): boolean {
+  /*get rtkvalido(): boolean {
     if (this.expiresRef === undefined || this._refToken === undefined || this.expiresRef === 0) {
       return false;
     } else {
       return this.expiresRef > Math.floor((+Date.now()) / 1000);
     }
-  }
+  }*/
 
 
   /*
@@ -64,7 +66,26 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
   }
   */
 
-  login(username: string, password: string, screen: any = null) {
+  getRefleh() {
+    let v: boolean;
+    let s: Subscription;
+    s = this.refleshToken().pipe(take(1)).subscribe({
+      next: (vf) => {
+        v = vf;
+      },
+      error: (err) => {
+        console.error(err.toString());
+      },
+      complete: () => {
+        console.log('reflesh ok?', v);
+        s.unsubscribe();
+      }
+    })
+  }
+
+
+
+  login(username: string, password: string, screen: any = null): Observable<boolean> {
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
     const url = this.getUrl() + 'login';
@@ -78,7 +99,9 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
       .pipe(
         take(1),
         map(user => {
+          let vf: boolean;
           if (user && user.token) {
+            vf = true;
             localStorage.removeItem('currentUser');
             localStorage.removeItem('access_token');
             localStorage.removeItem('reflesh_token');
@@ -93,23 +116,25 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             if (user.appconfig !== undefined) {
               user.appconfig.usuario_uuid = user.usuario_uuid;
               localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
-              this.cs.setConfig(user.appconfig);
+              // this.cs.setConfig(user.appconfig);
             }
-            this.expires = +user.expires;
-            this.expiresRef = +user.expiresRef;
-            this._token =user.token;
-            this._refToken = user.refleshToken;
+            // this.expires = +user.expires;
+            // this.expiresRef = +user.expiresRef;
+            // this._token =user.token;
+            // this._refToken = user.refleshToken;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
-            this.logadoSub.next(true);
-            this.teste = this.getTeste();
-            return true;
+            this.atz.logado = true;
+            this.atz.logadoSubject.next(true);
+            // this.teste = this.getTeste();
+            return vf;
           } else {
-            this.logadoSub.next(false);
-            return false;
+            vf = false;
+            this.atz.logado = false;
+            return vf;
           }
         }),
         catchError(err => of(err))
@@ -137,23 +162,23 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             if (user.appconfig !== undefined) {
               user.appconfig.usuario_uuid = user.usuario_uuid;
               localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
-              this.cs.setConfig(user.appconfig);
+              // this.cs.setConfig(user.appconfig);
             }
-            this.expires = +user.expires;
-            this.expiresRef = +user.expiresRef;
-            this._token = user.token;
-            this._refToken = user.refleshToken;
+            // this.expires = +user.expires;
+            // this.expiresRef = +user.expiresRef;
+            // this._token = user.token;
+            // this._refToken = user.refleshToken;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
-            this.logadoSub.next(true);
+            this.atz.logado = true;
             // this.carregaPermissoes(user);
             return true;
           } else {
             // this.cancelaPermissoes();
-            this.logadoSub.next(false);
+            this.atz.logado = false;
             return false;
           }
         }));
@@ -180,6 +205,7 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
         return 'http://gabnet5.com.br/api/';
     }*/
   }
+/*
 
   getAgora(): number {
     return Math.floor((+Date.now())/ 1000);
@@ -241,5 +267,6 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
     delete this.teste;
   }
 
+*/
 
 }
