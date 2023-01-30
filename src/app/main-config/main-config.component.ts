@@ -160,12 +160,14 @@ export class MainConfigComponent implements OnInit {
 
   decrementScale() {
     this.scale--;
+    console.log('decrementScale',this.scale);
     this.configService.setScale(this.scale);
     // this.applyScale();
   }
 
   incrementScale() {
     this.scale++;
+    console.log('incrementScale',this.scale);
     this.configService.setScale(this.scale);
     //this.applyScale();
   }

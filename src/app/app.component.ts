@@ -283,7 +283,11 @@ export class AppComponent implements OnInit {
     /*if (c.dark !== this.appconfig.dark) {
       this.darkChange(c.dark);
     }*/
+    console.log("this.appconfig.scale", this.appconfig.scale);
+    console.log("c.scale !== this.appconfig.scale", (c.scale !== this.appconfig.scale));
+
     if (c.scale !== this.appconfig.scale) {
+      console.log("scale", c.scale);
       document.documentElement.style.fontSize = c.scale + 'px';
     }
     if (c.inputStyle !== this.appconfig.inputStyle) {

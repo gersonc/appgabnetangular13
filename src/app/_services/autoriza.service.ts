@@ -16,61 +16,37 @@ export class AutorizaService {
   teste: any = null;
   _logado = false;
   autoriza = new Autoriza();
-  _visto = false;
+  // _visto = false;
   usuario_uuid: string | null = null;
   currentUser: string | null = null;
   segundo = false;
   tt = 0;
   ttt = 0;
   dd = 0;
+  ddd = 0;
 
   public logadoSubject = new BehaviorSubject<boolean>(false);
   public logado$ = this.logadoSubject.asObservable();
   public refleshSubject = new BehaviorSubject<boolean>(false);
   public reflesh = this.refleshSubject.asObservable();
 
-  constructor() { }
-
-  get visto(): boolean {
-    this.ttt++;
-    console.log('AutorizaService this._visto', this._visto, this.ttt);
-    if (this._visto) {
-      return true;
-    }
-    if (!this._visto) {
-      if (this._logado) {
-        this._visto = true;
-        return true;
-      } else {
-        if (!localStorage.getItem('access_token')) {
-          this._visto = true;
-          return true;
-        } else {
-          this.token = localStorage.getItem('access_token');
-          this.refToken = localStorage.getItem('reflesh_token');
-          this.expires = +localStorage.getItem('expires');
-          this.expiresRef = +localStorage.getItem('expiresRef');
-          this.usuario_uuid = localStorage.getItem('usuario_uuid');
-          this.currentUser = localStorage.getItem('currentUser');
-          this.autoriza = {
-            expires: this.expires,
-            expiresRef: this.expiresRef,
-            token: this.token,
-            refToken: this.refToken,
-            teste: this.teste,
-            usuario_uuid: this.usuario_uuid,
-            currentUser: this.currentUser,
-            logado: this._logado
-          }
-          this._visto = true;
-          return true;
-        }
-      }
+  constructor() {
+    this.ddd++;
+    console.log('AutorizaService constructortttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt', this.ddd);
+    if (localStorage.getItem('access_token')) {
+      this.token = localStorage.getItem('access_token');
+      this.refToken = localStorage.getItem('reflesh_token');
+      this.expires = +localStorage.getItem('expires');
+      this.expiresRef = +localStorage.getItem('expiresRef');
+      this.usuario_uuid = localStorage.getItem('usuario_uuid');
+      this.currentUser = localStorage.getItem('currentUser');
     }
   }
 
+
+
   get vfToken(): boolean {
-    return this.visto && ((this.expires - 4800) > Math.floor((+Date.now()) / 1000));
+    return (this.expires - 4800) > Math.floor((+Date.now()) / 1000);
   }
 
   get vfRefToken(): boolean {
@@ -97,14 +73,14 @@ export class AutorizaService {
         console.log('AutorizaService logado 22222222222', vf, this.tt);
         this.logadoSubject.next(vf);
       } else {
-        if (this._visto) {
+
           this.desconecta();
-        }
+
       }
   }
 
   get logado(): boolean {
-    return (this.visto && this._logado);
+    return this._logado;
   }
 
   parseLogado() {
@@ -124,7 +100,6 @@ export class AutorizaService {
       currentUser: this.currentUser,
       logado: this._logado
     }
-    this._visto = true;
   }
 
   desconecta() {
@@ -145,12 +120,10 @@ export class AutorizaService {
     this.teste = null;
     this._logado = false;
     this.autoriza = new Autoriza();
-    this._visto = false;
     this.usuario_uuid = null;
     this.currentUser = null;
     // this.refleshSubject.complete();
     // this.logadoSubject.complete();
-    this._visto = false;
   }
 
 }

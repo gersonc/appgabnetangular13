@@ -60,6 +60,7 @@ export class AppConfigService {
 
   setScale(n: number) {
     this.config.scale = n;
+    console.log('setScale',this.config);
     this.updateConfig(this.config);
     this.ts.setTema(this.config);
   }

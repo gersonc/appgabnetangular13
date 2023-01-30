@@ -128,7 +128,7 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.atz.logado = true;
-            this.atz.logadoSubject.next(true);
+            // this.atz.logadoSubject.next(true);
             // this.teste = this.getTeste();
             return vf;
           } else {
