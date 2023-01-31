@@ -22,10 +22,6 @@
             <a class="layout-config-button-dark" (click)="toggleDarkMode()">
               <i class="pi pi-{{config.dark ? 'sun' : 'moon'}}"></i>
             </a>
-            <!--<button pButton pRipple type="button" icon="pi pi-{{config.dark ? 'sun' : 'moon'}}" class="p-button-rounded p-button-info p-button-sm" (click)="toggleDarkMode()"></button>-->
-            <!--<button type="button" class="linkbox header-button inline-flex align-items-center justify-content-center" (click)="toggleDarkMode()">
-              <i class="pi pi-{{config.dark ? 'sun' : 'moon'}}"></i>
-            </button>-->
           </div>
 
 
@@ -34,10 +30,6 @@
           <h4>Ripple Effect</h4>
           <p-inputSwitch [(ngModel)]="config.ripple" (onChange)="onRippleChange()"></p-inputSwitch>
 
-          <h4>Free Themes</h4>
-          <p>Built-in component themes created by the <a href="https://www.primefaces.org/designer/primeng">PrimeNG Theme Designer</a>.</p>
-
-          <h5>Bootstrap</h5>
           <div class="grid free-themes">
             <div class="col-3">
               <button class="p-link" (click)="changeTheme($event, 'bootstrap4-light-blue', false)">

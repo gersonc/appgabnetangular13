@@ -14,46 +14,59 @@ import { AppConfigService } from "../_services/appconfigservice";
             <h4>Input Style</h4>
             <div class="formgroup-inline">
                 <div class="field-radiobutton">
-                    <p-radioButton name="inputstyle" value="outlined" [(ngModel)]="config.inputStyle" (onClick)="onChange()" inputId="input_outlined"></p-radioButton>
+                    <p-radioButton #sw1 name="inputstyle" value="outlined" [(ngModel)]="inputStyle" (onClick)="onChange(sw1.value)" inputId="input_outlined"></p-radioButton>
                     <label for="input_outlined">Outlined</label>
                 </div>
                 <div class="field-radiobutton">
-                    <p-radioButton name="inputstyle" value="filled" [(ngModel)]="config.inputStyle" (onClick)="onChange()" inputId="input_filled"></p-radioButton>
+                    <p-radioButton #sw2 name="inputstyle" value="filled" [(ngModel)]="inputStyle" (onClick)="onChange(sw1.value)" inputId="input_filled"></p-radioButton>
                     <label for="input_filled">Filled</label>
                 </div>
             </div>
         </div>
     `
 })
-export class AppInputStyleSwitchComponent {
+export class AppInputStyleSwitchComponent  implements OnInit, OnDestroy {
 
     value: string;
 
-    config: AppConfig;
+    inputStyle: string =  'outlined';
 
-    // public subscription: Subscription;
+    public subscription: Subscription;
 
-    constructor(private configService: AppConfigService) {}
+    constructor(private configService: AppConfigService) {
+      this.inputStyle = this.configService.config.inputStyle;
+    }
 
     ngOnInit() {
-        this.config = this.configService.config;
-        // this.subscription = this.configService.configUpdate$.subscribe(config => this.config = config);
+        // this.config = this.configService.config;
+      this.subscription = this.configService.configUpdate$.subscribe(config => {
+        if(config.inputStyle !== this.inputStyle) {
+          this.inputStyle = config.inputStyle;
+          this.mudaStyle(this.inputStyle);
+        }
+      });
+      // this.subscription = this.configService.configUpdate$.subscribe(config => this.config = config);
     }
 
-    onChange() {
-        // this.configService.updateConfig(this.config);
-        this.configService.setInputStyle(this.config.inputStyle);
-        if (this.config.inputStyle === 'filled')
-            DomHandler.addClass(document.body, 'p-input-filled');
-        else
-            DomHandler.removeClass(document.body, 'p-input-filled');
+    onChange(sw: string) {
+      console.log('AppInputStyleSwitchComponent',sw);
+      this.configService.setInputStyle(sw);
     }
 
-    /*ngOnDestroy() {
+    mudaStyle(sw: string) {
+      if (sw === 'filled') {
+        DomHandler.addClass(document.body, 'p-input-filled');
+      } else {
+        DomHandler.removeClass(document.body, 'p-input-filled');
+      }
+
+    }
+
+    ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
-    }*/
+    }
 }
 
 @NgModule({
