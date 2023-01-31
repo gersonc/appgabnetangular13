@@ -19,7 +19,7 @@ export class AppConfigService {
     dark: false,
     inputStyle: "outlined",
     ripple: true,
-    scale: 14,
+    scale: '14px',
     dispositivo: "desktop"
   };
 
@@ -43,6 +43,7 @@ export class AppConfigService {
   updateConfig(config: AppConfig) {
     this.config = config;
     this.config.dispositivo = this.ds.dispositivo;
+    // this.updateConfig(this.config);
     this.configUpdate.next(config);
   }
 
@@ -50,32 +51,37 @@ export class AppConfigService {
     this.ds.dispositivo = dispositivo;
     this.config.dispositivo = this.ds.dispositivo;
     // this.updateConfig(this.config);
+    this.configUpdate.next(this.config);
   }
 
   setRipple(vf: boolean) {
     this.config.ripple = vf;
-    this.updateConfig(this.config);
-    this.ts.setTema(this.config);
+   //  this.updateConfig(this.config);
+    this.configUpdate.next(this.config);
+    // this.ts.setTema(this.config);
   }
 
-  setScale(n: number) {
+  setScale(n: string) {
     this.config.scale = n;
     console.log('setScale',this.config);
-    this.updateConfig(this.config);
-    this.ts.setTema(this.config);
+    // this.updateConfig(this.config);
+    this.configUpdate.next(this.config);
+    // this.ts.setTema(this.config);
   }
 
   setDarkMode(dark: boolean, theme: string) {
     this.config.dark = dark;
     this.config.theme = theme;
-    this.updateConfig(this.config);
-    this.ts.setTema(this.config);
+    // this.updateConfig(this.config);
+    this.configUpdate.next(this.config);
+    // this.ts.setTema(this.config);
   }
 
   setInputStyle(s: string) {
     this.config.inputStyle = s;
-    this.updateConfig(this.config);
-    this.ts.setTema(this.config);
+    // this.updateConfig(this.config);
+    this.configUpdate.next(this.config);
+    // this.ts.setTema(this.config);
   }
 
   setConfig(config: AppConfig) {
@@ -86,8 +92,9 @@ export class AppConfigService {
   setThema(str: string, d: boolean) {
     this.config.theme = str;
     this.config.dark = d;
-    this.updateConfig(this.config);
-    this.ts.setTema(this.config);
+    // this.updateConfig(this.config);
+    this.configUpdate.next(this.config);
+    // this.ts.setTema(this.config);
   }
 
 
@@ -97,9 +104,11 @@ export class AppConfigService {
       if (this.config.usuario_uuid === undefined) {
         this.config.usuario_uuid = JSON.parse(localStorage.getItem('usuario_uuid'));
       }
-      this.updateConfig(this.config);
+      this.configUpdate.next(this.config);
+      // this.updateConfig(this.config);
     } else {
-      this.updateConfig(this.config);
+      this.configUpdate.next(this.config);
+      // this.updateConfig(this.config);
     }
     //return this.config;
   }

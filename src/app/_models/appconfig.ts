@@ -4,6 +4,6 @@ export interface AppConfig {
   dark?: boolean;
   theme?: string;
   ripple?: boolean;
-  scale?: number;  // px
+  scale?: string;  // px
   dispositivo?: string; // 'mobile' ou 'desktop'
 }

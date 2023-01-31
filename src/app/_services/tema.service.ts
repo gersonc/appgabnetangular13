@@ -39,19 +39,21 @@ export class TemaService {
   setTema(dados: AppConfig) {
     const dado: any = this.parceToServer(dados)
     localStorage.setItem('appconfig', JSON.stringify(dado));
-    this.putTema(dado).pipe(take(1)).subscribe();
+    this.putTema(dado).pipe(take(1)).subscribe(c => {
+      console.log('TEMA GRAVADO', c, dados);
+    });
   }
 
   parceAppConfig(dados?: string): AppConfig {
     const a: any = (dados !== undefined) ? dados : JSON.parse(localStorage.getItem('appconfig'));
     if (a.usuario_uuid === undefined) {
-      a.usuario_uuid = JSON.parse(localStorage.getItem('usuario_uuid'));
+      a.usuario_uuid = localStorage.getItem('usuario_uuid');
     }
     return {
       usuario_uuid: a.usuario_uuid,
-      scale: +a.scale,
+      scale: a.scale,
       theme: a.theme,
-      dispositivo: a.dispositivo,
+      dispositivo: this.aut.dispositivo,
       dark: (+a.dark === 1),
       inputStyle: a.inputstyle,
       ripple: (+a.ripple === 1)
@@ -61,9 +63,9 @@ export class TemaService {
   parceToServer(a: AppConfig): any {
     return {
       usuario_uuid: a.usuario_uuid,
-      scale: (a.scale) ? 1 : 0,
+      scale: (a.scale.length < 3) ? '14px': a.scale,
       theme: a.theme,
-      dispositivo: a.dispositivo,
+      dispositivo: this.aut.dispositivo,
       dark: (a.dark) ? 1 : 0,
       inputstyle: a.inputStyle,
       ripple:(a.ripple) ? 1 : 0

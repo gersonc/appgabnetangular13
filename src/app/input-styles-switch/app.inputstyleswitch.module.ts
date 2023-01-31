@@ -43,10 +43,10 @@ export class AppInputStyleSwitchComponent {
     onChange() {
         // this.configService.updateConfig(this.config);
         this.configService.setInputStyle(this.config.inputStyle);
-        /*if (this.config.inputStyle === 'filled')
+        if (this.config.inputStyle === 'filled')
             DomHandler.addClass(document.body, 'p-input-filled');
         else
-            DomHandler.removeClass(document.body, 'p-input-filled');*/
+            DomHandler.removeClass(document.body, 'p-input-filled');
     }
 
     /*ngOnDestroy() {

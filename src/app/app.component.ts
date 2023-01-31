@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     dark: false,
     inputStyle: "outlined",
     ripple: true,
-    scale: 14, // px
+    scale: '14px', // px
     dispositivo: "desktop"
   };
   theme = "lara-light-blue";
@@ -273,23 +273,19 @@ export class AppComponent implements OnInit {
 
   updateAppConfig(c: AppConfig) {
     console.log("pt", this.pt);
-    if (c.theme !== this.appconfig.theme) {
+    /*if (c.theme !== this.appconfig.theme) {
       const linkElement = document.getElementById('theme-link');
       this.replaceLink(linkElement, c.theme);
-    }
+    }*/
     if (c.ripple !== this.appconfig.ripple) {
       this.rippleChange(c.ripple);
     }
     /*if (c.dark !== this.appconfig.dark) {
       this.darkChange(c.dark);
     }*/
-    console.log("this.appconfig.scale", this.appconfig.scale);
-    console.log("c.scale !== this.appconfig.scale", (c.scale !== this.appconfig.scale));
+   /* console.log("this.appconfig.scale", this.appconfig.scale);
+    console.log("c.scale !== this.appconfig.scale", (c.scale !== this.appconfig.scale));*/
 
-    if (c.scale !== this.appconfig.scale) {
-      console.log("scale", c.scale);
-      document.documentElement.style.fontSize = c.scale + 'px';
-    }
     if (c.inputStyle !== this.appconfig.inputStyle) {
       this.inputStyleChange(c.inputStyle);
     }
@@ -298,21 +294,7 @@ export class AppComponent implements OnInit {
     console.log('this.appconfig', this.appconfig);
   }
 
-  replaceLink(linkElement, theme) {
-    console.log('replaceLink(linkElement, theme)', linkElement, theme)
-    const id = linkElement.getAttribute('id');
-    const cloneLinkElement = linkElement.cloneNode(true);
 
-    cloneLinkElement.setAttribute('href', linkElement.getAttribute('href').replace(this.appconfig.theme, theme));
-    cloneLinkElement.setAttribute('id', id + '-clone');
-
-    linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
-
-    cloneLinkElement.addEventListener('load', () => {
-      linkElement.remove();
-      cloneLinkElement.setAttribute('id', id);
-    });
-  }
 
   rippleChange(vf: boolean) {
     if (vf) {
