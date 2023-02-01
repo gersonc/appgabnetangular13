@@ -20,7 +20,7 @@ export class MainTopoComponent implements OnInit {
   sub: Subscription[] = [];
 
   constructor(
-    // public authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     public md: MenuDatatableService,
     public ds: DispositivoService,
     public ws: WindowsService,
@@ -31,7 +31,7 @@ export class MainTopoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.ping();
+    //this.ping();
   }
 
   abreFechaMenu() {
@@ -42,13 +42,13 @@ export class MainTopoComponent implements OnInit {
     this.md.mdt = !this.md.mdt;
   }
 
-  ping() {
+  /*ping() {
     this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe({
       next: (data: any) => {
         this.ds.dispositivo = data.dispositivo;
       },
       error: (err) => console.log('ping-erro->', err)
     }));
-  }
+  }*/
 
 }

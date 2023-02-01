@@ -14,7 +14,7 @@
               <div class="align-self-center" style="color: var(--primary-color)">
                 <h1>GABNET<br>GERENCIADOR DE GABINETES</h1>
                 <p>Url: {{hst}}</p>
-                <p>Dispositivo: {{authenticationService.dispositivo}} <i *ngIf="authenticationService.dispositivo==='mobile'" class="pi pi-mobile"></i><i *ngIf="authenticationService.dispositivo!=='mobile'" class="pi pi-desktop"></i></p>
+                <p>Dispositivo: {{ds.dispositivo}} <i *ngIf="ds.dispositivo==='mobile'" class="pi pi-mobile"></i><i *ngIf="ds.dispositivo!=='mobile'" class="pi pi-desktop"></i></p>
                 <!-- <p>Versão: {{authenticationService._versao}}</p>
                  <p>Logado: {{authenticationService.vfToken}}</p>
                  <p>Token: {{token}}</p>

@@ -34,12 +34,13 @@ export class AutorizaService {
     this.ddd++;
     console.log('AutorizaService constructortttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt', this.ddd);
     if (localStorage.getItem('access_token')) {
-      this.token = localStorage.getItem('access_token');
+      /*this.token = localStorage.getItem('access_token');
       this.refToken = localStorage.getItem('reflesh_token');
       this.expires = +localStorage.getItem('expires');
       this.expiresRef = +localStorage.getItem('expiresRef');
       this.usuario_uuid = localStorage.getItem('usuario_uuid');
-      this.currentUser = localStorage.getItem('currentUser');
+      this.currentUser = localStorage.getItem('currentUser');*/
+      this.parseLogado();
     }
   }
 

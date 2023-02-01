@@ -2,16 +2,14 @@ import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {AuthenticationService, UrlService} from '../_services';
 import { User } from '../_models';
-import { CarregadorService } from '../_services';
 import { WindowsService } from '../_layout/_service';
 import { CoordenadaXY } from '../_layout/_service/coordenada-x-y';
-import { HttpClient } from "@angular/common/http";
-import { Subscription } from "rxjs";
-import {take} from "rxjs/operators";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+// import { HttpClient } from "@angular/common/http";
+// import { Subscription } from "rxjs";
+// import {take} from "rxjs/operators";
 import {DispositivoService} from "../_services/dispositivo.service";
 import {OnlineService} from "../_services/online.service";
-import { AppConfigService } from "../_services/appconfigservice";
+
 
 
 @Component({
@@ -23,21 +21,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   mostra = false;
   hst = location.hostname;
-  sub: Subscription[] = [];
+  // sub: Subscription[] = [];
+  // deviceInfo: any = null;
 
   coorApp: CoordenadaXY;
   coorTopo: CoordenadaXY;
   coorMain: CoordenadaXY;
   coorRodape: CoordenadaXY;
-  checked: boolean = this.authenticationService.dispositivo === 'mobile';
+  checked: boolean = this.ds.dispositivo === 'mobile';
   token = '';
   tela: any = null;
 
   constructor(
-    private ds: DispositivoService,
+    public ds: DispositivoService,
     public authenticationService: AuthenticationService,
     public ws: WindowsService,
-    public http: HttpClient,
+    // public http: HttpClient,
     private urls: UrlService,
     public ol: OnlineService,
     // private ac: AppConfigService
@@ -49,12 +48,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     /*if (this.authenticationService.token !== undefined && this.authenticationService.token !== null && this.authenticationService.token.length > 5) {
       this.token = this.authenticationService.token.substring(0,30);
     }*/
-    this.ping();
+    // this.ping();
     this.coorApp = this.ws.coorApp;
     this.coorTopo = this.ws.coorTopo;
     this.coorMain = this.ws.coorMain;
     this.coorRodape = this.ws.coorRodape;
     this.tela = this.getScreen();
+
     // this.authenticationService.dispositivo = 'mobile';
   }
 
@@ -64,18 +64,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  ping() {
+  /*ping() {
     this.sub.push(this.http.get(this.urls.ping).pipe(take(1)).subscribe({
       next: (data: any) => {
-        this.authenticationService.dispositivo = data.dispositivo;
         this.ds.dispositivo = data.dispositivo;
       },
       error: (err) => console.log('ping-erro->', err)
     }));
-  }
+  }*/
 
   mudaDispositivo() {
-    if (this.authenticationService.dispositivo !== 'mobile') {
+    if (this.ds.dispositivo !== 'mobile') {
       // this.ac.updateDispositivo('mobile');
       this.authenticationService.dispositivo = 'mobile';
       // this.ds.dispositivo = 'mobile';
@@ -85,6 +84,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       // this.ds.dispositivo = 'desktop';
     }
   }
+
+
 
 
   getScreen() {
@@ -112,7 +113,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.forEach(s => s.unsubscribe());
+    // this.sub.forEach(s => s.unsubscribe());
   }
 
 }
