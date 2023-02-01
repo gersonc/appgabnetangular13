@@ -34,6 +34,9 @@
               "src/styles.css"
             ],
             "allowedCommonJsDependencies": [
+              "@fullcalendar/timegrid",
+              "@fullcalendar/interaction",
+              "@fullcalendar/daygrid",
               "css-element-queries",
               "xlsx-js-style",
               "file-saver",

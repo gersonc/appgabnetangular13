@@ -73,6 +73,19 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   top: 100px;
 }
 
+.image-text {
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.hover\:surface-hover:hover {
+  background-color: var(--surface-hover);
+}
+
+
+
+/*
+
 .action-button {
   font-weight: bold;
   text-align: center;
@@ -87,6 +100,8 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   color: #ffffff;
   text-decoration: none !important;
 }
+*/
+/*
 
 .layout-sidebar {
   position: fixed;
@@ -195,6 +210,8 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   padding: 1.25rem 1rem;
   background-color: var(--surface-a);
 }
+*/
+/*
 
 .layout-wrapper {
   height: 100%;
@@ -219,6 +236,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   display: flex;
   flex-direction: column;
 }
+*/
 
 /*.main {
   position: fixed;
@@ -231,6 +249,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   height: var(--altura-main);
   z-index: 0;
 }*/
+/*
 
 .layout-wrapper .layout-content .content-section {
   padding: 2rem;
@@ -415,6 +434,11 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   flex-grow: 1;
   flex-direction: column;
 }
+*/
+
+
+
+/*
 
 .layout-config {
   position: fixed;
@@ -648,13 +672,6 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
     overflow: hidden;
   }
 }
+*/
 
-.image-text {
-  vertical-align: middle;
-  margin-left: 0.5rem;
-}
-
-.hover\:surface-hover:hover {
-  background-color: var(--surface-hover);
-}
 

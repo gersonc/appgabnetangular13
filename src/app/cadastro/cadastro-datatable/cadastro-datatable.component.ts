@@ -23,6 +23,7 @@ import {ColunasI} from "../../_models/colunas-i";
 import {Table} from "primeng/table/table";
 import {CadastroPermissaoService} from "../_services/cadastro-permissao.service";
 import {take} from "rxjs/operators";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 
@@ -68,7 +69,8 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
     public cfs: CadastroFormService,
     public cs: CadastroService,
     public md: MenuDatatableService,
-    public cp: CadastroPermissaoService
+    public cp: CadastroPermissaoService,
+  public ds: DispositivoService,
     ) { }
 
   ngOnInit() {

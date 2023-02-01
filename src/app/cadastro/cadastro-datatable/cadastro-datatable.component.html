@@ -62,7 +62,7 @@
                     (click)="mostraSelectColunas()"></button>
           </div>
 
-          <div *ngIf="aut.dispositivo!=='mobile'" class="mr-1">
+          <div *ngIf="ds.dispositivo!=='mobile'" class="mr-1">
             <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="p-button-text p-button-sm"
                     (click)="men.toggle($event)"></button>
           </div>
@@ -73,10 +73,10 @@
           </div>
         </div>
 
-          <div *ngIf="aut.dispositivo!=='mobile'" class="inline-flex align-items-center">
+          <div *ngIf="ds.dispositivo!=='mobile'" class="inline-flex align-items-center">
             <div class="mx-2">CADASTRO</div>
           </div>
-          <div *ngIf="aut.dispositivo!=='mobile'" class="inline-flex align-items-center">
+          <div *ngIf="ds.dispositivo!=='mobile'" class="inline-flex align-items-center">
             <div class="mr-2"
                  *ngIf="cs.selecionados !== undefined &&  cs.selecionados !== null &&  cs.selecionados.length > 0">
               <button pButton type="button" label="Reset" icon="pi pi-backward" class="p-button-text p-button-sm"
@@ -86,7 +86,7 @@
               Registros: {{cs.tabela.totalRecords}}</div>
           </div>
 
-          <div *ngIf="aut.dispositivo==='mobile'" class="flex justify-content-center">
+          <div *ngIf="ds.dispositivo==='mobile'" class="flex justify-content-center">
             <div class="mx-2">CADASTRO</div>
             <div class="mr-2">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num.
               Registros: {{cs.tabela.totalRecords}}</div>

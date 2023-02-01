@@ -1,10 +1,7 @@
-import { Component, NgModule, OnInit, OnDestroy } from '@angular/core';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { FormsModule } from '@angular/forms';
+import { Component,OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DomHandler } from 'primeng/dom';
-import { AppConfig } from "../_models/appconfig";
-import { AppConfigService } from "../_services/appconfigservice";
+import { AppConfigService } from "../../_services/appconfigservice";
 
 
 @Component({
@@ -68,10 +65,3 @@ export class AppInputStyleSwitchComponent  implements OnInit, OnDestroy {
         }
     }
 }
-
-@NgModule({
-    imports: [RadioButtonModule, FormsModule],
-    exports: [AppInputStyleSwitchComponent],
-    declarations: [AppInputStyleSwitchComponent]
-})
-export class AppInputStyleSwitchModule { }

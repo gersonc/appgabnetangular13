@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
   @ViewChild("principal", { static: true }) principal: ElementRef;
 
   title = "app";
-  public mostraMenuPrincipal = false;
+
   public carregadorSN = false;
-  classe: string = null;
+
   mostraPessoal = false;
   s: Subscription;
   appconfig: AppConfig = {
@@ -56,22 +56,23 @@ export class AppComponent implements OnInit {
     private aut: AutenticacaoService,
     private windowsService: WindowsService,
     private router: Router,
-    public md: MenuDatatableService,
+
     public sps: SpinnerService
   ) {
+    this.configService.getConfig();
+  }
+
+  ngOnInit() {
     this.atz.logado$.subscribe({
       next: (vf) => {
         if (vf) {
           this.mostraPessoal = true;
-          this.configService.getConfig();
         } else {
           this.router.navigate(["/login"]);
         }
       }
     });
-  }
 
-  ngOnInit() {
     this.subscription = this.configService.configUpdate$.subscribe(config => {
       this.updateAppConfig(config);
     });
@@ -180,17 +181,13 @@ export class AppComponent implements OnInit {
     this.config.ripple = true;
   }
 
-  abreFechaMenu() {
-    this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
-  }
+
 
   updateAppConfig(c: AppConfig) {
     this.appconfig = c;
     this.configService.setConfig(c);
   }
 
-  abreFechaMd() {
-    this.md.mdt = !this.md.mdt;
-  }
+
 }
 

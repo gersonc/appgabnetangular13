@@ -10,6 +10,10 @@ import { TemaService } from "./tema.service";
 })
 export class AppConfigService {
 
+  active = false;
+
+  primeiro = true;
+
   config: AppConfig = {
     usuario_uuid: null,
     theme: "lara-light-blue",
@@ -27,7 +31,8 @@ export class AppConfigService {
   constructor(
     private ts: TemaService,
     private ds: DispositivoService
-  ) { }
+  ) {
+  }
 
   setRipple(vf: boolean) {
     this.config.ripple = vf;
@@ -49,17 +54,24 @@ export class AppConfigService {
   }
 
   gravaTema() {
-    this.ts.gravaTema();
+    console.log("grava thema");
+    if (!this.primeiro) {
+      this.ts.gravaTema();
+    } else {
+      this.primeiro = false;
+    }
   }
 
   getConfig() {
     if (localStorage.getItem("appconfig")) {
       this.config = this.ts.parceAppConfig(JSON.parse(localStorage.getItem("appconfig")));
-      if (this.config.usuario_uuid === undefined) {
+      if (this.config.usuario_uuid === undefined && localStorage.getItem("usuario_uuid")) {
         this.config.usuario_uuid = JSON.parse(localStorage.getItem("usuario_uuid"));
       }
+      console.log('PEGA THEMA');
       this.configUpdate.next(this.config);
     } else {
+      this.primeiro = false;
       this.configUpdate.next(this.config);
     }
   }

@@ -87,7 +87,7 @@
                   <p-calendar
                     id="conta_vencimento"
                     [showOnFocus]="true"
-                    [touchUI]="(aut.dispositivo==='mobile')"
+                    [touchUI]="(ds.dispositivo==='mobile')"
                     formControlName="conta_vencimento"
                     dateFormat="dd/mm/yy"
                     [yearNavigator]="true"
@@ -142,7 +142,7 @@
                     id="conta_pagamento"
                     formControlName="conta_pagamento"
                     dateFormat="dd/mm/yy"
-                    [touchUI]="(aut.dispositivo==='mobile')"
+                    [touchUI]="(ds.dispositivo==='mobile')"
                     [yearNavigator]="true"
                     yearRange="2000:2035"
                     placeholder="dd/mm/aaaa"

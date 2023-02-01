@@ -10,6 +10,7 @@ import {SolicService} from "../_services/solic.service";
 import {SolicFormService} from "../_services/solic-form.service";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
 import {Stripslashes} from "../../shared/functions/stripslashes";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 @Component({
@@ -50,6 +51,7 @@ export class SolicDatatableComponent implements OnInit, OnDestroy {
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
+    public ds: DispositivoService,
     private router: Router,
     public md: MenuDatatableService,
     public ss: SolicService,

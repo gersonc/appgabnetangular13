@@ -10,6 +10,7 @@ import {ProposicaoService} from "../_services/proposicao.service";
 import {ProposicaoFormService} from "../_services/proposicao-form.service";
 import {AndamentoProposicaoI, AndPropI} from "../_models/andamento-proposicao-i";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 @Component({
@@ -48,7 +49,8 @@ export class ProposicaoDatatableComponent implements OnInit, OnDestroy {
     public md: MenuDatatableService,
     private router: Router,
     public ps: ProposicaoService,
-    public pfs: ProposicaoFormService
+    public pfs: ProposicaoFormService,
+    public ds: DispositivoService,
   ) { }
 
   ngOnInit() {

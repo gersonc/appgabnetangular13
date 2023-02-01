@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { AppConfig } from "../_models/appconfig";
-import { AppConfigService } from "../_services/appconfigservice";
+import { AppConfig } from "../../_models/appconfig";
+import { AppConfigService } from "../../_services/appconfigservice";
 import { DomHandler } from "primeng/dom";
 
 

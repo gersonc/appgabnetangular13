@@ -10,6 +10,7 @@ import {EmendaFormService} from "../_services/emenda-form.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import {EmendaListarI} from "../_models/emenda-listar-i";
 import {HistFormI, HistI, HistListI} from "../../hist/_models/hist-i";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 @Component({
@@ -59,7 +60,8 @@ export class EmendaDatatableComponent implements OnInit {
     private router: Router,
     public md: MenuDatatableService,
     public es: EmendaService,
-    public efs: EmendaFormService
+    public efs: EmendaFormService,
+    public ds: DispositivoService,
   ) { }
 
   ngOnInit(): void {

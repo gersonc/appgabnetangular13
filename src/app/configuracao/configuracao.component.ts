@@ -9,6 +9,7 @@ import {
   ConfiguracaoModelInterface
 } from "./_models/configuracao-model";
 import {WindowsService} from "../_layout/_service";
+import { DispositivoService } from "../_services/dispositivo.service";
 
 @Component({
   selector: 'app-configuracao',
@@ -137,7 +138,7 @@ export class ConfiguracaoComponent implements OnInit {
     titulo: 'CONFIGURAÇÕES',
     texto: null
   }
-  checked: boolean = this.aut.dispositivo === 'mobile';
+  checked: boolean = this.ds.dispositivo === 'mobile';
   medidas: any = {};
   altura = `${+WindowsService.getCorpo().altura}` + 'px';
   altura2 = `${WindowsService.getCorpo().altura - 200}` + 'px';
@@ -147,6 +148,7 @@ export class ConfiguracaoComponent implements OnInit {
     private aut: AuthenticationService,
     // private activatedRoute: ActivatedRoute,
     // private router: Router,
+    public ds: DispositivoService,
     public cfs: ConfiguracaoService
   ) {
 
@@ -161,10 +163,10 @@ export class ConfiguracaoComponent implements OnInit {
 
 
   mudaDispositivo() {
-    if (this.aut.dispositivo !== 'mobile') {
-      this.aut.dispositivo = 'mobile';
+    if (this.ds.dispositivo !== 'mobile') {
+      this.ds.dispositivo = 'mobile';
     } else {
-      this.aut.dispositivo = 'desktop';
+      this.ds.dispositivo = 'desktop';
     }
   }
 

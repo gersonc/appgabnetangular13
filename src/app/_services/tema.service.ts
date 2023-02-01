@@ -5,6 +5,7 @@ import { AppConfig } from "../_models/appconfig";
 import { Observable, of, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import { AuthenticationService } from "./authentication.service";
+import { DispositivoService } from "./dispositivo.service";
 
 @Injectable({
   providedIn: "root"
@@ -29,7 +30,7 @@ export class TemaService {
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private aut: AuthenticationService
+    public ds: DispositivoService,
   ) {
   }
 
@@ -64,7 +65,7 @@ export class TemaService {
       usuario_uuid: a.usuario_uuid,
       scale: a.scale,
       theme: a.theme,
-      dispositivo: this.aut.dispositivo,
+      dispositivo: this.ds.dispositivo,
       dark: (+a.dark === 1),
       inputStyle: a.inputstyle,
       ripple: (+a.ripple === 1)
@@ -76,7 +77,7 @@ export class TemaService {
       usuario_uuid: a.usuario_uuid,
       scale: (a.scale.length < 3) ? "14px" : a.scale,
       theme: a.theme,
-      dispositivo: this.aut.dispositivo,
+      dispositivo: this.ds.dispositivo,
       dark: (a.dark) ? 1 : 0,
       inputstyle: a.inputStyle,
       ripple: (a.ripple) ? 1 : 0
@@ -99,12 +100,16 @@ export class TemaService {
     if (c.usuario_uuid !== undefined && c.usuario_uuid !== this.config.usuario_uuid) {
       this.config.usuario_uuid = c.usuario_uuid;
     }
+    if (c.usuario_uuid === undefined && localStorage.getItem("usuario_uuid")) {
+      c.usuario_uuid = JSON.parse(localStorage.getItem("usuario_uuid"));
+    }
     if (c.scale !== undefined && c.scale !== this.config.scale) {
       this.config.scale = c.scale;
     }
     if (c.dispositivo !== undefined && c.dispositivo !== this.config.dispositivo) {
       this.config.dispositivo = c.dispositivo;
     }
+
 
   }
 

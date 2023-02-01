@@ -14,6 +14,7 @@ import {TarefaFormI, TarefaI, TarefaUsuarioAlterar, TarefaUsuarioSituacaoAndamen
 import {take} from "rxjs/operators";
 // import {ErroService} from "../../_services/erro.service";
 import {TarefaDropdownService} from "../_services/tarefa-dropdown.service";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 interface frmI {
   tarefa_id?: number;
@@ -92,6 +93,7 @@ export class TarefaFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public aut: AuthenticationService,
     private mi: MenuInternoService,
+    public ds: DispositivoService,
     private ms: MsgService
   ) { }
 

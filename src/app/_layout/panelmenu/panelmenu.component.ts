@@ -5,6 +5,8 @@ import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
 import {OnoffLineService} from "../../shared/onoff-line/onoff-line.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
+import { DispositivoService } from "../../_services/dispositivo.service";
+import { MenuDatatableService } from "../../_services/menu-datatable.service";
 
 
 @Component({
@@ -27,6 +29,8 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
     private mo: MensagemOnoffService,
     public ol: OnoffLineService,
     private router: Router,
+    public ds: DispositivoService,
+    public md: MenuDatatableService,
   ) {
   }
 
@@ -280,7 +284,7 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
 
-    if (this.authenticationService.dispositivo !== 'mobile') {
+    if (this.ds.dispositivo !== 'mobile') {
       this.items.push(
         {
           label: 'Gráficos',
@@ -307,7 +311,6 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
   limpaMenu() {
     this.items = [];
   }
-
 
   abreFechaMenuPrincipal() {
     this.mostraMenuPrincipal = !this.mostraMenuPrincipal;

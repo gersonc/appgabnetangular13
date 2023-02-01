@@ -12,6 +12,7 @@ import {TarefaI} from "../_models/tarefa-i";
 import {TarefaHistoricoI} from "../_models/tarefa-historico-i";
 import {TarefaPrintService} from "../_services/tarefa-print.service";
 import {MsgService} from "../../_services/msg.service";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 @Component({
@@ -43,6 +44,7 @@ export class TarefaDatatableComponent implements OnInit {
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
+    public ds: DispositivoService,
     public md: MenuDatatableService,
     private router: Router,
     public ts: TarefaService,

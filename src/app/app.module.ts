@@ -33,8 +33,8 @@ import { HttpErrorHandler } from "./http-error-handler.service";
 import { OnoffLineModule } from "./shared/onoff-line/onoff-line.module";
 
 
-import { MainConfigComponent } from "./main-config/main-config.component";
-import { AppInputStyleSwitchModule } from "./input-styles-switch/app.inputstyleswitch.module";
+// import { MainConfigComponent } from "./main-config/main-config.component";
+// import { AppInputStyleSwitchModule } from "./input-styles-switch/app.inputstyleswitch.module";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -47,7 +47,7 @@ export function tokenGetter() {
     HomeComponent,
 
 
-    MainConfigComponent,
+    // MainConfigComponent,
     TesteComponent
   ],
   imports: [
@@ -74,7 +74,7 @@ export function tokenGetter() {
     ErroModule,
     PessoalModule,
     OnoffLineModule,
-    AppInputStyleSwitchModule
+    // AppInputStyleSwitchModule
     /*ExporterTextoModule,*/
     /*ExporterTextoModule*/
   ],

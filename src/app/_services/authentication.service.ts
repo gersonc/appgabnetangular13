@@ -651,7 +651,7 @@ export class AuthenticationService {
     this.versaoService.powerUser = false;
     this.versao = 0;
     this.versaoN = 0;
-    this.dispositivo = null;
+    this.dispositivo = 'desktop';
     this.usuario_uuid = '';
     //this.ds.dispositivo = user.dispositivo;
     this.permissoes_carregadas = false;

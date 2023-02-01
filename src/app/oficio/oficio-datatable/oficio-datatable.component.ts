@@ -9,6 +9,7 @@ import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {OficioService} from "../_services/oficio.service";
 import {AuthenticationService, MenuInternoService} from "../../_services";
 import {Stripslashes} from "../../shared/functions/stripslashes";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 @Component({
   selector: 'app-oficio-datatable',
@@ -36,6 +37,7 @@ export class OficioDatatableComponent implements OnInit, OnDestroy {
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
+    public ds: DispositivoService,
     private router: Router,
     public md: MenuDatatableService,
     public os: OficioService,

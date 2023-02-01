@@ -9,6 +9,7 @@ import {AuthenticationService, MenuInternoService} from "../../_services";
 import {MenuDatatableService} from "../../_services/menu-datatable.service";
 import {take} from "rxjs/operators";
 import {TelefoneInterface} from "../_models/telefone";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 @Component({
@@ -36,6 +37,7 @@ export class TelefoneDatatableComponent implements OnInit, OnDestroy {
   constructor(
     public mi: MenuInternoService,
     public aut: AuthenticationService,
+    public ds: DispositivoService,
     private cf: ConfirmationService,
     public md: MenuDatatableService,
     private messageService: MessageService,

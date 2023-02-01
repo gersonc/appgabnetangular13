@@ -13,6 +13,7 @@ import {ContaFormService} from "../_services/conta-form.service";
 import {DateTime} from "luxon";
 import {MsgService} from "../../_services/msg.service";
 import {Table} from "primeng/table/table";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 @Component({
   selector: 'app-conta-datatable',
@@ -73,7 +74,8 @@ export class ContaDatatableComponent implements OnInit, OnDestroy {
     private ms: MsgService,
     public ct: ContaService,
     public cfs: ContaFormService,
-    private cd: ContaDropdown
+    private cd: ContaDropdown,
+    public ds: DispositivoService,
   ) {
   }
 

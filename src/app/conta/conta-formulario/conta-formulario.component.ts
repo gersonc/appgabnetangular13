@@ -17,6 +17,7 @@ import {MsgService} from "../../_services/msg.service";
 import {DateTime} from "luxon";
 import {ContaDropdown} from "../_models/conta-dropdown";
 import {ArquivoInterface} from "../../arquivo/_models";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 @Component({
   selector: 'app-conta-formulario',
@@ -97,6 +98,7 @@ export class ContaFormularioComponent implements OnInit, OnDestroy {
     private dd: DdService,
     private ms: MsgService,
     public aut: AuthenticationService,
+    public ds: DispositivoService,
     private autocompleteservice: AutocompleteService,
     public ct: ContaService,
     public cfs: ContaFormService

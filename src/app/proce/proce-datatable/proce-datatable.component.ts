@@ -11,6 +11,7 @@ import {AuthenticationService, MenuInternoService} from "../../_services";
 import {ProceFormService} from "../_services/proce-form.service";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 import {ProceOficioI} from "../_model/proc-i";
+import { DispositivoService } from "../../_services/dispositivo.service";
 
 
 @Component({
@@ -57,6 +58,7 @@ export class ProceDatatableComponent implements OnInit, OnDestroy {
     public md: MenuDatatableService,
     public ps: ProceService,
     public pfs: ProceFormService,
+    public ds: DispositivoService,
   ) {
   }
 
