@@ -8,7 +8,8 @@ import { CoordenadaXY } from '../_layout/_service/coordenada-x-y';
 // import { Subscription } from "rxjs";
 // import {take} from "rxjs/operators";
 import {DispositivoService} from "../_services/dispositivo.service";
-import {OnlineService} from "../_services/online.service";
+import { OnoffLineService } from "../shared/onoff-line/onoff-line.service";
+// import {OnlineService} from "../_services/online.service";
 
 
 
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     public ws: WindowsService,
     // public http: HttpClient,
     private urls: UrlService,
-    public ol: OnlineService,
+    public ol: OnoffLineService,
     // private ac: AppConfigService
     ) {
     this.currentUser = this.authenticationService.currentUser;

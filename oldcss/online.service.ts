@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {OnoffLineService} from "../shared/onoff-line/onoff-line.service";
+// import {OnoffLineService} from "../shared/onoff-line/onoff-line.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OnlineService {
-
+/*
   constructor(private ols: OnoffLineService) { }
 
   get isOffline() {
@@ -22,5 +22,5 @@ export class OnlineService {
 
   get enabled() {
     return this.ols.online;
-  }
+  }*/
 }

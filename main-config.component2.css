@@ -1,5 +1,3 @@
-
-
 .landing-news-active .landing-header, .layout-news-active .layout-sidebar, .layout-news-active .layout-topbar, .layout-news-active .layout-config {
   top: 2rem
 }
@@ -179,7 +177,6 @@
 }
 
 .layout-topbar {
-  padding: 0;
   height: 5rem;
   position: fixed;
   top: 0;
@@ -399,6 +396,7 @@
   padding: 2rem 4rem;
   flex-grow: 1
 }
+/*
 
 .layout-wrapper .layout-content .content-section.introduction {
   color: var(--text-color);
@@ -407,6 +405,7 @@
   align-items: top;
   justify-content: space-between;
 }
+*/
 
 .layout-wrapper .layout-content .content-section.introduction .feature-intro h1 {
   color: var(--surface-900)

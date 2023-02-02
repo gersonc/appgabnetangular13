@@ -14,34 +14,29 @@ export class AutorizaService {
   token: string | null = null;
   refToken:  string | null = null;
   teste: any = null;
-  _logado = false;
+  _logado: boolean;
   autoriza = new Autoriza();
-  // _visto = false;
   usuario_uuid: string | null = null;
   currentUser: string | null = null;
-  segundo = false;
-  tt = 0;
-  ttt = 0;
-  dd = 0;
-  ddd = 0;
 
-  public logadoSubject = new BehaviorSubject<boolean>(false);
-  public logado$ = this.logadoSubject.asObservable();
-  public refleshSubject = new BehaviorSubject<boolean>(false);
-  public reflesh = this.refleshSubject.asObservable();
+  public logadoSubject: BehaviorSubject<boolean>;
+  public logado$: Observable<boolean>;
+  public refleshSubject: BehaviorSubject<boolean>;
+  public reflesh: Observable<boolean>;
 
   constructor() {
-    this.ddd++;
-    console.log('AutorizaService constructortttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt', this.ddd);
     if (localStorage.getItem('access_token')) {
-      /*this.token = localStorage.getItem('access_token');
-      this.refToken = localStorage.getItem('reflesh_token');
-      this.expires = +localStorage.getItem('expires');
-      this.expiresRef = +localStorage.getItem('expiresRef');
-      this.usuario_uuid = localStorage.getItem('usuario_uuid');
-      this.currentUser = localStorage.getItem('currentUser');*/
       this.parseLogado();
+      this._logado = true;
+      this.logadoSubject = new BehaviorSubject<boolean>(this.vfRefToken);
+      this.refleshSubject = new BehaviorSubject<boolean>(this.vfRefToken);
+    } else {
+      this._logado = false;
+      this.logadoSubject = new BehaviorSubject<boolean>(this._logado);
+      this.refleshSubject = new BehaviorSubject<boolean>(false);
     }
+    this.logado$  = this.logadoSubject.asObservable();
+    this.reflesh  = this.refleshSubject.asObservable();
   }
 
 
@@ -66,17 +61,12 @@ export class AutorizaService {
   }
 
   set logado(vf: boolean) {
-    this.tt++;
-    console.log('AutorizaService logado', vf, this.tt);
       this._logado = vf;
       if (vf) {
         this.parseLogado();
-        console.log('AutorizaService logado 22222222222', vf, this.tt);
         this.logadoSubject.next(vf);
       } else {
-
           this.desconecta();
-
       }
   }
 
@@ -104,8 +94,6 @@ export class AutorizaService {
   }
 
   desconecta() {
-    this.dd++;
-    console.log('AutorizaService desconecta', this.dd);
     localStorage.removeItem('access_token');
     localStorage.removeItem('reflesh_token');
     localStorage.removeItem('expires');
@@ -123,8 +111,6 @@ export class AutorizaService {
     this.autoriza = new Autoriza();
     this.usuario_uuid = null;
     this.currentUser = null;
-    // this.refleshSubject.complete();
-    // this.logadoSubject.complete();
   }
 
 }

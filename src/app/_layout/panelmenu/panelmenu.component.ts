@@ -2,11 +2,13 @@ import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@an
 import {MenuItem} from 'primeng/api';
 import {AuthenticationService} from '../../_services';
 import {MensagemOnoffService} from "../../_services/mensagem-onoff.service";
-import {OnoffLineService} from "../../shared/onoff-line/onoff-line.service";
+/*import {OnoffLineService} from "../../shared/onoff-line/onoff-line.service";*/
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import { DispositivoService } from "../../_services/dispositivo.service";
 import { MenuDatatableService } from "../../_services/menu-datatable.service";
+// import { IsOffLineService } from "../../shared/onoff-line/is-off-line.service";
+import { OnoffLineService } from "../../shared/onoff-line/onoff-line.service";
 
 
 @Component({

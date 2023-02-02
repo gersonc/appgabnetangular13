@@ -21,7 +21,8 @@
   --menu-lateral-pq-width-768: 80vw;
   --menu-lateral-pq-width-576: 100vw;
 
-  --altura-main: calc(100vh - 2.4em);
+  --top-main: 3rem;
+  --altura-main: calc(100vh - 3rem);
   --menu-lateral-height: calc(100vh - 4.6em);
 }
 
@@ -74,20 +75,24 @@ app {
 
 }
 
-.header {
+/*
+
+. header{
   position: fixed;
   top: 0;
   right: 0;
   display: flex;
   flex-wrap: nowrap;
   width: 100%;
-  /*height: 2.6rem;*/
+  !*height: 2.6rem;*!
   color: var(--primary-color-text);
   background-color: var(--primary-color);
   text-align: center;
   font-size: 1.6rem;
-  /*line-height: 2rem;*/
+  !*line-height: 2rem;*!
 }
+
+*/
 
 .desktop .header {
   padding: 0 .5rem;
@@ -95,6 +100,25 @@ app {
 
 .mobile .header {
   padding: 0 2rem;
+}
+
+.header{
+  position: initial;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  color: var(--primary-color-text);
+  background-color: var(--primary-color);
+  text-align: center;
+  font-size: 1.6rem;
+  /*line-height: 2rem;*/
+}
+
+.topo-esquerda-texto {
+  position: absolute;
+  left: 3rem;
 }
 
 .topo-esquerda {
@@ -155,7 +179,7 @@ app {
 }
 
 
-.main {
+/*.main {
   position: fixed;
   display: block;
   box-sizing: border-box;
@@ -165,13 +189,81 @@ app {
   width: 100%;
   height: var(--altura-main);
   z-index: 0;
-}
+}*/
+
 
 .main {
-  background: red;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: var(--altura-main);
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 0;
+  padding-top: 0;
+  z-index: 0;
 }
 
 
+
+
+.menu-principal-fechado {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: -1;
+  background-color: transparent;
+  /*transition: height 1s;*/
+}
+
+.menu-principal {
+  position: absolute;
+  top: 3rem;
+  left: .2rem;
+  width: 20em;
+  height: calc(100% - 3rem);
+  z-index: 10001;
+  overflow: auto;
+  /*overflow: auto !important;*/
+  /*transition: height 2s;*/
+}
+
+.scrolling-area {
+  max-width: 20em;
+  max-height: calc(100% - 3rem);
+  overflow:  auto !important;
+  /*padding: 1rem;*/
+  z-index: 10001;
+  background-color: transparent;
+  transform: rotate(180deg);
+}
+
+.scrolling-element-inside {
+  /*padding: 1rem;*/
+  z-index: 10001;
+  /*box-shadow: .3em .8em .7em var(--surface-400)*/;
+  background-color: transparent;
+  transform: rotate(-180deg);
+}
+/*
+.menu-principal {
+  width: 20em;
+  max-height: calc(100% - 3rem);
+  z-index: 10000;
+  overflow: auto !important;
+  !*transition: height 2s;*!
+}*/
+
+
+/*.div-menu-principal {
+  float: left;
+  font-size: 1em;
+  padding: .1em .2em .1em .2em;
+  width: 2em
+}*/
 
 
 
@@ -188,27 +280,7 @@ app {
 }
 
 
-.menu-principal {
-  position: absolute;
-  top: .2em;
-  left: 0;
-  width: 30ch;
-  height: calc(100% - 3em);
-  z-index: 10000;
-  overflow: auto !important;
-  /*transition: height 2s;*/
-}
 
-.menu-principal-fechado {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 12.5em;
-  height: 0;
-  z-index: 10000;
-  background-color: var(--surface-200);
-  /*transition: height 1s;*/
-}
 
 
 .fc .fc-toolbar.fc-header-toolbar {
@@ -235,6 +307,250 @@ app {
     font-size: 1em !important;
   }
 }
+
+
+/*
+*** main-config ***********************************************************************
+*/
+
+
+.layout-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column
+}
+
+
+
+.layout-wrapper .layout-content {
+  margin-left: 250px;
+  padding-top: 70px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column
+}
+
+.layout-wrapper .layout-sidebar {
+  top: 0;
+  z-index: 1102;
+  height: 100%;
+  transform: translate(-100%)
+}
+
+.layout-wrapper .layout-sidebar.active {
+  transform: translate(0)
+}
+
+
+
+.layout-wrapper .layout-mask {
+  background-color: #0000001a
+}
+
+.layout-wrapper .layout-mask.layout-mask-active {
+  z-index: 998;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0006;
+  transition: background-color .5s
+}
+
+
+
+.layout-wrapper .blocked-scroll {
+  overflow: hidden
+}
+
+
+
+
+.layout-config {
+  position: fixed;
+  padding: 0;
+  top: var(--top-main);
+  right: 0;
+  display: block;
+  width: 550px;
+  z-index: 1101;
+  height: var(--altura-main);
+  transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+  transform: translateX(100%);
+  backface-visibility: hidden;
+}
+.layout-config.layout-config-active {
+  transform: translateX(0);
+}
+.layout-config.layout-config-active .layout-config-content-wrapper .layout-config-button i {
+  transform: rotate(0deg);
+}
+.layout-config .layout-config-content-wrapper {
+  position: relative;
+  height: 100%;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.24);
+  color: var(--text-color);
+  background-color: var(--surface-f);
+}
+.layout-config .layout-config-content-wrapper .layout-config-button {
+  display: block;
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  line-height: 52px;
+  background-color: var(--primary-color);
+  text-align: center;
+  color: var(--primary-color-text);
+  top: 270px;
+  left: -51px;
+  z-index: -1;
+  overflow: hidden;
+  cursor: pointer;
+  outline: 0 none;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.layout-config .layout-config-content-wrapper .layout-config-button i {
+  font-size: 26px;
+  line-height: inherit;
+  cursor: pointer;
+  transform: rotate(360deg);
+  transition: transform 1s;
+}
+.layout-config a {
+  color: #2196f3;
+  font-weight: 600;
+}
+.layout-config a:hover {
+  text-decoration: underline;
+}
+.layout-config .layout-config-content {
+  overflow: auto;
+  height: 100%;
+  padding: 2rem;
+}
+.layout-config .config-scale {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0 2rem 0;
+}
+.layout-config .config-scale .p-button {
+  margin-right: 0.5rem;
+}
+.layout-config .config-scale i {
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+}
+.layout-config .config-scale i.scale-active {
+  font-size: 1.25rem;
+  color: #2196f3;
+}
+.layout-config .layout-config-close {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  right: 20px;
+  top: 20px;
+  z-index: 999;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.layout-config .layout-config-close i {
+  color: var(--primary-color-text);
+  line-height: inherit;
+  font-size: 14px;
+}
+.layout-config .layout-config-close:hover {
+  transform: scale(1.1);
+}
+.layout-config .layout-config-close:focus {
+  outline: 0 none;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 0 0 0.2rem #BBDEFB;
+}
+.layout-config .grid > div {
+  padding: 1rem;
+  text-align: center;
+}
+.layout-config .grid > div span {
+  display: block;
+}
+.layout-config .grid > div button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+}
+.layout-config .grid > div button:focus {
+  outline: 0 none;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 0 0 0.2rem #BBDEFB;
+}
+.layout-config .free-themes img {
+  width: 50px;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+.layout-config .free-themes img:hover {
+  transform: scale(1.1);
+}
+.layout-config .free-themes span {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+.layout-config .premium-themes img {
+  width: 100%;
+  transition: transform 0.2s;
+}
+.layout-config .premium-themes img:hover {
+  transform: scale(1.1);
+}
+
+
+div#topo-config.layout-config-active {
+  transform: translate(0);
+}
+
+div#topo-config .layout-config-button-mn.layout-config-active i {
+  transform: rotate(0);
+  transition: transform 1s;
+  color: var(--text-color-secondary);
+}
+
+div#topo-config .layout-config-button-mn i {
+  font-size: 1.4rem;
+  line-height: inherit;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transform: rotate(360deg);
+  transition: transform 1s;
+}
+
+div#topo-config .layout-config-button-mn:hover {
+  transform: scale(1.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

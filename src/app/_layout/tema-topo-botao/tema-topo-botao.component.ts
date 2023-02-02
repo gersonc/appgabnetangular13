@@ -8,7 +8,7 @@ import { AppConfigService } from "../../_services/appconfigservice";
 })
 export class TemaTopoBotaoComponent implements OnInit {
 
-  active: boolean;
+  active = false;
 
   constructor(
     private configService: AppConfigService,
@@ -19,8 +19,8 @@ export class TemaTopoBotaoComponent implements OnInit {
 
 
   hideConfigurator(event) {
-    this.active = false;
-    this.configService.gravaTema();
+    this.active = !this.active;
+    // this.configService.gravaTema();
     event.preventDefault();
   }
 

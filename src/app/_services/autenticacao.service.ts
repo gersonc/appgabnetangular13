@@ -32,55 +32,38 @@ export class AutenticacaoService {
     // this.logadoVF = this.logadoSub.asObservable();
   }
 
-  /*get token(): string {
-    return this._token;
-  }*/
 
-  /*get refToken(): string {
-    return this._refToken;
-  }*/
-
-  /*get vfToken(): boolean {
-    if (this.expires === undefined) {
-      this.expires = this.getTokens();
-      return this.expires > Math.floor((+Date.now()) / 1000);
-    } else {
-      return this.expires > Math.floor((+Date.now()) / 1000);
-    }
-  }*/
-
-  /*get rtkvalido(): boolean {
-    if (this.expiresRef === undefined || this._refToken === undefined || this.expiresRef === 0) {
-      return false;
-    } else {
-      return this.expiresRef > Math.floor((+Date.now()) / 1000);
-    }
-  }*/
-
-
-  /*
-postSolicitacaoRelatorio(busca: SolicBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.url.solic + '/relatorio';
-    return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
+  refLogin(): boolean {
+    return this.atz.vfRefToken;
   }
-  */
 
   getRefleh() {
-    let v: boolean;
-    let s: Subscription;
-    s = this.refleshToken().pipe(take(1)).subscribe({
-      next: (vf) => {
-        v = vf;
-      },
-      error: (err) => {
-        console.error(err.toString());
-      },
-      complete: () => {
-        console.log('reflesh ok?', v);
-        s.unsubscribe();
+    if (this.atz.vfRefToken) {
+      if (!this.atz.vfToken) {
+        let v: boolean;
+        let s: Subscription;
+        s = this.refleshToken().pipe(take(1)).subscribe({
+          next: (vf) => {
+            v = vf;
+            this.atz.logado = vf;
+            this.atz.logadoSubject.next(vf);
+          },
+          error: (err) => {
+            console.error(err.toString());
+          },
+          complete: () => {
+            console.log('reflesh ok?', v);
+            s.unsubscribe();
+          }
+        });
+      } else {
+        this.atz.logado = true;
+        this.atz.logadoSubject.next(true);
       }
-    })
+    } else {
+      this.atz.logado = false;
+      this.atz.logadoSubject.next(false);
+    }
   }
 
 
@@ -178,6 +161,7 @@ postSolicitacaoRelatorio(busca: SolicBuscaI) {
             return true;
           } else {
             // this.cancelaPermissoes();
+
             this.atz.logado = false;
             return false;
           }

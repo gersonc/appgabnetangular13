@@ -20,7 +20,7 @@ import { LoginComponent } from "./login";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { DialogModule } from "primeng/dialog";
 
-import { PanelMenuModule } from "primeng/panelmenu";
+// import { PanelMenuModule } from "primeng/panelmenu";
 import { NgHttpLoaderModule } from "ng-http-loader";
 import { InputSwitchModule } from "primeng/inputswitch";
 import { QuillModule } from "ngx-quill";
@@ -64,7 +64,7 @@ export function tokenGetter() {
     ButtonModule,
     ProgressSpinnerModule,
     DialogModule,
-    PanelMenuModule,
+    // PanelMenuModule,
     RippleModule,
     InputSwitchModule,
     FormsModule,

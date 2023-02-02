@@ -6,7 +6,7 @@ declare global {
     __VERSAO__: any;
   }
 }
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { WindowsService } from "./_layout/_service";
 import { AuthenticationService } from "./_services";
 import { ResizedEvent } from "angular-resize-event";
@@ -19,13 +19,14 @@ import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
 import { AutenticacaoService } from "./_services/autenticacao.service";
 import { AutorizaService } from "./_services/autoriza.service";
+import { DispositivoService } from "./_services/dispositivo.service";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild("principal", { static: true }) principal: ElementRef;
 
   title = "app";
@@ -33,7 +34,7 @@ export class AppComponent implements OnInit {
   public carregadorSN = false;
 
   mostraPessoal = false;
-  s: Subscription;
+  s: Subscription[] = [];
   appconfig: AppConfig = {
     usuario_uuid: null,
     theme: "lara-light-blue",
@@ -50,55 +51,57 @@ export class AppComponent implements OnInit {
 
   constructor(
     private config: PrimeNGConfig,
-    public configService: AppConfigService,
+    // public configService: AppConfigService,
     private atz: AutorizaService,
     public authenticationService: AuthenticationService,
     private aut: AutenticacaoService,
     private windowsService: WindowsService,
     private router: Router,
-
-    public sps: SpinnerService
+    public sps: SpinnerService,
+    public ds: DispositivoService
   ) {
-    this.configService.getConfig();
+    // this.configService.getConfig();
   }
 
   ngOnInit() {
-    this.atz.logado$.subscribe({
-      next: (vf) => {
-        if (vf) {
-          this.mostraPessoal = true;
-        } else {
-          this.router.navigate(["/login"]);
+    this.s.push(this.atz.logado$.subscribe({
+        next: (vf) => {
+          if (vf) {
+            this.mostraPessoal = true;
+          } else {
+            this.router.navigate(["/login"]);
+          }
         }
-      }
-    });
-
-    this.subscription = this.configService.configUpdate$.subscribe(config => {
-      this.updateAppConfig(config);
-    });
-
-    this.atz.reflesh.subscribe({
-      next: (vf) => {
-        if (vf) {
-          this.aut.getRefleh();
-        } else {
-          this.router.navigate(["/login"]);
+      })
+    );
+    this.s.push(this.atz.reflesh.subscribe({
+        next: (vf) => {
+          if (vf) {
+            if (!this.atz.vfToken) {
+              this.aut.getRefleh();
+            } else {
+              this.atz.logadoSubject.next(true);
+            }
+          } else {
+            this.router.navigate(["/login"]);
+          }
         }
-      }
-    });
+      })
+    );
+
+    /*this.s.push(this.configService.configUpdate$.subscribe(config => {
+        this.updateAppConfig(config);
+      })
+    );*/
+
 
     window.__VERSAOID__ = +this.authenticationService.versao;
     window.__VERSAO__ = this.authenticationService.versao;
     this.configPrime();
     WindowsService.all();
+    //this.configService.getConfig();
   }
 
-  unsubescreve() {
-    this.s.unsubscribe();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   onResized(id: string, event: ResizedEvent): void {
     const ev = new CoordenadaXY();
@@ -182,10 +185,13 @@ export class AppComponent implements OnInit {
   }
 
 
-
   updateAppConfig(c: AppConfig) {
     this.appconfig = c;
-    this.configService.setConfig(c);
+    // this.configService.setConfig(c);
+  }
+
+  ngOnDestroy() {
+    this.s.forEach(ss => ss.unsubscribe());
   }
 
 

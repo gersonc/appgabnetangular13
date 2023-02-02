@@ -4,7 +4,8 @@ import {retry, take, tap} from "rxjs/operators";
 import {of, Subscription, timer} from "rxjs";
 import {MensagemOnoffService} from "../../../_services/mensagem-onoff.service";
 import {MensagemPushService} from "../../../mensagem/_services/mensagem-push.service";
-import {OnlineService} from "../../../_services/online.service";
+import { OnoffLineService } from "../../onoff-line/onoff-line.service";
+// import {OnlineService} from "../../../_services/online.service";
 
 
 @Component({
@@ -25,7 +26,7 @@ export class PessoalComponent implements OnInit, OnDestroy {
   constructor(
     public mo: MensagemOnoffService,
     private msm: MensagemPushService,
-    public ol: OnlineService
+    public ol: OnoffLineService
   ) { }
 
   ngOnInit(): void {

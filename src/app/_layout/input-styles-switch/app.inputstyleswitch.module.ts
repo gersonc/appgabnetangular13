@@ -1,67 +1,71 @@
-import { Component,OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DomHandler } from 'primeng/dom';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { DomHandler } from "primeng/dom";
 import { AppConfigService } from "../../_services/appconfigservice";
 
 
 @Component({
-    selector: 'app-inputStyleSwitch',
-    template: `
-        <div class="app-inputstyleswitch">
-            <h4>Input Style</h4>
-            <div class="formgroup-inline">
-                <div class="field-radiobutton">
-                    <p-radioButton #sw1 name="inputstyle" value="outlined" [(ngModel)]="inputStyle" (onClick)="onChange(sw1.value)" inputId="input_outlined"></p-radioButton>
-                    <label for="input_outlined">Outlined</label>
-                </div>
-                <div class="field-radiobutton">
-                    <p-radioButton #sw2 name="inputstyle" value="filled" [(ngModel)]="inputStyle" (onClick)="onChange(sw1.value)" inputId="input_filled"></p-radioButton>
-                    <label for="input_filled">Filled</label>
-                </div>
-            </div>
+  selector: "app-inputStyleSwitch",
+  template: `
+    <div class="app-inputstyleswitch">
+      <h4>Input Style</h4>
+      <div class="formgroup-inline">
+        <div class="field-radiobutton">
+          <p-radioButton #sw1 name="inputstyle" value="outlined" [(ngModel)]="valor"
+                         (onClick)="onChange()" inputId="input_outlined" [disabled]="!ativo"></p-radioButton>
+          <label for="input_outlined">Outlined</label>
         </div>
-    `
+        <div class="field-radiobutton">
+          <p-radioButton #sw2 name="inputstyle" value="filled" [(ngModel)]="valor" (onClick)="onChange()"
+                         inputId="input_filled" [disabled]="!ativo"></p-radioButton>
+          <label for="input_filled">Filled</label>
+        </div>
+      </div>
+    </div>
+  `
 })
-export class AppInputStyleSwitchComponent  implements OnInit, OnDestroy {
+export class AppInputStyleSwitchComponent implements OnInit, OnDestroy {
 
-    value: string;
+  ativo = true;
+  valor: string = "outlined";
+  inputStyle: string = "outlined";
 
-    inputStyle: string =  'outlined';
+  public subscription: Subscription[] = [];
 
-    public subscription: Subscription;
+  constructor(private configService: AppConfigService) {
+    this.setStiloInit(this.configService.config.inputStyle);
+  }
 
-    constructor(private configService: AppConfigService) {
-      this.inputStyle = this.configService.config.inputStyle;
-    }
-
-    ngOnInit() {
-        // this.config = this.configService.config;
-      this.subscription = this.configService.configUpdate$.subscribe(config => {
-        if(config.inputStyle !== this.inputStyle) {
+  ngOnInit() {
+    this.subscription.push(this.configService.configUpdate$.subscribe(config => {
+        if (config.inputStyle !== this.inputStyle) {
           this.inputStyle = config.inputStyle;
           this.mudaStyle(this.inputStyle);
         }
-      });
-      // this.subscription = this.configService.configUpdate$.subscribe(config => this.config = config);
-    }
+      })
+    );
+  }
 
-    onChange(sw: string) {
-      console.log('AppInputStyleSwitchComponent',sw);
-      this.configService.setInputStyle(sw);
-    }
+  onChange() {
+    this.ativo = false;
+    const s: string = (this.inputStyle === 'outlined') ? 'filled' : 'outlined';
+    this.configService.setInputStyle(s);
+  }
 
-    mudaStyle(sw: string) {
-      if (sw === 'filled') {
-        DomHandler.addClass(document.body, 'p-input-filled');
-      } else {
-        DomHandler.removeClass(document.body, 'p-input-filled');
-      }
-
+  mudaStyle(sw: string) {
+    if (sw === "filled") {
+      DomHandler.addClass(document.body, "p-input-filled");
+    } else {
+      DomHandler.removeClass(document.body, "p-input-filled");
     }
+    this.ativo = true;
+  }
 
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
+  setStiloInit(s: string) {
+    this.valor = s;
+  }
+
+  ngOnDestroy() {
+    this.subscription.forEach(s => s.unsubscribe());
+  }
 }

@@ -31,16 +31,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private as: AutenticacaoService,
-    private authenticationService: AuthenticationService,
+    // private authenticationService: AuthenticationService,
     public ol: OnoffLineService
   ) {
-    if (this.authenticationService.currentUser !== null) {
+    if (this.as.refLogin()) {
       this.router.navigate(['/']);
     }
   }
 
   ngOnInit() {
-    console.log('LoginComponent carregaPermissoes1', this.authenticationService.a, this.authenticationService.currentUser);
+    // console.log('LoginComponent carregaPermissoes1', this.authenticationService.a, this.authenticationService.currentUser);
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(7), Validators.max(50)]]

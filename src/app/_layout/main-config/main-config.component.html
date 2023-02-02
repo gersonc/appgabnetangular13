@@ -1,20 +1,24 @@
+<!--<div class="layout-config-menu-lateral">-->
+<div class="layout-config" [ngClass]="{'layout-config-active': active}">
+  <div class="layout-config-content-wrapper">
+    <a tabindex="0" class="layout-config-button" (click)="toggleConfigurator($event)">
+      <i class="pi pi-cog"></i>
+    </a>
+    <a tabindex="0" class="layout-config-close" (click)="hideConfigurator($event)">
+      <i class="pi pi-times"></i>
+    </a>
 
-  <div class="layout-config" [ngClass]="{'layout-config-active': active}">
-    <div class="layout-config-content-wrapper">
-      <a tabindex="0" class="layout-config-button" (click)="toggleConfigurator($event)">
-        <i class="pi pi-cog"></i>
-      </a>
-      <a tabindex="0" class="layout-config-close" (click)="hideConfigurator($event)">
-        <i class="pi pi-times"></i>
-      </a>
+
 
       <div class="layout-config-content">
         <div>
           <h4>Component Scale</h4>
           <div class="config-scale">
-            <button icon="pi pi-minus" type="button" pButton (click)="decrementScale()" class="p-button-text" [disabled]="!scaleVF && scale === scales[0]"></button>
+            <button icon="pi pi-minus" type="button" pButton (click)="decrementScale()" class="p-button-text"
+                    [disabled]="!scaleVF && scale === scales[0]"></button>
             <i class="pi pi-circle-fill" *ngFor="let s of scales" [ngClass]="{'scale-active': s === scale}"></i>
-            <button icon="pi pi-plus"  type="button" pButton (click)="incrementScale()" class="p-button-text" [disabled]="!scaleVF && scale === scales[scales.length - 1]"></button>
+            <button icon="pi pi-plus" type="button" pButton (click)="incrementScale()" class="p-button-text"
+                    [disabled]="!scaleVF && scale === scales[scales.length - 1]"></button>
           </div>
 
           <h4>Component Dia/Noite</h4>
@@ -28,7 +32,7 @@
           <app-inputStyleSwitch></app-inputStyleSwitch>
 
           <h4>Ripple Effect</h4>
-          <p-inputSwitch [(ngModel)]="config.ripple" (onChange)="onRippleChange()"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="ripple" (onChange)="onRippleChange()"></p-inputSwitch>
 
           <div class="grid free-themes">
             <div class="col-3">
@@ -83,7 +87,7 @@
 
             <div class="col-3">
               <button class="p-link" (click)="changeTheme($event, 'mdc-light-indigo', false)">
-                <img src="../../../assets/images/themes/md-light-indigo.svg" alt="Material Compact Light Indigo"/>
+                <img src="../../../assets/images/themes/md-light-indigo.svg" alt="Material Compact Light Indigo" />
               </button>
               <span>Indigo</span>
             </div>
@@ -101,7 +105,8 @@
             </div>
             <div class="col-3">
               <button class="p-link" (click)="changeTheme($event, 'mdc-dark-deeppurple', true)">
-                <img src="../../../assets/images/themes/md-dark-deeppurple.svg" alt="Material Compact Dark Deep Purple" />
+                <img src="../../../assets/images/themes/md-dark-deeppurple.svg"
+                     alt="Material Compact Dark Deep Purple" />
               </button>
               <span>Deep Purple</span>
             </div>
@@ -115,7 +120,7 @@
 
             <div class="col-3">
               <button class="p-link" (click)="changeTheme($event, 'fluent-light', false)">
-                <img src="../../../assets/images/themes/fluent-light.png" alt="Fluent Light"/>
+                <img src="../../../assets/images/themes/fluent-light.png" alt="Fluent Light" />
               </button>
               <span>Fluent Light</span>
             </div>
@@ -295,8 +300,11 @@
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
-    <!--<app-config></app-config>-->
-    <div class="layout-mask" [ngClass]="{'layout-mask-active': menuActive}" (click)="onMaskClick()"></div>
+<!--</div>-->
+<!--<app-config></app-config>-->
+<div class="layout-mask" [ngClass]="{'layout-mask-active': menuActive}" (click)="onMaskClick()"></div>
 

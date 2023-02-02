@@ -22,7 +22,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   outsideClickListener: any;
 
   scaleVF = false;
-  ripple: true;
+  ripple = true;
 
   menuActive: boolean;
 
@@ -35,16 +35,15 @@ export class MainConfigComponent implements OnInit, OnDestroy {
 
   theme = "lara-light-blue";
 
-  public subscription: Subscription;
+  public subscription: Subscription[] = [];
 
   constructor(
     private configService: AppConfigService,
     private el: ElementRef
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-    this.subscription = this.configService.configUpdate$.subscribe(config => {
+    this.subscription.push(this.configService.configUpdate$.subscribe(config => {
       this.scaleVF = true;
       if (config.theme === "nano") {
         if (this.scale !== 12) {
@@ -65,7 +64,9 @@ export class MainConfigComponent implements OnInit, OnDestroy {
         this.config.ripple = config.ripple;
         this.mudaRipple(config.ripple);
       }
-    });
+    })
+    );
+    this.configService.getConfig();
   }
 
   decrementScale() {
@@ -122,7 +123,8 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   }
 
   onRippleChange() {
-    this.configService.setRipple(!this.config.ripple);
+    this.ripple = !this.ripple;
+    this.configService.setRipple(this.ripple);
   }
 
   mudaRipple(vf: boolean) {
@@ -204,9 +206,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.forEach(s => s.unsubscribe());
   }
 }
 

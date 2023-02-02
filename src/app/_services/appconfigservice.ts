@@ -10,6 +10,8 @@ import { TemaService } from "./tema.service";
 })
 export class AppConfigService {
 
+  menuAtivo = false;
+
   active = false;
 
   primeiro = true;
@@ -68,7 +70,6 @@ export class AppConfigService {
       if (this.config.usuario_uuid === undefined && localStorage.getItem("usuario_uuid")) {
         this.config.usuario_uuid = JSON.parse(localStorage.getItem("usuario_uuid"));
       }
-      console.log('PEGA THEMA');
       this.configUpdate.next(this.config);
     } else {
       this.primeiro = false;

@@ -5,16 +5,16 @@
     <!--<div id="app" class="app" (resized)="onResized('app', $event)">-->
 
 
-    <div [ngClass]="configService.config.dispositivo">
+    <div [ngClass]="ds.dispositivo">
 
     <app-main-topo></app-main-topo>
 
-    <div id='main' class="layout-content">
+   <!-- <div id='main' class="layout-content">-->
 
-      <!--<div #main id="main" class="main">-->
+      <div #main id="main" class="main">
 
        <!-- <app-panelmenu [mostra]="mostraMenuPrincipal" [recarrega]="authenticationService.dispositivo"></app-panelmenu>-->
-        <app-panelmenu  [recarrega]="authenticationService.dispositivo"></app-panelmenu>
+
 
         <div #principal id="principal">
           <router-outlet></router-outlet>

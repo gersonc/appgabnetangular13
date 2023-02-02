@@ -2,12 +2,14 @@
 
   <div class="topo-esquerda">
     <div class="mx-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
-    <div class="topo-esquerda-texto"><span
-      *ngIf="ds.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span>
+    <div class="topo-esquerda-texto"><span *ngIf="ds.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span>
     </div>
   </div>
 
   <div class="topo-direita justify-content-end">
+    <div class="mr-3">
+      <app-tema-topo-botao></app-tema-topo-botao>
+    </div>
     <div class="mr-2">
       <app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal>
     </div>
@@ -18,3 +20,4 @@
   </div>
 
 </header>
+<app-panelmenu [mostra]="mostraMenuPrincipal"  [recarrega]="authenticationService.dispositivo"></app-panelmenu>

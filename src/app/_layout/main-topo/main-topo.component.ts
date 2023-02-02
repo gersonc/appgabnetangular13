@@ -6,7 +6,8 @@ import { take } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { WindowsService } from "../_service";
 import { HttpClient } from "@angular/common/http";
-import { OnlineService } from "../../_services/online.service";
+import { OnoffLineService } from "../../shared/onoff-line/onoff-line.service";
+// import { OnlineService } from "../../_services/online.service";
 
 @Component({
   selector: 'app-main-topo',
@@ -26,7 +27,7 @@ export class MainTopoComponent implements OnInit {
     public ws: WindowsService,
     public http: HttpClient,
     private urls: UrlService,
-    public ol: OnlineService,
+    public ol: OnoffLineService,
     // private ac: AppConfigService
   ) { }
 
@@ -36,6 +37,7 @@ export class MainTopoComponent implements OnInit {
 
   abreFechaMenu() {
     this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
+    this.md.mdt = !this.md.mdt;
   }
 
   abreFechaMd() {

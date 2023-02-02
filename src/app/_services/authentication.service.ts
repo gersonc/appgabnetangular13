@@ -287,10 +287,7 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router
   ) {
-    let t = 0;
     this.sub = this.ats.logado$.subscribe((vf) => {
-      t++;
-      console.log('AuthenticationService logado$', vf, t);
         if (vf) {
           this.as.verificaPermissoes();
           this.carregaPermissoes(JSON.parse(<string>localStorage.getItem('currentUser')));
@@ -315,7 +312,6 @@ export class AuthenticationService {
   }
 
   descreveAcesso(valor: string): string[] {
-    console.log('AuthenticationService descreveAcesso');
     const n = valor.length;
     const r: string[] = [];
     for (let i = 0; i < n; i++) {
@@ -355,9 +351,7 @@ export class AuthenticationService {
   }*/
 
   carregaPermissoes(user): void {
-    this.a++;
     this.currentUser = user;
-    console.log('carregaPermissoes1', this.a, this.currentUser);
     /*if (localStorage.getItem('access_token') && localStorage.getItem('reflesh_token')) {
       this.token = localStorage.getItem('access_token');
       this.refleshToken = localStorage.getItem('reflesh_token');
@@ -666,16 +660,17 @@ export class AuthenticationService {
   }
 
   logout() {
-    console.log('AuthenticationService logout');
     // localStorage.removeItem('access_token');
     // localStorage.removeItem('currentUser');
     // localStorage.clear();
     this.sub.unsubscribe();
     sessionStorage.clear();
-    /*this.token = null;
-    this.refleshToken = null;
-    this.expiresRef = null;
-    this.expires = null;*/
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('reflesh_token');
+    localStorage.removeItem('expiresRef');
+    localStorage.removeItem('expires');
+    localStorage.removeItem('usuario_uuid');
     this.currentUser = null;
     this.cancelaPermissoes();
     this.ats.logado = false;
