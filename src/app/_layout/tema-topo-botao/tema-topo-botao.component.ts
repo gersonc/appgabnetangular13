@@ -11,7 +11,7 @@ export class TemaTopoBotaoComponent implements OnInit {
   active = false;
 
   constructor(
-    private configService: AppConfigService,
+    public configService: AppConfigService,
   ) { }
 
   ngOnInit(): void {
@@ -20,11 +20,13 @@ export class TemaTopoBotaoComponent implements OnInit {
 
   hideConfigurator(event) {
     this.active = !this.active;
+    this.configService.menuAtivo = !this.configService.menuAtivo;
     // this.configService.gravaTema();
     event.preventDefault();
   }
 
   toggleConfigurator(event: Event) {
+    this.configService.menuAtivo = !this.configService.menuAtivo;
     this.active = !this.active;
     event.preventDefault();
   }

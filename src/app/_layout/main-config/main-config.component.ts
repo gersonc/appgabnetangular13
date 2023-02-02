@@ -38,7 +38,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   public subscription: Subscription[] = [];
 
   constructor(
-    private configService: AppConfigService,
+    public configService: AppConfigService,
     private el: ElementRef
   ) { }
 
@@ -137,6 +137,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
 
   hideConfigurator(event) {
     this.active = false;
+    this.configService.menuAtivo = false
     this.configService.gravaTema();
     this.unbindOutsideClickListener();
     event.preventDefault();
@@ -144,6 +145,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
 
   toggleConfigurator(event: Event) {
     this.active = !this.active;
+    this.configService.menuAtivo = this.active;
     event.preventDefault();
     if (this.active)
       this.bindOutsideClickListener();

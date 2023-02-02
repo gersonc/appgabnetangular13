@@ -1,6 +1,6 @@
 <apmain-config></apmain-config>
 <div id="topo-config">
-<a class="layout-config-button-mn"  [ngClass]="{'layout-config-active': active}" (click)="toggleConfigurator($event)">
+<a class="layout-config-button-mn"  [ngClass]="{'layout-config-active': this.configService.menuAtivo}" (click)="toggleConfigurator($event)">
   <i class="pi pi-cog"></i>
 </a>
 </div>
