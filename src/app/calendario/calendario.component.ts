@@ -24,6 +24,7 @@ import {limpaTextoNull} from "../shared/functions/limpa-texto";
 import {CalBusca, Evento} from "./_models/calendario";
 import {SelectItem} from "primeng/api";
 import {MsgService} from "../_services/msg.service";
+import { DispositivoService } from "../_services/dispositivo.service";
 
 declare let jsPDF: any;
 
@@ -37,6 +38,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('fc', {static: true}) fc: FullCalendarComponent;
   @ViewChild('cesq', {static: true}) cesq: ElementRef;
   @ViewChild('calForm', {static: true}) public calForm: NgForm;
+
+
 
   eventos: EventoInterface[];
   evT: { ev: Evento, jsEvent: any } = null;
@@ -113,7 +116,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     public cl: CalendarioService,
     public authenticationService: AuthenticationService,
     private messageService: MsgService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    public ds: DispositivoService
   ) {
   }
 
@@ -168,11 +172,11 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       buttonText: {
-        today: 'Hoje',
-        month: 'Mês',
+        today: ' Hoje ',
+        month: ' Mês ',
         week: 'Semana',
-        day: 'Dia',
-        list: 'Lista ',
+        day: 'Dia ',
+        list: 'Lista',
       },
       headerToolbar: {
         start: this.headerStart,

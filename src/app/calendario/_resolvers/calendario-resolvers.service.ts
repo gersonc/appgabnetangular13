@@ -4,100 +4,107 @@ import { take, mergeMap, map } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve, RouterState } from '@angular/router';
 import { DropdownnomeidClass } from '../../_models';
 import {DropdownService} from "../../_services";
+import { DdService } from "../../_services/dd.service";
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CalendarioResolversService implements OnDestroy, Resolve<any> {
-  resposta = new Subject<boolean>();
-  resposta$ = this.resposta.asObservable();
-  sub: Subscription[] = [];
-  esperar = 0;
+export class CalendarioResolversService implements OnDestroy, Resolve<boolean> {
+  private sub: Subscription[] = [];
+  private resp = new Subject<boolean>();
+  private resp$ = this.resp.asObservable();
+  dds: string[] = [];
 
   constructor(
     private router: Router,
-    private dd: DropdownService
+    private dd: DdService
   ) {}
 
-  espera() {
-      this.resposta.next(true);
+
+  gravaDropDown() {
+    this.resp.next(true);
+    this.resp.complete();
   }
 
-  carregaDados() {
-    const ddNomeIdArray = new DropdownnomeidClass();
+
+  carregaDados(): void {
+    this.dds = [];
+    this.resp = new Subject<boolean>();
+    this.resp$ = this.resp.asObservable();
     if (!sessionStorage.getItem('dropdown-local')) {
-      ddNomeIdArray.add('local', 'local', 'local_id', 'local_nome');
+      this.dds.push('dropdown-local');
     }
     if (!sessionStorage.getItem('dropdown-prioridade')) {
-      ddNomeIdArray.add('prioridade', 'prioridade', 'prioridade_id', 'prioridade_nome');
+      this.dds.push('dropdown-prioridade');
     }
     if (!sessionStorage.getItem('dropdown-calendario_status')) {
-      ddNomeIdArray.add('calendario_status', 'calendario_status', 'calendario_status_id', 'calendario_status_nome');
+      this.dds.push('dropdown-calendario_status');
     }
-    if (!sessionStorage.getItem('dropdown-types')) {
-      ddNomeIdArray.add('types', 'types', 'type_id', 'type_name');
-    }
-    if (!sessionStorage.getItem('dropdown-usuario')) {
-      ddNomeIdArray.add('usuario', 'usuario', 'usuario_id', 'usuario_nome');
-    }
-    if (ddNomeIdArray.count() > 0) {
-      this.sub.push(this.dd.postDropdownNomeIdArray(ddNomeIdArray.get())
+      if (!sessionStorage.getItem('dropdown-types')) {
+        this.dds.push('dropdown-types');
+      }
+      if (!sessionStorage.getItem('dropdown-usuario')) {
+        this.dds.push('dropdown-usuario');
+      }
+
+    if (this.dds.length > 0) {
+      // this.sub.push(this.dd.getDd('proposicao-menu-dropdown')
+      this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            if (dados['local']) {
-              sessionStorage.setItem('dropdown-local', JSON.stringify(dados['local']));
-            }
-            if (dados['prioridade']) {
-              sessionStorage.setItem('dropdown-prioridade', JSON.stringify(dados['prioridade']));
-            }
-            if (dados['calendario_status']) {
-              dados['calendario_status'].push({label: 'NENHUM', value: 0});
-              sessionStorage.setItem('dropdown-calendario_status', JSON.stringify(dados['calendario_status']));
-            }
-            if (dados['types']) {
-              sessionStorage.setItem('dropdown-types', JSON.stringify(dados['types']));
-            }
-            if (dados['usuario']) {
-              sessionStorage.setItem('dropdown-usuario', JSON.stringify(dados['usuario']));
-            }
+        .subscribe((dados) => {
+            // sessionStorage.setItem('proposicao-menu-dropdown', JSON.stringify(dados));
+            this.dds.forEach(nome => {
+              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
+            });
           },
-          error: err => {
-            console.log(err);
-          },
-          complete: () => {
-            this.espera();
+          (err) => console.error(err),
+          () => {
+            this.gravaDropDown();
           }
-        })
+        )
       );
     } else {
-      setTimeout(() => {
-        this.espera();
-      }, 200);
+      this.gravaDropDown();
     }
+
   }
 
   onDestroy(): void {
+    this.dds = [];
     this.sub.forEach(s => s.unsubscribe());
   }
 
+
   ngOnDestroy(): void {
+    console.log('resover ngOnDestroy');
     this.sub.forEach(s => s.unsubscribe());
   }
 
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<any> | Observable<never> {
-    this.carregaDados();
-    return this.resposta$.pipe(
-      take(1),
-      map(dados => {
-        this.onDestroy();
-        return {value: dados, index: 1};
-
-      })
-    );
+    state: RouterStateSnapshot): Observable<boolean> {
+    if (!sessionStorage.getItem('dropdown-local') ||
+      !sessionStorage.getItem('dropdown-prioridade') ||
+      !sessionStorage.getItem('dropdown-calendario_status') ||
+      !sessionStorage.getItem('dropdown-types') ||
+      !sessionStorage.getItem('dropdown-usuario')) {
+      this.carregaDados();
+      return this.resp$.pipe(
+        take(1),
+        mergeMap(vf => {
+          if (vf) {
+            this.onDestroy();
+            return of(vf);
+          } else {
+            this.onDestroy();
+            return EMPTY;
+          }
+        })
+      );
+    } else {
+      return of(true);
+    }
   }
 }

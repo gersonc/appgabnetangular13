@@ -38,6 +38,7 @@ export class MainTopoComponent implements OnInit {
   abreFechaMenu() {
     this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
     this.md.mdt = !this.md.mdt;
+    console.log(this.mostraMenuPrincipal,this.md.mdt);
   }
 
   abreFechaMd() {

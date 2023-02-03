@@ -58,12 +58,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private windowsService: WindowsService,
     private router: Router,
     public sps: SpinnerService,
-    public ds: DispositivoService
+    public ds: DispositivoService,
+    public cf: AppConfigService
   ) {
     // this.configService.getConfig();
   }
 
   ngOnInit() {
+
     this.s.push(this.atz.logado$.subscribe({
         next: (vf) => {
           if (vf) {

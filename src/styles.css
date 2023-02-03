@@ -145,7 +145,7 @@ app {
 }
 
 .topo-direita .p-badge.p-badge-warning {
-  z-index: 200;
+  z-index: 10;
   /*background-color: var(--amarelo);*/
   /*color: var(--text-color);*/
 }
@@ -196,16 +196,21 @@ app {
   position: relative;
   top: 0;
   left: 0;
-  height: var(--altura-main);
+  height: calc(100vh - 3rem);
   display: flex;
   flex-direction: column;
-
+  background-color: red;
   margin-left: 0;
   padding-top: 0;
   z-index: 0;
 }
 
 
+
+
+.menuprincipal .p-panelmenu-header > a {
+  padding: .7em 1em .7em 1em
+}
 
 
 .menu-principal-fechado {
@@ -224,8 +229,8 @@ app {
   top: 3rem;
   left: .2rem;
   width: 20em;
-  height: calc(100% - 3rem);
-  z-index: 10001;
+  height: calc(100vh - 3rem);
+  z-index: 20;
   overflow: auto;
   /*overflow: auto !important;*/
   /*transition: height 2s;*/
@@ -233,17 +238,17 @@ app {
 
 .scrolling-area {
   max-width: 20em;
-  max-height: calc(100% - 3rem);
+  max-height: calc(100vh - 3rem);
   overflow:  auto !important;
   /*padding: 1rem;*/
-  z-index: 10001;
+  z-index: 20;
   background-color: transparent;
   transform: rotate(180deg);
 }
 
 .scrolling-element-inside {
   /*padding: 1rem;*/
-  z-index: 10001;
+  z-index: 20;
   /*box-shadow: .3em .8em .7em var(--surface-400)*/;
   background-color: transparent;
   transform: rotate(-180deg);
@@ -283,41 +288,13 @@ app {
 
 
 
-.fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 0 !important;
-}
-
-.fc tbody {
-  overflow: hidden;
-}
-
-.fc.fc-theme-standard .fc-toolbar .fc-button-group .fc-button:last-child {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-@media screen and (max-width: 768px) {
-  h2.fc-toolbar-title {
-    font-size: 1.3em !important;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  h2.fc-toolbar-title {
-    font-size: 1em !important;
-  }
-}
-
-
 /*
 *** main-config ***********************************************************************
 */
 
 
 .layout-wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column
+  height: 100vh;
 }
 
 
@@ -332,8 +309,8 @@ app {
 
 .layout-wrapper .layout-sidebar {
   top: 0;
-  z-index: 1102;
-  height: 100%;
+  z-index: 20;
+  height: calc(100vh - 3rem);
   transform: translate(-100%)
 }
 
@@ -348,7 +325,7 @@ app {
 }
 
 .layout-wrapper .layout-mask.layout-mask-active {
-  z-index: 998;
+  z-index: 30;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -370,12 +347,12 @@ app {
 .layout-config {
   position: fixed;
   padding: 0;
-  top: var(--top-main);
+  top: 3rem;
   right: 0;
   display: block;
   width: 550px;
-  z-index: 1101;
-  height: var(--altura-main);
+  z-index: 20;
+  height: calc(100vh - 3rem);
   transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
   transform: translateX(100%);
   backface-visibility: hidden;
@@ -565,17 +542,72 @@ div#topo-config .layout-config-button-mn:hover {
 }
 
 .calendario-full {
+  margin-top: .1em;
+  box-sizing: border-box;
   display: flex;
   width: 100%;
+  height: calc(100vh - 3rem);
+  z-index: 10;
 }
+
+
+.calendario-full .fc .fc-button-primary {
+  font-size: 1em !important;
+}
+.calendario-full .fc .fc-button .fc-icon {
+  vertical-align: middle;
+  font-size: 1.3em !important;
+}
+
+.calendario-full .fc.fc-theme-standard .fc-toolbar .fc-button-group .fc-button:first-child {
+  border-radius: 0 !important;
+}
+
+.calendario-full .fc.fc-theme-standard .fc-button {
+  margin-right: .1em !important;
+  margin-left: .1em !important;
+}
+
+/*
 
 .calendario-full .fc-daygrid-event-harness {
   border: .1rem solid var(--primary-color);
   border-radius: 3px;
   margin-right: 2px;
   margin-left: 2px;
-  margin-top: 2px;
+  margin-top: .1rem;
 }
+
+*/
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0 !important;
+}
+
+/*.fc tbody {
+  overflow: hidden;
+}*/
+
+
+.fc.fc-theme-standard .fc-toolbar .fc-button-group .fc-button:last-child {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+
+@media screen and (max-width: 768px) {
+  h2.fc-toolbar-title {
+    font-size: 1.3em !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  h2.fc-toolbar-title {
+    font-size: 1em !important;
+  }
+}
+
+
 
 .calendario-full .fc-event-title-container {
   padding-left: .2rem;
@@ -593,7 +625,17 @@ div#topo-config .layout-config-button-mn:hover {
   margin-left: 0;
 }
 
+.calendario-full.desktop .fc .fc-toolbar.fc-footer-toolbar {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.calendario-full .fc .fc-toolbar.fc-header-toolbar {
+  margin-top: 0 !important
+}
+
 .calendario-esquerda-0 {
+  box-sizing: border-box !important;
   display: flex;
   width: 100%;
   clear: left;
@@ -601,6 +643,7 @@ div#topo-config .layout-config-button-mn:hover {
 }
 
 .calendario-esquerda-1 {
+  box-sizing: border-box !important;
   display: flex;
   width: 80%;
   clear: left;
@@ -608,27 +651,36 @@ div#topo-config .layout-config-button-mn:hover {
 }
 
 .calendario-esquerda-esquerda {
+  box-sizing: border-box !important;
   width: 100%;
+  z-index: 10;
 }
 
 .calendario-esquerda-direita {
+  box-sizing: border-box;
+  height: calc(100vh - 3rem);
   vertical-align: middle;
   width: 1.3rem;
+  z-index: 10;
   background-color: var(--primary-color);
 }
 
 .calendario-direita-0 {
+  box-sizing: border-box;
   width: 0;
   transition: width 2s;
   background: hsla(0,0%,81.6%,.3);
   background: var(--fc-neutral-bg-color,hsla(0,0%,81.6%,.3));
+  z-index: 10;
 }
 
 .calendario-direita-1 {
+  box-sizing: border-box;
   width: 20%;
   background: hsla(0,0%,81.6%,.3);
   background: var(--fc-neutral-bg-color,hsla(0,0%,81.6%,.3));
   transition: 2s;
+  z-index: 10;
 }
 
 .calendario-btn {

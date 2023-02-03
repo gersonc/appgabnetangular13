@@ -56,8 +56,8 @@ export class AppConfigService {
   }
 
   gravaTema() {
-    console.log("grava thema");
     if (!this.primeiro) {
+      console.log("grava thema");
       this.ts.gravaTema();
     } else {
       this.primeiro = false;
@@ -67,8 +67,8 @@ export class AppConfigService {
   getConfig() {
     if (localStorage.getItem("appconfig")) {
       this.config = this.ts.parceAppConfig(JSON.parse(localStorage.getItem("appconfig")));
-      if (this.config.usuario_uuid === undefined && localStorage.getItem("usuario_uuid")) {
-        this.config.usuario_uuid = JSON.parse(localStorage.getItem("usuario_uuid"));
+      if (this.config.usuario_uuid === null && localStorage.getItem("usuario_uuid")) {
+        this.config.usuario_uuid = localStorage.getItem("usuario_uuid");
       }
       this.configUpdate.next(this.config);
     } else {

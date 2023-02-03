@@ -9,7 +9,7 @@ export class DispositivoService {
   deviceInfo: any = null;
 
   private _dispositivo = '';
-  constructor(private deviceService: DeviceDetectorService) {
+  constructor(public deviceService: DeviceDetectorService) {
     this.epicFunction();
   }
 
@@ -32,7 +32,6 @@ export class DispositivoService {
   set dispositivo(d: string) {
     this._dispositivo = d;
   }
-
 
 
 

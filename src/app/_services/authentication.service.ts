@@ -676,6 +676,10 @@ export class AuthenticationService {
     this.ats.logado = false;
   }
 
+  parceUserUuidToStyle() {
+
+  }
+
 
   /*inicio(): Observable<boolean> {
     if ( this.ats.vfToken || this.ats.rtkvalido) {

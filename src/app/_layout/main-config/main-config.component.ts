@@ -43,6 +43,8 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log('MainConfigComponent init');
+
     this.subscription.push(this.configService.configUpdate$.subscribe(config => {
       this.scaleVF = true;
       if (config.theme === "nano") {
@@ -146,6 +148,9 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   toggleConfigurator(event: Event) {
     this.active = !this.active;
     this.configService.menuAtivo = this.active;
+    if (this.active === false) {
+      this.configService.gravaTema();
+    }
     event.preventDefault();
     if (this.active)
       this.bindOutsideClickListener();

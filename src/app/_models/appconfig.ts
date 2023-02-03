@@ -7,3 +7,13 @@ export interface AppConfig {
   scale?: string;  // px
   dispositivo?: string; // 'mobile' ou 'desktop'
 }
+
+export interface AppConfig2 {
+  usuario_uuid?: string | null;
+  inputStyle?: string; // 'filled' ou "outlined" -> 'p-input-filled'
+  dark?: number;
+  theme?: string;
+  ripple?: number;
+  scale?: string;  // px
+  dispositivo?: string; // 'mobile' ou 'desktop'
+}

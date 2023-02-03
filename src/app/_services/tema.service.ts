@@ -51,8 +51,10 @@ export class TemaService {
 
   gravaTema() {
     const dado: any = this.parceToServer(this.config);
+    console.log('grava tema 2', dado);
     localStorage.setItem("appconfig", JSON.stringify(dado));
     this.putTema(dado).pipe(take(1)).subscribe(c => {
+      console.log('grava tema 3', c);
     });
   }
 
