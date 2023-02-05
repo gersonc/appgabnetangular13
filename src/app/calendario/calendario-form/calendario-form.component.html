@@ -1,16 +1,12 @@
 <div class="formulario base">
   <form (ngSubmit)="onSubmit(calForm)" name="calForm" #calForm="ngForm">
 
-    <!--<div class="grid p-input-filled">-->
-
-    <!--<div class="col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6 formulario">-->
     <div class="formulario formgrid grid">
 
       <!--// start-->
       <div class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3">
         <label for="start"><span class="atencao">*</span>Data</label>
         <p-calendar
-          #stt
           id="start"
           [(ngModel)]="start"
           name="start"
@@ -30,7 +26,6 @@
       <div class="field col-12 sm:col-6 md:col-6 lg:col-3 xl:col-3">
         <label for="allDay">Dia inteiro</label>
         <p-inputSwitch
-          #ad
           id="allDay"
           name="allDay"
           ariaLabelledBy="allDay"
@@ -127,9 +122,6 @@
       <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12 justify-content-center">
         <div style="display: block; max-width: 1200px;">
           <label for="description">Observações</label>
-          <!--<div class="flex justify-content-center">-->
-          <!--<div class="formulario-quill">-->
-          <!--<div class="qeditor">-->
           <quill-editor
             id="description"
             name="description"
@@ -142,16 +134,9 @@
             [(ngModel)]="description"
             (onContentChanged)="onContentChanged($event, 'description')"
           ></quill-editor>
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
         </div>
       </div>
 
-      <!--</div>
-
-      <div class="col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6 formulario">
-        <div class="formgrid grid">-->
       <!-- USUARIOS  ******************************************************************* -->
       <div class="field col-12 sm:col-12 md:col-6 lg:col-2 xl:col-2">
         <label for="todos_usuarios_sn">Todos usuários</label>
@@ -270,25 +255,7 @@
         ></button>
       </div>
 
-      <!--*** fileUpload ***-->
-      <!--<div class="field col-6">
-        <h5>&nbsp;</h5>
-        <p-fileUpload
-          name="ics[]"
-          chooseLabel="Importar"
-          mode="basic"
-          accept=".ics"
-          styleClass="icsupload"
-          [multiple]="true"
-          [url]="urlUpload"
-          [auto]="true"
-          (onUpload)="onBasicUpload($event)"
-        >
-        </p-fileUpload>
-      </div>-->
-
       <div class="field col-12 sm:col-12 md:col-12 lg:col-12 xl:col-12">
-
 
         <div class="grid">
           <div class="col-12"><label>&nbsp;</label></div>
@@ -454,8 +421,6 @@
                         <h5> {{montasCheckboxMes(di.label)}}</h5>
                         <p-checkbox name="dia" [value]="di.value" [(ngModel)]="mesDias" [inputId]="'dia'+di.label"
                                     (onChange)="chkChange($event)"></p-checkbox>
-                        <!--<p-checkbox name="dia" value="{{di.value}}" [(ngModel)]="mesDias" inputId="dia{{di.value}}"></p-checkbox>-->
-                        <!--suppress XmlInvalidId -->
 
                       </div>
                     </div>
@@ -586,9 +551,6 @@
 
 
     </div>
-    <!-- </div>
-</div>-->
-
 
     <div class="inline-block">
       <div class="flex justify-content-start pb-2">
@@ -641,7 +603,6 @@
         </div>
       </div>
     </div>
-    <!--</div>-->
 
   </form>
 
