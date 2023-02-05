@@ -1,14 +1,16 @@
 import {SelectItem, SelectItemGroup} from "primeng/api";
 
 export interface DdArrayI {
-  [index: string]: any[]
+  [index: string]: SelectItem<any>[] | SelectItemGroup[]
 }
 export interface DdsI {
   idx: number | null;
   indice: string | null;
   selectItem: SelectItem[] | SelectItemGroup[] | null;
 }
-
+export interface DdI {
+  [index: string]: DdsI[]
+}
 
 /*
 
@@ -34,8 +36,22 @@ export function parceToDdArray(val: any): DdArrayI[] {
   })
 }
 
-export function parceDdArrayToSelectItemArray(val: DdArrayI[]): DdsI[] {
-  return val.map((v, i) => {
+
+// obj[ind as keyof typeof obj] = d.selectItem;
+export function parceDdArrayToSelectItemArray(val: DdArrayI): SelectItem<any>[] | SelectItemGroup[] {
+  console.log('parceDdArrayToSelectItemArray', val);
+  const n: string[] = Object.keys(val);
+  let r: SelectItem<any>[] | SelectItemGroup[] = [];
+  n.forEach( (s,index) => {
+    const ob: DdsI = {
+      idx: index,
+      selectItem: val[s],
+      indice: s
+    }
+  });
+
+
+  /*const r = val.map((v, i) => {
     const n: string[] = Object.keys(v);
     const d: DdsI = {
       idx: i,
@@ -43,7 +59,9 @@ export function parceDdArrayToSelectItemArray(val: DdArrayI[]): DdsI[] {
       selectItem: v[n[0]],
     }
     return d;
-  });
+  });*/
+  console.log('parceDdArrayToSelectItemArray2', r);
+  return r;
 }
 
 export function parceSelectItemArrayToDds(dds: DdsI[], indice: any, val: any[]): DdsI {

@@ -34,6 +34,9 @@ export class AppConfigService {
     private ts: TemaService,
     private ds: DispositivoService
   ) {
+    if (localStorage.getItem("appconfig")) {
+      this.config = this.ts.parceAppConfig(JSON.parse(localStorage.getItem("appconfig")));
+    }
   }
 
   setRipple(vf: boolean) {
@@ -57,19 +60,21 @@ export class AppConfigService {
 
   gravaTema() {
     if (!this.primeiro) {
-      console.log("grava thema");
-      this.ts.gravaTema();
+      console.log("grava thema", this.config);
+      this.ts.gravaTema(this.config);
     } else {
       this.primeiro = false;
     }
   }
 
   getConfig() {
+    console.log("recupera tema");
     if (localStorage.getItem("appconfig")) {
       this.config = this.ts.parceAppConfig(JSON.parse(localStorage.getItem("appconfig")));
-      if (this.config.usuario_uuid === null && localStorage.getItem("usuario_uuid")) {
+      if ((this.config.usuario_uuid === undefined || this.config.usuario_uuid === null) && localStorage.getItem("usuario_uuid")) {
         this.config.usuario_uuid = localStorage.getItem("usuario_uuid");
       }
+      this.primeiro = false;
       this.configUpdate.next(this.config);
     } else {
       this.primeiro = false;
@@ -81,6 +86,17 @@ export class AppConfigService {
     this.config.theme = str;
     this.config.dark = d;
     this.configUpdate.next(this.config);
+  }
+
+  getUuid() {
+    if (localStorage.getItem("usuario_uuid")) {
+      this.config.usuario_uuid = localStorage.getItem("usuario_uuid");
+      this.configUpdate.next(this.config);
+    }
+  }
+
+  setUuid(s: string) {
+    this.config.usuario_uuid = s;
   }
 
 }

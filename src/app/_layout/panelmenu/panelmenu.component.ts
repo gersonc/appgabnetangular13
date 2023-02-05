@@ -20,8 +20,8 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
   @Input() mostra = false;
   @Input() recarrega = 'desktop';
   public items!: MenuItem[];
-  public menuPrincipalClasses = 'menu-principal-fechado';
-  public mostraMenuPrincipal = true;
+  // public menuPrincipalClasses = 'menu-principal-fechado';
+  public menuPrincipalClasses = (this.md.mdt) ? 'menu-principal' : 'menu-principal-fechado';
   online = false;
   sub: Subscription[] = [];
 
@@ -38,7 +38,8 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.mostra) {
-      this.abreFechaMenuPrincipal();
+      this.md.mdt = this.mostra;
+      // this.abreFechaMenuPrincipal();
     }
     if (changes.mostra) {
       this.carregaItens();
@@ -315,17 +316,18 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   abreFechaMenuPrincipal() {
-    this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
+    this.md.togle();
+    /*this.mostraMenuPrincipal = !this.mostraMenuPrincipal;
     if (this.mostraMenuPrincipal) {
       this.menuPrincipalClasses = 'menu-principal';
     } else {
       this.menuPrincipalClasses = 'menu-principal-fechado';
-    }
+    }*/
   }
 
   fechaMenuPrincipal() {
-    this.mostraMenuPrincipal = false;
-    this.menuPrincipalClasses = 'menu-principal-fechado';
+    this.md.hide();
+    // this.menuPrincipalClasses = 'menu-principal-fechado';
   }
 
   abreFormMensagem() {

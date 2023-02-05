@@ -1,4 +1,4 @@
-<div class="calendario-full" [ngClass]="ds.dispositivo">
+<div [ngClass]="ds.dispositivo" class="calendario-full">
   <div [ngClass]="calendarioEsquerdaClass"  #cesq (resized)="onResized($event)">
     <div class="calendario-esquerda-esquerda">
       <full-calendar #fc [options]="options"></full-calendar>

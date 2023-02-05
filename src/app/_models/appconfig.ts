@@ -8,9 +8,9 @@ export interface AppConfig {
   dispositivo?: string; // 'mobile' ou 'desktop'
 }
 
-export interface AppConfig2 {
+export interface AppConfigServerI {
   usuario_uuid?: string | null;
-  inputStyle?: string; // 'filled' ou "outlined" -> 'p-input-filled'
+  inputstyle?: string; // 'filled' ou "outlined" -> 'p-input-filled'
   dark?: number;
   theme?: string;
   ripple?: number;

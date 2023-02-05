@@ -20,6 +20,8 @@ export class DispositivoService {
     const isDesktopDevice = this.deviceService.isDesktop();
   }
 
+
+
   get dispositivo(): string {
     if (this._dispositivo === '') {
       this._dispositivo =  this.deviceService.isDesktop() ? 'desktop' : 'mobile';

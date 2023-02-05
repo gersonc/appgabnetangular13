@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = "app";
 
   public carregadorSN = false;
-
+  inicio = true;
   mostraPessoal = false;
   s: Subscription[] = [];
   appconfig: AppConfig = {
@@ -67,29 +67,28 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.s.push(this.atz.logado$.subscribe({
-        next: (vf) => {
-          if (vf) {
+        next: (n) => {
+          console.log('AppComponent logado$', n);
+          if (n === 1) {
+            this.cf.getUuid();
             this.mostraPessoal = true;
-          } else {
+            this.router.navigate([""]);
+          }
+          if (n === 2) {
+            // this.aut.getRefleh();
+            this.atz.parseLogado();
+          }
+          if (n === 3 || n == 4) {
             this.router.navigate(["/login"]);
           }
         }
       })
     );
-    this.s.push(this.atz.reflesh.subscribe({
-        next: (vf) => {
-          if (vf) {
-            if (!this.atz.vfToken) {
-              this.aut.getRefleh();
-            } else {
-              this.atz.logadoSubject.next(true);
-            }
-          } else {
-            this.router.navigate(["/login"]);
-          }
-        }
-      })
-    );
+    /*this.s.push(this.atz.reflesh.subscribe( n => {
+      if (n === 1) {
+        this.aut.getRefleh();
+      }})
+    );*/
 
     /*this.s.push(this.configService.configUpdate$.subscribe(config => {
         this.updateAppConfig(config);

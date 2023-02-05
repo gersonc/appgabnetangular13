@@ -50,20 +50,21 @@ export class CalendarioResolversService implements OnDestroy, Resolve<boolean> {
       }
 
     if (this.dds.length > 0) {
-      // this.sub.push(this.dd.getDd('proposicao-menu-dropdown')
       this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
-        .subscribe((dados) => {
-            // sessionStorage.setItem('proposicao-menu-dropdown', JSON.stringify(dados));
-            this.dds.forEach(nome => {
-              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
-            });
-          },
-          (err) => console.error(err),
-          () => {
-            this.gravaDropDown();
-          }
-        )
+        .subscribe({
+            next: (dados) => {
+              this.dds.forEach(nome => {
+                sessionStorage.setItem(nome, JSON.stringify(dados[nome as keyof typeof dados]));
+              });
+            },
+            error: (err) => {
+              console.error(err)
+            },
+            complete: () => {
+              this.gravaDropDown();
+            }
+          })
       );
     } else {
       this.gravaDropDown();
@@ -78,7 +79,6 @@ export class CalendarioResolversService implements OnDestroy, Resolve<boolean> {
 
 
   ngOnDestroy(): void {
-    console.log('resover ngOnDestroy');
     this.sub.forEach(s => s.unsubscribe());
   }
 

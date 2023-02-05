@@ -27,10 +27,13 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   menuActive: boolean;
 
   config: AppConfig = {
+    usuario_uuid: null,
     theme: "lara-light-blue",
     dark: false,
+    inputStyle: "outlined",
     ripple: true,
-    scale: "14px"
+    scale: "14px",
+    dispositivo: "desktop"
   };
 
   theme = "lara-light-blue";
@@ -43,8 +46,6 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('MainConfigComponent init');
-
     this.subscription.push(this.configService.configUpdate$.subscribe(config => {
       this.scaleVF = true;
       if (config.theme === "nano") {
@@ -66,6 +67,12 @@ export class MainConfigComponent implements OnInit, OnDestroy {
         this.config.ripple = config.ripple;
         this.mudaRipple(config.ripple);
       }
+      this.config.usuario_uuid = config.usuario_uuid;
+      this.config.dark = config.dark;
+      this.config.dispositivo = config.dispositivo;
+      this.config.inputStyle = config.inputStyle;
+
+
     })
     );
     this.configService.getConfig();

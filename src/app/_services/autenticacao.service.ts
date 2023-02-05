@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, take} from "rxjs/operators";
-import { BehaviorSubject, Observable, of, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject, Subscription } from "rxjs";
 import {environment} from "../../environments/environment";
 import { User } from "../_models";
 import { AppConfigService } from "./appconfigservice";
 import { AutorizaService } from "./autoriza.service";
+import { telaI } from "../_models/telaI";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,11 @@ export class AutenticacaoService {
   // public logadoSub: BehaviorSubject<boolean>;
   // public logadoVF: Observable<boolean>;
 
+  public subLogin = new Subject<boolean>();
+  public slogin = this.subLogin.asObservable();
+
+  sub: Subscription[] = [];
+
   constructor(
     private http: HttpClient,
     private atz: AutorizaService
@@ -38,37 +44,37 @@ export class AutenticacaoService {
   }
 
   getRefleh() {
-    if (this.atz.vfRefToken) {
-      if (!this.atz.vfToken) {
+    // if (this.atz.vfRefToken) {
+      if (this.atz.refTokenVF) {
         let v: boolean;
-        let s: Subscription;
-        s = this.refleshToken().pipe(take(1)).subscribe({
+        this.sub.push(this.refleshToken().pipe(take(1)).subscribe({
           next: (vf) => {
-            v = vf;
             this.atz.logado = vf;
-            this.atz.logadoSubject.next(vf);
+            if (vf) {
+              this.atz.logadoSubject.next(2);
+              // this.atz.refleshSubject.next(2);
+            } else {
+              this.atz.logadoSubject.next(3);
+            }
           },
           error: (err) => {
             console.error(err.toString());
           },
           complete: () => {
             console.log('reflesh ok?', v);
-            s.unsubscribe();
+            this.sub.forEach( s => s.unsubscribe());
           }
-        });
+        })
+        );
       } else {
-        this.atz.logado = true;
-        this.atz.logadoSubject.next(true);
+        this.atz.logado = false;
+        this.atz.logadoSubject.next(3);
       }
-    } else {
-      this.atz.logado = false;
-      this.atz.logadoSubject.next(false);
-    }
   }
 
 
-
-  login(username: string, password: string, screen: any = null): Observable<boolean> {
+  login2(username: string, password: string, tela: telaI = null): Observable<any> {
+    console.log('login2', username, password);
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
     const url = this.getUrl() + 'login';
@@ -78,11 +84,82 @@ export class AutenticacaoService {
         'Authorization': hvalue
       })
     };
-    return this.http.post<any>(url, screen, httpOptions)
-      .pipe(
-        take(1),
-        map(user => {
-          let vf: boolean;
+
+    return this.http.post<User>(url, tela, httpOptions);
+  }
+
+
+  login(username: string, password: string, tela: telaI = null) {
+    console.log('login', username, password);
+    let vf: boolean;
+    this.sub.push(this.login2(username, password, tela).subscribe({
+      next: (user) => {
+        console.log('login3', user);
+        if (user && user.token) {
+          vf = true;
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('reflesh_token');
+          localStorage.removeItem('expiresRef');
+          localStorage.removeItem('expires');
+          localStorage.removeItem('usuario_uuid');
+          localStorage.setItem('access_token', user.token);
+          // this.atz.token = user.token;
+          localStorage.setItem('reflesh_token', user.refleshToken);
+          // this.atz.refToken = user.refleshToken;
+          localStorage.setItem('expiresRef', user.expiresRef);
+          // this.atz.expiresRef = +user.expiresRef;
+          localStorage.setItem('expires', user.expires);
+          // this.atz.expires = +user.expires;
+          localStorage.setItem('usuario_uuid', user.usuario_uuid);
+          // this.atz.usuario_uuid = user.usuario_uuid;
+          if (user.appconfig !== undefined) {
+            const u: any = user.appconfig;
+            if (u.usuario_uuid === undefined) {
+              u.usuario_uuid = user.usuario_uuid;
+            }
+            localStorage.setItem('appconfig', JSON.stringify(u));
+          }
+          // this.atz.currentUser = JSON.parse(user);
+
+          // this.expires = +user.expires;
+          // this.expiresRef = +user.expiresRef;
+          // this._token =user.token;
+          // this._refToken = user.refleshToken;
+          delete user.token;
+          delete user.refleshToken;
+          delete user.expiresRef;
+          delete user.expires;
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.atz.parseLogado();
+          this.atz.logado = true;
+          // this.atz.logadoSubject.next(true);
+          // this.teste = this.getTeste();
+          this.subLogin.next(vf);
+        } else {
+          vf = false;
+          this.atz.logado = false;
+          this.subLogin.next(vf);
+        }
+      },
+      complete: () => {
+        console.log('login5');
+        //this.subLogin.next(vf);
+        if (vf) {
+          this.atz.logadoSubject.next(1);
+        }
+        this.subLogin.complete();
+        console.log('fim');
+      }
+    }));
+  }
+
+  /*login(username: string, password: string, tela: telaI = null) {
+    console.log('login', username, password);
+    let vf: boolean;
+    this.sub.push(this.login2(username, password, tela).pipe(take(1)).subscribe({
+        next: (user) => {
+
           if (user && user.token) {
             vf = true;
             localStorage.removeItem('currentUser');
@@ -92,15 +169,23 @@ export class AutenticacaoService {
             localStorage.removeItem('expires');
             localStorage.removeItem('usuario_uuid');
             localStorage.setItem('access_token', user.token);
+            this.atz.token = user.token;
             localStorage.setItem('reflesh_token', user.refleshToken);
+            this.atz.refToken = user.refleshToken;
             localStorage.setItem('expiresRef', user.expiresRef);
+            this.atz.expiresRef = +user.expiresRef;
             localStorage.setItem('expires', user.expires);
+            this.atz.expires = +user.expires;
             localStorage.setItem('usuario_uuid', user.usuario_uuid);
+            this.atz.usuario_uuid = user.usuario_uuid;
             if (user.appconfig !== undefined) {
-              user.appconfig.usuario_uuid = user.usuario_uuid;
-              localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
-              // this.cs.setConfig(user.appconfig);
+              const u: any = user.appconfig;
+              if (u.usuario_uuid === undefined) {
+                u.usuario_uuid = user.usuario_uuid;
+              }
+              localStorage.setItem('appconfig', JSON.stringify(u));
             }
+            this.atz.currentUser = JSON.parse(user.currentUser);;
             // this.expires = +user.expires;
             // this.expiresRef = +user.expiresRef;
             // this._token =user.token;
@@ -113,16 +198,94 @@ export class AutenticacaoService {
             this.atz.logado = true;
             // this.atz.logadoSubject.next(true);
             // this.teste = this.getTeste();
-            return vf;
+            this.subLogin.next(vf);
           } else {
             vf = false;
             this.atz.logado = false;
-            return vf;
+            this.subLogin.next(vf);
           }
-        }),
-        catchError(err => of(err))
-      );
-  }
+        },
+        complete: () => {
+          //this.subLogin.next(vf);
+          if (vf) {
+            this.atz.logadoSubject.next(1);
+          }
+          this.subLogin.complete();
+          console.log('fim');
+        }
+      }));
+  }*/
+
+
+  /*login3(username: string, password: string, tela: telaI = null): Subscription {
+    console.log('login', username, password, tela);
+    const bt = username + ':' + password;
+    const hvalue = 'Basic ' + btoa(bt);
+    const url = this.getUrl() + 'login';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': hvalue
+      })
+    };
+    return this.http.post<any>(url, tela, httpOptions)
+      .pipe(take(1)).subscribe({
+        next: (user) => {
+          let vf: boolean;
+          if (user && user.token) {
+            vf = true;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('reflesh_token');
+            localStorage.removeItem('expiresRef');
+            localStorage.removeItem('expires');
+            localStorage.removeItem('usuario_uuid');
+            localStorage.setItem('access_token', user.token);
+            this.atz.token = user.token;
+            localStorage.setItem('reflesh_token', user.refleshToken);
+            this.atz.refToken = user.refleshToken;
+            localStorage.setItem('expiresRef', user.expiresRef);
+            this.atz.expiresRef = +user.expiresRef;
+            localStorage.setItem('expires', user.expires);
+            this.atz.expires = +user.expires;
+            localStorage.setItem('usuario_uuid', user.usuario_uuid);
+            this.atz.usuario_uuid = user.usuario_uuid;
+            if (user.appconfig !== undefined) {
+              const u: any = user.appconfig;
+              if (u.usuario_uuid === undefined) {
+                u.usuario_uuid = user.usuario_uuid;
+              }
+              localStorage.setItem('appconfig', JSON.stringify(u));
+            }
+            this.atz.currentUser = JSON.parse(user.currentUser);;
+            // this.expires = +user.expires;
+            // this.expiresRef = +user.expiresRef;
+            // this._token =user.token;
+            // this._refToken = user.refleshToken;
+            delete user.token;
+            delete user.refleshToken;
+            delete user.expiresRef;
+            delete user.expires;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.atz.logado = true;
+            // this.atz.logadoSubject.next(true);
+            // this.teste = this.getTeste();
+            return of(vf);
+          } else {
+            vf = false;
+            this.atz.logado = false;
+            return of(vf);
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('fim');
+          return of(true);
+        }
+      })
+  }*/
 
   refleshToken(): Observable<boolean> {
     const url = this.getUrl() + 'reflesh';
@@ -138,31 +301,32 @@ export class AutenticacaoService {
             localStorage.removeItem('expires');
             localStorage.removeItem('usuario_uuid');
             localStorage.setItem('access_token', user.token);
+            this.atz.token = user.token;
             localStorage.setItem('reflesh_token', user.refleshToken);
+            this.atz.refToken = user.refleshToken;
             localStorage.setItem('expiresRef', user.expiresRef);
+            this.atz.expiresRef = +user.expiresRef;
             localStorage.setItem('expires', user.expires);
+            this.atz.expires = +user.expires;
             localStorage.setItem('usuario_uuid', user.usuario_uuid);
-            if (user.appconfig !== undefined) {
-              user.appconfig.usuario_uuid = user.usuario_uuid;
-              localStorage.setItem('appconfig', JSON.stringify(user.appconfig));
-              // this.cs.setConfig(user.appconfig);
+            this.atz.usuario_uuid = user.usuario_uuid;
+            if (!localStorage.getItem('appconfig')) {
+              if (user.appconfig !== undefined) {
+                const u: any = user.appconfig;
+                if (u.usuario_uuid === undefined) {
+                  u.usuario_uuid = user.usuario_uuid;
+                }
+                localStorage.setItem('appconfig', JSON.stringify(u));
+              }
             }
-            // this.expires = +user.expires;
-            // this.expiresRef = +user.expiresRef;
-            // this._token = user.token;
-            // this._refToken = user.refleshToken;
+            this.atz.currentUser = JSON.parse(user.currentUser);;
             delete user.token;
             delete user.refleshToken;
             delete user.expiresRef;
             delete user.expires;
             localStorage.setItem('currentUser', JSON.stringify(user));
-            this.atz.logado = true;
-            // this.carregaPermissoes(user);
             return true;
           } else {
-            // this.cancelaPermissoes();
-
-            this.atz.logado = false;
             return false;
           }
         }));

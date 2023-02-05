@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
   HttpResponse
-} from '@angular/common/http';
+} from "@angular/common/http";
 
 import { map, take } from "rxjs/operators";
 
 import { Observable } from "rxjs";
-import {AutenticacaoService} from "../_services/autenticacao.service";
+import { AutenticacaoService } from "../_services/autenticacao.service";
 import { Router } from "@angular/router";
 import { AutorizaService } from "../_services/autoriza.service";
 
@@ -19,75 +19,53 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(
     private aut: AutenticacaoService,
     private atz: AutorizaService,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request instanceof HttpRequest) {
-      // if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1 && request.urlWithParams.search('/msg') === -1) {
-      if (request.urlWithParams.search('viacep.com.br') === -1 && request.urlWithParams.search('gbnt05raiz.s3.sa-east-1.amazonaws.com') === -1 && request.urlWithParams.search('/reflesh') === -1) {
-        if (this.atz.vfRefToken) {
+      if (request.urlWithParams.search("viacep.com.br") === -1 && request.urlWithParams.search("gbnt05raiz.s3.sa-east-1.amazonaws.com") === -1 && request.urlWithParams.search("/reflesh") === -1 && request.urlWithParams.search("/login") === -1) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: "Bearer " + this.atz.token
+          }
+        });
+        return next.handle(request).pipe(map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse && (event.status / 100) > 3) {
+            console.log("JwtInterceptor2::event =", event);
+          }
+          return event;
+        }));
+      }
+
+      if (request.urlWithParams.search("/reflesh") > -1) {
+        if (this.atz.refTokenVF) {
           request = request.clone({
             setHeaders: {
-              Authorization: 'Bearer ' + this.atz.token
+              Authorization: "Bearer " + this.atz.refToken,
+              Reflesh: "true"
             }
           });
           return next.handle(request).pipe(map((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse && (event.status / 100) > 3) {
-              console.log('JwtInterceptor2::event =', event);
+              console.log("JwtInterceptor2::event =", event);
             }
             return event;
           }));
         } else {
-          /*if (this.atz.rtkvalido) {
-            this.aut.refleshToken().pipe(take(1)).subscribe({
-              next: (vf) => {
-                if (vf) {
-                  request = request.clone({
-                    setHeaders: {
-                      Authorization: 'Bearer ' + this.aut.token
-                    }
-                  });
-                  return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-                    if (event instanceof HttpResponse && (event.status / 100) > 3) {
-                      console.log('JwtInterceptor2::event =', event);
-                    }
-                    return event;
-                  }));
-                } else {
-                  this.router.navigate(['/login']);
-                }
-              }
-            });
-            /!*request = request.clone({
-              setHeaders: {
-                Authorization: 'Bearer ' + this.aut.refToken
-              }
-            });*!/
-          } else {
-            this.router.navigate(['/login']);
-          }*/
-          this.router.navigate(['/login']);
+          this.router.navigate(["/login"]);
         }
       }
 
-
-      if (request.urlWithParams.search('/reflesh') > -1) {
-        request = request.clone({
-          setHeaders: {
-            Authorization: 'Bearer ' + this.atz.refToken,
-            Reflesh: 'true'
+      if (request.urlWithParams.search("/login") > -1) {
+        return next.handle(request).pipe(map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse && (event.status / 100) > 3) {
+            console.log("JwtInterceptor2::event =", event);
           }
-        });
+          return event;
+        }));
       }
-
-      return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse && (event.status / 100) > 3) {
-          console.log('JwtInterceptor2::event =', event);
-        }
-        return event;
-      }));
     }
-
   }
 }

@@ -7,11 +7,15 @@ import {AuthenticationService} from '../_services';
 import {of, Subscription} from 'rxjs';
 import {OnoffLineService} from "../shared/onoff-line/onoff-line.service";
 import {AutenticacaoService} from "../_services/autenticacao.service";
+import { numbers } from "quill-to-pdf/dist/src/default-styles";
+import { telaI } from "../_models/telaI";
 
 function _window(): any {
   // return the global native browser window object
   return window;
 }
+
+
 
 @Component({
   templateUrl: 'login.component.html',
@@ -26,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   sub: Subscription[] = [];
   mostraForm = false;
 
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -34,17 +39,39 @@ export class LoginComponent implements OnInit, OnDestroy {
     // private authenticationService: AuthenticationService,
     public ol: OnoffLineService
   ) {
-    if (this.as.refLogin()) {
-      this.router.navigate(['/']);
-    }
-  }
-
-  ngOnInit() {
-    // console.log('LoginComponent carregaPermissoes1', this.authenticationService.a, this.authenticationService.currentUser);
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.min(7), Validators.max(50)]]
     });
+    /*if (this.as.refLogin()) {
+      this.router.navigate(['/']);
+    }*/
+  }
+
+  ngOnInit() {
+    let v: boolean
+    /*this.sub.push(this.as.slogin.pipe(take(1)).subscribe({
+        next: (vf)=> {
+          if (!vf) {
+            v = vf;
+            this.resetar();
+          }
+        },
+      error: err => {
+          console.error(err);
+      },
+      complete: () => {
+          if (v) {
+            this.router.navigate(['home']);
+          }
+      }
+      })
+    )*/
+
+
+
+
+
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -53,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     return _window();
   }
 
-  getScreen() {
+  getScreen(): telaI {
     const w = this.nativeWindow();
     const m = w.screen;
     const n = w.navigator;
@@ -67,36 +94,28 @@ export class LoginComponent implements OnInit, OnDestroy {
       availHeight: m.availHeight,
       pixelDepth: m.pixelDepth,
       colorDepth: m.colorDepth,
-      // appCodeName: n.appCodeName,
-      // product: n.product,
-      // appVersion: n.appVersion,
       userAgent: n.userAgent,
-      // platform: n.platform,
       onLine: n.onLine,
       hostname: w.location.hostname,
     };
   }
 
-  onSubmit() {
+
+
+  submeter() {
     if (this.loginForm.valid) {
-
+      const ss: telaI = this.getScreen();
       this.loading = true;
-      this.sub.push(this.as.login(this.loginForm.controls.username.value, this.loginForm.controls.password.value,this.getScreen())
-        .pipe(take(1))
-        .subscribe(vf => {
-          console.log('login', vf);
-            if (vf) {
-              // const user: any = JSON.parse(localStorage.getItem('currentUser'));
-              // this.authenticationService.carregaPermissoes(user);
-              this.router.navigate(['/']);
-            }
-          }
-        )
-      );
-
+      const u: string = this.loginForm.get('username').value;
+      const s: string = this.loginForm.get('password').value;
+      this.enviar(u, s, ss);
     } else {
       this.verificaValidacoesForm(this.loginForm);
     }
+  }
+
+  enviar(u: string, s:string, ss: telaI) {
+    this.as.login(u, s, ss);
   }
 
   resetar() {

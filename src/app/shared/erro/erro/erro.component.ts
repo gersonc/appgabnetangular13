@@ -13,7 +13,7 @@ export class ErroComponent implements OnInit, OnDestroy {
     public es: ErroService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {;
     this.es.erro$.subscribe((d: boolean) => {
       if (d) {
         this.abrir();

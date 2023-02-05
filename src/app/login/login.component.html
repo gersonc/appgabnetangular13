@@ -12,7 +12,7 @@
 
               <div class="loginbox">
 
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="on">
+                <form [formGroup]="loginForm" autocomplete="on">
                   <div class="field">
                     <div class="field p-2" [ngClass]="aplicaCssErro('username')">
                       <label for="username">E-mail</label>
@@ -58,10 +58,11 @@
                       <button
                         pButton
                         appOffline
-                        type="submit"
+                        type="button"
                         class="p-button-rounded"
-                        [disabled]="mostraForm"
+                        [disabled]="!loginForm.valid && mostraForm"
                         label="Enviar"
+                        (click)="submeter()"
                       ></button>
                     </div>
                     <!--<div class="field">

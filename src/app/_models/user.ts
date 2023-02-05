@@ -1,5 +1,6 @@
 import {IScope} from './iscope';
 import {Irule} from './irule';
+import { AppConfig, AppConfigServerI } from "./appconfig";
 
 export class User {
   cadastro_campo1_nome?: string;
@@ -16,13 +17,17 @@ export class User {
   config_cota_utilizada?: number;
   dispositivo?: string;
   erro?: any[];
-  // expires?: number;
-  // expiresRef?: number;
-  parlamentar_arquivo_ativo?: number;
+  expires?: string;
+  expiresRef?: string;
+  refleshToken?: string;
+  appconfig?: AppConfigServerI | AppConfig;
+  // parlamentar_arquivo_ativo?: number;
   parlamentar_id?: number;
+  gabnet_id?: number;
   parlamentar_nome?: string;
-  parlamentar_sms_ativo?: number;
-  parlamentar_versao?: number;
+  // parlamentar_sms_ativo?: number;
+  gabinete_id?: number;
+  solicitacao_versao?: number;
   rule?: any[];
   scope?: any[];
   token?: string;
@@ -36,14 +41,17 @@ export class User {
   usuario_nome?: string;
   usuario_principal_sn?: number;
   usuario_responsavel_sn?: number;
-  usuario_senha?: string;
+  // usuario_senha?: string;
+  currentUser?: any;
+  ultimaVisita?: number;
+  datahora?: string;
 }
 
 export class User2 {
   usuario_id?: number;
   parlamentar_id?: number;
   parlamentar_nome?: string;
-  parlamentar_versao?: number;
+  gabinete_id?: number;
   parlamentar_sms_ativo?: number;
   parlamentar_arquivo_ativo?: number;
   usuario_nome?: string;

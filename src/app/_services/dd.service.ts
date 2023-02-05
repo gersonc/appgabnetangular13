@@ -83,14 +83,14 @@ export class DdService {
   ) {
   }
 
-  getDd2(dados: string |string[]) {
+  getDd(dados: string |string[]) {
     const args = {
       dados: dados
     }
-    return this.http.post<any[]>(this.url.dd, args, HeaderService.tokenHeader);
+    return this.http.post<any>(this.url.dd, args, HeaderService.tokenHeader);
   }
 
-  getDd(dados: string |string[]): Observable<any[]>{
+ /* getDd(dados: string |string[]): Observable<any[]>{
     const subject = new Subject<any[]>();
     const dd: DdsI[] = [];
     let sb = new Subscription();
@@ -111,7 +111,7 @@ export class DdService {
         }
       );
     return subject;
-  }
+  }*/
 
   ddSubscriptionArray(dados: string[]) {
     this.sub.push(this.postDd(dados)

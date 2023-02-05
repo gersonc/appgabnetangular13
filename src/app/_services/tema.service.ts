@@ -41,6 +41,7 @@ export class TemaService {
   }
 
   putTema(dados: any): Observable<any> {
+    this.config = dados;
     const httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
     return this.http.put<any>(this.url.tema, dados, httpOptions);
   }
@@ -49,7 +50,8 @@ export class TemaService {
     this.parceTema(dados);
   }
 
-  gravaTema() {
+  gravaTema(dados: AppConfig) {
+    this.config = dados;
     const dado: any = this.parceToServer(this.config);
     console.log('grava tema 2', dado);
     localStorage.setItem("appconfig", JSON.stringify(dado));
@@ -60,7 +62,7 @@ export class TemaService {
 
   parceAppConfig(dados?: string): AppConfig {
     const a: any = (dados !== undefined) ? dados : JSON.parse(localStorage.getItem("appconfig"));
-    if (a.usuario_uuid === undefined) {
+    if (a.usuario_uuid === undefined || a.usuario_uuid === null) {
       a.usuario_uuid = localStorage.getItem("usuario_uuid");
     }
     return {
@@ -102,7 +104,7 @@ export class TemaService {
     if (c.usuario_uuid !== undefined && c.usuario_uuid !== this.config.usuario_uuid) {
       this.config.usuario_uuid = c.usuario_uuid;
     }
-    if (c.usuario_uuid === undefined && localStorage.getItem("usuario_uuid")) {
+    if ((c.usuario_uuid === null || c.usuario_uuid === undefined) && localStorage.getItem("usuario_uuid")) {
       c.usuario_uuid = JSON.parse(localStorage.getItem("usuario_uuid"));
     }
     if (c.scale !== undefined && c.scale !== this.config.scale) {

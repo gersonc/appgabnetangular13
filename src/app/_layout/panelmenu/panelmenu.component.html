@@ -1,10 +1,10 @@
 
-<div id="menuPrincipal" class="{{menuPrincipalClasses}}">
+<div id="menuPrincipal" [ngClass]="md.menuClass">
   <!--<div *ngIf="md.mdt" style="background-color: transparent; min-width: 30ch; padding-right: 2em; padding-bottom: 2em;">-->
-  <div *ngIf="md.mdt" class="scrolling-area">
-    <!--<div style="background-color: transparent; box-shadow: .3em .8em .7em var(&#45;&#45;surface-400);">-->
-    <div class="scrolling-element-inside">
+  <!--<div *ngIf="md.mdt" class="scrolling-area">
+    &lt;!&ndash;<div style="background-color: transparent; box-shadow: .3em .8em .7em var(&#45;&#45;surface-400);">&ndash;&gt;
+    <div class="scrolling-element-inside">-->
       <p-panelMenu *ngIf="ol.isOnline" [model]="items" styleClass="menuprincipal"></p-panelMenu>
-    </div>
-  </div>
+    <!--</div>
+  </div>-->
 </div>
