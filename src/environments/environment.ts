@@ -15,9 +15,11 @@ export const environment = {
 
 export const environment = {
   apiUrl: 'http://slimgn08.dv/',
-  apiUrlReflesh: 'http://vmgabnet.dv/api/refleshtoken',
+  apiUrlReflesh: 'http://slimgn08.dv/refleshtoken',
   production: false
 };
+
+
 /*
 
  * For easier debugging in development mode, you can import the following file

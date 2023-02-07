@@ -1,6 +1,7 @@
 
 
 
+/*
 
 export const environment = {
   production: true,
@@ -8,4 +9,12 @@ export const environment = {
   apiUrlReflesh: 'http://vmgabnet.dv/api/refleshtoken',
   secure: true,
 }
+*/
 
+
+export const environment = {
+  production: true,
+  apiUrl: 'https://app.gabinet.com.br/api/',
+  apiUrlReflesh: 'https://app.gabinet.com.br/api/refleshtoken',
+  secure: true,
+};
