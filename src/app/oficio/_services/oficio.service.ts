@@ -15,6 +15,7 @@ import {OficioBuscaI} from "../_models/oficio-busca-i";
 import {DdOficioProcessoIdI} from "../_models/dd-oficio-processo-id-i";
 import {OficioFormularioInterface} from "../_models/oficio-formulario";
 import {TituloI} from "../../_models/titulo-i";
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -460,48 +461,48 @@ export class OficioService {
   }
 
   postOficioBusca(busca: OficioBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.oficio + '/listar';
     return this.http.post<OficioPaginacaoI>(url, busca, httpOptions);
   }
 
   postOficioRelatorio(busca: OficioBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.oficio + '/relatorio';
     return this.http.post<OficioPaginacaoI>(url, busca, httpOptions);
   }
 
   getDdProcessoId(processo_id): Observable<DdOficioProcessoIdI> {
     const url = this.url.oficio + '/ddprocesso/' + processo_id;
-    return this.http.get<DdOficioProcessoIdI>(url);
+    return this.http.get<DdOficioProcessoIdI>(url, HeaderService.tokenHeader);
   }
 
   incluirOficio(dados: OficioFormularioInterface): Observable<any[]> {
     const url = this.url.oficio + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
   /*getOficioAlterar(oficio_id: number): Observable<OficioInterface> {
     const url = this.url.oficio + '/alterar/' + oficio_id;
-    this.getalterar$ = this.http.get<OficioInterface>(url);
+    this.getalterar$ = this.http.get<OficioInterface>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
     return this.getalterar$;
   }*/
 
   alterarOficio(dados: OficioFormularioInterface): Observable<any[]> {
     const url = this.url.oficio + '/alterar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]> (url, dados, httpOptions);
   }
 
   deleteOficioId(oficio_id: number): Observable<any[]> {
     const url = this.url.oficio + '/' + oficio_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   putOficioAnalisar(dados: any): Observable<any[]> {
     const url = this.url.oficio + '/analisar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 

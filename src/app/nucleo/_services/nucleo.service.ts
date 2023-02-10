@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { UrlService } from "../../_services";
 import { LocalClass, LocalInterface } from "../_models/nucleo";
 import {SelectItem} from "primeng/api";
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -44,24 +45,25 @@ export class NucleoService {
 
   listar(): Observable<LocalInterface[]> {
     const url = this.url.nucleo + '/listar';
-    return this.http.get<LocalInterface[]>(url);
+    // @ts-ignore
+    return this.http.get<LocalInterface[]>(url, HeaderService.tokenHeader);
   }
 
   incluir(et: LocalInterface): Observable<any[]> {
     const url = this.url.nucleo + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]> (url, et, httpOptions);
   }
 
   alterar(nu: LocalInterface): Observable<any[]> {
     const url = this.url.nucleo;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]> (url, nu, httpOptions);
   }
 
   excluir(local_id: number): Observable<any[]> {
     const url = this.url.nucleo + '/' + local_id;
-    return this.http.delete<any[]>(url)
+    return this.http.delete<any[]>(url, HeaderService.tokenHeader)
   }
 
   ngDestroy() {

@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {first, take} from 'rxjs/operators';
 
-import {AuthenticationService} from '../_services';
+// import {AuthenticationService} from '../_services';
 import {of, Subscription} from 'rxjs';
 import {OnoffLineService} from "../shared/onoff-line/onoff-line.service";
 import {AutenticacaoService} from "../_services/autenticacao.service";

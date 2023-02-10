@@ -462,25 +462,25 @@ export class ContaService {
 
   postContaBusca(dados: ContaBuscaI): Observable<ContaPaginacaoInterface> {
     const url = this.url.conta + '/listar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<ContaPaginacaoInterface>(url, dados, httpOptions);
   }
 
   postContaRelatorio(dados: ContaBuscaI): Observable<ContaPaginacaoInterface> {
     const url = this.url.conta + '/relatorio';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<ContaPaginacaoInterface>(url, dados, httpOptions);
   }
 
   incluirConta(dados: ContaFormI): Observable<any[]> {
     const url = this.url.conta;
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarConta(dados: ContaFormI): Observable<any[]> {
     const url = this.url.conta;
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
@@ -497,14 +497,14 @@ export class ContaService {
       'conta_pagamento': conta_pagamento
     };
     const url = this.url.conta + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirConta(conta_id: number, todos: boolean): Observable<any[]> {
     const td: string = todos ? '/t' : '/';
     const url = this.url.conta + td + conta_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
 

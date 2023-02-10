@@ -9,6 +9,7 @@ import {EtiquetaCadastroService} from "./etiqueta-cadastro.service";
 import {take} from "rxjs/operators";
 import {EtiquetaInterface} from "../_models";
 import {WindowsService} from "../../_layout/_service";
+import { HeaderService } from "../../_services/header.service";
 
 
 @Injectable({
@@ -39,12 +40,12 @@ export class EtiquetaService {
   public getConfigEtiqueta(etq_id: number): Observable<EtiquetaInterface> {
     this.url = this.urlService.etiqueta;
     const url = this.url + '/getid/' + etq_id;
-    return this.http.get<EtiquetaInterface>(url);
+    return this.http.get<EtiquetaInterface>(url, HeaderService.tokenHeader);
   }
 
   postEtiquetas() {
     const url = this.urlService.cadastro + '/listaretiqueta3';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<CadastroEtiquetaI[]>(url, this.ecs.busca, httpOptions);
   }
 

@@ -617,25 +617,25 @@ export class TarefaService {
 
   postTarefaBusca(dados: TarefaBuscaI): Observable<TarefaPaginacaoI> {
     const url = this.url.tarefa + '/listar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<TarefaPaginacaoI>(url, dados, httpOptions);
   }
 
   postTarefaRelatorio(dados: TarefaBuscaI): Observable<TarefaPaginacaoI> {
     const url = this.url.tarefa + '/relatorio';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<TarefaPaginacaoI>(url, dados, httpOptions);
   }
 
   incluirTarefa(dados: TarefaFormI): Observable<any[]> {
     const url = this.url.tarefa + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarTarefa(dados: TarefaFormI): Observable<any[]> {
     const url = this.url.tarefa + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
@@ -652,36 +652,36 @@ export class TarefaService {
       'tarefa_pagamento': tarefa_pagamento
     };
     const url = this.url.tarefa + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirTarefa(tarefa_id: number): Observable<any[]> {
     const url = this.url.tarefa + '/' + tarefa_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   excluirHistorico(th_id: number) {
     const url = this.url.tarefa + '/andamento/' + th_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   incluirAndamento(dados: TarefaHistoricoI): Observable<any[]> {
     const url = this.url.tarefa + '/andamento';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
 
   putTarefaAtualizarUsuarioSituacao(tusa: TarefaUsuarioSituacaoAtualisarFormI): Observable<any[]> {
     const url = this.url.tarefa + '/atualizar/usuario/situacao';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, tusa, httpOptions);
   }
 
   putTarefaAtualizarAutorSituacao(tusa: TarefaAutorSituacaoFormI): Observable<any[]> {
     const url = this.url.tarefa + '/atualizar/autor/situacao';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, tusa, httpOptions);
   }
 

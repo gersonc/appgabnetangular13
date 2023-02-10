@@ -1,12 +1,13 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {UrlService} from "../../_services";
-import {EtiquetaInterface} from "../_models";
-import {EtiquetaDropdownI} from "../_models/etiqueta-dropdown-i";
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { UrlService } from "../../_services";
+import { EtiquetaInterface } from "../_models";
+import { EtiquetaDropdownI } from "../_models/etiqueta-dropdown-i";
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class EtiquetaConfigService {
 
@@ -20,30 +21,40 @@ export class EtiquetaConfigService {
 
   constructor(
     private url: UrlService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {
   }
 
   listar(): Observable<EtiquetaInterface[]> {
-    const url = this.url.etiquetaconfig + '/listar';
-    return this.http.get<EtiquetaInterface[]>(url);
+    const url = this.url.etiquetaconfig + "/listar";
+    return this.http.get<EtiquetaInterface[]>(url, HeaderService.tokenHeader);
   }
 
   incluir(et: EtiquetaInterface): Observable<any[]> {
-    const url = this.url.etiquetaconfig + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.url.etiquetaconfig + "/incluir";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.post<any[]>(url, et, httpOptions);
   }
 
   alterar(et: EtiquetaInterface): Observable<any[]> {
     const url = this.url.etiquetaconfig;
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.put<any[]>(url, et, httpOptions);
   }
 
   excluir(etq_id: number): Observable<any[]> {
-    const url = this.url.etiquetaconfig + '/' + etq_id;
-    return this.http.delete<any[]>(url)
+    const url = this.url.etiquetaconfig + "/" + etq_id;
+    return this.http.delete<any[]>(url, HeaderService.tokenHeader);
   }
 
   novaEtiqueta(): EtiquetaInterface {
@@ -61,7 +72,7 @@ export class EtiquetaConfigService {
       etq_colunas: 0,
       etq_folha_horz: 0,
       etq_folha_vert: 0
-    }
+    };
   }
 
   dropToList(et: EtiquetaDropdownI[]): EtiquetaInterface[] {
@@ -87,7 +98,7 @@ export class EtiquetaConfigService {
   listToDrop(et: EtiquetaInterface[]): EtiquetaDropdownI[] {
     return et.map((e) => {
       return {
-        label: e.etq_marca + ' - ' + e.etq_modelo,
+        label: e.etq_marca + " - " + e.etq_modelo,
         etq_id: e.etq_id,
         etq_marca: e.etq_marca,
         etq_modelo: e.etq_modelo,

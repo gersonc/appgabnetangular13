@@ -17,7 +17,7 @@ import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
-import { AutenticacaoService } from "./_services/autenticacao.service";
+// import { AutenticacaoService } from "./_services/autenticacao.service";
 import { AutorizaService } from "./_services/autoriza.service";
 import { DispositivoService } from "./_services/dispositivo.service";
 
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // public configService: AppConfigService,
     private atz: AutorizaService,
     public authenticationService: AuthenticationService,
-    private aut: AutenticacaoService,
+    // private aut: AutenticacaoService,
     private windowsService: WindowsService,
     private router: Router,
     public sps: SpinnerService,
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    console.log('AppComponent ngOnInit');
     this.s.push(this.atz.logado$.subscribe({
         next: (n) => {
           console.log('AppComponent logado$', n);

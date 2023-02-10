@@ -226,7 +226,7 @@ export class GraficosComponent implements OnInit, OnDestroy {
 
   postListarAll(dados?: any): Observable<GraficoI> {
     const url = this.url.grafico + '/';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<GraficoI>(url, dados, httpOptions);
   }
 

@@ -463,65 +463,65 @@ export class SolicService {
   }
 
   postSolicitacaoBusca(busca: SolicBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.solic + '/listar';
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
   }
 
   postSolicitacaoRelatorio(busca: SolicBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.solic + '/relatorio';
     return this.http.post<SolicPaginacaoInterface>(url, busca, httpOptions);
   }
 
   /*getSolicitacaoDetalhe(id: number) {
     const url = this.url.solic + '/detalhe/' + id;
-    return this.http.get<SolicDetalheI>(url);
+    return this.http.get<SolicDetalheI>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }*/
 
   incluirSolicitacao(dados: SolicFormI): Observable<any> {
     let url: string;
     url = this.url.solic + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarSolicitacao(dados: SolicFormI): Observable<any> {
     let url: string;
     url = this.url.solic + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   analisarSolicitacao(dados: SolicFormAnalisar): Observable<any> {
     let url: string;
     url = this.url.solic + '/analisar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirSolicitacao(id: number): Observable<any> {
     const url = this.url.solic + '/' + id;
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   postVerificarNumOficio(dados: any): Observable<any> {
     let url: string;
     url = this.url.solic + '/verificanumoficio';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   postVerificarNumProesso(dados: any): Observable<any> {
     let url: string;
     url = this.url.proce + '/validarnum';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   getSgstNumProcesso(): Observable<any> {
     const url = this.url.proce + '/sugestnum';
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   recebeRegistro(h: HistFormI) {

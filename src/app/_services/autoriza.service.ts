@@ -80,18 +80,24 @@ export class AutorizaService {
   }
 
   getInicio() : Observable<boolean> {
+    console.log('getInicio 0');
     if (this.vfToken) {
+      console.log('getInicio 1');
       this.parseLogado();
       return of(true);
     } else {
+      console.log('getInicio 2');
       if (this.refTokenVF) {
+        console.log('getInicio 3');
         let vf: boolean;
         const url =`${environment.apiUrl}` + 'reflesh';
         return this.http.get<any>(url)
           .pipe(
             take(1),
             map(user => {
+              console.log('getInicio 4');
               if (user && user.token) {
+                console.log('getInicio 5');
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('reflesh_token');
@@ -132,12 +138,14 @@ export class AutorizaService {
                 // this.carregaPermissoes(user);
                 return true;
               } else {
+                console.log('getInicio 6');
                 // this.cancelaPermissoes();
                 // this.atz.logado = false;
                 return false;
               }
             }));
       } else {
+        console.log('getInicio 7');
         return of(false);
       }
     }
@@ -214,6 +222,10 @@ export class AutorizaService {
 
       }*/
     }
+  }
+
+  renovaTokens() {
+
   }
 
   set logado(vf: boolean) {

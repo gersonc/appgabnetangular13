@@ -138,7 +138,7 @@ export class CalendarioService {
 
   imprimir(start: string, end: string): Observable<any[]> {
     const url = this.url.calendario + '/imprimir/' + start + '/' + end;
-    return this.http.get<any[]>(url);
+    return this.http.get<any[]>(url, HeaderService.tokenHeader);
   }
 
   setColor() {

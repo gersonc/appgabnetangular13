@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {UrlService} from "../../_services";
 import {HttpClient} from "@angular/common/http";
 import {MensagemI} from "../_models/mensagem-i";
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class MensagemService2 {
 
   getMensagemNLidas() {
     const url = this.url.mensagem;
-    return this.http.get<MensagemI[]>(url);
+    return this.http.get<MensagemI[]>(url, HeaderService.tokenHeader);
   }
 
 }

@@ -34,7 +34,7 @@ export class DetalheService {
 
   getBusca(modulo: string, id?: number) {
     const url = this.url.getModulo(modulo) + '/' + id;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   /*detalhe() {

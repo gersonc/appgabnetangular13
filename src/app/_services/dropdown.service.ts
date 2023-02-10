@@ -154,7 +154,7 @@ export class DropdownService {
 
   public postDropdownNomeId(dados: any): Observable<any[]> {
     const dd = this.url.dropdown + '/nomeid';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(dd, dados, httpOptions);
   }
 
@@ -298,7 +298,7 @@ export class DropdownService {
 
   /*  public getDropdownSolicitacaoMenuTodos(): Observable<SolicitacaoDropdownMenuListarInterface> {
       const url = this.url.dropdown + '/solicitacaomenutodos';
-      return this.http.get<SolicitacaoDropdownMenuListarInterface>(url);
+      return this.http.get<SolicitacaoDropdownMenuListarInterface>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
     }*/
 
   public getDropdownResponsavel(): Observable<SelectItem[]> {
@@ -308,7 +308,7 @@ export class DropdownService {
 
   /*public getDropdownCadastroMenuTodos(): Observable<CadastroMenuDropdown> {
     const url = this.url.dropdown + '/cadastromenutodos';
-    return this.http.get<CadastroMenuDropdown>(url);
+    return this.http.get<CadastroMenuDropdown>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 */
   /*  public getDdSolicitacaoMenuTodos() {

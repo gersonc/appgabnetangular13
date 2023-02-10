@@ -30,7 +30,7 @@ export class ConfiguracaoService {
 
   postListarAll(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao + '/listar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
@@ -44,38 +44,38 @@ export class ConfiguracaoService {
 
   impactoAlterar(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao + '/impactoalterar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterar(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   verificaIncluir(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao + '/verificaincluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   incluir(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   impactoDelete(dados: any[]): Observable<any[]> {
     const url = this.url.configuracao + '/impactodelete';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   deletar(dados: any): Observable<any[]> {
     const url = this.url.configuracao;
     const httpOptions = {
-      headers: new HttpHeaders ({ 'Content-Type': 'application/json' }),
+      headers: new HttpHeaders ({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'}),
       body: dados
     };
     return this.http.delete<any[]>(url, httpOptions);

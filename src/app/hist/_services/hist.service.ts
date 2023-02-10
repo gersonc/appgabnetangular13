@@ -33,7 +33,7 @@ export class HistService {
     if (dados.modulo === 'emenda') {
       url = this.url.historicoEmenda;
     }
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     console.log('url', url);
     return this.http.post<any[]> (url, envio, httpOptions);
   }
@@ -50,7 +50,7 @@ export class HistService {
     if (dados.modulo === 'emenda') {
       url = this.url.historicoEmenda;
     }
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]> (url, envio, httpOptions);
   }
 
@@ -66,7 +66,7 @@ export class HistService {
     if (modulo === 'emenda') {
       url = this.url.historicoEmenda + '/' + id;
     }
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.delete<any[]>(url, httpOptions);
   }
 

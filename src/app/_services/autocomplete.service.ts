@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UrlService } from './url.service';
 import { SelectItem } from 'primeng/api';
+import { HeaderService } from "./header.service";
 
 @Injectable({
   providedIn: 'root' // just before your class
@@ -20,7 +21,7 @@ export class AutocompleteService {
       + '/' + tabela
       + '/' + campo_nome
       + '/' + str;
-    this.acsimple$ = this.http.get<any[]>(ac);
+    this.acsimple$ = this.http.get<any[]>(ac, HeaderService.tokenHeader);
     return this.acsimple$;
   }
 
@@ -28,7 +29,9 @@ export class AutocompleteService {
     const ac = this.autocompleteUrl + '/acsimples2';
     const httpOptions = {
       headers: new HttpHeaders({
-        'GabNet': tabela + ',' + campo_nome + ',' + str
+        'GabNet': tabela + ',' + campo_nome + ',' + str,
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
       })
     };
 
@@ -41,7 +44,9 @@ export class AutocompleteService {
     const ac = this.autocompleteUrl + '/acsimples3';
     const httpOptions = {
       headers: new HttpHeaders({
-        'GabNet': tabela + ',' + campo_nome + ',' + str
+        'GabNet': tabela + ',' + campo_nome + ',' + str,
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
       })
     };
     this.acsimple$ = this.http.get<any[]>(ac, httpOptions);
@@ -53,7 +58,9 @@ export class AutocompleteService {
     const ac = this.autocompleteUrl + '/acnomelimpo';
     const httpOptions = {
       headers: new HttpHeaders({
-        'GabNet': str
+        'GabNet': str,
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
       })
     };
     return this.http.get<any[]>(ac, httpOptions);
@@ -64,7 +71,9 @@ export class AutocompleteService {
     const ac = this.autocompleteUrl + '/accadastroid';
     const httpOptions = {
       headers: new HttpHeaders({
-        'GabNet': str
+        'GabNet': str,
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
       })
     };
     return this.http.get<SelectItem[]>(ac, httpOptions);
@@ -75,7 +84,9 @@ export class AutocompleteService {
     const ac = this.autocompleteUrl + '/accadastroidtipo';
     const httpOptions = {
       headers: new HttpHeaders({
-        'GabNet': str + ',' + id
+        'GabNet': str + ',' + id,
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
       })
     };
     return this.http.get<SelectItem[]>(ac, httpOptions);
@@ -86,7 +97,10 @@ export class AutocompleteService {
       texto: str,
       id: (id === undefined || id === null) ? null : id
     };
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = {headers: new HttpHeaders({
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
+    })};
     const url = this.autocompleteUrl + '/accadastroidcontem';
     return this.http.post<SelectItem[]>(url, busca, httpOptions);
   }
@@ -100,7 +114,11 @@ export class AutocompleteService {
       const ac = this.autocompleteUrl + '/acidnomelimpo';
       const dados = tabela + ',' + campo_id + ',' + campo_nome + ',' + campo_nome_limpo + ',' + str;
       const httpOptions = {
-        headers: new HttpHeaders({'GabNet': dados})
+        headers: new HttpHeaders({
+          'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+          'Content-Type': 'application/json',
+          'GabNet': dados
+        })
       };
       this.acLimpo$ = this.http.get<SelectItem[]>(ac, httpOptions);
       return this.acLimpo$;
@@ -116,7 +134,11 @@ export class AutocompleteService {
     const ac = this.autocompleteUrl + '/acidnomelimpotipo';
     const dados = tipo + ',' + tabela + ',' + campo_id + ',' + campo_nome + ',' + campo_nome_limpo + ',' + str;
     const httpOptions = {
-      headers: new HttpHeaders({'GabNet': dados})
+      headers: new HttpHeaders({
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json',
+        'GabNet': dados
+      })
     };
     this.acLimpo$ = this.http.get<SelectItem[]>(ac, httpOptions);
     return this.acLimpo$;

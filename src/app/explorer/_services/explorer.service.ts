@@ -7,6 +7,7 @@ import {take} from "rxjs/operators";
 import {MessageService} from "primeng/api";
 import {SpinnerService} from "../../_services/spinner.service";
 import {ArquivoInterface} from "../../arquivo/_models";
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -127,12 +128,12 @@ export class ExplorerService {
   gerListagem(id = 0) {
     const n = (id > 0) ? '/' + id : '';
     const url = this.url.explorer + '/listar' + n;
-    return this.http.get<PastaListagem>(url);
+    return this.http.get<PastaListagem>(url, HeaderService.tokenHeader);
   }
 
   gerDir() {
     const url = this.url.explorer;
-    return this.http.get<Caminho[]>(url);
+    return this.http.get<Caminho[]>(url, HeaderService.tokenHeader);
   }
 
   getPastaId(): number {
@@ -173,7 +174,7 @@ export class ExplorerService {
   }
 
   postNovaPasta(pasta: Pasta): Observable<any[]> {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.explorer + '/incluir';
     return this.http.post<any[]>(url, pasta, httpOptions);
   }
@@ -201,7 +202,7 @@ export class ExplorerService {
 
   deleteArquivo(id: number): Observable<any[]> {
     const url = this.url.arquivo + '/' + id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, HeaderService.tokenHeader);
   }
 
   apagarPasta(id: number) {
@@ -220,7 +221,7 @@ export class ExplorerService {
 
   deletePasta(id: number): Observable<any[]> {
     const url = this.url.explorer + '/' + id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, HeaderService.tokenHeader);
   }
 
   atualisaArquivos(arqs: ArquivoInterface[]) {

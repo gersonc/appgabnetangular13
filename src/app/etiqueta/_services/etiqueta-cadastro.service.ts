@@ -85,7 +85,7 @@ export class EtiquetaCadastroService {
 
   postEtiquetas() {
     const url = this.urlService.cadastro + '/listaretiqueta3';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<CadastroEtiquetaI[]>(url, this.busca, httpOptions);
   }
 }

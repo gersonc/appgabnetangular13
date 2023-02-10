@@ -448,38 +448,38 @@ export class ProceService {
   }
 
   postProceBusca(busca: ProceBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.proce + '/listar';
     return this.http.post<ProcePaginacaoInterface>(url, busca, httpOptions);
   }
 
   postProcessoRelatorio(busca: ProceBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.proce + '/relatorio';
     return this.http.post<ProcePaginacaoInterface>(url, busca, httpOptions);
   }
 
   getProcessoDetalhe(id: number) {
     const url = this.url.proce + '/detalhe/' + id;
-    return this.http.get<ProceDetalheI>(url);
+    return this.http.get<ProceDetalheI>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   putProcessoAnalisar(dados: ProcFormAnalisarI): Observable<any> {
     let url: string;
     url = this.url.proce + '/analisar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirProcesso(id: number): Observable<any> {
     const url = this.url.proce + '/' + id;
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   postVerificarNumOficio(dados: any): Observable<any> {
     let url: string;
     url = this.url.proce + '/verificanumoficio';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 

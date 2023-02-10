@@ -466,13 +466,13 @@ export class ProposicaoService {
   }
 
   postProposicaoBusca(busca: ProposicaoBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.proposicao + '/listar';
     return this.http.post<ProposicaoPaginacaoI>(url, busca, httpOptions);
   }
 
   postProposicaoRelatorio(busca: ProposicaoBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.proposicao + '/relatorio';
     return this.http.post<ProposicaoPaginacaoI>(url, busca, httpOptions);
   }
@@ -480,27 +480,27 @@ export class ProposicaoService {
   incluirProposicao(dados: PropFormI): Observable<any> {
     let url: string;
     url = this.url.proposicao + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarProposicao(dados: PropFormI): Observable<any> {
     let url: string;
     url = this.url.proposicao + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   atualizarProposicao(dados: ProposicaoI): Observable<any> {
     let url: string;
     url = this.url.proposicao + '/atualizar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirProposicao(id: number): Observable<any> {
     const url = this.url.proposicao + '/' + id;
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   /*montaHistorico(idx: number) {

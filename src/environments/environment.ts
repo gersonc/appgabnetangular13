@@ -15,7 +15,7 @@ export const environment = {
 
 export const environment = {
   apiUrl: 'http://slimgn08.dv/',
-  apiUrlReflesh: 'http://slimgn08.dv/refleshtoken',
+  apiUrlReflesh: 'http://slimgn08.dv/reflesh/',
   production: false
 };
 

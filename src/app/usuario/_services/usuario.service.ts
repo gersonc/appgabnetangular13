@@ -108,24 +108,24 @@ export class UsuarioService {
 
   listar(): Observable<UsuarioInterface[]> {
     const url = this.url.usuario + '/listar';
-    return this.http.get<UsuarioInterface[]>(url);
+    return this.http.get<UsuarioInterface[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   incluir(dados: Usuario): Observable<any[]> {
     const url = this.url.usuario + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterar(dados: Usuario): Observable<any[]> {
     const url = this.url.usuario + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   apagar(id: number): Observable<any[]> {
     const url = this.url.usuario + '/' + id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   novoUsuario() {

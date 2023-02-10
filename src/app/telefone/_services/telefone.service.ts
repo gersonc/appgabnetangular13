@@ -463,25 +463,25 @@ export class TelefoneService {
 
   postTelefoneBusca(dados: TelefoneBuscaInterface): Observable<TelefonePaginacaoInterface> {
     const url = this.url.telefone + '/listar';
-    const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<TelefonePaginacaoInterface>(url, dados, httpOptions);
   }
 
   postTelefoneRelatorio(dados: TelefoneBuscaInterface): Observable<TelefonePaginacaoInterface> {
     const url = this.url.telefone + '/relatorio';
-    const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<TelefonePaginacaoInterface>(url, dados, httpOptions);
   }
 
   incluirTelefone(dados: TelefoneFormI): Observable<any[]> {
     const url = this.url.telefone;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
   alterarTelefone(dados: TelefoneFormI): Observable<any[]> {
     const url = this.url.telefone;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
@@ -489,7 +489,7 @@ export class TelefoneService {
 
   excluirTelefone(telefone_id: number): Observable<any[]> {
     const url = this.url.telefone + '/' + telefone_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   rowsChange(ev) {
@@ -565,12 +565,12 @@ export class TelefoneService {
 
   getTelefoneDetalhe(telefone_id: number): Observable<TelefoneDetalheInterface> {
     const url = this.url.telefone + '/detalhe/' + telefone_id;
-    return  this.http.get<TelefoneDetalheInterface>(url);
+    return  this.http.get<TelefoneDetalheInterface>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   getTelefoneAlterar(telefone_id: number): Observable<TelefoneInterface> {
     const url = this.url.telefone + '/alterar/' + telefone_id;
-    return this.http.get<TelefoneInterface>(url);
+    return this.http.get<TelefoneInterface>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   getColunaExtendida(): Observable<any> {

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UrlService} from "../../_services";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {UsuarioFormI} from "../_models/usuario-form-i";
 import {UsuarioInterface} from "../_models/usuario";
 import {Subscription} from "rxjs";
@@ -39,7 +39,7 @@ export class UsuarioFormUsuarioComponent implements OnInit, OnDestroy {
   getUsuarioId() {
     const u: any = localStorage.getItem('currentUser');
     const url = this.url.usuario + '/usuario/' + u.usuario_id;
-    return this.http.get<UsuarioFormI>(url);
+    return this.http.get<UsuarioFormI>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   criaForm() {

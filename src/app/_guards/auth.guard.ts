@@ -2,22 +2,24 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuthenticationService } from '../_services';
-import { AutenticacaoService } from "../_services/autenticacao.service";
+// import { AutenticacaoService } from "../_services/autenticacao.service";
 import { take } from "rxjs/operators";
-import { AutorizaService } from "../_services/autoriza.service";
+// import { AutorizaService } from "../_services/autoriza.service";
+import { RefTokenService } from "../_services/ref-token.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private aut: AutorizaService,
+    private rfs: RefTokenService,
     private auth: AuthenticationService
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    console.log("AuthGuard", this.rfs.vfRefExp());
+    if (this.rfs.vfRefExp()) {
 
-    if (this.aut.vfRefToken) {
       if (route.data.rules && this.auth.userScops.indexOf(route.data.rules) === -1) {
         this.router.navigate(['/']);
         return false;

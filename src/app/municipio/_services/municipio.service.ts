@@ -33,7 +33,7 @@ export class MunicipioService {
     }
     this._municipio$ = this.http.post<any[]>(
       this.url.aux + '/incluir', nome,
-      { headers: new HttpHeaders().set('Content-Type', 'application/json') }
+      { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'}) }
     );
     return this._municipio$;
   }

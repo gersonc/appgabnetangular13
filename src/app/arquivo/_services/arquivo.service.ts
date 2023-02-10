@@ -6,6 +6,7 @@ import {ArquivoInterface, ArquivoPermissaoInterface} from '../_models';
 import {saveAs} from 'file-saver';
 import {take} from 'rxjs/operators';
 import {ArquivoSpinnerService} from './arquivo-spinner.service';
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -171,7 +172,7 @@ export class ArquivoService {
 
   private getArquivoPermissoes(): Observable<ArquivoPermissaoInterface> {
     const url = this.url.arquivo + '/permissoes';
-    return this.http.get<ArquivoPermissaoInterface>(url);
+    return this.http.get<ArquivoPermissaoInterface>(url, HeaderService.tokenHeader);
   }
 
   public verificaPermissoes() {
@@ -198,7 +199,7 @@ export class ArquivoService {
 
   private getArquivosModuloListar(modulo: string, id: number): Observable<ArquivoInterface[]> {
     const url = this.url.arquivo + '/lista/' + modulo + '/' + id;
-    return this.http.get<ArquivoInterface[]>(url);
+    return this.http.get<ArquivoInterface[]>(url, HeaderService.tokenHeader);
   }
 
   public getArquivos(modulo: string, id: number): void {
@@ -232,12 +233,18 @@ export class ArquivoService {
       'nomeS3': nomeS3
     };
     const url = this.url.arquivo + '/download';
-    return this.http.post<string>(url, dados);
-    // return this.http.get<string>(url);
+    return this.http.post<string>(url, dados, HeaderService.tokenHeader);
+    // return this.http.get<string>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   public getDonloadS3(url: string) {
-    return this.http.get(url, { responseType: 'blob'});
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'responseType': 'Blob'
+      })
+    };
+    return this.http.get<Blob>(url, httpOptions);
   }
 
   public getDownload(nome: string, nomeS3: string) {
@@ -303,7 +310,7 @@ export class ArquivoService {
 
   private deleteArquivoServer(id: number|string): Observable<boolean> {
     const url = this.url.arquivo + '/' + id;
-    return this.http.delete<boolean>(url);
+    return this.http.delete<boolean>(url, HeaderService.tokenHeader);
   }
 
   public deleteArquivo(arquivo: ArquivoInterface): Observable<boolean> {
@@ -464,7 +471,10 @@ export class ArquivoService {
   upload(dados: ArquivoInterface): Observable<number> {
     let url: string;
     url = this.url.arquivo + '/upload';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders ({
+        'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json'
+    }) };
     return this.http.post<number> (url, dados, httpOptions);
   }
 

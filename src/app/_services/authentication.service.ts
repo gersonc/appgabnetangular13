@@ -8,7 +8,7 @@ import { User } from "../_models";
 import { UrlService } from "../_services";
 import { Versao } from "./versao";
 import { VersaoService } from "./versao.service";
-import { AutenticacaoService } from "./autenticacao.service";
+// import { AutenticacaoService } from "./autenticacao.service";
 import { DispositivoService } from "./dispositivo.service";
 import { AutorizaService } from "./autoriza.service";
 import { ArquivoLoginService } from "../arquivo/_services";
@@ -279,7 +279,7 @@ export class AuthenticationService {
   // public expiresRef?: Date;
 
   constructor(
-    private ats: AutorizaService,
+    private atz: AutorizaService,
     private ds: DispositivoService,
     private versaoService: VersaoService,
     private as: ArquivoLoginService,
@@ -287,8 +287,9 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.sub.push(this.ats.logado$.subscribe((n) => {
-      console.log('AuthenticationService constructor', n);
+    console.log('AuthenticationService constructor 0');
+    this.sub.push(this.atz.logado$.subscribe((n) => {
+      console.log('AuthenticationService constructor 1', n);
       if (n === 1) {
         this.as.verificaPermissoes();
         this.carregaPermissoes(JSON.parse(<string>localStorage.getItem("currentUser")));
@@ -339,7 +340,7 @@ export class AuthenticationService {
 
 
   /*login(username: string, password: string) {
-    this.ats.login(username, password)
+    this.atz.login(username, password)
       .pipe(take(1))
       .subscribe(vf => {
         if (vf) {
@@ -361,7 +362,7 @@ export class AuthenticationService {
       this.expiresRef = new Date(localStorage.getItem('expiresRef'));
       this.expires = new Date(localStorage.getItem('expires'));
     }
-    this.vfToken = this.ats.vfToken;*/
+    this.vfToken = this.atz.vfToken;*/
     const regra = this.descreveRule(user.usuario_regras);
     const acesso = this.descreveAcesso(user.usuario_acesso);
     this._versao = +user.gabinete_id!;
@@ -676,7 +677,7 @@ export class AuthenticationService {
     localStorage.removeItem("usuario_uuid");
     this.currentUser = null;
     this.cancelaPermissoes();
-    this.ats.logado = false;
+    this.atz.logado = false;
   }
 
   parceUserUuidToStyle() {
@@ -685,13 +686,13 @@ export class AuthenticationService {
 
 
   /*inicio(): Observable<boolean> {
-    if ( this.ats.vfToken || this.ats.rtkvalido) {
-      if (this.ats.vfToken) {
+    if ( this.atz.vfToken || this.atz.rtkvalido) {
+      if (this.atz.vfToken) {
         return of(true);
       } else {
-        if (this.ats.rtkvalido) {
+        if (this.atz.rtkvalido) {
           let v = false;
-          const s: Subscription = this.ats.refleshToken()
+          const s: Subscription = this.atz.refleshToken()
             .pipe(take(1))
             .subscribe({
               next: (vf) => {

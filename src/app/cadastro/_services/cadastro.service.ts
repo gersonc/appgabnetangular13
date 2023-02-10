@@ -1,28 +1,29 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, Subscription} from "rxjs";
-import {TituloI} from "../../_models/titulo-i";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {cadastrocampostexto, CadastroI, CadastroPaginacaoI, CadastroVinculosI} from "../_models/cadastro-i";
-import {TitulosService} from "../../_services/titulos.service";
-import {CelulaI} from "../../_models/celula-i";
-import {limpaTabelaCampoTexto} from "../../shared/functions/limpa-tabela-campo-texto";
-import {CelulaService} from "../../_services/celula.service";
-import {CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService} from "../../_services";
-import {limpaTexto} from "../../shared/functions/limpa-texto";
-import {Datatable, DatatableI} from "../../_models/datatable-i";
-import {limpaCampoTexto} from "../../shared/functions/limpa-campo-texto";
-import {CadastroBuscaI} from "../_models/cadastro-busca-i";
-import {take} from "rxjs/operators";
-import {ColunasI} from "../../_models/colunas-i";
-import {CadastroDuplicadoBuscaInterface} from "../_models/cadastro-duplicado-busca.interface";
-import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
-import {CadastroFormI} from "../_models/cadastro-form-i";
-import {CadastroEtiquetaI, CadastroEtiquetaListI} from "../../etiqueta/_models/cadastro-etiqueta-i";
-import {EtiquetaCadastroService} from "../../etiqueta/_services/etiqueta-cadastro.service";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { TituloI } from "../../_models/titulo-i";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { cadastrocampostexto, CadastroI, CadastroPaginacaoI, CadastroVinculosI } from "../_models/cadastro-i";
+import { TitulosService } from "../../_services/titulos.service";
+import { CelulaI } from "../../_models/celula-i";
+import { limpaTabelaCampoTexto } from "../../shared/functions/limpa-tabela-campo-texto";
+import { CelulaService } from "../../_services/celula.service";
+import { CsvService, ExcelService, PrintJSService, TabelaPdfService, UrlService } from "../../_services";
+import { limpaTexto } from "../../shared/functions/limpa-texto";
+import { Datatable, DatatableI } from "../../_models/datatable-i";
+import { limpaCampoTexto } from "../../shared/functions/limpa-campo-texto";
+import { CadastroBuscaI } from "../_models/cadastro-busca-i";
+import { take } from "rxjs/operators";
+import { ColunasI } from "../../_models/colunas-i";
+import { CadastroDuplicadoBuscaInterface } from "../_models/cadastro-duplicado-busca.interface";
+import { CadastroDuplicadoI } from "../_models/cadastro-duplicado-i";
+import { CadastroFormI } from "../_models/cadastro-form-i";
+import { CadastroEtiquetaI, CadastroEtiquetaListI } from "../../etiqueta/_models/cadastro-etiqueta-i";
+import { EtiquetaCadastroService } from "../../etiqueta/_services/etiqueta-cadastro.service";
+import { HeaderService } from "../../_services/header.service";
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CadastroService {
   buscaSubject = new BehaviorSubject<boolean>(true);
@@ -41,7 +42,7 @@ export class CadastroService {
   expandidoSN = false;
   cadastroApagar: CadastroI | null = null;
   permissaoVinculos = false;
-  sortField = 'cadastro_nome';
+  sortField = "cadastro_nome";
   //sortField = 'cadastro_cep';
   sortOrder = 1;
   // sortOrder = -1;
@@ -73,11 +74,11 @@ export class CadastroService {
     private ecs: EtiquetaCadastroService
   ) {
     this.cadastroUrl = this.url.cadastro;
-    this.celulaService.modulo = 'Cadastro'
+    this.celulaService.modulo = "Cadastro";
   }
 
   getCampoCadastro() {
-    const tmp: any = JSON.parse(localStorage.getItem('currentUser'));
+    const tmp: any = JSON.parse(localStorage.getItem("currentUser"));
     this.cadastro_campo1_sn = tmp.cadastro_campo1_sn === 1;
     this.cadastro_campo1_nome = tmp.cadastro_campo1_sn === 1 ? tmp.cadastro_campo1_nome : null;
     this.cadastro_campo2_sn = tmp.cadastro_campo2_sn === 1;
@@ -98,7 +99,7 @@ export class CadastroService {
       if (this.stateSN) {
         this.criaBusca();
       } else {
-        this.tabela.sortField = 'cadastro_nome';
+        this.tabela.sortField = "cadastro_nome";
         this.tabela.camposTexto = cadastrocampostexto;
         if (this.busca === undefined) {
           this.criaBusca();
@@ -142,7 +143,7 @@ export class CadastroService {
       this.busca.rows = this.tabela.rows;
       this.busca.first = 0;
       this.busca.sortOrder = 1;
-      this.busca.sortField = 'cadastro_nome';
+      this.busca.sortField = "cadastro_nome";
       this.busca.etiqueta = 0;
     }
   }
@@ -170,12 +171,12 @@ export class CadastroService {
     this.tabela.campos = [];
     this.tabela.campos = cps;
     this.tabela.titulos = [];
-    this.titulos = this.ts.buscaTitulos('cadastro', cps);
+    this.titulos = this.ts.buscaTitulos("cadastro", cps);
   }
 
   onRowExpand(evento) {
     if (this.titulos === undefined || this.titulos === null || (Array.isArray(this.titulos) && this.titulos.length === 0)) {
-      this.titulos = this.ts.mTitulo['cadastro'];
+      this.titulos = this.ts.mTitulo["cadastro"];
     }
     this.tabela.dadosExpandidosRaw = evento;
     this.expandido = evento.data;
@@ -190,11 +191,11 @@ export class CadastroService {
             valor: ev[t.field],
             txtVF: false,
             cphtml: ev[t.field]
-          }
+          };
           const m = this.tabela.camposTexto.findIndex(c => t.field === c);
           if (m > -1 && ev[t.field].length > 40) {
-            const d = t.field + '_delta';
-            const tx = t.field + '_texto';
+            const d = t.field + "_delta";
+            const tx = t.field + "_texto";
             celula.txtVF = true;
             if (ev[d] !== undefined && ev[d] !== null) {
               celula.cpdelta = ev[d];
@@ -230,8 +231,8 @@ export class CadastroService {
 
   onStateRestore(tableSession: any) {
     if (tableSession !== undefined) {
-      if (sessionStorage.getItem('cadastro-busca')) {
-        this.parseBusca(JSON.parse(sessionStorage.getItem('cadastro-busca')));
+      if (sessionStorage.getItem("cadastro-busca")) {
+        this.parseBusca(JSON.parse(sessionStorage.getItem("cadastro-busca")));
       }
     }
     this.stateSN = false;
@@ -239,7 +240,7 @@ export class CadastroService {
 
   salvaState() {
     this.stateSN = true;
-    sessionStorage.setItem('cadastro-busca', JSON.stringify(this.busca));
+    sessionStorage.setItem("cadastro-busca", JSON.stringify(this.busca));
   }
 
   setState(ev) {
@@ -247,7 +248,7 @@ export class CadastroService {
   }
 
   parseBusca(b: CadastroBuscaI) {
-    sessionStorage.removeItem('cadastro-busca');
+    sessionStorage.removeItem("cadastro-busca");
     this.busca.todos = (b.todos !== undefined) ? b.todos : undefined;
     this.busca.rows = (b.rows !== undefined) ? +b.rows : undefined;
     this.busca.sortField = (b.sortField !== undefined) ? b.sortField : undefined;
@@ -290,11 +291,11 @@ export class CadastroService {
 
   imprimirTabela(n: number) {
     if (n === 1 && this.selecionados !== undefined && this.selecionados.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, 'CADASTRO');
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.selecionados, "CADASTRO");
     }
 
     if (n === 2 && this.cadastros.length > 0) {
-      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.cadastros, 'CADASTRO');
+      PrintJSService.imprimirTabela2(this.tabela.selectedColumns, this.cadastros, "CADASTRO");
     }
 
     if (n === 3) {
@@ -308,13 +309,13 @@ export class CadastroService {
       this.sub.push(this.postCadastroRelatorio(busca)
         .subscribe({
           next: (dados) => {
-            cadastroRelatorio = dados
+            cadastroRelatorio = dados;
           },
           error: err => {
-            console.error('ERRO-->', err);
+            console.error("ERRO-->", err);
           },
           complete: () => {
-            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, cadastroRelatorio.cadastros, 'CADASTROS');
+            PrintJSService.imprimirTabela2(this.tabela.selectedColumns, cadastroRelatorio.cadastros, "CADASTROS");
           }
         })
       );
@@ -329,8 +330,8 @@ export class CadastroService {
     if (this.tabela.selectedColumns !== undefined && Array.isArray(this.tabela.selectedColumns) && this.tabela.selectedColumns.length > 0) {
       if (n === 1) {
         TabelaPdfService.tabelaPdf(
-          'cadastros',
-          'PROPOSIÇÃO',
+          "cadastros",
+          "PROPOSIÇÃO",
           this.tabela.selectedColumns,
           this.selecionados,
           cadastrocampostexto
@@ -338,8 +339,8 @@ export class CadastroService {
       }
       if (n === 2) {
         TabelaPdfService.tabelaPdf(
-          'cadastros',
-          'PROPOSIÇÃO',
+          "cadastros",
+          "PROPOSIÇÃO",
           this.tabela.selectedColumns,
           this.cadastros,
           cadastrocampostexto
@@ -354,15 +355,15 @@ export class CadastroService {
         this.sub.push(this.postCadastroRelatorio(busca)
           .subscribe({
             next: (dados) => {
-              cadastroRelatorio = dados
+              cadastroRelatorio = dados;
             },
             error: err => {
-              console.error('ERRO-->', err);
+              console.error("ERRO-->", err);
             },
             complete: () => {
               TabelaPdfService.tabelaPdf(
-                'cadastros',
-                'PROPOSIÇÃO',
+                "cadastros",
+                "PROPOSIÇÃO",
                 this.tabela.selectedColumns,
                 cadastroRelatorio.cadastros,
                 cadastrocampostexto
@@ -389,14 +390,14 @@ export class CadastroService {
           this.sub.push(this.postCadastroRelatorioGrande(busca)
             .subscribe({
               next: (dados) => {
-                cadastroRelatorio = dados
+                cadastroRelatorio = dados;
 
               },
               error: err => {
-                console.error('ERRO-->', err);
+                console.error("ERRO-->", err);
               },
               complete: () => {
-                ExcelService.exportAsExcelFileBig('cadastro', cadastroRelatorio.cadastros, this.tabela.selectedColumns);
+                ExcelService.exportAsExcelFileBig("cadastro", cadastroRelatorio.cadastros, this.tabela.selectedColumns);
               }
             })
           );
@@ -405,13 +406,13 @@ export class CadastroService {
           this.sub.push(this.postCadastroRelatorio(busca)
             .subscribe({
               next: (dados) => {
-                cadastroRelatorio = dados
+                cadastroRelatorio = dados;
               },
               error: err => {
-                console.error('ERRO-->', err);
+                console.error("ERRO-->", err);
               },
               complete: () => {
-                ExcelService.criaExcelFile('cadastro', limpaCampoTexto(cadastrocampostexto, cadastroRelatorio.cadastros), this.tabela.selectedColumns);
+                ExcelService.criaExcelFile("cadastro", limpaCampoTexto(cadastrocampostexto, cadastroRelatorio.cadastros), this.tabela.selectedColumns);
               }
             })
           );
@@ -422,11 +423,11 @@ export class CadastroService {
       }
     }
     if (this.cadastros.length > 0 && td === 2) {
-      ExcelService.criaExcelFile('cadastro', limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.cadastros), this.tabela.selectedColumns);
+      ExcelService.criaExcelFile("cadastro", limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.cadastros), this.tabela.selectedColumns);
       return true;
     }
     if (this.selecionados !== undefined && this.selecionados.length > 0 && td === 1) {
-      ExcelService.criaExcelFile('cadastro', limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.selecionados), this.tabela.selectedColumns);
+      ExcelService.criaExcelFile("cadastro", limpaTabelaCampoTexto(this.tabela.selectedColumns, this.tabela.camposTexto, this.selecionados), this.tabela.selectedColumns);
       return true;
     }
   }
@@ -443,13 +444,13 @@ export class CadastroService {
         this.sub.push(this.postCadastroRelatorio(busca)
           .subscribe({
             next: (dados) => {
-              slolicRelatorio = dados
+              slolicRelatorio = dados;
             },
             error: err => {
-              console.error('ERRO-->', err);
+              console.error("ERRO-->", err);
             },
             complete: () => {
-              CsvService.jsonToCsv('cadastro', this.tabela.selectedColumns, slolicRelatorio.cadastros);
+              CsvService.jsonToCsv("cadastro", this.tabela.selectedColumns, slolicRelatorio.cadastros);
 
             }
           })
@@ -472,22 +473,22 @@ export class CadastroService {
     }
 
 
-      if (n === 3) {
-        if(+this.tabela.totalRecords > +this.cadastros.length) {
-          const busca: CadastroBuscaI = this.busca;
-          busca.rows = undefined;
-          busca.campos = undefined;
-          busca.todos = true;
-          busca.first = undefined;
-          busca.etiqueta = 1;
-          this.ecs.busca = busca;
-          this.showEtiquetas = true;
-        } else {
-          this.ecs.tplistagem = 2;
-          this.ecs.parceEtiquetas(this.cadastros);
-          this.showEtiquetas = true;
-        }
+    if (n === 3) {
+      if (+this.tabela.totalRecords > +this.cadastros.length) {
+        const busca: CadastroBuscaI = this.busca;
+        busca.rows = undefined;
+        busca.campos = undefined;
+        busca.todos = true;
+        busca.first = undefined;
+        busca.etiqueta = 1;
+        this.ecs.busca = busca;
+        this.showEtiquetas = true;
+      } else {
+        this.ecs.tplistagem = 2;
+        this.ecs.parceEtiquetas(this.cadastros);
+        this.showEtiquetas = true;
       }
+    }
 
   }
 
@@ -504,7 +505,7 @@ export class CadastroService {
       this.busca.ids === this.tabela.ids &&
       this.busca.first === this.tabela.first &&
       +this.tabela.rows === +this.mudaRows) {
-      this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_nascimento') ? 'cadastro_data_nascimento3' : (this.tabela.sortField === 'cadastro_data_cadastramento') ? 'cadastro_data_cadastramento3' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === "cadastro_data_nascimento") ? "cadastro_data_nascimento3" : (this.tabela.sortField === "cadastro_data_cadastramento") ? "cadastro_data_cadastramento3" : this.tabela.sortField;
       if (+this.busca.sortOrder !== +this.tabela.sortOrder || this.busca.sortField !== this.tabela.sortField) {
         this.lazy = false;
         const tmp = this.cadastros;
@@ -532,8 +533,8 @@ export class CadastroService {
         }
       }
     } else {
-      this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_nascimento') ? 'cadastro_data_nascimento2' : this.tabela.sortField;
-      this.tabela.sortField = (this.tabela.sortField === 'cadastro_data_cadastramento') ? 'cadastro_data_cadastramento2' : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === "cadastro_data_nascimento") ? "cadastro_data_nascimento2" : this.tabela.sortField;
+      this.tabela.sortField = (this.tabela.sortField === "cadastro_data_cadastramento") ? "cadastro_data_cadastramento2" : this.tabela.sortField;
       this.busca.rows = this.tabela.rows;
       this.busca.first = this.tabela.first;
       this.busca.sortOrder = this.tabela.sortOrder;
@@ -555,7 +556,7 @@ export class CadastroService {
             });
             this.tabela.total = dados.total;
           },
-          error: err => console.log('ERRO-->', err),
+          error: err => console.log("ERRO-->", err),
           complete: () => {
             this.lazy = false;
             if (+this.tabela.totalRecords !== +this.tabela.total.num) {
@@ -568,7 +569,7 @@ export class CadastroService {
             }
             const m = Math.ceil(this.tabela.totalRecords / this.tabela.rows);
             if (+this.tabela.pageCount !== m) {
-              this.tabela.pageCount = m
+              this.tabela.pageCount = m;
             }
             this.stateSN = false;
             this.lazy = this.tabela.totalRecords > this.tabela.rows;
@@ -579,66 +580,106 @@ export class CadastroService {
   }
 
   postCadastroBusca(busca: CadastroBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.url.cadastro + '/listar';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
+    const url = this.url.cadastro + "/listar";
     return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
   }
 
   postCadastroRelatorio(busca: CadastroBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.url.cadastro + '/relatorio';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
+    const url = this.url.cadastro + "/relatorio";
     return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
   }
 
   postCadastroRelatorioGrande(busca: CadastroBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const url = this.url.cadastro + '/relatoriogrande';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
+    const url = this.url.cadastro + "/relatoriogrande";
     return this.http.post<CadastroPaginacaoI>(url, busca, httpOptions);
   }
 
   incluirCadastro(dados: CadastroFormI) {
-    const url: string = this.url.cadastro + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url: string = this.url.cadastro + "/incluir";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarCadastro(dados: CadastroFormI) {
     let url: string;
-    url = this.url.cadastro + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    url = this.url.cadastro + "/alterar";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   getCadastroVinculos(id: number): Observable<CadastroVinculosI> {
     let url: string;
-    url = this.url.cadastro + '/vinculos/' + id;
-    return this.http.get<CadastroVinculosI>(url);
+    url = this.url.cadastro + "/vinculos/" + id;
+    return this.http.get<CadastroVinculosI>(url, HeaderService.tokenHeader);
   }
 
   postCadastroBuscaEtiqueta(busca: CadastroBuscaI) {
-    const url = this.cadastroUrl + '/listaretiqueta';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const url = this.cadastroUrl + "/listaretiqueta";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.post<CadastroEtiquetaListI>(url, busca, httpOptions);
   }
 
   atualizarCadastro(dados: CadastroI): Observable<any> {
     let url: string;
-    url = this.url.cadastro + '/atualizar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    url = this.url.cadastro + "/atualizar";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirCadastro(id: number): Observable<any> {
-    const url = this.url.cadastro + '/' + id;
-    return this.http.delete<any>(url);
+    const url = this.url.cadastro + "/" + id;
+    return this.http.delete<any>(url, HeaderService.tokenHeader);
   }
 
-  procurarCadastroDuplicado (nome: string){
-    const url = this.url.cadastro + '/verificanome';
+  procurarCadastroDuplicado(nome: string) {
+    const url = this.url.cadastro + "/verificanome";
     const n: any = {
       nome: nome
-    }
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "application/json"
+      })
+    };
     return this.http.post<CadastroDuplicadoI[]>(url, n, httpOptions);
   }
 
@@ -681,9 +722,9 @@ export class CadastroService {
   }
 
   onDestroy(): void {
-    sessionStorage.removeItem('cadastro-busca');
-    sessionStorage.removeItem('cadastro-tabela');
-    sessionStorage.removeItem('cadastro-table');
+    sessionStorage.removeItem("cadastro-busca");
+    sessionStorage.removeItem("cadastro-tabela");
+    sessionStorage.removeItem("cadastro-table");
     this.tabela = undefined;
     this.busca = undefined;
     this.selecionados = undefined;
@@ -692,7 +733,7 @@ export class CadastroService {
     if (!this.stateSN) {
       this.cadastros = [];
       delete this.expandido;
-      sessionStorage.removeItem('cadastro-table');
+      sessionStorage.removeItem("cadastro-table");
     }
     // this.stateSN = false;
     this.sub.forEach(s => s.unsubscribe());

@@ -229,14 +229,14 @@ export class MensagemService {
 
   postMensagemBusca(dados: MansagemBuscaI): Observable<MensagemPaginacaoI> {
     const url = this.url.mensagem + '/listar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<MensagemPaginacaoI>(url, dados, httpOptions);
   }
 
 
   incluirMensagem(dados: TarefaFormI): Observable<any[]> {
     const url = this.url.mensagem + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
@@ -244,17 +244,17 @@ export class MensagemService {
 
   excluirMensagemUsuario(mensagem_id: number): Observable<any[]> {
     const url = this.url.mensagem + '/destinatario/' + mensagem_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   excluirMensagemRemetente(mensagem_id: number): Observable<any[]> {
     const url = this.url.mensagem + '/remetente/' + mensagem_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   excluirMensagemRemetenteTodos(mensagem_id: number): Observable<any[]> {
     const url = this.url.mensagem + '/todas/' + mensagem_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
 

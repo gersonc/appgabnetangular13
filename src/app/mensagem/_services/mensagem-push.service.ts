@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {UrlService} from "../../_services";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MensagemI} from "../_models/mensagem-i";
-import {AutenticacaoService} from "../../_services/autenticacao.service";
+// import {AutenticacaoService} from "../../_services/autenticacao.service";
 import {of} from "rxjs";
 import { AutorizaService } from "../../_services/autoriza.service";
 

@@ -503,13 +503,13 @@ export class EmendaService {
   }
 
   postEmendaBusca(busca: EmendaBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.emenda + '/listar';
     return this.http.post<EmendaPaginacaoInterface>(url, busca, httpOptions);
   }
 
   postEmendaRelatorio(busca: EmendaBuscaI) {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     const url = this.url.emenda + '/relatorio';
     return this.http.post<EmendaPaginacaoInterface>(url, busca, httpOptions);
   }
@@ -517,27 +517,27 @@ export class EmendaService {
   incluirEmenda(dados: EmendaFormI): Observable<any> {
     let url: string;
     url = this.url.emenda + '/incluir';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]>(url, dados, httpOptions);
   }
 
   alterarEmenda(dados: EmendaFormI): Observable<any> {
     let url: string;
     url = this.url.emenda + '/alterar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   atualizarEmenda(dados: EmendaAtualizar): Observable<any> {
     let url: string;
     url = this.url.emenda + '/atualizar';
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   excluirEmenda(id: number): Observable<any> {
     const url = this.url.emenda + '/' + id;
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   montaHistorico(modulo: string, idx: number) {

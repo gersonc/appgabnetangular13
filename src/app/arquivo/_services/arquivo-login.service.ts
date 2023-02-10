@@ -5,6 +5,7 @@ import { UrlService } from '../../_services';
 import { ArquivoPermissaoInterface} from '../_models';
 
 import { take } from 'rxjs/operators';
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class ArquivoLoginService {
 
   private getArquivoPermissoes(): Observable<ArquivoPermissaoInterface> {
     const url = this.url.arquivo + '/permissoes';
-    return this.http.get<ArquivoPermissaoInterface>(url);
+    return this.http.get<ArquivoPermissaoInterface>(url, HeaderService.tokenHeader);
   }
 
   // @ts-ignore

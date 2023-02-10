@@ -11,6 +11,7 @@ import {
 } from '../_models';
 import { SelectItem } from 'primeng/api';
 import { take } from 'rxjs/operators';
+import { HeaderService } from "../../_services/header.service";
 
 @Injectable({
   providedIn: 'root'
@@ -74,24 +75,24 @@ export class PassagemService {
 
   incluirPassagem(dados: PassagemFormulario): Observable<any[]> {
     const url = this.url.passagem + '/incluir';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<any[]> (url, dados, httpOptions);
   }
 
   postPassagemBusca(dados: PassagemBuscaInterface): Observable<PassagemPaginacaoInterface> {
     const url = this.url.passagem + '/listar';
-    const httpOptions = { headers: new HttpHeaders ({'Content-Type': 'application/json'}) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.post<PassagemPaginacaoInterface>(url, dados, httpOptions);
   }
 
   getPassagemDetalhe(passagem_id: number): Observable<PassagemDetalheInterface> {
     const url = this.url.passagem + '/detalhe/' + passagem_id;
-    return  this.http.get<PassagemDetalheInterface>(url);
+    return  this.http.get<PassagemDetalheInterface>(url, HeaderService.tokenHeader);
   }
 
   getPassagemAlterar(passagem_id: number): Observable<PassagemInterface> {
     const url = this.url.passagem + '/alterar/' + passagem_id;
-    return this.http.get<PassagemInterface>(url);
+    return this.http.get<PassagemInterface>(url, HeaderService.tokenHeader);
   }
 
   putPassagemAlterarDatatable(
@@ -103,19 +104,19 @@ export class PassagemService {
       'passagem_voado_sn': passagem_voado_sn
     };
     const url = this.url.passagem + '/alterar';
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   putPassagemAlterar(passagem_id: number, dados: PassagemFormulario): Observable<any[]> {
     const url = this.url.passagem + '/' + passagem_id;
-    const httpOptions = { headers: new HttpHeaders ({ 'Content-Type': 'application/json' }) };
+    const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     return this.http.put<any[]>(url, dados, httpOptions);
   }
 
   deletePassagemId(passagem_id: number): Observable<any[]> {
     const url = this.url.passagem + '/' + passagem_id;
-    return this.http.delete<any[]>(url);
+    return this.http.delete<any[]>(url, { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})});
   }
 
   getColunaExtendida(): Observable<any> {

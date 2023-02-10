@@ -13,7 +13,7 @@ export class HeaderService {
   constructor() {
     this.token = localStorage.getItem('access_token');
     this.rtoken = localStorage.getItem('reflesh_token');
-    //const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+    //const httpOptions = { headers: new HttpHeaders({ 'Authorization' : 'Bearer ' + localStorage.getItem('access_token'),'Content-Type': 'application/json'})};
     if (this.token !== null) {
       this.cabeca = new HttpHeaders({
         'Authorization':  'Bearer ' + this.token,
@@ -52,5 +52,6 @@ export class HeaderService {
       return this.cabeca;
     }
   }
+
 
 }
