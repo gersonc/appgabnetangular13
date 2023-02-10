@@ -35,11 +35,13 @@ export class JwtInterceptor implements HttpInterceptor {
         request.urlWithParams.search("/reflesh") === -1 &&
         request.urlWithParams.search("/login") === -1) {
         console.log('JwtInterceptor 2');
-        request = request.clone({
-          setHeaders: {
-            Authorization: "Bearer " + this.rf.Token()
-          }
-        });
+        if(!request.headers.has('Authorization')) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: "Bearer " + this.rf.Token()
+            }
+          });
+        }
         return next.handle(request).pipe(map((event: HttpEvent<any>) => {
           if (event instanceof HttpResponse && (event.status / 100) > 3) {
             console.log("JwtInterceptor0::event =", event);
