@@ -7,6 +7,12 @@ import { map, take } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { telaI } from "../_models/telaI";
 
+
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,6 +55,30 @@ export class AuthService {
       }
 
     }));
+  }
+
+  nativeWindow(): any {
+    return _window();
+  }
+
+  getScreen(): telaI {
+    const w = this.nativeWindow();
+    const m = w.screen;
+    const n = w.navigator;
+
+    return  {
+      height:m.height,
+      width: m.width,
+      innerWidth: w.innerWidth,
+      innerHeight: w.innerHeight,
+      availWidth: m.availWidth,
+      availHeight: m.availHeight,
+      pixelDepth: m.pixelDepth,
+      colorDepth: m.colorDepth,
+      userAgent: n.userAgent,
+      onLine: n.onLine,
+      hostname: w.location.hostname,
+    };
   }
 
 

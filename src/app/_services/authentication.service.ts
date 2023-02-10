@@ -13,6 +13,7 @@ import { DispositivoService } from "./dispositivo.service";
 import { AutorizaService } from "./autoriza.service";
 import { ArquivoLoginService } from "../arquivo/_services";
 
+
 @Injectable({ providedIn: "root" })
 
 export class AuthenticationService {
