@@ -1,20 +1,23 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {first, take} from 'rxjs/operators';
+// import {first, take} from 'rxjs/operators';
 
 // import {AuthenticationService} from '../_services';
 import {of, Subscription} from 'rxjs';
 import {OnoffLineService} from "../shared/onoff-line/onoff-line.service";
-import {AutenticacaoService} from "../_services/autenticacao.service";
-import { numbers } from "quill-to-pdf/dist/src/default-styles";
-import { telaI } from "../_models/telaI";
+// import {AutenticacaoService} from "../_services/autenticacao.service";
+// import { numbers } from "quill-to-pdf/dist/src/default-styles";
+// import { telaI } from "../_models/telaI";
+import { AuthService } from "../_services/auth.service";
+/*
 
 function _window(): any {
   // return the global native browser window object
   return window;
 }
 
+*/
 
 
 @Component({
@@ -35,7 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private as: AutenticacaoService,
+    // private as: AutenticacaoService,
+    private ath: AuthService,
     // private authenticationService: AuthenticationService,
     public ol: OnoffLineService
   ) {
@@ -76,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  nativeWindow(): any {
+  /*nativeWindow(): any {
     return _window();
   }
 
@@ -99,23 +103,22 @@ export class LoginComponent implements OnInit, OnDestroy {
       hostname: w.location.hostname,
     };
   }
-
+*/
 
 
   submeter() {
     if (this.loginForm.valid) {
-      const ss: telaI = this.getScreen();
       this.loading = true;
       const u: string = this.loginForm.get('username').value;
       const s: string = this.loginForm.get('password').value;
-      this.enviar(u, s, ss);
+      this.enviar(u, s);
     } else {
       this.verificaValidacoesForm(this.loginForm);
     }
   }
 
-  enviar(u: string, s:string, ss: telaI) {
-    this.as.login(u, s, ss);
+  enviar(u: string, s:string) {
+    this.ath.login(u, s);
   }
 
   resetar() {

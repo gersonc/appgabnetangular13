@@ -1,298 +1,170 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Router } from "@angular/router";
-import { BehaviorSubject, Observable, of, pipe, Subject, Subscription } from "rxjs";
-import { catchError, map, take } from "rxjs/operators";
-
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { User } from "../_models";
-import { UrlService } from "../_services";
 import { Versao } from "./versao";
 import { VersaoService } from "./versao.service";
-// import { AutenticacaoService } from "./autenticacao.service";
 import { DispositivoService } from "./dispositivo.service";
-import { AutorizaService } from "./autoriza.service";
 import { ArquivoLoginService } from "../arquivo/_services";
-
+import { AuthService } from "./auth.service";
+import { acessoRule, acessoStr, varAcesso, varBool, varNum, varRegra } from "../_models/acesso-constantes";
 
 @Injectable({ providedIn: "root" })
 
 export class AuthenticationService {
-  public a = 0;
-  private acessoStr = [
-    "cf_i",
-    "cf_a",
-    "as_i",
-    "as_a",
-    "mu_i",
-    "mu_a",
-    "us_i",
-    "us_a",
-    "us_d",
-    "ca_i",
-    "ca_a",
-    "ca_d",
-    "ca_l",
-    "so_i",
-    "so_a",
-    "so_d",
-    "so_l",
-    "pr_df",
-    "pr_if",
-    "pr_l",
-    "of_i",
-    "of_df",
-    "of_id",
-    "of_l",
-    "of_a",
-    "hi_i",
-    "hi_a",
-    "hi_d",
-    "ag_i",
-    "ag_a",
-    "ag_d",
-    "pr_d",
-    "of_d",
-    "as_d",
-    "mu_d",
-    "ag_v",
-    "a2_i",
-    "a2_a",
-    "a2_d",
-    "a2_v",
-    "te_i",
-    "te_a",
-    "te_d",
-    "te_l",
-    "co_i",
-    "co_a",
-    "co_d",
-    "co_l",
-    "ct_e",
-    "ct_g",
-    "cf_d",
-    "em_i",
-    "em_a",
-    "em_d",
-    "em_l",
-    "he_i",
-    "he_a",
-    "he_d",
-    "he_l",
-    "cs_i",
-    "cs_a",
-    "cs_d",
-    "cs_l",
-    "pp_i",
-    "pp_a",
-    "pp_d",
-    "pp_l",
-    "ap_i",
-    "ap_a",
-    "ap_d",
-    "ap_l",
-    "pa_i",
-    "pa_a",
-    "pa_d",
-    "pa_l",
-    "sm_i",
-    "ar_a",
-    "ar_b",
-    "ar_d",
-    "ur_s",
-    "so_an"
-  ];
-  private acessoRule = [
-    "a2",
-    "ag",
-    "ap",
-    "ar",
-    "as",
-    "ca",
-    "cf",
-    "co",
-    "cs",
-    "ct",
-    "em",
-    "he",
-    "hi",
-    "mu",
-    "of",
-    "pa",
-    "pp",
-    "pr",
-    "so",
-    "sm",
-    "te",
-    "us",
-    "up",
-    "ur",
-    "tf"
-  ];
-  public permissoes_carregadas = false;
-  public agenda2 = false;
-  public agenda = false;
-  public andamentoproposicao = false;
-  public arquivos = false;
-  public assunto = false;
-  public cadastro = false;
-  public configuracao = false;
-  public contabilidade = false;
-  public cadastrosigilo = false;
-  public contatos = false;
-  public emenda = false;
-  public historicoemenda = false;
-  public historico = false;
-  public historico_solicitacao = false;
-  public municipio = false;
-  public oficio = false;
-  public passagemaerea = false;
-  public proposicao = false;
-  public processo = false;
-  public solicitacao = false;
-  public sms = false;
-  public telefone = false;
-  public tarefa = false;
-  public usuario = false;
-  public mensagem = false;
+  [index: string]: string | string[] | boolean | number | any | null ;
 
-  public configuracao_incluir = false;
-  public configuracao_alterar = false;
-  public assunto_incluir = false;
-  public assunto_alterar = false;
-  public municipio_incluir = false;
-  public municipio_alterar = false;
-  public usuario_incluir = false;
-  public usuario_alterar = false;
-  public usuario_apagar = false;
-  public cadastro_incluir = false;
-  public cadastro_alterar = false;
-  public cadastro_apagar = false;
-  public cadastro_listar = false;
-  public solicitacao_incluir = false;
-  public solicitacao_alterar = false;
-  public solicitacao_apagar = false;
-  public solicitacao_listar = false;
-  public solicitacao_analisar = false;
-  public processo_deferir = false;
-  public processo_indeferir = false;
-  public processo_analisar = false;
-  public processo_listar = false;
-  public oficio_incluir = false;
-  public oficio_deferir = false;
-  public oficio_indeferir = false;
-  public oficio_vizualizar = false;
-  public oficio_listar = false;
-  public oficio_alterar = false;
-  public historico_incluir = false;
-  public historico_alterar = false;
-  public historico_apagar = false;
-  public historico_solicitacao_incluir = false;
-  public historico_solicitacao_alterar = false;
-  public historico_solicitacao_apagar = false;
-  public agenda_incluir = false;
-  public agenda_alterar = false;
-  public agenda_apagar = false;
-  public processo_apagar = false;
-  public oficio_apagar = false;
-  public assunto_apagar = false;
-  public municipio_apagar = false;
-  public agenda_visualizar = false;
-  public agenda2_incluir = false;
+  public a = 0;
+  // public _versao = 0; // 1-COMPLETO / 2-SIMPLES / 3-LITE
+  public _versao = 0;	// 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
+  public agenda = false;
+  public agenda2 = false;
   public agenda2_alterar = false;
   public agenda2_apagar = false;
+  public agenda2_incluir = false;
   public agenda2_visualizar = false;
-  public telefone_incluir = false;
-  public telefone_alterar = false;
-  public telefone_apagar = false;
-  public telefone_listar = false;
-  public contabilidade_incluir = false;
-  public contabilidade_alterar = false;
-  public contabilidade_apagar = false;
-  public contabilidade_listar = false;
-  public contatos_exibir = false;
-  public contatos_gerenciar = false;
-  public configuracao_apagar = false;
-  public emenda_incluir = false;
-  public emenda_alterar = false;
-  public emenda_apagar = false;
-  public emenda_listar = false;
-  public historicoemenda_incluir = false;
-  public historicoemenda_alterar = false;
-  public historicoemenda_apagar = false;
-  public historicoemenda_listar = false;
-  public cadastrosigilo_incluir = false;
-  public cadastrosigilo_alterar = false;
-  public cadastrosigilo_apagar = false;
-  public cadastrosigilo_listar = false;
-  public proposicao_incluir = false;
-  public proposicao_alterar = false;
-  public proposicao_apagar = false;
-  public proposicao_listar = false;
-  public andamentoproposicao_incluir = false;
+  public agenda_alterar = false;
+  public agenda_apagar = false;
+  public agenda_incluir = false;
+  public agenda_visualizar = false;
+  public andamentoproposicao = false;
   public andamentoproposicao_alterar = false;
   public andamentoproposicao_apagar = false;
+  public andamentoproposicao_incluir = false;
   public andamentoproposicao_listar = false;
-  public passagemaerea_incluir = false;
-  public passagemaerea_alterar = false;
-  public passagemaerea_apagar = false;
-  public passagemaerea_listar = false;
-  public sms_incluir = false;
+  public arquivos = false;
   public arquivos_anexar = false;
-  public arquivos_baixar = false;
   public arquivos_apagar = false;
-  // public _versao = 0; // 1-COMPLETO / 2-SIMPLES / 3-LITE
-  public _versao = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
-  public usuario_id = 0;
-  public usuario_uuid = "";
-  public parlamentar_id = 0;
-  public parlamentar_nome = "";
-  public usuario_email = "";
-  public usuario_local_id = 0;
-  public usuario_nome = "";
-  public usuario_principal_sn = false;
-  public usuario_responsavel_sn = false;
-  public parlamentar_sms_ativo = false;
-  public parlamentar_arquivo_ativo = false;
-  public versao: any = null;
-  public versao_id = 0;
-  public solicitacaoVersao = 0;
-  public versaoN = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
-  public userRules: any[];
-  public userScops: any[];
+  public arquivos_baixar = false;
+  public assunto = false;
+  public assunto_alterar = false;
+  public assunto_apagar = false;
+  public assunto_incluir = false;
+  public cadastro = false;
+  public cadastro_alterar = false;
+  public cadastro_apagar = false;
+  public cadastro_incluir = false;
+  public cadastro_listar = false;
+  public cadastrosigilo = false;
+  public cadastrosigilo_alterar = false;
+  public cadastrosigilo_apagar = false;
+  public cadastrosigilo_incluir = false;
+  public cadastrosigilo_listar = false;
   public config_arquivo_ativo = false;
   public config_arquivo_cota = 0;
   public config_cota_disponivel = 0;
   public config_cota_utilizada = 0;
-  public dispositivo: string = null;
-  public mensagem_enviar = false;
-
-  // private currentUserSubject?: BehaviorSubject<User>;
+  public configuracao = false;
+  public configuracao_alterar = false;
+  public configuracao_apagar = false;
+  public configuracao_incluir = false;
+  public contabilidade = false;
+  public contabilidade_alterar = false;
+  public contabilidade_apagar = false;
+  public contabilidade_incluir = false;
+  public contabilidade_listar = false;
+  public contatos = false;
+  public contatos_exibir = false;
+  public contatos_gerenciar = false;
   public currentUser: User | null = null;
+  public dispositivo: string = null;
+  public emenda = false;
+  public emenda_alterar = false;
+  public emenda_apagar = false;
+  public emenda_incluir = false;
+  public emenda_listar = false;
+  public historico = false;
+  public historico_alterar = false;
+  public historico_apagar = false;
+  public historico_incluir = false;
+  public historico_solicitacao = false;
+  public historico_solicitacao_alterar = false;
+  public historico_solicitacao_apagar = false;
+  public historico_solicitacao_incluir = false;
+  public historicoemenda = false;
+  public historicoemenda_alterar = false;
+  public historicoemenda_apagar = false;
+  public historicoemenda_incluir = false;
+  public historicoemenda_listar = false;
+  public mensagem = false;
+  public mensagem_enviar = false;
+  public municipio = false;
+  public municipio_alterar = false;
+  public municipio_apagar = false;
+  public municipio_incluir = false;
+  public oficio = false;
+  public oficio_alterar = false;
+  public oficio_apagar = false;
+  public oficio_deferir = false;
+  public oficio_incluir = false;
+  public oficio_indeferir = false;
+  public oficio_listar = false;
+  public oficio_vizualizar = false;
+  public parlamentar_arquivo_ativo = false;
+  public parlamentar_id = 0;
+  public parlamentar_nome = "";
+  public passagemaerea = false;
+  public passagemaerea_alterar = false;
+  public passagemaerea_apagar = false;
+  public passagemaerea_incluir = false;
+  public passagemaerea_listar = false;
+  public permissoes_carregadas = false;
+  public processo = false;
+  public processo_analisar = false;
+  public processo_apagar = false;
+  public processo_deferir = false;
+  public processo_indeferir = false;
+  public processo_listar = false;
+  public proposicao = false;
+  public proposicao_alterar = false;
+  public proposicao_apagar = false;
+  public proposicao_incluir = false;
+  public proposicao_listar = false;
+  public sms = false;
+  public sms_incluir = false;
+  public solicitacao = false;
+  public solicitacaoVersao = 0;
+  public solicitacao_alterar = false;
+  public solicitacao_analisar = false;
+  public solicitacao_apagar = false;
+  public solicitacao_incluir = false;
+  public solicitacao_listar = false;
+  public tarefa = false;
+  public telefone = false;
+  public telefone_alterar = false;
+  public telefone_apagar = false;
+  public telefone_incluir = false;
+  public telefone_listar = false;
+  public userRules: string[];
+  public userScops: string[];
+  public usuario = false;
+  public usuario_alterar = false;
+  public usuario_apagar = false;
+  public usuario_email = "";
+  public usuario_id = 0;
+  public usuario_incluir = false;
+  public usuario_local_id = 0;
+  public usuario_nome = "";
+  public usuario_principal_sn = false;
+  public usuario_responsavel_sn = false;
+  public usuario_uuid = "";
+  public versao: any = null;
+  public versaoN = 0; // 1-FEDERAL COMPLETO / 2-ESTADUAL COMPLETA / 3-VEREADOR / 4-FEDERAL SIMPLES / 5-ESTADUAL SIMPLES
+  public versao_id = 0;
+
   public sub: Subscription[] = [];
-  // private user$?: Observable<User>;
   private mostraMenuSource = new BehaviorSubject<boolean>(false);
   public mostraMenu$ = this.mostraMenuSource.asObservable();
-  // public token = '';
-  // public refleshToken = '';
-  // public vfToken = false;
-  // public futuro?: Date;
-  // public expires?: Date;
-  // public expiresRef?: Date;
 
   constructor(
-    private atz: AutorizaService,
+    private ath: AuthService,
     private ds: DispositivoService,
     private versaoService: VersaoService,
     private as: ArquivoLoginService,
-    private urlService: UrlService,
-    private http: HttpClient,
-    private router: Router
   ) {
     console.log('AuthenticationService constructor 0');
-    this.sub.push(this.atz.logado$.subscribe((n) => {
+    this.sub.push(this.ath.logado$.subscribe((n) => {
       console.log('AuthenticationService constructor 1', n);
       if (n === 1) {
-        this.as.verificaPermissoes();
         this.carregaPermissoes(JSON.parse(<string>localStorage.getItem("currentUser")));
       }
       if (n === 2) {
@@ -318,346 +190,218 @@ export class AuthenticationService {
 
   descreveAcesso(valor: string): string[] {
     const n = valor.length;
-    const r: string[] = [];
+    this.userScops = [];
     for (let i = 0; i < n; i++) {
       if (valor[i] === "1") {
-        r.push(this.acessoStr[i]);
+        this.userScops.push(acessoStr[i]);
       }
     }
-    return r;
+    return this.userScops;
   }
 
   descreveRule(valor: string): string[] {
     const n = valor.length;
-    const r: string[] = [];
+    this.userRules = [];
     for (let i = 0; i < n; i++) {
       if (valor[i] === "1") {
-        r.push(this.acessoRule[i]);
+        this.userRules.push(acessoRule[i]);
       }
     }
-    r.push("tf");
-    return r;
+    this.userRules.push("tf");
+    return this.userRules;
   }
 
-
-  /*login(username: string, password: string) {
-    this.atz.login(username, password)
-      .pipe(take(1))
-      .subscribe(vf => {
-        if (vf) {
-          // const user: any = JSON.parse(localStorage.getItem('currentUser'));
-          // this.carregaPermissoes(user);
-          return of(vf);
-        } else {
-          return of(vf);
-        }
-      }
-    );
-  }*/
-
   carregaPermissoes(user): void {
-    this.currentUser = user;
-    /*if (localStorage.getItem('access_token') && localStorage.getItem('reflesh_token')) {
-      this.token = localStorage.getItem('access_token');
-      this.refleshToken = localStorage.getItem('reflesh_token');
-      this.expiresRef = new Date(localStorage.getItem('expiresRef'));
-      this.expires = new Date(localStorage.getItem('expires'));
-    }
-    this.vfToken = this.atz.vfToken;*/
-    const regra = this.descreveRule(user.usuario_regras);
-    const acesso = this.descreveAcesso(user.usuario_acesso);
-    this._versao = +user.gabinete_id!;
-    // this.versao = +user.gabinete_id!;
-    this.dispositivo = user.dispositivo;
+    this.descreveRule(user.usuario_regras);
+    this.descreveAcesso(user.usuario_acesso);
     this.ds.dispositivo = user.dispositivo;
+
+    this._versao = +user.gabinete_id!;
+    if (!sessionStorage.getItem("arquivo-permissoes")) {
+      this.config_arquivo_ativo = user.config_arquivo_ativo;
+      this.config_arquivo_cota = +user.config_arquivo_cota;
+      this.config_cota_disponivel = +user.config_cota_disponivel;
+      this.config_cota_utilizada = +user.config_cota_utilizada;
+      const arq = {
+        "config_arquivo_ativo": this.config_arquivo_ativo,
+        "config_arquivo_cota": this.config_arquivo_cota,
+        "config_cota_disponivel": this.config_cota_disponivel,
+        "config_cota_utilizada": this.config_cota_utilizada
+      };
+      sessionStorage.setItem("arquivo-permissoes", JSON.stringify(arq));
+    } else {
+      const arq = JSON.parse(sessionStorage.getItem("arquivo-permissoes"))
+      this.config_arquivo_ativo = arq.config_arquivo_ativo;
+      this.config_arquivo_cota = +arq.config_arquivo_cota;
+      this.config_cota_disponivel = +arq.config_cota_disponivel;
+      this.config_cota_utilizada = +arq.config_cota_utilizada;
+    }
+    this.currentUser = user;
+    this.dispositivo = user.dispositivo;
+    this.parlamentar_arquivo_ativo = (user.parlamentar_arquivo_ativo! === 1);
     this.parlamentar_id = +user.parlamentar_id!;
     this.parlamentar_nome = user.parlamentar_nome!;
+    this.solicitacaoVersao = +user.solicitacao_versao!;
+    this.usuario_email = user.usuario_email!;
     this.usuario_id = +user.usuario_id!;
-    this.usuario_uuid = user.usuario_uuid;
     this.usuario_local_id = +user.usuario_local_id!;
     this.usuario_nome = user.usuario_nome!;
+    this.usuario_uuid = user.usuario_uuid;
     this.versao = Versao.getVersao(+user.gabinete_id!);
-    this.versaoService.versao = +user.gabinete_id!;
-    this.versaoService.powerUser = (regra?.indexOf("ur") !== -1 || regra?.indexOf("up") !== -1 || acesso.indexOf("us_r") !== -1);
-    this.solicitacaoVersao = +user.solicitacao_versao!;
-    this.versaoService.solicitacaoVersao = +user.solicitacao_versao!;
-    this.versao_id = +user.gabinete_id!;
     this.versaoN = +user.gabinete_id!;
-    this.config_arquivo_ativo = user.config_arquivo_ativo;
-    this.config_arquivo_cota = +user.config_arquivo_cota;
-    this.config_cota_disponivel = +user.config_cota_disponivel;
-    this.config_cota_utilizada = +user.config_cota_utilizada;
-    const arq = {
-      "config_arquivo_ativo": this.config_arquivo_ativo,
-      "config_arquivo_cota": this.config_arquivo_cota,
-      "config_cota_disponivel": this.config_cota_disponivel,
-      "config_cota_utilizada": this.config_cota_utilizada
-    };
-    sessionStorage.setItem("arquivo-permissoes", JSON.stringify(arq));
+    this.versao_id = +user.gabinete_id!;
 
-    this.agenda2 = regra?.indexOf("a2") !== -1;
-    this.agenda = regra?.indexOf("ag") !== -1;
-    this.andamentoproposicao = regra?.indexOf("ap") !== -1;
-    this.arquivos = (regra?.indexOf("ar") !== -1 && this.config_arquivo_ativo);
-    this.assunto = regra?.indexOf("as") !== -1;
-    this.cadastro = regra?.indexOf("ca") !== -1;
-    this.configuracao = regra?.indexOf("cf") !== -1;
-    this.contabilidade = regra?.indexOf("co") !== -1;
-    this.cadastrosigilo = regra?.indexOf("cs") !== -1;
-    this.contatos = regra?.indexOf("ct") !== -1;
-    this.emenda = regra?.indexOf("em") !== -1;
-    this.historicoemenda = regra?.indexOf("he") !== -1;
-    this.historico = regra?.indexOf("hi") !== -1;
-    // this.historico_solicitacao = regra?.indexOf('hs') !== -1;
+    // this.userRules = acesso;
+    // this.userScops = regra;
+
     this.historico_solicitacao = true;
-    this.municipio = regra?.indexOf("mu") !== -1;
-    this.oficio = regra?.indexOf("of") !== -1;
-    this.passagemaerea = regra?.indexOf("pa") !== -1;
-    this.proposicao = regra?.indexOf("pp") !== -1;
-    this.processo = regra?.indexOf("pr") !== -1;
-    this.solicitacao = regra?.indexOf("so") !== -1;
-    this.sms = regra?.indexOf("sm") !== -1;
-    this.telefone = regra?.indexOf("te") !== -1;
-    this.usuario = regra?.indexOf("us") !== -1;
-    this.usuario_principal_sn = regra?.indexOf("up") !== -1;
-    this.tarefa = regra?.indexOf("tf") !== -1;
-    // this.usuario_responsavel_sn = regra?.indexOf('ur') !== -1;
-    this.userScops = regra;
-
-    this.configuracao_incluir = acesso.indexOf("cf_i") !== -1;
-    this.configuracao_alterar = acesso.indexOf("cf_a") !== -1;
-    this.assunto_incluir = acesso.indexOf("as_i") !== -1;
-    this.assunto_alterar = acesso.indexOf("as_a") !== -1;
-    this.municipio_incluir = acesso.indexOf("mu_i") !== -1;
-    this.municipio_alterar = acesso.indexOf("mu_a") !== -1;
-    this.usuario_incluir = acesso.indexOf("us_i") !== -1;
-    this.usuario_alterar = acesso.indexOf("us_a") !== -1;
-    this.usuario_apagar = acesso.indexOf("us_d") !== -1;
-    this.cadastro_incluir = acesso.indexOf("ca_i") !== -1;
-    this.cadastro_alterar = acesso.indexOf("ca_a") !== -1;
-    this.cadastro_apagar = acesso.indexOf("ca_d") !== -1;
-    this.cadastro_listar = acesso.indexOf("ca_l") !== -1;
-    this.solicitacao_incluir = acesso.indexOf("so_i") !== -1;
-    this.solicitacao_alterar = acesso.indexOf("so_a") !== -1;
-    this.solicitacao_apagar = (acesso.indexOf("so_d") !== -1 || regra?.indexOf("ur") !== -1 || regra?.indexOf("up") !== -1 || acesso.indexOf("us_r") !== -1);
-    this.solicitacao_listar = acesso.indexOf("so_l") !== -1;
-    this.solicitacao_analisar = (acesso.indexOf("so_an") !== -1 || regra?.indexOf("ur") !== -1 || regra?.indexOf("up") !== -1 || acesso.indexOf("us_r") !== -1);
-    this.processo_deferir = acesso.indexOf("pr_df") !== -1;
-    this.processo_indeferir = acesso.indexOf("pr_if") !== -1;
-    this.processo_analisar = (acesso.indexOf("pr_df") !== -1 || acesso.indexOf("pr_if") !== -1 || regra?.indexOf("ur") !== -1 || regra?.indexOf("up") !== -1 || acesso.indexOf("us_r") !== -1);
-    this.processo_listar = acesso.indexOf("pr_l") !== -1;
-    this.oficio_incluir = acesso.indexOf("of_i") !== -1;
-    this.oficio_deferir = acesso.indexOf("of_df") !== -1;
-    this.oficio_indeferir = acesso.indexOf("of_id") !== -1;
-    this.oficio_vizualizar = acesso.indexOf("of_l") !== -1;
-    this.oficio_listar = acesso.indexOf("of_l") !== -1;
-    this.oficio_alterar = acesso.indexOf("of_a") !== -1;
-    this.historico_incluir = acesso.indexOf("hi_i") !== -1;
-    this.historico_alterar = acesso.indexOf("hi_a") !== -1;
-    this.historico_apagar = acesso.indexOf("hi_d") !== -1;
-    /*this.historico_solicitacao_incluir = acesso.indexOf('hs_i') !== -1;
-    this.historico_solicitacao_alterar = acesso.indexOf('hs_a') !== -1;
-    this.historico_solicitacao_apagar = acesso.indexOf('hs_d') !== -1;*/
-    this.historico_solicitacao_incluir = true;
+    this.mensagem = true;
+    /*
+      this.historico_solicitacao_incluir = this.userScops.indexOf('hs_i') !== -1;
+        this.historico_solicitacao_alterar = this.userScops.indexOf('hs_a') !== -1;
+        this.historico_solicitacao_apagar = this.userScops.indexOf('hs_d') !== -1;
+    */
     this.historico_solicitacao_alterar = true;
     this.historico_solicitacao_apagar = true;
-    this.agenda_incluir = acesso.indexOf("ag_i") !== -1;
-    this.agenda_alterar = acesso.indexOf("ag_a") !== -1;
-    this.agenda_apagar = acesso.indexOf("ag_d") !== -1;
-    this.processo_apagar = acesso.indexOf("pr_d") !== -1;
-    this.oficio_apagar = acesso.indexOf("of_d") !== -1;
-    this.assunto_apagar = acesso.indexOf("as_d") !== -1;
-    this.municipio_apagar = acesso.indexOf("mu_d") !== -1;
-    this.agenda_visualizar = acesso.indexOf("ag_v") !== -1;
-    this.agenda2_incluir = acesso.indexOf("a2_i") !== -1;
-    this.agenda2_alterar = acesso.indexOf("a2_a") !== -1;
-    this.agenda2_apagar = acesso.indexOf("a2_d") !== -1;
-    this.agenda2_visualizar = acesso.indexOf("a2_v") !== -1;
-    this.telefone_incluir = acesso.indexOf("te_i") !== -1;
-    this.telefone_alterar = acesso.indexOf("te_a") !== -1;
-    this.telefone_apagar = acesso.indexOf("te_d") !== -1;
-    this.telefone_listar = acesso.indexOf("te_l") !== -1;
-    this.contabilidade_incluir = acesso.indexOf("co_i") !== -1;
-    this.contabilidade_alterar = acesso.indexOf("co_a") !== -1;
-    this.contabilidade_apagar = acesso.indexOf("co_d") !== -1;
-    this.contabilidade_listar = acesso.indexOf("co_l") !== -1;
-    this.contatos_exibir = acesso.indexOf("ct_e") !== -1;
-    this.contatos_gerenciar = acesso.indexOf("ct_g") !== -1;
-    this.configuracao_apagar = acesso.indexOf("cf_d") !== -1;
-    this.emenda_incluir = acesso.indexOf("em_i") !== -1;
-    this.emenda_alterar = acesso.indexOf("em_a") !== -1;
-    this.emenda_apagar = acesso.indexOf("em_d") !== -1;
-    this.emenda_listar = acesso.indexOf("em_l") !== -1;
-    this.historicoemenda_incluir = acesso.indexOf("he_i") !== -1;
-    this.historicoemenda_alterar = acesso.indexOf("he_a") !== -1;
-    this.historicoemenda_apagar = acesso.indexOf("he_d") !== -1;
-    this.historicoemenda_listar = acesso.indexOf("he_l") !== -1;
-    this.cadastrosigilo_incluir = acesso.indexOf("cs_i") !== -1;
-    this.cadastrosigilo_alterar = acesso.indexOf("cs_a") !== -1;
-    this.cadastrosigilo_apagar = acesso.indexOf("cs_d") !== -1;
-    this.cadastrosigilo_listar = acesso.indexOf("cs_l") !== -1;
-    this.proposicao_incluir = acesso.indexOf("pp_i") !== -1;
-    this.proposicao_alterar = acesso.indexOf("pp_a") !== -1;
-    this.proposicao_apagar = acesso.indexOf("pp_d") !== -1;
-    this.proposicao_listar = acesso.indexOf("pp_l") !== -1;
-    this.andamentoproposicao_incluir = acesso.indexOf("ap_i") !== -1;
-    this.andamentoproposicao_alterar = acesso.indexOf("ap_a") !== -1;
-    this.andamentoproposicao_apagar = acesso.indexOf("ap_d") !== -1;
-    this.andamentoproposicao_listar = acesso.indexOf("ap_l") !== -1;
-    this.passagemaerea_incluir = acesso.indexOf("pa_i") !== -1;
-    this.passagemaerea_alterar = acesso.indexOf("pa_a") !== -1;
-    this.passagemaerea_apagar = acesso.indexOf("pa_d") !== -1;
-    this.passagemaerea_listar = acesso.indexOf("pa_l") !== -1;
-    this.sms_incluir = acesso.indexOf("sm_i") !== -1;
-    this.arquivos_anexar = (acesso.indexOf("ar_a") !== -1 && this.config_arquivo_ativo);
-    this.arquivos_baixar = (acesso.indexOf("ar_b") !== -1 && this.config_arquivo_ativo);
-    this.arquivos_apagar = (acesso.indexOf("ar_d") !== -1 && this.config_arquivo_ativo);
-    // this.solicitacao_analisar = acesso.indexOf('so_an') !== -1;
-    this.usuario_responsavel_sn = (regra?.indexOf("ur") !== -1 || acesso.indexOf("us_r") !== -1 || regra?.indexOf("up") !== -1);
-    this.userRules = acesso;
-    this.mensagem = true;
+    this.historico_solicitacao_incluir = true;
     this.mensagem_enviar = true;
-    this.permissoes_carregadas = true;
 
+    this.agenda = this.userRules?.indexOf("ag") !== -1;
+    this.agenda2 = this.userRules?.indexOf("a2") !== -1;
+    this.andamentoproposicao = this.userRules?.indexOf("ap") !== -1;
+    this.assunto = this.userRules?.indexOf("as") !== -1;
+    this.cadastro = this.userRules?.indexOf("ca") !== -1;
+    this.cadastrosigilo = this.userRules?.indexOf("cs") !== -1;
+    this.configuracao = this.userRules?.indexOf("cf") !== -1;
+    this.contabilidade = this.userRules?.indexOf("co") !== -1;
+    this.contatos = this.userRules?.indexOf("ct") !== -1;
+    this.emenda = this.userRules?.indexOf("em") !== -1;
+    this.historico = this.userRules?.indexOf("hi") !== -1;
+    this.historicoemenda = this.userRules?.indexOf("he") !== -1;
+    this.municipio = this.userRules?.indexOf("mu") !== -1
+    this.oficio = this.userRules?.indexOf("of") !== -1;
+    this.passagemaerea = this.userRules?.indexOf("pa") !== -1;
+    this.processo = this.userRules?.indexOf("pr") !== -1;
+    this.proposicao = this.userRules?.indexOf("pp") !== -1;
+    this.sms = this.userRules?.indexOf("sm") !== -1;
+    this.solicitacao = this.userRules?.indexOf("so") !== -1;
+    this.tarefa = this.userRules?.indexOf("tf") !== -1;
+    this.telefone = this.userRules?.indexOf("te") !== -1;
+    this.usuario = this.userRules?.indexOf("us") !== -1;
+    this.usuario_principal_sn = this.userRules?.indexOf("up") !== -1;
+
+    this.agenda2_alterar = this.userScops.indexOf("a2_a") !== -1;
+    this.agenda2_apagar = this.userScops.indexOf("a2_d") !== -1;
+    this.agenda2_incluir = this.userScops.indexOf("a2_i") !== -1;
+    this.agenda2_visualizar = this.userScops.indexOf("a2_v") !== -1;
+    this.agenda_alterar = this.userScops.indexOf("ag_a") !== -1;
+    this.agenda_apagar = this.userScops.indexOf("ag_d") !== -1;
+    this.agenda_incluir = this.userScops.indexOf("ag_i") !== -1;
+    this.agenda_visualizar = this.userScops.indexOf("ag_v") !== -1;
+    this.andamentoproposicao_alterar = this.userScops.indexOf("ap_a") !== -1;
+    this.andamentoproposicao_apagar = this.userScops.indexOf("ap_d") !== -1;
+    this.andamentoproposicao_incluir = this.userScops.indexOf("ap_i") !== -1;
+    this.andamentoproposicao_listar = this.userScops.indexOf("ap_l") !== -1;
+    this.assunto_alterar = this.userScops.indexOf("as_a") !== -1;
+    this.assunto_apagar = this.userScops.indexOf("as_d") !== -1;
+    this.assunto_incluir = this.userScops.indexOf("as_i") !== -1;
+    this.cadastro_alterar = this.userScops.indexOf("ca_a") !== -1;
+    this.cadastro_apagar = this.userScops.indexOf("ca_d") !== -1;
+    this.cadastro_incluir = this.userScops.indexOf("ca_i") !== -1;
+    this.cadastro_listar = this.userScops.indexOf("ca_l") !== -1;
+    this.cadastrosigilo_alterar = this.userScops.indexOf("cs_a") !== -1;
+    this.cadastrosigilo_apagar = this.userScops.indexOf("cs_d") !== -1;
+    this.cadastrosigilo_incluir = this.userScops.indexOf("cs_i") !== -1;
+    this.cadastrosigilo_listar = this.userScops.indexOf("cs_l") !== -1;
+    this.configuracao_alterar = this.userScops.indexOf("cf_a") !== -1;
+    this.configuracao_apagar = this.userScops.indexOf("cf_d") !== -1;
+    this.configuracao_incluir = this.userScops.indexOf("cf_i") !== -1;
+    this.contabilidade_alterar = this.userScops.indexOf("co_a") !== -1;
+    this.contabilidade_apagar = this.userScops.indexOf("co_d") !== -1;
+    this.contabilidade_incluir = this.userScops.indexOf("co_i") !== -1;
+    this.contabilidade_listar = this.userScops.indexOf("co_l") !== -1;
+    this.contatos_exibir = this.userScops.indexOf("ct_e") !== -1;
+    this.contatos_gerenciar = this.userScops.indexOf("ct_g") !== -1;
+    this.emenda_alterar = this.userScops.indexOf("em_a") !== -1;
+    this.emenda_apagar = this.userScops.indexOf("em_d") !== -1;
+    this.emenda_incluir = this.userScops.indexOf("em_i") !== -1;
+    this.emenda_listar = this.userScops.indexOf("em_l") !== -1;
+    this.historico_alterar = this.userScops.indexOf("hi_a") !== -1;
+    this.historico_apagar = this.userScops.indexOf("hi_d") !== -1;
+    this.historico_incluir = this.userScops.indexOf("hi_i") !== -1;
+    this.historicoemenda_alterar = this.userScops.indexOf("he_a") !== -1;
+    this.historicoemenda_apagar = this.userScops.indexOf("he_d") !== -1;
+    this.historicoemenda_incluir = this.userScops.indexOf("he_i") !== -1;
+    this.historicoemenda_listar = this.userScops.indexOf("he_l") !== -1;
+    this.municipio_alterar = this.userScops.indexOf("mu_a") !== -1;
+    this.municipio_apagar = this.userScops.indexOf("mu_d") !== -1;
+    this.municipio_incluir = this.userScops.indexOf("mu_i") !== -1;
+    this.oficio_alterar = this.userScops.indexOf("of_a") !== -1;
+    this.oficio_apagar = this.userScops.indexOf("of_d") !== -1;
+    this.oficio_deferir = this.userScops.indexOf("of_df") !== -1;
+    this.oficio_incluir = this.userScops.indexOf("of_i") !== -1;
+    this.oficio_indeferir = this.userScops.indexOf("of_id") !== -1;
+    this.oficio_listar = this.userScops.indexOf("of_l") !== -1;
+    this.oficio_vizualizar = this.userScops.indexOf("of_l") !== -1;
+    this.passagemaerea_alterar = this.userScops.indexOf("pa_a") !== -1;
+    this.passagemaerea_apagar = this.userScops.indexOf("pa_d") !== -1;
+    this.passagemaerea_incluir = this.userScops.indexOf("pa_i") !== -1;
+    this.passagemaerea_listar = this.userScops.indexOf("pa_l") !== -1;
+    this.processo_apagar = this.userScops.indexOf("pr_d") !== -1;
+    this.processo_deferir = this.userScops.indexOf("pr_df") !== -1;
+    this.processo_indeferir = this.userScops.indexOf("pr_if") !== -1;
+    this.processo_listar = this.userScops.indexOf("pr_l") !== -1;
+    this.proposicao_alterar = this.userScops.indexOf("pp_a") !== -1;
+    this.proposicao_apagar = this.userScops.indexOf("pp_d") !== -1;
+    this.proposicao_incluir = this.userScops.indexOf("pp_i") !== -1;
+    this.proposicao_listar = this.userScops.indexOf("pp_l") !== -1;
+    this.sms_incluir = this.userScops.indexOf("sm_i") !== -1;
+    this.solicitacao_alterar = this.userScops.indexOf("so_a") !== -1;
+    this.solicitacao_incluir = this.userScops.indexOf("so_i") !== -1;
+    this.solicitacao_listar = this.userScops.indexOf("so_l") !== -1;
+    this.telefone_alterar = this.userScops.indexOf("te_a") !== -1;
+    this.telefone_apagar = this.userScops.indexOf("te_d") !== -1;
+    this.telefone_incluir = this.userScops.indexOf("te_i") !== -1;
+    this.telefone_listar = this.userScops.indexOf("te_l") !== -1;
+    this.usuario_alterar = this.userScops.indexOf("us_a") !== -1;
+    this.usuario_apagar = this.userScops.indexOf("us_d") !== -1;
+    this.usuario_incluir = this.userScops.indexOf("us_i") !== -1;
+
+    this.arquivos = (this.userRules?.indexOf("ar") !== -1 && this.config_arquivo_ativo);
+    this.usuario_responsavel_sn = (this.userRules?.indexOf("ur") !== -1 || this.userScops.indexOf("us_r") !== -1 || this.userRules?.indexOf("up") !== -1);
+    this.arquivos_anexar = (this.userScops.indexOf("ar_a") !== -1 && this.config_arquivo_ativo);
+    this.arquivos_apagar = (this.userScops.indexOf("ar_d") !== -1 && this.config_arquivo_ativo);
+    this.arquivos_baixar = (this.userScops.indexOf("ar_b") !== -1 && this.config_arquivo_ativo);
+    this.processo_analisar = (this.userScops.indexOf("pr_df") !== -1 || this.userScops.indexOf("pr_if") !== -1 || this.userRules?.indexOf("ur") !== -1 || this.userRules?.indexOf("up") !== -1 || this.userScops.indexOf("us_r") !== -1);
+    this.solicitacao_analisar = (this.userScops.indexOf("so_an") !== -1 || this.userRules?.indexOf("ur") !== -1 || this.userRules?.indexOf("up") !== -1 || this.userScops.indexOf("us_r") !== -1);
+    this.solicitacao_apagar = (this.userScops.indexOf("so_d") !== -1 || this.userRules?.indexOf("ur") !== -1 || this.userRules?.indexOf("up") !== -1 || this.userScops.indexOf("us_r") !== -1);
+    this.permissoes_carregadas = true;
+    this.as.verificaPermissoes();
     this.mostraMenuEmiter(true);
   }
 
   cancelaPermissoes() {
-    /*this.vfToken = false;
-    this.token = null;
-    this.refleshToken = null;
-    this.expiresRef = null;
-    this.expires = null;
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('reflesh_token');
-    localStorage.removeItem('expiresRef');
-    localStorage.removeItem('expires');*/
-    this.agenda2 = false;
-    this.agenda = false;
-    this.andamentoproposicao = false;
-    this.arquivos = false;
-    this.assunto = false;
-    this.cadastro = false;
-    this.configuracao = false;
-    this.contabilidade = false;
-    this.cadastrosigilo = false;
-    this.contatos = false;
-    this.emenda = false;
-    this.historicoemenda = false;
-    this.historico = false;
-    this.historico_solicitacao = false;
-    this.municipio = false;
-    this.oficio = false;
-    this.passagemaerea = false;
-    this.proposicao = false;
-    this.processo = false;
-    this.solicitacao = false;
-    this.sms = false;
-    this.telefone = false;
-    this.tarefa = false;
-    this.usuario = false;
-    this.configuracao_incluir = false;
-    this.configuracao_alterar = false;
-    this.assunto_incluir = false;
-    this.assunto_alterar = false;
-    this.municipio_incluir = false;
-    this.municipio_alterar = false;
-    this.usuario_incluir = false;
-    this.usuario_alterar = false;
-    this.usuario_apagar = false;
-    this.cadastro_incluir = false;
-    this.cadastro_alterar = false;
-    this.cadastro_apagar = false;
-    this.cadastro_listar = false;
-    this.solicitacao_incluir = false;
-    this.solicitacao_alterar = false;
-    this.solicitacao_apagar = false;
-    this.solicitacao_listar = false;
-    this.solicitacao_analisar = false;
-    this.processo_deferir = false;
-    this.processo_indeferir = false;
-    this.processo_listar = false;
-    this.processo_analisar = false;
-    this.oficio_incluir = false;
-    this.oficio_deferir = false;
-    this.oficio_indeferir = false;
-    this.oficio_vizualizar = false;
-    this.oficio_listar = false;
-    this.oficio_alterar = false;
-    this.historico_incluir = false;
-    this.historico_alterar = false;
-    this.historico_apagar = false;
-    this.historico_solicitacao_incluir = false;
-    this.historico_solicitacao_alterar = false;
-    this.historico_solicitacao_apagar = false;
-    this.agenda_incluir = false;
-    this.agenda_alterar = false;
-    this.agenda_apagar = false;
-    this.processo_apagar = false;
-    this.oficio_apagar = false;
-    this.assunto_apagar = false;
-    this.municipio_apagar = false;
-    this.agenda_visualizar = false;
-    this.agenda2_incluir = false;
-    this.agenda2_alterar = false;
-    this.agenda2_apagar = false;
-    this.agenda2_visualizar = false;
-    this.telefone_incluir = false;
-    this.telefone_alterar = false;
-    this.telefone_apagar = false;
-    this.telefone_listar = false;
-    this.contabilidade_incluir = false;
-    this.contabilidade_alterar = false;
-    this.contabilidade_apagar = false;
-    this.contabilidade_listar = false;
-    this.contatos_exibir = false;
-    this.contatos_gerenciar = false;
-    this.configuracao_apagar = false;
-    this.emenda_incluir = false;
-    this.emenda_alterar = false;
-    this.emenda_apagar = false;
-    this.emenda_listar = false;
-    this.historicoemenda_incluir = false;
-    this.historicoemenda_alterar = false;
-    this.historicoemenda_apagar = false;
-    this.historicoemenda_listar = false;
-    this.cadastrosigilo_incluir = false;
-    this.cadastrosigilo_alterar = false;
-    this.cadastrosigilo_apagar = false;
-    this.cadastrosigilo_listar = false;
-    this.proposicao_incluir = false;
-    this.proposicao_alterar = false;
-    this.proposicao_apagar = false;
-    this.proposicao_listar = false;
-    this.andamentoproposicao_incluir = false;
-    this.andamentoproposicao_alterar = false;
-    this.andamentoproposicao_apagar = false;
-    this.andamentoproposicao_listar = false;
-    this.passagemaerea_incluir = false;
-    this.passagemaerea_alterar = false;
-    this.passagemaerea_apagar = false;
-    this.passagemaerea_listar = false;
-    this.sms_incluir = false;
-    this.arquivos_anexar = false;
-    this.arquivos_baixar = false;
-    this.arquivos_apagar = false;
-    this.versao_id = 0;
+    varAcesso.forEach(s => {
+      this[s] = false;
+    });
+    varRegra.forEach(s => {
+      this[s] = false;
+    });
+    varBool.forEach(s => {
+      this[s] = false;
+    });
+    varNum.forEach(s => {
+      this[s] = 0;
+    });
+    this.currentUser = null;
+    this.dispositivo = null;
+    this.versao = null;
+    this.parlamentar_nome = "";
+    this.usuario_email = "";
+    this.usuario_nome = "";
+    this.usuario_uuid = "";
     this.userRules = [];
     this.userScops = [];
-    this.versaoService.versao = 0;
-    this.versaoService.solicitacaoVersao = 0;
-    this.versaoService.powerUser = false;
-    this.versao = 0;
-    this.versaoN = 0;
-    this.dispositivo = "desktop";
-    this.usuario_uuid = "";
-    //this.ds.dispositivo = user.dispositivo;
-    this.permissoes_carregadas = false;
-
-    this.mensagem = false;
-    this.mensagem_enviar = false;
-    this.mostraMenuEmiter(false);
   }
 
   checaPermissao(str: string): any {
@@ -665,9 +409,6 @@ export class AuthenticationService {
   }
 
   logout() {
-    // localStorage.removeItem('access_token');
-    // localStorage.removeItem('currentUser');
-    // localStorage.clear();
     this.sub.forEach(s => s.unsubscribe());
     sessionStorage.clear();
     localStorage.removeItem("currentUser");
@@ -678,48 +419,6 @@ export class AuthenticationService {
     localStorage.removeItem("usuario_uuid");
     this.currentUser = null;
     this.cancelaPermissoes();
-    this.atz.logado = false;
+    this.ath.logado = false;
   }
-
-  parceUserUuidToStyle() {
-
-  }
-
-
-  /*inicio(): Observable<boolean> {
-    if ( this.atz.vfToken || this.atz.rtkvalido) {
-      if (this.atz.vfToken) {
-        return of(true);
-      } else {
-        if (this.atz.rtkvalido) {
-          let v = false;
-          const s: Subscription = this.atz.refleshToken()
-            .pipe(take(1))
-            .subscribe({
-              next: (vf) => {
-                if (vf) {
-                  v = vf;
-                  /!*const user = JSON.parse(localStorage.getItem('currentUser'))
-                  this.carregaPermhttp://localhost:4400/issoes(user);*!/
-                }
-              },
-              error: err => {
-                console.error(err.message);
-              },
-              complete: () => {
-                s.unsubscribe();
-                return of(v);
-              }
-            });
-        } else {
-          return of(false);
-        }
-
-      }
-    } else {
-      return of(false);
-    }
-  }*/
-
-
 }

@@ -24,8 +24,13 @@ export class AutorizaService {
   currentUser: User | null = null;
 
   // inicio = new Subscription();
-
-  public logadoSubject = new BehaviorSubject<number>(0); // 0 - inicio, 1 - logado,  2 - AuthenticationService recupara credenciais, 3 - logout, 4 login, 5- sai login
+  // 0 - inicio,
+  // 1 - logado,
+  // 2 - AuthenticationService recupara credenciais,
+  // 3 - logout,
+  // 4 - login,
+  // 5 - sai login
+  public logadoSubject = new BehaviorSubject<number>(0);
   public logado$ = this.logadoSubject.asObservable();
   // public refleshSubject = new BehaviorSubject<number>(0); // 0 - inicio, 1 - reflesh, 2 - AuthenticationService recupara credenciais
   // public reflesh  = this.refleshSubject.asObservable();

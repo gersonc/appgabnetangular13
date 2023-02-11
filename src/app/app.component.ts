@@ -18,8 +18,9 @@ import { Router } from "@angular/router";
 import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
 // import { AutenticacaoService } from "./_services/autenticacao.service";
-import { AutorizaService } from "./_services/autoriza.service";
+// import { AutorizaService } from "./_services/autoriza.service";
 import { DispositivoService } from "./_services/dispositivo.service";
+import { AuthService } from "./_services/auth.service";
 
 @Component({
   selector: "app-root",
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private config: PrimeNGConfig,
     // public configService: AppConfigService,
-    private atz: AutorizaService,
+    private ath: AuthService,
     public authenticationService: AuthenticationService,
     // private aut: AutenticacaoService,
     private windowsService: WindowsService,
@@ -66,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('AppComponent ngOnInit');
-    this.s.push(this.atz.logado$.subscribe({
+    this.s.push(this.ath.logado$.subscribe({
         next: (n) => {
           console.log('AppComponent logado$', n);
           if (n === 1) {
@@ -76,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           if (n === 2) {
             // this.aut.getRefleh();
-            this.atz.parseLogado();
+            this.ath.parseLogado();
           }
           if (n === 3 || n == 4) {
             this.router.navigate(["/login"]);
@@ -84,7 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       })
     );
-    /*this.s.push(this.atz.reflesh.subscribe( n => {
+    /*this.s.push(this.ath.reflesh.subscribe( n => {
       if (n === 1) {
         this.aut.getRefleh();
       }})

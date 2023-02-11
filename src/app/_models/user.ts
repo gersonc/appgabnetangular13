@@ -63,9 +63,32 @@ export class User2 {
   usuario_local_id?: number;
   rule?: any[];
   scope?: any[];
+  acesso?: string;
+  cadastro_campo1_nome?: string;
+  cadastro_campo1_sn?: number;
+  cadastro_campo2_nome?: string;
+  cadastro_campo2_sn?: number;
+  cadastro_campo3_nome?: string;
+  cadastro_campo3_sn?: number;
+  cadastro_campo4_nome?: string;
+  cadastro_campo4_sn?: number;
+  config_arquivo_ativo?: number;
+  config_arquivo_cota?: number;
+  config_cota_disponivel?: number;
+  config_cota_utilizada?: number;
+  dispositivo?: string;
+  erro?: any[];
   token?: string;
   expires?: string;
-  acesso?: string;
+  expiresRef?: string;
+  refleshToken?: string;
+  appconfig?: AppConfigServerI | AppConfig;
+  gabnet_id?: number;
+  solicitacao_versao?: number;
+  usuario_acesso?: string;
+  usuario_regras?: string;
+  usuario_uuid?: string;
+  currentUser?: any;
 }
 
 

@@ -1,3 +1,4 @@
+/*
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, take} from "rxjs/operators";
@@ -154,7 +155,7 @@ export class AutenticacaoService {
     }));
   }
 
-  /*login(username: string, password: string, tela: telaI = null) {
+  /!*login(username: string, password: string, tela: telaI = null) {
     console.log('login', username, password);
     let vf: boolean;
     this.sub.push(this.login2(username, password, tela).pipe(take(1)).subscribe({
@@ -214,10 +215,10 @@ export class AutenticacaoService {
           console.log('fim');
         }
       }));
-  }*/
+  }*!/
 
 
-  /*login3(username: string, password: string, tela: telaI = null): Subscription {
+  /!*login3(username: string, password: string, tela: telaI = null): Subscription {
     console.log('login', username, password, tela);
     const bt = username + ':' + password;
     const hvalue = 'Basic ' + btoa(bt);
@@ -285,7 +286,7 @@ export class AutenticacaoService {
           return of(true);
         }
       })
-  }*/
+  }*!/
 
   refleshToken(): Observable<boolean> {
     const url = this.getUrl() + 'reflesh';
@@ -334,7 +335,7 @@ export class AutenticacaoService {
 
   getUrl(): string {
     return `${environment.apiUrl}`;
-    /*switch (location.hostname) {
+    /!*switch (location.hostname) {
       case 'app.gabinet.com.br' :
         return 'https://app.gabinet.com.br/api/';
       case 'gn5.icamara.com.br' :
@@ -351,9 +352,9 @@ export class AutenticacaoService {
         return 'http://webcop3.dv/api/';
       case 'gabnet5.com.br' :
         return 'http://gabnet5.com.br/api/';
-    }*/
+    }*!/
   }
-/*
+/!*
 
   getAgora(): number {
     return Math.floor((+Date.now())/ 1000);
@@ -415,6 +416,7 @@ export class AutenticacaoService {
     delete this.teste;
   }
 
-*/
+*!/
 
 }
+*/

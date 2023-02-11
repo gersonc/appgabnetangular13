@@ -33,6 +33,7 @@ export class JwtInterceptor implements HttpInterceptor {
       if (request.urlWithParams.search("viacep.com.br") === -1 &&
         request.urlWithParams.search("gbnt05raiz.s3.sa-east-1.amazonaws.com") === -1 &&
         request.urlWithParams.search("/reflesh") === -1 &&
+        request.urlWithParams.search("/reliogin") === -1 &&
         request.urlWithParams.search("/login") === -1) {
         console.log('JwtInterceptor 2');
         if(!request.headers.has('Authorization')) {
@@ -50,16 +51,18 @@ export class JwtInterceptor implements HttpInterceptor {
         }));
       }
 
-      if (request.urlWithParams.search("/reflesh") > -1) {
+      if (request.urlWithParams.search("/reflesh") > -1 || request.urlWithParams.search("/relogin") > -1) {
         console.log("JwtInterceptor4", this.rf.vfRefExp());
         if (this.rf.vfRefExp()) {
           console.log('JwtInterceptor 33');
-          request = request.clone({
-            setHeaders: {
-              Authorization: "Bearer " + this.rf.refleshToken(),
-              Reflesh: "true"
-            }
-          });
+          if(!request.headers.has('Authorization')) {
+            request = request.clone({
+              setHeaders: {
+                Authorization: "Bearer " + this.rf.refleshToken(),
+                Reflesh: "true"
+              }
+            });
+          }
           return next.handle(request).pipe(map((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse && (event.status / 100) > 3) {
               console.log("JwtInterceptor1::event =", event);
