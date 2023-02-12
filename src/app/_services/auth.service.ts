@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { map, take } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { telaI } from "../_models/telaI";
+import { OnoffLineService } from "../shared/onoff-line/onoff-line.service";
 
 
 function _window(): any {
@@ -17,7 +18,7 @@ function _window(): any {
   providedIn: 'root'
 })
 export class AuthService {
-
+  inicio = true;
   expires = 0;
   expiresRef = 0;
   token: string | null = null;
@@ -27,6 +28,7 @@ export class AuthService {
   autoriza = new Autoriza();
   usuario_uuid: string | null = null;
   currentUser: User | null = null;
+  onlineVF: boolean;
   // inicio = new Subscription();
   // 0 - inicio,
   // 1 - logado,
@@ -44,6 +46,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private online: OnoffLineService
   ) {
     this.sub.push(this.getInicio().pipe(take(1)).subscribe( {
       next: (vf) => {
@@ -62,28 +65,32 @@ export class AuthService {
       }
 
     }));
+
+    this.sub.push(this.online.onoff.subscribe(vf => {
+      this.onlineVF = vf;
+    }));
   }
 
 
 
 
   getInicio() : Observable<boolean> {
-    console.log('getInicio 0');
+    console.log('getInicio 0', this.token, this.refToken);
     if (this.vfToken) {
-      console.log('getInicio 1');
+      console.log('getInicio 1', this.vfToken, this.token, this.refToken);
       this.parseLogado();
       this._logado = false;
       return of(true);
     } else {
-      console.log('getInicio 2');
+      console.log('getInicio 2', this.token, this.refToken);
       if (this.vfRefToken) {
-        console.log('getInicio 3');
+        console.log('getInicio 3', this.vfRefToken, this.token, this.refToken);
         let vf: boolean;
         const url =`${environment.apiUrl}` + 'relogin';
         const dados: any = this.getScreen();
         const httpOptions = {
           headers: new HttpHeaders({
-            'Authorization': this.refToken,
+            'Authorization':  'Bearer ' + this.refToken,
             'Content-Type': 'application/json'
           })
         };
@@ -145,10 +152,6 @@ export class AuthService {
     } else {
       return this.vfRefToken;
     }
-  }
-
-  renovaTokens() {
-
   }
 
   set logado(vf: boolean) {
@@ -273,7 +276,6 @@ export class AuthService {
     }
   }
 
-
   login2(username: string, password: string, tela: telaI = null): Observable<any> {
     console.log('login2', username, password);
     const bt = username + ':' + password;
@@ -288,7 +290,6 @@ export class AuthService {
 
     return this.http.post<User2>(url, tela, httpOptions);
   }
-
 
   login(username: string, password: string) {
     console.log('login', username, password);
@@ -328,7 +329,7 @@ export class AuthService {
   refleshToken(): Observable<boolean> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': this.refToken,
+        'Authorization':  'Bearer ' + this.refToken,
         'Content-Type': 'application/json'
       })
     };

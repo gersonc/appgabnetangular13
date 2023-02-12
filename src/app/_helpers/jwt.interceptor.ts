@@ -37,6 +37,7 @@ export class JwtInterceptor implements HttpInterceptor {
         request.urlWithParams.search("/login") === -1) {
         console.log('JwtInterceptor 2');
         if(!request.headers.has('Authorization')) {
+          console.log('JwtInterceptor 222');
           request = request.clone({
             setHeaders: {
               Authorization: "Bearer " + this.rf.Token()

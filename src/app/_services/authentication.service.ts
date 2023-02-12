@@ -404,6 +404,24 @@ export class AuthenticationService {
     this.userScops = [];
   }
 
+  mostraPermissoes() {
+    let x: any[] = [];
+    varAcesso.forEach(s => {
+      x.push([s, this[s]]);
+    });
+    varRegra.forEach(s => {
+      x.push([s, this[s]]);
+    });
+    varBool.forEach(s => {
+      x.push([s, this[s]]);
+    });
+    varNum.forEach(s => {
+      x.push([s, this[s]]);
+    });
+
+    console.log('mostraPermissoes', x);
+  }
+
   checaPermissao(str: string): any {
     return this.currentUser!.scope!.indexOf(str) !== -1;
   }

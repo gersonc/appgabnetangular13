@@ -1,9 +1,9 @@
 <header [ngClass]="classe" class="header shadow-2" id="topoprincipal">
 
   <div class="topo-esquerda">
-    <div class="mx-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
-    <div class="topo-esquerda-texto"><span *ngIf="ds.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span>
-    </div>
+    <div *ngIf="ol.isOnline" class="mx-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
+    <div *ngIf="ol.isOffline" class="mx-2"><i class="btn-menu-principal-offline pi pi-wifi"></i></div>
+    <div class="topo-esquerda-texto"><span *ngIf="ds.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span>  </div>
   </div>
 
   <div class="topo-direita justify-content-end">

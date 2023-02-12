@@ -6,7 +6,8 @@ import { take } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { WindowsService } from "../_service";
 import { HttpClient } from "@angular/common/http";
-import { OnoffLineService } from "../../shared/onoff-line/onoff-line.service";
+// import { OnoffLineService } from "../../shared/onoff-line/onoff-line.service";
+import { IsOffLineService } from "../../shared/onoff-line/is-off-line.service";
 // import { OnlineService } from "../../_services/online.service";
 
 @Component({
@@ -27,7 +28,7 @@ export class MainTopoComponent implements OnInit {
     public ws: WindowsService,
     public http: HttpClient,
     private urls: UrlService,
-    public ol: OnoffLineService,
+    public ol: IsOffLineService,
     // private ac: AppConfigService
   ) { }
 

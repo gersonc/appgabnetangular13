@@ -368,6 +368,12 @@ app {
   cursor: pointer;
 }
 
+.btn-menu-principal-offline {
+  padding-top: .1rem;
+  font-size: 1.5rem !important;
+  color: red;
+}
+
 
 /*
 *** main-config ***********************************************************************

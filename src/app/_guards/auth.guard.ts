@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log("AuthGuard", this.rfs.vfRefExp());
     if (this.rfs.vfRefExp()) {
-
+      this.auth.mostraPermissoes();
       if (route.data.rules && this.auth.userScops.indexOf(route.data.rules) === -1) {
         this.router.navigate(['/']);
         return false;

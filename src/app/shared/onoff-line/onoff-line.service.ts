@@ -17,13 +17,16 @@ export class OnoffLineService {
   ativo = false;
   offlineEvent: Observable<Event>;
   onlineEvent: Observable<Event>;
-  onoffSubject: BehaviorSubject<boolean>;
-  onoff: Observable<boolean>;
+  // onoffSubject: BehaviorSubject<boolean>;
+  // onoff: Observable<boolean>;
   subscriptions: Subscription[] = [];
   online = true;
-
+  onoffSubject = new BehaviorSubject<boolean>(true);
+  onoff = this.onoffSubject.asObservable();
 
   constructor() {
+    this.onlineEvent = fromEvent(OnoffLineService.nativeWindow, 'online');
+    this.offlineEvent = fromEvent(OnoffLineService.nativeWindow, 'offline');
     this.handleAppConnectivityChanges();
     this.n++;
   }
@@ -33,29 +36,19 @@ export class OnoffLineService {
   }
 
   public handleAppConnectivityChanges(): void {
-    this.m++;
-    if (!this.ativo) {
-      this.o++;
-      this.onoffSubject = new BehaviorSubject<boolean>(true);
-      this.onoff = this.onoffSubject.asObservable();
-      this.ativo = true;
-    }
-
-
-    this.onlineEvent = fromEvent(OnoffLineService.nativeWindow, 'online');
-    this.offlineEvent = fromEvent(OnoffLineService.nativeWindow, 'offline');
-
     this.subscriptions.push(this.onlineEvent.subscribe(e => {
       // handle online mode
       this.online = true;
+      console.log('online');
       this.onoffSubject.next(true);
     }));
-
     this.subscriptions.push(this.offlineEvent.subscribe(e => {
       this.online = false;
+      console.log('offline');
       this.onoffSubject.next(false);
       // handle offline mode
     }));
+
   }
 
 
@@ -80,16 +73,33 @@ export class OnoffLineService {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
+/*
 
+  checkinterent:any;
+  checkConnection:string = '';
+  therichpost$() {
+    return merge<boolean>(
+      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      new Observable((sub: Observer<boolean>) => {
+        sub.next(navigator.onLine);
+        sub.complete();
+      }));
+  }
+  ngOnInit(){
+    this.therichpost$().subscribe(isOnline => this.checkinterent = isOnline);
+    //checking internet connection
+    if(this.checkinterent == true)
+    {
+      //show success alert if internet is working
+      this.checkConnection = 'Your internet is working';
 
-
-
-
-
-
-
-
-
-
+    }
+    else{
+      //show danger alert if net internet not working
+      this.checkConnection = 'Your internet is not working';
+    }
+  }
+*/
 
 }
