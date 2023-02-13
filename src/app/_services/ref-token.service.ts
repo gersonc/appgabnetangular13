@@ -7,6 +7,8 @@ export class RefTokenService {
 
   expiresRef = 0;
   reflesh_token = '';
+  expires = 0;
+  token = '';
 
   constructor() { }
 
@@ -20,7 +22,7 @@ export class RefTokenService {
   }
 
   vfExp(): boolean {
-    if (!localStorage.getItem("expires") || !localStorage.getItem("token")) {
+    if (!localStorage.getItem("expires") || !localStorage.getItem("access_token")) {
       return false;
     } else {
       const n: number = +localStorage.getItem("expires");
@@ -37,10 +39,10 @@ export class RefTokenService {
   }
 
   Token(): string {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("access_token")) {
       return '';
     } else {
-      return localStorage.getItem("token");
+      return localStorage.getItem("access_token");
     }
   }
 

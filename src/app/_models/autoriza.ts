@@ -1,3 +1,5 @@
+import { AppConfig } from "./appconfig";
+
 export interface autorizaI {
   expires: number;
   expiresRef: number;
@@ -7,6 +9,7 @@ export interface autorizaI {
   usuario_uuid: string | null;
   currentUser: any;
   logado: boolean;
+  appconfig?: AppConfig | null;
 }
 
 
@@ -19,4 +22,5 @@ export class Autoriza implements autorizaI {
   usuario_uuid = null
   currentUser = null;
   logado = false;
+  appconfig? = null;
 }

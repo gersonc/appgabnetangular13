@@ -6,9 +6,10 @@ import {OnoffLineService} from "./onoff-line.service";
 })
 export class IsOffLineService {
 
-  constructor(private ols: OnoffLineService) { }
+  constructor(private ols: OnoffLineService) {
+  }
 
-  get isOffline() {
+  get IsOffLineService() {
     return !this.ols.online;
   }
 

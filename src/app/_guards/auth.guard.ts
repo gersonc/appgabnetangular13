@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
 import { AuthenticationService } from '../_services';
-// import { AutenticacaoService } from "../_services/autenticacao.service";
-import { take } from "rxjs/operators";
-// import { AutorizaService } from "../_services/autoriza.service";
 import { RefTokenService } from "../_services/ref-token.service";
 
 @Injectable({ providedIn: 'root' })
@@ -17,9 +13,9 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log("AuthGuard", this.rfs.vfRefExp());
-    if (this.rfs.vfRefExp()) {
+    if (this.rfs.vfExp()) {
       this.auth.mostraPermissoes();
+      this.auth.revalida();
       if (route.data.rules && this.auth.userScops.indexOf(route.data.rules) === -1) {
         this.router.navigate(['/']);
         return false;

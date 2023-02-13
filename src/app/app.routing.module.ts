@@ -1,12 +1,10 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard, AuthChildGuard } from './_guards';
+import { AuthGuard } from './_guards';
 import { Rule } from './_models';
-
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
-import {GraficosModule} from "./graficos/graficos.module";
 import {TesteComponent} from "./teste/teste.component";
 
 

@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnoffLineDirective } from './onoff-line.directive';
+import { OnoffLineComponent } from "./onoff-line.component";
+import { DialogModule } from "primeng/dialog";
 
 
 
 @NgModule({
   declarations: [
-    OnoffLineDirective
+    OnoffLineDirective,
+    OnoffLineComponent
   ],
   exports: [
-    OnoffLineDirective
+    OnoffLineDirective,
+    OnoffLineComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    DialogModule
   ]
 })
 export class OnoffLineModule { }

@@ -1,11 +1,3 @@
-import { MenuDatatableService } from "./_services/menu-datatable.service";
-
-declare global {
-  interface Window {
-    __VERSAOID__: number;
-    __VERSAO__: any;
-  }
-}
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { WindowsService } from "./_layout/_service";
 import { AuthenticationService } from "./_services";
@@ -17,10 +9,16 @@ import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
-// import { AutenticacaoService } from "./_services/autenticacao.service";
-// import { AutorizaService } from "./_services/autoriza.service";
 import { DispositivoService } from "./_services/dispositivo.service";
 import { AuthService } from "./_services/auth.service";
+
+
+declare global {
+  interface Window {
+    __VERSAOID__: number;
+    __VERSAO__: any;
+  }
+}
 
 @Component({
   selector: "app-root",
@@ -52,31 +50,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private config: PrimeNGConfig,
-    // public configService: AppConfigService,
     private ath: AuthService,
     public authenticationService: AuthenticationService,
-    // private aut: AutenticacaoService,
     private windowsService: WindowsService,
     private router: Router,
     public sps: SpinnerService,
     public ds: DispositivoService,
     public cf: AppConfigService
-  ) {
-    // this.configService.getConfig();
-  }
+  ) { }
 
   ngOnInit() {
-    console.log('AppComponent ngOnInit');
     this.s.push(this.ath.logado$.subscribe({
         next: (n) => {
           console.log('AppComponent logado$', n);
           if (n === 1) {
             this.cf.getUuid();
             this.mostraPessoal = true;
-            this.router.navigate([""]);
+            this.router.navigate(["/home"]);
           }
           if (n === 2) {
-            // this.aut.getRefleh();
             this.ath.parseLogado();
           }
           if (n === 3 || n == 4) {
@@ -85,23 +77,11 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       })
     );
-    /*this.s.push(this.ath.reflesh.subscribe( n => {
-      if (n === 1) {
-        this.aut.getRefleh();
-      }})
-    );*/
-
-    /*this.s.push(this.configService.configUpdate$.subscribe(config => {
-        this.updateAppConfig(config);
-      })
-    );*/
-
 
     window.__VERSAOID__ = +this.authenticationService.versao;
     window.__VERSAO__ = this.authenticationService.versao;
     this.configPrime();
     WindowsService.all();
-    //this.configService.getConfig();
   }
 
 
@@ -184,12 +164,6 @@ export class AppComponent implements OnInit, OnDestroy {
       "emptyFilterMessage": "Sem resultados encontrados"
     });
     this.config.ripple = true;
-  }
-
-
-  updateAppConfig(c: AppConfig) {
-    this.appconfig = c;
-    // this.configService.setConfig(c);
   }
 
   ngOnDestroy() {

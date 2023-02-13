@@ -7,6 +7,7 @@ import { map, take } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { telaI } from "../_models/telaI";
 import { OnoffLineService } from "../shared/onoff-line/onoff-line.service";
+import { AppConfig } from "../_models/appconfig";
 
 
 function _window(): any {
@@ -72,8 +73,6 @@ export class AuthService {
   }
 
 
-
-
   getInicio() : Observable<boolean> {
     console.log('getInicio 0', this.token, this.refToken);
     if (this.vfToken) {
@@ -90,7 +89,7 @@ export class AuthService {
         const dados: any = this.getScreen();
         const httpOptions = {
           headers: new HttpHeaders({
-            'Authorization':  'Bearer ' + this.refToken,
+            'Authorization':  'Bearer ' + localStorage.getItem('reflesh_token'),
             'Content-Type': 'application/json'
           })
         };
@@ -175,7 +174,7 @@ export class AuthService {
       this.expiresRef = +localStorage.getItem('expiresRef');
       this.usuario_uuid = localStorage.getItem('usuario_uuid');
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      this.autoriza = {
+      this.autoriza =  {
         expires: this.expires,
         expiresRef: this.expiresRef,
         token: this.token,
@@ -183,7 +182,8 @@ export class AuthService {
         teste: this.teste,
         usuario_uuid: this.usuario_uuid,
         currentUser: this.currentUser,
-        logado: true
+        logado: true,
+        appconfig: (!localStorage.getItem('appconfig')) ? null : JSON.parse(localStorage.getItem('currentUser'))
       }
     } else {
       const uu: any = (u.appconfig !== undefined) ? u.appconfig : null;
@@ -200,7 +200,8 @@ export class AuthService {
         teste: this.teste,
         usuario_uuid: this.usuario_uuid,
         currentUser: this.currentUser,
-        logado: true
+        logado: true,
+        appconfig: uu
       }
       localStorage.removeItem('currentUser');
       localStorage.removeItem('access_token');
@@ -366,7 +367,6 @@ export class AuthService {
       pixelDepth: m.pixelDepth,
       colorDepth: m.colorDepth,
       userAgent: n.userAgent,
-      onLine: n.onLine,
       hostname: w.location.hostname,
     };
   }

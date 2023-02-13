@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subscription } from "rxjs";
+import { BehaviorSubject, Subscription, timer } from "rxjs";
 import { User } from "../_models";
 import { Versao } from "./versao";
 import { VersaoService } from "./versao.service";
@@ -7,6 +7,7 @@ import { DispositivoService } from "./dispositivo.service";
 import { ArquivoLoginService } from "../arquivo/_services";
 import { AuthService } from "./auth.service";
 import { acessoRule, acessoStr, varAcesso, varBool, varNum, varRegra } from "../_models/acesso-constantes";
+import { take, tap } from "rxjs/operators";
 
 @Injectable({ providedIn: "root" })
 
@@ -425,6 +426,24 @@ export class AuthenticationService {
   checaPermissao(str: string): any {
     return this.currentUser!.scope!.indexOf(str) !== -1;
   }
+
+  revalida() {
+    if ((this.ath.expires + 1800) < Math.floor((+Date.now()) / 1000) &&  this.ath.expiresRef > Math.floor((+Date.now()) / 1000)) {
+      const intervalo = 60000;
+      timer(intervalo)
+        .pipe(
+          tap((x) => {
+            this.ath.getRefleh();
+          })
+        ).subscribe();
+    }
+  }
+
+  /*revalida(): void {
+    if ((this.ath.expires + 1800) < Math.floor((+Date.now()) / 1000) &&  this.ath.expiresRef > Math.floor((+Date.now()) / 1000)) {
+      this.ath.getRefleh();
+    }
+  }*/
 
   logout() {
     this.sub.forEach(s => s.unsubscribe());
