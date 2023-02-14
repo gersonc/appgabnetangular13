@@ -9,6 +9,8 @@ import { IsOffLineService } from "./is-off-line.service";
 export class OnoffLineComponent implements OnInit {
 
   onOdff: boolean;
+  path: string = "../assets/icons/Work-Offline-154.ico";
+  alttext: string="first image"
 
   constructor(public off: IsOffLineService) {
     this.onOdff = this.off.IsOffLineService;
