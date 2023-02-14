@@ -1,23 +1,33 @@
 <header [ngClass]="classe" class="header shadow-2" id="topoprincipal">
-
-  <div class="topo-esquerda">
-    <div *ngIf="ol.isOnline" class="mx-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i></div>
-    <div *ngIf="ol.IsOffLineService" class="mx-2"><i class="btn-menu-principal-offline pi pi-wifi"></i></div>
-    <div class="topo-esquerda-texto"><span *ngIf="ds.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span>  </div>
-  </div>
-
-  <div class="topo-direita justify-content-end">
-    <div class="mr-3">
-      <app-tema-topo-botao></app-tema-topo-botao>
+  <ng-container *ngIf="!authenticationService.permissoes_carregadas">
+    <div class="topo-deslogado">
+      &nbsp;
     </div>
-    <div class="mr-2">
-      <app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal>
+  </ng-container>
+  <ng-container *ngIf="authenticationService.permissoes_carregadas">
+    <div class="topo-esquerda">
+      <div *ngIf="ol.isOnline" class="mx-2"><i class="btn-menu-principal pi pi-bars" (click)="abreFechaMenu()"></i>
+      </div>
+      <div *ngIf="ol.IsOffLineService" class="mx-2"><i class="btn-menu-principal-offline pi pi-wifi"></i></div>
+      <div class="topo-esquerda-texto"><span
+        *ngIf="ds.dispositivo !== 'mobile'"> {{authenticationService.parlamentar_nome}} </span></div>
     </div>
-    <div class="mx-2">{{authenticationService.usuario_nome}}</div>
-    <div *ngIf="ds.dispositivo === 'mobile'" class="mr-2"><i
-      *ngIf="ds.dispositivo === 'mobile'" class="btn-menu-principal pi pi-bars"
-      (click)="abreFechaMd()"></i></div>
-  </div>
+
+    <div class="topo-direita justify-content-end">
+      <div class="mr-3">
+        <app-tema-topo-botao></app-tema-topo-botao>
+      </div>
+      <div class="mr-2">
+        <app-pessoal *ngIf="authenticationService.mensagem"></app-pessoal>
+      </div>
+      <div class="mx-2">{{authenticationService.usuario_nome}}</div>
+      <div *ngIf="ds.dispositivo === 'mobile'" class="mr-2"><i
+        *ngIf="ds.dispositivo === 'mobile'" class="btn-menu-principal pi pi-bars"
+        (click)="abreFechaMd()"></i></div>
+    </div>
+  </ng-container>
 
 </header>
-<app-panelmenu [mostra]="md.mdt"  [recarrega]="ds.dispositivo"></app-panelmenu>
+
+  <app-panelmenu [mostra]="md.mdt" [recarrega]="ds.dispositivo"></app-panelmenu>
+

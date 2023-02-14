@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, UrlService } from "../../_services";
 import { MenuDatatableService } from "../../_services/menu-datatable.service";
 import { DispositivoService } from "../../_services/dispositivo.service";
-import { take } from "rxjs/operators";
-import { Subscription } from "rxjs";
+// import { take } from "rxjs/operators";
+// import { Subscription } from "rxjs";
 import { WindowsService } from "../_service";
-import { HttpClient } from "@angular/common/http";
+// import { HttpClient } from "@angular/common/http";
 // import { OnoffLineService } from "../../shared/onoff-line/onoff-line.service";
 import { IsOffLineService } from "../../shared/onoff-line/is-off-line.service";
 // import { OnlineService } from "../../_services/online.service";
@@ -19,15 +19,15 @@ export class MainTopoComponent implements OnInit {
   classe: string = null;
   public mostraMenuPrincipal = false;
   mostraPessoal = false;
-  sub: Subscription[] = [];
+  // sub: Subscription[] = [];
 
   constructor(
     public authenticationService: AuthenticationService,
     public md: MenuDatatableService,
     public ds: DispositivoService,
     public ws: WindowsService,
-    public http: HttpClient,
-    private urls: UrlService,
+    // public http: HttpClient,
+    // private urls: UrlService,
     public ol: IsOffLineService,
     // private ac: AppConfigService
   ) { }

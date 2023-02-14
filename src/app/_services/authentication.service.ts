@@ -162,9 +162,9 @@ export class AuthenticationService {
     private versaoService: VersaoService,
     private as: ArquivoLoginService,
   ) {
-    console.log('AuthenticationService constructor 0');
+    // console.log('AuthenticationService constructor 0');
     this.sub.push(this.ath.logado$.subscribe((n) => {
-      console.log('AuthenticationService constructor 1', n);
+      // console.log('AuthenticationService constructor 1', n);
       if (n === 1) {
         this.carregaPermissoes(JSON.parse(<string>localStorage.getItem("currentUser")));
       }
@@ -382,6 +382,7 @@ export class AuthenticationService {
   }
 
   cancelaPermissoes() {
+    console.log('AuthenticationService cancelaPermissoes ==============================');
     varAcesso.forEach(s => {
       this[s] = false;
     });
@@ -428,7 +429,9 @@ export class AuthenticationService {
   }
 
   revalida() {
+    // console.log('AuthenticationService revalida 1');
     if ((this.ath.expires + 1800) < Math.floor((+Date.now()) / 1000) &&  this.ath.expiresRef > Math.floor((+Date.now()) / 1000)) {
+      console.log('AuthenticationService revalida 2');
       const intervalo = 60000;
       timer(intervalo)
         .pipe(
@@ -436,14 +439,11 @@ export class AuthenticationService {
             this.ath.getRefleh();
           })
         ).subscribe();
-    }
+    }/* else {
+      console.log('AuthenticationService revalida 3');
+    }*/
   }
 
-  /*revalida(): void {
-    if ((this.ath.expires + 1800) < Math.floor((+Date.now()) / 1000) &&  this.ath.expiresRef > Math.floor((+Date.now()) / 1000)) {
-      this.ath.getRefleh();
-    }
-  }*/
 
   logout() {
     this.sub.forEach(s => s.unsubscribe());

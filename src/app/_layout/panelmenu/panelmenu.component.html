@@ -4,7 +4,9 @@
   <!--<div *ngIf="md.mdt" class="scrolling-area">
     &lt;!&ndash;<div style="background-color: transparent; box-shadow: .3em .8em .7em var(&#45;&#45;surface-400);">&ndash;&gt;
     <div class="scrolling-element-inside">-->
+  <ng-container *ngIf="authenticationService.permissoes_carregadas">
       <p-panelMenu *ngIf="ol.isOnline" [model]="items" styleClass="menuprincipal"></p-panelMenu>
+  </ng-container>
     <!--</div>
   </div>-->
 </div>

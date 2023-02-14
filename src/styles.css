@@ -157,6 +157,13 @@ app {
   /*line-height: 2rem;*/
 }
 
+.topo-deslogado {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 0.2rem 0;
+}
+
 .topo-esquerda-texto {
   position: absolute;
   left: 3rem;
@@ -880,6 +887,67 @@ div#principal {
   padding: 0 1.5rem .5rem 1.5rem;
 }
 
+.calendario.calendario-form.p-dialog .p-dialog-content {
+  background: var(--surface-ground);
+}
+
+.formulario.formulario-dark > .ql-snow .ql-picker {
+  color: var(--primary-color) !important;
+}
+/*.formulario.formulario-dark > .ql-snow button.ql-list {
+  color: var(--primary-color) !important;
+}*/
+.formulario.formulario-dark > .ql-snow .ql-stroke {
+  fill: none;
+  stroke: var(--primary-color) !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.formulario > .ql-container.ql-snow {
+  background: var(--surface-a);
+}
+
+.formulario.p-input-filled > .ql-container.ql-snow {
+  background: var(--surface-ground);
+}
+
+.formulario.formulario-dark > .ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+  fill: var(--primary-color) !important;
+}
+
+/*
+.formulario.formulario-dark > .ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+  fill: var(--primary-color) !important;
+}
+
+.formulario.formulario-dark > .ql-formats {
+  color: var(--primary-color) !important;
+}
+
+.formulario.formulario-dark .ql-formats {
+  color: var(--primary-color) !important;
+}
+
+.formulario-dark > .ql-toolbar.ql-snow {
+  color: var(--primary-color) !important;
+}
+
+.formulario-dark > .ql-formats {
+  color: var(--primary-color) !important;
+}
+
+.formulario-dark .ql-formats {
+  color: var(--primary-color) !important;
+}
+.formulario-dark > button.ql-list {
+  color: var(--primary-color) !important;
+}
+
+*/
+
+
 .calendario-exibir-full {
   border: 0;
   width: 100%;
@@ -940,6 +1008,32 @@ div#principal {
 }
 
 
+/*
+.calendario-form .p-datepicker table th > span {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.calendario-form .p-datepicker table td {
+  padding: 0.3em;
+}
+
+.calendario-form .p-datepicker table td > span {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.calendario-form > .p-multiselect.p-multiselect-chip .p-multiselect-token {
+  padding: 0.25em 0.75em;
+  margin-right: 0.5em;
+  background-color: var(--secondary-bg);
+  color: var(--secondary-color-text);
+  border-radius: 4px;
+  font-size: .5em !important;
+}
+*/
+
+
 .caldet {
   margin: .4em;
   background-color: var(--fc-neutral-bg-color);
@@ -994,34 +1088,6 @@ body .icsupload:hover {
   border-radius: .5em;
 }
 
-/*
-.calendario-form .p-datepicker table th {
-  padding: 0.3em;
-}
-
-.calendario-form .p-datepicker table th > span {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-.calendario-form .p-datepicker table td {
-  padding: 0.3em;
-}
-
-.calendario-form .p-datepicker table td > span {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-.calendario-form > .p-multiselect.p-multiselect-chip .p-multiselect-token {
-  padding: 0.25em 0.75em;
-  margin-right: 0.5em;
-  background-color: var(--secondary-bg);
-  color: var(--secondary-color-text);
-  border-radius: 4px;
-  font-size: .5em !important;
-}
-*/
 
 
 /*

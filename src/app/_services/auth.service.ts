@@ -7,7 +7,6 @@ import { map, take } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { telaI } from "../_models/telaI";
 import { OnoffLineService } from "../shared/onoff-line/onoff-line.service";
-import { AppConfig } from "../_models/appconfig";
 
 
 function _window(): any {
@@ -74,16 +73,12 @@ export class AuthService {
 
 
   getInicio() : Observable<boolean> {
-    console.log('getInicio 0', this.token, this.refToken);
     if (this.vfToken) {
-      console.log('getInicio 1', this.vfToken, this.token, this.refToken);
       this.parseLogado();
       this._logado = false;
       return of(true);
     } else {
-      console.log('getInicio 2', this.token, this.refToken);
       if (this.vfRefToken) {
-        console.log('getInicio 3', this.vfRefToken, this.token, this.refToken);
         let vf: boolean;
         const url =`${environment.apiUrl}` + 'relogin';
         const dados: any = this.getScreen();
@@ -97,20 +92,16 @@ export class AuthService {
           .pipe(
             take(1),
             map(user => {
-              console.log('getInicio 4');
               if (user && user.token) {
-                console.log('getInicio 5');
                 this.parseLogado(user);
                 this._logado = true;
                 return true;
               } else {
-                console.log('getInicio 6');
                 this._logado = false;
                 return false;
               }
             }));
       } else {
-        console.log('getInicio 7');
         this._logado = false;
         return of(false);
       }

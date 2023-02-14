@@ -27,7 +27,7 @@ export class PanelmenuComponent implements OnInit, OnChanges, OnDestroy {
 
 
   constructor(
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     private mo: MensagemOnoffService,
     public ol: OnoffLineService,
     private router: Router,

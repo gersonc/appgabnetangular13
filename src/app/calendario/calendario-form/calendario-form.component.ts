@@ -21,6 +21,7 @@ import {CpoEditor} from "../../_models/in-out-campo-texto";
 import {CalendarioService} from "../_services/calendario.service";
 import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
 import {MsgService} from "../../_services/msg.service";
+import { ThemeService } from "../../_services/theme.service";
 
 
 @Component({
@@ -165,7 +166,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     public authenticationService: AuthenticationService,
     private ms: MsgService,
     public cl: CalendarioService,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private th: ThemeService
   ) {
     this.urlUpload = this.urlService.calendario + '/upload';
   }
@@ -583,6 +585,11 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     this.ddusuario = JSON.parse(sessionStorage.getItem('dropdown-usuario'));
     this.ddcalendario_status = JSON.parse(sessionStorage.getItem('dropdown-calendario_status'));
   }
+
+  get editorFormClass(): string {
+    return (!this.th.filedVF && !this.th.dark) ? 'formulario' : (this.th.filedVF && !this.th.dark) ? 'formulario p-input-filled' : (!this.th.filedVF && this.th.dark) ?  'formulario formulario-dark' :  'formulario formulario-dark p-input-filled p-inputtext';
+    // return (this.th.filedVF || this.th.dark) ? 'formulario formulario-dark' : 'formulario';
+  }// .p-input-filled .p-inputtext
 
   carregaDados() {
     // this.resetOpcoes();

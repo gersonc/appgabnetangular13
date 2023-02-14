@@ -25,6 +25,7 @@ import {CalBusca, Evento} from "./_models/calendario";
 import {SelectItem} from "primeng/api";
 import {MsgService} from "../_services/msg.service";
 import { DispositivoService } from "../_services/dispositivo.service";
+import { ThemeService } from "../_services/theme.service";
 
 declare let jsPDF: any;
 
@@ -117,7 +118,8 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
     public authenticationService: AuthenticationService,
     private messageService: MsgService,
     public dialogService: DialogService,
-    public ds: DispositivoService
+    public ds: DispositivoService,
+    private th: ThemeService
   ) {
   }
 
@@ -291,6 +293,10 @@ export class CalendarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   get calendarioEsquerdaClass(): string {
     return (this.detalheAtivo && this.mudaDetalhe) ? 'calendario-esquerda-1' : 'calendario-esquerda-0';
+  }
+
+  get calendarioFormClass(): string {
+    return (this.th.filedVF || this.th.dark) ? 'calendario' : 'calendario calendario-form';
   }
 
   ngAfterViewInit() {
