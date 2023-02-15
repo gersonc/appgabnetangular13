@@ -1428,8 +1428,11 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.evRetorno = [];
+    if (this.evRetorno.length > 0) {
+      this.eventoRetorno.emit(this.evRetorno);
+    }
     this.sub.forEach(s => s.unsubscribe());
+    this.evRetorno = [];
   }
 
   myUploader(event) {

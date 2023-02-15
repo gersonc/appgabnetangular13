@@ -7,8 +7,8 @@ export class Scope {
   static usuario_incluir = 'us_i';
   static usuario_alterar = 'us_a';
   static usuario_apagar = 'usu_d';
-  static usuario_principal = 'up_s';
-  static usuario_responsavel = 'ur_s';
+  static usuario_principal = 'us_p';
+  static usuario_responsavel = 'us_r';
   static cadastro_incluir = 'ca_i';
   static cadastro_alterar = 'ca_a';
   static cadastro_apagar = 'ca_d';

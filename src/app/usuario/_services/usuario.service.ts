@@ -95,7 +95,7 @@ export class UsuarioService {
     'ar_a',
     'ar_b',
     'ar_d',
-    'ur_s',
+    'us_r',
     'so_an'
   ];
   acessoCompleto: string[] = [];
