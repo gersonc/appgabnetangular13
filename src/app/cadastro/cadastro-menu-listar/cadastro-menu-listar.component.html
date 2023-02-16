@@ -1,4 +1,4 @@
-<div class="formulario base">
+<div class="formulario base surface-overlay">
   <form [formGroup]="formMenu" (keyup)="onKey($event)" class="menuinterno-form">
     <ng-container *ngIf="!auth.cadastrosigilo_listar">
       <input
@@ -7,6 +7,8 @@
         id="cadastro_sigilo2"
       >
     </ng-container>
+    <p-scrollPanel styleClass='menuinterno' >
+      <div class="ml-5 pl-5 pr-1 pt-3 pb-2 border-round border-round-sm border-round-md border-round-lg border-round-xl surface-card">
     <div class="inline-block pb-2">
       <div class="flex justify-content-start pb-2">
         <div class="mr-2">
@@ -16,7 +18,7 @@
             icon="pi pi-search"
             iconPos="left"
             label="Procurar"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded"
             (click)="onMudaForm()"
           ></button>
         </div>
@@ -27,7 +29,7 @@
             icon="pi pi-circle-off"
             iconPos="left"
             label="Limpar"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded"
             (click)="formMenu.reset()"
           ></button>
         </div>
@@ -39,14 +41,14 @@
             icon="pi pi-plus"
             iconPos="left"
             label="Incluir"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded"
             (click)="goIncluir()"
             ></button>
         </div>
       </div>
     </div>
 
-    <p-scrollPanel styleClass='menuinterno' >
+
 
     <div class="formulario formgrid grid">
 
@@ -495,7 +497,7 @@
 
 
 
-    <div class="inline-block">
+    <div class="inline-block mt-3">
       <div class="flex justify-content-start pb-2">
         <div class="mr-2">
           <button
@@ -504,7 +506,7 @@
             icon="pi pi-search"
             iconPos="left"
             label="Procurar"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded"
             (click)="onMudaForm()"
           ></button>
         </div>
@@ -515,7 +517,7 @@
             icon="pi pi-circle-off"
             iconPos="left"
             label="Limpar"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded"
             (click)="formMenu.reset()"
           ></button>
         </div>
@@ -527,13 +529,13 @@
             icon="pi pi-plus"
             iconPos="left"
             label="Incluir"
-            class="p-button-rounded p-button-secondary"
+            class="p-button-rounded"
             (click)="goIncluir()"
           ></button>
         </div>
       </div>
     </div>
-
+      </div>
     </p-scrollPanel>
     <!--<div class="flex justify-content-between pb-2 ml-2 p-pl-2">
       <div class="inline-flex">

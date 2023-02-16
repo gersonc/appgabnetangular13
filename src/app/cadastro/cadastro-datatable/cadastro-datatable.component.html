@@ -10,7 +10,7 @@
          [sortField]="cs.tabela.sortField"
          dataKey="cadastro_id"
          [scrollable]="true"
-
+         scrollHeight="calc(100vh - 9rem)"
          [(selection)]="cs.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
@@ -39,7 +39,7 @@
          (onContextMenuSelect)="cs.onContextMenuSelect($event)"
          (sortFunction)="cs.customSort($event)"
          [customSort]="true"
-         [tableStyle]="{'font-size':'var(--font-padrao)'}"
+
          stateStorage="session"
          stateKey="cadastro-table"
          selectionMode="multiple"
