@@ -15543,7 +15543,12 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   align-items: center;
   justify-content: flex-end;
 }
-
+.p-sidebar-header {
+  background: var(--formulario-bg-externo-color);
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
 .p-sidebar-icon {
   display: flex;
   align-items: center;
@@ -15666,12 +15671,7 @@ p-editor.detalhe .p-editor-toolbar.ql-toolbar.ql-snow {
   opacity: 1;
 }
 
-.p-sidebar-header {
-  background: var(--formulario-bg-externo-color);
-  align-items: center;
-  display: flex;
-  justify-content: flex-end;
-}
+
 
 .p-sidebar .p-sidebar-close:enabled:hover {
   color: var(--text-color);
@@ -16589,6 +16589,10 @@ h5 {
 
 .hide-datatable {
   display: none;
+}
+
+.show-datatable {
+  display: initial;
 }
 
 .explorer-top {

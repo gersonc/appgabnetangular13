@@ -1,6 +1,6 @@
 <!--*** INICIO *****************************************************************************************************-->
 <p-table #dtb
-         id="tabelatarefa"
+         id="tabelacadastro"
          [value]="cs.cadastros"
          [columns]="cs.tabela.selectedColumns"
          [rows]="cs.tabela.rows"
@@ -49,7 +49,7 @@
   <!--*** TOPO *****************************************************************************************************-->
 
   <ng-template pTemplate="caption">
-    <div id="tablecaption" [ngClass]="{'hide-datatable': md.mdt}">
+    <div id="tablecaption" [ngClass]="md.tablecaptionClass">
       <div class="flex justify-content-between align-items-center flex-column p-flex-md-row">
 
         <div class="inline-flex">
@@ -95,7 +95,7 @@
         </div>
       </div>
 
-    <menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></menu>
+    <p-menu #men [popup]="true" [model]="itemsAcao" appendTo="body"></p-menu>
   </ng-template>
 
   <!--*** TITULOS **************************************************************************************************-->

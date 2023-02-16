@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     usuario_uuid: null,
     theme: "lara-light-blue",
     dark: false,
-    inputStyle: "outlined",
+    inputStyle: "filled",
     ripple: true,
     scale: "14px", // px
     dispositivo: "desktop"

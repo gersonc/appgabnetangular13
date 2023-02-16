@@ -6,6 +6,7 @@ import { Observable, of, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import { AuthenticationService } from "./authentication.service";
 import { DispositivoService } from "./dispositivo.service";
+import { HeaderService } from "./header.service";
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +22,7 @@ export class TemaService {
     usuario_uuid: null,
     theme: "lara-light-blue",
     dark: false,
-    inputStyle: "outlined",
+    inputStyle: "filled",
     ripple: true,
     scale: "14px",
     dispositivo: "desktop"
@@ -36,14 +37,12 @@ export class TemaService {
 
 
   getTema(uuid: string): Observable<AppConfig> {
-    const httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
-    return this.http.post<AppConfig>(this.url.tema, uuid, httpOptions);
+    return this.http.post<AppConfig>(this.url.tema, uuid, HeaderService.tokenHeader);
   }
 
   putTema(dados: any): Observable<any> {
     this.config = dados;
-    const httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
-    return this.http.put<any>(this.url.tema, dados, httpOptions);
+    return this.http.put<any>(this.url.tema, dados, HeaderService.tokenHeader);
   }
 
   setTema(dados: AppConfig): void {

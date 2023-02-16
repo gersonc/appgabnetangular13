@@ -33,7 +33,7 @@ export function parceFronServer(c: AppConfigServerI): AppConfig {
   cAtual.ripple = (c.ripple !== 0);
   cAtual.theme =(c.theme !== undefined) ? c.theme : "lara-light-blue";
   cAtual.dark = (c.dark === undefined || c.dark == 1);
-  cAtual.inputStyle =(c.inputstyle !== undefined) ? c.inputstyle : "outlined";
+  cAtual.inputStyle =(c.inputstyle !== undefined) ? c.inputstyle : "filled";
   cAtual.usuario_uuid = (c.usuario_uuid !== undefined) ? c.usuario_uuid : null;
   cAtual.scale = (c.scale !== undefined) ? c.scale : "14px";
   cAtual.dispositivo = (c.dispositivo !== undefined) ? c.dispositivo : "desktop";

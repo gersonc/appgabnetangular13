@@ -20,11 +20,23 @@ export class AppConfigService {
     usuario_uuid: null,
     theme: "lara-light-blue",
     dark: false,
+    inputStyle: "filled",
+    ripple: true,
+    scale: "14px",
+    dispositivo: "desktop"
+  };
+
+  /*config: AppConfig = {
+    usuario_uuid: null,
+    theme: "lara-light-blue",
+    dark: false,
     inputStyle: "outlined",
     ripple: true,
     scale: "14px",
     dispositivo: "desktop"
   };
+
+  */
 
   private configUpdate = new Subject<AppConfig>();
 

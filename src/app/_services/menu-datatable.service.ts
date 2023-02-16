@@ -9,12 +9,14 @@ export class MenuDatatableService {
 // (this.md.mdt) ? 'menu-principal' : 'menu-principal-fechado';
 
   menuClass = 'menu-principal-fechado';
+  tablecaptionClass = 'show-datatable';
 
   constructor() { }
 
   set mdt(vf: boolean) {
     this._mdt = vf;
     this.menuClass = this._mdt ? 'menu-principal' : 'menu-principal-fechado';
+    this.tablecaptionClass = this._mdt ? 'hide-datatable' : 'show-datatable';
   }
 
   get mdt(): boolean {
@@ -24,15 +26,17 @@ export class MenuDatatableService {
   togle() {
     this._mdt = !this._mdt;
     this.menuClass = this._mdt ? 'menu-principal' : 'menu-principal-fechado';
+    this.tablecaptionClass = this._mdt ? 'hide-datatable' : 'show-datatable';
   }
 
   show() {
     this._mdt = true;
     this.menuClass =  'menu-principal';
+    this.tablecaptionClass = 'hide-datatable';
   }
 
   hide() {
     this._mdt = false;
-    this.menuClass = 'menu-principal-fechado';
+    this.tablecaptionClass =  'show-datatable';
   }
 }

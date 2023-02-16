@@ -15,7 +15,7 @@ export class ThemeService {
   }
 
   get filedVF(): boolean {
-    return !(this.ap.config.inputStyle === "outlined");
+    return !(this.ap.config.inputStyle === "filled");
   }
 
 }

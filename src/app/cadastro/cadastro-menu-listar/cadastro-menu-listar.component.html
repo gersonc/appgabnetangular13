@@ -1,4 +1,4 @@
-<div class="inline-block formulario-bg-externo espacoInferiorMenu">
+<div class="formulario base">
   <form [formGroup]="formMenu" (keyup)="onKey($event)" class="menuinterno-form">
     <ng-container *ngIf="!auth.cadastrosigilo_listar">
       <input
@@ -7,8 +7,8 @@
         id="cadastro_sigilo2"
       >
     </ng-container>
-    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
-      <div class="inline-flex">
+    <div class="inline-block pb-2">
+      <div class="flex justify-content-start pb-2">
         <div class="mr-2">
           <button
             pButton
@@ -41,19 +41,18 @@
             label="Incluir"
             class="p-button-rounded p-button-secondary"
             (click)="goIncluir()"
-          ></button>
+            ></button>
         </div>
       </div>
     </div>
 
-    <div class="flex ml-1 p-pl-2">
+    <p-scrollPanel styleClass='menuinterno' >
 
-      <div class="inline-block grid">
+    <div class="formulario formgrid grid">
 
-        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6">
-          <div class="formgrid grid formulario">
+
             <!-- cadastro_tipo -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_tipo_id">Tipo de Cadastro</label>
               <p-dropdown
                 id="cadastro_tipo_id"
@@ -65,7 +64,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_nome -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_nome">Nome/Razão Social <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_nome"
@@ -81,7 +80,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_responsavel -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_responsavel">Empresa/Responsável <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_responsavel"
@@ -96,7 +95,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_sigla -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_sigla">Sigla <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_sigla"
@@ -111,7 +110,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_apelido -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_apelido">Apelido <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_apelido"
@@ -126,7 +125,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_bairro -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_bairro">Bairro</label>
               <p-dropdown
                 id="cadastro_bairro"
@@ -139,7 +138,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_municipio_id -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_municipio_id">Município</label>
               <p-dropdown
                 id="cadastro_municipio_id"
@@ -151,7 +150,7 @@
                 [showClear]="true"
               ></p-dropdown>
             </div>
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_estado_id">Estado</label>
               <p-dropdown
                 id="cadastro_estado_id"
@@ -163,7 +162,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_municipio_regiao -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_regiao_id">Região</label>
               <p-dropdown
                 id="cadastro_regiao_id"
@@ -176,7 +175,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_grupo_id -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_grupo_id">Grupo</label>
               <p-dropdown
                 id="cadastro_grupo_id"
@@ -188,7 +187,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_animes -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_animes">Mês de Aniversário</label>
               <p-dropdown
                 id="cadastro_animes"
@@ -200,7 +199,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_anidia -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_anidia">Dia do Aniversário</label>
               <p-dropdown
                 id="cadastro_anidia"
@@ -212,7 +211,7 @@
               ></p-dropdown>
             </div>
             <!-- quinzena -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="quinzena">Quinzena de Aniversário</label>
               <p-dropdown
                 id="quinzena"
@@ -224,7 +223,10 @@
               ></p-dropdown>
             </div>
             <!-- dt aniversario intervalo1 -->
-            <div class="field col-6 sm:col-12 md:col-12 lg:col-6 xl:col-6">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
+              <div class="campo-duplo">
+              <div class="formgrid grid">
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <!-- aniversario intervalo1 -->
               <label for="cadastro_data_nascimento1">Dt. Nasc. / Fundação</label>
               <p-calendar
@@ -237,9 +239,11 @@
                 yearRange="1900:2030"
                 dataType="date"
               ></p-calendar>
-            </div>
-            <div class="field col-6 sm:col-12 md:col-12 lg:col-6 xl:col-6">
+                </div>
+            <!--</div>
+            <div class="field col-6 sm:col-12 md:col-12 lg:col-6 xl:col-6">-->
               <!-- aniversario intervalo1 -->
+                <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_data_nascimento2">Até</label>
               <p-calendar
                 id="cadastro_data_nascimento2"
@@ -251,9 +255,12 @@
                 yearRange="1900:2030"
                 dataType="date"
               ></p-calendar>
+                </div>
+              </div>
+              </div>
             </div>
             <!-- cadastro_campo1 -->
-            <div *ngIf="cs.cadastro_campo1_sn" class="field col-12">
+            <div *ngIf="cs.cadastro_campo1_sn" class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_campo1">{{cs.cadastro_campo1_nome}} <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_campo1"
@@ -267,7 +274,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_campo2 -->
-            <div *ngIf="cs.cadastro_campo2_sn" class="field col-12">
+            <div *ngIf="cs.cadastro_campo2_sn" class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_campo2">{{cs.cadastro_campo2_nome}} <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_campo2"
@@ -280,13 +287,9 @@
                 [inputStyle]="{'padding-right':'0'}"
               ></p-autoComplete>
             </div>
-          </div>
-        </div>
 
-        <div class="col-12 sm:col-12 md:col-6 lg:col-6 xl:col-6 menu-lateral">
-          <div class="formgrid grid formulario">
             <!-- cadastro_usuario -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_usuario">Cadastrante</label>
               <p-dropdown
                 id="cadastro_usuario"
@@ -298,7 +301,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_profissao -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_profissao">Profissão <span class="labeltips">(CONTÉM)</span></label>
               <p-autoComplete
                 id="cadastro_profissao"
@@ -313,7 +316,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_estado_civil_id -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_estado_civil_id">Estado Civil</label>
               <p-dropdown
                 id="cadastro_estado_civil_id"
@@ -325,7 +328,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_sexo -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_sexo2">Gênero</label>
               <p-dropdown
                 id="cadastro_sexo2"
@@ -337,7 +340,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_zona -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_zona">Partido</label>
               <p-dropdown
                 id="cadastro_zona"
@@ -349,7 +352,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_cargo -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_cargo">Cargo</label>
               <p-autoComplete
                 id="cadastro_cargo"
@@ -364,7 +367,7 @@
               ></p-autoComplete>
             </div>
             <!-- cadastro_escolaridade_id -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_escolaridade_id">Escolaridade</label>
               <p-dropdown
                 id="cadastro_escolaridade_id"
@@ -376,7 +379,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_jornal -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_jornal">Boletim</label>
               <p-dropdown
                 id="cadastro_jornal"
@@ -388,7 +391,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_mala -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_mala">Mala Direta</label>
               <p-dropdown
                 id="cadastro_mala"
@@ -400,7 +403,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_agenda -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_agenda">Contato</label>
               <p-dropdown
                 id="cadastro_agenda"
@@ -412,7 +415,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_sigilo -->
-            <div *ngIf="auth.cadastrosigilo_listar" class="field col-12">
+            <div *ngIf="auth.cadastrosigilo_listar" class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_sigilo">Sigilo</label>
               <p-dropdown
                 id="cadastro_sigilo"
@@ -424,7 +427,7 @@
               ></p-dropdown>
             </div>
             <!-- cadastro_cpfcnpj -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_cpfcnpj">CPF/CNPJ</label>
               <input
                 id="cadastro_cpfcnpj"
@@ -437,7 +440,7 @@
               />
             </div>
             <!-- telefone -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="telefone">Telefone</label>
               <input
                 id="telefone"
@@ -450,7 +453,7 @@
               />
             </div>
             <!-- cadastro_data_cadastramento -->
-            <div class="field col-12">
+            <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_data_cadastramento">Dt. Cadastramento</label>
               <p-calendar
                 id="cadastro_data_cadastramento"
@@ -463,7 +466,7 @@
               ></p-calendar>
             </div>
             <!-- cadastro_campo3 -->
-            <div *ngIf="cs.cadastro_campo3_sn" class="field col-12">
+            <div *ngIf="cs.cadastro_campo3_sn" class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_campo3">{{cs.cadastro_campo3_nome}}</label>
               <input
                 id="cadastro_campo3"
@@ -476,7 +479,7 @@
               />
             </div>
             <!-- cadastro_campo4_id -->
-            <div *ngIf="cs.cadastro_campo4_sn" class="field col-12">
+            <div *ngIf="cs.cadastro_campo4_sn" class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
               <label for="cadastro_campo4_id">{{cs.cadastro_campo4_nome}}</label>
               <p-dropdown
                 id="cadastro_campo4_id"
@@ -489,13 +492,11 @@
             </div>
 
           </div>
-        </div>
-      </div>
-    </div>
 
 
-    <div class="flex justify-content-between pb-2 ml-2 p-pl-2">
-      <div class="inline-flex">
+
+    <div class="inline-block">
+      <div class="flex justify-content-start pb-2">
         <div class="mr-2">
           <button
             pButton
@@ -532,6 +533,46 @@
         </div>
       </div>
     </div>
+
+    </p-scrollPanel>
+    <!--<div class="flex justify-content-between pb-2 ml-2 p-pl-2">
+      <div class="inline-flex">
+        <div class="mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-search"
+            iconPos="left"
+            label="Procurar"
+            class="p-button-rounded p-button-secondary"
+            (click)="onMudaForm()"
+          ></button>
+        </div>
+        <div class="mr-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-circle-off"
+            iconPos="left"
+            label="Limpar"
+            class="p-button-rounded p-button-secondary"
+            (click)="formMenu.reset()"
+          ></button>
+        </div>
+        <div class="mr-2">
+          <button
+            *ngIf="auth.usuario_responsavel_sn || auth.usuario_principal_sn || auth.cadastro_incluir"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            iconPos="left"
+            label="Incluir"
+            class="p-button-rounded p-button-secondary"
+            (click)="goIncluir()"
+          ></button>
+        </div>
+      </div>
+    </div>-->
 
   </form>
 </div>

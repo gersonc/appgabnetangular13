@@ -27,8 +27,8 @@ import { AppConfigService } from "../../_services/appconfigservice";
 export class AppInputStyleSwitchComponent implements OnInit, OnDestroy {
 
   ativo = true;
-  valor: string = "outlined";
-  inputStyle: string = "outlined";
+  valor: string = "filled";
+  inputStyle: string = "filled";
 
   public subscription: Subscription[] = [];
 
@@ -48,7 +48,7 @@ export class AppInputStyleSwitchComponent implements OnInit, OnDestroy {
 
   onChange() {
     this.ativo = false;
-    const s: string = (this.inputStyle === 'outlined') ? 'filled' : 'outlined';
+    const s: string = (this.inputStyle === 'filled') ? 'outlined' : 'filled';
     this.configService.setInputStyle(s);
   }
 
