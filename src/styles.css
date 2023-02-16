@@ -1527,11 +1527,40 @@ button.expandir {
   width: 1.2rem !important;
 }
 
+.p-highlight button.expandir {
+  color: var(--primary-color-text) !important;
+}
+/*
+
+.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover {
+  background: #e9ecef;
+  color: #212529;
+}
+*/
+
 tr:not(.p-highlight):hover button.expandir {
-  color: #ffffff !important;
+  color: var(--primary-color) !important;
 }
 
 .tablistagem .p-datatable-header {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.tablistagem .p-datatable-tbody > tr > td {
+  padding-top: .2rem;
+  padding-bottom: .1rem;
+}
+
+.p-datatable.tablistagem {
+  max-height: calc(100vh - 8rem) !important;
+}
+
+.tablistagem.p-datatable {
+  max-height: calc(100vh - 8rem) !important;
+}
+
+
+.tablistagem .p-datatable-striped .p-datatable-gridlines .p-datatable {
+  max-height: calc(100vh - 8rem) !important;
 }
