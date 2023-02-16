@@ -265,7 +265,7 @@ app {
   display: flex;
   flex-direction: column;
   /*background-color: red;*/
-  background-color: var(--surface-ground);;
+  background-color: var(--surface-section);;
   margin-left: 0;
   padding-top: 0;
   z-index: 0;
@@ -277,11 +277,12 @@ app {
 }
 
 .menu-principal-fechado {
-  position: absolute;
+  display: none;
+/*  position: absolute;
   top: 0;
   left: 0;
   width: 0;
-  height: 0;
+  height: 0;*/
   z-index: -1;
   background-color: transparent;
   /*transition: height 1s;*/
@@ -1496,44 +1497,11 @@ MENU LATERAL
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
-/*.menuinterno .p-sidebar .p-sidebar-header .p-sidebar-close:enabled:hover,
-.menuinterno .p-sidebar .p-sidebar-header .p-sidebar-icon:enabled:hover {
-  color: var(--text-color);
-  border-color: transparent;
-  background: var(--surface-card);
-}
-
-.menuinterno .p-sidebar .p-sidebar-header .p-sidebar-close:focus,
-.menuinterno .p-sidebar .p-sidebar-header .p-sidebar-icon:focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: var(--focus-ring);
-}*/
-
-
 .menuinterno .p-sidebar-icon {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-/*.menuinterno .p-sidebar-mask {
-  background-color: transparent;
-  transition-property: background-color;
-}
-
-.menuinterno .p-sidebar-mask.p-sidebar-mask-leave.p-component-overlay {
-  background-color: transparent;
-}
-
-.menuinterno .p-sidebar-mask {
-  background-color: transparent;
-  transition-property: background-color;
-}
-
-.menuinterno .p-sidebar-mask.p-sidebar-mask-leave.p-component-overlay {
-  background-color: transparent;
-}*/
 
 form.menuinterno-form {
   padding-top: .5rem;
@@ -1550,4 +1518,20 @@ TABELA *************************************************************************
 
 .show-datatable {
   display: initial;
+}
+
+button.expandir {
+  height: 1.2rem !important;
+  font-size: 0.875rem !important;
+  padding: 0 !important;
+  width: 1.2rem !important;
+}
+
+tr:not(.p-highlight):hover button.expandir {
+  color: #ffffff !important;
+}
+
+.tablistagem .p-datatable-header {
+  padding-top: 0;
+  padding-bottom: 0;
 }
