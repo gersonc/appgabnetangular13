@@ -1,8 +1,7 @@
 <ng-container *ngIf="aut.configuracao_incluir">
-  <div class="inline-block p-inputgroup" style="font-size: 1rem;height: 2rem;">
     <button
       #incaux
-      class="confaux p-button-secondary p-button-icon-only"
+      class="p-button p-button-icon-only"
       pButton
       [pTooltip]="titulo"
       type="button"
@@ -10,7 +9,6 @@
       (click)="mostraForm()"
       [disabled]="desabilitado"
     ></button>
-  </div>
 </ng-container>
 <ng-container *ngIf="visivel">
 <p-dialog

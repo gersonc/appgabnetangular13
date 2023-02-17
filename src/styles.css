@@ -1126,6 +1126,10 @@ body .icsupload:hover {
   width: 90% !important;
 }
 
+.formulario input[type=email].p-inputtext {
+  width: 90% !important;
+}
+
 .formulario .p-dropdown {
   width: 90%;
 }
@@ -1145,19 +1149,47 @@ body .icsupload:hover {
   margin-right: 0;
 }
 
-.formulario .campo-duplo .p-dropdown {
+.formulario .p-inputgroup {
+  width: 90% !important;
+}
+
+.formulario .p-inputgroup .p-button {
+  font-size: 1rem;
+  height: 2.1rem;
+}
+
+.formulario .p-inputgroup .p-button {
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
+}
+
+.formulario .p-inputgroup .p-dropdown .p-dropdown-trigger {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.formulario .p-inputgroup .p-dropdown {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.p-inputgroup-addon:last-child, .p-inputgroup button:last-child {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.formulario .campo-duplo .p-dropdown, .formulario .p-inputgroup .p-dropdown {
   width: 100%;
 }
 
-.formulario .campo-duplo .p-multiselect {
+.formulario .campo-duplo .p-multiselect, .formulario .p-inputgroup .p-multiselect {
   width: 100%;
 }
 
-.formulario .campo-duplo input[type=text].p-inputtext {
+.formulario .campo-duplo input[type=text].p-inputtext, .formulario .p-inputgroup input[type=text].p-inputtext {
   width: 100% !important;
 }
 
-.formulario .campo-duplo .p-dropdown {
+.formulario .campo-duplo .p-dropdown, .formulario .p-inputgroup .p-dropdown {
   width: 100%;
 }
 
@@ -1165,7 +1197,7 @@ body .icsupload:hover {
   width: 100%;
 }
 
-.formulario .campo-duplo .p-autocomplete {
+.formulario .campo-duplo .p-autocomplete, .formulario .p-inputgroup .p-autocomplete {
   width: 100%;
 }
 
