@@ -11,6 +11,7 @@ import { AppConfig } from "./_models/appconfig";
 import { AppConfigService } from "./_services/appconfigservice";
 import { DispositivoService } from "./_services/dispositivo.service";
 import { AuthService } from "./_services/auth.service";
+// import { fcoresDD, fcoresDD2 } from "./shared/functions/cores";
 
 
 declare global {
@@ -82,6 +83,9 @@ export class AppComponent implements OnInit, OnDestroy {
     window.__VERSAO__ = this.authenticationService.versao;
     this.configPrime();
     WindowsService.all();
+
+    /*console.log('cores', fcoresDD());
+    console.log('cores2', fcoresDD2());*/
   }
 
 

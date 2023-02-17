@@ -233,6 +233,35 @@
         ></p-dropdown>
       </div>
 
+      <div class="field col-12 sm:col-12 md:col-12 lg:col-6 xl:col-6">
+        <label for="cores_id">Cores</label>
+        <p-dropdown
+          id="cores_id"
+          [(ngModel)]="cores_id"
+          name="type_id"
+          placeholder="Selecione"
+          [options]="ddCor"
+          [optionLabel]="'label'"
+          [showClear]="true"
+          [baseZIndex]="10001"
+          appendTo="body"
+          (onChange)="onTrocaCores($event)"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div class="{{cores_id.styleClass}}"  *ngIf="cores_id">
+              <div>{{cores_id.label}}</div>
+            </div>
+          </ng-template>
+          <ng-template let-cor pTemplate="item">
+            <div class="{{cor.styleClass}}">
+              <div>{{cor.label}}</div>
+            </div>
+          </ng-template>
+
+
+        </p-dropdown>
+      </div>
+
       <!--*** CORES ***-->
       <div class="field col-6 sm:col-8 md:col-3 lg:col-4 xl:col-4">
         <h5>Cor</h5>

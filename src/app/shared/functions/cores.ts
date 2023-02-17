@@ -1,3 +1,677 @@
+import { SelectItem } from "primeng/api";
+
+export const coresDD: SelectItem[] = [
+  {
+    label: "VERMELHO-100",
+    value: "var(--red-100),var(--red-900)",
+    styleClass: "vermelho-100"
+  },
+  {
+    label: "VERMELHO-200",
+    value: "var(--red-200),var(--red-900)",
+    styleClass: "vermelho-200"
+  },
+  {
+    label: "VERMELHO-300",
+    value: "var(--red-300),var(--red-900)",
+    styleClass: "vermelho-300"
+  },
+  {
+    label: "VERMELHO-400",
+    value: "var(--red-400),var(--red-900)",
+    styleClass: "vermelho-400"
+  },
+  {
+    label: "VERMELHO-500",
+    value: "var(--red-500),var(--red-50)",
+    styleClass: "vermelho-500"
+  },
+  {
+    label: "VERMELHO-600",
+    value: "var(--red-600),var(--red-50)",
+    styleClass: "vermelho-600"
+  },
+  {
+    label: "VERMELHO-700",
+    value: "var(--red-700),var(--red-50)",
+    styleClass: "vermelho-700"
+  },
+  {
+    label: "VERMELHO-800",
+    value: "var(--red-800),var(--red-50)",
+    styleClass: "vermelho-800"
+  },
+  {
+    label: "VERMELHO-900",
+    value: "var(--red-900),var(--red-50)",
+    styleClass: "vermelho-900"
+  },
+  {
+    label: "CINZA-100",
+    value: "var(--gray-100),var(--gray-900)",
+    styleClass: "cinza-100"
+  },
+  {
+    label: "CINZA-200",
+    value: "var(--gray-200),var(--gray-900)",
+    styleClass: "cinza-200"
+  },
+  {
+    label: "CINZA-300",
+    value: "var(--gray-300),var(--gray-900)",
+    styleClass: "cinza-300"
+  },
+  {
+    label: "CINZA-400",
+    value: "var(--gray-400),var(--gray-900)",
+    styleClass: "cinza-400"
+  },
+  {
+    label: "CINZA-500",
+    value: "var(--gray-500),var(--gray-50)",
+    styleClass: "cinza-500"
+  },
+  {
+    label: "CINZA-600",
+    value: "var(--gray-600),var(--gray-50)",
+    styleClass: "cinza-600"
+  },
+  {
+    label: "CINZA-700",
+    value: "var(--gray-700),var(--gray-50)",
+    styleClass: "cinza-700"
+  },
+  {
+    label: "CINZA-800",
+    value: "var(--gray-800),var(--gray-50)",
+    styleClass: "cinza-800"
+  },
+  {
+    label: "CINZA-900",
+    value: "var(--gray-900),var(--gray-50)",
+    styleClass: "cinza-900"
+  },
+  {
+    label: "ROXO-100",
+    value: "var(--purple-100),var(--purple-900)",
+    styleClass: "roxo-100"
+  },
+  {
+    label: "ROXO-200",
+    value: "var(--purple-200),var(--purple-900)",
+    styleClass: "roxo-200"
+  },
+  {
+    label: "ROXO-300",
+    value: "var(--purple-300),var(--purple-900)",
+    styleClass: "roxo-300"
+  },
+  {
+    label: "ROXO-400",
+    value: "var(--purple-400),var(--purple-900)",
+    styleClass: "roxo-400"
+  },
+  {
+    label: "ROXO-500",
+    value: "var(--purple-500),var(--purple-50)",
+    styleClass: "roxo-500"
+  },
+  {
+    label: "ROXO-600",
+    value: "var(--purple-600),var(--purple-50)",
+    styleClass: "roxo-600"
+  },
+  {
+    label: "ROXO-700",
+    value: "var(--purple-700),var(--purple-50)",
+    styleClass: "roxo-700"
+  },
+  {
+    label: "ROXO-800",
+    value: "var(--purple-800),var(--purple-50)",
+    styleClass: "roxo-800"
+  },
+  {
+    label: "ROXO-900",
+    value: "var(--purple-900),var(--purple-50)",
+    styleClass: "roxo-900"
+  },
+  {
+    label: "CINZA-AZULADO-100",
+    value: "var(--bluegray-100),var(--bluegray-900)",
+    styleClass: "cinza-azulado-100"
+  },
+  {
+    label: "CINZA-AZULADO-200",
+    value: "var(--bluegray-200),var(--bluegray-900)",
+    styleClass: "cinza-azulado-200"
+  },
+  {
+    label: "CINZA-AZULADO-300",
+    value: "var(--bluegray-300),var(--bluegray-900)",
+    styleClass: "cinza-azulado-300"
+  },
+  {
+    label: "CINZA-AZULADO-400",
+    value: "var(--bluegray-400),var(--bluegray-900)",
+    styleClass: "cinza-azulado-400"
+  },
+  {
+    label: "CINZA-AZULADO-500",
+    value: "var(--bluegray-500),var(--bluegray-50)",
+    styleClass: "cinza-azulado-500"
+  },
+  {
+    label: "CINZA-AZULADO-600",
+    value: "var(--bluegray-600),var(--bluegray-50)",
+    styleClass: "cinza-azulado-600"
+  },
+  {
+    label: "CINZA-AZULADO-700",
+    value: "var(--bluegray-700),var(--bluegray-50)",
+    styleClass: "cinza-azulado-700"
+  },
+  {
+    label: "CINZA-AZULADO-800",
+    value: "var(--bluegray-800),var(--bluegray-50)",
+    styleClass: "cinza-azulado-800"
+  },
+  {
+    label: "CINZA-AZULADO-900",
+    value: "var(--bluegray-900),var(--bluegray-50)",
+    styleClass: "cinza-azulado-900"
+  },
+  {
+    label: "LARANJA-100",
+    value: "var(--orange-100),var(--orange-900)",
+    styleClass: "laranja-100"
+  },
+  {
+    label: "LARANJA-200",
+    value: "var(--orange-200),var(--orange-900)",
+    styleClass: "laranja-200"
+  },
+  {
+    label: "LARANJA-300",
+    value: "var(--orange-300),var(--orange-900)",
+    styleClass: "laranja-300"
+  },
+  {
+    label: "LARANJA-400",
+    value: "var(--orange-400),var(--orange-900)",
+    styleClass: "laranja-400"
+  },
+  {
+    label: "LARANJA-500",
+    value: "var(--orange-500),var(--orange-50)",
+    styleClass: "laranja-500"
+  },
+  {
+    label: "LARANJA-600",
+    value: "var(--orange-600),var(--orange-50)",
+    styleClass: "laranja-600"
+  },
+  {
+    label: "LARANJA-700",
+    value: "var(--orange-700),var(--orange-50)",
+    styleClass: "laranja-700"
+  },
+  {
+    label: "LARANJA-800",
+    value: "var(--orange-800),var(--orange-50)",
+    styleClass: "laranja-800"
+  },
+  {
+    label: "LARANJA-900",
+    value: "var(--orange-900),var(--orange-50)",
+    styleClass: "laranja-900"
+  },
+  {
+    label: "VERDE-AZULADO-100",
+    value: "var(--teal-100),var(--teal-900)",
+    styleClass: "verde-azulado-100"
+  },
+  {
+    label: "VERDE-AZULADO-200",
+    value: "var(--teal-200),var(--teal-900)",
+    styleClass: "verde-azulado-200"
+  },
+  {
+    label: "VERDE-AZULADO-300",
+    value: "var(--teal-300),var(--teal-900)",
+    styleClass: "verde-azulado-300"
+  },
+  {
+    label: "VERDE-AZULADO-400",
+    value: "var(--teal-400),var(--teal-900)",
+    styleClass: "verde-azulado-400"
+  },
+  {
+    label: "VERDE-AZULADO-500",
+    value: "var(--teal-500),var(--teal-50)",
+    styleClass: "verde-azulado-500"
+  },
+  {
+    label: "VERDE-AZULADO-600",
+    value: "var(--teal-600),var(--teal-50)",
+    styleClass: "verde-azulado-600"
+  },
+  {
+    label: "VERDE-AZULADO-700",
+    value: "var(--teal-700),var(--teal-50)",
+    styleClass: "verde-azulado-700"
+  },
+  {
+    label: "VERDE-AZULADO-800",
+    value: "var(--teal-800),var(--teal-50)",
+    styleClass: "verde-azulado-800"
+  },
+  {
+    label: "VERDE-AZULADO-900",
+    value: "var(--teal-900),var(--teal-50)",
+    styleClass: "verde-azulado-900"
+  },
+  {
+    label: "ÍNDIGO-100",
+    value: "var(--indigo-100),var(--indigo-900)",
+    styleClass: "índigo-100"
+  },
+  {
+    label: "ÍNDIGO-200",
+    value: "var(--indigo-200),var(--indigo-900)",
+    styleClass: "índigo-200"
+  },
+  {
+    label: "ÍNDIGO-300",
+    value: "var(--indigo-300),var(--indigo-900)",
+    styleClass: "índigo-300"
+  },
+  {
+    label: "ÍNDIGO-400",
+    value: "var(--indigo-400),var(--indigo-900)",
+    styleClass: "índigo-400"
+  },
+  {
+    label: "ÍNDIGO-500",
+    value: "var(--indigo-500),var(--indigo-50)",
+    styleClass: "índigo-500"
+  },
+  {
+    label: "ÍNDIGO-600",
+    value: "var(--indigo-600),var(--indigo-50)",
+    styleClass: "índigo-600"
+  },
+  {
+    label: "ÍNDIGO-700",
+    value: "var(--indigo-700),var(--indigo-50)",
+    styleClass: "índigo-700"
+  },
+  {
+    label: "ÍNDIGO-800",
+    value: "var(--indigo-800),var(--indigo-50)",
+    styleClass: "índigo-800"
+  },
+  {
+    label: "ÍNDIGO-900",
+    value: "var(--indigo-900),var(--indigo-50)",
+    styleClass: "índigo-900"
+  },
+  {
+    label: "ROSA-100",
+    value: "var(--pink-100),var(--pink-900)",
+    styleClass: "rosa-100"
+  },
+  {
+    label: "ROSA-200",
+    value: "var(--pink-200),var(--pink-900)",
+    styleClass: "rosa-200"
+  },
+  {
+    label: "ROSA-300",
+    value: "var(--pink-300),var(--pink-900)",
+    styleClass: "rosa-300"
+  },
+  {
+    label: "ROSA-400",
+    value: "var(--pink-400),var(--pink-900)",
+    styleClass: "rosa-400"
+  },
+  {
+    label: "ROSA-500",
+    value: "var(--pink-500),var(--pink-50)",
+    styleClass: "rosa-500"
+  },
+  {
+    label: "ROSA-600",
+    value: "var(--pink-600),var(--pink-50)",
+    styleClass: "rosa-600"
+  },
+  {
+    label: "ROSA-700",
+    value: "var(--pink-700),var(--pink-50)",
+    styleClass: "rosa-700"
+  },
+  {
+    label: "ROSA-800",
+    value: "var(--pink-800),var(--pink-50)",
+    styleClass: "rosa-800"
+  },
+  {
+    label: "ROSA-900",
+    value: "var(--pink-900),var(--pink-50)",
+    styleClass: "rosa-900"
+  },
+  {
+    label: "CIANO-100",
+    value: "var(--cyan-100),var(--cyan-900)",
+    styleClass: "ciano-100"
+  },
+  {
+    label: "CIANO-200",
+    value: "var(--cyan-200),var(--cyan-900)",
+    styleClass: "ciano-200"
+  },
+  {
+    label: "CIANO-300",
+    value: "var(--cyan-300),var(--cyan-900)",
+    styleClass: "ciano-300"
+  },
+  {
+    label: "CIANO-400",
+    value: "var(--cyan-400),var(--cyan-900)",
+    styleClass: "ciano-400"
+  },
+  {
+    label: "CIANO-500",
+    value: "var(--cyan-500),var(--cyan-50)",
+    styleClass: "ciano-500"
+  },
+  {
+    label: "CIANO-600",
+    value: "var(--cyan-600),var(--cyan-50)",
+    styleClass: "ciano-600"
+  },
+  {
+    label: "CIANO-700",
+    value: "var(--cyan-700),var(--cyan-50)",
+    styleClass: "ciano-700"
+  },
+  {
+    label: "CIANO-800",
+    value: "var(--cyan-800),var(--cyan-50)",
+    styleClass: "ciano-800"
+  },
+  {
+    label: "CIANO-900",
+    value: "var(--cyan-900),var(--cyan-50)",
+    styleClass: "ciano-900"
+  },
+  {
+    label: "AMARELO-100",
+    value: "var(--yellow-100),var(--yellow-900)",
+    styleClass: "amarelo-100"
+  },
+  {
+    label: "AMARELO-200",
+    value: "var(--yellow-200),var(--yellow-900)",
+    styleClass: "amarelo-200"
+  },
+  {
+    label: "AMARELO-300",
+    value: "var(--yellow-300),var(--yellow-900)",
+    styleClass: "amarelo-300"
+  },
+  {
+    label: "AMARELO-400",
+    value: "var(--yellow-400),var(--yellow-900)",
+    styleClass: "amarelo-400"
+  },
+  {
+    label: "AMARELO-500",
+    value: "var(--yellow-500),var(--yellow-50)",
+    styleClass: "amarelo-500"
+  },
+  {
+    label: "AMARELO-600",
+    value: "var(--yellow-600),var(--yellow-50)",
+    styleClass: "amarelo-600"
+  },
+  {
+    label: "AMARELO-700",
+    value: "var(--yellow-700),var(--yellow-50)",
+    styleClass: "amarelo-700"
+  },
+  {
+    label: "AMARELO-800",
+    value: "var(--yellow-800),var(--yellow-50)",
+    styleClass: "amarelo-800"
+  },
+  {
+    label: "AMARELO-900",
+    value: "var(--yellow-900),var(--yellow-50)",
+    styleClass: "amarelo-900"
+  },
+  {
+    label: "VERDE-100",
+    value: "var(--green-100),var(--green-900)",
+    styleClass: "verde-100"
+  },
+  {
+    label: "VERDE-200",
+    value: "var(--green-200),var(--green-900)",
+    styleClass: "verde-200"
+  },
+  {
+    label: "VERDE-300",
+    value: "var(--green-300),var(--green-900)",
+    styleClass: "verde-300"
+  },
+  {
+    label: "VERDE-400",
+    value: "var(--green-400),var(--green-900)",
+    styleClass: "verde-400"
+  },
+  {
+    label: "VERDE-500",
+    value: "var(--green-500),var(--green-50)",
+    styleClass: "verde-500"
+  },
+  {
+    label: "VERDE-600",
+    value: "var(--green-600),var(--green-50)",
+    styleClass: "verde-600"
+  },
+  {
+    label: "VERDE-700",
+    value: "var(--green-700),var(--green-50)",
+    styleClass: "verde-700"
+  },
+  {
+    label: "VERDE-800",
+    value: "var(--green-800),var(--green-50)",
+    styleClass: "verde-800"
+  },
+  {
+    label: "VERDE-900",
+    value: "var(--green-900),var(--green-50)",
+    styleClass: "verde-900"
+  },
+  {
+    label: "AZUL-100",
+    value: "var(--blue-100),var(--blue-900)",
+    styleClass: "azul-100"
+  },
+  {
+    label: "AZUL-200",
+    value: "var(--blue-200),var(--blue-900)",
+    styleClass: "azul-200"
+  },
+  {
+    label: "AZUL-300",
+    value: "var(--blue-300),var(--blue-900)",
+    styleClass: "azul-300"
+  },
+  {
+    label: "AZUL-400",
+    value: "var(--blue-400),var(--blue-900)",
+    styleClass: "azul-400"
+  },
+  {
+    label: "AZUL-500",
+    value: "var(--blue-500),var(--blue-50)",
+    styleClass: "azul-500"
+  },
+  {
+    label: "AZUL-600",
+    value: "var(--blue-600),var(--blue-50)",
+    styleClass: "azul-600"
+  },
+  {
+    label: "AZUL-700",
+    value: "var(--blue-700),var(--blue-50)",
+    styleClass: "azul-700"
+  },
+  {
+    label: "AZUL-800",
+    value: "var(--blue-800),var(--blue-50)",
+    styleClass: "azul-800"
+  },
+  {
+    label: "AZUL-900",
+    value: "var(--blue-900),var(--blue-50)",
+    styleClass: "azul-900"
+  }
+];
+
+/*
+
+
+export function fcoresDD(): SelectItem[] {
+  const labels: string[] = [
+    'VERMELHO',
+    'CINZA',
+    'ROXO',
+    'CINZA-AZULADO',
+    'LARANJA',
+    'VERDE-AZULADO',
+    'ÍNDIGO',
+    'ROSA',
+    'CIANO',
+    'AMARELO',
+    'VERDE',
+    'AZUL'
+  ];
+
+  const cores: string[] = [
+    'red',
+    'gray',
+    'purple',
+    'bluegray',
+    'orange',
+    'teal',
+    'indigo',
+    'pink',
+    'cyan',
+    'yellow',
+    'green',
+    'blue'
+  ];
+
+  const nums: number[] = [
+    100,200,300,400,500,600,700,800,900
+  ];
+
+  let rs: SelectItem[] = [];
+  let a = 0;
+  labels.map((v,i) => {
+    nums.map(n => {
+      const tit: string = v + '-' + n;
+      const bg: string = 'var(--' + cores[i] + '-' + n + ')';
+      const m: number = (n < 500) ? 900 : 50;
+      const cor: string = 'var(--' + cores[i] + '-' + m + ')';
+      const st: any = {'backGround':bg, 'color': cor};
+      const vl: any = {'backGround':bg, 'color': cor};
+      const nm: string = v + '-' + n;
+      const nm2 = nm.toLowerCase();
+      const r: SelectItem = {
+        label: v + '-' + n,
+        value: 'var(--' + cores[i] + '-' + n + '),var(--' + cores[i] + '-' + m + ')',
+        styleClass: nm2
+      }
+      rs.push(r);
+      a++;
+    });
+
+  });
+  if (a === 108) {
+    return rs;
+  }
+
+}
+type ss = {
+  [index: string] : {backgroud: string, color: string}
+}
+
+export function fcoresDD2(): any[] {
+  const labels: string[] = [
+    'VERMELHO',
+    'CINZA',
+    'ROXO',
+    'CINZA-AZULADO',
+    'LARANJA',
+    'VERDE-AZULADO',
+    'ÍNDIGO',
+    'ROSA',
+    'CIANO',
+    'AMARELO',
+    'VERDE',
+    'AZUL'
+  ];
+
+  const cores: string[] = [
+    'red',
+    'gray',
+    'purple',
+    'bluegray',
+    'orange',
+    'teal',
+    'indigo',
+    'pink',
+    'cyan',
+    'yellow',
+    'green',
+    'blue'
+  ];
+
+  const nums: number[] = [
+    100,200,300,400,500,600,700,800,900
+  ];
+
+  let rs: ss[] = [];
+  let a = 0;
+  labels.map((v,i) => {
+    nums.map(n => {
+      const tit: string = v + '-' + n;
+      const bg: string = 'var(--' + cores[i] + '-' + n + ')';
+      const m: number = (n < 500) ? 900 : 50;
+      const cor: string = 'var(--' + cores[i] + '-' + m + ')';
+      const st: any = {'backGround':bg, 'color': cor};
+      const vl: any = {'backGround':bg, 'color': cor};
+      const nm: string = v + '-' + n;
+      const nm2 = nm.toLowerCase();
+      rs[nm2] = {background: 'var(--' + cores[i] + '-' + n + ')', color: 'var(--' + cores[i] + '-' + m + ')'}
+      a++;
+    });
+
+  });
+  if (a === 108) {
+    return rs;
+  }
+
+}
+
+*/
+
 /*
 /!*--------- Try colors here ----------*!/
 let RGB = "rgb(0,0,255)",

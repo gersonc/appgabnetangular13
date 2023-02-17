@@ -87,6 +87,118 @@ ROOT FC
 
 
 }
+/*
+CORES =================================================================================================
+*/
+.amarelo-100 {background-color: var(--yellow-100); color: var(--yellow-900);}
+.amarelo-200 {background-color: var(--yellow-200); color: var(--yellow-900);}
+.amarelo-300 {background-color: var(--yellow-300); color: var(--yellow-900);}
+.amarelo-400 {background-color: var(--yellow-400); color: var(--yellow-900);}
+.amarelo-500 {background-color: var(--yellow-500); color: var(--yellow-50);}
+.amarelo-600 {background-color: var(--yellow-600); color: var(--yellow-50);}
+.amarelo-700 {background-color: var(--yellow-700); color: var(--yellow-50);}
+.amarelo-800 {background-color: var(--yellow-800); color: var(--yellow-50);}
+.amarelo-900 {background-color: var(--yellow-900); color: var(--yellow-50);}
+.azul-100 {background-color: var(--blue-100); color: var(--blue-900);}
+.azul-200 {background-color: var(--blue-200); color: var(--blue-900);}
+.azul-300 {background-color: var(--blue-300); color: var(--blue-900);}
+.azul-400 {background-color: var(--blue-400); color: var(--blue-900);}
+.azul-500 {background-color: var(--blue-500); color: var(--blue-50);}
+.azul-600 {background-color: var(--blue-600); color: var(--blue-50);}
+.azul-700 {background-color: var(--blue-700); color: var(--blue-50);}
+.azul-800 {background-color: var(--blue-800); color: var(--blue-50);}
+.azul-900 {background-color: var(--blue-900); color: var(--blue-50);}
+.ciano-100 {background-color: var(--cyan-100); color: var(--cyan-900);}
+.ciano-200 {background-color: var(--cyan-200); color: var(--cyan-900);}
+.ciano-300 {background-color: var(--cyan-300); color: var(--cyan-900);}
+.ciano-400 {background-color: var(--cyan-400); color: var(--cyan-900);}
+.ciano-500 {background-color: var(--cyan-500); color: var(--cyan-50);}
+.ciano-600 {background-color: var(--cyan-600); color: var(--cyan-50);}
+.ciano-700 {background-color: var(--cyan-700); color: var(--cyan-50);}
+.ciano-800 {background-color: var(--cyan-800); color: var(--cyan-50);}
+.ciano-900 {background-color: var(--cyan-900); color: var(--cyan-50);}
+.cinza-100 {background-color: var(--gray-100); color: var(--gray-900);}
+.cinza-200 {background-color: var(--gray-200); color: var(--gray-900);}
+.cinza-300 {background-color: var(--gray-300); color: var(--gray-900);}
+.cinza-400 {background-color: var(--gray-400); color: var(--gray-900);}
+.cinza-500 {background-color: var(--gray-500); color: var(--gray-50);}
+.cinza-600 {background-color: var(--gray-600); color: var(--gray-50);}
+.cinza-700 {background-color: var(--gray-700); color: var(--gray-50);}
+.cinza-800 {background-color: var(--gray-800); color: var(--gray-50);}
+.cinza-900 {background-color: var(--gray-900); color: var(--gray-50);}
+.cinza-azulado-100 {background-color: var(--bluegray-100); color: var(--bluegray-900);}
+.cinza-azulado-200 {background-color: var(--bluegray-200); color: var(--bluegray-900);}
+.cinza-azulado-300 {background-color: var(--bluegray-300); color: var(--bluegray-900);}
+.cinza-azulado-400 {background-color: var(--bluegray-400); color: var(--bluegray-900);}
+.cinza-azulado-500 {background-color: var(--bluegray-500); color: var(--bluegray-50);}
+.cinza-azulado-600 {background-color: var(--bluegray-600); color: var(--bluegray-50);}
+.cinza-azulado-700 {background-color: var(--bluegray-700); color: var(--bluegray-50);}
+.cinza-azulado-800 {background-color: var(--bluegray-800); color: var(--bluegray-50);}
+.cinza-azulado-900 {background-color: var(--bluegray-900); color: var(--bluegray-50);}
+.laranja-100 {background-color: var(--orange-100); color: var(--orange-900);}
+.laranja-200 {background-color: var(--orange-200); color: var(--orange-900);}
+.laranja-300 {background-color: var(--orange-300); color: var(--orange-900);}
+.laranja-400 {background-color: var(--orange-400); color: var(--orange-900);}
+.laranja-500 {background-color: var(--orange-500); color: var(--orange-50);}
+.laranja-600 {background-color: var(--orange-600); color: var(--orange-50);}
+.laranja-700 {background-color: var(--orange-700); color: var(--orange-50);}
+.laranja-800 {background-color: var(--orange-800); color: var(--orange-50);}
+.laranja-900 {background-color: var(--orange-900); color: var(--orange-50);}
+.rosa-100 {background-color: var(--pink-100); color: var(--pink-900);}
+.rosa-200 {background-color: var(--pink-200); color: var(--pink-900);}
+.rosa-300 {background-color: var(--pink-300); color: var(--pink-900);}
+.rosa-400 {background-color: var(--pink-400); color: var(--pink-900);}
+.rosa-500 {background-color: var(--pink-500); color: var(--pink-50);}
+.rosa-600 {background-color: var(--pink-600); color: var(--pink-50);}
+.rosa-700 {background-color: var(--pink-700); color: var(--pink-50);}
+.rosa-800 {background-color: var(--pink-800); color: var(--pink-50);}
+.rosa-900 {background-color: var(--pink-900); color: var(--pink-50);}
+.roxo-100 {background-color: var(--purple-100); color: var(--purple-900);}
+.roxo-200 {background-color: var(--purple-200); color: var(--purple-900);}
+.roxo-300 {background-color: var(--purple-300); color: var(--purple-900);}
+.roxo-400 {background-color: var(--purple-400); color: var(--purple-900);}
+.roxo-500 {background-color: var(--purple-500); color: var(--purple-50);}
+.roxo-600 {background-color: var(--purple-600); color: var(--purple-50);}
+.roxo-700 {background-color: var(--purple-700); color: var(--purple-50);}
+.roxo-800 {background-color: var(--purple-800); color: var(--purple-50);}
+.roxo-900 {background-color: var(--purple-900); color: var(--purple-50);}
+.verde-100 {background-color: var(--green-100); color: var(--green-900);}
+.verde-200 {background-color: var(--green-200); color: var(--green-900);}
+.verde-300 {background-color: var(--green-300); color: var(--green-900);}
+.verde-400 {background-color: var(--green-400); color: var(--green-900);}
+.verde-500 {background-color: var(--green-500); color: var(--green-50);}
+.verde-600 {background-color: var(--green-600); color: var(--green-50);}
+.verde-700 {background-color: var(--green-700); color: var(--green-50);}
+.verde-800 {background-color: var(--green-800); color: var(--green-50);}
+.verde-900 {background-color: var(--green-900); color: var(--green-50);}
+.verde-azulado-100 {background-color: var(--teal-100); color: var(--teal-900);}
+.verde-azulado-200 {background-color: var(--teal-200); color: var(--teal-900);}
+.verde-azulado-300 {background-color: var(--teal-300); color: var(--teal-900);}
+.verde-azulado-400 {background-color: var(--teal-400); color: var(--teal-900);}
+.verde-azulado-500 {background-color: var(--teal-500); color: var(--teal-50);}
+.verde-azulado-600 {background-color: var(--teal-600); color: var(--teal-50);}
+.verde-azulado-700 {background-color: var(--teal-700); color: var(--teal-50);}
+.verde-azulado-800 {background-color: var(--teal-800); color: var(--teal-50);}
+.verde-azulado-900 {background-color: var(--teal-900); color: var(--teal-50);}
+.vermelho-100 {background-color: var(--red-100); color: var(--red-900);}
+.vermelho-200 {background-color: var(--red-200); color: var(--red-900);}
+.vermelho-300 {background-color: var(--red-300); color: var(--red-900);}
+.vermelho-400 {background-color: var(--red-400); color: var(--red-900);}
+.vermelho-500 {background-color: var(--red-500); color: var(--red-50);}
+.vermelho-600 {background-color: var(--red-600); color: var(--red-50);}
+.vermelho-700 {background-color: var(--red-700); color: var(--red-50);}
+.vermelho-800 {background-color: var(--red-800); color: var(--red-50);}
+.vermelho-900 {background-color: var(--red-900); color: var(--red-50);}
+.índigo-100 {background-color: var(--indigo-100); color: var(--indigo-900);}
+.índigo-200 {background-color: var(--indigo-200); color: var(--indigo-900);}
+.índigo-300 {background-color: var(--indigo-300); color: var(--indigo-900);}
+.índigo-400 {background-color: var(--indigo-400); color: var(--indigo-900);}
+.índigo-500 {background-color: var(--indigo-500); color: var(--indigo-50);}
+.índigo-600 {background-color: var(--indigo-600); color: var(--indigo-50);}
+.índigo-700 {background-color: var(--indigo-700); color: var(--indigo-50);}
+.índigo-800 {background-color: var(--indigo-800); color: var(--indigo-50);}
+.índigo-900 {background-color: var(--indigo-900); color: var(--indigo-50);}
+
 
 
 @font-face {
@@ -1328,11 +1440,11 @@ button.expandir {
   width: 1.2rem !important;
 }
 
-.p-highlight button.expandir {
+.tablistagem .p-highlight button.expandir {
   color: var(--primary-color-text) !important;
 }
 
-tr:not(.p-highlight):hover button.expandir {
+.tablistagem tr:not(.p-highlight):hover button.expandir {
   color: var(--primary-color) !important;
 }
 
@@ -1361,3 +1473,222 @@ tr:not(.p-highlight):hover button.expandir {
   padding-bottom: 0.5rem;
   max-height: 3rem;
 }
+
+.p-button.btn-topo  {
+  padding: .25rem .75rem;
+  max-height: 2.5rem;
+  margin-bottom: .2rem;
+}
+
+/*
+*** p-dialog ***********************************************************************
+*/
+.tablistagem.p-dialog {
+  position: fixed;
+  /*bottom: 5rem;*/
+  top: 5rem;
+}
+
+.tablistagem.p-dialog {
+  max-height: calc(100vh - 10rem) !important;
+  /*width: calc(21cm + 1em);*/
+  /*min-width: 400px;*/
+  background: var(--surface-border);
+  margin-top: 0 !important;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  margin-left: 0.75rem;
+}
+
+.tablistagem.p-dialog .p-dialog-header {
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+  padding: .5rem 1rem 0;
+}
+
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary-color-text);
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.tablistagem .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+/*  color: var(--text-color-secondary);*/
+  border-color: var(--surface-hover);
+  background: var(--surface-hover);
+}
+
+/*.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  !*box-shadow: var(--bt-secundario-box-shadow-focus);*!
+}*/
+
+.tablistagem.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+}
+
+.tablistagem.p-dialog .p-dialog-content {
+  margin: .5rem;
+  padding: .5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 1rem;
+  background: var(--surface-card);
+  color: var(--text-color);
+}
+
+.tablistagem.p-dialog .p-dialog-footer {
+  text-align: left;
+  padding: .3rem;
+  background: var(--surface-border);
+}
+
+.tablistagem .p-editor-container .p-editor-content.ql-snow {
+  border: 0;
+}
+
+
+.tablistagem .p-picklist-header {
+  padding: 0;
+}
+/*
+
+expandido =======================================================================================
+
+
+*/
+
+
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded.expandido {
+  border-radius: 50%;
+  height: 2.357rem;
+}
+
+/*    EXPANDIDO     */
+.tablistagem.p-datatable tr.expandido, .tablistagem.p-datatable td.expandido {
+  background: var(--surface-ground) !important;
+}
+
+/*
+.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded {
+  border-radius: 50%;
+  height: 1.5rem;
+}
+*/
+.tablistagem.p-datatable .p-datatable-tbody > tr.expandido > td.expandido .p-button.p-button-icon-only.p-button-rounded {
+
+}
+
+.expandido.p-button-rounded {
+  border-radius: 50%;
+  height: unset;
+  width: 2.5rem;
+}
+
+
+
+/*    TABELA VAZIA    */
+.tablistagem .tabela-vazia-a {
+  width: 100vw;
+  height: calc(100vh - 10rem);
+  text-align: center;
+}
+
+.tablistagem .tabela-vazia-b {
+  position: relative;
+  top: calc(100vh / 4);
+  text-align: center;
+  height: calc(40px + (20 - 8) * ((100vw - 360px) / (1920 - 360)));
+}
+
+.tablistagem .tabela-vazia-c {
+  display: inline;
+  padding: 2rem;
+  color: var(--primary-color-text);
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 1rem;
+  text-align: center;
+  font-size: calc(20px + (20 - 8) * ((100vw - 360px) / (1920 - 360)));
+}
+
+.tablistagem .tabela-vazia-aviso2 {
+  position: relative;
+  top: calc(100vh / 4);
+  left: calc(50vw - (20vw * 1.26) / 2);
+  width: calc(20vw * 1.26);
+  padding: .5rem;
+  color: var(--primary-color-text);
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 1rem;
+  font-size: calc(20px + (20 - 8) * ((100vw - 360px) / (1920 - 360)));
+}
+
+
+
+
+/*
+
+.rowexpansion-corpo {
+  max-width: 95vw;
+  padding: .5rem;
+  font-size: 1rem;
+}
+
+.expandido .p-grid {
+  padding: .3rem;
+}
+
+.expandido .p-col-12.p-sm-12.p-md-6.p-lg-4.p-xl-3 {
+  padding: .2rem;
+}
+
+.tablistagem .registros {
+  background: var(--surface-card);
+  color: var(--text-color);
+  padding: .5rem;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+*/
+/*
+
+.tablistagem .registros:not(h5) {
+  font-size: 1.2rem !important;
+}
+
+
+.tablistagem h5 {
+  color: var(--text-color) !important;
+  font-size: inherit !important;
+  font-weight: var(--formulario-field-label-font-weight) !important;
+  display: block !important;
+  top: 50%;
+  margin-top: 0;
+  margin-bottom: 0.3rem !important;
+}
+
+*/
+
+
+/*
+!*
+.tablistagem.p-datatable .expandido .p-button.p-button-icon-only.p-button-rounded {
+  border-radius: 50% !important;
+  height: 2rem !important;
+  width: 2rem !important;
+}
+*!
+
+
+
+
+
+*/

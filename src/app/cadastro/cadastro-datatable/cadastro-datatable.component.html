@@ -10,7 +10,7 @@
          [sortField]="cs.tabela.sortField"
          dataKey="cadastro_id"
          [scrollable]="true"
-         scrollHeight="calc(100vh - 9rem)"
+         scrollHeight="calc(100vh - 11rem)"
          [(selection)]="cs.selecionados"
          [reorderableColumns]="true"
          [resizableColumns]="true"
@@ -56,21 +56,21 @@
 
         <div class="flex align-items-center justify-content-center">
           <div class="mx-1">
-            <button pButton type="button" label="Filtrar" icon="pi pi-search"
+            <button pButton type="button" label="Filtrar" icon="pi pi-search" class="btn-topo"
                     (click)="mostraMenu()"></button>
           </div>
           <div class="mr-1">
-            <button pButton type="button" label="Colunas" icon="pi pi-table"
+            <button pButton type="button" label="Colunas" icon="pi pi-table" class="btn-topo"
                     (click)="mostraSelectColunas()"></button>
           </div>
 
           <div *ngIf="ds.dispositivo!=='mobile'" class="mr-1">
-            <button pButton type="button" label="Relatórios" icon="pi pi-info-circle"
+            <button pButton type="button" label="Relatórios" icon="pi pi-info-circle" class="btn-topo"
                     (click)="men.toggle($event)"></button>
           </div>
 
           <div class="mr-0">
-            <button pButton type="button" label="Incluir" icon="pi pi-plus"
+            <button pButton type="button" label="Incluir" icon="pi pi-plus" class="btn-topo"
                     (click)="cadastroIncluir()"></button>
           </div>
         </div>
@@ -81,7 +81,7 @@
           <div *ngIf="ds.dispositivo!=='mobile'" class="flex align-items-center justify-content-center">
             <div class="mr-2"
                  *ngIf="cs.selecionados !== undefined &&  cs.selecionados !== null &&  cs.selecionados.length > 0">
-              <button pButton type="button" label="Reset" icon="pi pi-backward"
+              <button pButton type="button" label="Reset" icon="pi pi-backward" class="btn-topo"
                       (click)="cs.resetSelecionados()"></button>
             </div>
             <div class="mr-2">Página {{cs.tabela.currentPage}} de {{cs.tabela.pageCount}} - Num.
@@ -138,7 +138,99 @@
     </tr>
   </ng-template>
   <!--*** EXPANDIDO ************************************************************************************************-->
+  <!--*** EXPANDIDO ************************************************************************************************-->
   <ng-template pTemplate="rowexpansion" let-cad let-columns="columns" let-indice="rowIndex">
+    <tr>
+      <td [attr.colspan]="columns.length + 1">
+        <div class="inline w-full surface-section hover:surface-hover">
+          <div class="inline-block">
+            <div class="flex justify-content-start pb-2">
+              <div class="my-2 mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-eye"
+                  class="expandido p-button-rounded shadow-4"
+                  pTooltip="Detalhes"
+                  tooltipPosition="top"
+                  (click)="cadastroDetalheSimples(cad)"
+                >
+                </button>
+              </div>
+
+              <ng-container *ngIf="cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum)">
+                <div class="my-2 mr-2">
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-eye"
+                    class="expandido p-button-rounded p-button-secondary shadow-4"
+                    pTooltip="Detalhes completo"
+                    tooltipPosition="top"
+                    (click)="cadastroDetalheCompleto(cad)"
+                  >
+                  </button>
+                </div>
+              </ng-container>
+
+              <div *ngIf="aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_alterar" class="my-2 mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="expandido p-button-rounded p-button-warning shadow-4"
+                  pTooltip="Alterar"
+                  tooltipPosition="top"
+                  (click)="cadastroAlterar(indice,'expandido', cad)"
+                >
+                </button>
+              </div>
+              <!--<div *ngIf="cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)" class="mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  (click)="cadastroApagar(cad)"
+                >
+                </button>
+              </div>-->
+              <div *ngIf="(aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar) && permArquivo(cad)" class="my-2 mr-2">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="expandido p-button-rounded p-button-danger shadow-4"
+                  pTooltip="Apagar"
+                  tooltipPosition="top"
+                  (click)="cadastroApagar(indice,cad)"
+                >
+                </button>
+              </div>
+            </div>
+
+            <div class="grid">
+              <div *ngFor="let ce of cs.tabela.celulas;" class="col-4 sm:col-12 md:col-6 lg:col-3 xl:col-4">
+                <div class="surface-card pt-2 px-2 shadow-2">
+                  <div class="font-medium text-sm">{{ce.header}}</div>
+                  <app-exporter-expandido [celula]="ce"></app-exporter-expandido>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--<ng-template pTemplate="rowexpansion" let-cad let-columns="columns" let-indice="rowIndex">
     <tr class="expandido">
       <td [attr.colspan]="columns.length + 1" class="expandido">
         <div class="rowexpansion-corpo">
@@ -187,19 +279,6 @@
                 >
                 </button>
               </div>
-              <!--<div *ngIf="cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)" class="mr-2">
-                <button
-                  pButton
-                  pRipple
-                  type="button"
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-danger"
-                  pTooltip="Apagar"
-                  tooltipPosition="top"
-                  (click)="cadastroApagar(cad)"
-                >
-                </button>
-              </div>-->
               <div *ngIf="(aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar) && permArquivo(cad)" class="mr-2">
                 <button
                   pButton
@@ -228,7 +307,7 @@
         </div>
       </td>
     </tr>
-  </ng-template>
+  </ng-template>-->
   <!--*** TABELA VAZIA *********************************************************************************************-->
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
@@ -251,19 +330,18 @@
           [(visible)]="cs.tabela.mostraSeletor"
           [modal]="true"
           styleClass="tablistagem"
-          [style]="{width: '40rem'}"
           [dismissableMask]="true"
 >
   <app-seletor-colunas [todas]="cols" [(ativas)]="cs.tabela.selectedColumns"></app-seletor-colunas>
   <p-footer>
     <div class="flex justify-content-start pb-2">
-      <div class="mr-2">
+      <div class="mx-2">
         <button pButton type="button" label="Fehar " icon="pi pi-times"
-                class="campo-extendido p-button-rounded p-button-sm" (click)="hideSeletor()"></button>
+                class="p-button-rounded shadow-4" (click)="hideSeletor()"></button>
       </div>
       <div class="mr-2">
         <button pButton type="button" label="Reset " icon="pi pi-backward"
-                class="campo-extendido p-button-rounded p-button-sm" (click)="resetColunas()"></button>
+                class="p-button-rounded shadow-4" (click)="resetColunas()"></button>
       </div>
     </div>
   </p-footer>

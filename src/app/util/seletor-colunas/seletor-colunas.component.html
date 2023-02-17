@@ -11,10 +11,20 @@
   [showSourceFilter]="false"
   [showTargetFilter]="false"
   filterBy="header"
-  styleClass="seletor"
+  styleClass="tablistagem"
 >
+  <ng-template let-car pTemplate="sourceHeader">
+    <div class="text-xl font-medium text-center text-center text-primary bg-primary px-2 py-2 border-round-top-md">
+      Disponíveis
+    </div>
+  </ng-template>
+  <ng-template let-car pTemplate="targetHeader">
+    <div class="text-xl font-medium text-center text-center text-primary bg-primary px-2 py-2 border-round-top-md">
+      Selecionadas
+    </div>
+  </ng-template>
   <ng-template let-col pTemplate="item">
-    <div class="seletor-item">
+    <div class="text-base line-height-2 mb-1">
       {{col.header}}
     </div>
   </ng-template>

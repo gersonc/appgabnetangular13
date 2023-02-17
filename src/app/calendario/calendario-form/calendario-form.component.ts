@@ -22,6 +22,7 @@ import {CalendarioService} from "../_services/calendario.service";
 import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
 import {MsgService} from "../../_services/msg.service";
 import { ThemeService } from "../../_services/theme.service";
+import { coresDD } from "../../shared/functions/cores";
 
 
 @Component({
@@ -103,6 +104,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   ddcalendario_status: SelectItem[];
   ddusuario: SelectItem[];
   ddApaga: SelectItem[];
+  ddCor: SelectItem[] = coresDD;
 
 
   // FULLCALENDAR
@@ -129,6 +131,8 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   backgroundColor = '#007ad9';
   url: string | null = null;
   evRetorno: EventoInterface[] = [];
+
+  cores_id: SelectItem | null = null;
 
   evento: Evento | null = null;
   num = 0;
@@ -169,6 +173,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
     private urlService: UrlService,
     private th: ThemeService
   ) {
+    // this.ddCor.push(...coresDD);
     this.urlUpload = this.urlService.calendario + '/upload';
   }
 
@@ -1481,5 +1486,9 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
       delta: ev.content,
       text: ev.text
     }
+  }
+
+  onTrocaCores(ev) {
+    console.log('cores', ev.value);
   }
 }
