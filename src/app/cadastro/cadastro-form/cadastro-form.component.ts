@@ -21,6 +21,7 @@ import {CadastroI} from "../_models/cadastro-i";
 import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.service";
 // import {NgxViacepService} from "@brunoc/ngx-viacep";
 import {CEPError, Endereco, ViacepService} from "../../shared/viacep";
+import { ThemeService } from "../../_services/theme.service";
 
 @Component({
   selector: 'app-cadastro-form',
@@ -197,6 +198,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private ms: MsgService,
     private viacep: ViacepService,
+    private th: ThemeService
   ) {
   }
 
@@ -1117,5 +1119,10 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     this.endereco = null;
     this.mostraEnderecos = true;
   }
+
+  get editorFormClass(): string {
+    return (!this.th.filedVF && !this.th.dark) ? 'formulario' : (this.th.filedVF && !this.th.dark) ? 'formulario p-input-filled' : (!this.th.filedVF && this.th.dark) ?  'formulario formulario-dark' :  'formulario formulario-dark p-input-filled p-inputtext';
+    // return (this.th.filedVF || this.th.dark) ? 'formulario formulario-dark' : 'formulario';
+  }// .p-input-filled .p-inputtext
 
 }

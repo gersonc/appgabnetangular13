@@ -674,13 +674,7 @@ export class CadastroService {
     const n: any = {
       nome: nome
     };
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Authorization": "Bearer " + localStorage.getItem("access_token"),
-        "Content-Type": "application/json"
-      })
-    };
-    return this.http.post<CadastroDuplicadoI[]>(url, n, httpOptions);
+    return this.http.post<CadastroDuplicadoI[]>(url, n, HeaderService.tokenHeader);
   }
 
   verificaDuplicados(ev) {
