@@ -17,7 +17,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
   active: boolean;
 
   scale = 14;
-  scales: number[] = [12, 13, 14, 15, 16];
+  scales: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 
   outsideClickListener: any;
 
@@ -176,6 +176,7 @@ export class MainConfigComponent implements OnInit, OnDestroy {
 
   hideMenu() {
     this.menuActive = false;
+    this.configService.menuAtivo = false;
     this.removeClass(document.body, "blocked-scroll");
   }
 

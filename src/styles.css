@@ -499,6 +499,10 @@ app {
   backface-visibility: hidden;
 }
 
+.layout-config-content h4 {
+  margin: .5rem .5rem;
+}
+
 .layout-config.layout-config-active {
   transform: translateX(0);
 }
@@ -560,10 +564,19 @@ app {
   padding: 2rem;
 }
 
+.layout-config .config-bloco {
+  display: block;
+  box-sizing: border-box;
+}
+
+.layout-config .config-bloco.ultimo {
+  margin-bottom: 2rem;
+}
+
 .layout-config .config-scale {
-  display: flex;
+  display: inline-block;
   align-items: center;
-  margin: 1rem 0 2rem 0;
+  margin: .5rem 0 .5rem 0;
 }
 
 .layout-config .config-scale .p-button {
@@ -655,6 +668,11 @@ app {
 
 .layout-config .premium-themes img:hover {
   transform: scale(1.1);
+}
+
+.layout-config .layout-config-button-dark .pi{
+  font-size: 3rem;
+  color: var(--primary-color);
 }
 
 div#topo-config.layout-config-active {
