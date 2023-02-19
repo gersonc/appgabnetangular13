@@ -29,3 +29,19 @@ export const UFS_VALIDAS: string[] = [
   'SP',
   'TO',
 ];
+export const CEPErrorMsg: string[] = [
+  'CEP NÃO ENCONTRADO',
+  'CEP VAZIO',
+  'CEP INVÁLIDO',
+  'CEP MUITO CURTO',
+  'CEP MUITO LONGO',
+  'UF VAZIA',
+  'UF MUITO CURTA',
+  'UF MUITO LONGA',
+  'UF NÃO EXISTE',
+  'MUNICIPIO VAZIO',
+  'MUNICÍPIO MUITO CURTO',
+  'LOGRADOURO VAZIO',
+  'LOGRADOURO MUITO CURTO',
+  'ERRO SERVIDOR',
+];

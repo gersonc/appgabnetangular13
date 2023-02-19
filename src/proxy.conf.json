@@ -21,7 +21,7 @@
     "target": "https://viacep.com.br",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": false
+    "changeOrigin": true
   }
 
 }

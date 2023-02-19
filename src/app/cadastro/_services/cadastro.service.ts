@@ -13,8 +13,6 @@ import { Datatable, DatatableI } from "../../_models/datatable-i";
 import { limpaCampoTexto } from "../../shared/functions/limpa-campo-texto";
 import { CadastroBuscaI } from "../_models/cadastro-busca-i";
 import { take } from "rxjs/operators";
-import { ColunasI } from "../../_models/colunas-i";
-import { CadastroDuplicadoBuscaInterface } from "../_models/cadastro-duplicado-busca.interface";
 import { CadastroDuplicadoI } from "../_models/cadastro-duplicado-i";
 import { CadastroFormI } from "../_models/cadastro-form-i";
 import { CadastroEtiquetaI, CadastroEtiquetaListI } from "../../etiqueta/_models/cadastro-etiqueta-i";
@@ -349,7 +347,8 @@ export class CadastroService {
       if (n === 3) {
         const busca: CadastroBuscaI = this.busca;
         busca.rows = undefined;
-        busca.campos = this.tabela.selectedColumns, busca.todos = true;
+        busca.campos = this.tabela.selectedColumns;
+        busca.todos = true;
         busca.first = undefined;
         let cadastroRelatorio: CadastroPaginacaoI;
         this.sub.push(this.postCadastroRelatorio(busca)

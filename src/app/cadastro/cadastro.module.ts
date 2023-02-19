@@ -1,64 +1,45 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ErrorInterceptor, JwtInterceptor} from '../_helpers';
-
-import {TableModule} from 'primeng/table';
-// import {PaginatorModule} from 'primeng/paginator';
-import {SidebarModule} from 'primeng/sidebar';
-import {ButtonModule} from 'primeng/button';
-import {PanelModule} from 'primeng/panel';
-// import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {DialogModule} from 'primeng/dialog';
-// import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import {InputTextModule} from 'primeng/inputtext';
-import {InputMaskModule} from 'primeng/inputmask';
-import {CalendarModule} from 'primeng/calendar';
-import {TooltipModule} from 'primeng/tooltip';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {InputSwitchModule} from 'primeng/inputswitch';
-// import {ToastModule} from 'primeng/toast';
-import {ListboxModule} from 'primeng/listbox';
-import {CheckboxModule} from 'primeng/checkbox';
-/*import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
-// import {MessagesModule} from 'primeng/messages';
-// import {MessageModule} from 'primeng/message';*/
-import {MenuModule} from 'primeng/menu';
-// import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {ContextMenuModule} from 'primeng/contextmenu';
-// import {ProgressBarModule} from 'primeng/progressbar';
-// import {NgxViacepModule} from '@brunoc/ngx-viacep';
-import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {ArquivoModule} from '../arquivo/arquivo.module';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import {ButtonModule} from 'primeng/button';
+import {CadastroComponent} from './cadastro.component';
+import {CadastroDatatableComponent} from './cadastro-datatable';
+import {CadastroDetalheComponent} from "./cadastro-detalhe/cadastro-detalhe.component";
+import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
+import {CadastroFormComponent} from "./cadastro-form/cadastro-form.component";
+import {CadastroIncluirListaexistenteComponent} from "./cadastro-incluir-listaexistente/cadastro-incluir-listaexistente.component";
+import {CadastroMenuListarComponent} from "./cadastro-menu-listar/cadastro-menu-listar.component";
+import {CadastroRoutingModule} from './cadastro.routing.module';
+import {CalendarModule} from 'primeng/calendar';
+import {CheckboxModule} from 'primeng/checkbox';
+import {CommonModule} from '@angular/common';
+import {ConfigauxModule} from "../configaux/configaux.module";
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
 import {EtiquetaModule} from '../etiqueta/etiqueta.module';
-import {CadastroComponent} from './cadastro.component';
-import {CadastroRoutingModule} from './cadastro.routing.module';
-
-import {UtilModule} from '../util/util.module';
-import {CadastroDatatableComponent} from './cadastro-datatable';
-import {ArquivoModule} from '../arquivo/arquivo.module';
-import {RippleModule} from 'primeng/ripple';
-import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
-// import {ChipsModule} from "primeng/chips";
-import {CadastroFormComponent} from "./cadastro-form/cadastro-form.component";
-import {QuillModule} from "ngx-quill";
-import {CadastroMenuListarComponent} from "./cadastro-menu-listar/cadastro-menu-listar.component";
-import {KeyFilterModule} from "primeng/keyfilter";
-import {
-  CadastroIncluirListaexistenteComponent
-} from "./cadastro-incluir-listaexistente/cadastro-incluir-listaexistente.component";
-import {ConfigauxModule} from "../configaux/configaux.module";
-import {CadastroDetalheComponent} from "./cadastro-detalhe/cadastro-detalhe.component";
 import {ExplorerModule} from "../explorer/explorer.module";
-import {KillViewModule} from "../shared/kill-view/kill-view.module";
-import {CadastroExcluirComponent} from "./cadastro-excluir/cadastro-excluir.component";
+import {ExporterAcessoModule} from "../shared/exporter-acesso/exporter-acesso.module";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {GrafModule} from "../shared/graf/graf.module";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ImpressaoModule} from "../shared/impressao/impressao.module";
-import {ViacepModule} from "../shared/viacep";
-// import {OnoffLineModule} from "../shared/onoff-line/onoff-line.module";
-
+import {InputMaskModule} from 'primeng/inputmask';
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {KeyFilterModule} from "primeng/keyfilter";
+import {KillViewModule} from "../shared/kill-view/kill-view.module";
+import {ListboxModule} from 'primeng/listbox';
+import {MenuModule} from 'primeng/menu';
+import {NgModule} from '@angular/core';
+import {PanelModule} from 'primeng/panel';
+import {QuillModule} from "ngx-quill";
+import {RippleModule} from 'primeng/ripple';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {SidebarModule} from 'primeng/sidebar';
+import {TableModule} from 'primeng/table';
+import {TooltipModule} from 'primeng/tooltip';
+import {UtilModule} from '../util/util.module';
 
 @NgModule({
     imports: [
@@ -68,46 +49,35 @@ import {ViacepModule} from "../shared/viacep";
         CadastroRoutingModule,
         CalendarModule,
         CheckboxModule,
-        // ChipsModule,
         CommonModule,
+        ConfigauxModule,
         ContextMenuModule,
         DialogModule,
         DropdownModule,
-        // DynamicDialogModule,
         EtiquetaModule,
+        ExplorerModule,
         ExporterAcessoModule,
         FormsModule,
+        GrafModule,
         HttpClientModule,
+        ImpressaoModule,
         InputMaskModule,
         InputSwitchModule,
-        InputTextareaModule,
         InputTextModule,
+        InputTextareaModule,
         KeyFilterModule,
+        KillViewModule,
         ListboxModule,
         MenuModule,
-        // MessageModule,
-        // MessagesModule,
-        ViacepModule,
-        // OverlayPanelModule,
-        // PaginatorModule,
         PanelModule,
-        // ProgressBarModule,
-        // ProgressSpinnerModule,
+        QuillModule,
         ReactiveFormsModule,
         RippleModule,
         ScrollPanelModule,
         SidebarModule,
         TableModule,
-        // ToastModule,
         TooltipModule,
-        // TriStateCheckboxModule,
         UtilModule,
-        QuillModule,
-        ConfigauxModule,
-        ExplorerModule,
-        KillViewModule,
-        GrafModule,
-        ImpressaoModule,
     ],
   declarations: [
     CadastroComponent,

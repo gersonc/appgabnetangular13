@@ -1,0 +1,9 @@
+{
+  "https://viacep.com.br": {
+    "target": "https://viacep.com.br",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
+  }
+
+}

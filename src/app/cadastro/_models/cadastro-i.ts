@@ -1,6 +1,7 @@
 import {ArquivoInterface} from "../../arquivo/_models";
 import {TotalI} from "../../shared-datatables/models/total-i";
-import {Endereco} from "../../shared/viacep";
+import { Endereco } from "../../shared/viacep/model/endereco";
+// import {Endereco} from "../../shared/viacep";
 
 
 export interface CadastroI {

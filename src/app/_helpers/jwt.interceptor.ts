@@ -72,6 +72,13 @@ export class JwtInterceptor implements HttpInterceptor {
           return event;
         }));
       }
+
+      if (request.urlWithParams.search("viacep.com.br") !== -1) {
+        return next.handle(request).pipe(map((event: HttpEvent<any>) => {
+          return event;
+        }));
+      }
+
     }
   }
 }

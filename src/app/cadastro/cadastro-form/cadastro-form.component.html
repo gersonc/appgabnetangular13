@@ -1,6 +1,6 @@
 <div class="surface-ground h-full">
 
-  <p-scrollPanel [styleClass]="'formulario base  px-3 py-4 '">
+  <p-scrollPanel [styleClass]="'formulario base'" class="base px-3 py-4">
     <form [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
       <div class="formulario surface-card px-3 pt-1 pb-1 mb-3 border-round-2xl border-1 surface-border shadow-1">
 
@@ -373,7 +373,7 @@
                       [pTooltip]="'Busca Cep/Endereço'"
                       type="button"
                       icon="pi pi-envelope"
-                      (click)="consultaCEP2($event)"
+                      (click)="consultaCEP($event)"
                       [disabled]="block || ativaCep()"
                     ></button>
                   </div>
@@ -870,17 +870,6 @@
               [disabled]="disableSubmit"
             ></button>
           </div>
-          <div class="mr-2">
-            <button
-              [tabindex]="48"
-              pButton
-              type="button"
-              class="p-button-rounded p-button-secondary"
-              (click)="teste()"
-              label="TESTE"
-              [disabled]="botaoEnviarVF"
-            ></button>
-          </div>
           <div>
             <button
               [tabindex]="49"
@@ -939,7 +928,7 @@
     [style]="{width: '40vw'}"
     (onHide)="fechaEnderecos()"
   >
-    <div class="formgrid grid formulario">
+    <div class="formulario formgrid grid">
       <div class="col-12">
 
         <p-listbox [options]="ddEnderecos" [(ngModel)]="endereco" (onChange)="populaEnderecoForm($event.value)">
@@ -976,7 +965,7 @@
         </p-listbox>
       </div>
 
-      <div class="col-12 formulario">
+      <div class="formulario col-12">
         <!--*** Botões ***-->
         <div class="flex justify-content-start pb-2 pt-2">
           <div class="mr-2">

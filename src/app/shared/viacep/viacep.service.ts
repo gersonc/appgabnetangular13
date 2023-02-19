@@ -1,59 +1,58 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
-import {Endereco} from "./model/endereco";
-import {validarCEP, validarEndereco} from "./utils";
-import {map, switchMap} from "rxjs/operators";
-import {BASE_URL} from "./model/constantes";
-import {CEPError} from "./model/cep-error";
-import {CEPErrorCode} from "./model/cep-error-code";
+import { Observable, of } from "rxjs";
+import { Endereco, EnderecoPesquisa } from "./model/endereco";
+import { HttpClient } from "@angular/common/http";
+import { ViacepValidacaoService } from "./viacep-validacao.service";
+import { CEPErrorMsg } from "./model/constantes";
+import { UrlService } from "../../_services";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViacepService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private us: UrlService,
+    private http: HttpClient,
+    private vl: ViacepValidacaoService
+  ) { }
 
-  /**
-   * Busca o endereço a partir do CEP
-   *
-   * @param cep
-   */
   buscarPorCep(cep: string): Observable<Endereco> {
-    return of(cep).pipe(
-      validarCEP(),
-      switchMap(cepValido =>
-        this.http.get<Endereco>(`${BASE_URL}/${cepValido}/json`)
-      ),
-      map((endereco) => {
-        if ('cep' in endereco) {
-          return endereco;
-        }
-        throw new CEPError(CEPErrorCode.CEP_NAO_ENCONTRADO);
-      })
-    );
+    const n: number = this.vl.validarCEP(cep);
+    if (n < 100) {
+      const e: Endereco = {
+        erro: true,
+        erromsg: CEPErrorMsg[n]
+      }
+      return of(e);
+    } else {
+      const url = this.us.viacep + cep + '/json/';
+      return this.http.get<Endereco>(url);
+    }
   }
 
-  /**
-   * Faz a busca aproximada
-   *
-   * @param uf
-   * @param municipio
-   * @param logradouro
-   */
-  buscarPorEndereco(
-    uf: string,
-    municipio: string,
-    logradouro: string
-  ): Observable<Endereco[]> {
-    return of({ uf, municipio, logradouro }).pipe(
-      validarEndereco(),
-      switchMap(() =>
-        this.http.get<Endereco[]>(
-          `${BASE_URL}/${uf}/${municipio}/${logradouro}/json`
-        )
-      )
-    );
+  buscarPorEndereco(uf: string, municipio: string, logradouro: string): Observable<Endereco[]> {
+    const b: EnderecoPesquisa = {
+      uf: uf,
+      municipio: municipio,
+      logradouro: logradouro
+    };
+    const n: number = this.vl.validarEndereco(b);
+    if (n < 100) {
+      const e: Endereco = {
+        erro: true,
+        erromsg: CEPErrorMsg[n]
+      }
+      const es: Endereco[] = [
+        e
+      ];
+      return of(es);
+    } else {
+      const url = this.us.viacep + uf.toLowerCase() + '/' + municipio.toLowerCase() + '/' + logradouro.toLowerCase() + '/json/';
+      return this.http.get<Endereco[]>(url);
+    }
   }
+
+
+
 }

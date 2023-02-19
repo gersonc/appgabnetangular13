@@ -48,6 +48,7 @@ export class UrlService {
   mensagem = this.url + 'mensagem';
   msg = this.url + 'msg';
   tema = this.url + 'tema';
+  viacep = 'https://viacep.com.br/ws/';
 
   constructor() {
     if(!this.ok) {

@@ -11,17 +11,18 @@ import Quill from "quill";
 import {SelectItem, SelectItemGroup} from "primeng/api";
 import {CadastroDuplicadoI} from "../_models/cadastro-duplicado-i";
 import {WindowsService} from "../../_layout/_service";
-import {catchError, take} from "rxjs/operators";
-// import {CEPError, Endereco, NgxViacepService} from "@brunoc/ngx-viacep";
+import { take } from "rxjs/operators";
+
 import {CadastroService} from "../_services/cadastro.service";
 import {CadastroFormI} from "../_models/cadastro-form-i";
 import {DateTime} from "luxon";
 import {ArquivoInterface} from "../../arquivo/_models";
 import {CadastroI} from "../_models/cadastro-i";
 import {CadastroDropdownMenuService} from "../_services/cadastro-dropdown-menu.service";
-// import {NgxViacepService} from "@brunoc/ngx-viacep";
-import {CEPError, Endereco, ViacepService} from "../../shared/viacep";
 import { ThemeService } from "../../_services/theme.service";
+import { ViacepService } from "../../shared/viacep/viacep.service";
+import { Endereco } from "../../shared/viacep/model/endereco";
+
 
 @Component({
   selector: 'app-cadastro-form',
@@ -288,76 +289,75 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     // this.espera.next(this.carregamento);
   }
 
-  consultaCEP(event) {
-    if (this.formCadastro.get('cadastro_cep').value !== null && this.formCadastro.get('cadastro_cep').value.toString().length > 8) {
-      let cep = this.formCadastro.get('cadastro_cep').value;
-      cep = cep.replace(/\D/g, '');
-      if (cep !== '') {
-        const validacep = /^[0-9]{8}$/;
-        if (validacep.test(cep)) {
-          this.sub.push(
-            this.viacep
-              .buscarPorCep(cep)
-              .pipe(
-                catchError((error: CEPError) => {
-                  // Ocorreu algum erro :/
-                  console.log(error.message);
-                  if (error.message === 'CEP_NAO_ENCONTRADO') {
-                    this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
-                  }
-                  return EMPTY;
-                })
-              )
-              .subscribe((enderecos: Endereco) => {
-                this.populaEnderecoForm(enderecos);
-              }));
-        }
+
+  consultaCEP(ev) {
+    const cep: string = '' + this.testaCep();
+    const end: string[] = this.testaEndereco();
+    if (cep !== '0') {
+      this.buscaCEP(cep);
+    } else {
+      if (end.length === 3) {
+        this.consultaEndereco(end);
       }
     }
   }
 
-  consultaCEP2(event) {
-    const cep: string = this.testaCep();
-    const end: string[] = this.testaEndereco();
-    if (cep !== '0') {
-      this.sub.push(
-        this.viacep
-          .buscarPorCep(cep)
-          .pipe(
-            catchError((error: CEPError) => {
-              // Ocorreu algum erro :/
-              if (error.message === 'CEP_NAO_ENCONTRADO') {
-                this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
-              }
-              return EMPTY;
-            })
-          )
-          .subscribe((enderecos: Endereco) => {
-            this.populaEnderecoForm(enderecos);
-          }));
-    } else {
-      if (end.length === 3) {
-        this.sub.push(
-          this.viacep
-            .buscarPorEndereco(end[0], end[1], end[2])
-            .pipe(
-              catchError((error: CEPError) => {
-                console.log(error.message);
-                if (error.message === 'CEP_NAO_ENCONTRADO') {
-                  this.ms.add({key: 'cepToast', severity: 'warn', summary: 'ATENÇÃO', detail: 'CEP NÃO ENCONTADO'});
-                }
-                return EMPTY;
-              })
-            )
-            .subscribe((enderecos: Endereco[]) => {
-              if (enderecos.length > 1) {
-                this.escolheEnderecos(enderecos);
-              } else {
-                this.populaEnderecoForm(enderecos[0]);
-              }
-            }));
+
+  buscaCEP(cep) {
+    let e: Endereco = {};
+    let erro = false;
+    this.sub.push(this.viacep.buscarPorCep(cep).pipe(take(1)).subscribe({
+      next: data => {
+        e = data;
+        if (e.uf === undefined || (e.erro !== undefined && e.erro === true)) {
+          erro = true;
+          if(e.erromsg === undefined) {
+            e.erromsg = 'NENHUM ENDEREÇO ENCONTRADO.';
+          }
+        }
+      },
+      error: err => {
+        console.log('ERRRO');
+      },
+      complete: () => {
+        if (erro) {
+          this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO CEP', detail: e.erromsg});
+        } else {
+          this.populaEnderecoForm(e);
+        }
       }
-    }
+    }));
+  }
+
+  consultaEndereco(end: string[]) {
+    let e: Endereco[] = [];
+    let erro = false;
+    this.sub.push(this.viacep.buscarPorEndereco(end[0], end[1], end[2]).pipe(take(1)).subscribe({
+      next: (data: Endereco[]) => {
+        console.log(data);
+        e.push(...data);
+        if (e[0].erro !== undefined && e[0].erro === true) {
+          erro = true;
+          if(e[0].erromsg === undefined) {
+            e[0].erromsg = 'NENHUM ENDEREÇO ENCONTRADO.';
+          }
+        }
+      },
+      error: err => {
+        console.log('ERRRO');
+      },
+      complete: () => {
+        if (erro) {
+          this.ms.add({key: 'toastprincipal', severity: 'warn', summary: 'ERRO ENDEREÇO', detail: e[0].erromsg});
+        } else {
+          if (e.length > 1) {
+            this.escolheEnderecos(e);
+          } else {
+            this.populaEnderecoForm(e[0]);
+          }
+        }
+      }
+    }));
   }
 
   populaEnderecoForm(endereco: Endereco = null) {
@@ -920,7 +920,7 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  teste() {
+  /*teste() {
     const ddEnd: string = JSON.stringify([
       {
         "cep": "11060-900",
@@ -1118,11 +1118,10 @@ export class CadastroFormComponent implements OnInit, OnDestroy {
     this.ddEnderecos = JSON.parse(ddEnd);
     this.endereco = null;
     this.mostraEnderecos = true;
-  }
+  }*/
 
   get editorFormClass(): string {
     return (!this.th.filedVF && !this.th.dark) ? 'formulario' : (this.th.filedVF && !this.th.dark) ? 'formulario p-input-filled' : (!this.th.filedVF && this.th.dark) ?  'formulario formulario-dark' :  'formulario formulario-dark p-input-filled p-inputtext';
-    // return (this.th.filedVF || this.th.dark) ? 'formulario formulario-dark' : 'formulario';
-  }// .p-input-filled .p-inputtext
+  }
 
 }
