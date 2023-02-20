@@ -256,27 +256,7 @@
   --primary-700:#2c397f;
   --primary-800:#232d64;
   --primary-900:#192048;
-  --surface-0: var(--surface-0, #ffffff);
-  --surface-50: var(--surface-50, #FAFAFA);
-  --surface-100: var(--surface-100, #F5F5F5);
-  --surface-200: var(--surface-200, #EEEEEE);
-  --surface-300: var(--surface-300, #E0E0E0);
-  --surface-400: var(--surface-400, #BDBDBD);
-  --surface-500: var(--surface-500, #9E9E9E);
-  --surface-600: var(--surface-600, #757575);
-  --surface-700: var(--surface-700, #616161);
-  --surface-800: var(--surface-800, #424242);
-  --surface-900: var(--surface-900, #212121);
-  --gray-50: var(--gray-50, #FAFAFA);
-  --gray-100: var(--gray-100, #F5F5F5);
-  --gray-200: var(--gray-200, #EEEEEE);
-  --gray-300: var(--gray-300, #E0E0E0);
-  --gray-400: var(--gray-400, #BDBDBD);
-  --gray-500: var(--gray-500, #9E9E9E);
-  --gray-600: var(--gray-600, #757575);
-  --gray-700: var(--gray-700, #616161);
-  --gray-800: var(--gray-800, #424242);
-  --gray-900: var(--gray-900, #212121);
+
 }
 
 .p-autocomplete .p-autocomplete-loader {

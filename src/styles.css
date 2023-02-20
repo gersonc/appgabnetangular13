@@ -247,6 +247,14 @@ app {
 .desktop {
 }
 
+.base {
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
 .desktop .header {
   padding: 0 .5rem;
 }
@@ -1265,8 +1273,8 @@ body .icsupload:hover {
   border-bottom-right-radius: .5rem;
 }
 
-.formulario.p-input-filled > .ql-container.ql-snow {
-  background: var(--surface-ground);
+.formulario > .ql-container.ql-snow {
+  background: none;
 }
 
 .p-input-filled .formulario > .ql-container.ql-snow {
@@ -1582,9 +1590,7 @@ button.expandir {
 
 .tablistagem.p-dialog {
   max-height: calc(100vh - 10rem) !important;
-  /*width: calc(21cm + 1em);*/
-  /*min-width: 400px;*/
-  background: var(--surface-border);
+  background: var(--surface-ground);
   margin-top: 0 !important;
   margin-right: 0.75rem;
   margin-bottom: 0.75rem;
@@ -1648,10 +1654,7 @@ button.expandir {
   padding: 0;
 }
 /*
-
 expandido =======================================================================================
-
-
 */
 
 
@@ -1664,13 +1667,6 @@ expandido ======================================================================
 .tablistagem.p-datatable tr.expandido, .tablistagem.p-datatable td.expandido {
   background: var(--surface-ground) !important;
 }
-
-/*
-.tablistagem.p-datatable .p-datatable-tbody > tr > td .p-button.p-button-icon-only.p-button-rounded {
-  border-radius: 50%;
-  height: 1.5rem;
-}
-*/
 .tablistagem.p-datatable .p-datatable-tbody > tr.expandido > td.expandido .p-button.p-button-icon-only.p-button-rounded {
 
 }
@@ -1723,63 +1719,76 @@ expandido ======================================================================
 
 
 
-
 /*
-
-.rowexpansion-corpo {
-  max-width: 95vw;
-  padding: .5rem;
-  font-size: 1rem;
-}
-
-.expandido .p-grid {
-  padding: .3rem;
-}
-
-.expandido .p-col-12.p-sm-12.p-md-6.p-lg-4.p-xl-3 {
-  padding: .2rem;
-}
-
-.tablistagem .registros {
-  background: var(--surface-card);
-  color: var(--text-color);
-  padding: .5rem;
-  border-radius: .5rem;
-  overflow: hidden;
-}
-
-*/
-/*
-
-.tablistagem .registros:not(h5) {
-  font-size: 1.2rem !important;
-}
-
-
-.tablistagem h5 {
-  color: var(--text-color) !important;
-  font-size: inherit !important;
-  font-weight: var(--formulario-field-label-font-weight) !important;
-  display: block !important;
-  top: 50%;
-  margin-top: 0;
-  margin-bottom: 0.3rem !important;
-}
-
+TABELAS =======================================================================================
 */
 
-
-/*
-!*
-.tablistagem.p-datatable .expandido .p-button.p-button-icon-only.p-button-rounded {
-  border-radius: 50% !important;
-  height: 2rem !important;
-  width: 2rem !important;
+table.tabela {
+  border-collapse: collapse;
+  width: 100%;
 }
-*!
+
+table.tabela {
+  background-color: var(--surface-card);
+}
+
+.tabela td, .tabela th {
+  padding: .2rem 1rem;
+}
+
+.tabela th, .tabela td  {
+  background-color: var(--surface-card);
+}
+
+.zebrado tr:nth-child(even) > th,  .zebrado >tr:nth-child(even) > td{
+  background-color: var(--surface-200);
+}
+
+.horizontal th {
+  font-weight: normal;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.horizontal td {
+  font-weight: 500;
+  text-align: left;
+}
+
+.vertical th {
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vertical td {
+  font-weight: normal;
+  text-align: left;
+}
+
+.table-hover > tr:nth-child(even):hover > th,  .table-hover > tr:nth-child(even):hover > td{
+  background-color: var(--surface-hover);
+}
+
+.table-hover > tr:hover > th, .table-hover > tr:hover > td {
+  background-color: var(--surface-hover);
+}
+
+.striped td, .striped th {
+  border-top: .01rem solid var(--surface-border);
+  border-bottom: .01rem solid var(--surface-border);
+}
+
+.gridlines td, .gridlines th {
+  border-left: .01rem solid var(--surface-border);
+  border-right: .01rem solid var(--surface-border);
+}
 
 
 
 
 
-*/
+
+
+
+

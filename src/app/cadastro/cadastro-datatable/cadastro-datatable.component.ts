@@ -428,9 +428,13 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
   }
 
   cadastroApagar(index: number, cad: CadastroI) {
+    let permitido = false;
     if ((this.aut.usuario_responsavel_sn || this.aut.usuario_principal_sn || this.aut.cadastro_apagar) && this.permArquivo(cad)) {
       if (cad.vinculos > 0) {
         this.cs.permissaoVinculos = this.cp.getPermissao(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum);
+        permitido = this.cs.permissaoVinculos;
+      } else {
+        permitido = true;
       }
       this.cs.cadastroApagar = cad;
       this.cs.idx = +index;
@@ -452,7 +456,9 @@ export class CadastroDatatableComponent implements OnInit, OnDestroy {
           })
         );
       } else {
-        this.router.navigate(['/cadastro/excluir']);
+        if(permitido) {
+          this.router.navigate(['/cadastro/excluir']);
+        }
       }
     }
   }

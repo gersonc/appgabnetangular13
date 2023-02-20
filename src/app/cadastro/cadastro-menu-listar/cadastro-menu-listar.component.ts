@@ -152,9 +152,11 @@ export class CadastroMenuListarComponent implements OnInit, OnDestroy {
     if (this.formMenu.get('cadastro_nome').value !== null) {
       if (typeof this.formMenu.get('cadastro_nome').value === 'string') {
         b.cadastro_nome = this.formMenu.get('cadastro_nome').value;
+        console.log('b1', b);
       }
       if (typeof this.formMenu.get('cadastro_nome').value === 'object') {
         b.cadastro_id = +this.formMenu.get('cadastro_nome').value.value;
+        console.log('b2', b);
         return b;
       }
     }
