@@ -4,8 +4,7 @@
     <tr>
       <td>
         <div class="surface-card px-3 pt-1 pb-3 mb-3 border-round-2xl border-1 surface-border shadow-1">
-          <table #detcadastro class="tabela horizontal striped table-hover" id="tb1" #tb1>
-            <caption><span class="text-base font-bold">CADASTRO</span></caption>
+          <table #detcadastro class="tabela horizontal striped table-hover">
             <thead>
             <tr>
               <th colspan="2">
@@ -416,8 +415,6 @@
             <div class="surface-card px-3 pt-1 pb-3 mb-3 border-round-2xl border-1 surface-border shadow-1">
               <table *ngIf="cadVin.cadastro_solicitacao.length > 0"
                      class="tabela table-hover vertical striped gridlines">
-                <caption><span class="text-base font-bold">SOLICITAÇÕES</span> <span class="text-sm font-bold"> - Este cadastro possui a(s) sequinte(s) solicitação(ões).</span>
-                </caption>
                 <thead>
                 <tr>
                   <th colspan="3">
@@ -448,8 +445,6 @@
           <td>
             <div class="surface-card px-3 pt-1 pb-3 mb-3 border-round-2xl border-1 surface-border shadow-1">
               <table *ngIf="cadVin.cadastro_processo.length > 0" class="tabela table-hover vertical striped gridlines">
-                <caption><span class="text-base font-bold">PROCESSOS</span> <span class="text-sm font-bold"> - Este cadastro está vinculado ao(s) seguinte(s) processo(s).</span>
-                </caption>
                 <thead>
                 <tr>
                   <th colspan="3">
@@ -480,8 +475,6 @@
           <td>
             <div class="surface-card px-3 pt-1 pb-3 mb-3 border-round-2xl border-1 surface-border shadow-1">
               <table *ngIf="cadVin.cadastro_oficio.length > 0" class="tabela table-hover vertical striped gridlines">
-                <caption><span class="text-base font-bold">OFÍCIO(S)</span> <span class="text-sm font-bold"> - Este cadastro está vinculado ao(s) seguinte(s) ofício(s).</span>
-                </caption>
                 <thead>
                 <tr>
                   <th colspan="5">
@@ -516,8 +509,6 @@
           <td>
             <div class="surface-card px-3 pt-1 pb-3 mb-3 border-round-2xl border-1 surface-border shadow-1">
               <table *ngIf="cadVin.cadastro_emenda.length > 0" class="tabela table-hover vertical striped gridlines">
-                <caption><span class="text-base font-bold">EMENDAS</span> <span class="text-sm font-bold"> - Este cadastro está vinculado a(s) seguinte(s) emenda(s).</span>
-                </caption>
                 <thead>
                 <tr>
                   <th colspan="5">
@@ -561,18 +552,13 @@
                     (click)="fechar()"></button>
           </div>
           <div class="mr-2">
-            <button pButton type="button" label="IMP" icon="pi pi-times" class="p-button-rounded"
-                    (click)="imprimir()"></button>
-          </div>
-          <div class="mr-2">
             <app-exporter-detalhe [arquivoNome]="'cadastro_detalhes'" [classe]="'tabela'"
                                   [(pdfOnOff)]="pdfOnOff"></app-exporter-detalhe>
           </div>
 
           <div class="mr-2">
-            <app-printbotao dados="tb1" [tb]="tb1"></app-printbotao>
-            <!--<app-impressao-botao (imprimindo)="onImprimir($event)"
-                                 [dados]="['CADASTRO',detalhecadastro]"></app-impressao-botao>-->
+            <app-impressao-botao (imprimindo)="onImprimir($event)"
+                                 [dados]="'detalhecadastro'"></app-impressao-botao>
           </div>
         </div>
         <!--*** FIM BOTOES ***-->

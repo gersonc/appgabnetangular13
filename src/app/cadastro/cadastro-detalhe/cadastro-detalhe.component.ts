@@ -4,39 +4,6 @@ import {AuthenticationService} from "../../_services";
 import {Stripslashes} from "../../shared/functions/stripslashes";
 
 
-function imprimirPag() {
-  const ref = document.getElementById('detalhecadastro');
-  // const ref = dados;
-  window.addEventListener('afterprint', (event) => {
-    const y = document.getElementById("printSection");
-    if (y) {
-      const c = document.getElementById('body');
-      c.removeChild(y);
-    }
-    window.removeEventListener('afterprint', event => {});
-  });
-  // const ref: HTMLTableElement = this.dados[1];
-
-  const t = document.getElementById("printSection");
-  if (t) {
-    const b = document.getElementById('body');
-    const throwawayNode = b.removeChild(t);
-  }
-
-  const printSection = document.createElement("div");
-  printSection.id = "printSection";
-  document.body.appendChild(printSection);
-  printSection.innerHTML = "";
-  // printSection.appendChild(ref);
-  printSection.appendChild(ref.cloneNode(false));
-  window.print();
-  const y = document.getElementById("printSection");
-  if (y) {
-    const c = document.getElementById('body');
-    c.removeChild(y);
-  }
-}
-
 @Component({
   selector: 'app-cadastro-detalhe',
   templateUrl: './cadastro-detalhe.component.html',
@@ -88,8 +55,5 @@ export class CadastroDetalheComponent implements OnInit {
     this.impressao = ev;
   }
 
-  imprimir() {
-    imprimirPag();
-  }
 
 }

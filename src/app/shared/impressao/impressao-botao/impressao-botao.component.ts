@@ -1,7 +1,5 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-
-
-type ImpressaoBotaoT = [string, HTMLTableElement];
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import * as printJS from 'print-js';
 
 @Component({
   selector: 'app-impressao-botao',
@@ -9,7 +7,7 @@ type ImpressaoBotaoT = [string, HTMLTableElement];
   styleUrls: ['./impressao-botao.component.css']
 })
 export class ImpressaoBotaoComponent implements OnInit {
-  @Input() dados: ImpressaoBotaoT;
+  @Input() dados: string = '';
   @Output() imprimindo = new EventEmitter<boolean>();
 
   constructor() { }
@@ -19,37 +17,12 @@ export class ImpressaoBotaoComponent implements OnInit {
 
 
   imprimir() {
-
-    this.imprimindo.emit(true);
-    window.addEventListener('afterprint', (event) => {
-      const y = document.getElementById("printSection");
-      if (y) {
-        const c = document.getElementById('body');
-        c.removeChild(y);
-      }
-      window.removeEventListener('afterprint', event => {});
+    printJS({
+      printable: this.dados,
+      type: 'html',
+      css: 'assets/css/impressao.css',
+      scanStyles: false
     });
-    // const ref: HTMLTableElement = this.dados[1];
-    const ref: HTMLElement = document.getElementById("detalhecadastro");
-    console.log('impressao', JSON.stringify(ref));
-    const t = document.getElementById("printSection");
-    if (t) {
-      const b = document.getElementById('body');
-      const throwawayNode = b.removeChild(t);
-    }
-    const tit: string = this.dados[0];
-    const printSection = document.createElement("div");
-    printSection.id = "printSection";
-    document.body.appendChild(printSection);
-    printSection.innerHTML = "";
-    printSection.appendChild(ref.cloneNode(true));
-    window.print();
-    const y = document.getElementById("printSection");
-    if (y) {
-      const c = document.getElementById('body');
-      c.removeChild(y);
-      this.imprimindo.emit(false);
-    }
   }
 
 }

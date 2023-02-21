@@ -1935,6 +1935,18 @@ td.tabela-kill .ql-editor {
   padding: 0 !important;
 }
 
+.tabela.vertical.striped thead > tr:first-of-type > th {
+  font-weight: bold !important;
+  text-align: center !important;
+  border: none !important;
+}
+
+.tabela.horizontal.striped thead > tr:first-of-type > th {
+  font-weight: bold !important;
+  text-align: center !important;
+  border: none !important;
+}
+
 @media print {
   td.tabela-kill .ql-editor {
     font-size: 10pt !important;
