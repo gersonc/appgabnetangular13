@@ -5,13 +5,15 @@ import {NgxPrintModule} from "ngx-print";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import { ImpressaoBotaoComponent } from './impressao-botao/impressao-botao.component';
 import {ButtonModule} from "primeng/button";
+import { PrintbotaoComponent } from './printbotao/printbotao.component';
 
 
 
 @NgModule({
   declarations: [
     // ImpressaoComponent,
-    ImpressaoBotaoComponent
+    ImpressaoBotaoComponent,
+    PrintbotaoComponent
   ],
     imports: [
         CommonModule,
@@ -21,7 +23,8 @@ import {ButtonModule} from "primeng/button";
     ],
   exports: [
     // ImpressaoComponent,
-    ImpressaoBotaoComponent
+    ImpressaoBotaoComponent,
+    PrintbotaoComponent
   ]
 })
 export class ImpressaoModule { }

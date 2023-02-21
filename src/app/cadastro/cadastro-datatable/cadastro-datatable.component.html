@@ -188,7 +188,7 @@
                 >
                 </button>
               </div>
-              <div *ngIf="cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)" class="mr-2">
+              <!--<div *ngIf="cp.getPermissaoApager(cad.vinculos, cad.snum, cad.pnum, cad.onum, cad.enum, cad.tarq)" class="mr-2">
                 <button
                   pButton
                   pRipple
@@ -200,7 +200,7 @@
                   (click)="cadastroApagar(indice,cad)"
                 >
                 </button>
-              </div>
+              </div>-->
               <div *ngIf="(aut.usuario_responsavel_sn || aut.usuario_principal_sn || aut.cadastro_apagar) && permArquivo(cad)" class="my-2 mr-2">
                 <button
                   pButton
@@ -376,7 +376,8 @@
     [modal]="true"
     [dismissableMask]="false"
     [closable]="true"
-    styleClass="tablistagem"
+    class="detalhe"
+    styleClass="detalhe"
     (onHide)="escondeDetalhe()"
     [breakpoints]="{'1400px': '60vw', '1300px': '70vw', '1200px': '80vw', '1000px': '90vw', '640px': '100vw'}"
     [style]="{width: '60vw'}"

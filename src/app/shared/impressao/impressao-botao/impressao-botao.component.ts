@@ -19,6 +19,7 @@ export class ImpressaoBotaoComponent implements OnInit {
 
 
   imprimir() {
+
     this.imprimindo.emit(true);
     window.addEventListener('afterprint', (event) => {
       const y = document.getElementById("printSection");
@@ -28,7 +29,9 @@ export class ImpressaoBotaoComponent implements OnInit {
       }
       window.removeEventListener('afterprint', event => {});
     });
-    const ref: HTMLTableElement = this.dados[1];
+    // const ref: HTMLTableElement = this.dados[1];
+    const ref: HTMLElement = document.getElementById("detalhecadastro");
+    console.log('impressao', JSON.stringify(ref));
     const t = document.getElementById("printSection");
     if (t) {
       const b = document.getElementById('body');

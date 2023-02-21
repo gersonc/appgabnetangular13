@@ -44,7 +44,7 @@
             [styleClass]="'imgviewer tablistagem'"
   >
     <ng-template pTemplate="header">
-      <i class="dowloadIcon pi pi-download" style="font-size: 1rem" (click)="download()"></i>
+      <i class="dowloadIcon pi pi-download text-base" (click)="download()"></i>
     </ng-template>
     <img src="{{arquivo.arquivo_url_s3}}" alt="{{arquivo.arquivo_nome_original}}" *ngIf="alt.arquivos_baixar && imgSN">
   </p-dialog>
