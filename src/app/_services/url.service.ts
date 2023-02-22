@@ -18,7 +18,7 @@ export class UrlService {
   processo = this.url + 'processo';
   proce = this.url + 'proce';
   login = this.url + 'login';
-  autologin = this.url + 'autoloagin';
+  // autologin = this.url + 'autoloagin';
   municipio = this.url + 'auxiliar/municipio';
   aux = this.url + 'auxiliar';
   etiqueta = this.url + 'auxiliar/etiqueta';
@@ -68,7 +68,7 @@ export class UrlService {
     this.processo = this.url + 'processo';
     this.proce = this.url + 'proce';
     this.login = this.url + 'login';
-    this.autologin = this.url + 'autoloagin';
+    // this.autologin = this.url + 'autoloagin';
     this.municipio = this.url + 'auxiliar/municipio';
     this.aux = this.url + 'auxiliar';
     this.etiqueta = this.url + 'auxiliar/etiqueta';

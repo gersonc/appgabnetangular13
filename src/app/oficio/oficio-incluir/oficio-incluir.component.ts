@@ -11,7 +11,7 @@ import {Location} from "@angular/common";
 import {Router} from "@angular/router";
 import {OficioFormService} from "../_services/oficio-form.service";
 import {OficioService} from "../_services/oficio.service";
-import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
+import {AuthenticationService, MenuInternoService} from "../../_services";
 import {take} from "rxjs/operators";
 import {MsgService} from "../../_services/msg.service";
 
@@ -115,7 +115,7 @@ export class OficioIncluirComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
+    // private dd: DropdownService,
     private ofs: OficioFormService,
     public mi: MenuInternoService,
     private location: Location,

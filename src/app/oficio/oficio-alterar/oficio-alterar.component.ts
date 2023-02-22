@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {MsgService} from "../../_services/msg.service";
 import {OficioFormService} from "../_services/oficio-form.service";
 import {OficioService} from "../_services/oficio.service";
-import {AuthenticationService, DropdownService} from "../../_services";
+import {AuthenticationService} from "../../_services";
 import {SelectItem} from "primeng/api";
 import {CpoEditor, InOutCampoTexto} from "../../_models/in-out-campo-texto";
 import {Subscription} from "rxjs";
@@ -50,7 +50,7 @@ export class OficioAlterarComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
+    // private dd: DropdownService,
     public ofs: OficioFormService,
     public aut: AuthenticationService,
     private os: OficioService,

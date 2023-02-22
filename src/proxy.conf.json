@@ -1,12 +1,12 @@
 {
-  "http://slimgn08.dv": {
-    "target": "http://slimgn08.dv",
+  "http://slimgn10.dv": {
+    "target": "http://slimgn10.dv",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/api": {
-    "target": "http://slimgn08.dv",
+    "target": "http://slimgn10.dv",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": false

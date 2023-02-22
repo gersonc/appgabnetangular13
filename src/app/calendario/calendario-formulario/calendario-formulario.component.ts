@@ -1,16 +1,13 @@
-import { Component, ViewChild, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Form } from '@angular/forms';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { NgForm, FormGroup} from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { DropdownService, UrlService, UuidService } from '../../_services';
+import { UrlService, UuidService } from '../../_services';
 import { AuthenticationService } from '../../_services';
-import { ByWeekday, Frequency, Options, RRule, RRuleSet, Weekday } from 'rrule';
+import { Frequency, RRule, RRuleSet, Weekday } from 'rrule';
 import { DateTime } from 'luxon';
 import { take } from 'rxjs/operators';
-// import { isArray } from 'rxjs/internal-compatibility';
-// import { Time } from '@angular/common';
 import { Subscription } from 'rxjs';
-// import { TxtReader } from 'txt-reader';
 import {EventoInterface} from "../_models/evento-interface";
 import {CalendarioService} from "../_services/calendario.service";
 import {Cal, CalDados, CalData, CalExtrutura, CalInterface, Evento, Opcoes} from "../_models/calendario";
@@ -25,7 +22,6 @@ import {MsgService} from "../../_services/msg.service";
 })
 export class CalendarioFormularioComponent implements OnInit, OnDestroy {
   @ViewChild('calForm', { static: true }) public calForm: NgForm;
-  // @ViewChild('content', { static: true }) public content: ElementRef;
 
   public ptBr: any;
 
@@ -136,7 +132,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private dd: DropdownService,
     public authenticationService: AuthenticationService,
     private messageService: MsgService,
     public cl: CalendarioService,
@@ -145,10 +140,6 @@ export class CalendarioFormularioComponent implements OnInit, OnDestroy {
     this.urlUpload = this.urlService.calendario + '/upload';
   }
 
-  /*static montaIcal(str: (string | Uint8Array)[]) {
-    console.log(str);
-  }
-*/
   ngOnInit() {
     this.carregaDados();
     this.carregaDropdowns();

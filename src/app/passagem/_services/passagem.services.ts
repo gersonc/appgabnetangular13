@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { DropdownService, UrlService } from '../../_services';
+import { UrlService } from '../../_services';
 import {
   PassagemBuscaInterface,
   PassagemDetalheInterface,
@@ -9,7 +9,6 @@ import {
   PassagemInterface,
   PassagemPaginacaoInterface
 } from '../_models';
-import { SelectItem } from 'primeng/api';
 import { take } from 'rxjs/operators';
 import { HeaderService } from "../../_services/header.service";
 
@@ -25,7 +24,7 @@ export class PassagemService {
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private dd: DropdownService
+    // private dd: DropdownService
     ) { }
 
   criarPassagem() {
@@ -264,70 +263,9 @@ export class PassagemService {
         }
       }
     }
-    /*const tamanho = b.length;
-    let linhas: number = tamanho;
-    let colunas = 2;
-    if (tamanho > 10) {
-      colunas = 2;
-      linhas = Math.ceil(tamanho / 2);
-      if (linhas > 10) {
-        colunas = 3;
-        linhas = Math.ceil(tamanho / 3);
-        if (linhas > 10) {
-          colunas = 4;
-          linhas = Math.ceil(tamanho / 4);
-        }
-      }
-    } else {
-      linhas = Math.ceil(tamanho / 2);
-    }
-
-    let col: number;
-    let lin: number;
-    const idxC = [];
-
-    let passagemdor = 0;
-    for (col = 1; col <= colunas; col++) {
-      const idcL = [];
-      for (lin = 1; lin <= linhas; lin++) {
-        if (passagemdor < tamanho) {
-          idcL.push(b[passagemdor]);
-        }
-        passagemdor++;
-      }
-      idxC.push(idcL);
-    }
-    const largura = (100 / colunas).toFixed(2) + '%';
-    idxC.push(largura.toString());
-    this.expandido.next(idxC);*/
     this.expandido.next(b);
   }
 
-  carregaDropdownMenu() {
-    sessionStorage.removeItem('passagem_beneficiario-dropdown');
-    const busca  = {tabela: 'passagem', campo_nome: 'passagem_beneficiario'};
-    this.dd.postDropdownSoNome(busca)
-      .pipe(take(1))
-      .subscribe((dados) => {
-          sessionStorage.setItem('passagem_beneficiario-dropdown', JSON.stringify(dados));
-        },
-        error1 => {
-          console.log('erro');
-        }
-    );
-
-    sessionStorage.removeItem('passagem_aerolinha-dropdown');
-    const busca2 = {tabela: 'passagem', campo_id: 'passagem_aerolinha_id', campo_nome: 'passagem_aerolinha_nome'};
-    this.dd.postDropdownNomeId(busca2)
-      .pipe(take(1))
-      .subscribe((dados) => {
-          sessionStorage.setItem('passagem_aerolinha-dropdown', JSON.stringify(dados));
-        },
-        error1 => {
-          console.log('erro');
-        }
-    );
- }
 
 
 }

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {FormGroup, NgForm} from '@angular/forms';
 import {SelectItem} from 'primeng/api';
-import {AuthenticationService, DropdownService, UrlService, UuidService} from '../../_services';
+import {AuthenticationService, UrlService, UuidService} from '../../_services';
 import {Frequency, RRule, RRuleSet, Weekday} from 'rrule';
 import {DateTime, Duration, Interval} from 'luxon';
 import {take} from 'rxjs/operators';
@@ -166,7 +166,7 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   icals: string[] = [];
 
   constructor(
-    private dd: DropdownService,
+    // private dd: DropdownService,
     public authenticationService: AuthenticationService,
     private ms: MsgService,
     public cl: CalendarioService,

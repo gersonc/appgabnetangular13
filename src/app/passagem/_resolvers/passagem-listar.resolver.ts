@@ -1,153 +1,109 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, EMPTY, Subscription, Subject } from 'rxjs';
+import { Observable, of, Subscription, Subject } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
-import { DropdownService } from '../../_services';
-import { DropdownnomeidClass } from '../../_models';
-import { CarregadorService } from '../../_services';
-
 import { PassagemBuscaService, PassagemService } from '../_services';
 import { PassagemPaginacaoInterface } from '../_models';
-import { SelectItem } from 'primeng/api';
+import { DdService } from "../../_services/dd.service";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class PassagemListarResolver implements Resolve<PassagemPaginacaoInterface | boolean> {
-  private ddNomeIdArray = new DropdownnomeidClass();
   private sub: Subscription[] = [];
-  private resp = new Subject<PassagemPaginacaoInterface | boolean>();
-  private resp$ = this.resp.asObservable();
-  private dropdown = false;
-  private drop: SelectItem[];
-  private drop2: string[];
+
+  resp2: Subject<boolean>;
+  resp2$: Observable<boolean>
+  dados = true;
+  dds: string[] = [];
 
   constructor(
     private router: Router,
-    private dd: DropdownService,
-    private cs: CarregadorService,
+    private dd: DdService,
     private tbs: PassagemBuscaService,
     private ts: PassagemService
   ) { }
 
-  populaDropdown() {
-    let contador = 0;
-    let a = 0;
+  espera(v: boolean) {
+    this.resp2.next(v);
+    this.resp2.complete();
+  }
 
-    // ****** aerolinha *****
+  carregaDados(): boolean {
+    this.dds = [];
+    this.resp2 = new Subject<boolean>();
+    this.resp2$ = this.resp2.asObservable();
     if (!sessionStorage.getItem('dropdown-aerolinha')) {
-      a++;
-      this.ddNomeIdArray.add('dropdown_aerolinha', 'aerolinha', 'aerolinha_id', 'aerolinha_nome');
+      this.dds.push('dropdown-aerolinha');
     }
-    // ****** passagem_aerolinha *****
+    // ****** solicitacao_assunto_id *****
     if (!sessionStorage.getItem('passagem_aerolinha-dropdown')) {
-      a++;
-      this.ddNomeIdArray.add('passagem_aerolinha_dropdown', 'passagem', 'passagem_aerolinha_id', 'passagem_aerolinha_nome');
+      this.dds.push('passagem_aerolinha-dropdown');
+    }
+    // ****** solicitacao_atendente_cadastro_id *****
+    if (!sessionStorage.getItem('passagem_beneficiario-dropdown')) {
+      this.dds.push('passagem_beneficiario-dropdown');
     }
 
-    if (a > 0) {
-      this.dd.postDropdownNomeIdArray(this.ddNomeIdArray.get())
+    if (this.dds.length > 0) {
+      this.sub.push(this.dd.getDd(this.dds)
         .pipe(take(1))
         .subscribe({
           next: (dados) => {
-            if (dados['dropdown_aerolinha']) {
-              sessionStorage.setItem('dropdown-aerolinha', JSON.stringify(dados['dropdown_aerolinha']));
-            }
-            if (dados['passagem_aerolinha_dropdown']) {
-              sessionStorage.setItem('passagem_aerolinha-dropdown', JSON.stringify(dados['passagem_aerolinha_dropdown']));
-            }
+            this.dds.forEach(nome => {
+              sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
+            });
           },
           error: (err) => {
             console.error(err);
           },
           complete: () => {
-            contador++;
-            if (contador === 2) {
-              this.resp.next(true);
-            }
+            this.espera(true);
           }
-        });
+        })
+      );
+      return true;
     } else {
-      contador++;
-      if (contador === 2) {
-        this.resp.next(true);
-      }
+      return false
     }
+  }
 
-
-    if (!sessionStorage.getItem('passagem_beneficiario-dropdown')) {
-      const busca  = {tabela: 'passagem', campo_nome: 'passagem_beneficiario'};
-      this.dd.postDropdownSoNome(busca)
-        .pipe(take(1))
-        .subscribe((dados) => {
-            if (dados) {
-              sessionStorage.setItem('passagem_beneficiario-dropdown', JSON.stringify(dados));
-            }
-          },
-          error1 => {
-            console.log('erro');
-          },
-          () => {
-            contador++;
-            if (contador === 2) {
-              this.resp.next(true);
-            }
-          });
-    } else {
-      contador++;
-      if (contador === 2) {
-        this.resp.next(true);
-      }
-    }
+  onDestroy(): void {
+    this.dds = [];
+    this.sub.forEach(s => s.unsubscribe());
   }
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):
-    Observable<PassagemPaginacaoInterface | boolean> |
-    Observable<never> {
-    if (!sessionStorage.getItem('dropdown-aerolinha') ||
-      !sessionStorage.getItem('passagem_aerolinha-dropdown') ||
-      !sessionStorage.getItem('passagem_beneficiario-dropdown')
-    ) {
-      this.dropdown = true;
-      this.cs.mostraCarregador();
-      this.populaDropdown();
-      return this.resp$.pipe(
+    Observable<PassagemPaginacaoInterface | boolean>{
+    if (this.carregaDados()) {
+      return this.resp2$.pipe(
         take(1),
-        mergeMap(vf => {
-          if (vf) {
-            this.cs.escondeCarregador();
-            return of(vf);
-          } else {
-            this.cs.escondeCarregador();
-            return EMPTY;
-          }
+        mergeMap(dados => {
+          this.onDestroy();
+          return of(dados);
         })
       );
     } else {
       if (sessionStorage.getItem('passagem-busca')) {
-        this.cs.mostraCarregador();
         this.tbs.buscaState = JSON.parse(sessionStorage.getItem('passagem-busca'));
         return this.ts.postPassagemBusca(JSON.parse(sessionStorage.getItem('passagem-busca')))
           .pipe(
             take(1),
             mergeMap(dados => {
               if (dados) {
-                this.cs.escondeCarregador();
                 return of(dados);
               } else {
-                this.cs.escondeCarregador();
                 this.router.navigate(['/passagem/listar2']);
-                return EMPTY;
+                return of(false);
               }
             })
           );
       } else {
-        this.cs.escondeCarregador();
         this.router.navigate(['/passagem/listar2']);
-        return EMPTY;
+        return of(false);
       }
     }
   }
