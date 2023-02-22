@@ -2,18 +2,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { DropdownService } from "../../_services";
 import { MessageService, SelectItem } from "primeng/api";
 import { take } from "rxjs/operators";
 import { UsuarioService } from "../_services/usuario.service";
 import { Usuario } from "../_models/usuario";
+import { DdService } from "../../_services/dd.service";
 
 @Component({
   selector: 'app-usuario-alterar',
   templateUrl: './usuario-alterar.component.html',
   styleUrls: ['./usuario-alterar.component.css']
 })
-export class UsuarioAlterarComponent implements OnInit {
+export class UsuarioAlterarComponent implements OnInit, OnDestroy {
 
   formUsuario: FormGroup;
   ddUsuario_local_id: SelectItem[] = [];
@@ -26,7 +26,7 @@ export class UsuarioAlterarComponent implements OnInit {
     private formBuilder: FormBuilder,
     public aut: AuthenticationService,
     private cs: CarregadorService,
-    private dd: DropdownService,
+    private dd: DdService,
     private us: UsuarioService,
     private messageService: MessageService,
   ) { }
@@ -49,13 +49,15 @@ export class UsuarioAlterarComponent implements OnInit {
     this.ddSimNao.push(sn0);
     this.ddSimNao.push(sn1);
     if (!sessionStorage.getItem('dropdown-local')) {
-      this.sub.push(
-        this.dd.getDropdownNomeId('local', 'local_id', 'local_nome')
+        this.sub.push(this.dd.getDd('dropdown-local')
           .pipe(take(1))
           .subscribe({
             next: (dados) => {
-              sessionStorage.setItem('dropdown-local', JSON.stringify(dados));
+                sessionStorage.setItem('dropdown-local', JSON.stringify(dados));
               this.ddUsuario_local_id = dados;
+            },
+            error: (err) => {
+              console.error(err);
             }
           })
       );

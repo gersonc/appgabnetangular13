@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {FormGroup, FormControl, FormBuilder, Validators, AbstractControl} from '@angular/forms';
+import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthenticationService, CarregadorService } from '../../_services';
-import { DropdownService } from '../../_services';
 import { MessageService, SelectItem } from 'primeng/api';
 import { take } from 'rxjs/operators';
 import { UsuarioService } from '../_services/usuario.service';
 import { Usuario } from '../_models/usuario';
+import { DdService } from "../../_services/dd.service";
 
 
 @Component({
@@ -27,7 +27,7 @@ export class UsuarioIncluirComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public aut: AuthenticationService,
     private cs: CarregadorService,
-    private dd: DropdownService,
+    private dd: DdService,
     private us: UsuarioService,
     private messageService: MessageService,
   ) { }
@@ -50,15 +50,17 @@ export class UsuarioIncluirComponent implements OnInit, OnDestroy {
     this.ddSimNao.push(sn0);
     this.ddSimNao.push(sn1);
     if (!sessionStorage.getItem('dropdown-local')) {
-      this.sub.push(
-        this.dd.getDropdownNomeId('local', 'local_id', 'local_nome')
-          .pipe(take(1))
-          .subscribe({
-            next: (dados) => {
-              sessionStorage.setItem('dropdown-local', JSON.stringify(dados));
-              this.ddUsuario_local_id = dados;
-            }
-          })
+      this.sub.push(this.dd.getDd('dropdown-local')
+        .pipe(take(1))
+        .subscribe({
+          next: (dados) => {
+            sessionStorage.setItem('dropdown-local', JSON.stringify(dados));
+            this.ddUsuario_local_id = dados;
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        })
       );
     } else {
       this.ddUsuario_local_id = JSON.parse(<string>sessionStorage.getItem('dropdown-local'));

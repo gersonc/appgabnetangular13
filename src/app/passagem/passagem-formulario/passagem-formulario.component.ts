@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AutocompleteService, DropdownService, MostraMenuService } from '../../_services';
+import { AutocompleteService, MostraMenuService } from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { take } from 'rxjs/operators';
 import { PassagemBuscaService, PassagemService } from '../_services';
 import { PassagemFormulario } from '../_models';
+import { DdService } from "../../_services/dd.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-passagem-formulario',
   templateUrl: './passagem-formulario.component.html',
   styleUrls: ['./passagem-formulario.component.css']
 })
-export class PassagemFormularioComponent implements OnInit {
+export class PassagemFormularioComponent implements OnInit, OnDestroy {
   public formPassagem: FormGroup;
   public items: Array<any> = [];
   ptBr: any;
@@ -24,7 +26,7 @@ export class PassagemFormularioComponent implements OnInit {
     { label: 'SIM', value: 1 },
     { label: 'NÃO', value: 0 }
   ];
-
+  sub: Subscription[] = [];
   botaoEnviarVF = false;
   mostraForm = true;
   acao: string = null;
@@ -38,7 +40,7 @@ export class PassagemFormularioComponent implements OnInit {
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
+    private dd: DdService,
     private mm: MostraMenuService,
     private messageService: MessageService,
     public authenticationService: AuthenticationService,
@@ -382,6 +384,7 @@ export class PassagemFormularioComponent implements OnInit {
   }
 
   corrigeOrigem() {
+    let dds: string[] = [];
     const t: PassagemFormulario = this.ps.filtraPassagem();
     let d: string[] = JSON.parse(sessionStorage.getItem('passagem_beneficiario-dropdown'));
     if (t.passagem_beneficiario) {
@@ -389,18 +392,6 @@ export class PassagemFormularioComponent implements OnInit {
       if (f === undefined) {
         d = null;
         sessionStorage.removeItem('passagem_beneficiario-dropdown');
-        this.dd.postDropdownSoNome({ tabela: 'passagem', campo_nome: 'passagem_beneficiario' })
-          .pipe(take(1))
-          .subscribe((dados) => {
-              d = dados;
-            },
-            error1 => {
-              console.log('erro');
-            },
-            () => {
-              sessionStorage.setItem('passagem_beneficiario-dropdown', JSON.stringify(d));
-              this.pbs.atualisaMenuSubject.next(true);
-            });
       }
     }
 
@@ -410,21 +401,33 @@ export class PassagemFormularioComponent implements OnInit {
       if (f === undefined) {
         e = null;
         sessionStorage.removeItem('passagem_aerolinha-dropdown');
-        this.dd.postDropdownNomeId({ tabela: 'passagem', campo_id: 'passagem_aerolinha_id', campo_nome: 'passagem_aerolinha_nome' })
+        dds.push('passagem_aerolinha-dropdown');
+      }
+
+      if(dds.length > 0){
+        this.sub.push(this.dd.getDd(dds)
           .pipe(take(1))
-          .subscribe((dados) => {
-              e = dados;
+          .subscribe({
+            next: (dados) => {
+              dds.forEach(nome => {
+                sessionStorage.setItem(nome, JSON.stringify(dados[nome]));
+              });
             },
-            error1 => {
-              console.log('erro');
+            error: (err) => {
+              console.error(err);
             },
-            () => {
-              sessionStorage.setItem('passagem_aerolinha-dropdown', JSON.stringify(e));
+            complete: () => {
               this.pbs.atualisaMenuSubject.next(true);
-            });
+            }
+          })
+        );
       }
     }
 
 
+  }
+
+  ngOnDestroy(): void {
+    this.sub.forEach(s => s.unsubscribe());
   }
 }

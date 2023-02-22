@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { AuthenticationService, CarregadorService } from "../../_services";
+import { AuthenticationService } from "../../_services";
 import { UsuarioService } from "../_services/usuario.service";
 import { UsuarioInterface } from "../_models/usuario";
 import { Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import { ConfirmationService, MessageService, SelectItem } from "primeng/api";
-import { DropdownService } from "../../_services";
+import { DdService } from "../../_services/dd.service";
 
 @Component({
   selector: "app-usuario-listar",
@@ -25,10 +25,9 @@ export class UsuarioListarComponent implements OnInit, OnDestroy {
   constructor(
     private messageService: MessageService,
     private cf: ConfirmationService,
-    private cs: CarregadorService,
     public alt: AuthenticationService,
     private us: UsuarioService,
-    private dd: DropdownService
+    private dd: DdService,
   ) {
   }
 
@@ -46,9 +45,7 @@ export class UsuarioListarComponent implements OnInit, OnDestroy {
             this.usuarios = dados;
           },
           error: err => console.error("ERRO-->", err),
-          complete: () => {
-            this.cs.escondeCarregador();
-          }
+          complete: () => { }
         })
     );
   }
@@ -89,7 +86,6 @@ export class UsuarioListarComponent implements OnInit, OnDestroy {
 
   apagar(usuario_id: number) {
     this.botaoEnviarVF = true;
-    this.cs.mostraCarregador();
     this.sub.push(this.us.apagar(usuario_id)
       .pipe(take(1))
       .subscribe({
@@ -99,7 +95,6 @@ export class UsuarioListarComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.id = 0;
           this.botaoEnviarVF = false;
-          this.cs.escondeCarregador();
           this.messageService.add({
             key: "usuarioToast",
             severity: "warn",
@@ -111,7 +106,6 @@ export class UsuarioListarComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.id = null;
-          this.cs.escondeCarregador();
           // @ts-ignore
           if (this.resp[0]) {
             const tmp = this.usuarios.find(i =>
@@ -147,19 +141,18 @@ export class UsuarioListarComponent implements OnInit, OnDestroy {
   corrigeDropdown() {
     if (sessionStorage.getItem("dropdown-usuario")) {
       let dd: SelectItem[]|null = null;
-      this.sub.push(this.dd.getDropdownNomeId("usuario", "usuario_id", "usuario_nome").pipe(take(1)).subscribe({
+      this.sub.push(this.dd.getDd('dropdown-usuario')
+        .pipe(take(1))
+        .subscribe({
           next: (dados) => {
-            dd = dados;
-          },
-          error: (erro) => {
-            console.log(erro);
-          },
-          complete: () => {
             sessionStorage.removeItem("dropdown-usuario");
-            sessionStorage.setItem("dropdown-usuario", JSON.stringify(dd));
+            sessionStorage.setItem("dropdown-usuario", JSON.stringify(dados));
+          },
+          error: (err) => {
+            console.error(err);
           }
-        })
-      );
+        }
+      ));
     }
   }
 
