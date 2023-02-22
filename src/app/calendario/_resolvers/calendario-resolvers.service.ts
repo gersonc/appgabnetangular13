@@ -2,8 +2,6 @@ import { OnDestroy, Injectable} from '@angular/core';
 import { Observable, of, EMPTY, Subscription, Subject, pipe } from 'rxjs';
 import { take, mergeMap, map } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve, RouterState } from '@angular/router';
-import { DropdownnomeidClass } from '../../_models';
-import {DropdownService} from "../../_services";
 import { DdService } from "../../_services/dd.service";
 
 

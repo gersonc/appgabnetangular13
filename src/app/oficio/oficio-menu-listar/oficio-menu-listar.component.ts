@@ -3,7 +3,7 @@ import {SolicDropdownMenuListarI} from "../../solic/_models/solic-dropdown-menu-
 import {Subscription} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {VersaoService} from "../../_services/versao.service";
-import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
+import {AuthenticationService, MenuInternoService} from "../../_services";
 import {Router} from "@angular/router";
 import {OficioFormService} from "../_services/oficio-form.service";
 import {OficioService} from "../_services/oficio.service";
@@ -26,7 +26,6 @@ export class OficioMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     public vs: VersaoService,
     private formBuilder: FormBuilder,
-    // private dd: DropdownService,
     private os: OficioService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,

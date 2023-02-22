@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
+import {AuthenticationService, MenuInternoService} from "../../_services";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {SolicService} from "../_services/solic.service";
@@ -25,7 +25,6 @@ export class SolicMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     public vs: VersaoService,
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
     private ss: SolicService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,

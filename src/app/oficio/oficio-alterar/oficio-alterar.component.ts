@@ -50,7 +50,6 @@ export class OficioAlterarComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    // private dd: DropdownService,
     public ofs: OficioFormService,
     public aut: AuthenticationService,
     private os: OficioService,

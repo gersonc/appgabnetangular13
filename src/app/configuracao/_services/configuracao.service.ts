@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  Configuracao2Model,
   Configuracao2ModelInterface,
-  ConfiguracaoModel,
   ConfiguracaoModelInterface
 } from "../_models/configuracao-model";
-import { DropdownService, UrlService } from "../../_services";
+import { UrlService } from "../../_services";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
-import { SelectItem, SelectItemGroup } from "primeng/api";
 import {DdService} from "../../_services/dd.service";
 
 @Injectable({
@@ -17,14 +14,12 @@ import {DdService} from "../../_services/dd.service";
 })
 export class ConfiguracaoService {
   public configuracao: ConfiguracaoModelInterface | null = null;
-  public confTitulo: ConfiguracaoModelInterface = {};
   public configuracao2: Configuracao2ModelInterface | null = null;
   private sub: Subscription[] = [];
 
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    private dd2: DropdownService,
     private dd: DdService,
   ) { }
 
@@ -171,103 +166,6 @@ export class ConfiguracaoService {
     );
   }
 
-  corrigeTipoCadastro() {
-    if (sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      const dd: SelectItemGroup[] = null;
-      this.sub.push(this.dd2.getDropdown3campos(
-        'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            const tipo: SelectItemGroup = {
-              label: dados['label'].toString(),
-              value: null,
-              items: dados['items']
-            };
-            dd.push(tipo);
-          },
-          error: (erro) => {
-            console.log(erro);
-          },
-          complete: () => {
-            this.sub.push(this.dd2.getDropdown3campos(
-              'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '1')
-              .pipe(take(1))
-              .subscribe({
-                next: (dados) => {
-                  const tipo: SelectItemGroup = {
-                    label: dados['label'].toString(),
-                    value: null,
-                    items: dados['items']
-                  };
-                  dd.push(tipo);
-                },
-                error: (erro) => {
-                  console.log(erro);
-                },
-                complete: () => {
-                  sessionStorage.removeItem('dropdown-tipo_cadastro');
-                  sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dd));
-                  setTimeout (() => {
-                    this.destroy();
-                  }, 500);
-                }
-              })
-            );
-          }
-        })
-      );
-    }
-  }
-
-  corrigeTipoCadastro2() {
-    if (sessionStorage.getItem('dropdown-tipo_cadastro')) {
-      const dd: SelectItemGroup[] = null;
-      this.sub.push(this.dd2.getDropdown3campos(
-        'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '2')
-        .pipe(take(1))
-        .subscribe({
-          next: (dados) => {
-            const tipo: SelectItemGroup = {
-              label: dados['label'].toString(),
-              value: null,
-              items: dados['items']
-            };
-            dd.push(tipo);
-          },
-          error: (erro) => {
-            console.log(erro);
-          },
-          complete: () => {
-            this.sub.push(this.dd2.getDropdown3campos(
-              'tipo_cadastro', 'tipo_cadastro_id', 'tipo_cadastro_nome', 'tipo_cadastro_tipo', '1')
-              .pipe(take(1))
-              .subscribe({
-                next: (dados) => {
-                  const tipo: SelectItemGroup = {
-                    label: dados['label'].toString(),
-                    value: null,
-                    items: dados['items']
-                  };
-                  dd.push(tipo);
-                },
-                error: (erro) => {
-                  console.log(erro);
-                },
-                complete: () => {
-                  sessionStorage.removeItem('dropdown-tipo_cadastro');
-                  sessionStorage.setItem('dropdown-tipo_cadastro', JSON.stringify(dd));
-                  setTimeout (() => {
-                    this.destroy();
-                  }, 500);
-                }
-              })
-            );
-          }
-        })
-      );
-    }
-  }
 
 
   destroy(): void {

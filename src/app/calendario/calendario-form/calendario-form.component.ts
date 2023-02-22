@@ -166,7 +166,6 @@ export class CalendarioFormComponent implements OnInit, OnDestroy, OnChanges {
   icals: string[] = [];
 
   constructor(
-    // private dd: DropdownService,
     public authenticationService: AuthenticationService,
     private ms: MsgService,
     public cl: CalendarioService,

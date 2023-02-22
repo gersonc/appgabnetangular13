@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
-import {DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
-import { AuthenticationService, CarregadorService } from '../../_services';
+import {AutocompleteService, MenuInternoService} from '../../_services';
+import { AuthenticationService } from '../../_services';
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import {TelefoneService} from "../_services/telefone.service";
@@ -36,7 +36,6 @@ export class TelefoneMenuListarComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
     private tdd: TelefoneDropdownService,
     public mi: MenuInternoService,
     public aut: AuthenticationService,

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
-import {MostraMenuService, DropdownService, AutocompleteService, MenuInternoService} from '../../_services';
+import {AutocompleteService, MenuInternoService} from '../../_services';
 import { AuthenticationService, CarregadorService } from '../../_services';
 import { PassagemBuscaService } from '../_services';
 import { take } from 'rxjs/operators';
@@ -35,7 +35,6 @@ export class PassagemMenuListarComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
     public mi: MenuInternoService,
     public authenticationService: AuthenticationService,
     private autocompleteservice: AutocompleteService,

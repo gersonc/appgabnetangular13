@@ -24,7 +24,6 @@ export class PassagemService {
   constructor(
     private url: UrlService,
     private http: HttpClient,
-    // private dd: DropdownService
     ) { }
 
   criarPassagem() {

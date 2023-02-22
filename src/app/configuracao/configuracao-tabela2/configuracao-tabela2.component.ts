@@ -85,7 +85,7 @@ export class ConfiguracaoTabela2Component implements OnInit, OnChanges, OnDestro
 
   constructor(
     public cfs: ConfiguracaoService,
-    public aut: AuthenticationService, // private dd: DropdownService,
+    public aut: AuthenticationService,
     private dd: DdService,
     private ms: MsgService,
   ) {

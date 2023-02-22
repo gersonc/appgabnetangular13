@@ -2,7 +2,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {VersaoService} from "../../_services/versao.service";
-import {AuthenticationService, DropdownService, MenuInternoService} from "../../_services";
+import {AuthenticationService, MenuInternoService} from "../../_services";
 import {Router} from "@angular/router";
 import {ProceService} from "../_services/proce.service";
 import {ProceDropdownMenuService} from "../_services/proce-dropdown-menu.service";
@@ -26,7 +26,6 @@ export class ProceMenuListarComponent implements OnInit, OnDestroy {
   constructor(
     public vs: VersaoService,
     private formBuilder: FormBuilder,
-    private dd: DropdownService,
     private ps: ProceService,
     public mi: MenuInternoService,
     public pdd: ProceDropdownMenuService,
