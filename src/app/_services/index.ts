@@ -3,7 +3,6 @@ export * from './autocomplete.service';
 export * from './carregador.service';
 export * from './cep.service';
 export * from './csv.service';
-export * from './dropdown.service';
 export * from './excel.service';
 export * from './incluir-aux.service';
 export * from './menu-interno.service';
